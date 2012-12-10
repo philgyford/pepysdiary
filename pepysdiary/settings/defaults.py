@@ -110,6 +110,7 @@ INSTALLED_APPS = (
     # 'django.contrib.admindocs',
     'south',
     'pepysdiary.common',
+    'pepysdiary.diary',
 )
 
 # A sample logging configuration. The only tangible logging

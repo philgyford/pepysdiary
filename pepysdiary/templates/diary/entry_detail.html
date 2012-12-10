@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block title %}{{ entry.title }}{% endblock %}}
+
+{% block content %}
+	{{ entry.text|safe }}
+	{% if entry.footnotes %}
+		<hr />
+		{{ entry.footnotes|safe }}
+	{% endif %}
+{% endblock %}

@@ -6,7 +6,8 @@ admin.autodiscover()
 urlpatterns = patterns('',
     # Examples:
     # url(r'^$', 'pepysdiary.views.home', name='home'),
-    # url(r'^pepysdiary/', include('pepysdiary.foo.urls')),
+
+    url(r'^diary/', include('pepysdiary.diary.urls')),
 
     # Uncomment the admin/doc line below to enable admin documentation:
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),

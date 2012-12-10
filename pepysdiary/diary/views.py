@@ -1,0 +1,62 @@
+import datetime
+
+from django.core.exceptions import ObjectDoesNotExist
+from django.http import Http404
+from django.utils.translation import ugettext as _
+from django.views.generic.dates import _date_from_string,\
+                                        _date_lookup_for_field, DateDetailView
+
+from pepysdiary.diary.models import Entry
+
+
+class EntryDetailView(DateDetailView):
+    """
+    Display a single entry based on the year/month/day in the URL.
+    Assumes there is only one entry per date.
+    """
+    model = Entry
+    date_field = 'diary_date'
+    year_format = '%Y'
+    month_format = '%m'
+    day_format = '%d'
+
+    def get_object(self, queryset=None):
+        """
+        Get the object this request displays.
+        This is mainly just overriding DateDetailView's get_object() method
+        with the change that we don't call DetailView's get_object() method
+        at the end, because we don't need a slug or pk.
+        """
+        year = self.get_year()
+        month = self.get_month()
+        day = self.get_day()
+        date = _date_from_string(year, self.get_year_format(),
+                                 month, self.get_month_format(),
+                                 day, self.get_day_format())
+
+        # Use a custom queryset if provided
+        qs = queryset or self.get_queryset()
+
+        if not self.get_allow_future() and date > datetime.date.today():
+            raise Http404(_(u"Future %(verbose_name_plural)s not available because %(class_name)s.allow_future is False.") % {
+                'verbose_name_plural': qs.model._meta.verbose_name_plural,
+                'class_name': self.__class__.__name__,
+            })
+
+        # Filter down a queryset from self.queryset using the date from the
+        # URL. This'll get passed as the queryset to DetailView.get_object,
+        # which'll handle the 404
+        date_field = self.get_date_field()
+        field = qs.model._meta.get_field(date_field)
+        lookup = _date_lookup_for_field(field, date)
+        qs = qs.filter(**lookup)
+
+        # Here's where we differ from DateDetailView.get_object().
+        # Instead of calling DetailView.get_object(), we just fetch an object
+        # based on the date we've got.
+        try:
+            obj = qs.get()
+        except ObjectDoesNotExist:
+            raise Http404(_(u"No %(verbose_name)s found matching the query") %
+                              {'verbose_name': qs.model._meta.verbose_name})
+        return obj
