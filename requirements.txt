@@ -1,0 +1,6 @@
+Django==1.4.2
+South==0.7.6
+django-debug-toolbar==0.9.4
+psycopg2==2.4.5
+pytz==2012h
+wsgiref==0.1.2
