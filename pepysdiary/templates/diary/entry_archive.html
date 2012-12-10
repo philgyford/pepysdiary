@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% load url from future %}
+
+{% block title %}Archive{% endblock %}}
+
+{% block content %}
+
+	<ul>
+	{% for month in date_list %}
+		{% ifchanged month|date:'Y' %}
+			{% if forloop.counter != 1 %}
+		</ul>
+	</li>
+			{% endif %}
+	<li>{{ month|date:'Y' }}
+		<ul>
+		{% endifchanged %}
+		<li><a href="{% url 'diary_entry_month_archive' year=month|date:'Y' month=month|date:'m' %}">{{ month|date:'M' }}</a></li>
+	{% endfor %}
+		</ul>
+	</li>
+	</ul>
+
+{% endblock %}

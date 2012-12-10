@@ -9,4 +9,6 @@ urlpatterns = patterns('',
 
     url(r'^(?P<year>\d{4})/(?P<month>\d{2})/$',
             EntryMonthArchiveView.as_view(), name='diary_entry_month_archive'),
+
+    url(r'^$', EntryArchiveView.as_view(), name='diary_entry_archive'),
 )

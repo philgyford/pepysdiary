@@ -4,7 +4,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.http import Http404
 from django.utils.translation import ugettext as _
 from django.views.generic.dates import _date_from_string,\
-                    _date_lookup_for_field, DateDetailView, MonthArchiveView
+    _date_lookup_for_field, ArchiveIndexView, DateDetailView, MonthArchiveView
 
 from pepysdiary.diary.models import Entry
 
@@ -103,4 +103,26 @@ class EntryDetailView(EntryMixin, DateDetailView):
 
 
 class EntryMonthArchiveView(EntryMixin, MonthArchiveView):
+    """Show all the Entries from one month."""
     pass
+
+
+class EntryArchiveView(EntryMixin, ArchiveIndexView):
+    """Show all the years and months there are Entries for."""
+
+    def get_dated_items(self):
+        """
+        Return (date_list, items, extra_context) for this request.
+
+        A copy of that in BaseArchiveIndexView, with the only change being
+        that we're asking for 'month' rather than 'year' with get_date_list().
+        """
+        qs = self.get_dated_queryset()
+        date_list = self.get_date_list(qs, 'month')
+
+        if date_list:
+            object_list = qs.order_by('-' + self.get_date_field())
+        else:
+            object_list = qs.none()
+
+        return (date_list, object_list, {})
