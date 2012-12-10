@@ -4,21 +4,27 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.http import Http404
 from django.utils.translation import ugettext as _
 from django.views.generic.dates import _date_from_string,\
-                                        _date_lookup_for_field, DateDetailView
+                    _date_lookup_for_field, DateDetailView, MonthArchiveView
 
 from pepysdiary.diary.models import Entry
 
 
-class EntryDetailView(DateDetailView):
+class EntryMixin(object):
     """
-    Display a single entry based on the year/month/day in the URL.
-    Assumes there is only one entry per date.
+    All Entry-based views should probably inherit this.
     """
     model = Entry
     date_field = 'diary_date'
     year_format = '%Y'
     month_format = '%m'
     day_format = '%d'
+
+
+class EntryDetailView(EntryMixin, DateDetailView):
+    """
+    Display a single entry based on the year/month/day in the URL.
+    Assumes there is only one entry per date.
+    """
 
     def get_object(self, queryset=None):
         """
@@ -60,3 +66,41 @@ class EntryDetailView(DateDetailView):
             raise Http404(_(u"No %(verbose_name)s found matching the query") %
                               {'verbose_name': qs.model._meta.verbose_name})
         return obj
+
+    def get_context_data(self, **kwargs):
+        context = super(EntryDetailView, self).get_context_data(**kwargs)
+
+        extra_context = self.get_next_previous()
+        context.update(extra_context)
+        return context
+
+    def get_next_previous(self):
+        """
+        Get the next/previous Entries based on the current Entry's date.
+        """
+        year = self.get_year()
+        month = self.get_month()
+        day = self.get_day()
+
+        date = _date_from_string(year, self.get_year_format(),
+                                 month, self.get_month_format(),
+                                 day, self.get_day_format())
+
+        try:
+            previous_entry = self.model.objects.filter(diary_date__lt=date)[:1].get()
+        except self.model.DoesNotExist:
+            previous_entry = None
+
+        try:
+            next_entry = self.model.objects.filter(diary_date__gt=date)[:1].get()
+        except self.model.DoesNotExist:
+            next_entry = None
+
+        return {
+            'previous_entry': previous_entry,
+            'next_entry': next_entry,
+        }
+
+
+class EntryMonthArchiveView(EntryMixin, MonthArchiveView):
+    pass
