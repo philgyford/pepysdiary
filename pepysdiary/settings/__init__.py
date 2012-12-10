@@ -1,4 +1,4 @@
 try:
-    from settings.development import *
+    from pepysdiary.settings.development import *
 except ImportError:
     pass
