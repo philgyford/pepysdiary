@@ -3,7 +3,8 @@ from django.contrib import admin
 from django.core.urlresolvers import reverse_lazy
 from django.views.generic import RedirectView
 
-from pepysdiary.common.views import DiaryEntryRedirectView
+from pepysdiary.common.views import DiaryEntryRedirectView,\
+                                                EncyclopediaTopicRedirectView
 
 
 admin.autodiscover()
@@ -18,11 +19,14 @@ urlpatterns = patterns('',
     url(r'^archive/(?P<year>\d{4})/(?P<month>\d{2})/(?P<day>\d{2})/(index\.php)?$',
         DiaryEntryRedirectView.as_view()
     ),
+
+    url(r'^p/(?P<pk>\d+)\.php$', EncyclopediaTopicRedirectView.as_view()),
 )
 
 # The main URL conf for actual pages, not redirects.
 urlpatterns += patterns('',
     url(r'^diary/', include('pepysdiary.diary.urls')),
+    url(r'^encyclopedia/', include('pepysdiary.encyclopedia.urls')),
 
     # Uncomment the admin/doc line below to enable admin documentation:
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),

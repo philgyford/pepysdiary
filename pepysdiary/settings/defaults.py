@@ -111,6 +111,7 @@ INSTALLED_APPS = (
     'south',
     'pepysdiary.common',
     'pepysdiary.diary',
+    'pepysdiary.encyclopedia',
 )
 
 # A sample logging configuration. The only tangible logging

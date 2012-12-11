@@ -6,7 +6,7 @@ from pepysdiary.common.models import PepysModel
 
 class Entry(PepysModel):
     title = models.CharField(max_length=100, blank=False, null=False)
-    diary_date = models.DateField(blank=False, null=False)
+    diary_date = models.DateField(blank=False, null=False, unique=True)
     text = models.TextField(blank=False, null=False)
     footnotes = models.TextField(blank=True, null=False)
     comment_count = models.IntegerField(default=0, blank=False, null=False)

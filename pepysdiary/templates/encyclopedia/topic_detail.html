@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% load url from future %}
+
+{% block title %}{{ topic.title }}{% endblock %}}
+
+{% block content %}
+
+	<div class="tabbable">
+		<ul class="nav nav-tabs">
+			<li class="{% if not topic.summary_html %}disabled{% endif %}"><a href="#summary" data-toggle="tab">Summary</a></li>
+			<li class="{% if not topic.wikipedia_fragment %}disabled{% endif %}"><a href="#wikipedia" data-toggle="tab">Wikipedia</a></li>
+			<li class="{% if not topic.wheatley_html %}disabled{% endif %}"><a href="#wheatley" data-toggle="tab">1893 text</a></li>
+			<li><a href="#annotations" data-toggle="tab">Annotations ({{ topic.comment_count }})</a></li>
+			<li><a href="#references" data-toggle="tab">References</a></li>
+		</ul>
+
+		<div class="tab-content">
+			{% if topic.summary_html %}
+			<div class="tab-pane active" id="summary">
+				<h2>Summary</h2>
+				{{ topic.summary_html|safe }}
+			</div>
+			{% endif %}
+
+			{% if topic.wikipedia_fragment %}
+			<div class="tab-pane" id="wikipedia">
+				<h2>Wikipedia</h2>
+				<p>Fragment: {{ topic.wikipedia_fragment }}</p>
+			</div>
+			{% endif %}
+
+			{% if topic.wheatley_html %}
+			<div class="tab-pane" id="wheatley">
+				<h2>1893 text</h2>
+				{{ topic.wheatley_html|safe }}
+			</div>
+			{% endif %}
+
+			<div class="tab-pane" id="annotations">
+				<h2>Annotations</h2>
+				<p>Annotations: {{ topic.comment_count }}</p>
+			</div>
+
+			<div class="tab-pane" id="references">
+				<h2>References</h2>
+			</div>
+		</div> <!-- .tab-content -->
+	</div> <!-- .tabbable -->
+
+
+
+{% endblock %}
