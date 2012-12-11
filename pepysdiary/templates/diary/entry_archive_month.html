@@ -6,7 +6,7 @@
 {% block content %}
 
 	{% if next_month %}
-		<p>Next: <a href="{% url 'diary_entry_month_archive' year=next_month|date:'Y' month=next_month|date:'m' %}">{{ next_month|date:"F Y" }}</p>
+		<p>Next: <a href="{% url 'diary_entry_month_archive' year=next_month|date:'Y' month=next_month|date:'m' %}">{{ next_month|date:"F Y" }}</a></p>
 	{% endif %}
 	{% if previous_month %}
 		<p>Previous: <a href="{% url 'diary_entry_month_archive' year=previous_month|date:'Y' month=previous_month|date:'m' %}">{{ previous_month|date:"F Y" }}</a></p>
