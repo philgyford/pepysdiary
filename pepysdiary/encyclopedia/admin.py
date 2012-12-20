@@ -1,6 +1,8 @@
 from django.contrib import admin
 
-from pepysdiary.encyclopedia.models import Topic
+from treebeard.admin import TreeAdmin
+
+from pepysdiary.encyclopedia.models import Category, Topic
 
 
 class TopicAdmin(admin.ModelAdmin):
@@ -22,3 +24,9 @@ class TopicAdmin(admin.ModelAdmin):
     )
 
 admin.site.register(Topic, TopicAdmin)
+
+
+class CategoryAdmin(TreeAdmin):
+    prepopulated_fields = {"slug": ("title", ), }
+
+admin.site.register(Category, CategoryAdmin)

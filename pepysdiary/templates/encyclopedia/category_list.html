@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% load url from future %}
+
+{% block title %}Encyclopedia{% endblock %}}
+
+{% block content %}
+
+	{% for c in categories %}
+		<a href="{{ c.get_absolute_url }}">{{ c.title }}</a>
+	{% endfor %}
+
+{% endblock %}

@@ -94,8 +94,16 @@ TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
+    'treebeard/templates/',
     os.path.join(PROJECT_ROOT, 'templates', ),
     os.path.join(PROJECT_ROOT, 'templates', 'common', ),
+    os.path.join(PROJECT_ROOT, 'templates', 'encyclopedia', ),
+)
+
+from django.conf import global_settings
+TEMPLATE_CONTEXT_PROCESSORS = global_settings.TEMPLATE_CONTEXT_PROCESSORS + (
+    # Needed for django-treebeard admin:
+    'django.core.context_processors.request',
 )
 
 INSTALLED_APPS = (
@@ -108,6 +116,7 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
+    'treebeard',
     'south',
     'pepysdiary.common',
     'pepysdiary.diary',

@@ -3,6 +3,7 @@ Markdown==2.2.1
 PIL==1.1.7
 South==0.7.6
 django-debug-toolbar==0.9.4
+django-treebeard==1.61
 psycopg2==2.4.5
 pytz==2012h
 wsgiref==0.1.2

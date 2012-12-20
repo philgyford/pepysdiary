@@ -1,6 +1,8 @@
+from django.core.urlresolvers import reverse
 from django.db import models
 
 from markdown import markdown
+from treebeard.mp_tree import MP_Node
 
 from pepysdiary.common.models import PepysModel
 
@@ -71,3 +73,27 @@ class Topic(PepysModel):
         self.summary_html = markdown(self.summary)
         self.wheatley_html = markdown(self.wheatley)
         super(Topic, self).save(*args, **kwargs)
+
+
+class Category(MP_Node):
+    title = models.CharField(max_length=255, blank=False, null=False)
+    slug = models.SlugField(max_length=50, blank=False, null=False)
+
+    node_order_by = ['title', ]
+
+    class Meta:
+        verbose_name_plural = 'Categories'
+
+    def __unicode__(self):
+        return '%s' % self.title
+
+    def get_absolute_url(self):
+        # Join all the parent categories' slugs, eg:
+        # 'fooddrink/drink/alcdrinks/'.
+        parent_slugs = '/'.join([c.slug for c in self.get_ancestors()])
+        if parent_slugs:
+            path = '%s/%s/' % (parent_slugs, self.slug)
+        else:
+            # Top level category.
+            path = '%s/' % self.slug
+        return reverse('encyclopedia_category', kwargs={'slugs': path, })
