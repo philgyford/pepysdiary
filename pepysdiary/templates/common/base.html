@@ -28,14 +28,14 @@
 	    		<a href="#" class="brand">Pepys’ Diary</a>
 	    		<div class="nav-collapse collapse">
 			    	<ul class="nav">
-			    		<li class="dropdown">
+			    		<li class="dropdown {% block diary_nav_active %}{% endblock %}">
 			    			<a href="#" class="dropdown-toggle" data-toggle="dropdown">Diary <b class="caret"></b></a>
 			    			
 			    			<ul class="dropdown-menu">
 			    				<li><a href="{% url 'diary_entry_archive' %}">Archive</a></li>
 			    			</ul>
 			    		</li>
-			    		<li><a href="#">Encyclopedia</a></li>
+			    		<li class="{% block encyclopedia_nav_active %}{% endblock %}"><a href="{% url 'encyclopedia' %}">Encyclopedia</a></li>
 			    	</ul>
 			    </div> <!-- .nav-collapse -->
 			</div> <!-- .container-fluid -->
@@ -44,7 +44,7 @@
 
 	<div class="container-fluid">
 		{% block breadcrumbs %}{% endblock %}
-		
+
 		<h1>{% block title %}{% endblock %}</h1>
 
 		{% block content %}{% endblock %}
