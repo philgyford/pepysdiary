@@ -96,11 +96,11 @@ class Category(MP_Node):
 
     def get_absolute_url(self):
         # Join all the parent categories' slugs, eg:
-        # 'fooddrink/drink/alcdrinks/'.
+        # 'fooddrink/drink/alcdrinks'.
         parent_slugs = '/'.join([c.slug for c in self.get_ancestors()])
         if parent_slugs:
-            path = '%s/%s/' % (parent_slugs, self.slug)
+            path = '%s/%s' % (parent_slugs, self.slug)
         else:
             # Top level category.
-            path = '%s/' % self.slug
+            path = '%s' % self.slug
         return reverse('encyclopedia_category', kwargs={'slugs': path, })

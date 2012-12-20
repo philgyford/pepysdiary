@@ -12,6 +12,15 @@ class DiaryEntryRedirectView(RedirectView):
             'year': year, 'month': month, 'day': day})
 
 
+class EncyclopediaCategoryRedirectView(RedirectView):
+    """
+    To redirect from old /background/cat/subcat1/subcat2.php URLs to the new
+    Category URLs.
+    """
+    def get_redirect_url(self, slugs):
+        return reverse('encyclopedia_category', kwargs={'slugs': slugs})
+
+
 class EncyclopediaTopicRedirectView(RedirectView):
     """
     To help with redirecting from old /p/348.php URLs to the new Topic URLs.

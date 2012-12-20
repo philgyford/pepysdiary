@@ -3,22 +3,31 @@ from django.contrib import admin
 from django.core.urlresolvers import reverse_lazy
 from django.views.generic import RedirectView
 
-from pepysdiary.common.views import DiaryEntryRedirectView,\
-                                                EncyclopediaTopicRedirectView
+from pepysdiary.common.views import *
 
 
 admin.autodiscover()
 
 # Redirects from old Movable Type URLs to new ones.
 urlpatterns = patterns('',
-    # Redirect from old main /archive/ page.
+
+    # DIARY.
+
+    # From main /archive/ page.
     url(r'^archive/$', RedirectView.as_view(
                                     url=reverse_lazy('diary_entry_archive'))),
 
-    # Redirect from old /archive/1660/01/01/index.php URLs:
+    # From /archive/1660/01/01/index.php URLs:
     url(r'^archive/(?P<year>\d{4})/(?P<month>\d{2})/(?P<day>\d{2})/(index\.php)?$',
         DiaryEntryRedirectView.as_view()
     ),
+
+    # ENCYCLOPEDIA
+
+    url(r'^background/$', RedirectView.as_view(
+                                            url=reverse_lazy('encyclopedia'))),
+    url(r'^background/(?P<slugs>[\w\/]+)\.php$',
+                                    EncyclopediaCategoryRedirectView.as_view()),
 
     url(r'^p/(?P<pk>\d+)\.php$', EncyclopediaTopicRedirectView.as_view()),
 )

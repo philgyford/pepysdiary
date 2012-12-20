@@ -23,7 +23,7 @@ class CategoryDetailView(DetailView):
         slugs = self.kwargs.get(self.slug_url_kwarg, None)
         if slugs is not None:
             try:
-                slug = slugs.split('/')[-2]
+                slug = slugs.split('/')[-1]
             except:
                 raise Http404(_(u"No Category slug found"))
         else:
