@@ -26,7 +26,7 @@ urlpatterns = patterns('',
 
     url(r'^background/$', RedirectView.as_view(
                                             url=reverse_lazy('encyclopedia'))),
-    url(r'^background/(?P<slugs>[\w\/]+)\.php$',
+    url(r'^background/(?P<slugs>[\w_\/]+)\.php$',
                                     EncyclopediaCategoryRedirectView.as_view()),
 
     url(r'^p/(?P<pk>\d+)\.php$', EncyclopediaTopicRedirectView.as_view()),

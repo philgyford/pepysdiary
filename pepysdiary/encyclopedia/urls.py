@@ -11,6 +11,6 @@ urlpatterns = patterns('',
     url(r'^(?P<pk>\d+)/$', TopicDetailView.as_view(),
                                                     name='encyclopedia_topic'),
 
-    url(r'^(?P<slugs>[\w\/]+)/$', CategoryDetailView.as_view(),
+    url(r'^(?P<slugs>[\w\/-]+)/$', CategoryDetailView.as_view(),
                                                 name='encyclopedia_category'),
 )
