@@ -15,9 +15,9 @@
 		{% for c in category.get_children %}
 			<li><a href="{{ c.get_absolute_url }}">{{ c.title }}</a>
 				{% comment %}
-					{% if c.get_children_count %}({{ c.get_children_count }} categor{{ c.get_children_count|pluralize:"y,ies" }}){% endif %}
+					{% if c.get_children_count %}<small>({{ c.get_children_count }} categor{{ c.get_children_count|pluralize:"y,ies" }})</small>{% endif %}
 				{% endcomment %}
-				{% if c.topics.count %}({{ c.topics.count }} topic{{ c.topics.count|pluralize }}){% endif %}</li>
+				{% if c.topics.count %}<small>({{ c.topics.count }} topic{{ c.topics.count|pluralize }})</small>{% endif %}</li>
 		{% endfor %}
 		</ul>
 	{% endif %}
