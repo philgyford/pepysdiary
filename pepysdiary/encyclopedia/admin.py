@@ -10,7 +10,8 @@ class TopicAdmin(admin.ModelAdmin):
     readonly_fields = ('date_created', 'date_modified', 'order_title', )
     fieldsets = (
         (None, {
-            'fields': ('title', 'order_title', 'summary', 'wheatley',
+            'fields': ('title', 'order_title', 'categories',
+                        'summary', 'wheatley',
                         'tooltip_text', 'wikipedia_fragment',
                         'date_created', 'date_modified', ),
         }),

@@ -43,6 +43,8 @@
     </div> <!-- .navbar -->
 
 	<div class="container-fluid">
+		{% block breadcrumbs %}{% endblock %}
+		
 		<h1>{% block title %}{% endblock %}</h1>
 
 		{% block content %}{% endblock %}

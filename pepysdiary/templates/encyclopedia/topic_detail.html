@@ -3,6 +3,13 @@
 
 {% block title %}{{ topic.title }}{% endblock %}}
 
+{% block breadcrumbs %}
+	{% for category in topic.categories.all %}
+		{% include 'inc/category_breadcrumb.html' with link_final_item="true" %}
+	{% endfor %}
+{% endblock breadcrumbs %}
+
+
 {% block content %}
 
 	<div class="tabbable">

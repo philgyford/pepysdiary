@@ -60,6 +60,8 @@ class Topic(PepysModel):
     shape = models.TextField(blank=True, null=False,
         help_text="Lat/long coordinate pairs, separated by semicolons, eg '51.513558,-0.104268;51.513552,-0.104518;...', from http://www.birdtheme.org/useful/googletoollargemap.html (formatted slightly differently).")
 
+    categories = models.ManyToManyField('Category', related_name='topics')
+
     objects = TopicManager()
 
     class Meta:
@@ -74,10 +76,15 @@ class Topic(PepysModel):
         self.wheatley_html = markdown(self.wheatley)
         super(Topic, self).save(*args, **kwargs)
 
+    def get_absolute_url(self):
+        return reverse('encyclopedia_topic', kwargs={'pk': self.pk, })
+
 
 class Category(MP_Node):
     title = models.CharField(max_length=255, blank=False, null=False)
     slug = models.SlugField(max_length=50, blank=False, null=False)
+
+    # Will also have a `topics` field, listing Topics within the Category.
 
     node_order_by = ['title', ]
 

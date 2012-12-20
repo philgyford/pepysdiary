@@ -5,8 +5,20 @@
 
 {% block content %}
 
-	{% for c in categories %}
-		<a href="{{ c.get_absolute_url }}">{{ c.title }}</a>
+	{% for category, info in categories %}
+	    {% if info.open %}
+	        <ul><li>
+	    {% else %}
+	        </li><li>
+	    {% endif %}
+
+	    <a href="{{ category.get_absolute_url }}">{{ category.title }}</a>
+
+		{% if category.topics.count %}({{ category.topics.count }}){% endif %}
+
+	    {% for close in info.close %}
+	        </li></ul>
+	    {% endfor %}
 	{% endfor %}
 
 {% endblock %}

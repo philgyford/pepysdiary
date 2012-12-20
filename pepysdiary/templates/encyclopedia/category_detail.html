@@ -3,8 +3,32 @@
 
 {% block title %}{{ category.title }}{% endblock %}}
 
+{% block breadcrumbs %}
+	{% include 'inc/category_breadcrumb.html' %}
+{% endblock breadcrumbs %}
+
 {% block content %}
 
-	<p>The {{category.title}} page.</p>
+	{% if category.get_children_count %}
+		<h2>Subcategories</h2>
+		<ul>
+		{% for c in category.get_children %}
+			<li><a href="{{ c.get_absolute_url }}">{{ c.title }}</a>
+				{% comment %}
+					{% if c.get_children_count %}({{ c.get_children_count }} categor{{ c.get_children_count|pluralize:"y,ies" }}){% endif %}
+				{% endcomment %}
+				{% if c.topics.count %}({{ c.topics.count }} topic{{ c.topics.count|pluralize }}){% endif %}</li>
+		{% endfor %}
+		</ul>
+	{% endif %}
+
+	{% if category.topics.all %}
+		<h2>Topics</h2>
+		<ul>
+		{% for t in category.topics.all %}
+			<li><a href="{{ t.get_absolute_url }}">{{ t.title }}</a></li>
+		{% endfor %}
+		</ul>
+	{% endif %}
 
 {% endblock %}
