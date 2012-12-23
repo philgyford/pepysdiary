@@ -2,3 +2,4 @@
 *.pot
 *.pyc
 development.py
+pepysdiary/media
