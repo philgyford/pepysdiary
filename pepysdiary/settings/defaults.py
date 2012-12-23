@@ -161,3 +161,7 @@ DEFAULT_FROM_EMAIL = 'do-not-reply@pepysdiary.com'
 # For error messages.
 SERVER_EMAIL = 'do-not-reply@pepysdiary.com'
 
+
+# We have to do special things to some Encyclopedia Topics depending on
+# whether they're in the 'People' category. So we need to store its ID:
+PEOPLE_CATEGORY_ID = 2

@@ -16,7 +16,7 @@
 
 	    <a href="{{ category.get_absolute_url }}">{{ category.title }}</a>
 
-		{% if category.topics.count %}<small>({{ category.topics.count }})</small>{% endif %}
+		{% if category.topic_count %}<small>({{ category.topic_count }})</small>{% endif %}
 
 	    {% for close in info.close %}
 	        </li></ul>

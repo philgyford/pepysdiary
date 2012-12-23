@@ -24,6 +24,13 @@ class TopicAdmin(admin.ModelAdmin):
         }),
     )
 
+    def save_related(self, request, form, formsets, change):
+        super(TopicAdmin, self).save_related(request, form, formsets, change)
+        # If we were creating it for the first time, the order_title won't
+        # have been made, so we need to save it again.
+        form.instance.save()
+
+
 admin.site.register(Topic, TopicAdmin)
 
 

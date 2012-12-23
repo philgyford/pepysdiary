@@ -30,3 +30,23 @@ if DEBUG:
     INTERNAL_IPS = ('127.0.0.1', )
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+GOOGLE_MAPS_API_KEY = ''
+GOOGLE_ANALYTICS_ID = ''
+
+
+# Settings used only when importing the legacy data from the Movable Type
+# MySQL database using management commands.
+MT_MYSQL_DB_NAME = ''
+MT_MYSQL_DB_USER = ''
+MT_MYSQL_DB_PASSWORD = ''
+MT_MYSQL_DB_HOST = ''
+
+# The IDs of the various Movable Type blogs that we do one-off imports of data
+# from:
+MT_DIARY_BLOG_ID = 3
+MT_ENCYCLOPEDIA_BLOG_ID = 4
+MT_IN_DEPTH_BLOG_ID = 19
+MT_NEWS_BLOG_ID = 5
+MT_STORY_SO_FAR_BLOG_ID = 6
+MT_LETTERS_BLOG_ID = 38
