@@ -210,6 +210,8 @@ class Topic(PepysModel):
 
     categories = models.ManyToManyField('Category', related_name='topics')
 
+    diary_references = models.ManyToManyField('diary.Entry', related_name='topics')
+
     # Keeps track of whether we've made the order_title for this model yet.
     _order_title_made = False
     _original_categories_pks = []

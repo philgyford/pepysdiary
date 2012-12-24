@@ -8,6 +8,7 @@ from pepysdiary.encyclopedia.models import Category, Topic
 class TopicAdmin(admin.ModelAdmin):
     list_display = ('title', 'comment_count', )
     readonly_fields = ('date_created', 'date_modified', 'order_title', )
+    filter_horizontal = ('categories', )
     fieldsets = (
         (None, {
             'fields': ('title', 'order_title', 'categories',
