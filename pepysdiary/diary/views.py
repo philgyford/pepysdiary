@@ -87,7 +87,7 @@ class EntryDetailView(EntryMixin, DateDetailView):
                                  day, self.get_day_format())
 
         try:
-            previous_entry = self.model.objects.filter(diary_date__lt=date)[:1].get()
+            previous_entry = self.model.objects.filter(diary_date__lt=date).order_by('-diary_date')[:1].get()
         except self.model.DoesNotExist:
             previous_entry = None
 

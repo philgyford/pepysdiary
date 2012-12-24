@@ -39,3 +39,9 @@ class CategoryDetailView(DetailView):
 
 class TopicDetailView(DetailView):
     model = Topic
+
+    def get_context_data(self, **kwargs):
+        context = super(TopicDetailView, self).get_context_data(**kwargs)
+        context['diary_references'] = \
+                                self.object.get_annotated_diary_references()
+        return context

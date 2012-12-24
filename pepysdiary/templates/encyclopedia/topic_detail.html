@@ -22,8 +22,8 @@
 			<li class="{% if not topic.latitude and topic.summary_html %}active{% endif %}{% if not topic.summary_html %}disabled{% endif %}"><a href="#summary" data-toggle="tab">Summary</a></li>
 			<li class="{% if not topic.latitude and not topic.summary_html and topic.wikipedia_fragment %}active{% endif %}{% if not topic.wikipedia_fragment %}disabled{% endif %}"><a href="#wikipedia" data-toggle="tab">Wikipedia</a></li>
 			<li class="{% if not topic.latitude and not topic.summary_html and not topic.wikipedia_fragment and topic.wheatley_html %}active{% endif %}{% if not topic.wheatley_html %}disabled{% endif %}"><a href="#wheatley" data-toggle="tab">1893 text</a></li>
-			<li class="{% if not topic.latitude and not topic.summary_html and not topic.wikipedia_fragment and not topic.wheatley_html %}active{% endif %}"><a href="#annotations" data-toggle="tab">Annotations ({{ topic.comment_count }})</a></li>
-			<li><a href="#references" data-toggle="tab">References</a></li>
+			<li class="{% if not topic.latitude and not topic.summary_html and not topic.wikipedia_fragment and not topic.wheatley_html %}active{% endif %}"><a href="#annotations" data-toggle="tab">Annotations <small>({{ topic.comment_count }})</small></a></li>
+			<li><a href="#references" data-toggle="tab">References <small>({{ topic.diary_references.count }})</small></a></li>
 		</ul>
 
 		<div class="tab-content">
@@ -63,9 +63,29 @@
 				<p>Annotations: {{ topic.comment_count }}</p>
 			</div>
 
+			{% if diary_references %}
 			<div class="tab-pane" id="references">
 				<h2>References</h2>
+
+				<ul class="references references-diary">
+					{% for y, months in diary_references %}
+						<li>{{ y }}
+							<ul class="references-year">
+								{% for m, refs in months %}
+									<li>{{ m }}
+										<ul class="references-month">
+											{% for ref in refs %}
+												<li><a href="{{ ref.get_absolute_url }}">{{ ref.day }}</a></li>
+											{% endfor %}
+										</ul>
+									</li>
+								{% endfor %}
+							</ul>
+						</li>
+					{% endfor %}
+				</ul>
 			</div>
+			{% endif %}
 		</div> <!-- .tab-content -->
 	</div> <!-- .tabbable -->
 

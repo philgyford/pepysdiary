@@ -1,0 +1,8 @@
+.references,
+.references ul {
+	list-style-type: none;
+}
+.references-month,
+.references-month li {
+	display: inline;
+}

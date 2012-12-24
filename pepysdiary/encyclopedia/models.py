@@ -256,6 +256,37 @@ class Topic(PepysModel):
     def get_absolute_url(self):
         return reverse('encyclopedia_topic', kwargs={'pk': self.pk, })
 
+    def get_annotated_diary_references(self):
+        """
+        Returns a list of lists, of this Topic's diary entry references.
+        [
+            ['1660', [
+                '01', [Entry, Entry, Entry, ],
+                '02', [Entry, Entry, ],
+            ]],
+        ]
+        """
+        refs = []
+        year_refs = []
+        month_refs = []
+        prev_year = None
+        prev_month = None
+        for ref in self.diary_references.order_by('diary_date'):
+            if ref.month != prev_month:
+                if prev_month is not None:
+                    year_refs[1].append(month_refs)
+                month_refs = [ref.month, []]
+            if ref.year != prev_year:
+                if prev_year is not None:
+                    refs.append(year_refs)
+                year_refs = [ref.year, []]
+            month_refs[1].append(ref)
+            prev_year = ref.year
+            prev_month = ref.month
+        year_refs[1].append(month_refs)
+        refs.append(year_refs)
+        return refs
+
 
 def topic_categories_changed(sender, **kwargs):
     """
