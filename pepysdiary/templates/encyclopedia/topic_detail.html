@@ -46,7 +46,8 @@
 			{% if topic.wikipedia_fragment %}
 			<div class="tab-pane{% if not topic.latitude and not topic.summary_html %} active{% endif %}" id="wikipedia">
 				<h2>Wikipedia</h2>
-				<p>Fragment: {{ topic.wikipedia_fragment }}</p>
+				<p>Wikipedia content is not yet automatically copied to this page.</p>
+				<p>For now, you can directly <a href="http://en.wikipedia.org/wiki/{{ topic.wikipedia_fragment }}">visit this topic on Wikipedia</a>.</p>
 			</div>
 			{% endif %}
 
