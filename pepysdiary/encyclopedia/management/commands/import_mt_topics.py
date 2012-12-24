@@ -1,5 +1,4 @@
 # coding: utf-8
-import datetime
 import MySQLdb
 from optparse import make_option
 import pytz
