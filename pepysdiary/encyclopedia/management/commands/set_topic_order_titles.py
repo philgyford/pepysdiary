@@ -30,3 +30,5 @@ class Command(BaseCommand):
             # Because the order_title is set on save, we just need to save
             # each topic:
             topic.save()
+
+            

@@ -19,7 +19,7 @@ class TopicManager(models.Manager):
         "Fred Bloggs" to "Bloggs, Fred"
         "Sidney Smythe (1st Lord Smythe)" to "Smythe, Sidney (1st Lord Smythe)"
         "Sir Heneage Finch (Solicitor-General)" to "Finch, Sir Heneage (Solicitor-General)"
-        "Capt. Henry Terne" to "Terne, Capt. Henry "
+        "Capt. Henry Terne" to "Terne, Capt. Henry"
         "Capt. Aldridge" to "Aldridge, Capt."
         "Mr Hazard" to "Hazard, Mr"
         "Johann Heinrich Alsted" to "Alsted, Johann Heinrich"
@@ -57,7 +57,7 @@ class TopicManager(models.Manager):
 
             pattern = """
                 # Optionally match a title:
-                (Ald\.|Capt\.|Col\.|Don|Dr|Lady|Lieut\.|Lord|Lt-Adm\.|Lt-Col\.|Lt-Gen\.|Maj\.|Maj\.-Gen\.|Miss|Mrs|Mr|Ms|Pope|Sir)?
+                (Ald\.|Capt\.|Col\.|Don|Dr|Lady|Lieut\.|Lord|Lt-Adm\.|Lt-Col\.|Lt-Gen\.|Maj\.(?:-Gen\.)?(?:\sAld\.)?(?:\sSir)?|Miss|(?:Mrs?)|Ms|Pope|Sir)?
                 # Ignore any space after a title:
                 (?:\s)?
                 # Match a single first name:
@@ -72,7 +72,7 @@ class TopicManager(models.Manager):
                 # Leave it as it is.
                 pass
             else:
-                matches = name_match.groups()
+                matches = list(name_match.groups())
 
                 # We need to trap anything that's like:
                 # "Mary I of England"
@@ -80,7 +80,7 @@ class TopicManager(models.Manager):
                 # "Ivan the Terrible"
                 king_match = None
                 if matches[2] is not None:
-                    king_match = re.match(r'^(I|II|III|IV|V|VI|VII|VIII|the)(?:\s|$)',
+                    king_match = re.match(r'^(I|II|III|IV|V|VI|VII|VIII|XI|XIV|the)(?:\s|$)',
                                                                     matches[2])
                 if king_match is not None:
                     # Looks like it's a king-type person.
@@ -94,11 +94,29 @@ class TopicManager(models.Manager):
 
                     if matches[2] is not None:
                         # The "surname" part has something in it.
+
                         if matches[2][:1] == '(':
                             # eg, (None, 'Mary', "(c, Pepys' chambermaid)", None)
                             # leave it as-is.
                             pass
+                        elif matches[1][-1:] == ',':
+                            # eg, (None, 'Godefroy,', "Comte d'Estrades")
+                            # leave it as-is.
+                            pass
                         else:
+                            # A little fix first for surnames like "d'Esquier".
+                            # We want to move any leading "d'" or "l'" from the
+                            # start of the surname to the end of the first names.
+                            # So that we'll order by "Esquier".
+                            apostrophe_match = re.match(r"^(d'|l'|al-)(.*?)$", matches[2])
+                            if apostrophe_match is not None:
+                                # Will be something like ("d'", "Esquier"):
+                                apostrophe_matches = apostrophe_match.groups()
+                                # Will be like "Monsieur d'":
+                                matches[1] = '%s %s' % (matches[1], apostrophe_matches[0])
+                                # Will be like "Esquier":
+                                matches[2] = apostrophe_matches[1]
+
                             # See what's in the "surname" part.
                             # One word or more?
                             surname_match = re.match(
@@ -119,6 +137,12 @@ class TopicManager(models.Manager):
                                     pre_surname = ' %s' % surname_matches[0]
                                 order_title = '%s, %s%s%s%s' % (surname_matches[1],
                                         title, matches[1], pre_surname, parentheses)
+                    elif title != '':
+                        # eg, ('Mr', 'Hazard', None)
+                        # Need to remove extra space from title, eg 'Mr ':
+                        order_title = '%s, %s' % (matches[1], title[:-1])
+                    else:
+                        pass
 
         else:
             the_pattern = re.compile(r'^The\s(.*?)(?:\s\((.*?)\))?$')
