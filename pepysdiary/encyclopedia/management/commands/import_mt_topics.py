@@ -29,7 +29,7 @@ class Command(BaseCommand):
             help="Import all Encyclopedia Topics from legacy MT MySQL database. (Default)"),
     )
     args = ''
-    help = "Imports Encyclopedia Topics from legacy MTMySQL database."
+    help = "Imports Encyclopedia Topics from legacy MT MySQL database."
 
     def handle(self, *args, **options):
 
