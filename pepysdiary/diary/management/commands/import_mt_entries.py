@@ -2,7 +2,6 @@
 import MySQLdb
 from optparse import make_option
 import pytz
-import re
 
 from django.conf import settings
 from django.core.management.base import BaseCommand
