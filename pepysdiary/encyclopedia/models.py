@@ -211,6 +211,7 @@ class Topic(PepysModel):
     categories = models.ManyToManyField('Category', related_name='topics')
 
     diary_references = models.ManyToManyField('diary.Entry', related_name='topics')
+    # letter_references = models.ManyToManyField('letters.Letter', related_name='topics')
 
     # Keeps track of whether we've made the order_title for this model yet.
     _order_title_made = False
@@ -272,17 +273,17 @@ class Topic(PepysModel):
         prev_year = None
         prev_month = None
         for ref in self.diary_references.order_by('diary_date'):
-            if ref.month_M != prev_month:
+            if ref.month_b != prev_month:
                 if prev_month is not None:
                     year_refs[1].append(month_refs)
-                month_refs = [ref.month_M, []]
+                month_refs = [ref.month_b, []]
             if ref.year != prev_year:
                 if prev_year is not None:
                     refs.append(year_refs)
                 year_refs = [ref.year, []]
             month_refs[1].append(ref)
             prev_year = ref.year
-            prev_month = ref.month_M
+            prev_month = ref.month_b
         year_refs[1].append(month_refs)
         refs.append(year_refs)
         return refs

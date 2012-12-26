@@ -72,10 +72,10 @@
 						<li>{{ y }}
 							<ul class="references-year">
 								{% for m, refs in months %}
-									<li>{{ m }}
+									<li><span>{{ m }}</span>
 										<ul class="references-month">
 											{% for ref in refs %}
-												<li><a href="{{ ref.get_absolute_url }}">{{ ref.day_j }}</a></li>
+												<li><a href="{{ ref.get_absolute_url }}">{{ ref.day_e }}</a></li>
 											{% endfor %}
 										</ul>
 									</li>

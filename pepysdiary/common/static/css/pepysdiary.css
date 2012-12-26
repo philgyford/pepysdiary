@@ -2,7 +2,12 @@
 .references ul {
 	list-style-type: none;
 }
+.references-year li > span {
+	display: inline-block;
+	width: 2.5em;
+}
 .references-month,
 .references-month li {
-	display: inline;
+	display: inline-block;
+	margin-left: 0;
 }

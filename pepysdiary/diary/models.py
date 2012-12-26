@@ -4,6 +4,7 @@ from django.core.urlresolvers import reverse
 from django.db import models
 
 from pepysdiary.common.models import PepysModel
+from pepysdiary.common.utilities import *
 from pepysdiary.encyclopedia.models import Topic
 
 
@@ -34,37 +35,33 @@ class Entry(PepysModel):
                 'day': self.day,
             })
 
+    # Because strftime can't cope with very old dates, we have to get
+    # year/month/day like this...
+
     @property
     def year(self):
         """Year of the Entry like '1660', '1661', etc."""
-        return self.diary_date.isoformat().split('T')[0].split('-')[0]
+        return get_year(self.diary_date)
 
     @property
     def month(self):
         """Month of the Entry like '01', '02', '12', etc."""
-        return self.diary_date.isoformat().split('T')[0].split('-')[1]
+        return get_month(self.diary_date)
 
     @property
-    def month_M(self):
+    def month_b(self):
         """Month of the Entry like 'Jan', 'Feb', 'Dec', etc."""
-        months = {'01': 'Jan', '02': 'Feb', '03': 'Mar', '04': 'Apr',
-                    '05': 'May', '06': 'Jun', '07': 'Jul', '08': 'Aug',
-                    '09': 'Sep', '10': 'Oct', '11': 'Nov', '12': 'Dec', }
-        return months[self.month]
+        return get_month_b(self.diary_date)
 
     @property
     def day(self):
         """Day of the Entry like '01', '02', '31', etc."""
-        return self.diary_date.isoformat().split('T')[0].split('-')[2]
+        return get_day(self.diary_date)
 
     @property
-    def day_j(self):
+    def day_e(self):
         """Day of the Entry like '1', '2', '31', etc."""
-        d = self.day
-        if d[:1] == '0':
-            return d[1:]
-        else:
-            return d
+        return get_day_e(self.diary_date)
 
     def make_references(self):
         self.topics.clear()
