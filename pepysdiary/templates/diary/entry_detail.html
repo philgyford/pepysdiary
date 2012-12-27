@@ -12,6 +12,7 @@
 
 		<div class="well well-manuscript">
 			{% load text_formatting_filters %}
+			
 			{{ entry.text|smartypants|safe }}
 			{% if entry.footnotes %}
 				<hr />
