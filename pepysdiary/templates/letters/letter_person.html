@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% load url from future %}
+
+{% block letter_nav_active %}active{% endblock %}
+
+{% block title %}Letters sent by or to {{ person.title }}{% endblock %}}
+
+
+{% block content %}
+
+	{% load scaffolding_tags %}
+	{% sidebar_row_start %}
+
+		{% include 'inc/letter_list.html' %}
+
+	{% sidebar_row_middle %}
+		{% if person.thumbnail %}
+			<p><img src="{{ person.thumbnail.url }}" width="100" height="120" alt="Thumbnail image" /><br />
+				<a href="{{ person.get_absolute_url }}">In the Encyclopedia</a></p>
+		{% endif %}
+
+	{% sidebar_row_end %}
+
+{% endblock content %}

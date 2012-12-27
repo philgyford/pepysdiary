@@ -35,6 +35,7 @@
 			    				<li><a href="{% url 'diary_entry_archive' %}">Archive</a></li>
 			    			</ul>
 			    		</li>
+			    		<li class="{% block letter_nav_active %}{% endblock %}"><a href="{% url 'letters' %}">Letters</a></li>
 			    		<li class="{% block encyclopedia_nav_active %}{% endblock %}"><a href="{% url 'encyclopedia' %}">Encyclopedia</a></li>
 			    	</ul>
 			    </div> <!-- .nav-collapse -->

@@ -23,7 +23,14 @@ urlpatterns = patterns('',
         DiaryEntryRedirectView.as_view()
     ),
 
-    # ENCYCLOPEDIA
+    # LETTERS.
+
+    # From /letters/1660/01/01/slug-field.php URLs:
+    url(r'^letters/(?P<year>\d{4})/(?P<month>\d{2})/(?P<day>\d{2})/(?P<slug>[\w-]+)\.php$',
+        LetterRedirectView.as_view()
+    ),
+
+    # ENCYCLOPEDIA.
 
     url(r'^background/$', RedirectView.as_view(
                                             url=reverse_lazy('encyclopedia'))),
@@ -36,6 +43,7 @@ urlpatterns = patterns('',
 # The main URL conf for actual pages, not redirects.
 urlpatterns += patterns('',
     url(r'^diary/', include('pepysdiary.diary.urls')),
+    url(r'^letters/', include('pepysdiary.letters.urls')),
     url(r'^encyclopedia/', include('pepysdiary.encyclopedia.urls')),
 
     # Uncomment the admin/doc line below to enable admin documentation:

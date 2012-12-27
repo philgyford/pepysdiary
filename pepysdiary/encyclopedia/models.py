@@ -255,7 +255,7 @@ class Topic(PepysModel):
                                             self.title, is_person=False)
 
     def get_absolute_url(self):
-        return reverse('encyclopedia_topic', kwargs={'pk': self.pk, })
+        return reverse('topic_detail', kwargs={'pk': self.pk, })
 
     def get_annotated_diary_references(self):
         """
@@ -368,7 +368,7 @@ class Category(MP_Node):
         else:
             # Top level category.
             path = '%s' % self.slug
-        return reverse('encyclopedia_category', kwargs={'slugs': path, })
+        return reverse('category_detail', kwargs={'slugs': path, })
 
     def set_topic_count(self):
         """

@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% load url from future %}
+
+{% block letter_nav_active %}active{% endblock %}
+
+{% block title %}Letters{% endblock %}}
+
+
+{% block content %}
+
+	{% load scaffolding_tags %}
+	{% sidebar_row_start %}
+
+		<p>Some letters sent by or to Samuel Pepys.</p>
+
+		{% include 'inc/letter_list.html' with letter_list=letters %}
+
+	{% sidebar_row_middle %}
+
+	{% sidebar_row_end %}
+
+{% endblock content %}

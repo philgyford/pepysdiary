@@ -28,3 +28,13 @@ class EncyclopediaTopicRedirectView(RedirectView):
     """
     def get_redirect_url(self, pk):
         return reverse('encyclopedia_topic', kwargs={'pk': pk})
+
+
+class LetterRedirectView(RedirectView):
+    """
+    To help with redirecting from old /letter/1660/01/01/slug-field.php URLs
+    to the new Letter URLs.
+    """
+    def get_redirect_url(self, year, month, day, slug):
+        return reverse('letter_detail', kwargs={
+            'year': year, 'month': month, 'day': day, 'slug': slug, })

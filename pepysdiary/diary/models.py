@@ -29,7 +29,7 @@ class Entry(PepysModel):
         self.make_references()
 
     def get_absolute_url(self):
-        return reverse('diary_entry', kwargs={
+        return reverse('entry_detail', kwargs={
                 'year': self.year,
                 'month': self.month,
                 'day': self.day,

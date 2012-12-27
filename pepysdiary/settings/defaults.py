@@ -98,6 +98,7 @@ TEMPLATE_DIRS = (
     os.path.join(PROJECT_ROOT, 'templates', ),
     os.path.join(PROJECT_ROOT, 'templates', 'common', ),
     os.path.join(PROJECT_ROOT, 'templates', 'encyclopedia', ),
+    os.path.join(PROJECT_ROOT, 'templates', 'letters', ),
 )
 
 from django.conf import global_settings
@@ -166,3 +167,7 @@ SERVER_EMAIL = 'do-not-reply@pepysdiary.com'
 # We have to do special things to some Encyclopedia Topics depending on
 # whether they're in the 'People' category. So we need to store its ID:
 PEOPLE_CATEGORY_ID = 2
+
+# We have a Topic for Samuel Pepys, which occasionally needs special
+# treatment, so we store its ID here:
+PEPYS_TOPIC_ID = 29

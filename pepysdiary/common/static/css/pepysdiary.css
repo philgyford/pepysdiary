@@ -1,4 +1,17 @@
 
+cite {
+	font-style: italic;
+}
+.well-manuscript {
+	background: #f1f4eb;
+	border-color: #e8e7dc;
+	font-family: Georgia, Times, serif;
+	font-size: 16px;
+	line-height: 24px;
+	-webkit-border-radius: 0px;
+	-moz-border-radius: 0px;
+	border-radius: 0px;
+}
 /* entry_archive */
 
 .diary-archive,
@@ -30,4 +43,39 @@
 .references-month li {
 	display: inline-block;
 	margin-left: 0;
+}
+
+/* Letters */
+.letters {
+	list-style-type: none;
+	margin-left: 0;
+}
+.letters li {
+	margin-bottom: 1em;
+}
+.letter-to {
+	font-style: italic;
+	margin-bottom: 1em;
+}
+.letter-from {
+	margin-bottom: 1em;
+	text-align: right;
+}
+.letter-to p,
+.letter-from p {
+	margin-bottom: 0;
+}
+.letter-yours {
+	margin-left: 130px;
+	margin-bottom: 1em;
+}
+.letter-yours p {
+	margin-left: 0;
+	margin-bottom: 0;
+}
+p.letter-indent {
+	margin-left: 4em;
+}
+p.letter-indent-2 {
+	margin-left: 8em;
 }

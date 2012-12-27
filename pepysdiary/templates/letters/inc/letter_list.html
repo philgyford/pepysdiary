@@ -1,0 +1,11 @@
+
+<p class="muted">Numbers in brackets indication quantity of annotations.</p>
+
+<ul class="letters">
+{% for letter in letter_list %}
+	<li>
+		{{ letter.letter_date|date:"j F Y" }}, <a href="{{ letter.get_absolute_url }}">{{ letter.title }}</a> <small>({{ letter.comment_count }})</small><br />
+		{{ letter.excerpt }}…
+	</li>
+{% endfor %}
+</ul>

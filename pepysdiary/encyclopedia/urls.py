@@ -9,8 +9,8 @@ urlpatterns = patterns('',
     url(r'^$', EncyclopediaView.as_view(), name='encyclopedia'),
 
     url(r'^(?P<pk>\d+)/$', TopicDetailView.as_view(),
-                                                    name='encyclopedia_topic'),
+                                                    name='topic_detail'),
 
     url(r'^(?P<slugs>[\w\/-]+)/$', CategoryDetailView.as_view(),
-                                                name='encyclopedia_category'),
+                                                name='category_detail'),
 )

@@ -11,8 +11,8 @@ from pepysdiary.encyclopedia.models import Topic
 
 class Letter(PepysModel):
 
-    GUY_DE_LA_BEDOYERE_SOURCE = '10'
-    HELEN_TRUESDELL_HEATH_SOURCE = '20'
+    GUY_DE_LA_BEDOYERE_SOURCE = 10
+    HELEN_TRUESDELL_HEATH_SOURCE = 20
     SOURCE_CHOICES = (
         (GUY_DE_LA_BEDOYERE_SOURCE, 'Guy de la Bédoyère'),
         (HELEN_TRUESDELL_HEATH_SOURCE, 'Helen Truesdell Heath'),

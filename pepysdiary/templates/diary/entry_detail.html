@@ -3,14 +3,14 @@
 
 {% block diary_nav_active %}active{% endblock %}
 
-{% block title %}{{ entry.title }}{% endblock %}}
+{% block title %}{{ entry.title }}{% endblock %}
 
 {% block content %}
 
 	{% load scaffolding_tags %}
 	{% sidebar_row_start %}
 
-		<div class="well">
+		<div class="well well-manuscript">
 			{{ entry.text|safe }}
 			{% if entry.footnotes %}
 				<hr />
