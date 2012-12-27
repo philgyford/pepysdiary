@@ -124,6 +124,7 @@ INSTALLED_APPS = (
     'pepysdiary.diary',
     'pepysdiary.encyclopedia',
     'pepysdiary.letters',
+    'pepysdiary.indepth',
 )
 
 # A sample logging configuration. The only tangible logging

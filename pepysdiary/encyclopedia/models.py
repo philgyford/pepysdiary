@@ -181,13 +181,14 @@ class Topic(PepysModel):
 
     title = models.CharField(max_length=255, blank=False, null=False)
     order_title = models.CharField(max_length=255, blank=True, null=False)
-    summary = models.TextField(blank=True, null=False)
+    summary = models.TextField(blank=True, null=False,
+                                                help_text="Can use Markdown.")
     summary_html = models.TextField(blank=True, null=False,
-        help_text="The summary field, with Markdown etc, turned into HTML")
+        help_text="The summary field, with Markdown etc, turned into HTML.")
     wheatley = models.TextField(blank=True, null=False,
-        help_text="Taken from footnotes in the 1893 Wheatley edition of the diary")
+        help_text="Taken from footnotes in the 1893 Wheatley edition of the diary. Can use Markdown.")
     wheatley_html = models.TextField(blank=True, null=False,
-        help_text="The wheatley field, with Markdown etc, turned into HTML")
+        help_text="The wheatley field, with Markdown etc, turned into HTML.")
     tooltip_text = models.TextField(blank=True, null=False,
                         help_text="For hovering over links in diary entries.")
     wikipedia_fragment = models.CharField(

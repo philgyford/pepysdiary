@@ -38,6 +38,13 @@ urlpatterns = patterns('',
                                     EncyclopediaCategoryRedirectView.as_view()),
 
     url(r'^p/(?P<pk>\d+)\.php$', EncyclopediaTopicRedirectView.as_view()),
+
+    # IN-DEPTH.
+
+    # From /indepth/archive/2012/05/31/slug_field.php URLs:
+    url(r'^indepth/archive/(?P<year>\d{4})/(?P<month>\d{2})/(?P<day>\d{2})/(?P<slug>[\w_]+)\.php$',
+        ArticleRedirectView.as_view()
+    ),
 )
 
 # The main URL conf for actual pages, not redirects.
@@ -47,6 +54,7 @@ urlpatterns += patterns('',
     url(r'^diary/', include('pepysdiary.diary.urls')),
     url(r'^letters/', include('pepysdiary.letters.urls')),
     url(r'^encyclopedia/', include('pepysdiary.encyclopedia.urls')),
+    url(r'^indepth/', include('pepysdiary.indepth.urls')),
 
     # Uncomment the admin/doc line below to enable admin documentation:
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),

@@ -55,3 +55,14 @@ class LetterRedirectView(RedirectView):
     def get_redirect_url(self, year, month, day, slug):
         return reverse('letter_detail', kwargs={
             'year': year, 'month': month, 'day': day, 'slug': slug, })
+
+
+class ArticleRedirectView(RedirectView):
+    """
+    To help with redirecting from old
+    /indepth/archive/2012/05/31/slug_field.php URLs to the new Article URLs.
+    """
+    def get_redirect_url(self, year, month, day, slug):
+        slug = slug.replace('_', '-')
+        return reverse('article_detail', kwargs={
+            'year': year, 'month': month, 'day': day, 'slug': slug, })

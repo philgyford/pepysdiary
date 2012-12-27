@@ -9,16 +9,18 @@
 {% block content %}
 
 	{% load scaffolding_tags %}
+	{% load text_formatting_filters %}
+
 	{% sidebar_row_start %}
 
 		<p>{{ letter.display_date }}</p>
 
 		<div class="well well-manuscript">
-			{{ letter.text|safe }}
+			{{ letter.text|smartypants|safe }}
 		</div>
 
 		{% if letter.footnotes %}
-			{{ letter.footnotes|safe }}
+			{{ letter.footnotes|smartypants|safe }}
 		{% endif %}
 
 	{% sidebar_row_middle %}

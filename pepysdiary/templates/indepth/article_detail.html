@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% load url from future %}
+
+{% block indepth_nav_active %}active{% endblock %}
+
+{% block title %}{{ article.title }}{% endblock %}}
+
+
+{% block content %}
+
+	{% load scaffolding_tags %}
+	{% load text_formatting_filters %}
+
+	{% sidebar_row_start %}
+
+		<p>{{ article.date_published }}</p>
+
+		{{ article.intro_html|smartypants|safe }}
+
+		{{ article.text_html|smartypants|safe }}
+
+	{% sidebar_row_middle %}
+
+	{% sidebar_row_end %}
+
+{% endblock content %}
