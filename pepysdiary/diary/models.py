@@ -1,11 +1,36 @@
+import datetime
+import pytz
 import re
 
+from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.db import models
 
 from pepysdiary.common.models import PepysModel
 from pepysdiary.common.utilities import *
 from pepysdiary.encyclopedia.models import Topic
+
+
+class EntryManager(models.Manager):
+    def most_recent_entry_date(self):
+        """
+        Returns the date of the most recent diary entry 'published'.
+        This is always "today's" date, 353 (or whatever) years ago
+        (depending on settings.YEARS_OFFSET).
+        Except "today's" entry is only published at 23:00 UK time. Until then
+        we see "yesterday's" entry.
+        """
+        tz = pytz.timezone('Europe/London')
+        time_now = datetime.datetime.now().replace(tzinfo=tz)
+        if int(time_now.strftime('%H')) < 23:
+            # It's before 11pm, so we still show yesterday's entry.
+            time_now = time_now - datetime.timedelta(days=1)
+
+        return datetime.date(
+                        int(time_now.strftime('%Y')) - settings.YEARS_OFFSET,
+                        int(time_now.strftime('%m')),
+                        int(time_now.strftime('%d'))
+                    )
 
 
 class Entry(PepysModel):
@@ -16,6 +41,8 @@ class Entry(PepysModel):
     comment_count = models.IntegerField(default=0, blank=False, null=False)
 
     # Will also have a 'topics' ManyToMany field, from Topic.
+
+    objects = EntryManager()
 
     class Meta:
         ordering = ['diary_date', ]

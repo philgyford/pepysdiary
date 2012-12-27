@@ -97,6 +97,7 @@ TEMPLATE_DIRS = (
     'treebeard/templates/',
     os.path.join(PROJECT_ROOT, 'templates', ),
     os.path.join(PROJECT_ROOT, 'templates', 'common', ),
+    os.path.join(PROJECT_ROOT, 'templates', 'diary', ),
     os.path.join(PROJECT_ROOT, 'templates', 'encyclopedia', ),
     os.path.join(PROJECT_ROOT, 'templates', 'letters', ),
 )
@@ -163,6 +164,9 @@ DEFAULT_FROM_EMAIL = 'do-not-reply@pepysdiary.com'
 # For error messages.
 SERVER_EMAIL = 'do-not-reply@pepysdiary.com'
 
+
+# How many years ahead of the diary entries are we?
+YEARS_OFFSET = 353
 
 # We have to do special things to some Encyclopedia Topics depending on
 # whether they're in the 'People' category. So we need to store its ID:

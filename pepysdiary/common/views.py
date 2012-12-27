@@ -1,5 +1,22 @@
+from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.views.generic import RedirectView
+from django.views.generic.base import TemplateView
+
+from pepysdiary.diary.models import Entry
+
+
+class HomeView(TemplateView):
+    template_name = 'home.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(HomeView, self).get_context_data(**kwargs)
+
+        context['entry_list'] = Entry.objects.filter(
+                diary_date__lte=Entry.objects.most_recent_entry_date
+            ).order_by('-diary_date')[:7]
+
+        return context
 
 
 class DiaryEntryRedirectView(RedirectView):

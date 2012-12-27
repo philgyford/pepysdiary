@@ -42,6 +42,8 @@ urlpatterns = patterns('',
 
 # The main URL conf for actual pages, not redirects.
 urlpatterns += patterns('',
+    url(r'^$', HomeView.as_view(), name='home'),
+
     url(r'^diary/', include('pepysdiary.diary.urls')),
     url(r'^letters/', include('pepysdiary.letters.urls')),
     url(r'^encyclopedia/', include('pepysdiary.encyclopedia.urls')),

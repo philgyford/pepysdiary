@@ -1,0 +1,14 @@
+
+{% for entry in entry_list %}
+	<h2><a href="{{ entry.get_absolute_url }}">{{ entry.title }}</a></h2>
+
+	<div class="well well-manuscript">
+		{{ entry.text|safe }}
+		{% if entry.footnotes %}
+			<hr />
+			{{ entry.footnotes|safe }}
+		{% endif %}
+	</div>
+
+	<p>{{ entry.comment_count }} comment{{ entry.comment_count|pluralize }}</p>
+{% endfor %}
