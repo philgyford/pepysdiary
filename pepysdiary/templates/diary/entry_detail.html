@@ -11,10 +11,11 @@
 	{% sidebar_row_start %}
 
 		<div class="well well-manuscript">
-			{{ entry.text|safe }}
+			{% load text_formatting_filters %}
+			{{ entry.text|smartypants|safe }}
 			{% if entry.footnotes %}
 				<hr />
-				{{ entry.footnotes|safe }}
+				{{ entry.footnotes|smartypants|safe }}
 			{% endif %}
 		</div>
 

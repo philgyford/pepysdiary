@@ -6,4 +6,5 @@ django-debug-toolbar==0.9.4
 django-treebeard==1.61
 psycopg2==2.4.5
 pytz==2012h
+smartypants==1.6.0.3
 wsgiref==0.1.2

@@ -1,12 +1,14 @@
 
+{% load text_formatting_filters %}
+
 {% for entry in entry_list %}
 	<h2><a href="{{ entry.get_absolute_url }}">{{ entry.title }}</a></h2>
 
 	<div class="well well-manuscript">
-		{{ entry.text|safe }}
+		{{ entry.text|smartypants|safe }}
 		{% if entry.footnotes %}
 			<hr />
-			{{ entry.footnotes|safe }}
+			{{ entry.footnotes|smartypants|safe }}
 		{% endif %}
 	</div>
 
