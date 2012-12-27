@@ -10,6 +10,7 @@ class TopicAdmin(admin.ModelAdmin):
     readonly_fields = ('date_created', 'date_modified', 'order_title',
                                                                 'diary_references', )
     filter_horizontal = ('categories', )
+    search_fields = ['title', ]
     fieldsets = (
         (None, {
             'fields': ('title', 'order_title', 'categories',
@@ -24,9 +25,9 @@ class TopicAdmin(admin.ModelAdmin):
             'fields': ('map_category', 'latitude', 'longitude', 'zoom',
                         'shape', )
         }),
-        ('References', {
-            'fields': ('diary_references', )
-        }),
+        # ('References', {
+        #     'fields': ('diary_references', )
+        # }),
     )
 
     def save_related(self, request, form, formsets, change):

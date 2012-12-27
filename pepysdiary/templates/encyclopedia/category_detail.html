@@ -11,26 +11,31 @@
 
 {% block content %}
 
-	{% if category.get_children_count %}
-		<h2>Subcategories</h2>
-		<ul>
-		{% for c in category.get_children %}
-			<li><a href="{{ c.get_absolute_url }}">{{ c.title }}</a>
-				{% comment %}
-					{% if c.get_children_count %}<small>({{ c.get_children_count }} categor{{ c.get_children_count|pluralize:"y,ies" }})</small>{% endif %}
-				{% endcomment %}
-				{% if c.topic_count %}<small>({{ c.topic_count }} topic{{ c.topic_count|pluralize }})</small>{% endif %}</li>
-		{% endfor %}
-		</ul>
-	{% endif %}
+	{% load scaffolding_tags %}
+	{% sidebar_row_start %}
+		{% if category.topics.all %}
+			<h2>Topics</h2>
+			<ul>
+			{% for t in category.topics.all %}
+				<li><a href="{{ t.get_absolute_url }}">{{ t.order_title }}</a></li>
+			{% endfor %}
+			</ul>
+		{% endif %}
 
-	{% if category.topics.all %}
-		<h2>Topics</h2>
-		<ul>
-		{% for t in category.topics.all %}
-			<li><a href="{{ t.get_absolute_url }}">{{ t.order_title }}</a></li>
-		{% endfor %}
-		</ul>
-	{% endif %}
+	{% sidebar_row_middle %}
 
-{% endblock %}
+		{% if category.get_children_count %}
+			<h2>Subcategories</h2>
+			<ul>
+			{% for c in category.get_children %}
+				<li><a href="{{ c.get_absolute_url }}">{{ c.title }}</a>
+					{% comment %}
+						{% if c.get_children_count %}<small>({{ c.get_children_count }} categor{{ c.get_children_count|pluralize:"y,ies" }})</small>{% endif %}
+					{% endcomment %}
+					{% if c.topic_count %}<small>({{ c.topic_count }} topic{{ c.topic_count|pluralize }})</small>{% endif %}</li>
+			{% endfor %}
+			</ul>
+		{% endif %}
+
+	{% sidebar_row_end %}
+{% endblock content %}

@@ -7,20 +7,26 @@
 
 {% block content %}
 
-	{% for category, info in categories %}
-	    {% if info.open %}
-	        <ul><li>
-	    {% else %}
-	        </li><li>
-	    {% endif %}
+	{% load scaffolding_tags %}
+	{% sidebar_row_start %}
 
-	    <a href="{{ category.get_absolute_url }}">{{ category.title }}</a>
+		{% for category, info in categories %}
+		    {% if info.open %}
+		        <ul><li>
+		    {% else %}
+		        </li><li>
+		    {% endif %}
 
-		{% if category.topic_count %}<small>({{ category.topic_count }})</small>{% endif %}
+		    <a href="{{ category.get_absolute_url }}">{{ category.title }}</a>
 
-	    {% for close in info.close %}
-	        </li></ul>
-	    {% endfor %}
-	{% endfor %}
+			{% if category.topic_count %}<small>({{ category.topic_count }})</small>{% endif %}
 
-{% endblock %}
+		    {% for close in info.close %}
+		        </li></ul>
+		    {% endfor %}
+		{% endfor %}
+
+	{% sidebar_row_middle %}
+	{% sidebar_row_end %}
+
+{% endblock content %}

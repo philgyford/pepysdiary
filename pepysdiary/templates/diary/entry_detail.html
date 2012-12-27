@@ -7,19 +7,29 @@
 
 {% block content %}
 
-	{% if next_entry %}
-		<p>Next: <a href="{{ next_entry.get_absolute_url }}">{{ next_entry.title }}</a></p>
-	{% endif %}
+	{% load scaffolding_tags %}
+	{% sidebar_row_start %}
 
-	{% if previous_entry %}
-		<p>Previous: <a href="{{ previous_entry.get_absolute_url }}">{{ previous_entry.title }}</a></p>
-	{% endif %}
+		<div class="well">
+			{{ entry.text|safe }}
+			{% if entry.footnotes %}
+				<hr />
+				{{ entry.footnotes|safe }}
+			{% endif %}
+		</div>
 
-	{{ entry.text|safe }}
-	{% if entry.footnotes %}
-		<hr />
-		{{ entry.footnotes|safe }}
-	{% endif %}
+		<p>{{ entry.diary_date }} | {{ entry.comment_count }} comment{{ entry.comment_count|pluralize }}</p>
 
-	<p>{{ entry.diary_date }} | {{ entry.comment_count }} comment{{ entry.comment_count|pluralize }}</p>
-{% endblock %}
+	{% sidebar_row_middle %}
+
+		{% if next_entry %}
+			<p>Next: <a href="{{ next_entry.get_absolute_url }}">{{ next_entry.title }}</a></p>
+		{% endif %}
+
+		{% if previous_entry %}
+			<p>Previous: <a href="{{ previous_entry.get_absolute_url }}">{{ previous_entry.title }}</a></p>
+		{% endif %}
+
+	{% sidebar_row_end %}
+
+{% endblock content %}

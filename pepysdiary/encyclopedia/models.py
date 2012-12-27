@@ -287,7 +287,6 @@ class Topic(PepysModel):
         if len(year_refs) > 0:
             year_refs[1].append(month_refs)
             refs.append(year_refs)
-        print refs
         return refs
 
 

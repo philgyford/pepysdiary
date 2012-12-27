@@ -1,3 +1,23 @@
+
+/* entry_archive */
+
+.diary-archive,
+.diary-archive ul {
+	list-style-type: none;
+}
+.diary-archive li span {
+	display: inline-block;
+	width: 1.5em;
+}
+.diary-archive ul {
+	display: inline-block;
+}
+.diary-archive ul li {
+	display: inline-block;
+	margin-left: 1em;
+}
+
+/* topic_detail */
 .references,
 .references ul {
 	list-style-type: none;
