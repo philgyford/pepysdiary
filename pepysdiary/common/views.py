@@ -66,3 +66,13 @@ class ArticleRedirectView(RedirectView):
         slug = slug.replace('_', '-')
         return reverse('article_detail', kwargs={
             'year': year, 'month': month, 'day': day, 'slug': slug, })
+
+
+class PostRedirectView(RedirectView):
+    """
+    To help with redirecting from old
+    /about/archive/2012/05/31/3456/ URLs to the new News Post URLs.
+    """
+    def get_redirect_url(self, year, month, day, pk):
+        return reverse('post_detail', kwargs={
+            'year': year, 'month': month, 'day': day, 'pk': pk, })

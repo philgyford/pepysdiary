@@ -45,7 +45,18 @@ urlpatterns = patterns('',
     url(r'^indepth/archive/(?P<year>\d{4})/(?P<month>\d{2})/(?P<day>\d{2})/(?P<slug>[\w_]+)\.php$',
         ArticleRedirectView.as_view()
     ),
+
+    # SITE NEWS.
+
+    # From main Site News front page.
+    url(r'^about/news/$', RedirectView.as_view(url=reverse_lazy('news'))),
+
+    # From /about/archive/2012/05/31/3456/ URLs:
+    url(r'^about/archive/(?P<year>\d{4})/(?P<month>\d{2})/(?P<day>\d{2})/(?P<pk>\d+)/',
+        PostRedirectView.as_view()
+    ),
 )
+
 
 # The main URL conf for actual pages, not redirects.
 urlpatterns += patterns('',
