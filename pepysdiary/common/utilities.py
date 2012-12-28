@@ -6,6 +6,8 @@ def fix_old_links(text):
     Fix any old-style internal links in a piece of text, changing to new
     style.
     """
+    # URLS
+
     # From pepysdiary.com/p/42.php
     # to   pepysdiary.com/encyclopedia/42/
     text = re.sub(r'pepysdiary\.com\/p\/(\d+)\.php',
@@ -27,10 +29,25 @@ def fix_old_links(text):
     text = re.sub(r'pepysdiary\.com\/letters\/(\d\d\d\d\/\d\d\/\d\d\/[\w-]+)\.php',
                     r'pepysdiary.com/letters/\1/',
                     text)
+    # IMAGES
+
     # From pepysdiary.com/indepth/images/2012/05/31/SamuelPepys_1666.jpg
     # to   pepysdiary.com/static/img/indepth/2012/05/31/SamuelPepys_1666.jpg
     text = re.sub(r'pepysdiary\.com\/indepth\/images\/(.*?\.(?:jpg|png|gif))',
                     r'pepysdiary.com/static/img/indepth/\1',
+                    text)
+    # From pepysdiary.com/about/archive/files/2012/05/31/SamuelPepys_1666.jpg
+    # to   pepysdiary.com/static/img/news/2012/05/31/SamuelPepys_1666.jpg
+    text = re.sub(r'pepysdiary\.com\/about\/archive\/files\/(.*?\.(?:jpg|png|gif))',
+                    r'pepysdiary.com/static/img/news/\1',
+                    text)
+
+    # OTHER FILES
+
+    # From pepysdiary.com/about/archive/files/2009/03/23/ParallelLivesFlyer2009.pdf
+    # to   pepysdiary.com/static/files/news/2009/03/23/ParallelLivesFlyer2009.pdf
+    text = re.sub(r'pepysdiary\.com\/about\/archive\/files\/(.*?\.(?:mp3|pdf|doc|docx|zip|html))',
+                    r'pepysdiary.com/static/files/news/\1',
                     text)
     return text
 

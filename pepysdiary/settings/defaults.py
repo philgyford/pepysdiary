@@ -57,6 +57,7 @@ STATICFILES_DIRS = (
     # Don't forget to use absolute paths, not relative paths.
     os.path.join(PROJECT_ROOT, 'common', 'static'),
     os.path.join(PROJECT_ROOT, 'indepth', 'static'),
+    os.path.join(PROJECT_ROOT, 'news', 'static'),
 )
 
 # List of finder classes that know how to find static files in
@@ -107,6 +108,7 @@ from django.conf import global_settings
 TEMPLATE_CONTEXT_PROCESSORS = global_settings.TEMPLATE_CONTEXT_PROCESSORS + (
     # Needed for django-treebeard admin:
     'django.core.context_processors.request',
+    'pepysdiary.common.context_processors.date_formats',
 )
 
 INSTALLED_APPS = (
@@ -126,6 +128,7 @@ INSTALLED_APPS = (
     'pepysdiary.encyclopedia',
     'pepysdiary.letters',
     'pepysdiary.indepth',
+    'pepysdiary.news',
 )
 
 # A sample logging configuration. The only tangible logging

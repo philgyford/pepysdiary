@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% load url from future %}
+{% load text_formatting_filters %}
+
+{% block news_nav_active %}active{% endblock %}
+
+{% block title %}{{ post.title|smartypants|safe }}{% endblock %}}
+
+
+{% block content %}
+
+	{% load scaffolding_tags %}
+
+	{% sidebar_row_start %}
+
+		<p>{{ post.date_published|date:date_format_longest }}</p>
+
+		{{ post.intro_html|smartypants|safe }}
+
+		{{ post.text_html|smartypants|safe }}
+
+	{% sidebar_row_middle %}
+
+		{% include 'inc/next_previous.html' with next=next_post previous=previous_post %}
+
+	{% sidebar_row_end %}
+
+{% endblock content %}

@@ -1,19 +1,19 @@
 {% extends "base.html" %}
 {% load url from future %}
+{% load text_formatting_filters %}
 
 {% block indepth_nav_active %}active{% endblock %}
 
-{% block title %}{{ article.title }}{% endblock %}}
+{% block title %}{{ article.title|smartypants|safe }}{% endblock %}}
 
 
 {% block content %}
 
 	{% load scaffolding_tags %}
-	{% load text_formatting_filters %}
 
 	{% sidebar_row_start %}
 
-		<p>{{ article.date_published }}</p>
+		<p>{{ article.date_published|date:date_format_longest }}</p>
 
 		{{ article.intro_html|smartypants|safe }}
 
