@@ -1,0 +1,14 @@
+{% comment %}
+For the sidebar in Site News.
+We expect:
+	categories (from Post.CATEGORY_CHOICES)
+And maybe:
+	category_slug (the current category)
+{% endcomment %}
+
+{% load url from future %}
+<ul class="nav nav-tabs nav-stacked">
+	{% for slug, name in categories %}
+		<li{% if slug == category_slug %} class="active"{% endif %}><a href="{% url 'post_category_archive' category_slug=slug %}">{{ name }}</a></li>
+	{% endfor %}
+</ul>

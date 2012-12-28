@@ -102,6 +102,7 @@ TEMPLATE_DIRS = (
     os.path.join(PROJECT_ROOT, 'templates', 'diary', ),
     os.path.join(PROJECT_ROOT, 'templates', 'encyclopedia', ),
     os.path.join(PROJECT_ROOT, 'templates', 'letters', ),
+    os.path.join(PROJECT_ROOT, 'templates', 'news', ),
 )
 
 from django.conf import global_settings

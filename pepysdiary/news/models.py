@@ -15,18 +15,40 @@ class PublishedPostManager(models.Manager):
         return super(PublishedPostManager, self).get_query_set().filter(
                                                status=Post.STATUS_PUBLISHED)
 
+    def is_valid_category_slug(self, slug):
+        """
+        Is `slug` a valid Post category?
+        """
+        valid_slugs = [k for k, v in Post.CATEGORY_CHOICES]
+        if slug in valid_slugs:
+            return True
+        else:
+            return False
+
+    def category_slug_to_name(self, slug):
+        """
+        Assuming slug is a valid category slug, return the name.
+        Else, ''.
+        """
+        name = ''
+        for k, v in Post.CATEGORY_CHOICES:
+            if k == slug:
+                name = v
+        return name
+
 
 class Post(PepysModel):
     """
     A Site News Post.
     """
 
-    CATEGORY_EVENTS = 100
-    CATEGORY_HOUSEKEEPING = 200
-    CATEGORY_FEATURES = 300
-    CATEGORY_MEDIA = 400
-    CATEGORY_PRESS = 500
-    CATEGORY_STATISTICS = 600
+    # These are used as slugs in URLs.
+    CATEGORY_EVENTS = 'events'
+    CATEGORY_HOUSEKEEPING = 'housekeeping'
+    CATEGORY_FEATURES = 'new-features'
+    CATEGORY_MEDIA = 'pepys-in-the-media'
+    CATEGORY_PRESS = 'press'
+    CATEGORY_STATISTICS = 'statistics'
     CATEGORY_CHOICES = (
         (CATEGORY_EVENTS, 'Events'),
         (CATEGORY_HOUSEKEEPING, 'Housekeeping'),
@@ -57,8 +79,8 @@ class Post(PepysModel):
 
     status = models.IntegerField(blank=False, null=False,
                                 choices=STATUS_CHOICES, default=STATUS_DRAFT)
-    category = models.IntegerField(blank=False, null=False,
-                                                    choices=CATEGORY_CHOICES)
+    category = models.CharField(max_length=25, blank=False, null=False,
+                                    db_index=True, choices=CATEGORY_CHOICES)
 
     objects = models.Manager()
     published_posts = PublishedPostManager()

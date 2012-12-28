@@ -3,7 +3,7 @@
 
 {% block news_nav_active %}active{% endblock %}
 
-{% block title %}Site News{% endblock %}}
+{% block title %}Site News: {{ category_name }}{% endblock %}}
 
 
 {% block content %}
@@ -12,8 +12,6 @@
 	{% load text_formatting_filters %}
 
 	{% sidebar_row_start %}
-
-		<p class="lead">News about this site and other Pepys-related events.</p>
 
 		{% for post in post_list %}
 			<article class="news">
