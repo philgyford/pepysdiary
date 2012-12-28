@@ -5,6 +5,13 @@ from pepysdiary.indepth.models import Article
 
 
 class ArticleDetailView(DateDetailView):
+    """
+    Note: This generates Runtime Errors because we're using a DateTime field
+    (date_published) rather than a Date field, and this ends up using
+    naive datetimes.
+    https://code.djangoproject.com/ticket/18794
+    https://docs.djangoproject.com/en/dev/ref/class-based-views/mixins-date-based/#datemixin
+    """
     model = Article
     date_field = 'date_published'
     queryset = Article.published_articles.all()
