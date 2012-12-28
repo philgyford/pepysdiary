@@ -3,7 +3,7 @@
 
 {% block diary_nav_active %}active{% endblock %}
 
-{% block title %}Entries in {{ month }}{% endblock %}}
+{% block title %}Entries from {{ month|date:"F" }}&nbsp;{{ month|date:"Y" }}{% endblock %}}
 
 {% block content %}
 
