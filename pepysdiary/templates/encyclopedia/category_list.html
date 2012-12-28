@@ -8,7 +8,10 @@
 {% block content %}
 
 	{% load scaffolding_tags %}
+
 	{% sidebar_row_start %}
+
+		<p class="lead">Information about {{ topic_count }} people, places and things in Pepys’ time.</p>
 
 		{% for category, info in categories %}
 		    {% if info.open %}
@@ -27,6 +30,7 @@
 		{% endfor %}
 
 	{% sidebar_row_middle %}
+
 	{% sidebar_row_end %}
 
 {% endblock content %}

@@ -10,7 +10,10 @@
 
 	{% load scaffolding_tags %}
 	{% load text_formatting_filters %}
+
 	{% sidebar_row_start %}
+
+		<p class="lead">This section provides an opportunity to write and discuss longer articles on broader topics that might not fit in regular annotations or the <a href="{% url 'encyclopedia' %}">Encyclopedia</a>.</p>
 
 		{% for article in article_list %}
 			<article class="indepth">
