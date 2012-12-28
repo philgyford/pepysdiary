@@ -47,7 +47,7 @@ class Article(PepysModel):
                                 choices=STATUS_CHOICES, default=STATUS_DRAFT)
 
     objects = models.Manager()
-    published_objects = PublishedArticleManager()
+    published_articles = PublishedArticleManager()
 
     class Meta:
         ordering = ['-date_published', ]

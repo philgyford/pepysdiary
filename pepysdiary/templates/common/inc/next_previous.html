@@ -1,0 +1,7 @@
+{% if next %}
+	<p>Next: <a href="{{ next.get_absolute_url }}">{{ next.title }}</a></p>
+{% endif %}
+
+{% if previous %}
+	<p>Previous: <a href="{{ previous.get_absolute_url }}">{{ previous.title }}</a></p>
+{% endif %}

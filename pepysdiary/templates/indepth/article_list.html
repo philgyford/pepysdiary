@@ -3,25 +3,24 @@
 
 {% block indepth_nav_active %}active{% endblock %}
 
-{% block title %}{{ article.title }}{% endblock %}}
+{% block title %}In-Depth Articles{% endblock %}}
 
 
 {% block content %}
 
 	{% load scaffolding_tags %}
 	{% load text_formatting_filters %}
-
 	{% sidebar_row_start %}
 
-		<p>{{ article.date_published }}</p>
+		{% for article in article_list %}
+			<article class="indepth">
+				<h2><a href="{{ article.get_absolute_url }}">{{ article.title }}</a></h2>
 
-		{{ article.intro_html|smartypants|safe }}
-
-		{{ article.text_html|smartypants|safe }}
+				{{ article.intro_html|smartypants|safe }}
+			</article>
+		{% endfor %}
 
 	{% sidebar_row_middle %}
-
-		{% include 'inc/next_previous.html' with next=next_article previous=previous_article %}
 
 	{% sidebar_row_end %}
 
