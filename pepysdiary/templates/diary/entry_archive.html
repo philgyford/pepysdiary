@@ -8,8 +8,11 @@
 {% block content %}
 
 	{% load scaffolding_tags %}
+
 	{% sidebar_row_start %}
 
+		<p class="lead">Every entry of Samuel Pepys’ diary, in separate monthly pages.</p>
+		
 		<ul class="diary-archive">
 		{% for month in date_list reversed %}
 			{% ifchanged month|date:'Y' %}
