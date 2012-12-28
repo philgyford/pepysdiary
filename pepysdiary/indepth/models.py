@@ -34,7 +34,7 @@ class Article(PepysModel):
     intro_html = models.TextField(blank=True, null=False,
             help_text="The intro field, with Markdown etc, turned into HTML.")
     text = models.TextField(blank=True, null=False,
-                                                help_text="Can use Markdown.")
+        help_text="Can use Markdown. Any images should be put in `pepysdiary/indepth/static/img/indepth/`.")
     text_html = models.TextField(blank=True, null=False,
             help_text="The text field, with Markdown etc, turned into HTML.")
     excerpt = models.TextField(blank=True, null=False)
