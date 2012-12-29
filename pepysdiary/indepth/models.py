@@ -42,6 +42,7 @@ class Article(PepysModel):
     slug = models.SlugField(max_length=50, blank=False, null=False,
                                             unique_for_date='date_published')
     comment_count = models.IntegerField(default=0, blank=False, null=False)
+    last_comment_time = models.DateTimeField(blank=True, null=True)
 
     status = models.IntegerField(blank=False, null=False,
                                 choices=STATUS_CHOICES, default=STATUS_DRAFT)

@@ -5,8 +5,8 @@ from pepysdiary.indepth.models import Article
 
 class ArticleAdmin(admin.ModelAdmin):
     list_display = ('title', 'status', 'date_published', 'comment_count', )
-    search_fields = ['title', 'intro', 'text', ]
     readonly_fields = ('date_created', 'date_modified', )
+    search_fields = ['title', 'intro', 'text', ]
     fieldsets = (
         (None, {
             'fields': ('title', 'slug', 'status', 'date_published', )
@@ -15,7 +15,8 @@ class ArticleAdmin(admin.ModelAdmin):
             'fields': ('intro', 'text', 'excerpt', )
         }),
         (None, {
-            'fields': ('comment_count', 'date_created', 'date_modified', )
+            'fields': ('date_created', 'date_modified', 'comment_count',
+                                                        'last_comment_time', ),
         }),
     )
 
