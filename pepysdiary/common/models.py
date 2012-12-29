@@ -33,9 +33,9 @@ class OldDateMixin(object):
 
     Used for Diary Entries, Diary Summaries and Letters.
 
-    Each object using this should define `old_date`, which should match the
-    DateTimeField or DateField which we use to return dates. eg:
-        old_date = 'diary_date'
+    Each object using this should define `old_date_field`, which should match
+    the DateTimeField or DateField which we use to return dates. eg:
+        old_date_field = 'diary_date'
     """
     old_date_field = None
 
