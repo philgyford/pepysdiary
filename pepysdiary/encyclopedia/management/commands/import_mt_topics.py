@@ -11,6 +11,11 @@ from pepysdiary.common.utilities import fix_old_links
 from pepysdiary.encyclopedia.models import Category, Topic
 
 
+# NOTE:
+# After running this, I added the `on_pepys_family_tree` field, and ran this
+# query to update the Topics:
+# UPDATE encyclopedia_topic SET on_pepys_family_tree='t' WHERE id IN (112, 114, 115, 116, 116, 117, 119, 120, 121, 150, 154, 171, 236, 247, 282, 342, 507, 563, 569, 612, 631, 670, 671, 676, 749, 750, 850, 884, 911, 915, 951, 972, 995, 1066, 1067, 1090, 1105, 1107, 1342, 1558, 1568, 1593, 1650, 1709, 1749, 1761, 1858, 1858, 2226, 2531, 2542, 2724, 2725, 2802, 2803, 2807, 2848, 2930, 2931, 2934, 2998, 3002, 3003, 3065, 3286, 3690, 3735, 3736, 4212, 4213, 5137, 5180, 5265, 5516, 5735, 6232, 6750, 6763, 6764, 7192, 7231, 7294, 7392, 7436, 7721, 8086, 8250, 8544, 8988, 8989, 8990, 11061, 12615, 12989, 13006, 13169, 13281, 13282, 13648, 13845);
+
 class Command(BaseCommand):
     """
     Gets all the Encyclopedia Topics from the MovableType MySQL database and

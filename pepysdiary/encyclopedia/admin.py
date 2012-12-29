@@ -8,26 +8,26 @@ from pepysdiary.encyclopedia.models import Category, Topic
 class TopicAdmin(admin.ModelAdmin):
     list_display = ('title', 'comment_count', )
     readonly_fields = ('date_created', 'date_modified', 'order_title',
-                                                                'diary_references', )
+                                                        'last_comment_time', )
     filter_horizontal = ('categories', )
     search_fields = ['title', ]
     fieldsets = (
         (None, {
             'fields': ('title', 'order_title', 'categories',
                         'summary', 'wheatley',
-                        'tooltip_text', 'wikipedia_fragment',
-                        'date_created', 'date_modified', ),
+                        'tooltip_text', 'wikipedia_fragment', ),
         }),
         ('People', {
-            'fields': ('thumbnail', )
+            'fields': ('thumbnail', 'on_pepys_family_tree', ),
         }),
         ('Places', {
             'fields': ('map_category', 'latitude', 'longitude', 'zoom',
-                        'shape', )
+                        'shape', ),
         }),
-        # ('References', {
-        #     'fields': ('diary_references', )
-        # }),
+        (None, {
+            'fields': ('date_created', 'date_modified', 'comment_count',
+                                                        'last_comment_time', ),
+        }),
     )
 
     def save_related(self, request, form, formsets, change):

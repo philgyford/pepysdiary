@@ -186,7 +186,7 @@ class Topic(PepysModel):
     summary_html = models.TextField(blank=True, null=False,
         help_text="The summary field, with Markdown etc, turned into HTML.")
     wheatley = models.TextField(blank=True, null=False,
-        help_text="Taken from footnotes in the 1893 Wheatley edition of the diary. Can use Markdown.")
+        help_text="Can use Markdown. Taken from footnotes in the 1893 Wheatley edition of the diary.")
     wheatley_html = models.TextField(blank=True, null=False,
         help_text="The wheatley field, with Markdown etc, turned into HTML.")
     tooltip_text = models.TextField(blank=True, null=False,
@@ -196,7 +196,10 @@ class Topic(PepysModel):
         help_text="From the Wikipedia page URL, if any, eg, 'Samuel_Pepys'.")
     thumbnail = models.ImageField(upload_to='encyclopedia/thumbnails',
         blank=True, null=True, help_text="100 x 120 pixels")
+    on_pepys_family_tree = models.BooleanField(blank=False, null=False,
+        verbose_name='Is on the Pepys family tree?', default=False)
     comment_count = models.IntegerField(default=0, blank=False, null=False)
+    last_comment_time = models.DateTimeField(blank=True, null=True)
 
     map_category = models.CharField(max_length=20, blank=True, null=False,
                                 choices=MAP_CATEGORY_CHOICES,
