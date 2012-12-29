@@ -16,7 +16,7 @@ class Command(BaseCommand):
     creates a new Django object for each one.
 
     Usage:
-    $ ./manage.py import_mt_articles
+    $ ./manage.py import_mt_posts
     """
     option_list = BaseCommand.option_list + (
         make_option('--all',
