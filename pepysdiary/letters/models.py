@@ -4,12 +4,12 @@ import re
 from django.core.urlresolvers import reverse
 from django.db import models
 
-from pepysdiary.common.models import PepysModel
+from pepysdiary.common.models import PepysModel, OldDateMixin
 from pepysdiary.common.utilities import *
 from pepysdiary.encyclopedia.models import Topic
 
 
-class Letter(PepysModel):
+class Letter(PepysModel, OldDateMixin):
 
     GUY_DE_LA_BEDOYERE_SOURCE = 10
     HELEN_TRUESDELL_HEATH_SOURCE = 20
@@ -37,6 +37,8 @@ class Letter(PepysModel):
     comment_count = models.IntegerField(default=0, blank=False, null=False)
     last_comment_time = models.DateTimeField(blank=True, null=True)
 
+    old_date_field = 'letter_date'
+
     # Will also have a 'topics' ManyToMany field, from Topic.
 
     class Meta:
@@ -56,24 +58,6 @@ class Letter(PepysModel):
                 'day': self.day,
                 'slug': self.slug,
             })
-
-    # Because strftime can't cope with very old dates, we have to get
-    # year/month/day like this...
-
-    @property
-    def year(self):
-        """Year of the Letter like '1660', '1661', etc."""
-        return get_year(self.letter_date)
-
-    @property
-    def month(self):
-        """Month of the Letter like '01', '02', '12', etc."""
-        return get_month(self.letter_date)
-
-    @property
-    def day(self):
-        """Day of the Letter like '01', '02', '31', etc."""
-        return get_day(self.letter_date)
 
     def make_references(self):
         self.topics.clear()

@@ -6,8 +6,7 @@ from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.db import models
 
-from pepysdiary.common.models import PepysModel
-from pepysdiary.common.utilities import *
+from pepysdiary.common.models import PepysModel, OldDateMixin
 from pepysdiary.encyclopedia.models import Topic
 
 
@@ -33,7 +32,7 @@ class EntryManager(models.Manager):
                     )
 
 
-class Entry(PepysModel):
+class Entry(PepysModel, OldDateMixin):
     title = models.CharField(max_length=100, blank=False, null=False)
     diary_date = models.DateField(blank=False, null=False, unique=True)
     text = models.TextField(blank=False, null=False,
@@ -44,6 +43,8 @@ class Entry(PepysModel):
     last_comment_time = models.DateTimeField(blank=True, null=True)
 
     # Will also have a 'topics' ManyToMany field, from Topic.
+
+    old_date_field = 'diary_date'
 
     objects = EntryManager()
 
@@ -65,34 +66,6 @@ class Entry(PepysModel):
                 'day': self.day,
             })
 
-    # Because strftime can't cope with very old dates, we have to get
-    # year/month/day like this...
-
-    @property
-    def year(self):
-        """Year of the Entry like '1660', '1661', etc."""
-        return get_year(self.diary_date)
-
-    @property
-    def month(self):
-        """Month of the Entry like '01', '02', '12', etc."""
-        return get_month(self.diary_date)
-
-    @property
-    def month_b(self):
-        """Month of the Entry like 'Jan', 'Feb', 'Dec', etc."""
-        return get_month_b(self.diary_date)
-
-    @property
-    def day(self):
-        """Day of the Entry like '01', '02', '31', etc."""
-        return get_day(self.diary_date)
-
-    @property
-    def day_e(self):
-        """Day of the Entry like '1', '2', '31', etc."""
-        return get_day_e(self.diary_date)
-
     def make_references(self):
         self.topics.clear()
         # Get a list of all the Topic IDs mentioned in text and footnotes:
@@ -107,3 +80,4 @@ class Entry(PepysModel):
         for id in unique_ids:
             topic = Topic.objects.get(pk=id)
             topic.diary_references.add(self)
+
