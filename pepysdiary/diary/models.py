@@ -6,6 +6,8 @@ from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.db import models
 
+from markdown import markdown
+
 from pepysdiary.common.models import PepysModel, OldDateMixin
 from pepysdiary.encyclopedia.models import Topic
 
@@ -81,3 +83,28 @@ class Entry(PepysModel, OldDateMixin):
             topic = Topic.objects.get(pk=id)
             topic.diary_references.add(self)
 
+
+class Summary(PepysModel, OldDateMixin):
+    """
+    The monthly summaries of diary events.
+    """
+    title = models.CharField(max_length=100, blank=False, null=False)
+    text = models.TextField(blank=False, null=False,
+                                        help_text="Can use Markdown.")
+    text_html = models.TextField(blank=False, null=False,
+            help_text="The text field, with Markdown etc, turned into HTML.")
+    summary_date = models.DateField(blank=False, null=False,
+                            help_text="Only the month and year are relevant.")
+
+    old_date_field = 'summary_date'
+
+    class Meta:
+        ordering = ['summary_date', ]
+        verbose_name_plural = 'Summaries'
+
+    def __unicode__(self):
+        return self.title
+
+    def save(self, *args, **kwargs):
+        self.text_html = markdown(self.text)
+        super(Summary, self).save(*args, **kwargs)

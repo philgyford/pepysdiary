@@ -4,9 +4,10 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.http import Http404
 from django.utils.translation import ugettext as _
 from django.views.generic.dates import _date_from_string,\
-    _date_lookup_for_field, ArchiveIndexView, DateDetailView, MonthArchiveView
+    _date_lookup_for_field, ArchiveIndexView, DateDetailView,\
+    MonthArchiveView, YearArchiveView
 
-from pepysdiary.diary.models import Entry
+from pepysdiary.diary.models import Entry, Summary
 
 
 class EntryMixin(object):
@@ -128,3 +129,17 @@ class EntryArchiveView(EntryMixin, ArchiveIndexView):
             object_list = qs.none()
 
         return (date_list, object_list, {})
+
+
+class SummaryYearArchiveView(YearArchiveView):
+    """Show all the Summaries from one year."""
+    model = Summary
+    date_field = 'summary_date'
+    make_object_list = True
+
+    def get_context_data(self, **kwargs):
+        context = super(SummaryYearArchiveView, self).get_context_data(
+                                                                    **kwargs)
+        context['year_list'] = ['1660', '1661', '1662', '1663', '1664', '1665',
+                                            '1666', '1667', '1668', '1669', ]
+        return context

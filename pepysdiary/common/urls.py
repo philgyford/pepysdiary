@@ -16,7 +16,7 @@ urlpatterns = patterns('',
 
     # From main /archive/ page.
     url(r'^archive/$', RedirectView.as_view(
-                                    url=reverse_lazy('diary_entry_archive'))),
+                                        url=reverse_lazy('entry_archive'))),
 
     # From /archive/1660/01/01/index.php URLs:
     url(r'^archive/(?P<year>\d{4})/(?P<month>\d{2})/(?P<day>\d{2})/(index\.php)?$',
@@ -55,6 +55,11 @@ urlpatterns = patterns('',
     url(r'^about/archive/(?P<year>\d{4})/(?P<month>\d{2})/(?P<day>\d{2})/(?P<pk>\d+)/',
         PostRedirectView.as_view()
     ),
+
+    # SUMMARY.
+
+    url(r'^about/history/(?P<year>\d{4})/$',
+                                            SummaryYearRedirectView.as_view()),
 )
 
 

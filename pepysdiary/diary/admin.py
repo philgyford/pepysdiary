@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from pepysdiary.diary.models import Entry
+from pepysdiary.diary.models import Entry, Summary
 
 
 class EntryAdmin(admin.ModelAdmin):
@@ -18,3 +18,19 @@ class EntryAdmin(admin.ModelAdmin):
     )
 
 admin.site.register(Entry, EntryAdmin)
+
+
+class SummaryAdmin(admin.ModelAdmin):
+    list_display = ('title', )
+    search_fields = ['title', 'text', ]
+    readonly_fields = ('date_created', 'date_modified', )
+    fieldsets = (
+        (None, {
+            'fields': ('title', 'summary_date', 'text', ),
+        }),
+        (None, {
+            'fields': ('date_created', 'date_modified', ),
+        }),
+    )
+
+admin.site.register(Summary, SummaryAdmin)

@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% load url from future %}
+
+{% block diary_nav_active %}active{% endblock %}
+
+{% block title %}Summary of {{ year }}{% endblock %}}
+
+{% block content %}
+
+	{% load scaffolding_tags %}
+	{% load text_formatting_filters %}
+
+	{% sidebar_row_start %}
+
+		{% for summary in summary_list reversed %}
+			<article class="summary">
+				<h2>{{ summary.summary_date|date:"F Y" }}</h2>
+
+				{{ summary.text_html|smartypants|safe }}
+			</article>
+		{% endfor %}
+
+	{% sidebar_row_middle %}
+
+		{% include "inc/summary_year_nav.html" %}
+
+		<p>Many thanks to <strong>Jeannine Kerwin</strong> and <strong>Dirk Van de Putte</strong> for writing these summaries of the diary's events.</p>
+
+	{% sidebar_row_end %}
+
+{% endblock content %}

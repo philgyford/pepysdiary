@@ -76,3 +76,12 @@ class PostRedirectView(RedirectView):
     def get_redirect_url(self, year, month, day, pk):
         return reverse('post_detail', kwargs={
             'year': year, 'month': month, 'day': day, 'pk': pk, })
+
+
+class SummaryYearRedirectView(RedirectView):
+    """
+    To help with redirecting from old
+    /about/history/1660/ URLs to the new Summary URLs.
+    """
+    def get_redirect_url(self, year):
+        return reverse('summary_year_archive', kwargs={'year': year, })

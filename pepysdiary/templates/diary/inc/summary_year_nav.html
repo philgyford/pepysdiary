@@ -1,0 +1,14 @@
+{% comment %}
+For the sidebar in Summaries.
+We expect:
+	year_list (Just a list like ['1660', '1661', ...])
+And maybe:
+	year (the current year)
+{% endcomment %}
+
+{% load url from future %}
+<ul class="nav nav-tabs nav-stacked">
+	{% for y in year_list %}
+		<li{% if y == year %} class="active"{% endif %}><a href="{% url 'summary_year_archive' year=y %}">{{ y }}</a></li>
+	{% endfor %}
+</ul>

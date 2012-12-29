@@ -12,7 +12,7 @@
 	{% sidebar_row_start %}
 
 		<p class="lead">Every entry of Samuel Pepys’ diary, in separate monthly pages.</p>
-		
+
 		<ul class="diary-archive">
 		{% for month in date_list reversed %}
 			{% ifchanged month|date:'Y' %}
@@ -23,7 +23,7 @@
 		<li><span>{{ month|date:'Y' }}</span>
 			<ul>
 			{% endifchanged %}
-			<li><a href="{% url 'diary_entry_month_archive' year=month|date:'Y' month=month|date:'m' %}">{{ month|date:'M' }}</a></li>
+			<li><a href="{% url 'entry_month_archive' year=month|date:'Y' month=month|date:'m' %}">{{ month|date:'M' }}</a></li>
 		{% endfor %}
 			</ul>
 		</li>
