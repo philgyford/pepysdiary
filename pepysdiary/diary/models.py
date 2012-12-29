@@ -36,9 +36,12 @@ class EntryManager(models.Manager):
 class Entry(PepysModel):
     title = models.CharField(max_length=100, blank=False, null=False)
     diary_date = models.DateField(blank=False, null=False, unique=True)
-    text = models.TextField(blank=False, null=False)
-    footnotes = models.TextField(blank=True, null=False)
+    text = models.TextField(blank=False, null=False,
+                                        help_text="HTML only, no Markdown.")
+    footnotes = models.TextField(blank=True, null=False,
+                                        help_text="HTML only, no Markdown.")
     comment_count = models.IntegerField(default=0, blank=False, null=False)
+    last_comment_time = models.DateTimeField(blank=True, null=True)
 
     # Will also have a 'topics' ManyToMany field, from Topic.
 
