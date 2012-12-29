@@ -1,0 +1,1 @@
+web: python manage.py runserver --noreload --settings=pepysdiary.settings.heroku 0.0.0.0:$PORT
