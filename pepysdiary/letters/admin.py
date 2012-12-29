@@ -7,6 +7,7 @@ class LetterAdmin(admin.ModelAdmin):
     list_display = ('letter_date', 'title', 'comment_count', )
     readonly_fields = ('date_created', 'date_modified', )
     raw_id_fields = ('sender', 'recipient', )
+    search_fields = ('title', 'text', 'footnotes', 'excerpt', )
     fieldsets = (
         (None, {
             'fields': ('title', 'letter_date', 'display_date',
@@ -17,7 +18,8 @@ class LetterAdmin(admin.ModelAdmin):
             'fields': ('text', 'footnotes', 'excerpt', )
         }),
         (None, {
-            'fields': ('comment_count', 'date_created', 'date_modified', )
+            'fields': ('date_created', 'date_modified', 'comment_count',
+                                                        'last_comment_time', ),
         }),
     )
 

@@ -35,6 +35,7 @@ class Letter(PepysModel):
     slug = models.SlugField(max_length=50, blank=False, null=False,
                                                 unique_for_date='letter_date')
     comment_count = models.IntegerField(default=0, blank=False, null=False)
+    last_comment_time = models.DateTimeField(blank=True, null=True)
 
     # Will also have a 'topics' ManyToMany field, from Topic.
 
