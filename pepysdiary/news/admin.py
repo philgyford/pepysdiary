@@ -7,7 +7,7 @@ class PostAdmin(admin.ModelAdmin):
     list_display = ('title', 'status', 'category', 'date_published',
                                                             'comment_count', )
     search_fields = ['title', 'intro', 'text', ]
-    readonly_fields = ('date_created', 'date_modified', )
+    readonly_fields = ('date_created', 'date_modified', 'last_comment_time', )
     fieldsets = (
         (None, {
             'fields': ('title', 'status', 'date_published', )
@@ -16,7 +16,8 @@ class PostAdmin(admin.ModelAdmin):
             'fields': ('category', 'intro', 'text', )
         }),
         (None, {
-            'fields': ('comment_count', 'date_created', 'date_modified', )
+            'fields': ('date_created', 'date_modified', 'comment_count',
+                                                        'last_comment_time', ),
         }),
     )
 

@@ -76,6 +76,7 @@ class Post(PepysModel):
             help_text="The text field, with Markdown etc, turned into HTML.")
     date_published = models.DateTimeField(blank=True, null=True)
     comment_count = models.IntegerField(default=0, blank=False, null=False)
+    last_comment_time = models.DateTimeField(blank=True, null=True)
 
     status = models.IntegerField(blank=False, null=False,
                                 choices=STATUS_CHOICES, default=STATUS_DRAFT)
