@@ -130,7 +130,11 @@ INSTALLED_APPS = (
     'pepysdiary.letters',
     'pepysdiary.indepth',
     'pepysdiary.news',
+    'django.contrib.comments',
+    'pepysdiary.annotations',
 )
+
+COMMENTS_APP = 'pepysdiary.annotations'
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
