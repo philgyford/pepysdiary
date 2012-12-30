@@ -8,7 +8,6 @@
 	-webkit-border-radius: 0px;
 	-moz-border-radius: 0px;
 	border-radius: 0px;
-	border-top-width: 0px;
 }
 @media (min-width: 980px) {
 	.navbar .container {
@@ -52,6 +51,14 @@
 
 cite {
 	font-style: italic;
+}
+ul.feeds {
+	margin-left: 0;
+	list-style-type: none;
+}
+.feed a {
+	padding-left: 20px;
+	background: url(../img/feed-icon-14x14.png) left 1px no-repeat;
 }
 
 /* Header */
@@ -127,8 +134,16 @@ cite {
 .comments h4 .comment-name {
 	font-weight: bold;
 }
-/* entry_archive */
 
+/* Entries */
+
+.footnotes {
+	margin-top: 1em;
+	border-top: 1px solid #d8d7cc;
+	padding-top: 1em;
+}
+
+/* entry_archive */
 .diary-archive,
 .diary-archive ul {
 	list-style-type: none;

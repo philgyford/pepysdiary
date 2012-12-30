@@ -30,6 +30,11 @@
 			</dl>
 		{% endif %}
 
+		{% load widget_tags %}
+		<ul class="feeds">
+			{% rss_feed_link kind='diary' %}
+		</ul>
+
 
 	{% sidebar_row_end %}
 

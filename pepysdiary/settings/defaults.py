@@ -176,7 +176,7 @@ SERVER_EMAIL = 'do-not-reply@pepysdiary.com'
 
 
 # How many years ahead of the diary entries are we?
-YEARS_OFFSET = 350
+YEARS_OFFSET = 353
 
 # We have to do special things to some Encyclopedia Topics depending on
 # whether they're in the 'People' category. So we need to store its ID:

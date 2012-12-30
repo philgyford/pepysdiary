@@ -23,6 +23,11 @@ urlpatterns = patterns('',
         DiaryEntryRedirectView.as_view()
     ),
 
+    # The URL of the RSS feed that Feedburner fetches.
+    url(r'^syndication/full-fb\.rdf$', RedirectView.as_view(
+                                            url=reverse_lazy('entry_rss'))),
+
+
     # LETTERS.
 
     # From /letters/1660/01/01/slug-field.php URLs:
