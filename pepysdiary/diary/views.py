@@ -1,12 +1,14 @@
 #! -*- coding: utf-8 -*-
 import datetime
 
+import smartypants
+
 from django.contrib.sites.models import Site
 from django.contrib.syndication.views import add_domain, Feed
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import Http404
 from django.utils.encoding import force_unicode
-from django.utils.html import escape
+from django.utils.html import escape, strip_tags
 from django.utils.translation import ugettext as _
 from django.views.generic.dates import _date_from_string,\
     _date_lookup_for_field, ArchiveIndexView, DateDetailView,\
@@ -174,18 +176,19 @@ class LatestEntriesFeed(Feed):
 
     def item_description(self, item):
         length = 250
-        if len(item.text) <= length:
-            return force_unicode(item.text)
+        text = strip_tags(item.text)
+        if len(text) <= length:
+            return force_unicode(text)
         else:
-            return ' '.join(item.text[:length + 1].split(' ')[0:-1]) + '...'
+            return ' '.join(text[:length + 1].split(' ')[0:-1]) + '...'
 
     def item_author_name(self, item):
         return 'Samuel Pepys'
 
     def item_content_encoded(self, item):
         return '<![CDATA[%s %s <p><strong><a href="%s#annotations">Read the annotations</a></strong></p>]>' % (
-            force_unicode(item.text),
-            force_unicode(item.footnotes),
+            force_unicode(smartypants.smartyPants(item.text)),
+            force_unicode(smartypants.smartyPants(item.footnotes)),
             add_domain(Site.objects.get_current().domain,
                                                     item.get_absolute_url())
         )

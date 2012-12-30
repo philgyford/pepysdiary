@@ -61,6 +61,10 @@ urlpatterns = patterns('',
         PostRedirectView.as_view()
     ),
 
+    # The URL of the RSS feed that Feedburner fetches.
+    url(r'^syndication/recentnews-fb\.rdf$', RedirectView.as_view(
+                                            url=reverse_lazy('post_rss'))),
+
     # SUMMARY.
 
     url(r'^about/history/(?P<year>\d{4})/$',

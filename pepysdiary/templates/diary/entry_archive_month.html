@@ -21,6 +21,11 @@
 			<p>Previous: <a href="{% url 'entry_month_archive' year=previous_month|date:'Y' month=previous_month|date:'m' %}">{{ previous_month|date:"F Y" }}</a></p>
 		{% endif %}
 
+		{% load widget_tags %}
+		<ul class="feeds">
+			{% rss_feed_link kind='entries' %}
+		</ul>
+
 	{% sidebar_row_end %}
 
 {% endblock content %}

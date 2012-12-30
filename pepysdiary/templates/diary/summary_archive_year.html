@@ -26,6 +26,11 @@
 
 		<p>Many thanks to <strong>Jeannine Kerwin</strong> and <strong>Dirk Van de Putte</strong> for writing these summaries of the diary's events.</p>
 
+		{% load widget_tags %}
+		<ul class="feeds">
+			{% rss_feed_link kind='entries' %}
+		</ul>
+
 	{% sidebar_row_end %}
 
 {% endblock content %}
