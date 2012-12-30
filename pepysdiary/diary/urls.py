@@ -18,4 +18,5 @@ urlpatterns = patterns('',
     url(r'^summary/(?P<year>\d{4})/$',
                 SummaryYearArchiveView.as_view(), name='summary_year_archive'),
 
+    url(r'^rss/$', LatestEntriesFeed(), name='entry_rss'),
 )

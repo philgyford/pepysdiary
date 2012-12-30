@@ -68,6 +68,16 @@ class Entry(PepysModel, OldDateMixin):
                 'day': self.day,
             })
 
+    @property
+    def date_published(self):
+        """The modern-day datetime this item would be published."""
+        tz = pytz.timezone('Europe/London')
+        return datetime.datetime(
+                            int(self.year) + settings.YEARS_OFFSET,
+                            int(self.month),
+                            int(self.day),
+                            23, 0, 0).replace(tzinfo=tz)
+
     def make_references(self):
         self.topics.clear()
         # Get a list of all the Topic IDs mentioned in text and footnotes:

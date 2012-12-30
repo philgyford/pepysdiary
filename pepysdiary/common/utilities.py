@@ -1,5 +1,7 @@
 import re
 
+from django.utils.feedgenerator import Rss201rev2Feed
+
 
 def fix_old_links(text):
     """
@@ -99,3 +101,17 @@ def get_day_e(date_obj):
     else:
         return d
 
+
+class ExtendedRSSFeed(Rss201rev2Feed):
+    """
+    Create a type of RSS feed that has content:encoded elements.
+    Should be used as the feed_type for View classes that inherit Feed.
+    """
+    def root_attributes(self):
+        attrs = super(ExtendedRSSFeed, self).root_attributes()
+        attrs['xmlns:content'] = 'http://purl.org/rss/1.0/modules/content/'
+        return attrs
+
+    def add_item_elements(self, handler, item):
+        super(ExtendedRSSFeed, self).add_item_elements(handler, item)
+        handler.addQuickElement(u'content:encoded', item['content_encoded'])

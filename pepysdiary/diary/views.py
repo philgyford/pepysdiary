@@ -1,12 +1,18 @@
+#! -*- coding: utf-8 -*-
 import datetime
 
+from django.contrib.sites.models import Site
+from django.contrib.syndication.views import add_domain, Feed
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import Http404
+from django.utils.encoding import force_unicode
+from django.utils.html import escape
 from django.utils.translation import ugettext as _
 from django.views.generic.dates import _date_from_string,\
     _date_lookup_for_field, ArchiveIndexView, DateDetailView,\
     MonthArchiveView, YearArchiveView
 
+from pepysdiary.common.utilities import ExtendedRSSFeed
 from pepysdiary.diary.models import Entry, Summary
 
 
@@ -143,3 +149,43 @@ class SummaryYearArchiveView(YearArchiveView):
         context['year_list'] = ['1660', '1661', '1662', '1663', '1664', '1665',
                                             '1666', '1667', '1668', '1669', ]
         return context
+
+
+class LatestEntriesFeed(Feed):
+    feed_type = ExtendedRSSFeed
+
+    link = '/'
+    title = "The Diary of Samuel Pepys"
+    description = 'Daily entries from the 17th century London diary'
+
+    def items(self):
+        return Entry.objects.filter(
+                diary_date__lte=Entry.objects.most_recent_entry_date
+            ).order_by('-diary_date')[:5]
+
+    def item_extra_kwargs(self, item):
+        return {'content_encoded': self.item_content_encoded(item)}
+
+    def item_title(self, item):
+        return escape(force_unicode(item.title))
+
+    def item_pubdate(self, item):
+        return item.date_published
+
+    def item_description(self, item):
+        length = 250
+        if len(item.text) <= length:
+            return force_unicode(item.text)
+        else:
+            return ' '.join(item.text[:length + 1].split(' ')[0:-1]) + '...'
+
+    def item_author_name(self, item):
+        return 'Samuel Pepys'
+
+    def item_content_encoded(self, item):
+        return '<![CDATA[%s %s <p><strong><a href="%s#annotations">Read the annotations</a></strong></p>]>' % (
+            force_unicode(item.text),
+            force_unicode(item.footnotes),
+            add_domain(Site.objects.get_current().domain,
+                                                    item.get_absolute_url())
+        )

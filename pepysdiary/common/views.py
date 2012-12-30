@@ -22,6 +22,9 @@ class HomeView(TemplateView):
         return context
 
 
+
+# ALL THE REDIRECT VIEWS:
+
 class DiaryEntryRedirectView(RedirectView):
     """
     To help with redirecting from old /archive/1660/01/01/index.php URLs to the
