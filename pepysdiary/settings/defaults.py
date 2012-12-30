@@ -110,6 +110,7 @@ TEMPLATE_CONTEXT_PROCESSORS = global_settings.TEMPLATE_CONTEXT_PROCESSORS + (
     # Needed for django-treebeard admin:
     'django.core.context_processors.request',
     'pepysdiary.common.context_processors.date_formats',
+    'pepysdiary.common.context_processors.api_keys',
 )
 
 INSTALLED_APPS = (
@@ -185,3 +186,13 @@ PEOPLE_CATEGORY_ID = 2
 # We have a Topic for Samuel Pepys, which occasionally needs special
 # treatment, so we store its ID here:
 PEPYS_TOPIC_ID = 29
+
+
+# The IDs of the various Movable Type blogs that we do one-off imports of data
+# from:
+MT_DIARY_BLOG_ID = 3
+MT_ENCYCLOPEDIA_BLOG_ID = 4
+MT_IN_DEPTH_BLOG_ID = 19
+MT_NEWS_BLOG_ID = 5
+MT_STORY_SO_FAR_BLOG_ID = 6
+MT_LETTERS_BLOG_ID = 38

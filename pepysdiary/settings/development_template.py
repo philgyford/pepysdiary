@@ -41,12 +41,3 @@ MT_MYSQL_DB_NAME = ''
 MT_MYSQL_DB_USER = ''
 MT_MYSQL_DB_PASSWORD = ''
 MT_MYSQL_DB_HOST = ''
-
-# The IDs of the various Movable Type blogs that we do one-off imports of data
-# from:
-MT_DIARY_BLOG_ID = 3
-MT_ENCYCLOPEDIA_BLOG_ID = 4
-MT_IN_DEPTH_BLOG_ID = 19
-MT_NEWS_BLOG_ID = 5
-MT_STORY_SO_FAR_BLOG_ID = 6
-MT_LETTERS_BLOG_ID = 38
