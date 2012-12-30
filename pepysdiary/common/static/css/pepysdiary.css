@@ -12,6 +12,27 @@ cite {
 	-moz-border-radius: 0px;
 	border-radius: 0px;
 }
+.well-manuscript li {
+	line-height: 24px;
+	margin-bottom: 10px;
+}
+
+/* Comments */
+
+.comments {
+	border-top: 1px solid #E3E3E3;
+	padding-top: 1em;
+	margin-bottom: 2em;
+}
+.comments .media {
+	border-bottom: 1px solid #E3E3E3;
+}
+.comments h4 {
+	font-weight: normal;
+}
+.comments h4 .comment-name {
+	font-weight: bold;
+}
 /* entry_archive */
 
 .diary-archive,

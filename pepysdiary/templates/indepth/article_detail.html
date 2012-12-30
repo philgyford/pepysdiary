@@ -19,6 +19,8 @@
 
 		{{ article.text_html|smartypants|safe }}
 
+		{% include 'inc/comments.html' with object=article comment_name="comment" %}
+
 	{% sidebar_row_middle %}
 
 		{% include 'inc/next_previous.html' with next=next_article previous=previous_article %}

@@ -20,7 +20,7 @@
 			{% endif %}
 		</div>
 
-		<p>{{ entry.diary_date }} | {{ entry.comment_count }} comment{{ entry.comment_count|pluralize }}</p>
+		{% include 'inc/comments.html' with object=entry comment_name="annotation" %}
 
 	{% sidebar_row_middle %}
 

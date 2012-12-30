@@ -23,6 +23,8 @@
 			{{ letter.footnotes|smartypants|safe }}
 		{% endif %}
 
+		{% include 'inc/comments.html' with object=letter comment_name="annotation" %}
+
 	{% sidebar_row_middle %}
 
 		<h2>Correspondents</h2>
