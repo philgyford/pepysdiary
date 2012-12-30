@@ -3,6 +3,7 @@ from django.views.generic import RedirectView
 from django.views.generic.base import TemplateView
 
 from pepysdiary.diary.models import Entry
+from pepysdiary.news.models import Post
 
 
 class HomeView(TemplateView):
@@ -16,6 +17,7 @@ class HomeView(TemplateView):
                 diary_date__lte=Entry.objects.most_recent_entry_date
             ).order_by('-diary_date')[:7]
 
+        context['post_list'] = Post.published_posts.all()[:2]
         return context
 
 

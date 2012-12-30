@@ -20,6 +20,17 @@
 
 	{% sidebar_row_middle %}
 
+		{% if post_list %}
+			<h4>Latest Site News</h4>
+			<dl>
+				{% for post in post_list %}
+					<dt><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></dt>
+					<dd>{{ post.date_published|date:date_format_longest }}</dd>
+				{% endfor %}
+			</dl>
+		{% endif %}
+
+
 	{% sidebar_row_end %}
 
 {% endblock content %}
