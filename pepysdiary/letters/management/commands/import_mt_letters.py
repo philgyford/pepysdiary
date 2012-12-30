@@ -11,6 +11,8 @@ from pepysdiary.common.utilities import fix_old_links
 from pepysdiary.encyclopedia.models import Topic
 from pepysdiary.letters.models import Letter
 
+# You'll need to: pip install MySQL-python
+
 
 class Command(BaseCommand):
     """

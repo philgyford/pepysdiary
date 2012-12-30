@@ -9,6 +9,8 @@ from django.core.management.base import BaseCommand
 from pepysdiary.common.utilities import fix_old_links
 from pepysdiary.indepth.models import Article
 
+# You'll need to: pip install MySQL-python
+
 
 class Command(BaseCommand):
     """

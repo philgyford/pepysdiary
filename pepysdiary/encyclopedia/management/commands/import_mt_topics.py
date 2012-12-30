@@ -11,6 +11,8 @@ from pepysdiary.common.utilities import fix_old_links
 from pepysdiary.encyclopedia.models import Category, Topic
 
 
+# You'll need to: pip install MySQL-python
+
 # NOTE:
 # After running this, I added the `on_pepys_family_tree` field, and ran this
 # query to update the Topics:

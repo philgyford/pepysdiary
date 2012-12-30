@@ -4,8 +4,10 @@ PIL==1.1.7
 South==0.7.6
 dj-database-url==0.2.1
 django-debug-toolbar==0.9.4
+django-pylibmc-sasl==0.2.4
 django-treebeard==1.61
 psycopg2==2.4.5
+pylibmc==1.2.3
 pytz==2012h
 smartypants==1.6.0.3
 wsgiref==0.1.2
