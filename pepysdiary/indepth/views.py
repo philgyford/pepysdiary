@@ -1,6 +1,7 @@
 from django.views.generic.dates import DateDetailView
 from django.views.generic.list import ListView
 
+from pepysdiary.common.views import BaseRSSFeed
 from pepysdiary.indepth.models import Article
 
 
@@ -52,3 +53,21 @@ class ArticleDetailView(DateDetailView):
 class ArticleArchiveView(ListView):
     model = Article
     queryset = Article.published_articles.all()
+
+
+class LatestArticlesFeed(BaseRSSFeed):
+    title = "Pepys' Diary - In-Depth Articles"
+    description = "Articles about Samuel Pepys and his world"
+
+    def items(self):
+        return Article.published_articles.all().order_by('-date_published')[:2]
+
+    def item_description(self, item):
+        return self.make_item_description(item.intro_html)
+
+    def item_content_encoded(self, item):
+        return self.make_item_content_encoded(
+            text1=item.intro_html,
+            text2=item.text_html,
+            url=item.get_absolute_url(),
+            comment_name='annotation')

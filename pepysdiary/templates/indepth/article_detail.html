@@ -24,6 +24,11 @@
 	{% sidebar_row_middle %}
 
 		{% include 'inc/next_previous.html' with next=next_article previous=previous_article %}
+	
+		{% load widget_tags %}
+		<ul class="feeds">
+			{% rss_feed_link kind='entries' %}
+		</ul>
 
 	{% sidebar_row_end %}
 

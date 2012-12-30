@@ -24,6 +24,11 @@
 		{% endfor %}
 
 	{% sidebar_row_middle %}
+	
+		{% load widget_tags %}
+		<ul class="feeds">
+			{% rss_feed_link kind='entries' %}
+		</ul>
 
 	{% sidebar_row_end %}
 

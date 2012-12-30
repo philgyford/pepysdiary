@@ -51,6 +51,10 @@ urlpatterns = patterns('',
         ArticleRedirectView.as_view()
     ),
 
+    # The URL of the RSS feed that Feedburner fetches.
+    url(r'^syndication/indepth-fb\.rdf$', RedirectView.as_view(
+                                            url=reverse_lazy('article_rss'))),
+
     # SITE NEWS.
 
     # From main Site News front page.

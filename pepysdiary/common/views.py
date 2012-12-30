@@ -1,7 +1,14 @@
+import smartypants
+
+from django.contrib.sites.models import Site
+from django.contrib.syndication.views import add_domain, Feed
 from django.core.urlresolvers import reverse
+from django.utils.encoding import force_unicode
+from django.utils.html import escape, strip_tags
 from django.views.generic import RedirectView
 from django.views.generic.base import TemplateView
 
+from pepysdiary.common.utilities import ExtendedRSSFeed
 from pepysdiary.diary.models import Entry
 from pepysdiary.news.models import Post
 
@@ -21,6 +28,50 @@ class HomeView(TemplateView):
         context['page_name'] = 'home'
         return context
 
+
+class BaseRSSFeed(Feed):
+    feed_type = ExtendedRSSFeed
+
+    link = '/'
+    # Children should also have:
+    # title
+    # description
+
+    def item_extra_kwargs(self, item):
+        return {'content_encoded': self.item_content_encoded(item)}
+
+    def item_title(self, item):
+        return escape(force_unicode(item.title))
+
+    def item_pubdate(self, item):
+        return item.date_published
+
+    def item_author_name(self, item):
+        return 'Phil Gyford'
+
+    def make_item_description(self, text):
+        "Called by item_description() in children."
+        length = 250
+        text = strip_tags(text)
+        if len(text) <= length:
+            return force_unicode(text)
+        else:
+            return ' '.join(text[:length + 1].split(' ')[0:-1]) + '...'
+
+    def make_item_content_encoded(self, text1, text2, url, comment_name):
+        """
+        Called from item_content_encoded() in children.
+        text1 and text2 are chunks of HTML text (or empty strings).
+        url is the URL of the item (no domain needed, eg '/diary/1666/10/31/').
+        comment_name is one of 'comment' or 'annotation'.
+        """
+        return '<![CDATA[%s %s <p><strong><a href="%s#%s">Read the %ss</a></strong></p>]>' % (
+            force_unicode(smartypants.smartyPants(text1)),
+            force_unicode(smartypants.smartyPants(text2)),
+            add_domain(Site.objects.get_current().domain, url),
+            comment_name,
+            comment_name
+        )
 
 
 # ALL THE REDIRECT VIEWS:

@@ -1,20 +1,14 @@
 #! -*- coding: utf-8 -*-
 import datetime
 
-import smartypants
-
-from django.contrib.sites.models import Site
-from django.contrib.syndication.views import add_domain, Feed
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import Http404
-from django.utils.encoding import force_unicode
-from django.utils.html import escape, strip_tags
 from django.utils.translation import ugettext as _
 from django.views.generic.dates import _date_from_string,\
     _date_lookup_for_field, ArchiveIndexView, DateDetailView,\
     MonthArchiveView, YearArchiveView
 
-from pepysdiary.common.utilities import ExtendedRSSFeed
+from pepysdiary.common.views import BaseRSSFeed
 from pepysdiary.diary.models import Entry, Summary
 
 
@@ -153,10 +147,7 @@ class SummaryYearArchiveView(YearArchiveView):
         return context
 
 
-class LatestEntriesFeed(Feed):
-    feed_type = ExtendedRSSFeed
-
-    link = '/'
+class LatestEntriesFeed(BaseRSSFeed):
     title = "The Diary of Samuel Pepys"
     description = 'Daily entries from the 17th century London diary'
 
@@ -165,30 +156,16 @@ class LatestEntriesFeed(Feed):
                 diary_date__lte=Entry.objects.most_recent_entry_date
             ).order_by('-diary_date')[:5]
 
-    def item_extra_kwargs(self, item):
-        return {'content_encoded': self.item_content_encoded(item)}
-
-    def item_title(self, item):
-        return escape(force_unicode(item.title))
-
-    def item_pubdate(self, item):
-        return item.date_published
-
     def item_description(self, item):
-        length = 250
-        text = strip_tags(item.text)
-        if len(text) <= length:
-            return force_unicode(text)
-        else:
-            return ' '.join(text[:length + 1].split(' ')[0:-1]) + '...'
+        return self.make_item_description(item.text)
 
     def item_author_name(self, item):
         return 'Samuel Pepys'
 
     def item_content_encoded(self, item):
-        return '<![CDATA[%s %s <p><strong><a href="%s#annotations">Read the annotations</a></strong></p>]>' % (
-            force_unicode(smartypants.smartyPants(item.text)),
-            force_unicode(smartypants.smartyPants(item.footnotes)),
-            add_domain(Site.objects.get_current().domain,
-                                                    item.get_absolute_url())
+        return self.make_item_content_encoded(
+            text1=item.text,
+            text2=item.footnotes,
+            url=item.get_absolute_url(),
+            comment_name='annotation'
         )
