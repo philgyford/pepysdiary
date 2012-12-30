@@ -8,6 +8,8 @@ from pepysdiary.encyclopedia.views import *
 urlpatterns = patterns('',
     url(r'^$', EncyclopediaView.as_view(), name='encyclopedia'),
 
+    url(r'^rss/$', LatestTopicsFeed(), name='topic_rss'),
+
     url(r'^(?P<pk>\d+)/$', TopicDetailView.as_view(),
                                                     name='topic_detail'),
 

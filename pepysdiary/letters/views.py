@@ -6,6 +6,7 @@ from django.views.generic.base import TemplateView
 from django.views.generic.dates import DateDetailView
 from django.views.generic.list import ListView
 
+from pepysdiary.common.views import BaseRSSFeed
 from pepysdiary.encyclopedia.models import Topic
 from pepysdiary.letters.models import Letter
 
@@ -71,3 +72,24 @@ class LetterArchiveView(TemplateView):
         context = super(LetterArchiveView, self).get_context_data(**kwargs)
         context['letters'] = Letter.objects.all()
         return context
+
+
+class LatestLettersFeed(BaseRSSFeed):
+    title = "Pepys' Diary - Letters"
+    description = "Letters sent by or to Samuel Pepys"
+
+    def items(self):
+        return Letter.objects.all().order_by('-date_created')[:3]
+
+    def item_pubdate(self, item):
+        return item.date_created
+
+    def item_description(self, item):
+        return self.make_item_description(item.text)
+
+    def item_content_encoded(self, item):
+        return self.make_item_content_encoded(
+            text1=item.text,
+            text2=item.footnotes,
+            url=item.get_absolute_url(),
+            comment_name='annotation')

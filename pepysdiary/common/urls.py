@@ -44,6 +44,10 @@ urlpatterns = patterns('',
 
     url(r'^p/(?P<pk>\d+)\.php$', EncyclopediaTopicRedirectView.as_view()),
 
+    # The URL of the RSS feed that Feedburner fetches.
+    url(r'^syndication/encyclopedia-fb\.rdf$', RedirectView.as_view(
+                                            url=reverse_lazy('topic_rss'))),
+
     # IN-DEPTH.
 
     # From /indepth/archive/2012/05/31/slug_field.php URLs:

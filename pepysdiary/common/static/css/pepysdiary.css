@@ -53,6 +53,7 @@ cite {
 	font-style: italic;
 }
 ul.feeds {
+	margin-top: 1em;
 	margin-left: 0;
 	list-style-type: none;
 }
