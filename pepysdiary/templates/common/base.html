@@ -14,15 +14,25 @@
 </head>
 <body>
 
-	<div class="navbar">
+	<div class="site-header">
+		<div class="container">
+			{% if page_name == 'home' %}
+				<h1 class="site-header-title">The Diary of Samuel Pepys</h1>
+			{% else %}
+				<div class="site-header-title"><a href="{% url 'home' %}" title="To the front page">The Diary of Samuel Pepys</a></div>
+			{% endif %}
+			<p class="site-header-subtitle">Daily entries from the 17th century London diary</p>
+		</div> 
+	</div> <!-- .site-header -->
+
+	<div class="navbar navbar-inverse">
 	    <div class="navbar-inner">
-	    	<div class="container-fluid">
+	    	<div class="container">
 	    		<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
 		            <span class="icon-bar"></span>
 		            <span class="icon-bar"></span>
 		            <span class="icon-bar"></span>
 	            </a>
-	    		<a href="{% url 'home' %}" class="brand">Pepys’ Diary</a>
 	    		<div class="nav-collapse collapse">
 			    	<ul class="nav">
 			    		<li class="dropdown {% block diary_nav_active %}{% endblock %}">
@@ -39,17 +49,21 @@
 			    		<li class="{% block news_nav_active %}{% endblock %}"><a href="{% url 'news' %}">Site News</a></li>
 			    	</ul>
 			    </div> <!-- .nav-collapse -->
-			</div> <!-- .container-fluid -->
+			</div> <!-- .container -->
 	    </div> <!-- .navbar-inner -->
     </div> <!-- .navbar -->
 
-	<div class="container-fluid">
+	<div class="container">
 		{% block breadcrumbs %}{% endblock %}
 
-		<h1>{% block title %}{% endblock %}</h1>
+		{% block page_header %}
+			<div class="page-header">
+				<h1>{% block title %}{% endblock %}</h1>
+			</div>
+		{% endblock %}
 
 		{% block content %}{% endblock %}
-	</div> <!-- .container-fluid -->
+	</div> <!-- .container -->
 
 	<script src="http://code.jquery.com/jquery-latest.js"></script>
 	<script src="{{ STATIC_PREFIX }}js/bootstrap.min.js"></script>

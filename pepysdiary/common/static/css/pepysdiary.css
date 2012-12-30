@@ -1,7 +1,31 @@
 
-cite {
-	font-style: italic;
+/* Modifications to Bootstrap */
+
+.navbar-inverse .navbar-inner {
+	background-color: #050505;
+	border-color: #050505;
+	background-image: none;
+	-webkit-border-radius: 0px;
+	-moz-border-radius: 0px;
+	border-radius: 0px;
 }
+@media (min-width: 980px) {
+	.navbar .container {
+		width: 940px;
+	}
+}
+@media (max-width: 979px) {
+	.navbar-inverse .nav li.dropdown.open > .dropdown-toggle,
+	.navbar-inverse .nav li.dropdown.active > .dropdown-toggle,
+	.navbar-inverse .nav li.dropdown.open.active > .dropdown-toggle {
+		background-color: #222;
+	}
+	.navbar-inverse .nav-collapse .nav > li > a:hover,
+	.navbar-inverse .nav-collapse .dropdown-menu a:hover {
+		background-color: #222;
+	}
+}
+
 .well-manuscript {
 	background: #f1f4eb;
 	border-color: #e8e7dc;
@@ -15,6 +39,69 @@ cite {
 .well-manuscript li {
 	line-height: 24px;
 	margin-bottom: 10px;
+}
+
+/* Global styles */
+
+cite {
+	font-style: italic;
+}
+
+/* Header */
+
+.site-header {
+	background: #050505;
+	color: #999;
+}
+.site-header .container {
+	background: url(../img/header_pepys.jpg) right bottom no-repeat;
+	height: 125px;
+}
+.site-header a {
+	color: #999;
+}
+.site-header a:hover {
+	color: #fff;
+	text-decoration: none;
+}
+.site-header-title {
+	font-size: 36px;
+	line-height: 48px;
+	font-weight: bold;
+	margin: 24px 0 0 0;
+	text-rendering: optimizelegibility;
+}
+.site-header-subtitle {
+	font-size: 16px;
+	line-height: 24px;
+	text-rendering: optimizelegibility;
+}
+@media (max-width: 767px) {
+	.site-header-title,
+	.site-header-subtitle {
+		margin-left: 15px;
+	}
+}
+@media (max-width: 660px) {
+	/* Hide portrait at narrow widths. */
+	.site-header .container {
+		background: none;
+	}
+}
+@media (max-width: 530px) {
+	/* Shrink header and text at narrower widths. */
+	.site-header .container {
+		height: 70px;
+	}
+	.site-header-title {
+		font-size: 24px;
+		line-height: 36px;
+		margin-top: 12px;
+	}
+	.site-header-subtitle {
+		font-size: 14px;
+		line-height: 18px;
+	}
 }
 
 /* Comments */
