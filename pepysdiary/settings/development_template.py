@@ -47,3 +47,19 @@ MT_MYSQL_DB_NAME = ''
 MT_MYSQL_DB_USER = ''
 MT_MYSQL_DB_PASSWORD = ''
 MT_MYSQL_DB_HOST = ''
+
+
+######################################################################
+# Uncomment these to use S3 for storage:
+
+# DEFAULT_FILE_STORAGE = 'pepysdiary.common.s3utils.MediaS3BotoStorage'
+# STATICFILES_STORAGE = 'pepysdiary.common.s3utils.StaticS3BotoStorage'
+
+# AWS_ACCESS_KEY_ID = ''
+# AWS_SECRET_ACCESS_KEY = ''
+# AWS_STORAGE_BUCKET_NAME = ''
+
+# S3_URL = 'https://%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
+# # Store static and media files in separate directories:
+# STATIC_URL = S3_URL + STATIC_URL
+# MEDIA_URL = S3_URL + MEDIA_URL
