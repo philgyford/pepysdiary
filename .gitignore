@@ -3,3 +3,4 @@
 *.pyc
 development.py
 pepysdiary/media
+pepysdiary.sublime*
