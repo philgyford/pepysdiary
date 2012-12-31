@@ -97,6 +97,11 @@ urlpatterns += patterns('',
     url(r'^admin/', include(admin.site.urls)),
 )
 
+# Flatpages URLs.
+urlpatterns += patterns('django.contrib.flatpages.views',
+    url(r'^about/$', 'flatpage', {'url': '/about/'}, name='about'),
+)
+
 if settings.DEBUG:
     urlpatterns += patterns('',
         url(r'^media/(?P<path>.*)$', 'django.views.static.serve', {

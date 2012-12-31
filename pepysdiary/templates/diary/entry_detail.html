@@ -9,10 +9,11 @@
 {% block content %}
 
 	{% load scaffolding_tags %}
+	{% load text_formatting_filters %}
+	
 	{% sidebar_row_start %}
 
 		<div class="well well-manuscript">
-			{% load text_formatting_filters %}
 
 			{{ entry.text|smartypants|safe }}
 			{% if entry.footnotes %}

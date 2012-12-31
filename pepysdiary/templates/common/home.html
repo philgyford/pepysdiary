@@ -8,6 +8,8 @@
 {% block content %}
 
 	{% load scaffolding_tags %}
+	{% load widget_tags %}
+
 	{% sidebar_row_start %}
 
 		{% if entry_list %}
@@ -20,17 +22,8 @@
 
 	{% sidebar_row_middle %}
 
-		{% if post_list %}
-			<h4>Latest Site News</h4>
-			<dl>
-				{% for post in post_list %}
-					<dt><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></dt>
-					<dd>{{ post.date_published|date:date_format_longest }}</dd>
-				{% endfor %}
-			</dl>
-		{% endif %}
+		{% latest_news quantity=2 %}
 
-		{% load widget_tags %}
 		<ul class="feeds">
 			{% rss_feed_link kind='entries' %}
 		</ul>
