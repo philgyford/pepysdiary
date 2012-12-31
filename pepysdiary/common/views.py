@@ -82,7 +82,7 @@ class DiaryEntryRedirectView(RedirectView):
     new Diary Entry URLs.
     """
     def get_redirect_url(self, year, month, day):
-        return reverse('diary_entry', kwargs={
+        return reverse('entry_detail', kwargs={
             'year': year, 'month': month, 'day': day})
 
 
