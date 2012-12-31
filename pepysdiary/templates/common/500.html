@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% load url from future %}
+
+{% block title %}Error{% endblock %}
+{% block header_title %}Error{% endblock %}
+
+{% block content %}
+
+	{% load scaffolding_tags %}
+
+	{% sidebar_row_start %}
+
+		<p class="lead">Sorry, something went wrong.</p>
+
+		<p>There was a "500 error".</p>
+
+	{% sidebar_row_middle %}
+
+	{% sidebar_row_end %}
+
+{% endblock content %}
