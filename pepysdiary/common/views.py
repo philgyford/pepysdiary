@@ -93,7 +93,7 @@ class EncyclopediaCategoryRedirectView(RedirectView):
     """
     def get_redirect_url(self, slugs):
         slugs = slugs.replace('_', '-')
-        return reverse('encyclopedia_category', kwargs={'slugs': slugs})
+        return reverse('category_detail', kwargs={'slugs': slugs})
 
 
 class EncyclopediaTopicRedirectView(RedirectView):
