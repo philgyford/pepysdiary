@@ -3,7 +3,8 @@
 
 {% block diary_nav_active %}active{% endblock %}
 
-{% block title %}Diary archive{% endblock %}}
+{% block title %}Diary archive{% endblock %}
+{% block header_title %}Diary archive{% endblock %}
 
 {% block content %}
 
@@ -30,7 +31,7 @@
 		</ul>
 
 	{% sidebar_row_middle %}
-	
+
 		{% load widget_tags %}
 		<ul class="feeds">
 			{% rss_feed_link kind='entries' %}
