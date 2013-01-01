@@ -121,6 +121,22 @@ ul.feeds {
 		line-height: 18px;
 	}
 }
+@media (max-width: 380px) {
+	.site-header-title {
+		font-size: 18px;
+		line-height: 24px;
+		margin-top: 6px;
+	}
+	.site-header-subtitle {
+		font-size: 12px;
+		line-height: 16px;
+	}
+}
+@media (max-width: 320px) {
+	.site-header-subtitle {
+		display: none;
+	}
+}
 
 /* Comments */
 
