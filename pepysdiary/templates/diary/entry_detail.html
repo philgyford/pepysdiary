@@ -13,14 +13,14 @@
 	
 	{% sidebar_row_start %}
 
-		<div class="well well-manuscript">
+		<article class="entry well well-manuscript">
 
 			{{ entry.text|smartypants|safe }}
 			{% if entry.footnotes %}
 				<hr />
 				{{ entry.footnotes|smartypants|safe }}
 			{% endif %}
-		</div>
+		</article>
 
 		{% include 'inc/comments.html' with object=entry comment_name="annotation" %}
 

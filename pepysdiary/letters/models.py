@@ -4,9 +4,14 @@ import re
 from django.core.urlresolvers import reverse
 from django.db import models
 
-from pepysdiary.common.models import PepysModel, OldDateMixin
+from pepysdiary.common.models import OldDateMixin, PepysModel,\
+                                                        ReferredManagerMixin
 from pepysdiary.common.utilities import *
 from pepysdiary.encyclopedia.models import Topic
+
+
+class LetterManager(models.Manager, ReferredManagerMixin):
+    pass
 
 
 class Letter(PepysModel, OldDateMixin):
@@ -41,6 +46,8 @@ class Letter(PepysModel, OldDateMixin):
 
     # Will also have a 'topics' ManyToMany field, from Topic.
 
+    objects = LetterManager()
+
     class Meta:
         ordering = ['letter_date', ]
 
@@ -60,6 +67,10 @@ class Letter(PepysModel, OldDateMixin):
             })
 
     def make_references(self):
+        """
+        Sets all the Encyclopedia Topics the text of this letter (and
+        footnotes) refers to. Saves them to the database.
+        """
         self.topics.clear()
         # Get a list of all the Topic IDs mentioned in text and footnotes:
         ids = re.findall(r'pepysdiary.com\/encyclopedia\/(\d+)\/', '%s %s' % (

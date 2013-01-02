@@ -72,7 +72,8 @@ class EntryDetailView(EntryMixin, DateDetailView):
 
     def get_context_data(self, **kwargs):
         context = super(EntryDetailView, self).get_context_data(**kwargs)
-
+        context['tooltip_references'] = Entry.objects.get_brief_references(
+                                                        objects=[self.object])
         extra_context = self.get_next_previous()
         context.update(extra_context)
         return context
@@ -109,7 +110,12 @@ class EntryDetailView(EntryMixin, DateDetailView):
 
 class EntryMonthArchiveView(EntryMixin, MonthArchiveView):
     """Show all the Entries from one month."""
-    pass
+
+    def get_context_data(self, **kwargs):
+        context = super(EntryMonthArchiveView, self).get_context_data(**kwargs)
+        context['tooltip_references'] = Entry.objects.get_brief_references(
+                                                objects=kwargs['object_list'])
+        return context
 
 
 class EntryArchiveView(EntryMixin, ArchiveIndexView):

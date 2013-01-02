@@ -13,15 +13,17 @@
 
 	{% sidebar_row_start %}
 
-		<p>{{ letter.display_date }}</p>
+		<article class="letter">
+			<p>{{ letter.display_date }}</p>
 
-		<div class="well well-manuscript">
-			{{ letter.text|smartypants|safe }}
-		</div>
+			<div class="well well-manuscript">
+				{{ letter.text|smartypants|safe }}
+			</div>
 
-		{% if letter.footnotes %}
-			{{ letter.footnotes|smartypants|safe }}
-		{% endif %}
+			{% if letter.footnotes %}
+				{{ letter.footnotes|smartypants|safe }}
+			{% endif %}
+		</article>
 
 		{% include 'inc/comments.html' with object=letter comment_name="annotation" %}
 

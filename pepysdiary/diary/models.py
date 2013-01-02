@@ -8,11 +8,12 @@ from django.db import models
 
 from markdown import markdown
 
-from pepysdiary.common.models import PepysModel, OldDateMixin
+from pepysdiary.common.models import OldDateMixin, PepysModel,\
+                                                        ReferredManagerMixin
 from pepysdiary.encyclopedia.models import Topic
 
 
-class EntryManager(models.Manager):
+class EntryManager(models.Manager, ReferredManagerMixin):
     def most_recent_entry_date(self):
         """
         Returns the date of the most recent diary entry 'published'.
@@ -79,6 +80,10 @@ class Entry(PepysModel, OldDateMixin):
                             23, 0, 0).replace(tzinfo=tz)
 
     def make_references(self):
+        """
+        Sets all the Encyclopedia Topics the text of this entry (and footnotes)
+        refers to. Saves them to the database.
+        """
         self.topics.clear()
         # Get a list of all the Topic IDs mentioned in text and footnotes:
         ids = re.findall(r'pepysdiary.com\/encyclopedia\/(\d+)\/', '%s %s' % (

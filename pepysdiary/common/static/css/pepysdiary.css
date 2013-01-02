@@ -46,6 +46,27 @@
 	line-height: 24px;
 	margin-bottom: 10px;
 }
+.well-manuscript .popover-title,
+.well-manuscript .popover-content {
+	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;	
+	font-size: 12px;
+	line-height: 18px;
+	font-style: normal;
+}
+.well-manuscript .popover-title {
+	font-weight: bold;
+}
+.popover-hasthumbnail {
+	width: 356px;
+}
+.popover-hasthumbnail .popover-thumbtext {
+	float: left;
+	width: 208px;
+	margin-right: 10px;
+}
+.popover-hasthumbnail .popover-thumbnail {
+	float: left;
+}
 
 /* Global styles */
 

@@ -24,6 +24,9 @@ class HomeView(TemplateView):
                 diary_date__lte=Entry.objects.most_recent_entry_date
             ).order_by('-diary_date')[:7]
 
+        context['tooltip_references'] = Entry.objects.get_brief_references(
+                                                objects=context['entry_list'])
+
         context['post_list'] = Post.published_posts.all()[:2]
         context['page_name'] = 'home'
         return context

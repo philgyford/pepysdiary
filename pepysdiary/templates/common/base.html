@@ -71,8 +71,31 @@
 		{% block content %}{% endblock %}
 	</div> <!-- .container -->
 
-	<script src="http://code.jquery.com/jquery-latest.js"></script>
+	<script src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
 	<script src="{{ STATIC_PREFIX }}js/bootstrap.min.js"></script>
+	<script src="{{ STATIC_PREFIX }}js/pepys.js"></script>
+
+	<script>
+		$(document).ready(function(){
+			pepys.controller.init({
+				'config': {
+					static_prefix: "{{ STATIC_PREFIX|escapejs }}"
+				},
+
+				{% if tooltip_references %}
+					'tooltips': {
+						{% for id, tip in tooltip_references.items %}
+							'{{ id }}': {
+								'title': "{{ tip.title|escapejs }}",
+								'text': "{{ tip.text|escapejs }}",
+								'thumbnail_url': "{{ tip.thumbnail_url|escapejs }}"
+							}{% if not forloop.last %},{% endif %}
+						{% endfor %}
+					}
+				{% endif %}
+			});
+		});
+	</script>
 
 	{% if GOOGLE_ANALYTICS_ID %}
 	<!-- Google Analytics JS -->
