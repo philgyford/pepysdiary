@@ -18,6 +18,11 @@ urlpatterns = patterns('',
     url(r'^archive/$', RedirectView.as_view(
                                         url=reverse_lazy('entry_archive'))),
 
+    # From /archive/1660/01/ URLs:
+    url(r'^archive/(?P<year>\d{4})/(?P<month>\d{2})/$',
+        DiaryMonthRedirectView.as_view()
+    ),
+
     # From /archive/1660/01/01/index.php URLs:
     url(r'^archive/(?P<year>\d{4})/(?P<month>\d{2})/(?P<day>\d{2})/(index\.php)?$',
         DiaryEntryRedirectView.as_view()

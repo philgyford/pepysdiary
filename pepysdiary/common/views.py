@@ -76,6 +76,16 @@ class BaseRSSFeed(Feed):
 
 # ALL THE REDIRECT VIEWS:
 
+class DiaryMonthRedirectView(RedirectView):
+    """
+    To help with redirecting from old /archive/1660/01/ URLs to the
+    new Diary Month URLs.
+    """
+    def get_redirect_url(self, year, month):
+        return reverse('entry_month_archive', kwargs={
+                                                'year': year, 'month': month})
+
+
 class DiaryEntryRedirectView(RedirectView):
     """
     To help with redirecting from old /archive/1660/01/01/index.php URLs to the
@@ -83,7 +93,7 @@ class DiaryEntryRedirectView(RedirectView):
     """
     def get_redirect_url(self, year, month, day):
         return reverse('entry_detail', kwargs={
-            'year': year, 'month': month, 'day': day})
+                                    'year': year, 'month': month, 'day': day})
 
 
 class EncyclopediaCategoryRedirectView(RedirectView):
