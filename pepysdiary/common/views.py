@@ -65,7 +65,7 @@ class BaseRSSFeed(Feed):
         url is the URL of the item (no domain needed, eg '/diary/1666/10/31/').
         comment_name is one of 'comment' or 'annotation'.
         """
-        return '<![CDATA[%s %s <p><strong><a href="%s#%ss">Read the %ss</a></strong></p>]>' % (
+        return '%s %s <p><strong><a href="%s#%ss">Read the %ss</a></strong></p>' % (
             force_unicode(smartypants.smartyPants(text1)),
             force_unicode(smartypants.smartyPants(text2)),
             add_domain(Site.objects.get_current().domain, url),
