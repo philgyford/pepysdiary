@@ -163,9 +163,12 @@ class LatestEntriesFeed(BaseRSSFeed):
         return 'Samuel Pepys'
 
     def item_content_encoded(self, item):
+        footnotes = ''
+        if item.footnotes:
+            footnotes = '<p><strong>Footnotes</strong></p>%s' % item.footnotes
         return self.make_item_content_encoded(
             text1=item.text,
-            text2=item.footnotes,
+            text2=footnotes,
             url=item.get_absolute_url(),
             comment_name='annotation'
         )
