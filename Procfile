@@ -1,1 +1,1 @@
-web: python manage.py runserver --noreload --settings=pepysdiary.settings.heroku 0.0.0.0:$PORT
+web: newrelic-admin run-program python manage.py runserver --noreload --settings=pepysdiary.settings.heroku 0.0.0.0:$PORT
