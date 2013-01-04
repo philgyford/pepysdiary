@@ -69,8 +69,8 @@ urlpatterns = patterns('',
     # From main Site News front page.
     url(r'^about/news/$', RedirectView.as_view(url=reverse_lazy('news'))),
 
-    # From /about/archive/2012/05/31/3456/ URLs:
-    url(r'^about/archive/(?P<year>\d{4})/(?P<month>\d{2})/(?P<day>\d{2})/(?P<pk>\d+)/',
+    # From /about/archive/2012/05/31/3456.php URLs:
+    url(r'^about/archive/(?P<year>\d{4})/(?P<month>\d{2})/(?P<day>\d{2})/(?P<pk>\d+)\.php$',
         PostRedirectView.as_view()
     ),
 
