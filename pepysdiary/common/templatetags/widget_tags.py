@@ -59,6 +59,9 @@ def latest_news(context, quantity=5):
 
 @register.simple_tag
 def summary_year_navigation(current_year):
+    """
+    The list of years for the Diary Summary sidebar navigation.
+    """
     css_class = ''
     if current_year == 'before':
         css_class = 'active'
@@ -74,4 +77,9 @@ def summary_year_navigation(current_year):
                         css_class,
                         reverse('summary_year_archive', kwargs={'year': y}),
                         y)
+    html += '<li><a href="%s">After the diary (In-Depth Article)</a></li>' % (
+                        reverse('article_detail', kwargs={
+                            'year': '2012', 'month': '05', 'day': '31',
+                            'slug': 'the-next-chapter'}
+                        ))
     return '<ul class="nav nav-tabs nav-stacked">%s</ul>' % html
