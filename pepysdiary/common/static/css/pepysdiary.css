@@ -76,6 +76,10 @@ body {
 cite {
 	font-style: italic;
 }
+.thumbnail {
+	width: 100px;
+	height: 120px;
+}
 ul.feeds {
 	padding-top: 1em;
 	margin-left: 0;
