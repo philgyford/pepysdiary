@@ -2,6 +2,7 @@
 {% load url from future %}
 
 {% block diary_nav_active %}active{% endblock %}
+{% block diary_home_nav_active %}active{% endblock %}
 
 {% block page_header %}{% endblock %}
 
@@ -13,6 +14,7 @@
 	{% sidebar_row_start %}
 
 		{% if entry_list %}
+			<p class="lead">A new diary entry appears here at the end of each day.</p>
 			{% include 'inc/entry_list.html' %}
 		{% else %}
 			<p class="lead">In 1660, at age 26, Samuel Pepys began his diary. He stopped a decade later.</p>

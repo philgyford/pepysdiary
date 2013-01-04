@@ -78,12 +78,22 @@ urlpatterns = patterns('',
     url(r'^syndication/recentnews-fb\.rdf$', RedirectView.as_view(
                                             url=reverse_lazy('post_rss'))),
 
-    # SUMMARY.
+    # SUMMARYIES.
+
+    url(r'^about/history/(?:index.php)?$', RedirectView.as_view(
+                                        url=reverse_lazy('diary_summary'))),
 
     url(r'^about/history/(?P<year>\d{4})/$',
                                             SummaryYearRedirectView.as_view()),
+
 )
 
+# Flatpages URLs.
+urlpatterns += patterns('django.contrib.flatpages.views',
+    url(r'^about/$', 'flatpage', {'url': '/about/'}, name='about'),
+    url(r'^diary/summary/$', 'flatpage', {'url': '/diary/summary/'},
+                                                        name='diary_summary'),
+)
 
 # The main URL conf for actual pages, not redirects.
 urlpatterns += patterns('',
@@ -100,11 +110,6 @@ urlpatterns += patterns('',
     # Uncomment the admin/doc line below to enable admin documentation:
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
     url(r'^admin/', include(admin.site.urls)),
-)
-
-# Flatpages URLs.
-urlpatterns += patterns('django.contrib.flatpages.views',
-    url(r'^about/$', 'flatpage', {'url': '/about/'}, name='about'),
 )
 
 if settings.DEBUG:

@@ -1,25 +1,8 @@
-{% extends "base.html" %}
-{% load url from future %}
+{% extends "flatpages/base.html" %}
 
 {% block about_nav_active %}active{% endblock %}
 
-{% block title %}{{ flatpage.title }}{% endblock %}
-{% block header_title %}{{ flatpage.title }}{% endblock %}
-
-{% block content %}
-
-	{% load scaffolding_tags %}
-	{% load text_formatting_filters %}
+{% block sidebar %}
 	{% load widget_tags %}
-
-	{% sidebar_row_start %}
-
-		{{ flatpage.content }}
-
-	{% sidebar_row_middle %}
-
-		{% latest_news %}
-
-	{% sidebar_row_end %}
-
-{% endblock content %}
+	{% latest_news %}
+{% endblock %}

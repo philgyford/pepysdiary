@@ -1,4 +1,5 @@
 from django import template
+from django.core.urlresolvers import reverse
 
 from pepysdiary.news.models import Post
 
@@ -54,3 +55,23 @@ def latest_news(context, quantity=5):
 %s</dl>
 """ % html
     return html
+
+
+@register.simple_tag
+def summary_year_navigation(current_year):
+    css_class = ''
+    if current_year == 'before':
+        css_class = 'active'
+    html = '<li class="%s"><a href="%s">Before the diary</a></li>' % (
+                                                    css_class,
+                                                    reverse('diary_summary'))
+    for y in ['1660', '1661', '1662', '1663', '1664', '1665', '1666', '1667',
+                                                            '1668', '1669', ]:
+        css_class = ''
+        if y == current_year:
+            css_class = 'active'
+        html += '<li class="%s"><a href="%s">%s</a></li>' % (
+                        css_class,
+                        reverse('summary_year_archive', kwargs={'year': y}),
+                        y)
+    return '<ul class="nav nav-tabs nav-stacked">%s</ul>' % html

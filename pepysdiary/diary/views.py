@@ -148,8 +148,6 @@ class SummaryYearArchiveView(YearArchiveView):
     def get_context_data(self, **kwargs):
         context = super(SummaryYearArchiveView, self).get_context_data(
                                                                     **kwargs)
-        context['year_list'] = ['1660', '1661', '1662', '1663', '1664', '1665',
-                                            '1666', '1667', '1668', '1669', ]
         return context
 
 

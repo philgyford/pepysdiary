@@ -44,8 +44,9 @@
 			    			<a href="#" class="dropdown-toggle" data-toggle="dropdown">The Diary <b class="caret"></b></a>
 			    			
 			    			<ul class="dropdown-menu">
-			    				<li><a href="{% url 'home' %}">Home</a></li>
-			    				<li><a href="{% url 'entry_archive' %}">Archive</a></li>
+			    				<li class="{% block diary_home_nav_active %}{% endblock %}"><a href="{% url 'home' %}">Home</a></li>
+			    				<li class="{% block diary_archive_nav_active %}{% endblock %}"><a href="{% url 'entry_archive' %}">Archive</a></li>
+			    				<li class="{% block diary_summary_nav_active %}{% endblock %}"><a href="{% url 'diary_summary' %}">Summary</a></li>
 			    			</ul>
 			    		</li>
 			    		<li class="{% block letter_nav_active %}{% endblock %}"><a href="{% url 'letters' %}">Letters</a></li>

@@ -1,0 +1,9 @@
+{% extends "flatpages/base.html" %}
+
+{% block diary_nav_active %}active{% endblock %}
+{% block diary_summary_nav_active %}active{% endblock %}
+
+{% block sidebar %}
+	{% load widget_tags %}
+	{% summary_year_navigation current_year='before' %}
+{% endblock %}

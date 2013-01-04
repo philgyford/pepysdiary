@@ -2,6 +2,7 @@
 {% load url from future %}
 
 {% block diary_nav_active %}active{% endblock %}
+{% block diary_summary_nav_active %}active{% endblock %}
 
 {% block title %}Summary of {{ year }}{% endblock %}}
 {% block header_title %}Summary of {{ year }}{% endblock %}}
@@ -14,10 +15,12 @@
 	{% sidebar_row_start %}
 
 		{% for summary in summary_list reversed %}
-			<article class="summary">
+			<article id="m{{ summary.summary_date|date:"m" }}" class="summary">
 				<h2>{{ summary.summary_date|date:"F Y" }}</h2>
 
 				{{ summary.text_html|smartypants|safe }}
+
+				<p><small><a href="{% url 'entry_month_archive' year=summary.summary_date|date:"Y" month=summary.summary_date|date:"m" %}">See the full diary entries for {{ summary.summary_date|date:"F Y" }}</a></small></p>
 			</article>
 		{% endfor %}
 

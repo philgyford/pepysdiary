@@ -6,9 +6,7 @@ And maybe:
 	year (the current year)
 {% endcomment %}
 
-{% load url from future %}
-<ul class="nav nav-tabs nav-stacked">
-	{% for y in year_list %}
-		<li{% if y == year %} class="active"{% endif %}><a href="{% url 'summary_year_archive' year=y %}">{{ y }}</a></li>
-	{% endfor %}
-</ul>
+{% block sidebar %}
+	{% load widget_tags %}
+	{% summary_year_navigation current_year=year %}
+{% endblock %}
