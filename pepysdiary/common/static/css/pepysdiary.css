@@ -32,6 +32,17 @@
 	}
 }
 
+blockquote {
+	margin-bottom: 0;
+	border-left: none;
+	padding-left: 30px;
+}
+blockquote p {
+	margin-bottom: 10px;	
+	font-size: 14px;
+	line-height: 20px;
+	font-weight: normal;
+}
 .well-manuscript {
 	background: #f1f4eb;
 	border-color: #e8e7dc;
