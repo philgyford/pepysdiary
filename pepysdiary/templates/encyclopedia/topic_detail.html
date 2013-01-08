@@ -111,10 +111,15 @@
 			</div>
 		{% endif %}
 
-		{% if topic.on_pepys_family_tree %}
+		{% if topic.on_pepys_family_tree or topic.title == 'Pepys family tree' %}
 			<div class="sidebar-block">
 				<p><a href="{% url 'encyclopedia_familytree' %}"><img class="thumbnail" src="{{ STATIC_PREFIX }}img/sidebar_family_tree.png" width="250" height="134" alt="Family tree thumbnail" />
-				See this person on the Pepys family tree</a></p>
+				{% if topic.on_pepys_family_tree %}
+					See this person on the Pepys family tree
+				{% else %}
+					See the Pepys family tree
+				{% endif %}
+				</a></p>
 			</div>
 		{% endif %}
 
