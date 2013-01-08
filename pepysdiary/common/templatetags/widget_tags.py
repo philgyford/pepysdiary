@@ -13,52 +13,57 @@ def put_in_block(html):
     return '<div class="sidebar-block">%s</div>' % html
 
 
+# Valid feed kinds for rss_feeds().
+
+
 @register.simple_tag
 def rss_feeds(*args):
     """
     Display a list of links to RSS feeds. Use something like:
         {% rss_feeds 'entries' 'posts' 'topics' %}
     Where the arguments are valid feed kinds from `rss_feed_link()`.
+    Or do this, to display links to all possible feeds:
+        {% rss_feeds %}
     """
+    feeds = (
+        ('entries', {
+            'url': 'http://feeds.feedburner.com/PepysDiary',
+            'things': 'Diary entries',
+        }),
+        ('topics', {
+            'url': 'http://feeds.feedburner.com/PepysDiary-Encyclopedia',
+            'things': 'Encyclopedia topics',
+        }),
+        ('articles', {
+            'url': 'http://feeds.feedburner.com/PepysDiary-InDepthArticles',
+            'things': 'In-Depth articles',
+        }),
+        ('posts', {
+            'url': 'http://feeds.feedburner.com/PepysDiary-SiteNews',
+            'things': 'Site News posts',
+        }),
+        # Not on Feedburner yet:
+        # ('letters', {
+        #     'url': 'http://feeds.feedburner.com/PepysDiary-SiteNews',
+        #     'things': 'Site News posts',
+        # }),
+    )
     html = ''
-    for kind in args:
-        html += rss_feed_link(kind)
+    kinds = []
+    # What feeds are we linking to?
+    if len(args) == 0:
+        kinds = [k for k, v in feeds]
+    else:
+        kinds = args
+
+    feeds_dict = dict(feeds)
+    for kind in kinds:
+        if kind in feeds_dict:
+            html += '<li class="feed"><a href="%s">RSS feed of %s</a></li>' % (
+                        feeds_dict[kind]['url'], feeds_dict[kind]['things'])
     if html != '':
         html = put_in_block('<ul class="feeds">%s</ul>' % html)
     return html
-
-
-@register.simple_tag
-def rss_feed_link(kind):
-    """
-    A single link in a list of RSS feeds.
-    Probably not called directly now. Use `rss_feed_links()` instead.
-    """
-    feeds = {
-        'articles': {
-            'url': 'http://feeds.feedburner.com/PepysDiary-InDepthArticles',
-            'things': 'In-Depth articles',
-        },
-        'entries': {
-            'url': 'http://feeds.feedburner.com/PepysDiary',
-            'things': 'Diary entries',
-        },
-        'posts': {
-            'url': 'http://feeds.feedburner.com/PepysDiary-SiteNews',
-            'things': 'Site News posts',
-        },
-        'topics': {
-            'url': 'http://feeds.feedburner.com/PepysDiary-Encyclopedia',
-            'things': 'Encyclopedia topics',
-        },
-        # Not on Feedburner yet:
-        # 'letters': {
-        #     'url': 'http://feeds.feedburner.com/PepysDiary-SiteNews',
-        #     'things': 'Site News posts',
-        # }
-    }
-    return '<li class="feed"><a href="%s">RSS feed of %s</a></li>' % (
-                                    feeds[kind]['url'], feeds[kind]['things'])
 
 
 @register.simple_tag(takes_context=True)
