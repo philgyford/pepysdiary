@@ -36,6 +36,10 @@ CACHES = {
   }
 }
 
+# Make this unique, and don't share it with anybody.
+# http://www.miniwebtool.com/django-secret-key-generator/
+SECRET_KEY = os.environ.get('SECRET_KEY', '')
+
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
 # the site admins on every HTTP 500 error when DEBUG=False.

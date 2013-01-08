@@ -26,6 +26,10 @@ CACHES = {
     }
 }
 
+# Make this unique, and don't share it with anybody.
+# http://www.miniwebtool.com/django-secret-key-generator/
+SECRET_KEY = ''
+
 # Debug Toolbar settings.
 if DEBUG:
     MIDDLEWARE_CLASSES += ('debug_toolbar.middleware.DebugToolbarMiddleware', )
