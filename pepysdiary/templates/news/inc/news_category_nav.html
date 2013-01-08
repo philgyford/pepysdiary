@@ -7,8 +7,10 @@ And maybe:
 {% endcomment %}
 
 {% load url from future %}
-<ul class="nav nav-tabs nav-stacked">
-	{% for slug, name in categories %}
-		<li{% if slug == category_slug %} class="active"{% endif %}><a href="{% url 'post_category_archive' category_slug=slug %}">{{ name }}</a></li>
-	{% endfor %}
-</ul>
+<div class="sidebar-block">
+	<ul class="nav nav-tabs nav-stacked">
+		{% for slug, name in categories %}
+			<li{% if slug == category_slug %} class="active"{% endif %}><a href="{% url 'post_category_archive' category_slug=slug %}">{{ name }}</a></li>
+		{% endfor %}
+	</ul>
+</div>

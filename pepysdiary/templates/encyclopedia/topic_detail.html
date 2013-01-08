@@ -106,13 +106,20 @@
 	{% sidebar_row_middle %}
 
 		{% if topic.thumbnail %}
-			<p><img src="{{ topic.thumbnail.url }}" class="thumbnail" width="100" height="120" alt="Thumbnail image" /></p>
+			<div class="sidebar-block">
+				<p><img src="{{ topic.thumbnail.url }}" class="thumbnail" width="100" height="120" alt="Thumbnail image" /></p>
+			</div>
+		{% endif %}
+
+		{% if topic.on_pepys_family_tree %}
+			<div class="sidebar-block">
+				<p><a href="{% url 'encyclopedia_familytree' %}"><img class="thumbnail" src="{{ STATIC_PREFIX }}img/sidebar_family_tree.png" width="250" height="134" alt="Family tree thumbnail" />
+				See this person on the Pepys family tree</a></p>
+			</div>
 		{% endif %}
 
 		{% load widget_tags %}
-		<ul class="feeds">
-			{% rss_feed_link kind='topics' %}
-		</ul>
+		{% rss_feeds 'topics' %}
 
 	{% sidebar_row_end %}
 

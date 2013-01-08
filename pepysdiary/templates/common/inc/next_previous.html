@@ -1,8 +1,18 @@
-{% if previous %}
-	<p>Previous: <a href="{{ previous.get_absolute_url }}">{{ previous.title }}</a></p>
+{% comment %}
+NOTE: The next/prev in diary/entry_archive_month.html is done separately
+because its URLs are more manual.
+{% endcomment %}
+
+{% if previous or next %}
+	<div class="sidebar-block">
+	{% if next %}
+		<p>Next: <a href="{{ next.get_absolute_url }}">{{ next.title }}</a></p>
+	{% endif %}
+
+	{% if previous %}
+		<p>Previous: <a href="{{ previous.get_absolute_url }}">{{ previous.title }}</a></p>
+	{% endif %}
+	</div>
 {% endif %}
 
-{% if next %}
-	<p>Next: <a href="{{ next.get_absolute_url }}">{{ next.title }}</a></p>
-{% endif %}
 

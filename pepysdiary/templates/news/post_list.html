@@ -28,9 +28,7 @@
 		{% include 'inc/news_category_nav.html' %}
 
 		{% load widget_tags %}
-		<ul class="feeds">
-			{% rss_feed_link kind='posts' %}
-		</ul>
+		{% rss_feeds 'posts' %}
 
 	{% sidebar_row_end %}
 

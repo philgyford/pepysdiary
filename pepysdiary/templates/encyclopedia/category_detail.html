@@ -26,22 +26,22 @@
 	{% sidebar_row_middle %}
 
 		{% if category.get_children_count %}
-			<h2>Subcategories</h2>
-			<ul>
-			{% for c in category.get_children %}
-				<li><a href="{{ c.get_absolute_url }}">{{ c.title }}</a>
-					{% comment %}
-						{% if c.get_children_count %}<small>({{ c.get_children_count }} categor{{ c.get_children_count|pluralize:"y,ies" }})</small>{% endif %}
-					{% endcomment %}
-					{% if c.topic_count %}<small>({{ c.topic_count }} topic{{ c.topic_count|pluralize }})</small>{% endif %}</li>
-			{% endfor %}
-			</ul>
+			<div class="sidebar-block">
+				<h2>Subcategories</h2>
+				<ul>
+				{% for c in category.get_children %}
+					<li><a href="{{ c.get_absolute_url }}">{{ c.title }}</a>
+						{% comment %}
+							{% if c.get_children_count %}<small>({{ c.get_children_count }} categor{{ c.get_children_count|pluralize:"y,ies" }})</small>{% endif %}
+						{% endcomment %}
+						{% if c.topic_count %}<small>({{ c.topic_count }} topic{{ c.topic_count|pluralize }})</small>{% endif %}</li>
+				{% endfor %}
+				</ul>
+			</div>
 		{% endif %}
 
 		{% load widget_tags %}
-		<ul class="feeds">
-			{% rss_feed_link kind='topics' %}
-		</ul>
+		{% rss_feeds 'topics' %}
 
 	{% sidebar_row_end %}
 {% endblock content %}

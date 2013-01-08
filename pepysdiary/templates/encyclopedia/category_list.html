@@ -33,9 +33,7 @@
 	{% sidebar_row_middle %}
 
 		{% load widget_tags %}
-		<ul class="feeds">
-			{% rss_feed_link kind='topics' %}
-		</ul>
+		{% rss_feeds 'topics' %}
 
 	{% sidebar_row_end %}
 

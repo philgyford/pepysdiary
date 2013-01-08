@@ -8,8 +8,32 @@ register = template.Library()
 # Things that appear in the sidebar on several pages.
 
 
+def put_in_block(html):
+    "All sidebar content should be wrapped in this."
+    return '<div class="sidebar-block">%s</div>' % html
+
+
+@register.simple_tag
+def rss_feeds(*args):
+    """
+    Display a list of links to RSS feeds. Use something like:
+        {% rss_feeds 'entries' 'posts' 'topics' %}
+    Where the arguments are valid feed kinds from `rss_feed_link()`.
+    """
+    html = ''
+    for kind in args:
+        html += rss_feed_link(kind)
+    if html != '':
+        html = put_in_block('<ul class="feeds">%s</ul>' % html)
+    return html
+
+
 @register.simple_tag
 def rss_feed_link(kind):
+    """
+    A single link in a list of RSS feeds.
+    Probably not called directly now. Use `rss_feed_links()` instead.
+    """
     feeds = {
         'articles': {
             'url': 'http://feeds.feedburner.com/PepysDiary-InDepthArticles',
@@ -54,7 +78,7 @@ def latest_news(context, quantity=5):
 <dl>
 %s</dl>
 """ % html
-    return html
+    return put_in_block(html)
 
 
 @register.simple_tag
@@ -82,4 +106,4 @@ def summary_year_navigation(current_year):
                             'year': '2012', 'month': '05', 'day': '31',
                             'slug': 'the-next-chapter'}
                         ))
-    return '<ul class="nav nav-tabs nav-stacked">%s</ul>' % html
+    return put_in_block('<ul class="nav nav-tabs nav-stacked">%s</ul>' % html)

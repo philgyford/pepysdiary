@@ -28,12 +28,12 @@
 
 		{% include "inc/summary_year_nav.html" %}
 
-		<p>Many thanks to <strong>Jeannine Kerwin</strong> and <strong>Dirk Van de Putte</strong> for writing these summaries of the diary's events.</p>
+		<div class="sidebar-block">
+			<p>Many thanks to <strong>Jeannine Kerwin</strong> and <strong>Dirk Van de Putte</strong> for writing these summaries of the diary's events.</p>
+		</div>
 
 		{% load widget_tags %}
-		<ul class="feeds">
-			{% rss_feed_link kind='entries' %}
-		</ul>
+		{% rss_feeds 'entries' %}
 
 	{% sidebar_row_end %}
 

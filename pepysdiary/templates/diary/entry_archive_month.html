@@ -16,19 +16,23 @@
 
 	{% sidebar_row_middle %}
 
-		{% if next_month %}
-			<p>Next: <a href="{% url 'entry_month_archive' year=next_month|date:'Y' month=next_month|date:'m' %}">{{ next_month|date:"F Y" }}</a></p>
-		{% endif %}
-		{% if previous_month %}
-			<p>Previous: <a href="{% url 'entry_month_archive' year=previous_month|date:'Y' month=previous_month|date:'m' %}">{{ previous_month|date:"F Y" }}</a></p>
+		{% if next_month or previous_month %}
+			<div class="sidebar-block">
+			{% if next_month %}
+				<p>Next: <a href="{% url 'entry_month_archive' year=next_month|date:'Y' month=next_month|date:'m' %}">{{ next_month|date:"F Y" }}</a></p>
+			{% endif %}
+			{% if previous_month %}
+				<p>Previous: <a href="{% url 'entry_month_archive' year=previous_month|date:'Y' month=previous_month|date:'m' %}">{{ previous_month|date:"F Y" }}</a></p>
+			{% endif %}
+			</div>
 		{% endif %}
 
-		<p><a href="{% url 'summary_year_archive' year=month|date:"Y" %}#m{{ month|date:"m" }}">Read a summary of this month’s events</a></p>
+		<div class="sidebar-block">
+			<p><a href="{% url 'summary_year_archive' year=month|date:"Y" %}#m{{ month|date:"m" }}">Read a summary of this month’s events</a></p>
+		</div>
 
 		{% load widget_tags %}
-		<ul class="feeds">
-			{% rss_feed_link kind='entries' %}
-		</ul>
+		{% rss_feeds 'entries' %}
 
 	{% sidebar_row_end %}
 
