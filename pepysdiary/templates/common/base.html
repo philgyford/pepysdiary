@@ -53,7 +53,14 @@
 			    		<li class="{% block encyclopedia_nav_active %}{% endblock %}"><a href="{% url 'encyclopedia' %}">Encyclopedia</a></li>
 			    		<li class="{% block indepth_nav_active %}{% endblock %}"><a href="{% url 'indepth' %}">In-Depth Articles</a></li>
 			    		<li class="{% block news_nav_active %}{% endblock %}"><a href="{% url 'news' %}">Site News</a></li>
-			    		<li class="{% block about_nav_active %}{% endblock %}"><a href="{% url 'about' %}">About</a></li>
+			    		<li class="dropdown {% block about_nav_active %}{% endblock %}">
+				    		<a href="#" class="dropdown-toggle" data-toggle="dropdown">About <b class="caret"></b></a>
+
+				    		<ul class="dropdown-menu">
+				    			{% load widget_tags %}
+				    			{% flatpages_links %}
+				    		</ul>
+			    		</li>
 			    	</ul>
 			    </div> <!-- .nav-collapse -->
 			</div> <!-- .container -->

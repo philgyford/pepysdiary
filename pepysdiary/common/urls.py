@@ -31,6 +31,9 @@ urlpatterns = patterns('',
     # The URL of the RSS feed that Feedburner fetches.
     url(r'^syndication/full-fb\.rdf$', RedirectView.as_view(
                                             url=reverse_lazy('entry_rss'))),
+    # Used on LiveJournal.
+    url(r'^syndication/rdf\.php$', RedirectView.as_view(
+                                url='http://feeds.feedburner.com/PepysDiary')),
 
 
     # LETTERS.
@@ -93,6 +96,15 @@ urlpatterns = patterns('',
 # Flatpages URLs.
 urlpatterns += patterns('django.contrib.flatpages.views',
     url(r'^about/$', 'flatpage', {'url': '/about/'}, name='about'),
+    url(r'^about/annotations/$', 'flatpage', {'url': '/about/annotations/'},
+                                                    name='about_annotations'),
+    url(r'^about/faq/$', 'flatpage', {'url': '/about/faq/'}, name='about_faq'),
+    url(r'^about/formats/$', 'flatpage', {'url': '/about/formats/'},
+                                                        name='about_formats'),
+    url(r'^about/support/$', 'flatpage', {'url': '/about/support/'},
+                                                        name='about_support'),
+    url(r'^about/text/$', 'flatpage', {'url': '/about/text/'},
+                                                            name='about_text'),
     url(r'^diary/summary/$', 'flatpage', {'url': '/diary/summary/'},
                                                         name='diary_summary'),
     url(r'^encyclopedia/familytree/$', 'flatpage', {

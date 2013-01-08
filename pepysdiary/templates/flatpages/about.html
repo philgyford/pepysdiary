@@ -4,6 +4,15 @@
 
 {% block sidebar %}
 	{% load widget_tags %}
+	{% load url from future %}
+
+	<div class="sidebar-block">
+		<ul class="nav nav-tabs nav-stacked">
+			{% flatpages_links %}
+		</ul>
+	</div>
+
 	{% latest_news %}
+
 	{% rss_feeds %}
 {% endblock %}

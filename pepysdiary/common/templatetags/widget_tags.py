@@ -112,3 +112,35 @@ def summary_year_navigation(current_year):
                             'slug': 'the-next-chapter'}
                         ))
     return put_in_block('<ul class="nav nav-tabs nav-stacked">%s</ul>' % html)
+
+
+@register.simple_tag(takes_context=True)
+def flatpages_links(context):
+    """
+    Used to build both the drop-down navigation menu and the list in the
+    sidebar on About pages.
+    Will highlight the correct link if there is a 'flatpage' in context.
+    Returns HTML containing <li>s (no <ul>s).
+    """
+    # Mapping URL conf names to titles.
+    # The titles should match the flatpages' titles in the Admin.
+    # The links will be in this order:
+    flatpages = (
+        ('about', 'About this site'),
+        ('about_text', 'About the text'),
+        ('about_faq', 'FAQ'),
+        ('about_annotations', 'Annotation guidelines'),
+        ('about_formats', 'Email and RSS'),
+        ('about_support', 'Supporting this site'),
+    )
+    links = []
+    for page in flatpages:
+        css_class = ''
+        if 'flatpage' in context and context['flatpage'].title == page[1]:
+            css_class = 'active'
+        links.append('<li class="%s"><a href="%s">%s</a></li>' % (
+                css_class,
+                reverse(page[0]),
+                page[1]
+            ))
+    return "\n".join(links)
