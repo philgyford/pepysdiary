@@ -44,6 +44,8 @@ urlpatterns = patterns('',
 
     url(r'^background/$', RedirectView.as_view(
                                             url=reverse_lazy('encyclopedia'))),
+    url(r'^background/familytree/$', RedirectView.as_view(
+                                url=reverse_lazy('encyclopedia_familytree'))),
     url(r'^background/(?P<slugs>[\w_\/]+)\.php$',
                                     EncyclopediaCategoryRedirectView.as_view()),
 
@@ -93,6 +95,8 @@ urlpatterns += patterns('django.contrib.flatpages.views',
     url(r'^about/$', 'flatpage', {'url': '/about/'}, name='about'),
     url(r'^diary/summary/$', 'flatpage', {'url': '/diary/summary/'},
                                                         name='diary_summary'),
+    url(r'^encyclopedia/familytree/$', 'flatpage', {
+        'url': '/encyclopedia/familytree/'}, name='encyclopedia_familytree'),
 )
 
 # The main URL conf for actual pages, not redirects.

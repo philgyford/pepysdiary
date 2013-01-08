@@ -1,0 +1,22 @@
+{% extends "flatpages/base.html" %}
+
+{# No sidebar, content stretches full width of page. #}
+
+{% block content %}
+
+	{% load scaffolding_tags %}
+	{% load text_formatting_filters %}
+
+	{% full_row_start %}
+
+		{% block before_content %}
+		{% endblock %}
+
+		{{ flatpage.content }}
+
+		{% block after_content %}
+		{% endblock %}
+
+	{% full_row_end %}
+
+{% endblock content %}

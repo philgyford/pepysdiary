@@ -4,6 +4,21 @@ register = template.Library()
 
 
 @register.simple_tag
+def full_row_start():
+    return """<div class="row-fluid">
+    <div class="span12">
+"""
+
+
+@register.simple_tag
+def full_row_end():
+    return """
+    </div> <!-- .span12 -->
+</div> <!-- .row-fluid -->
+"""
+
+
+@register.simple_tag
 def sidebar_row_start():
     return """<div class="row-fluid">
     <div class="span8">
