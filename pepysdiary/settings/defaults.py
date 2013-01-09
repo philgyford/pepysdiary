@@ -87,6 +87,12 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.cache.FetchFromCacheMiddleware',
 )
 
+CACHE_MIDDLEWARE_ALIAS = 'default'
+# Also see the CACHES setting in the server-specific settings files.
+CACHE_MIDDLEWARE_SECONDS = 500
+CACHE_MIDDLEWARE_KEY_PREFIX = 'pepys'
+CACHE_MIDDLEWARE_ANONYMOUS_ONLY = True
+
 ROOT_URLCONF = 'pepysdiary.common.urls'
 
 # Python dotted path to the WSGI application used by Django's runserver.
@@ -127,6 +133,7 @@ INSTALLED_APPS = (
     'storages',
     'treebeard',
     'south',
+    'memcache_status',
     'pepysdiary.common',
     'pepysdiary.diary',
     'pepysdiary.encyclopedia',
