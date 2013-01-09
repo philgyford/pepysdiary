@@ -3,7 +3,9 @@ import datetime
 
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import Http404
+from django.utils.decorators import method_decorator
 from django.utils.translation import ugettext as _
+from django.views.decorators.cache import cache_page
 from django.views.generic.dates import _date_from_string,\
     _date_lookup_for_field, ArchiveIndexView, DateDetailView,\
     MonthArchiveView, YearArchiveView
@@ -28,6 +30,11 @@ class EntryDetailView(EntryMixin, DateDetailView):
     Display a single entry based on the year/month/day in the URL.
     Assumes there is only one entry per date.
     """
+
+    # Cache this view for two hours.
+    @method_decorator(cache_page(60 * 120))
+    def dispatch(self, *args, **kwargs):
+        return super(EntryDetailView, self).dispatch(*args, **kwargs)
 
     def get_object(self, queryset=None):
         """
@@ -111,6 +118,11 @@ class EntryDetailView(EntryMixin, DateDetailView):
 class EntryMonthArchiveView(EntryMixin, MonthArchiveView):
     """Show all the Entries from one month."""
 
+    # Cache this view for two hours.
+    @method_decorator(cache_page(60 * 120))
+    def dispatch(self, *args, **kwargs):
+        return super(EntryMonthArchiveView, self).dispatch(*args, **kwargs)
+
     def get_context_data(self, **kwargs):
         context = super(EntryMonthArchiveView, self).get_context_data(**kwargs)
         context['tooltip_references'] = Entry.objects.get_brief_references(
@@ -120,6 +132,11 @@ class EntryMonthArchiveView(EntryMixin, MonthArchiveView):
 
 class EntryArchiveView(EntryMixin, ArchiveIndexView):
     """Show all the years and months there are Entries for."""
+
+    # Cache this view for two hours.
+    @method_decorator(cache_page(60 * 120))
+    def dispatch(self, *args, **kwargs):
+        return super(EntryArchiveView, self).dispatch(*args, **kwargs)
 
     def get_dated_items(self):
         """
