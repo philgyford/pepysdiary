@@ -12,6 +12,8 @@ admin.autodiscover()
 # Redirects from old Movable Type URLs to new ones.
 urlpatterns = patterns('',
 
+    url(r'^index\.php$', RedirectView.as_view(url=reverse_lazy('home'))),
+
     # DIARY.
 
     # From main /archive/ page.
