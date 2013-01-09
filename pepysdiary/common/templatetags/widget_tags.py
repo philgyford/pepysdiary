@@ -115,7 +115,7 @@ def summary_year_navigation(current_year):
 
 
 @register.simple_tag(takes_context=True)
-def flatpages_links(context):
+def about_pages_links(context):
     """
     Used to build both the drop-down navigation menu and the list in the
     sidebar on About pages.
