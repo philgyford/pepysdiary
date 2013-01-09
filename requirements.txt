@@ -8,6 +8,7 @@ django-debug-toolbar==0.9.4
 django-pylibmc-sasl==0.2.4
 django-storages==1.1.5
 django-treebeard==1.61
+gunicorn==0.17.2
 newrelic==1.9.0.21
 psycopg2==2.4.5
 pylibmc==1.2.3

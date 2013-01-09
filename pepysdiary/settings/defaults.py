@@ -133,7 +133,7 @@ INSTALLED_APPS = (
     'storages',
     'treebeard',
     'south',
-    'memcache_status',
+    'gunicorn',
     'pepysdiary.common',
     'pepysdiary.diary',
     'pepysdiary.encyclopedia',
