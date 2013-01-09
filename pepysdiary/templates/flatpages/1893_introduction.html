@@ -1,0 +1,29 @@
+{% extends "flatpages/base.html" %}
+
+{% block diary_nav_active %}active{% endblock %}
+{% block diary_1893_nav_active %}active{% endblock %}
+
+{% block before_content %}
+	<p class="muted">[The text below is taken from the 1893 edition of the diary, from which the diary entries on this site are also taken.]</p>
+{% endblock %}
+
+{% block sidebar %}
+	{% load widget_tags %}
+	{% load url from future %}
+
+	<div class="sidebar-block">
+		<p>Sections from the 1893 introduction:</p>
+
+		<ul class="nav nav-tabs nav-stacked">
+			<li{% if flatpage.url == '/diary/1893-introduction/' %} class="active"{% endif %}><a href="{% url '1893_introduction' %}">Cover text</a></li>
+			<li{% if flatpage.url == '/diary/1893-introduction/preface/' %} class="active"{% endif %}><a href="{% url '1893_introduction_preface' %}">Preface</a></li>
+			<li{% if flatpage.url == '/diary/1893-introduction/previous/' %} class="active"{% endif %}><a href="{% url '1893_introduction_previous' %}">Previous editions of the diary</a></li>
+			<li{% if flatpage.url == '/diary/1893-introduction/pepys/' %} class="active"{% endif %}><a href="{% url '1893_introduction_pepys' %}">Particulars of the life of Samuel Pepys</a></li>
+		</ul>
+	</div>
+
+
+	<div class="sidebar-block">
+		<p><a href="{% url 'about_text' %}">Read more about the text</a></p>
+	</div>
+{% endblock %}

@@ -87,6 +87,9 @@ body {
 cite {
 	font-style: italic;
 }
+.center {
+	text-align: center;
+}
 ul.feeds {
 	margin-left: 0;
 	list-style-type: none;
