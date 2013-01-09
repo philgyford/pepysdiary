@@ -31,6 +31,11 @@
 
 		{% include 'inc/next_previous.html' with next=next_entry previous=previous_entry %}
 
+		<div class="sidebar-block">
+			<p><a href="{% url 'entry_month_archive' year=entry.diary_date|date:'Y' month=entry.diary_date|date:'m' %}">All diary entries from {{ entry.diary_date|date:"F" }}&nbsp;{{ entry.diary_date|date:"Y" }}</a></p>
+			<p><a href="{% url 'summary_year_archive' year=entry.diary_date|date:"Y" %}#m{{ entry.diary_date|date:"m" }}">Read a summary of this month’s events</a></p>
+		</div>
+
 		{% load widget_tags %}
 		{% rss_feeds 'entries' %}
 
