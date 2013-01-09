@@ -1,11 +1,12 @@
 
 {% load text_formatting_filters %}
 
+<div class="entries">
 {% for entry in entry_list %}
 	<article class="entry">
-		<h2><a href="{{ entry.get_absolute_url }}">{{ entry.title }}</a></h2>
 
 		<div class="well well-manuscript">
+			<h2><a href="{{ entry.get_absolute_url }}">{{ entry.title }}</a></h2>
 			{{ entry.text|smartypants|safe }}
 			{% if entry.footnotes %}
 				<div class="footnotes">	
@@ -14,6 +15,7 @@
 			{% endif %}
 		</div>
 
-		<p><a href="{{ entry.get_absolute_url }}#annotations">Read {{ entry.comment_count }} annotation{{ entry.comment_count|pluralize }}</a></p>
+		<p class="entry-meta"><a href="{{ entry.get_absolute_url }}#annotations">Read {{ entry.comment_count }} annotation{{ entry.comment_count|pluralize }} by readers</a></p>
 	</article>
 {% endfor %}
+</div>

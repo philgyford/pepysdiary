@@ -5,7 +5,8 @@
 {% block diary_archive_nav_active %}active{% endblock %}
 
 {% block title %}{{ entry.title }}{% endblock %}
-{% block header_title %}{{ entry.title }}{% endblock %}
+
+{% block page_header %}{% endblock %}
 
 {% block content %}
 
@@ -15,6 +16,7 @@
 	{% sidebar_row_start %}
 
 		<article class="entry well well-manuscript">
+			<h1>{{ entry.title }}</h1>
 
 			{{ entry.text|smartypants|safe }}
 			{% if entry.footnotes %}

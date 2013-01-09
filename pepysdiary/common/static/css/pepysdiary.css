@@ -192,6 +192,17 @@ img.force-fullwidth {
 
 /* Entries */
 
+.entry h1,
+.entry h2 {
+	margin-top: 0;
+	font-size: 24px;
+}
+.entry h2 a {
+	color: #333;
+}
+.entry-meta {
+	margin: -0.8em 0 2em 20px;
+}
 .footnotes {
 	margin-top: 1em;
 	border-top: 1px solid #d8d7cc;
