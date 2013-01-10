@@ -12,7 +12,11 @@ admin.autodiscover()
 # Redirects from old Movable Type URLs to new ones.
 urlpatterns = patterns('',
 
-    url(r'^index\.php$', RedirectView.as_view(url=reverse_lazy('home'))),
+    # Redirect any URL with a trailiing 'index.php' to its base URL.
+    # eg /diary/1660/01/01/index.php to /diary/1660/01/01/
+    url(r'^(?P<base_url>.*?)index\.php$', RedirectView.as_view(
+                                url='%(site_url)s%(base_url)s'),
+                                kwargs={'site_url': reverse_lazy('home')}),
 
     # DIARY.
 
