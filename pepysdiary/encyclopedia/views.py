@@ -1,7 +1,5 @@
 from django.http import Http404
-from django.utils.decorators import method_decorator
 from django.utils.translation import ugettext as _
-from django.views.decorators.cache import cache_page
 from django.views.generic.base import TemplateView
 from django.views.generic.detail import DetailView
 
@@ -43,11 +41,6 @@ class CategoryDetailView(DetailView):
 
 class TopicDetailView(DetailView):
     model = Topic
-
-    # Cache this view for two hours.
-    @method_decorator(cache_page(60 * 120))
-    def dispatch(self, *args, **kwargs):
-        return super(TopicDetailView, self).dispatch(*args, **kwargs)
 
     def get_context_data(self, **kwargs):
         context = super(TopicDetailView, self).get_context_data(**kwargs)
