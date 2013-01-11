@@ -5,8 +5,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.http import Http404
 from django.utils.translation import ugettext as _
 from django.views.generic.dates import _date_from_string,\
-    _date_lookup_for_field, ArchiveIndexView, DateDetailView,\
-    MonthArchiveView, YearArchiveView
+            ArchiveIndexView, DateDetailView, MonthArchiveView, YearArchiveView
 
 from pepysdiary.common.views import BaseRSSFeed
 from pepysdiary.diary.models import Entry, Summary
@@ -55,10 +54,11 @@ class EntryDetailView(EntryMixin, DateDetailView):
         # Filter down a queryset from self.queryset using the date from the
         # URL. This'll get passed as the queryset to DetailView.get_object,
         # which'll handle the 404
-        date_field = self.get_date_field()
-        field = qs.model._meta.get_field(date_field)
-        lookup = _date_lookup_for_field(field, date)
-        qs = qs.filter(**lookup)
+        # date_field = self.get_date_field()
+        # field = qs.model._meta.get_field(date_field)
+        # lookup = _date_lookup_for_field(field, date)
+        lookup_kwargs = self._make_single_date_lookup(date)
+        qs = qs.filter(**lookup_kwargs)
 
         # Here's where we differ from DateDetailView.get_object().
         # Instead of calling DetailView.get_object(), we just fetch an object
