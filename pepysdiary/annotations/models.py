@@ -6,6 +6,9 @@ from django.db.models import Max
 
 class Annotation(Comment):
 
+    class Meta:
+        proxy = True
+
     def save(self, *args, **kwargs):
         super(Annotation, self).save(*args, **kwargs)
         self._set_parent_comment_data()

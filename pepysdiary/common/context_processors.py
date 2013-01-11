@@ -1,4 +1,7 @@
 from django.conf import settings
+from django.contrib.sites.models import get_current_site
+
+from pepysdiary.common.models import Config
 
 # Things that we want to be available in the context of every page.
 
@@ -22,3 +25,11 @@ def api_keys(request):
         'GOOGLE_MAPS_API_KEY': settings.GOOGLE_MAPS_API_KEY,
         'GOOGLE_ANALYTICS_ID': settings.GOOGLE_ANALYTICS_ID,
     }
+
+
+def config(request):
+    try:
+        config = Config.objects.get(site=get_current_site(request))
+        return {'config': config, }
+    except Config.DoesNotExist:
+        return {}

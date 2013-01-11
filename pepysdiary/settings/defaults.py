@@ -115,8 +115,9 @@ from django.conf import global_settings
 TEMPLATE_CONTEXT_PROCESSORS = global_settings.TEMPLATE_CONTEXT_PROCESSORS + (
     # Needed for django-treebeard admin:
     'django.core.context_processors.request',
-    'pepysdiary.common.context_processors.date_formats',
     'pepysdiary.common.context_processors.api_keys',
+    'pepysdiary.common.context_processors.config',
+    'pepysdiary.common.context_processors.date_formats',
 )
 
 INSTALLED_APPS = (
@@ -140,9 +141,13 @@ INSTALLED_APPS = (
     'pepysdiary.letters',
     'pepysdiary.indepth',
     'pepysdiary.news',
+    'pepysdiary.membership',
+    'registration',
     'django.contrib.comments',
     'pepysdiary.annotations',
 )
+
+AUTH_USER_MODEL = 'membership.Person'
 
 COMMENTS_APP = 'pepysdiary.annotations'
 
