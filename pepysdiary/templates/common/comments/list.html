@@ -20,7 +20,7 @@
 			<p><a href="#">Log in</a> to post {% if comment_name == 'annotation' %}an annotation{% else %}a comment{% endif %}.</p>
 
 			{% if config.allow_registration %}
-				<p>If you don't have an account, then <a href="#">register here</a>.</p>
+				<p>If you don't have an account, then <a href="{% url 'register' %}">register here</a>.</p>
 			{% endif %}
 		{% else %}
 			<p class="text-warning">Sorry, it’s not possible to log in and post {{ comment_name }}s at the moment.</p>
