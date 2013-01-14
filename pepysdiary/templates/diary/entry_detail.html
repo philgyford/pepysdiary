@@ -8,37 +8,34 @@
 
 {% block page_header %}{% endblock %}
 
-{% block content %}
+{% block main_content %}
 
-	{% load scaffolding_tags %}
 	{% load text_formatting_filters %}
 	
-	{% sidebar_row_start %}
+	<article class="entry well well-manuscript">
+		<h1>{{ entry.title }}</h1>
 
-		<article class="entry well well-manuscript">
-			<h1>{{ entry.title }}</h1>
+		{{ entry.text|smartypants|safe }}
+		{% if entry.footnotes %}
+			<hr />
+			{{ entry.footnotes|smartypants|safe }}
+		{% endif %}
+	</article>
 
-			{{ entry.text|smartypants|safe }}
-			{% if entry.footnotes %}
-				<hr />
-				{{ entry.footnotes|smartypants|safe }}
-			{% endif %}
-		</article>
+	{% include 'inc/comments.html' with object=entry comment_name="annotation" %}
 
-		{% include 'inc/comments.html' with object=entry comment_name="annotation" %}
+{% endblock main_content %}
 
-	{% sidebar_row_middle %}
 
-		{% include 'inc/next_previous.html' with next=next_entry previous=previous_entry %}
+{% block sidebar_content %}
+	{% include 'inc/next_previous.html' with next=next_entry previous=previous_entry %}
 
-		<div class="sidebar-block">
-			<p><a href="{% url 'entry_month_archive' year=entry.diary_date|date:'Y' month=entry.diary_date|date:'m' %}">All diary entries from {{ entry.diary_date|date:"F" }}&nbsp;{{ entry.diary_date|date:"Y" }}</a></p>
-			<p><a href="{% url 'summary_year_archive' year=entry.diary_date|date:"Y" %}#m{{ entry.diary_date|date:"m" }}">Read a summary of this month’s events</a></p>
-		</div>
+	<div class="sidebar-block">
+		<p><a href="{% url 'entry_month_archive' year=entry.diary_date|date:'Y' month=entry.diary_date|date:'m' %}">All diary entries from {{ entry.diary_date|date:"F" }}&nbsp;{{ entry.diary_date|date:"Y" }}</a></p>
+		<p><a href="{% url 'summary_year_archive' year=entry.diary_date|date:"Y" %}#m{{ entry.diary_date|date:"m" }}">Read a summary of this month’s events</a></p>
+	</div>
 
-		{% load widget_tags %}
-		{% rss_feeds 'entries' %}
+	{% load widget_tags %}
+	{% rss_feeds 'entries' %}
 
-	{% sidebar_row_end %}
-
-{% endblock content %}
+{% endblock sidebar_content %}

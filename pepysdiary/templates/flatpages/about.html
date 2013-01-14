@@ -2,7 +2,7 @@
 
 {% block about_nav_active %}active{% endblock %}
 
-{% block sidebar %}
+{% block sidebar_content %}
 	{% load widget_tags %}
 	{% load url from future %}
 
@@ -15,4 +15,4 @@
 	{% latest_news %}
 
 	{% rss_feeds %}
-{% endblock %}
+{% endblock sidebar_content %}

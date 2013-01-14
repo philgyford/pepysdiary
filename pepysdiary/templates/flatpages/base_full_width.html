@@ -1,22 +1,22 @@
-{% extends "flatpages/base.html" %}
+{% extends "base_full_width.html" %}
 
 {# No sidebar, content stretches full width of page. #}
 
-{% block content %}
+{% block title %}{{ flatpage.title }}{% endblock %}
+{% block header_title %}{{ flatpage.title }}{% endblock %}
 
-	{% load scaffolding_tags %}
+
+{% block main_content %}
+
 	{% load text_formatting_filters %}
 
-	{% full_row_start %}
+	{% block before_flatpage_content %}
+	{% endblock %}
 
-		{% block before_content %}
-		{% endblock %}
+	{{ flatpage.content }}
 
-		{{ flatpage.content }}
+	{% block after_flatpage_content %}
+	{% endblock %}
 
-		{% block after_content %}
-		{% endblock %}
+{% endblock main_content %}
 
-	{% full_row_end %}
-
-{% endblock content %}

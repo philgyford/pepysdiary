@@ -4,18 +4,13 @@
 {% block title %}Error{% endblock %}
 {% block header_title %}Error{% endblock %}
 
-{% block content %}
+{% block main_content %}
 
-	{% load scaffolding_tags %}
+	<p class="lead">Sorry, something went wrong.</p>
 
-	{% sidebar_row_start %}
-
-		<p class="lead">Sorry, something went wrong.</p>
-
-		<p>There was a "500 error".</p>
-
-	{% sidebar_row_middle %}
-
-	{% sidebar_row_end %}
+	<p>There was a "500 error".</p>
 
 {% endblock content %}
+
+{% block sidebar %}
+{% endblock %}

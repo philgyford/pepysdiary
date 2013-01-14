@@ -77,7 +77,27 @@
 			</div>
 		{% endblock %}
 
-		{% block content %}{% endblock %}
+		{% block content %}
+			<div class="row-fluid">
+				{% block main %}
+				    <div class="span8">
+						{% block main_content %}
+
+						{% endblock %}
+					</div> <!-- .span8 -->
+				{% endblock %}
+
+				{% block sidebar %}
+				    <div class="span4">
+				        <div class="well">
+							{% block sidebar_content %}
+
+							{% endblock %}
+				      </div> <!-- .well -->
+				    </div> <!-- .span4 -->
+				{% endblock %}
+			</div> <!-- .row-fluid -->
+		{% endblock %}
 	</div> <!-- .container -->
 
 	<script src="http://code.jquery.com/jquery-1.8.3.min.js"></script>

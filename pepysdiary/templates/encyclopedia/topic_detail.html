@@ -13,119 +13,118 @@
 {% endblock breadcrumbs %}
 
 
-{% block content %}
+{% block main_content %}
 
-	{% load scaffolding_tags %}
 	{% load text_formatting_filters %}
 
-	{% sidebar_row_start %}
-		<div class="tabbable">
-			<ul class="nav nav-tabs">
-				{% if topic.latitude %}
-					<li class="active"><a href="#map" data-toggle="tab">Map</a></li>
-				{% endif %}
-				{% if topic.summary_html %}
-					<li class="{% if not topic.latitude and topic.summary_html %}active{% endif %}{% if not topic.summary_html %}disabled{% endif %}"><a href="#summary" data-toggle="tab">Summary</a></li>
-				{% endif %}
-				{% if topic.wikipedia_fragment %}
-					<li class="{% if not topic.latitude and not topic.summary_html and topic.wikipedia_fragment %}active{% endif %}{% if not topic.wikipedia_fragment %}disabled{% endif %}"><a href="#wikipedia" data-toggle="tab">Wikipedia</a></li>
-				{% endif %}
-				{% if topic.wheatley_html %}
-					<li class="{% if not topic.latitude and not topic.summary_html and not topic.wikipedia_fragment and topic.wheatley_html %}active{% endif %}{% if not topic.wheatley_html %}disabled{% endif %}"><a href="#wheatley" data-toggle="tab">1893 text</a></li>
-				{% endif %}
-				<li class="{% if not topic.latitude and not topic.summary_html and not topic.wikipedia_fragment and not topic.wheatley_html %}active{% endif %}"><a href="#annotations" data-toggle="tab">Annotations ({{ topic.comment_count }})</a></li>
-				{% if diary_references %}
-					<li><a href="#references" data-toggle="tab">References ({{ topic.diary_references.count }})</a></li>
-				{% endif %}
-			</ul>
+	<div class="tabbable">
+		<ul class="nav nav-tabs">
+			{% if topic.latitude %}
+				<li class="active"><a href="#map" data-toggle="tab">Map</a></li>
+			{% endif %}
+			{% if topic.summary_html %}
+				<li class="{% if not topic.latitude and topic.summary_html %}active{% endif %}{% if not topic.summary_html %}disabled{% endif %}"><a href="#summary" data-toggle="tab">Summary</a></li>
+			{% endif %}
+			{% if topic.wikipedia_fragment %}
+				<li class="{% if not topic.latitude and not topic.summary_html and topic.wikipedia_fragment %}active{% endif %}{% if not topic.wikipedia_fragment %}disabled{% endif %}"><a href="#wikipedia" data-toggle="tab">Wikipedia</a></li>
+			{% endif %}
+			{% if topic.wheatley_html %}
+				<li class="{% if not topic.latitude and not topic.summary_html and not topic.wikipedia_fragment and topic.wheatley_html %}active{% endif %}{% if not topic.wheatley_html %}disabled{% endif %}"><a href="#wheatley" data-toggle="tab">1893 text</a></li>
+			{% endif %}
+			<li class="{% if not topic.latitude and not topic.summary_html and not topic.wikipedia_fragment and not topic.wheatley_html %}active{% endif %}"><a href="#annotations" data-toggle="tab">Annotations ({{ topic.comment_count }})</a></li>
+			{% if diary_references %}
+				<li><a href="#references" data-toggle="tab">References ({{ topic.diary_references.count }})</a></li>
+			{% endif %}
+		</ul>
 
-			<div class="tab-content">
-				{% if topic.latitude %}
-					<div class="tab-pane active" id="map">
-						<h2>Map</h2>
-						<p>Maps are not quite ready yet, sorry.</p>
+		<div class="tab-content">
+			{% if topic.latitude %}
+				<div class="tab-pane active" id="map">
+					<h2>Map</h2>
+					<p>Maps are not quite ready yet, sorry.</p>
 
-						<p>For now you can view this location <a href="http://maps.google.com/?ie=UTF8&amp;ll={{ topic.latitude }},{{ topic.longitude }}&amp;z={{ topic.zoom }}&amp;q={{ topic.latitude }},{{ topic.longitude }}">directly on Google Maps</a>.</p>
-					</div>
-				{% endif %}
-
-				{% if topic.summary_html %}
-					<div class="tab-pane{% if not topic.latitude %} active{% endif %}" id="summary">
-						<h2>Summary</h2>
-						{{ topic.summary_html|smartypants|safe }}
-					</div>
-				{% endif %}
-
-				{% if topic.wikipedia_fragment %}
-					<div class="tab-pane{% if not topic.latitude and not topic.summary_html %} active{% endif %}" id="wikipedia">
-						<h2>Wikipedia</h2>
-						<p>Wikipedia content is not yet automatically copied to this page.</p>
-						<p>For now, you can directly <a href="http://en.wikipedia.org/wiki/{{ topic.wikipedia_fragment }}">visit this topic on Wikipedia</a>.</p>
-					</div>
-				{% endif %}
-
-				{% if topic.wheatley_html %}
-					<div class="tab-pane{% if not topic.latitude and not topic.summary_html and not topic.wikipedia_fragment %} active{% endif %}" id="wheatley">
-						<h2>1893 text</h2>
-						<div class="well well-manuscript">
-							{{ topic.wheatley_html|smartypants|safe }}
-						</div>
-					</div>
-				{% endif %}
-
-				<div class="tab-pane{% if not topic.latitude and not topic.summary_html and not topic.wikipedia_fragment and not topic.wheatley_html %} active{% endif %}" id="annotations">
-					{% include 'inc/comments.html' with object=topic comment_name="annotation" %}
+					<p>For now you can view this location <a href="http://maps.google.com/?ie=UTF8&amp;ll={{ topic.latitude }},{{ topic.longitude }}&amp;z={{ topic.zoom }}&amp;q={{ topic.latitude }},{{ topic.longitude }}">directly on Google Maps</a>.</p>
 				</div>
+			{% endif %}
 
-				{% if diary_references %}
-					<div class="tab-pane" id="references">
-						<h2>References</h2>
+			{% if topic.summary_html %}
+				<div class="tab-pane{% if not topic.latitude %} active{% endif %}" id="summary">
+					<h2>Summary</h2>
+					{{ topic.summary_html|smartypants|safe }}
+				</div>
+			{% endif %}
 
-						<ul class="references references-diary">
-							{% for y, months in diary_references %}
-								<li>{{ y }}
-									<ul class="references-year">
-										{% for m, refs in months %}
-											<li><span>{{ m }}</span>
-												<ul class="references-month">
-													{% for ref in refs %}
-														<li><a href="{{ ref.get_absolute_url }}">{{ ref.day_e }}</a></li>
-													{% endfor %}
-												</ul>
-											</li>
-										{% endfor %}
-									</ul>
-								</li>
-							{% endfor %}
-						</ul>
+			{% if topic.wikipedia_fragment %}
+				<div class="tab-pane{% if not topic.latitude and not topic.summary_html %} active{% endif %}" id="wikipedia">
+					<h2>Wikipedia</h2>
+					<p>Wikipedia content is not yet automatically copied to this page.</p>
+					<p>For now, you can directly <a href="http://en.wikipedia.org/wiki/{{ topic.wikipedia_fragment }}">visit this topic on Wikipedia</a>.</p>
+				</div>
+			{% endif %}
+
+			{% if topic.wheatley_html %}
+				<div class="tab-pane{% if not topic.latitude and not topic.summary_html and not topic.wikipedia_fragment %} active{% endif %}" id="wheatley">
+					<h2>1893 text</h2>
+					<div class="well well-manuscript">
+						{{ topic.wheatley_html|smartypants|safe }}
 					</div>
-				{% endif %}
-			</div> <!-- .tab-content -->
-		</div> <!-- .tabbable -->
+				</div>
+			{% endif %}
 
-	{% sidebar_row_middle %}
-
-		{% if topic.thumbnail %}
-			<div class="sidebar-block">
-				<p><img src="{{ topic.thumbnail.url }}" class="thumbnail" width="100" height="120" alt="Thumbnail image" /></p>
+			<div class="tab-pane{% if not topic.latitude and not topic.summary_html and not topic.wikipedia_fragment and not topic.wheatley_html %} active{% endif %}" id="annotations">
+				{% include 'inc/comments.html' with object=topic comment_name="annotation" %}
 			</div>
-		{% endif %}
 
-		{% if topic.on_pepys_family_tree or topic.title == 'Pepys family tree' %}
-			<div class="sidebar-block">
-				<p><a href="{% url 'encyclopedia_familytree' %}"><img class="thumbnail" src="{{ STATIC_PREFIX }}img/sidebar_family_tree.png" width="250" height="134" alt="Family tree thumbnail" />
-				{% if topic.on_pepys_family_tree %}
-					See this person on the Pepys family tree
-				{% else %}
-					See the Pepys family tree
-				{% endif %}
-				</a></p>
-			</div>
-		{% endif %}
+			{% if diary_references %}
+				<div class="tab-pane" id="references">
+					<h2>References</h2>
 
-		{% load widget_tags %}
-		{% rss_feeds 'topics' %}
+					<ul class="references references-diary">
+						{% for y, months in diary_references %}
+							<li>{{ y }}
+								<ul class="references-year">
+									{% for m, refs in months %}
+										<li><span>{{ m }}</span>
+											<ul class="references-month">
+												{% for ref in refs %}
+													<li><a href="{{ ref.get_absolute_url }}">{{ ref.day_e }}</a></li>
+												{% endfor %}
+											</ul>
+										</li>
+									{% endfor %}
+								</ul>
+							</li>
+						{% endfor %}
+					</ul>
+				</div>
+			{% endif %}
+		</div> <!-- .tab-content -->
+	</div> <!-- .tabbable -->
 
-	{% sidebar_row_end %}
+{% endblock main_content %}
 
-{% endblock content %}
+
+{% block sidebar_content %}
+
+	{% if topic.thumbnail %}
+		<div class="sidebar-block">
+			<p><img src="{{ topic.thumbnail.url }}" class="thumbnail" width="100" height="120" alt="Thumbnail image" /></p>
+		</div>
+	{% endif %}
+
+	{% if topic.on_pepys_family_tree or topic.title == 'Pepys family tree' %}
+		<div class="sidebar-block">
+			<p><a href="{% url 'encyclopedia_familytree' %}"><img class="thumbnail" src="{{ STATIC_PREFIX }}img/sidebar_family_tree.png" width="250" height="134" alt="Family tree thumbnail" />
+			{% if topic.on_pepys_family_tree %}
+				See this person on the Pepys family tree
+			{% else %}
+				See the Pepys family tree
+			{% endif %}
+			</a></p>
+		</div>
+	{% endif %}
+
+	{% load widget_tags %}
+	{% rss_feeds 'topics' %}
+
+{% endblock sidebar_content %}

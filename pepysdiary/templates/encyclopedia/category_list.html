@@ -6,35 +6,32 @@
 {% block title %}Encyclopedia{% endblock %}}
 {% block header_title %}Encyclopedia{% endblock %}}
 
-{% block content %}
+{% block main_content %}
 
-	{% load scaffolding_tags %}
+	<p class="lead">Information about {{ topic_count }} people, places and things in Pepys’ time.</p>
 
-	{% sidebar_row_start %}
+	{% for category, info in categories %}
+	    {% if info.open %}
+	        <ul><li>
+	    {% else %}
+	        </li><li>
+	    {% endif %}
 
-		<p class="lead">Information about {{ topic_count }} people, places and things in Pepys’ time.</p>
+	    <a href="{{ category.get_absolute_url }}">{{ category.title }}</a>
 
-		{% for category, info in categories %}
-		    {% if info.open %}
-		        <ul><li>
-		    {% else %}
-		        </li><li>
-		    {% endif %}
+		{% if category.topic_count %}<small>({{ category.topic_count }})</small>{% endif %}
 
-		    <a href="{{ category.get_absolute_url }}">{{ category.title }}</a>
+	    {% for close in info.close %}
+	        </li></ul>
+	    {% endfor %}
+	{% endfor %}
 
-			{% if category.topic_count %}<small>({{ category.topic_count }})</small>{% endif %}
+{% endblock main_content %}
 
-		    {% for close in info.close %}
-		        </li></ul>
-		    {% endfor %}
-		{% endfor %}
 
-	{% sidebar_row_middle %}
+{% block sidebar_content %}
 
-		{% load widget_tags %}
-		{% rss_feeds 'topics' %}
+	{% load widget_tags %}
+	{% rss_feeds 'topics' %}
 
-	{% sidebar_row_end %}
-
-{% endblock content %}
+{% endblock sidebar_content %}

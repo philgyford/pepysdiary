@@ -6,28 +6,26 @@
 {% block title %}Site News: {{ category_name }}{% endblock %}}
 {% block header_title %}Site News: {{ category_name }}{% endblock %}}
 
-{% block content %}
+{% block main_content %}
 
-	{% load scaffolding_tags %}
 	{% load text_formatting_filters %}
 
-	{% sidebar_row_start %}
+	{% for post in post_list %}
+		<article class="news">
+			<h2><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h2>
 
-		{% for post in post_list %}
-			<article class="news">
-				<h2><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h2>
+			{{ post.intro_html|smartypants|safe }}
+		</article>
+	{% endfor %}
 
-				{{ post.intro_html|smartypants|safe }}
-			</article>
-		{% endfor %}
+{% endblock main_content %}
 
-	{% sidebar_row_middle %}
 
-		{% include 'inc/news_category_nav.html' %}
+{% block sidebar_content %}
 
-		{% load widget_tags %}
-		{% rss_feeds 'posts' %}
+	{% include 'inc/news_category_nav.html' %}
 
-	{% sidebar_row_end %}
+	{% load widget_tags %}
+	{% rss_feeds 'posts' %}
 
-{% endblock content %}
+{% endblock sidebar_content %}

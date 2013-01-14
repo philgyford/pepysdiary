@@ -5,26 +5,20 @@
 {% block title %}{{ flatpage.title }}{% endblock %}
 {% block header_title %}{{ flatpage.title }}{% endblock %}
 
-{% block content %}
 
-	{% load scaffolding_tags %}
+{% block main_content %}
+
 	{% load text_formatting_filters %}
 
-	{% sidebar_row_start %}
+	{% block before_flatpage_content %}
+	{% endblock %}
 
-		{% block before_content %}
-		{% endblock %}
+	{{ flatpage.content }}
 
-		{{ flatpage.content }}
+	{% block after_flatpage_content %}
+	{% endblock %}
 
-		{% block after_content %}
-		{% endblock %}
+{% endblock main_content %}
 
-	{% sidebar_row_middle %}
 
-		{% block sidebar %}
-		{% endblock %}
-
-	{% sidebar_row_end %}
-
-{% endblock content %}
+{# sidebar as standard base.html template #}

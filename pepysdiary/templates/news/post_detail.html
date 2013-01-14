@@ -7,29 +7,26 @@
 {% block title %}{{ post.title|smartypants|safe }}{% endblock %}}
 {% block header_title %}{{ post.title|smartypants|safe }}{% endblock %}}
 
-{% block content %}
+{% block main_content %}
 
-	{% load scaffolding_tags %}
+	<p>{{ post.date_published|date:date_format_longest }}</p>
 
-	{% sidebar_row_start %}
+	{{ post.intro_html|smartypants|safe }}
 
-		<p>{{ post.date_published|date:date_format_longest }}</p>
+	{{ post.text_html|smartypants|safe }}
 
-		{{ post.intro_html|smartypants|safe }}
+	{% include 'inc/comments.html' with object=post comment_name="comment" %}
 
-		{{ post.text_html|smartypants|safe }}
+{% endblock main_content %}
 
-		{% include 'inc/comments.html' with object=post comment_name="comment" %}
 
-	{% sidebar_row_middle %}
+{% block sidebar_content %}
 
-		{% include 'inc/next_previous.html' with next=next_post previous=previous_post %}
+	{% include 'inc/next_previous.html' with next=next_post previous=previous_post %}
 
-		{% include 'inc/news_category_nav.html' %}
+	{% include 'inc/news_category_nav.html' %}
 
-		{% load widget_tags %}
-		{% rss_feeds 'posts' %}
+	{% load widget_tags %}
+	{% rss_feeds 'posts' %}
 
-	{% sidebar_row_end %}
-
-{% endblock content %}
+{% endblock sidebar_content %}

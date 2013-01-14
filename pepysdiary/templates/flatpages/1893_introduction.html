@@ -3,17 +3,19 @@
 {% block diary_nav_active %}active{% endblock %}
 {% block diary_1893_nav_active %}active{% endblock %}
 
-{% block before_content %}
+
+{% block before_flatpage_content %}
 	<p class="muted">[The text below is taken from the 1893 edition of the diary, from which the diary entries on this site are also taken.]</p>
 
 	<article class="well well-manuscript intro1893">
 {% endblock %}
 
-{% block after_content %}
+{% block after_flatpage_content %}
 	</article> <!-- .well.well-manuscript -->
 {% endblock %}
 
-{% block sidebar %}
+
+{% block sidebar_content %}
 	{% load widget_tags %}
 	{% load url from future %}
 
@@ -32,4 +34,4 @@
 	<div class="sidebar-block">
 		<p><a href="{% url 'about_text' %}">Read more about the text</a></p>
 	</div>
-{% endblock %}
+{% endblock sidebar_content %}

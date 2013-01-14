@@ -6,41 +6,37 @@
 
 {% block page_header %}{% endblock %}
 
-{% block content %}
 
-	{% load scaffolding_tags %}
+{% block main_content %}
+	{% if entry_list %}
+		<p class="lead">A new diary entry appears here at the end of each day.</p>
+		{% include 'inc/entry_list.html' %}
+	{% else %}
+		<p class="lead">In 1660, at age 26, Samuel Pepys began his diary. He stopped a decade later.</p>
+
+		<p class="lead">From 2003 until 2012 this site featured a daily entry from the diary accompanied by thoughts from readers.</p>
+
+		<p class="lead">Diary entries will begin appearing here again at 11pm (London time) on 1st January 2013.</p>
+
+	{% endif %}
+{% endblock main_content %}
+
+
+{% block sidebar_content %}
 	{% load widget_tags %}
+	
+	{% latest_news quantity=2 %}
 
-	{% sidebar_row_start %}
+	<div class="sidebar-block">
+		<h4>Twitter</h4>
+		<p>Follow <a href="http://twitter.com/samuelpepys"><strong>@samuelpepys</strong></a> on Twitter for updates throughout the day.</p>
+	</div>
 
-		{% if entry_list %}
-			<p class="lead">A new diary entry appears here at the end of each day.</p>
-			{% include 'inc/entry_list.html' %}
-		{% else %}
-			<p class="lead">In 1660, at age 26, Samuel Pepys began his diary. He stopped a decade later.</p>
+	<div class="sidebar-block">
+		<h4>Email</h4>
+		<p><a href="http://feedburner.google.com/fb/a/mailverify?uri=PepysDiary&amp;loc=en_US">Receive diary entries by email daily</a></p>
+	</div>
 
-			<p class="lead">From 2003 until 2012 this site featured a daily entry from the diary accompanied by thoughts from readers.</p>
+	{% rss_feeds %}
 
-			<p class="lead">Diary entries will begin appearing here again at 11pm (London time) on 1st January 2013.</p>
-
-		{% endif %}
-
-	{% sidebar_row_middle %}
-
-		{% latest_news quantity=2 %}
-
-		<div class="sidebar-block">
-			<h4>Twitter</h4>
-			<p>Follow <a href="http://twitter.com/samuelpepys"><strong>@samuelpepys</strong></a> on Twitter for updates throughout the day.</p>
-		</div>
-
-		<div class="sidebar-block">
-			<h4>Email</h4>
-			<p><a href="http://feedburner.google.com/fb/a/mailverify?uri=PepysDiary&amp;loc=en_US">Receive diary entries by email daily</a></p>
-		</div>
-
-		{% rss_feeds %}
-
-	{% sidebar_row_end %}
-
-{% endblock content %}
+{% endblock sidebar_content %}

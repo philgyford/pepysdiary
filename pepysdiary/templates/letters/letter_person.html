@@ -6,19 +6,18 @@
 {% block title %}Letters sent by or to {{ person.title }}{% endblock %}}
 {% block header_title %}Letters sent by or to {{ person.title }}{% endblock %}}
 
-{% block content %}
+{% block main_content %}
 
-	{% load scaffolding_tags %}
-	{% sidebar_row_start %}
+	{% include 'inc/letter_list.html' %}
 
-		{% include 'inc/letter_list.html' %}
+{% endblock main_content %}
 
-	{% sidebar_row_middle %}
-		{% if person.thumbnail %}
-			<p><img src="{{ person.thumbnail.url }}" width="100" height="120" alt="Thumbnail image" /><br />
-				<a href="{{ person.get_absolute_url }}">In the Encyclopedia</a></p>
-		{% endif %}
 
-	{% sidebar_row_end %}
+{% block sidebar_content %}
 
-{% endblock content %}
+	{% if person.thumbnail %}
+		<p><img src="{{ person.thumbnail.url }}" width="100" height="120" alt="Thumbnail image" /><br />
+			<a href="{{ person.get_absolute_url }}">In the Encyclopedia</a></p>
+	{% endif %}
+
+{% endblock sidebar_content %}

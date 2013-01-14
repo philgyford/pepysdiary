@@ -8,27 +8,23 @@
 {% block header_title %}{{ article.title|smartypants|safe }}{% endblock %}}
 
 
-{% block content %}
+{% block main_content %}
 
-	{% load scaffolding_tags %}
+	<p>{{ article.date_published|date:date_format_longest }}</p>
 
-	{% sidebar_row_start %}
+	{{ article.intro_html|smartypants|safe }}
 
-		<p>{{ article.date_published|date:date_format_longest }}</p>
+	{{ article.text_html|smartypants|safe }}
 
-		{{ article.intro_html|smartypants|safe }}
+	{% include 'inc/comments.html' with object=article comment_name="comment" %}
 
-		{{ article.text_html|smartypants|safe }}
+{% endblock main_content %}
 
-		{% include 'inc/comments.html' with object=article comment_name="comment" %}
 
-	{% sidebar_row_middle %}
+{% block sidebar_content %}
+	{% include 'inc/next_previous.html' with next=next_article previous=previous_article %}
 
-		{% include 'inc/next_previous.html' with next=next_article previous=previous_article %}
-	
-		{% load widget_tags %}
-		{% rss_feeds 'articles' %}
+	{% load widget_tags %}
+	{% rss_feeds 'articles' %}
 
-	{% sidebar_row_end %}
-
-{% endblock content %}
+{% endblock sidebar_content %}

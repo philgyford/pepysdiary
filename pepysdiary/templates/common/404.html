@@ -4,22 +4,17 @@
 {% block title %}Page not found{% endblock %}
 {% block header_title %}Page not found{% endblock %}
 
-{% block content %}
+{% block main_content %}
 
-	{% load scaffolding_tags %}
+	<p class="lead">Sorry, there's no page here.</p>
 
-	{% sidebar_row_start %}
+	<p>Maybe you followed an old link, or something's broken.</p>
 
-		<p class="lead">Sorry, there's no page here.</p>
+	<p>There are currently quite a few pages missing which will be added soon.</p>
+	
+	<p>Until then, <a href="{% url 'home' %}">maybe head to the front page</a>?</p>
 
-		<p>Maybe you followed an old link, or something's broken.</p>
+{% endblock main_content %}
 
-		<p>There are currently quite a few pages missing which will be added soon.</p>
-		
-		<p>Until then, <a href="{% url 'home' %}">maybe head to the front page</a>?</p>
-
-	{% sidebar_row_middle %}
-
-	{% sidebar_row_end %}
-
-{% endblock content %}
+{% block sidebar %}
+{% endblock %}

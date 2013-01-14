@@ -6,28 +6,26 @@
 {% block title %}In-Depth Articles{% endblock %}}
 {% block header_title %}In-Depth Articles{% endblock %}}
 
-{% block content %}
+{% block main_content %}
 
-	{% load scaffolding_tags %}
 	{% load text_formatting_filters %}
 
-	{% sidebar_row_start %}
+	<p class="lead">This section provides an opportunity to write and discuss longer articles on broader topics that might not fit in regular annotations or the <a href="{% url 'encyclopedia' %}">Encyclopedia</a>.</p>
 
-		<p class="lead">This section provides an opportunity to write and discuss longer articles on broader topics that might not fit in regular annotations or the <a href="{% url 'encyclopedia' %}">Encyclopedia</a>.</p>
+	{% for article in article_list %}
+		<article class="indepth">
+			<h2><a href="{{ article.get_absolute_url }}">{{ article.title }}</a></h2>
 
-		{% for article in article_list %}
-			<article class="indepth">
-				<h2><a href="{{ article.get_absolute_url }}">{{ article.title }}</a></h2>
+			{{ article.intro_html|smartypants|safe }}
+		</article>
+	{% endfor %}
 
-				{{ article.intro_html|smartypants|safe }}
-			</article>
-		{% endfor %}
+{% endblock main_content %}
 
-	{% sidebar_row_middle %}
 
-		{% load widget_tags %}
-		{% rss_feeds 'articles' %}
+{% block sidebar_content %}
 
-	{% sidebar_row_end %}
+	{% load widget_tags %}
+	{% rss_feeds 'articles' %}
 
-{% endblock content %}
+{% endblock sidebar_content %}

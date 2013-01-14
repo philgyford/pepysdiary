@@ -7,33 +7,30 @@
 {% block title %}Diary entries from {{ month|date:"F" }}&nbsp;{{ month|date:"Y" }}{% endblock %}
 {% block header_title %}Diary entries from {{ month|date:"F" }}&nbsp;{{ month|date:"Y" }}{% endblock %}
 
-{% block content %}
+{% block main_content %}
+	{% include 'inc/entry_list.html' %}
+{% endblock main_content %}
 
-	{% load scaffolding_tags %}
-	{% sidebar_row_start %}
 
-		{% include 'inc/entry_list.html' %}
+{% block sidebar_content %}
 
-	{% sidebar_row_middle %}
-
-		{% if next_month or previous_month %}
-			<div class="sidebar-block">
-			{% if next_month %}
-				<p>Next: <a href="{% url 'entry_month_archive' year=next_month|date:'Y' month=next_month|date:'m' %}">{{ next_month|date:"F Y" }}</a></p>
-			{% endif %}
-			{% if previous_month %}
-				<p>Previous: <a href="{% url 'entry_month_archive' year=previous_month|date:'Y' month=previous_month|date:'m' %}">{{ previous_month|date:"F Y" }}</a></p>
-			{% endif %}
-			</div>
-		{% endif %}
-
+	{% if next_month or previous_month %}
 		<div class="sidebar-block">
-			<p><a href="{% url 'summary_year_archive' year=month|date:"Y" %}#m{{ month|date:"m" }}">Read a summary of this month’s events</a></p>
+		{% if next_month %}
+			<p>Next: <a href="{% url 'entry_month_archive' year=next_month|date:'Y' month=next_month|date:'m' %}">{{ next_month|date:"F Y" }}</a></p>
+		{% endif %}
+		{% if previous_month %}
+			<p>Previous: <a href="{% url 'entry_month_archive' year=previous_month|date:'Y' month=previous_month|date:'m' %}">{{ previous_month|date:"F Y" }}</a></p>
+		{% endif %}
 		</div>
+	{% endif %}
 
-		{% load widget_tags %}
-		{% rss_feeds 'entries' %}
+	<div class="sidebar-block">
+		<p><a href="{% url 'summary_year_archive' year=month|date:"Y" %}#m{{ month|date:"m" }}">Read a summary of this month’s events</a></p>
+	</div>
 
-	{% sidebar_row_end %}
+	{% load widget_tags %}
+	{% rss_feeds 'entries' %}
 
-{% endblock content %}
+{% endblock sidebar_content %}
+

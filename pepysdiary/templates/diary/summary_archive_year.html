@@ -7,34 +7,32 @@
 {% block title %}Summary of {{ year|date:"Y" }}’s diary entries{% endblock %}}
 {% block header_title %}Summary of {{ year|date:"Y" }}’s diary entries{% endblock %}}
 
-{% block content %}
+{% block main_content %}
 
-	{% load scaffolding_tags %}
 	{% load text_formatting_filters %}
 
-	{% sidebar_row_start %}
+	{% for summary in summary_list reversed %}
+		<article id="m{{ summary.summary_date|date:"m" }}" class="summary">
+			<h2>{{ summary.summary_date|date:"F Y" }}</h2>
 
-		{% for summary in summary_list reversed %}
-			<article id="m{{ summary.summary_date|date:"m" }}" class="summary">
-				<h2>{{ summary.summary_date|date:"F Y" }}</h2>
+			{{ summary.text_html|smartypants|safe }}
 
-				{{ summary.text_html|smartypants|safe }}
+			<p><small><a href="{% url 'entry_month_archive' year=summary.summary_date|date:"Y" month=summary.summary_date|date:"m" %}">See the full diary entries for {{ summary.summary_date|date:"F Y" }}</a></small></p>
+		</article>
+	{% endfor %}
 
-				<p><small><a href="{% url 'entry_month_archive' year=summary.summary_date|date:"Y" month=summary.summary_date|date:"m" %}">See the full diary entries for {{ summary.summary_date|date:"F Y" }}</a></small></p>
-			</article>
-		{% endfor %}
+{% endblock main_content %}
 
-	{% sidebar_row_middle %}
 
-		{% include "inc/summary_year_nav.html" %}
+{% block sidebar_content %}
 
-		<div class="sidebar-block">
-			<p>Many thanks to <strong>Jeannine Kerwin</strong> and <strong>Dirk Van de Putte</strong> for writing these summaries of the diary's events.</p>
-		</div>
+	{% include "inc/summary_year_nav.html" %}
 
-		{% load widget_tags %}
-		{% rss_feeds 'entries' %}
+	<div class="sidebar-block">
+		<p>Many thanks to <strong>Jeannine Kerwin</strong> and <strong>Dirk Van de Putte</strong> for writing these summaries of the diary's events.</p>
+	</div>
 
-	{% sidebar_row_end %}
+	{% load widget_tags %}
+	{% rss_feeds 'entries' %}
 
-{% endblock content %}
+{% endblock sidebar_content %}
