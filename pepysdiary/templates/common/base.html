@@ -71,6 +71,15 @@
 	<div class="container">
 		{% block breadcrumbs %}{% endblock %}
 
+		{% if messages %}
+		    {% for message in messages %}
+			    <div class="alert{% if message.tags %} alert-{{ message.tags }}{% endif %}">
+	                <button type="button" class="close" data-dismiss="alert">&times;</button>
+			    	{{ message }}
+			   	</div>
+		    {% endfor %}
+		{% endif %}
+
 		{% block page_header %}
 			<div class="page-header">
 				<h1>{% block header_title %}{% endblock %}</h1>

@@ -7,8 +7,7 @@
 
     {% if config.allow_registration %}
         {% if form.non_field_errors %}
-            <div class="alert alert-block fade in">
-                <a class="close" data-dismiss="alert" href="#">×</a>
+            <div class="alert">
                 <p>{{ form.non_field_errors }}</p>
             </div>
         {% endif %}
@@ -23,12 +22,6 @@
                 </div>
             </fieldset>
         </form>
-        <script type="text/javascript">
-            $(function(){
-                $(".alert-message").alert();
-            });
-            document.forms[1].elements[2].focus();
-        </script>
 
     {% else %}
 
