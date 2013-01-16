@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block page_header %}{% endblock %}
+
+
+{% block main_content %}
+
+	{% if title %}
+		<p class="lead">{{ title }}</p>
+	{% endif %}
+
+	{% if message %}
+		<p>{{ message }}</p>
+	{% endif %}
+
+{% endblock %}
+
+
+{% block sidebar %}
+{% endblock sidebar %}

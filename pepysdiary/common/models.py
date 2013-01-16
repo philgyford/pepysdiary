@@ -15,6 +15,20 @@ class PepysModel(models.Model):
         abstract = True
 
 
+class ConfigManager(models.Manager):
+    def get_site_config(self):
+        """
+        Get the config object for the current Site.
+        Usage:
+            config = Config.objects.get_site_config()
+        """
+        try:
+            config = Config.objects.get(site=Site.objects.get_current())
+        except Config.DoesNotExist:
+            return None
+        return config
+
+
 class Config(PepysModel):
     """
     Site-wide configuration settings.
@@ -24,6 +38,8 @@ class Config(PepysModel):
                                                                     null=False)
     allow_login = models.BooleanField(default=True, blank=False, null=False)
     allow_comments = models.BooleanField(default=True, blank=False, null=False)
+
+    objects = ConfigManager()
 
 
 class OldDateMixin(object):

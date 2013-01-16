@@ -1,5 +1,4 @@
 from django.conf import settings
-from django.contrib.sites.models import get_current_site
 
 from pepysdiary.common.models import Config
 
@@ -28,8 +27,4 @@ def api_keys(request):
 
 
 def config(request):
-    try:
-        config = Config.objects.get(site=get_current_site(request))
-        return {'config': config, }
-    except Config.DoesNotExist:
-        return {}
+    return {'config': Config.objects.get_site_config()}

@@ -80,17 +80,18 @@ class PersonAdmin(UserAdmin):
     # that reference specific fields on auth.User.
     list_display = ('name', 'email', 'url', 'is_active', 'last_login')
     list_filter = ('is_staff', 'is_superuser', 'is_active', 'groups')
-    readonly_fields = ('last_login', 'date_created', 'date_modified', )
+    readonly_fields = ('date_created', 'date_modified', 'last_login', )
     fieldsets = (
         (None, {
-            'fields': ('name', 'email', 'url', 'password')
+            'fields': ('name', 'email', 'url', 'password', 'activation_key', )
+        }),
+        ('Dates', {
+            'fields': ('date_created', 'date_activated', 'date_modified',
+                                                                'last_login', )
         }),
         ('Permissions', {
             'fields': ('is_active', 'is_staff', 'is_superuser',
-                                       'groups', 'user_permissions')
-        }),
-        ('Dates', {
-            'fields': ('last_login', 'date_created', 'date_modified')
+                                               'groups', 'user_permissions')
         }),
     )
     add_fieldsets = (

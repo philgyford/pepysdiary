@@ -138,8 +138,7 @@ urlpatterns += patterns('',
     url(r'^indepth/', include('pepysdiary.indepth.urls')),
     url(r'^news/', include('pepysdiary.news.urls')),
     url(r'^annotations/', include('django.contrib.comments.urls')),
-
-    (r'^accounts/', include('registration.backends.default.urls')),
+    url(r'^account/', include('pepysdiary.membership.urls')),
 
     # Uncomment the admin/doc line below to enable admin documentation:
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),

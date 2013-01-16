@@ -109,6 +109,7 @@ TEMPLATE_DIRS = (
     os.path.join(PROJECT_ROOT, 'templates', 'encyclopedia', ),
     os.path.join(PROJECT_ROOT, 'templates', 'letters', ),
     os.path.join(PROJECT_ROOT, 'templates', 'news', ),
+    os.path.join(PROJECT_ROOT, 'templates', 'membership', ),
 )
 
 from django.conf import global_settings
@@ -142,7 +143,6 @@ INSTALLED_APPS = (
     'pepysdiary.indepth',
     'pepysdiary.news',
     'pepysdiary.membership',
-    'registration',
     'django.contrib.comments',
     'pepysdiary.annotations',
 )

@@ -1,0 +1,8 @@
+{% block subject %}Activate your {{ site.name }} account{% endblock %}
+{% block plain %}Hello,
+
+Click this link to activate your account:
+http://{{ site.domain }}{% url 'activate' activation_key %}
+
+Thanks!
+{% endblock %}

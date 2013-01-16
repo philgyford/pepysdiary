@@ -1,0 +1,41 @@
+{% extends "base_full_width.html" %}
+
+{% block title %}Register{% endblock %}}
+{% block header_title %}Register{% endblock %}}
+
+{% block main_content %}
+
+    {% if config.allow_registration %}
+        {% if form.non_field_errors %}
+            <div class="alert alert-block fade in">
+                <a class="close" data-dismiss="alert" href="#">×</a>
+                <p>{{ form.non_field_errors }}</p>
+            </div>
+        {% endif %}
+        <form action="{% url 'register' %}" method="post" id="registration-form" class="form-horizontal">
+        	{% csrf_token %}
+            <fieldset>
+                {% for field in form %}
+                    {% include 'membership/inc/form_field.html' %}
+                {% endfor %}
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">Register</button>
+                </div>
+            </fieldset>
+        </form>
+        <script type="text/javascript">
+            $(function(){
+                $(".alert-message").alert();
+            });
+            document.forms[1].elements[2].focus();
+        </script>
+
+    {% else %}
+
+        <p>Sorry, new registrations aren’t allowed at the moment.</p>
+
+        <p>Keep an eye on <a href="{% url 'news' %}">Site News</a> for more information.</p>
+
+    {% endif %}
+
+{% endblock main_content %}
