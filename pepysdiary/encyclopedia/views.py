@@ -74,4 +74,5 @@ class LatestTopicsFeed(BaseRSSFeed):
             text1=item.summary_html,
             text2=item.wheatley_html,
             url=item.get_absolute_url(),
-            comment_name='annotation')
+            comment_name=item.comment_name
+        )

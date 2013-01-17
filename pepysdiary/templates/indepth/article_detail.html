@@ -16,7 +16,7 @@
 
 	{{ article.text_html|smartypants|safe }}
 
-	{% include 'inc/comments.html' with object=article comment_name="comment" %}
+	{% include 'inc/comments.html' with object=article %}
 
 {% endblock main_content %}
 

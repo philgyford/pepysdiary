@@ -72,7 +72,7 @@
 							</a>
 							<ul class="dropdown-menu">
 								{% if user.is_authenticated %}
-									<li><a href="#">{{ user.name }}’s profile</a></li>
+									<li><a href="#">{{ user.get_full_name }}’s profile</a></li>
 									<li><a href="{% url 'logout' %}">Log out</a></li>
 								{% else %}
 									<li><a href="{% url 'login' %}{% if 'logout' not in request.path %}?next={{ request.path }}{% endif %}">Log in</a></li>

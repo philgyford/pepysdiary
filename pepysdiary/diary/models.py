@@ -47,6 +47,7 @@ class Entry(PepysModel, OldDateMixin):
 
     # Will also have a 'topics' ManyToMany field, from Topic.
 
+    comment_name = 'annotation'
     old_date_field = 'diary_date'
 
     objects = EntryManager()

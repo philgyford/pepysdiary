@@ -98,4 +98,5 @@ class LatestLettersFeed(BaseRSSFeed):
             text1=item.text,
             text2=item.footnotes,
             url=item.get_absolute_url(),
-            comment_name='annotation')
+            comment_name=item.comment_name
+        )

@@ -1,4 +1,5 @@
 from django.conf import settings
+from django.utils.timezone import now
 
 from pepysdiary.common.models import Config
 
@@ -16,6 +17,12 @@ def date_formats(request):
         'date_format_mid': 'j M Y',
         # 12:39p.m.
         'time_format': 'g:ia',
+
+        # We also include a datetime object of the time now.
+        # Why? Because the {% now %} template tag doesn't seem to accept
+        # variables for a format, so we can't use all those formats above.
+        # So we also send this so we can do {{ time_now|time_format }} etc.
+        'time_now': now(),
     }
 
 

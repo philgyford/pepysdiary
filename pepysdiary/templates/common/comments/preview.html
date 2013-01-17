@@ -1,0 +1,11 @@
+{% extends "comments/base.html" %}
+
+{% block title %}Preview before posting{% endblock %}
+{% block header_title %}Preview before posting{% endblock %}
+
+{% block main_content %}
+    {% include 'comments/inc/comment_form.html' with preview=True %}
+{% endblock main_content %}
+
+{% block sidebar %}
+{% endblock %}

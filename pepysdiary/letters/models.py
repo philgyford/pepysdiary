@@ -43,6 +43,7 @@ class Letter(PepysModel, OldDateMixin):
     last_comment_time = models.DateTimeField(blank=True, null=True)
 
     old_date_field = 'letter_date'
+    comment_name = 'annotation'
 
     # Will also have a 'topics' ManyToMany field, from Topic.
 

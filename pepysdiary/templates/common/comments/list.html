@@ -1,4 +1,4 @@
-<div id="{{ comment_name }}s" class="comments">
+<div id="{{ object.comment_name }}s" class="comments">
   {% for comment in comment_list %}
     <div id="c{{ comment.id }}" class="media">
     	<div class="media-body">
@@ -10,24 +10,6 @@
 </div>
 
 
-{% if config and config.allow_comments %}
-	{% if user.is_authenticated %}
-		{% load comments %}
-		{% render_comment_form for object %}
-	{% else %}
-		{% if config.allow_login %}
-
-			<p><a href="#">Log in</a> to post {% if comment_name == 'annotation' %}an annotation{% else %}a comment{% endif %}.</p>
-
-			{% if config.allow_registration %}
-				<p>If you don't have an account, then <a href="{% url 'register' %}">register here</a>.</p>
-			{% endif %}
-		{% else %}
-			<p class="text-warning">Sorry, it’s not possible to log in and post {{ comment_name }}s at the moment.</p>
-		{% endif %}
-	{% endif %}
-{% else %}
-
-	<p class="text-warning">Sorry, it’s not possible to post {{ comment_name }}s at the moment.</p>
-
-{% endif %}
+{% load comments %}
+{% get_comment_form for object as form %}
+{% include 'comments/inc/comment_form.html' %}

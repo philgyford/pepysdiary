@@ -72,7 +72,7 @@
 			{% endif %}
 
 			<div class="tab-pane{% if not topic.latitude and not topic.summary_html and not topic.wikipedia_fragment and not topic.wheatley_html %} active{% endif %}" id="annotations">
-				{% include 'inc/comments.html' with object=topic comment_name="annotation" %}
+				{% include 'inc/comments.html' with object=topic %}
 			</div>
 
 			{% if diary_references %}

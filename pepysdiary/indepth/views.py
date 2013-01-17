@@ -70,4 +70,5 @@ class LatestArticlesFeed(BaseRSSFeed):
             text1=item.intro_html,
             text2=item.text_html,
             url=item.get_absolute_url(),
-            comment_name='annotation')
+            comment_name=item.comment_name
+        )

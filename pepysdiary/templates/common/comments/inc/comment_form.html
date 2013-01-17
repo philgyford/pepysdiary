@@ -1,0 +1,86 @@
+{% comment %}
+Used for displaying the original comment/annotation form, and the preview.
+
+Expects:
+	* form - The form object (required).
+	* preview - Boolean. Is this the preview form or not? (optional, default False).
+	* object - The object we're commenting on, only if this ISN'T the Preview.
+
+{% endcomment %}
+
+{% if config and config.allow_comments %}
+	{% if user.is_authenticated %}
+		{% load comments %}
+
+	    <div id="comment">
+
+			{% if form.non_field_errors %}
+			    <div class="alert alert-error alert-block">
+			    	<p><strong>Oops, there {% if form.non_field_errors|length == 1 %}was an error{% else %}were some errors{% endif %}</strong></p>
+			        <p>{{ form.non_field_errors }}</p>
+			    </div>
+			{% else %}
+				{% if preview and form.comment.value %}
+					<div class="comments">
+					    <div class="media">
+					    	<div class="media-body">
+					        	<h4 class="media-heading"><span class="comment-name">{{ user.get_full_name }}</span> on {{ time_now|date:date_format_mid }}, {{ time_now|date:time_format }}</a></h4>
+						        <p>{{ form.comment.value|urlizetrunc:50|linebreaks }}</p>
+						    </div>
+						</div>
+					</div>
+				{% endif %}	
+			{% endif %}
+
+		    <form action="{% comment_form_target %}" method="post" id="comment-form">
+			    <div class="control-group{% if form.comment.errors %} error"{% endif %}>
+			    	<label class="control-label" for="id_comment">Post {{ object.get_a_comment_name }} as <strong>{{ user.get_full_name }}</strong>:</label>
+			    	<div class="controls">
+				        {% if form.comment.errors %}
+				            <span class="help-block error">{{ form.comment.errors|join:'<br />' }}</span>
+				        {% endif %}
+					    <textarea class="span12" cols="40" id="id_comment" name="{{ form.comment.name }}" rows="8">{% if form.comment.value %}{{ form.comment.value }}{% endif %}</textarea>
+					</div>
+				</div>
+				<div class="form-actions">
+					<div class="pull-right">
+					    <button type="submit" name="preview" class="btn{% if not preview %} btn-primary{% endif %}">Preview {% if preview %}again{% else %}your {{ object.comment_name }}{% endif %}</button>
+						{% if preview %}
+						    &nbsp; or &nbsp; <button type="submit" name="submit" class="btn btn-primary">Post it</button>
+						{% endif %}
+					</div>
+
+				    {% csrf_token %}
+				    {{ form.honeypot }}
+				    {{ form.content_type }}
+				    {{ form.object_pk }}
+				    {{ form.timestamp }}
+				    {{ form.security_hash }}
+				    {% if preview %}
+				    	{% if next %}
+				    		<input type="hidden" name="next" value="{{ next }}" />
+				    	{% endif %}
+				    {% else %}
+			    		<input type="hidden" name="comment_name" value="{{ object.comment_name }}" />
+					    <input type="hidden" name="next" value="{{ object.get_absolute_url }}" />
+					{% endif %}
+				</div>
+		    </form>
+		</div> <!-- #comment -->
+	{% else %}
+		{% if config.allow_login %}
+
+			<p><a href="{% url 'login' %}?next={{ request.path }}#comment">Log in</a> to post {{ object.get_a_comment_name }.</p>
+
+			{% if config.allow_registration %}
+				<p>If you don't have an account, then <a href="{% url 'register' %}?next={{ request.path }}#comment">register here</a>.</p>
+			{% endif %}
+		{% else %}
+			<p class="text-warning">Sorry, it’s not possible to log in and post {{ object.comment_name }}s at the moment.</p>
+		{% endif %}
+	{% endif %}
+{% else %}
+
+	<p class="text-warning">Sorry, it’s not possible to post {{ object.comment_name }}s at the moment.</p>
+
+{% endif %}

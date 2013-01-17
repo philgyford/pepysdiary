@@ -174,5 +174,5 @@ class LatestEntriesFeed(BaseRSSFeed):
             text1=item.text,
             text2=footnotes,
             url=item.get_absolute_url(),
-            comment_name='annotation'
+            comment_name=item.comment_name
         )

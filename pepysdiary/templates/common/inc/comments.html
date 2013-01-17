@@ -2,10 +2,9 @@
 Displays a list of comments.
 Expects these passed in:
 	`object` an object that can have comments on it.
-	`comment_name` either "comment" or "annotation", depending on part of site.	
 {% endcomment %}
 {% load comments %}
 
-<h2>{{ object.comment_count }} {{ comment_name|capfirst }}{{ object.comment_count|pluralize }}</h2>
+<h2>{{ object.comment_count }} {{ object.comment_name|capfirst }}{{ object.comment_count|pluralize }}</h2>
 
 {% render_comment_list for object %}
