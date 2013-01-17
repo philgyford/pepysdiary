@@ -10,7 +10,7 @@
 	{% endif %}
 
 	{% if message %}
-		<p>{{ message }}</p>
+		<p>{{ message|safe }}</p>
 	{% endif %}
 
 {% endblock %}

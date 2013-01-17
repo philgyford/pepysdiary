@@ -149,6 +149,10 @@ INSTALLED_APPS = (
 
 AUTH_USER_MODEL = 'membership.Person'
 
+LOGIN_REDIRECT_URL = 'home'
+LOGIN_URL = 'login'
+LOGOUT_URL = 'logout'
+
 COMMENTS_APP = 'pepysdiary.annotations'
 
 # A sample logging configuration. The only tangible logging

@@ -106,7 +106,9 @@ img.force-fullwidth {
 	/* Custom icons, 50% opacity of the white ones. */
 	background-image: url("../img/glyphicons-halflings-grey.png");
 }
-
+a:hover .icon-grey {
+	background-image: url("../img/glyphicons-halflings-white.png");
+}
 
 /* Header */
 
