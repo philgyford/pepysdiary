@@ -19,6 +19,9 @@
                 {% endfor %}
                 <div class="form-actions">
                     <button type="submit" class="btn btn-primary">Register</button>
+                    {% if next %}
+                        <input type="hidden" name="next" value="{{ next }}" />
+                    {% endif %}
                 </div>
             </fieldset>
         </form>

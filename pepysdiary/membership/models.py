@@ -5,8 +5,10 @@ import random
 import re
 
 from django.conf import settings
+from django.contrib import messages
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin,\
                                                                 BaseUserManager
+from django.contrib.auth.signals import user_logged_in
 from django.db import models
 from django.db import transaction
 from django.utils import timezone
@@ -229,3 +231,16 @@ class Person(AbstractBaseUser, PermissionsMixin):
 
         email_user(self, 'emails/activation.txt',
                                         settings.DEFAULT_FROM_EMAIL, ctx_dict)
+
+
+def post_login_actions(sender, user, request, **kwargs):
+    """ After logging in, we want to show the user a message. """
+    # We need to do this to make this work successfully in tests.
+    # http://stackoverflow.com/questions/8930090/
+    if not hasattr(request, 'user'):
+        setattr(request, 'user', user)
+    messages.success(request,
+                        "You're now logged in as %s." % user.get_full_name())
+
+# Register a post-login action for thing we want to do...
+user_logged_in.connect(post_login_actions, dispatch_uid="user_logged_in")
