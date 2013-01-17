@@ -102,6 +102,11 @@ img.force-fullwidth {
 	/* To stop max-width:100% being applied. */
 	max-width: none;
 }
+.icon-grey {
+	/* Custom icons, 50% opacity of the white ones. */
+	background-image: url("../img/glyphicons-halflings-grey.png");
+}
+
 
 /* Header */
 
