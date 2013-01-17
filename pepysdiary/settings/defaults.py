@@ -187,9 +187,6 @@ LOGGING = {
 ####################################################################
 # THIRD-PARTY APPS
 
-# registration.
-ACCOUNT_ACTIVATION_DAYS = 7
-
 
 ####################################################################
 # PEPYSDIARY SPECIFIC
@@ -199,6 +196,10 @@ DEFAULT_FROM_EMAIL = 'do-not-reply@pepysdiary.com'
 # For error messages.
 SERVER_EMAIL = 'do-not-reply@pepysdiary.com'
 
+# How many days do we give people to activate their account after registering?
+# If we run the cleanupactivation command, it will delete any dormant
+# activations older than this:
+ACCOUNT_ACTIVATION_DAYS = 7
 
 # How many years ahead of the diary entries are we?
 YEARS_OFFSET = 353

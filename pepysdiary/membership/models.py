@@ -119,6 +119,48 @@ class PersonManager(BaseUserManager):
                 return person
         return False
 
+    def delete_expired_users(self):
+        """
+        Tweaked from django-registration.
+
+        Remove expired People.
+
+        Any ``Person`` who is both inactive and has an expired activation
+        key will be deleted.
+
+        It is recommended that this method be executed regularly as
+        part of your routine site maintenance; this application
+        provides a custom management command which will call this
+        method, accessible as ``manage.py cleanupactivation``.
+
+        Regularly clearing out accounts which have never been
+        activated serves two useful purposes:
+
+        1. It alleviates the ocasional need to reset an
+           activation key and/or re-send an activation email
+           when a user does not receive or does not act upon the
+           initial activation email; since the account will be
+           deleted, the user will be able to simply re-register and
+           receive a new activation key.
+
+        2. It prevents the possibility of a malicious user registering
+           one or more accounts and never activating them (thus
+           denying the use of those usernames to anyone else); since
+           those accounts will be deleted, the usernames will become
+           available for use again.
+
+        If you have a troublesome ``User`` and wish to disable their
+        account while keeping it in the database, simply set their
+        activation_key to the value of Person.ACTIVATED and set their
+        is_active to False. They will not be deleted but will be unable
+        to log in.
+
+        """
+        for person in self.all():
+            if person.activation_key_expired():
+                if not person.is_active:
+                    person.delete()
+
 
 class Person(AbstractBaseUser, PermissionsMixin):
     """
