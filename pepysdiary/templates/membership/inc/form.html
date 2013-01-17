@@ -14,7 +14,7 @@ Expects:
         <p>{{ form.non_field_errors }}</p>
     </div>
 {% endif %}
-<form action="{% if url_name %}{% url url_name %}{% endif %}" method="post"{% if form_id %} id="{{ form_id }}"{% endif %} class="form-horizontal">
+<form action="{% if url_name %}{% url url_name %}{% endif %}" method="post"{% if form_id %} id="{{ form_id }}"{% endif %} class="form-horizontal form-membership">
 	{% csrf_token %}
     <fieldset>
         {% for field in form %}

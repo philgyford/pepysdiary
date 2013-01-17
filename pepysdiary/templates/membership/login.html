@@ -6,11 +6,11 @@
 {% block main_content %}
 
     {% if config.allow_login %}
+        <p>If you don’t have an account yet, then <a href="{% url 'register' %}">register here</a>.</p>
+
         {% include "membership/inc/form.html" with url_name='login' form_id="login-form" submit_text="Log in" %}
 
         <p>Forgotten your password? <a href="{% url 'password_reset' %}">Request a new one.</a></p>
-
-        <p>If you don’t have an account yet, then <a href="{% url 'register' %}">register here</a>.</p>
 
     {% else %}
 

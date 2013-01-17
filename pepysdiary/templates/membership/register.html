@@ -6,9 +6,9 @@
 {% block main_content %}
 
     {% if config.allow_registration %}
-        {% include "membership/inc/form.html" with url_name='register' form_id='registration_form' submit_text='Register' %}
+        <p>If you already have an account, <a href="{% url 'login' %}">then log in</a>.</p>
 
-        <p>If you already have an account, then <a href="{% url 'login' %}">log in</a>.</p>
+        {% include "membership/inc/form.html" with url_name='register' form_id='registration_form' submit_text='Register' %}
 
     {% else %}
 

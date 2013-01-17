@@ -109,6 +109,9 @@ img.force-fullwidth {
 a:hover .icon-grey {
 	background-image: url("../img/glyphicons-halflings-white.png");
 }
+.form-membership {
+	margin-top: 2em;
+}
 
 /* Header */
 
