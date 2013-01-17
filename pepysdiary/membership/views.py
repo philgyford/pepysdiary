@@ -52,6 +52,20 @@ def login(request, *args, **kwargs):
     return auth_view_response
 
 
+def logout(request, *args, **kwargs):
+    """Wrapper for auth.logout."""
+    if request.user.is_authenticated():
+        kwargs['template_name'] = 'message.html'
+        if 'extra_context' not in kwargs:
+            kwargs['extra_context'] = {}
+        kwargs['extra_context']['title'] = "You are now logged out"
+        kwargs['extra_context']['message'] = "Thanks for coming."
+        return auth_views.logout(request, *args, **kwargs)
+    else:
+        # Not logged in anyway!
+        return redirect('home')
+
+
 class MessageView(TemplateView):
     """
     For displaying generic messages.

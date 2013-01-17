@@ -73,7 +73,7 @@
 							<ul class="dropdown-menu">
 								{% if user.is_authenticated %}
 									<li><a href="#">{{ user.name }}’s profile</a></li>
-									<li><a href="#">Log out</a></li>
+									<li><a href="{% url 'logout' %}">Log out</a></li>
 								{% else %}
 									<li><a href="{% url 'login' %}">Log in</a></li>
 									<li><a href="{% url 'register' %}">Register</a></li>
