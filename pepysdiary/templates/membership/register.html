@@ -6,25 +6,7 @@
 {% block main_content %}
 
     {% if config.allow_registration %}
-        {% if form.non_field_errors %}
-            <div class="alert">
-                <p>{{ form.non_field_errors }}</p>
-            </div>
-        {% endif %}
-        <form action="{% url 'register' %}" method="post" id="registration-form" class="form-horizontal">
-        	{% csrf_token %}
-            <fieldset>
-                {% for field in form %}
-                    {% include 'membership/inc/form_field.html' %}
-                {% endfor %}
-                <div class="form-actions">
-                    <button type="submit" class="btn btn-primary">Register</button>
-                    {% if next %}
-                        <input type="hidden" name="next" value="{{ next }}" />
-                    {% endif %}
-                </div>
-            </fieldset>
-        </form>
+        {% include "membership/inc/form.html" with url_name='register' form_id='registration_form' submit_text='Register' %}
 
         <p>If you already have an account, then <a href="{% url 'login' %}">log in</a>.</p>
 

@@ -75,6 +75,36 @@ def logout(request, *args, **kwargs):
         return redirect('home')
 
 
+def password_reset(request, *args, **kwargs):
+    """Wrapper for auth.password_reset."""
+    kwargs['post_reset_redirect'] = reverse('password_reset_done')
+    return auth_views.password_reset(request, *args, **kwargs)
+
+
+def password_reset_done(request, *args, **kwargs):
+    """Wrapper for auth.password_reset_done."""
+    if 'extra_context' not in kwargs:
+        kwargs['extra_context'] = {}
+    kwargs['extra_context']['title'] = 'Reset instructions sent'
+    kwargs['extra_context']['message'] = "We’ve sent instructions for resetting your password to the email address you submitted."
+    return auth_views.password_reset_done(request, *args, **kwargs)
+
+
+def password_reset_confirm(request, *args, **kwargs):
+    """Wrapper for auth.password_reset_confirm."""
+    kwargs['post_reset_redirect'] = reverse('password_reset_complete')
+    return auth_views.password_reset_confirm(request, *args, **kwargs)
+
+
+def password_reset_complete(request, *args, **kwargs):
+    """Wrapper for auth.password_reset_complete."""
+    if 'extra_context' not in kwargs:
+        kwargs['extra_context'] = {}
+    kwargs['extra_context']['title'] = "Password reset"
+    kwargs['extra_context']['message'] = "Your password has been changed. <a href=\"%s\">Now you can log in.</a>" % reverse('login')
+    return auth_views.password_reset_complete(request, *args, **kwargs)
+
+
 class MessageView(TemplateView):
     """
     For displaying generic messages.

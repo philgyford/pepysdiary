@@ -92,3 +92,4 @@ class LoginForm(AuthenticationForm):
                 raise forms.ValidationError(
                                     "Sorry, logging in is currently disabled.")
         return super(LoginForm, self).clean()
+
