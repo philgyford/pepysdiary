@@ -25,6 +25,12 @@ class RegisterView(FormView):
     def dispatch(self, *args, **kwargs):
         return super(RegisterView, self).dispatch(*args, **kwargs)
 
+    def get(self, request, *args, **kwargs):
+        if request.user.is_authenticated():
+            return redirect('home')
+        else:
+            return super(RegisterView, self).get(request, *args, **kwargs)
+
     def get_success_url(self):
         if self.success_url:
             return self.success_url
@@ -46,10 +52,13 @@ class RegisterView(FormView):
 @sensitive_post_parameters('password')
 def login(request, *args, **kwargs):
     """Wrapper for auth.login."""
-    kwargs['template_name'] = 'login.html'
-    kwargs['authentication_form'] = forms.LoginForm
-    auth_view_response = auth_views.login(request, *args, **kwargs)
-    return auth_view_response
+    if request.user.is_authenticated():
+        return redirect('home')
+    else:
+        kwargs['template_name'] = 'login.html'
+        kwargs['authentication_form'] = forms.LoginForm
+        auth_view_response = auth_views.login(request, *args, **kwargs)
+        return auth_view_response
 
 
 def logout(request, *args, **kwargs):
