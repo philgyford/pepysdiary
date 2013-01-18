@@ -90,6 +90,12 @@ cite {
 .center {
 	text-align: center;
 }
+.right {
+	text-align: right;
+}
+.push-down {
+	margin-top: 1em;
+}
 ul.feeds {
 	margin-left: 0;
 	list-style-type: none;

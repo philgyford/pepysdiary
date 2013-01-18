@@ -1,0 +1,52 @@
+{% extends "comments/base.html" %}
+
+{% block title %}{% if private_profile %}Your profile{% else %}{{ person.get_full_name }}{% endif %}{% endblock %}
+{% block header_title %}{% if private_profile %}Your profile{% else %}{{ person.get_full_name }}{% endif %}{% endblock %}
+
+
+{% block main_content %}
+
+	{% if private_profile %}
+		<p class="row-fluid">
+			<span class="span2 right">Name</span>
+			<span class="span7 offset1">{{ person.name }}</span>
+		</p>
+		<p class="row-fluid">
+			<span class="span2 right">URL</span>
+			<span class="span7 offset1">{% if person.url %}<a href="{{ person.url }}" rel="nofollow">{{ person.url|urlizetrunc:50 }}</a>{% else %}None{% endif %}</span>
+		</p>
+		<p class="row-fluid">
+			<span class="span2 right">Email</span>
+			<span class="span7 offset1">{{ person.email }} <small>(Private)</small></span>
+		</p>
+
+	{% else %}
+		<p class="lead">{% if person.url %}<a href="{{ person.url }}" rel="nofollow">{{ person.url|urlizetrunc:50 }}</a>{% else %}This person has no URL set.{% endif %}</p>
+	{% endif %}
+
+
+	<h3 class="push-down">Annotations and comments</h3>
+
+	<p>{% if private_profile %}You have{% else %}{{ person.get_short_name }} has{% endif %} posted <strong>{{ comment_count }}</strong> annotation{{ comment_count|pluralize }}/comment{{ comment_count|pluralize }}.</p>
+
+	{% if comment_list %}
+		<p>The most recent…</p>
+		{% include "comments/list.html" with show_object_titles=True only_comments=True %}
+	{% endif %}
+
+{% endblock main_content %}
+
+
+{% block sidebar_content %}
+	{% if private_profile %}
+		<div class="sidebar-block">
+			<p><strong>Only you can see this view of your profile.</strong></p>
+			<p><a href="{% url 'profile' pk=user.pk %}">See what everyone else sees.</a></p>
+		</div>
+	{% elif user.is_authenticated and user.pk == person.pk %}
+		<div class="sidebar-block">
+			<p><strong>This is the public view of your profile.</strong></p>
+			<p><a href="{% url 'private_profile' %}">See or edit all your details.</a></p>
+		</div>
+	{% endif %}
+{% endblock sidebar_content %}

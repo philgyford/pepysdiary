@@ -1,15 +1,33 @@
-<div id="{{ object.comment_name }}s" class="comments">
+{% comment %}
+Used for all of the lists of comments on Entries, Articles, etc.
+AND for the list of comments on a Person Profile page.
+
+Expects:
+* comment_list - The list of Annotation objects (required)
+* object - Probably the Entry, Article, etc these comments are on. BUT on the
+		   Profile page `object` is the currently-viewed Person.
+* show_object_titles - If True, we display the titles of the objects the
+					   comments are posted on. Optional, default False.
+* only_comments - If True, we only show the comments, no form. If False, or
+				  not present, we show the comment form.
+{% endcomment %}
+
+<div id="{% if object and object.comment_name %}{{ object.comment_name }}{% else %}comment{% endif %}s" class="comments">
   	{% for comment in comment_list %}
 	    <div id="c{{ comment.id }}" class="media">
 	    	<div {% if forloop.last %} id="latest"{% endif %}class="media-body">
-	        	<h4 class="media-heading"><span class="comment-name">{% if comment.url %}<a href="{{ comment.url }}" rel="nofollow">{{ comment.name }}</a>{% else %}{{ comment.name }}{% endif %}</span> on {{ comment.submit_date|date:date_format_mid }} at <a href="#c{{comment.id}}" title="Link directly to this {{ object.comment_name }}">{{ comment.submit_date|date:time_format }}</a></h4>
+	    		{% if show_object_titles %}
+	    			<p>About <a href="{{ comment.content_object.get_absolute_url }}"><strong>{{ comment.content_object.title }}</strong></a></p>
+	    		{% endif %}
+	        	<h4 class="media-heading"><span class="comment-name">{% if comment.url %}<a href="{{ comment.url }}" rel="nofollow">{{ comment.name }}</a>{% else %}{{ comment.name }}{% endif %}</span> on {{ comment.submit_date|date:date_format_mid }} at <a href="{{ comment.content_object.get_absolute_url }}#c{{comment.id}}" title="Link directly to this {% if object and object.comment_name %}{{ object.comment_name }}{% endif %}">{{ comment.submit_date|date:time_format }}</a></h4>
 		        <p>{{ comment.comment|urlizetrunc:50|linebreaks }}</p>
 		    </div>
 		</div>
 	{% endfor %}
 </div>
 
-
-{% load comments %}
-{% get_comment_form for object as form %}
-{% include 'comments/inc/comment_form.html' %}
+{% if not only_comments %}
+	{% load comments %}
+	{% get_comment_form for object as form %}
+	{% include 'comments/inc/comment_form.html' %}
+{% endif %}

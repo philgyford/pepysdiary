@@ -1,10 +1,31 @@
+from django.contrib.comments.managers import CommentManager
 from django.contrib.comments.models import Comment
 from django.contrib.contenttypes.models import ContentType
+from django.contrib.sites.models import Site
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Max
 
 
+class AnnotationManager(CommentManager):
+    pass
+
+
+class VisibleAnnotationManager(AnnotationManager):
+    """
+    For just displaying the public, non-removed annotations, eg on a person's
+    profile page.
+    """
+    def get_query_set(self):
+        return super(VisibleAnnotationManager, self).get_query_set().filter(
+                                               site=Site.objects.get_current(),
+                                               is_public=True,
+                                               is_removed=False)
+
+
 class Annotation(Comment):
+
+    objects = AnnotationManager()
+    visible_objects = VisibleAnnotationManager()
 
     class Meta:
         proxy = True

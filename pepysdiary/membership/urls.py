@@ -22,6 +22,12 @@ urlpatterns = patterns('',
     url(r'^activate/(?P<activation_key>[\w]+)/$', ActivateView.as_view(),
                                                             name='activate'),
 
+    # A user viewing themselves:
+    url(r'^profile/$', PrivateProfileView.as_view(), name='private_profile'),
+
+    # A public user profile page:
+    url(r'^profile/(?P<pk>[\d]+)/$', ProfileView.as_view(), name='profile'),
+
     url(r'^password/reset/$',
         password_reset, {
             'template_name': 'password_reset.html',

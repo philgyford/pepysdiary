@@ -8,8 +8,10 @@ from django.views.decorators.cache import never_cache
 from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.debug import sensitive_post_parameters
 from django.views.generic import TemplateView
+from django.views.generic.detail import DetailView
 from django.views.generic.edit import FormView
 
+from pepysdiary.annotations.models import Annotation
 from pepysdiary.common.models import Config
 from pepysdiary.membership import forms
 from pepysdiary.membership.models import Person
@@ -45,6 +47,38 @@ class RegisterView(FormView):
             site=get_current_site(self.request),
         )
         return super(RegisterView, self).form_valid(form)
+
+
+class ProfileView(DetailView):
+    """
+    A general, public view of a user's details.
+    PrivateProfileView inherits this for the logged-in user's private view.
+    """
+    model = Person
+    queryset = Person.objects.filter(is_active=True)
+    private_profile = False
+
+    def get_context_data(self, **kwargs):
+        context = super(ProfileView, self).get_context_data(**kwargs)
+        context['private_profile'] = self.private_profile
+        if self.object:
+            comments_qs = Annotation.visible_objects.filter(user=self.object)
+            context['comment_count'] = comments_qs.count()
+            context['comment_list'] = comments_qs.order_by('-submit_date')[:10]
+        return context
+
+
+class PrivateProfileView(ProfileView):
+    """
+    The logged-in user viewing themself.
+    """
+    private_profile = True
+
+    def get_object(self, queryset=None):
+        """
+        Override so that we can get the logged-in user's Person object.
+        """
+        return self.request.user
 
 
 @csrf_protect
