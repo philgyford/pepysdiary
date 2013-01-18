@@ -71,16 +71,17 @@ Expects:
 		    </form>
 		</div> <!-- #comment -->
 	{% else %}
-		{% if config.allow_login %}
+		<div id="comment" class="well">
+			{% if config.allow_login %}
+				<p><a href="{% url 'login' %}?next={{ request.path }}#comment">Log in</a> to post {{ object.get_a_comment_name }}.</p>
 
-			<p><a href="{% url 'login' %}?next={{ request.path }}#comment">Log in</a> to post {{ object.get_a_comment_name }.</p>
-
-			{% if config.allow_registration %}
-				<p>If you don't have an account, then <a href="{% url 'register' %}?next={{ request.path }}#comment">register here</a>.</p>
+				{% if config.allow_registration %}
+					<p>If you don't have an account, then <a href="{% url 'register' %}?next={{ request.path }}#comment">register here</a>.</p>
+				{% endif %}
+			{% else %}
+				<p class="text-warning">Sorry, it’s not possible to log in and post {{ object.comment_name }}s at the moment.</p>
 			{% endif %}
-		{% else %}
-			<p class="text-warning">Sorry, it’s not possible to log in and post {{ object.comment_name }}s at the moment.</p>
-		{% endif %}
+		</div> <!-- .well -->
 	{% endif %}
 {% else %}
 
