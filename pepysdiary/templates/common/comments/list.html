@@ -20,7 +20,7 @@ Expects:
 	    		{% if show_object_titles %}
 	    			<p>About <a href="{{ comment.content_object.get_absolute_url }}"><strong>{{ comment.content_object.title }}</strong></a></p>
 	    		{% endif %}
-	        	<h4 class="media-heading">
+	        	<h3 class="media-heading">
 	        		<span class="comment-name">
 		        		{% if comment.user %}
 		        			<a href="{% url 'profile' pk=comment.user.pk %}" title="See the profile">{{ comment.name }}</a>
@@ -32,7 +32,7 @@ Expects:
 	        			on {{ comment.submit_date|date:date_format_mid }} at 
 		        		<a href="{% if show_object_titles %}{{ comment.content_object.get_absolute_url }}{% endif %}#c{{comment.id}}" title="Link directly to this {% if object and object.comment_name %}{{ object.comment_name }}{% endif %}">{{ comment.submit_date|date:time_format }}</a>
 		        	</small>
-	        	</h4>
+	        	</h3>
 		        <p>{{ comment.comment|urlizetrunc:50|linebreaks }}</p>
 		    </div>
 		</div>

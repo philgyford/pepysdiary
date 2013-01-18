@@ -209,10 +209,12 @@ a:hover .icon-grey {
 .comments .media {
 	border-bottom: 1px solid #E3E3E3;
 }
-.comments h4 {
+.comments .media-heading {
+	font-size: 17.5px;
+	line-height: 20px;
 	font-weight: normal;
 }
-.comments h4 .comment-name {
+.comments .media-heading .comment-name {
 	font-weight: bold;
 }
 #comment-form label {
