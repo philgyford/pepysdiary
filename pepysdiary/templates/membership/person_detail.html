@@ -31,7 +31,7 @@
 
 	{% if comment_list %}
 		<p>The most recent…</p>
-		{% include "comments/list.html" with show_object_titles=True only_comments=True suppress_reading_headers=True %}
+		{% include "comments/list.html" with show_object_titles=True only_comments=True %}
 	{% endif %}
 
 {% endblock main_content %}
