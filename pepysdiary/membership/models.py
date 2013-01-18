@@ -165,11 +165,24 @@ class PersonManager(BaseUserManager):
 class Person(AbstractBaseUser, PermissionsMixin):
     """
     Our custom User class.
-    No usernames - just `email` and `password`. Plus a `name` which is what
-    the user wants to be known as.
+    No usernames - just `email` and `password`. Plus a unique `name` which is
+    what the user wants to be known as.
 
     I ran this to translate my one User to a Person:
-    INSERT INTO membership_person(id, name, email, password, last_login, is_superuser, is_staff, is_active, date_created, date_modified) SELECT id, username, email, password, last_login, is_superuser, is_staff, is_active, date_joined, date_joined FROM auth_user;
+
+        INSERT INTO membership_person(id, name, email, password, last_login, is_superuser, is_staff, is_active, date_created, date_modified) SELECT id, username, email, password, last_login, is_superuser, is_staff, is_active, date_joined, date_joined FROM auth_user;
+
+    And to make the Django 1.4 comments and flags work with the new Person
+    model I did this:
+
+        ALTER TABLE django_comments DROP CONSTRAINT django_comments_user_id_fkey;
+        ALTER TABLE django_comments ADD CONSTRAINT django_comments_user_id_fkey FOREIGN KEY (user_id) REFERENCES membership_person(id) DEFERRABLE INITIALLY DEFERRED;
+
+        ALTER TABLE django_comment_flags DROP CONSTRAINT django_comment_flags_user_id_fkey;
+        ALTER TABLE django_comment_flags ADD CONSTRAINT django_comment_flags_user_id_fkey FOREIGN KEY (user_id) REFERENCES membership_person(id) DEFERRABLE INITIALLY DEFERRED;
+
+    Note: I didn't have any existing comments/flags that were related to old
+    User objects. If I did, that might all not have worked.
     """
     # The value that `activation_key` will be set to after the user has
     # activated their account.

@@ -12,13 +12,21 @@ class AnnotationForm(CommentForm):
 
     def clean_comment(self):
         """
-        Custom validation.
+        Custom tidying of the comment text.
         """
         comment = super(AnnotationForm, self).clean_comment()
-        # Replace multiple linebreaks with single ones.
-        comment = re.sub(r'(\r?\n){2,}', '\\1', comment, re.MULTILINE)
+
+        # Replace three or more blank lines with two.
+        comment = re.sub(r"""
+            (
+                (?:\r?\n)   # Match a single linebreak.
+            )
+            (?:\h*          # 0 or more horizontal whitespace characters.
+                (?:\r?\n)   # Another linebreak.
+            )+              # And 1 or more of that lot.
+        """, '\\1\\1', comment, re.MULTILINE | re.VERBOSE)
+
         # Remove leading and trailing space:
         comment = comment.strip()
+
         return comment
-
-

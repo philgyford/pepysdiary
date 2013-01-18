@@ -33,7 +33,7 @@ Expects:
 			{% endif %}
 
 		    <form action="{% comment_form_target %}" method="post" id="comment-form">
-			    <div class="control-group{% if form.comment.errors %} error"{% endif %}>
+			    <div class="control-group{% if form.comment.errors %} error{% endif %}">
 			    	<label class="control-label" for="id_comment">Post {{ object.get_a_comment_name }} as <strong>{{ user.get_full_name }}</strong>:</label>
 			    	<div class="controls">
 				        {% if form.comment.errors %}
