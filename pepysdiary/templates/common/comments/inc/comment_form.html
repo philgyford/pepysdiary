@@ -4,7 +4,7 @@ Used for displaying the original comment/annotation form, and the preview.
 Expects:
 	* form - The form object (required).
 	* preview - Boolean. Is this the preview form or not? (optional, default False).
-	* object - The object we're commenting on, only if this ISN'T the Preview.
+	* object - The object we're commenting on (not required, but expected).
 
 {% endcomment %}
 
@@ -44,7 +44,11 @@ Expects:
 				</div>
 				<div class="form-actions">
 					<div class="pull-right">
-					    <button type="submit" name="preview" class="btn{% if not preview %} btn-primary{% endif %}">Preview {% if preview %}again{% else %}your {{ object.comment_name }}{% endif %}</button>
+						{% if preview %}
+							<a href="{{ object.get_absolute_url }}#comment" title="Return to the previous page">Cancel</a>
+							&nbsp; or &nbsp;
+						{% endif %}
+					    <button type="submit" name="preview" class="btn{% if not preview %} btn-primary{% endif %}">Preview your {{ object.comment_name }}{% if preview %} again{% endif %}</button>
 						{% if preview %}
 						    &nbsp; or &nbsp; <button type="submit" name="submit" class="btn btn-primary">Post it</button>
 						{% endif %}

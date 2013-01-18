@@ -4,9 +4,9 @@
 {% block page_header %}{% endblock %}
 
 {% block main_content %}
-    <p class="lead">Preview before posting</p>
-    
-    {% include 'comments/inc/comment_form.html' with preview=True %}
+    <p class="lead">Preview your {{ form.target_object.comment_name }} before posting</p>
+
+    {% include 'comments/inc/comment_form.html' with preview=True object=form.target_object %}
 {% endblock main_content %}
 
 {% block sidebar %}
