@@ -46,9 +46,6 @@ if DEBUG:
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
-GOOGLE_MAPS_API_KEY = ''
-GOOGLE_ANALYTICS_ID = ''
-
 
 # Settings used only when importing the legacy data from the Movable Type
 # MySQL database using management commands.
@@ -72,3 +69,15 @@ MT_MYSQL_DB_HOST = ''
 # # Store static and media files in separate directories:
 # STATIC_URL = S3_URL + STATIC_URL
 # MEDIA_URL = S3_URL + MEDIA_URL
+
+
+#############################################################################
+# PEPYSDIARY-SPECIFIC SETTINGS.
+
+GOOGLE_MAPS_API_KEY = ''
+GOOGLE_ANALYTICS_ID = ''
+
+# From https://www.google.com/recaptcha/
+RECAPTCHA_PUBLIC_KEY = ''
+RECAPTCHA_PRIVATE_KEY = ''
+RECAPTCHA_USE_SSL = True

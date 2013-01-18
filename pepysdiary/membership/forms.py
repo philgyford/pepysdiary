@@ -3,6 +3,8 @@ from django import forms
 from django.contrib.auth.forms import AuthenticationForm
 from django.utils.translation import ugettext_lazy as _
 
+from captcha.fields import ReCaptchaField
+
 from pepysdiary.common.models import Config
 from pepysdiary.membership.models import Person
 from pepysdiary.membership.utilities import validate_person_name
@@ -42,6 +44,7 @@ class RegistrationForm(forms.Form):
     password2 = forms.CharField(widget=forms.PasswordInput(
                                         attrs=attrs_dict, render_value=False),
                                     required=True, label=_("Repeat password"))
+    captcha = ReCaptchaField(attrs={'theme': 'clean'}, label=_("Anti-spam test"))
 
     def clean_name(self):
         """
