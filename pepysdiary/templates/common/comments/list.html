@@ -1,12 +1,12 @@
 <div id="{{ object.comment_name }}s" class="comments">
-  {% for comment in comment_list %}
-    <div id="c{{ comment.id }}" class="media">
-    	<div class="media-body">
-        	<h4 class="media-heading"><span class="comment-name">{% if comment.url %}<a href="{{ comment.url }}" rel="nofollow">{{ comment.name }}</a>{% else %}{{ comment.name }}{% endif %}</span> on {{ comment.submit_date|date:date_format_mid }} at <a href="#c{{comment.id}}" title="Link directly to this {{ object.comment_name }}">{{ comment.submit_date|date:time_format }}</a></h4>
-	        <p>{{ comment.comment|urlizetrunc:50|linebreaks }}</p>
-	    </div>
-	</div>
-  {% endfor %}
+  	{% for comment in comment_list %}
+	    <div id="c{{ comment.id }}" class="media">
+	    	<div {% if forloop.last %} id="latest"{% endif %}class="media-body">
+	        	<h4 class="media-heading"><span class="comment-name">{% if comment.url %}<a href="{{ comment.url }}" rel="nofollow">{{ comment.name }}</a>{% else %}{{ comment.name }}{% endif %}</span> on {{ comment.submit_date|date:date_format_mid }} at <a href="#c{{comment.id}}" title="Link directly to this {{ object.comment_name }}">{{ comment.submit_date|date:time_format }}</a></h4>
+		        <p>{{ comment.comment|urlizetrunc:50|linebreaks }}</p>
+		    </div>
+		</div>
+	{% endfor %}
 </div>
 
 

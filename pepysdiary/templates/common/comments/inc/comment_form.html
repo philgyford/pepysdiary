@@ -65,7 +65,7 @@ Expects:
 				    		<input type="hidden" name="next" value="{{ next }}" />
 				    	{% endif %}
 				    {% else %}
-					    <input type="hidden" name="next" value="{{ object.get_absolute_url }}" />
+					    <input type="hidden" name="next" value="{{ object.get_absolute_url }}#latest" />
 					{% endif %}
 				</div>
 		    </form>
