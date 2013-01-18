@@ -7,7 +7,15 @@ from django.db.models import Max
 
 
 class AnnotationManager(CommentManager):
-    pass
+    def get_query_set(self):
+        """
+        Trying this out, to fetch the related Persons for comments posted
+        by authenticated users. Otherwise we're doing a query for every single
+        comment while listing them.
+        Suggested at http://stackoverflow.com/a/7992722/250962
+        """
+        return super(AnnotationManager, self).get_query_set().select_related(
+                                                                        'user')
 
 
 class VisibleAnnotationManager(AnnotationManager):

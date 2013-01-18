@@ -10,6 +10,7 @@ Expects:
 					   comments are posted on. Optional, default False.
 * only_comments - If True, we only show the comments, no form. If False, or
 				  not present, we show the comment form.
+* link_users - If True then we link to logged-in users' profile pages.
 {% endcomment %}
 
 <div id="{% if object and object.comment_name %}{{ object.comment_name }}{% else %}comment{% endif %}s" class="comments">
@@ -19,7 +20,17 @@ Expects:
 	    		{% if show_object_titles %}
 	    			<p>About <a href="{{ comment.content_object.get_absolute_url }}"><strong>{{ comment.content_object.title }}</strong></a></p>
 	    		{% endif %}
-	        	<h4 class="media-heading"><span class="comment-name">{% if comment.url %}<a href="{{ comment.url }}" rel="nofollow">{{ comment.name }}</a>{% else %}{{ comment.name }}{% endif %}</span> on {{ comment.submit_date|date:date_format_mid }} at <a href="{{ comment.content_object.get_absolute_url }}#c{{comment.id}}" title="Link directly to this {% if object and object.comment_name %}{{ object.comment_name }}{% endif %}">{{ comment.submit_date|date:time_format }}</a></h4>
+	        	<h4 class="media-heading">
+	        		<span class="comment-name">
+		        		{% if comment.user %}
+		        			<a href="{% url 'profile' pk=comment.user.pk %}" title="See the profile">{{ comment.name }}</a>
+		        		{% else %}
+		        			{% if comment.url %}<a href="{{ comment.url }}" rel="nofollow">{{ comment.name }}</a>{% else %}{{ comment.name }}{% endif %}
+		        		{% endif %}
+	        		</span>
+	        		on {{ comment.submit_date|date:date_format_mid }} at 
+	        		<a href="{% if show_object_titles %}{{ comment.content_object.get_absolute_url }}{% endif %}#c{{comment.id}}" title="Link directly to this {% if object and object.comment_name %}{{ object.comment_name }}{% endif %}">{{ comment.submit_date|date:time_format }}</a>
+	        	</h4>
 		        <p>{{ comment.comment|urlizetrunc:50|linebreaks }}</p>
 		    </div>
 		</div>
