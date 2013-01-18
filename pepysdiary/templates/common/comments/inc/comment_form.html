@@ -34,7 +34,7 @@ Expects:
 
 		    <form action="{% comment_form_target %}" method="post" id="comment-form">
 			    <div class="control-group{% if form.comment.errors %} error{% endif %}">
-			    	<label class="control-label" for="id_comment">Post {{ object.get_a_comment_name }} as <strong>{{ user.get_full_name }}</strong>:</label>
+			    	<label class="control-label{% if preview %} hide{% endif %}" for="id_comment">Post {{ object.get_a_comment_name }} as <strong>{{ user.get_full_name }}</strong>:</label>
 			    	<div class="controls">
 				        {% if form.comment.errors %}
 				            <span class="help-block error">{{ form.comment.errors|join:'<br />' }}</span>
@@ -65,7 +65,6 @@ Expects:
 				    		<input type="hidden" name="next" value="{{ next }}" />
 				    	{% endif %}
 				    {% else %}
-			    		<input type="hidden" name="comment_name" value="{{ object.comment_name }}" />
 					    <input type="hidden" name="next" value="{{ object.get_absolute_url }}" />
 					{% endif %}
 				</div>
