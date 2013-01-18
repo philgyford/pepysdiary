@@ -87,7 +87,7 @@ class PersonAdmin(UserAdmin):
         }),
         ('Dates', {
             'fields': ('date_created', 'date_activated', 'date_modified',
-                                                                'last_login', )
+                                        'first_comment_date', 'last_login', )
         }),
         ('Permissions', {
             'fields': ('is_active', 'is_staff', 'is_superuser',

@@ -27,7 +27,7 @@
 
 	<h3 class="push-down">Annotations and comments</h3>
 
-	<p>{% if private_profile %}You have{% else %}{{ person.get_short_name }} has{% endif %} posted <strong>{{ comment_count }}</strong> annotation{{ comment_count|pluralize }}/comment{{ comment_count|pluralize }}.</p>
+	<p>{% if private_profile %}You have{% else %}{{ person.get_short_name }} has{% endif %} posted <strong>{{ comment_count }}</strong> annotation{{ comment_count|pluralize }}/comment{{ comment_count|pluralize }}{% if person.first_comment_date %} since {{ person.first_comment_date|date:date_format_long }}{% endif %}.</p>
 
 	{% if comment_list %}
 		<p>The most recent…</p>

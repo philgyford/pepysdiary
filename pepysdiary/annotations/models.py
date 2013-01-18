@@ -33,6 +33,7 @@ class Annotation(Comment):
     def save(self, *args, **kwargs):
         super(Annotation, self).save(*args, **kwargs)
         self._set_parent_comment_data()
+        self._set_user_first_comment_date()
 
     def _set_parent_comment_data(self):
         """
@@ -87,3 +88,16 @@ class Annotation(Comment):
                                                             'submit_date__max']
 
         obj.save()
+
+    def _set_user_first_comment_date(self):
+        """
+        For each Person we store the date they posted their first comment.
+        So we check to see if the user's first comment, and set the date if so.
+        (There's a chance that the user might already have a first_comment_date
+        which is after this Annotation's date, eg, during importing old
+        comments. So we test for that too.)
+        """
+        if self.user.first_comment_date is None or\
+                            self.user.first_comment_date > self.submit_date:
+            self.user.first_comment_date = self.submit_date
+            self.user.save()

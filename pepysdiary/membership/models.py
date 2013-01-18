@@ -209,6 +209,8 @@ class Person(AbstractBaseUser, PermissionsMixin):
                         'active. Unselect this instead of deleting accounts.')
     activation_key = models.CharField(max_length=40,
             help_text="Will be 'ALREADY_ACTIVATED' when 'Is active?' is true.")
+    first_comment_date = models.DateTimeField(blank=True, null=True,
+        help_text="First time they commented. Might be before the date they joined...")
     date_activated = models.DateTimeField(blank=True, null=True)
     date_created = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
