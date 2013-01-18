@@ -22,6 +22,8 @@ urlpatterns = patterns('',
     url(r'^activate/(?P<activation_key>[\w]+)/$', ActivateView.as_view(),
                                                             name='activate'),
 
+    url(r'^edit/$', EditProfileView.as_view(), name='edit_profile'),
+
     # A user viewing themselves:
     url(r'^profile/$', PrivateProfileView.as_view(), name='private_profile'),
 

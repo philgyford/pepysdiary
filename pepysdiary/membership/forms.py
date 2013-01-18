@@ -96,3 +96,8 @@ class LoginForm(AuthenticationForm):
                                     "Sorry, logging in is currently disabled.")
         return super(LoginForm, self).clean()
 
+
+class PersonEditForm(forms.ModelForm):
+    class Meta:
+        model = Person
+        fields = ('email', 'url', )

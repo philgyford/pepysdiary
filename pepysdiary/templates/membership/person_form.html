@@ -1,0 +1,28 @@
+{% extends "base_full_width.html" %}
+
+{% block title %}Edit your profile{% endblock %}
+{% block header_title %}Edit your profile{% endblock %}
+
+
+{% block main_content %}
+
+	<p>It’s not currently possible to change your name, sorry.</p>
+
+	<div class="form-horizontal">
+		<div class="control-group">
+			<span class="control-label">Name</span>
+		    <div class="controls fake-controls">
+		    	{{ person.name }}
+		    </div>
+		</div>
+	</div>
+
+    {% include "membership/inc/form.html" with url_name='edit_profile' form_id="profile-form" submit_text="Update" cancel_url_name='private_profile' %}
+
+    <p>You can also <a href="{% url 'password_reset' %}">change your password</a>.</p>
+
+{% endblock main_content %}
+
+
+{% block sidebar_content %}
+{% endblock sidebar_content %}

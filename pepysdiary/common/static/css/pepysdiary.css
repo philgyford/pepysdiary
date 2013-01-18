@@ -121,6 +121,10 @@ a:hover .icon-grey {
 #id_honeypot {
     display: none;
 }
+.fake-controls {
+	/* On person edit form. */
+	padding-top: 5px;
+}
 
 /* Header */
 

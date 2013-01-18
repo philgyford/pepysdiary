@@ -1,5 +1,6 @@
 # coding: utf-8
 from django.contrib.auth import views as auth_views
+from django.contrib.auth.decorators import login_required
 from django.contrib.sites.models import get_current_site
 from django.core.urlresolvers import reverse
 from django.shortcuts import redirect
@@ -9,7 +10,7 @@ from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.debug import sensitive_post_parameters
 from django.views.generic import TemplateView
 from django.views.generic.detail import DetailView
-from django.views.generic.edit import FormView
+from django.views.generic.edit import FormView, UpdateView
 
 from pepysdiary.annotations.models import Annotation
 from pepysdiary.common.models import Config
@@ -79,6 +80,31 @@ class PrivateProfileView(ProfileView):
         Override so that we can get the logged-in user's Person object.
         """
         return self.request.user
+
+    @method_decorator(login_required)
+    @method_decorator(never_cache)
+    def dispatch(self, *args, **kwargs):
+        return super(PrivateProfileView, self).dispatch(*args, **kwargs)
+
+
+class EditProfileView(UpdateView):
+    """
+    A logged-in user editing their details.
+    """
+    model = Person
+    form_class = forms.PersonEditForm
+
+    @method_decorator(csrf_protect)
+    @method_decorator(login_required)
+    @method_decorator(never_cache)
+    def dispatch(self, *args, **kwargs):
+        return super(EditProfileView, self).dispatch(*args, **kwargs)
+
+    def get_object(self, queryset=None):
+        return self.request.user
+
+    def get_success_url(self):
+        return reverse('private_profile')
 
 
 @csrf_protect

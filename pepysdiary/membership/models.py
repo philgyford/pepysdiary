@@ -9,6 +9,7 @@ from django.contrib import messages
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin,\
                                                                 BaseUserManager
 from django.contrib.auth.signals import user_logged_in
+from django.core.urlresolvers import reverse
 from django.db import models
 from django.db import transaction
 from django.utils import timezone
@@ -228,6 +229,9 @@ class Person(AbstractBaseUser, PermissionsMixin):
 
     def get_short_name(self):
         return self.name
+
+    def get_absolute_url(self):
+        return reverse('profile', kwargs={'pk': self.pk, })
 
     def __unicode__(self):
         return self.name

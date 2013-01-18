@@ -1,4 +1,4 @@
-{% extends "comments/base.html" %}
+{% extends "base.html" %}
 
 {% block title %}{% if private_profile %}Your profile{% else %}{{ person.get_full_name }}{% endif %}{% endblock %}
 {% block header_title %}{% if private_profile %}Your profile{% else %}{{ person.get_full_name }}{% endif %}{% endblock %}
@@ -12,12 +12,12 @@
 			<span class="span7 offset1">{{ person.name }}</span>
 		</p>
 		<p class="row-fluid">
-			<span class="span2 right">URL</span>
-			<span class="span7 offset1">{% if person.url %}<a href="{{ person.url }}" rel="nofollow">{{ person.url|urlizetrunc:50 }}</a>{% else %}None{% endif %}</span>
-		</p>
-		<p class="row-fluid">
 			<span class="span2 right">Email</span>
 			<span class="span7 offset1">{{ person.email }} <small>(Private)</small></span>
+		</p>
+		<p class="row-fluid">
+			<span class="span2 right">URL</span>
+			<span class="span7 offset1">{% if person.url %}<a href="{{ person.url }}" rel="nofollow">{{ person.url|urlizetrunc:50 }}</a>{% else %}None{% endif %}</span>
 		</p>
 
 	{% else %}
@@ -40,13 +40,14 @@
 {% block sidebar_content %}
 	{% if private_profile %}
 		<div class="sidebar-block">
-			<p><strong>Only you can see this view of your profile.</strong></p>
-			<p><a href="{% url 'profile' pk=user.pk %}">See what everyone else sees.</a></p>
+			<p><strong>Only you can see this view of your profile</strong></p>
+			<p><a href="{% url 'profile' pk=user.pk %}">See what everyone else sees</a></p>
+			<p><a href="{% url 'edit_profile' %}">Edit your profile</a></p>
 		</div>
 	{% elif user.is_authenticated and user.pk == person.pk %}
 		<div class="sidebar-block">
-			<p><strong>This is the public view of your profile.</strong></p>
-			<p><a href="{% url 'private_profile' %}">See or edit all your details.</a></p>
+			<p><strong>This is the public view of your profile</strong></p>
+			<p><a href="{% url 'private_profile' %}">See or edit all your details</a></p>
 		</div>
 	{% endif %}
 {% endblock sidebar_content %}
