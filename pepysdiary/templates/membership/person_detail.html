@@ -13,7 +13,7 @@
 		</p>
 		<p class="row-fluid">
 			<span class="span2 right">Email</span>
-			<span class="span7 offset1">{{ person.email }} <small>(Private)</small></span>
+			<span class="span7 offset1">{{ person.email }}</span>
 		</p>
 		<p class="row-fluid">
 			<span class="span2 right">URL</span>
@@ -40,7 +40,7 @@
 {% block sidebar_content %}
 	{% if private_profile %}
 		<div class="sidebar-block">
-			<p><strong>Only you can see this view of your profile</strong></p>
+			<p><strong>Only you can see this page</strong></p>
 			<p><a href="{% url 'profile' pk=user.pk %}">See what everyone else sees</a></p>
 			<p><a href="{% url 'edit_profile' %}">Edit your profile</a></p>
 		</div>
