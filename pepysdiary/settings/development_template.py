@@ -81,3 +81,11 @@ GOOGLE_ANALYTICS_ID = ''
 RECAPTCHA_PUBLIC_KEY = ''
 RECAPTCHA_PRIVATE_KEY = ''
 RECAPTCHA_USE_SSL = True
+
+# Do we use Akismet/TypePad spam checking?
+# True/False. If false, no posted comments are checked.
+# If True, AKISMET_API_KEY must also be set.
+USE_SPAM_CHECK = True
+
+# From http://akismet.com/
+AKISMET_API_KEY = ''

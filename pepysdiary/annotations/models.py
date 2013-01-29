@@ -1,9 +1,12 @@
 from django.contrib.comments.managers import CommentManager
 from django.contrib.comments.models import Comment
+from django.contrib.comments.signals import comment_was_posted
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.sites.models import Site
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Max
+
+from pepysdiary.annotations.utils import test_comment_for_spam
 
 
 class AnnotationManager(CommentManager):
@@ -109,3 +112,10 @@ class Annotation(Comment):
                             self.user.first_comment_date > self.submit_date:
             self.user.first_comment_date = self.submit_date
             self.user.save()
+
+
+comment_was_posted.connect(
+    test_comment_for_spam,
+    sender=Annotation,
+    dispatch_uid='comments.post_comment',
+)
