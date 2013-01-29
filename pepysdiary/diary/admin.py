@@ -9,7 +9,8 @@ class EntryAdmin(admin.ModelAdmin):
     readonly_fields = ('date_created', 'date_modified', 'last_comment_time', )
     fieldsets = (
         (None, {
-            'fields': ('title', 'diary_date', 'text', 'footnotes', ),
+            'fields': ('title', 'diary_date', 'text', 'footnotes',
+                                                        'allow_comments', ),
         }),
         (None, {
             'fields': ('date_created', 'date_modified', 'comment_count',

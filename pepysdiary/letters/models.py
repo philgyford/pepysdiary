@@ -1,6 +1,7 @@
 # coding: utf-8
 import re
 
+from django.contrib.comments.moderation import CommentModerator, moderator
 from django.core.urlresolvers import reverse
 from django.db import models
 
@@ -41,6 +42,7 @@ class Letter(PepysModel, OldDateMixin):
                                                 unique_for_date='letter_date')
     comment_count = models.IntegerField(default=0, blank=False, null=False)
     last_comment_time = models.DateTimeField(blank=True, null=True)
+    allow_comments = models.BooleanField(blank=False, null=False, default=True)
 
     old_date_field = 'letter_date'
     comment_name = 'annotation'
@@ -85,3 +87,10 @@ class Letter(PepysModel, OldDateMixin):
         for id in unique_ids:
             topic = Topic.objects.get(pk=id)
             topic.letter_references.add(self)
+
+
+class LetterModerator(CommentModerator):
+    email_notification = False
+    enable_field = 'allow_comments'
+
+moderator.register(Letter, LetterModerator)

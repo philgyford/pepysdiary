@@ -12,7 +12,7 @@ class LetterAdmin(admin.ModelAdmin):
         (None, {
             'fields': ('title', 'letter_date', 'display_date',
                         'sender', 'recipient',
-                        'slug', 'source', )
+                        'slug', 'source', 'allow_comments', )
         }),
         (None, {
             'fields': ('text', 'footnotes', 'excerpt', )

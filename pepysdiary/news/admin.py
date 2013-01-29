@@ -10,7 +10,7 @@ class PostAdmin(admin.ModelAdmin):
     readonly_fields = ('date_created', 'date_modified', 'last_comment_time', )
     fieldsets = (
         (None, {
-            'fields': ('title', 'status', 'date_published', )
+            'fields': ('title', 'status', 'date_published', 'allow_comments', )
         }),
         (None, {
             'fields': ('category', 'intro', 'text', )

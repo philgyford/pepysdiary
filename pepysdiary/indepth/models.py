@@ -1,3 +1,4 @@
+from django.contrib.comments.moderation import CommentModerator, moderator
 from django.core.urlresolvers import reverse
 from django.db import models
 from django.utils import timezone
@@ -43,6 +44,7 @@ class Article(PepysModel):
                                             unique_for_date='date_published')
     comment_count = models.IntegerField(default=0, blank=False, null=False)
     last_comment_time = models.DateTimeField(blank=True, null=True)
+    allow_comments = models.BooleanField(blank=False, null=False, default=True)
 
     status = models.IntegerField(blank=False, null=False,
                                 choices=STATUS_CHOICES, default=STATUS_DRAFT)
@@ -73,3 +75,10 @@ class Article(PepysModel):
                 'day': self.date_published.strftime('%d'),
                 'slug': self.slug,
             })
+
+
+class ArticleModerator(CommentModerator):
+    email_notification = False
+    enable_field = 'allow_comments'
+
+moderator.register(Article, ArticleModerator)

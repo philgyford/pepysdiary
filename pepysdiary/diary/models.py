@@ -3,6 +3,7 @@ import pytz
 import re
 
 from django.conf import settings
+from django.contrib.comments.moderation import CommentModerator, moderator
 from django.core.urlresolvers import reverse
 from django.db import models
 
@@ -44,6 +45,7 @@ class Entry(PepysModel, OldDateMixin):
                                         help_text="HTML only, no Markdown.")
     comment_count = models.IntegerField(default=0, blank=False, null=False)
     last_comment_time = models.DateTimeField(blank=True, null=True)
+    allow_comments = models.BooleanField(blank=False, null=False, default=True)
 
     # Will also have a 'topics' ManyToMany field, from Topic.
 
@@ -98,6 +100,13 @@ class Entry(PepysModel, OldDateMixin):
         for id in unique_ids:
             topic = Topic.objects.get(pk=id)
             topic.diary_references.add(self)
+
+
+class EntryModerator(CommentModerator):
+    email_notification = False
+    enable_field = 'allow_comments'
+
+moderator.register(Entry, EntryModerator)
 
 
 class Summary(PepysModel, OldDateMixin):

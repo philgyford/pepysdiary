@@ -15,7 +15,8 @@ class TopicAdmin(admin.ModelAdmin):
         (None, {
             'fields': ('title', 'order_title', 'categories',
                         'summary', 'wheatley',
-                        'tooltip_text', 'wikipedia_fragment', ),
+                        'tooltip_text', 'wikipedia_fragment',
+                        'allow_comments', ),
         }),
         ('People', {
             'fields': ('thumbnail', 'on_pepys_family_tree', ),

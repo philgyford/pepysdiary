@@ -1,6 +1,7 @@
 import re
 
 from django.conf import settings
+from django.contrib.comments.moderation import CommentModerator, moderator
 from django.core.urlresolvers import reverse
 from django.db import models
 from django.db.models.signals import m2m_changed, post_delete, pre_delete
@@ -200,6 +201,7 @@ class Topic(PepysModel):
         verbose_name='Is on the Pepys family tree?', default=False)
     comment_count = models.IntegerField(default=0, blank=False, null=False)
     last_comment_time = models.DateTimeField(blank=True, null=True)
+    allow_comments = models.BooleanField(blank=False, null=False, default=True)
 
     map_category = models.CharField(max_length=20, blank=True, null=False,
                                 choices=MAP_CATEGORY_CHOICES,
@@ -294,6 +296,13 @@ class Topic(PepysModel):
             year_refs[1].append(month_refs)
             refs.append(year_refs)
         return refs
+
+
+class TopicModerator(CommentModerator):
+    email_notification = False
+    enable_field = 'allow_comments'
+
+moderator.register(Topic, TopicModerator)
 
 
 def topic_categories_changed(sender, **kwargs):
