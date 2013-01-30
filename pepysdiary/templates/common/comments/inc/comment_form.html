@@ -42,7 +42,7 @@ Expects:
 						<div class="comments">
 						    <div class="media">
 						    	<div class="media-body">
-						        	<h4 class="media-heading"><span class="comment-name">{{ user.get_full_name }}</span> on {{ time_now|date:date_format_mid }}, {{ time_now|date:time_format }}</a></h4>
+						        	<h4 class="media-heading"><span class="comment-name">{{ user.get_full_name }}</span> on {{ time_now|date:date_format_mid }}, {{ time_now|date:time_format|lower }}</a></h4>
 							        <p>{{ form.comment.value|urlizetrunc:50|linebreaks }}</p>
 							    </div>
 							</div>

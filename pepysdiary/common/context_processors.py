@@ -15,8 +15,8 @@ def date_formats(request):
         'date_format_long_strftime': '%d %B %Y',
         # 31 Dec 2012
         'date_format_mid': 'j M Y',
-        # 12:39p.m.
-        'time_format': 'g:ia',
+        # 12:39PM (apply "|lower" to it too)
+        'time_format': 'g:iA',
 
         # We also include a datetime object of the time now.
         # Why? Because the {% now %} template tag doesn't seem to accept
