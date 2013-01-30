@@ -61,6 +61,8 @@ window.pepys.tooltips = {
                     trigger: 'hover',
                     placement: 'right',
                     html: true
+                    // For debugging CSS etc:
+                    // delay: { show: 0, hide: 100000 }
                 };
                 if (that.tooltips[id].thumbnail_url) {
                     // We want to make the popovers wider when there's a

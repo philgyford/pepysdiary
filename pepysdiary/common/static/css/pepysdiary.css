@@ -87,10 +87,7 @@ body {
 cite {
 	font-style: italic;
 }
-.center {
-	text-align: center;
-}
-.right {
+.align-right {
 	text-align: right;
 }
 .push-down {

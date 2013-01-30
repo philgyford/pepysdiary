@@ -8,15 +8,15 @@
 
 	{% if private_profile %}
 		<p class="row-fluid">
-			<span class="span2 right">Name</span>
+			<span class="span2 align-right">Name</span>
 			<span class="span7 offset1">{{ person.name }}</span>
 		</p>
 		<p class="row-fluid">
-			<span class="span2 right">Email</span>
+			<span class="span2 align-right">Email</span>
 			<span class="span7 offset1">{{ person.email }}</span>
 		</p>
 		<p class="row-fluid">
-			<span class="span2 right">URL</span>
+			<span class="span2 align-right">URL</span>
 			<span class="span7 offset1">{% if person.url %}<a href="{{ person.url }}" rel="nofollow">{{ person.url|urlizetrunc:50 }}</a>{% else %}None{% endif %}</span>
 		</p>
 
