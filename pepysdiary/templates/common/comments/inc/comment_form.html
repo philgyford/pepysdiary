@@ -43,7 +43,7 @@ Expects:
 						    <div class="media">
 						    	<div class="media-body">
 						        	<h4 class="media-heading"><span class="comment-name">{{ user.get_full_name }}</span> on {{ time_now|date:date_format_mid }}, {{ time_now|date:time_format|lower }}</a></h4>
-							        <p>{{ form.comment.value|urlizetrunc:50|linebreaks }}</p>
+							        <p>{{ form.comment.value|striptags|urlizetrunc:50|linebreaks }}</p>
 							    </div>
 							</div>
 						</div>
@@ -58,6 +58,9 @@ Expects:
 					            <span class="help-block error">{{ form.comment.errors|join:'<br />' }}</span>
 					        {% endif %}
 						    <textarea class="span12" cols="40" id="id_comment" name="{{ form.comment.name }}" rows="8">{% if form.comment.value %}{{ form.comment.value }}{% endif %}</textarea>
+						    <br />
+						    <small class="muted">No HTML allowed. URLs will be turned into links.</small>
+
 						</div>
 					</div>
 					<div class="form-actions">

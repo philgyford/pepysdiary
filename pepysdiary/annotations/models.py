@@ -5,6 +5,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.contrib.sites.models import Site
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Max
+from django.utils.html import strip_tags
 
 from pepysdiary.annotations.utils import test_comment_for_spam
 
@@ -42,6 +43,9 @@ class Annotation(Comment):
         proxy = True
 
     def save(self, *args, **kwargs):
+        # We don't allow HTML at all:
+        self.comment = strip_tags(self.comment)
+
         super(Annotation, self).save(*args, **kwargs)
         self._set_parent_comment_data()
         self._set_user_first_comment_date()
