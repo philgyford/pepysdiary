@@ -27,6 +27,10 @@ class Command(BaseCommand):
 
     Usage:
     $ ./manage.py import_mt_topics
+
+    And afterwards, do this:
+    $ ./manage.py sqlsequencereset 'encyclopedia'
+    and run the SQL commands it gives you.
     """
     option_list = BaseCommand.option_list + (
         make_option('--all',

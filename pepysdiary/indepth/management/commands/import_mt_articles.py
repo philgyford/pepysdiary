@@ -19,6 +19,10 @@ class Command(BaseCommand):
 
     Usage:
     $ ./manage.py import_mt_articles
+
+    And afterwards, do this:
+    $ ./manage.py sqlsequencereset 'indepth'
+    and run the SQL commands it gives you.
     """
     option_list = BaseCommand.option_list + (
         make_option('--all',

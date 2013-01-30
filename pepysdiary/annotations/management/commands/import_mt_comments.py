@@ -22,6 +22,10 @@ class Command(BaseCommand):
     $ ./manage.py import_mt_comments
 
     It might take several hours...
+
+    And afterwards, do this:
+    $ ./manage.py sqlsequencereset 'comments'
+    and run the SQL commands it gives you.
     """
     option_list = BaseCommand.option_list + (
         make_option('--all',
