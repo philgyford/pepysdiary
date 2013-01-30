@@ -32,6 +32,15 @@ class HomeView(TemplateView):
         return context
 
 
+class RecentView(TemplateView):
+    template_name = 'recent.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(RecentView, self).get_context_data(**kwargs)
+
+        return context
+
+
 class BaseRSSFeed(Feed):
     feed_type = ExtendedRSSFeed
 

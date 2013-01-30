@@ -132,6 +132,8 @@ urlpatterns += patterns('django.contrib.flatpages.views',
 urlpatterns += patterns('',
     url(r'^$', HomeView.as_view(), name='home'),
 
+    url(r'^recent/$', RecentView.as_view(), name='recent'),
+
     url(r'^diary/', include('pepysdiary.diary.urls')),
     url(r'^letters/', include('pepysdiary.letters.urls')),
     url(r'^encyclopedia/', include('pepysdiary.encyclopedia.urls')),

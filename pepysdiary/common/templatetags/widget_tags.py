@@ -1,6 +1,8 @@
 from django import template
 from django.core.urlresolvers import reverse
 
+from pepysdiary.encyclopedia.models import Topic
+from pepysdiary.indepth.models import Article
 from pepysdiary.news.models import Post
 
 register = template.Library()
@@ -66,24 +68,59 @@ def rss_feeds(*args):
     return html
 
 
-@register.simple_tag(takes_context=True)
-def latest_news(context, quantity=5):
-    """Displays links to the most recent Site News Posts."""
+def recent_list(queryset, title, date_format):
+    """
+    Generates a <dl> containing titles of posts, entries, articles, etc,
+    linking to each one, with the date in its <dd>.
+
+    queryset is the queryset of things to show.
+    title is the text to use for the block's title.
+    date_format is a date format suitable for strftime()
+    """
     html = ''
-    post_list = Post.published_posts.all()[:quantity]
-    if post_list:
-        for post in post_list:
+    if queryset:
+        for item in queryset:
+            if hasattr(item, 'date_published'):
+                # Posts and Articles.
+                item_date = item.date_published
+            else:
+                item_date = item.date_created
+
             html += """ <dt><a href="%s">%s</a></dt>
 <dd>%s</dd>
-""" % (post.get_absolute_url(),
-        post.title,
-        post.date_published.strftime(context['date_format_long_strftime']))
+""" % (item.get_absolute_url(),
+        item.title,
+        item_date.strftime(date_format))
 
-        html = """<h4>Latest Site News</h4>
-<dl>
+        html = """<h4>%s</h4>
+<dl class="dated">
 %s</dl>
-""" % html
+""" % (title, html)
     return put_in_block(html)
+
+
+@register.simple_tag(takes_context=True)
+def latest_posts(context, quantity=5):
+    """Displays links to the most recent Site News Posts."""
+    post_list = Post.published_posts.all()[:quantity]
+    return recent_list(post_list, 'Latest Site News',
+                                        context['date_format_long_strftime'])
+
+
+@register.simple_tag(takes_context=True)
+def latest_articles(context, quantity=5):
+    """Displays links to the most recent In-Depth Articles."""
+    article_list = Article.published_articles.all()[:quantity]
+    return recent_list(article_list, 'Latest In-Depth Articles',
+                                        context['date_format_long_strftime'])
+
+
+@register.simple_tag(takes_context=True)
+def latest_topics(context, quantity=5):
+    """Displays links to the most recent Encyclopedia Topics"""
+    topic_list = Topic.objects.order_by('-date_created')[:quantity]
+    return recent_list(topic_list, 'Latest Encyclopedia Topics',
+                                        context['date_format_long_strftime'])
 
 
 @register.simple_tag

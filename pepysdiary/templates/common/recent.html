@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load url from future %}
+
+{% block recent_nav_active %}active{% endblock %}
+
+{% block title %}Recent activity{% endblock %}}
+{% block header_title %}Recent activity{% endblock %}}
+
+
+{% block main_content %}
+{% endblock main_content %}
+
+
+{% block sidebar_content %}
+	{% load widget_tags %}
+	
+	{% latest_posts quantity=5 %}
+
+	{% latest_articles quantity=5 %}
+
+	{% latest_topics quantity=5 %}
+
+	{% rss_feeds %}
+
+{% endblock sidebar_content %}

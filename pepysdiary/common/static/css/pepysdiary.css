@@ -317,3 +317,10 @@ p.letter-indent-2 {
 	border-bottom: none;
 	margin-bottom: 0;
 }
+dl.dated dd {
+	margin-left: 0;
+	font-size: 85%;
+	line-height: 17px;
+	color: #999;
+	margin-bottom: 3px;
+}
