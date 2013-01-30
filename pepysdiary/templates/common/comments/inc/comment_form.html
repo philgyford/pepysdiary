@@ -15,6 +15,23 @@ Expects:
 
 		    <div id="comment">
 
+		    	{% comment %}
+		    	If the user just posted a comment that was flagged as spam,
+		    	we'll have a message with the tag of "spam warning", so we
+		    	display just that here, which is where they'll be after being
+		    	returned to this page.
+		    	{% endcomment %}
+		    	{% if messages %}
+		    		{% for message in messages %}
+		    			{% if message.tags == 'spam warning' %}
+		    				<div class="alert alert-{{ message.tags }}">
+				                <button type="button" class="close" data-dismiss="alert">&times;</button>
+				                {{ message|safe }}
+				            </div>
+		    			{% endif %}
+		    		{% endfor %}
+		    	{% endif %}
+
 				{% if form.non_field_errors %}
 				    <div class="alert alert-error alert-block">
 				    	<p><strong>Oops, there {% if form.non_field_errors|length == 1 %}was an error{% else %}were some errors{% endif %}</strong></p>

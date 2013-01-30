@@ -3,6 +3,7 @@ from urllib2 import Request, urlopen
 
 import django
 from django.conf import settings
+from django.contrib import messages
 from django.contrib.comments.models import CommentFlag
 
 from django.utils.encoding import smart_str
@@ -84,3 +85,12 @@ def test_comment_for_spam(sender, comment, request, **kwargs):
         )
         comment.is_public = False
         comment.save()
+
+        # Add a message which will be displayed in coment_form.html
+        # (as well as wherever messages are usually displayed).
+        # It will have tags like "spam warning".
+        messages.warning(
+            request,
+            "Your post was flagged as possible spam. If it wasn't then <a href=\"mailto:%s?subject=Flagged annotation (ID: %s)\">email me</a> to have it published."
+                % (settings.MANAGERS[0][1], comment.id),
+            extra_tags='spam')
