@@ -1,0 +1,45 @@
+{% extends "comments/base.html" %}
+
+{% block title %}Flag this comment{% endblock %}
+{% block page_header %}{% endblock %}
+
+{% block main_content %}
+    <p class="lead">Really flag this?</p>
+
+    <p>If this annotation/comment is spam, or is otherwise inappropriate, please flag it for attention. Thanks.</p>
+
+	<div class="comments">
+	    <div class="media">
+        	<h3 class="media-heading">
+        		<span class="comment-name">
+	        		{{ comment.name }}
+        		</span>
+        		<small>
+        			on {{ comment.submit_date|date:date_format_mid }} at 
+	        		{{ comment.submit_date|date:time_format }}
+		        </small>
+        	</h3>
+	    	<div class="media-body">
+	    		<p>{{ comment.comment|urlizetrunc:50|linebreaks }}</p>
+	    	</div>
+	    </div>
+	</div>
+
+	<form action="." method="post">
+		<div class="form-actions">
+		    {% csrf_token %}
+			<div class="pull-right">
+				<a href="{{ comment.get_absolute_url }}" title="Return to the previous page">Cancel</a>
+				&nbsp; or &nbsp;
+			    <button type="submit" name="submit" class="btn btn-primary">Flag it</button>
+				{% if next %}
+					<input type="hidden" name="next" value="{{ next }}" id="next" />
+				{% endif %}
+			</div>
+		</div>
+	</form>
+
+{% endblock main_content %}
+
+{% block sidebar %}
+{% endblock %}

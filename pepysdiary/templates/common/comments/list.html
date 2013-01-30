@@ -31,6 +31,9 @@ Expects:
 	        		<small>
 	        			on {{ comment.submit_date|date:date_format_mid }} at 
 		        		<a href="{% if show_object_titles %}{{ comment.content_object.get_absolute_url }}{% endif %}#c{{comment.id}}" title="Link directly to this {% if object and object.comment_name %}{{ object.comment_name }}{% endif %}">{{ comment.submit_date|date:time_format }}</a>
+		        		{% if user.is_authenticated %}
+			        		<a href="{% url 'comments-flag' comment.id %}" title="You’ll have a chance to confirm">Flag this</a>
+			        	{% endif %}
 		        	</small>
 	        	</h3>
 		        <p>{{ comment.comment|urlizetrunc:50|linebreaks }}</p>
