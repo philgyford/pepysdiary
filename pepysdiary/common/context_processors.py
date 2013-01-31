@@ -10,13 +10,19 @@ def date_formats(request):
     return {
         # Monday 31st December 2012
         'date_format_longest': 'l jS F Y',
+
         # 31 December 2012
         'date_format_long': 'j F Y',
         'date_format_long_strftime': '%d %B %Y',
+
         # 31 Dec 2012
         'date_format_mid': 'j M Y',
+        'date_format_mid_strftime': '%d %b %Y',
+
         # 12:39PM (apply "|lower" to it too)
         'time_format': 'g:iA',
+        # May want to do .lstrip('0').lower() on this:
+        'time_format_strftime': '%I:%M%p',
 
         # We also include a datetime object of the time now.
         # Why? Because the {% now %} template tag doesn't seem to accept

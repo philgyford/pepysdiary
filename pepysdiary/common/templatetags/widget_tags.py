@@ -86,7 +86,7 @@ def recent_list(queryset, title, date_format):
             else:
                 item_date = item.date_created
 
-            html += """ <dt><a href="%s">%s</a></dt>
+            html += """<dt><a href="%s">%s</a></dt>
 <dd>%s</dd>
 """ % (item.get_absolute_url(),
         item.title,
@@ -94,7 +94,8 @@ def recent_list(queryset, title, date_format):
 
         html = """<h4>%s</h4>
 <dl class="dated">
-%s</dl>
+%s
+</dl>
 """ % (title, html)
     return put_in_block(html)
 

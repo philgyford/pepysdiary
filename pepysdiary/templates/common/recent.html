@@ -8,6 +8,21 @@
 
 
 {% block main_content %}
+
+	<p class="muted">These lists update every five minutes.</p>
+
+	{% load list_tags %}
+
+	{% latest_commented_entries title="Most recently annotated Diary Entries" quantity=10 %}
+
+	{% latest_commented_letters title="Most recently annotated Letters" quantity=5 %}
+
+	{% latest_commented_topics title="Most recently annotated Encyclopedia Topics" quantity=5 %}
+
+	{% latest_commented_articles title="Most recently commented-on In-Depth Articles" quantity=5 %}
+
+	{% latest_commented_posts title="Most recently commented-on Site News Posts" quantity=5 %}
+
 {% endblock main_content %}
 
 

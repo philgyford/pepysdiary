@@ -3,8 +3,10 @@ import smartypants
 from django.contrib.sites.models import Site
 from django.contrib.syndication.views import add_domain, Feed
 from django.core.urlresolvers import reverse
+from django.utils.decorators import method_decorator
 from django.utils.encoding import force_unicode
 from django.utils.html import escape, strip_tags
+from django.views.decorators.cache import cache_page
 from django.views.generic import RedirectView
 from django.views.generic.base import TemplateView
 
@@ -14,6 +16,7 @@ from pepysdiary.news.models import Post
 
 
 class HomeView(TemplateView):
+    """Front page of the whole site."""
     template_name = 'home.html'
 
     def get_context_data(self, **kwargs):
@@ -33,12 +36,12 @@ class HomeView(TemplateView):
 
 
 class RecentView(TemplateView):
+    """Recent Activity page."""
     template_name = 'recent.html'
 
-    def get_context_data(self, **kwargs):
-        context = super(RecentView, self).get_context_data(**kwargs)
-
-        return context
+    @method_decorator(cache_page(60 * 5))
+    def dispatch(self, *args, **kwargs):
+        return super(RecentView, self).dispatch(*args, **kwargs)
 
 
 class BaseRSSFeed(Feed):

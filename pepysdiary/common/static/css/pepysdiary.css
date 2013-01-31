@@ -219,6 +219,19 @@ a:hover .icon-grey {
 	margin-bottom: 0.8em;
 }
 
+/* Recent Activity */
+
+.recently-commented dt {
+	font-weight: normal;
+}
+.recently-commented dt small {
+	/* Or else the dt is 1px taller than it should be. */
+	line-height: 18px;
+}
+.recently-commented dd {
+	color: #999;
+}
+
 /* Entries */
 
 .entry h1,
