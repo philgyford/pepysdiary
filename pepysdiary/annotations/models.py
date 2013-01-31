@@ -50,6 +50,36 @@ class Annotation(Comment):
         self._set_parent_comment_data()
         self._set_user_first_comment_date()
 
+    def get_user_name(self):
+        """
+        If posted by a user account, return that user's current name, else
+        return the name supplied when the comment was posted.
+        """
+        if self.user:
+            return self.user.get_full_name()
+        else:
+            return self.user_name
+
+    def get_user_email(self):
+        """
+        If posted by a user account, return that user's current email, else
+        return the email supplied when the comment was posted.
+        """
+        if self.user:
+            return self.user.email
+        else:
+            return self.user_email
+
+    def get_user_url(self):
+        """
+        If posted by a user account, return that user's current url, else
+        return the url supplied when the comment was posted.
+        """
+        if self.user:
+            return self.user.url
+        else:
+            return self.user_url
+
     def _set_parent_comment_data(self):
         """
         We store the comment_count for each object that can have comments.
