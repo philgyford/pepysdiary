@@ -1,5 +1,7 @@
-from django import template
 # coding: utf-8
+import calendar
+
+from django import template
 from django.contrib.contenttypes.models import ContentType
 
 from pepysdiary.annotations.models import Annotation
@@ -35,8 +37,9 @@ def commented_objects_list(model_class, context, title, quantity):
                                                         content_type_id=ct.id
                                                     ).latest('submit_date')
             html += """
-<dt><a href="%(url)s"><strong>%(obj_title)s</strong></a> by <strong>%(user_name)s</strong> <small>on %(date)s at %(time)s</small></dt>
+<dt class="newable" data-time="%(data_time)s"><a href="%(url)s"><strong>%(obj_title)s</strong></a> by <strong>%(user_name)s</strong> <small>on %(date)s at %(time)s</small></dt>
 <dd>%(comment)s</dd>""" % {
+        'data_time': calendar.timegm(comment.submit_date.timetuple()),
         'url': comment.get_absolute_url(),
         'obj_title': obj.title,
         'user_name': comment.get_user_name(),
