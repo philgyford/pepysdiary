@@ -41,8 +41,9 @@ Expects:
 					{% if preview and form.comment.value %}
 						<div class="comments">
 						    <div class="media">
+					    		<i class="newflag is-new icon-certificate pull-left"><span>New</span></i>
 						    	<div class="media-body">
-						        	<h4 class="media-heading"><span class="comment-name">{{ user.get_full_name }}</span> on {{ time_now|date:date_format_mid }}, {{ time_now|date:time_format|lower }}</a></h4>
+						        	<h3 class="media-heading"><span class="comment-name">{{ user.get_full_name }}</span> <small>on {{ time_now|date:date_format_mid }} at {{ time_now|date:time_format|lower }}</small></h3>
 							        <p>{{ form.comment.value|striptags|urlizetrunc:50|linebreaks }}</p>
 							    </div>
 							</div>
@@ -52,7 +53,11 @@ Expects:
 
 			    <form action="{% comment_form_target %}" method="post" id="comment-form">
 				    <div class="control-group{% if form.comment.errors %} error{% endif %}">
-				    	<label class="control-label{% if preview %} hide{% endif %}" for="id_comment">Post {{ object.get_a_comment_name }} as <strong>{{ user.get_full_name }}</strong>:</label>
+				    	{% if preview %}
+					    	<label class="control-label" for="id_comment">Edit your {{ object.comment_name }} if required:</label>
+				    	{% else %}
+					    	<label class="control-label" for="id_comment">Post {{ object.get_a_comment_name }} as <strong>{{ user.get_full_name }}</strong>:</label>
+					    {% endif %}
 				    	<div class="controls">
 					        {% if form.comment.errors %}
 					            <span class="help-block error">{{ form.comment.errors|join:'<br />' }}</span>

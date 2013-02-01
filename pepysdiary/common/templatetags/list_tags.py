@@ -37,8 +37,16 @@ def commented_objects_list(model_class, context, title, quantity):
                                                         content_type_id=ct.id
                                                     ).latest('submit_date')
             html += """
-<dt class="newable" data-time="%(data_time)s"><a href="%(url)s"><strong>%(obj_title)s</strong></a> by <strong>%(user_name)s</strong> <small>on %(date)s at %(time)s</small></dt>
-<dd>%(comment)s</dd>""" % {
+<div class="media newable" data-time="%(data_time)s">
+    <i class="newflag icon-certificate pull-left"></i>
+    <div class="media-body">
+        <h3 class="h5 media-heading">
+            <a href="%(url)s"><strong>%(obj_title)s</strong></a> by <strong>%(user_name)s</strong> <small>on %(date)s at %(time)s</small>
+        </h3>
+        <p class="muted">%(comment)s</p>
+    </div>
+</div>
+""" % {
         'data_time': calendar.timegm(comment.submit_date.timetuple()),
         'url': comment.get_absolute_url(),
         'obj_title': obj.title,
@@ -50,10 +58,10 @@ def commented_objects_list(model_class, context, title, quantity):
         'comment': smart_truncate(comment.comment, 80),
             }
 
-        html = """<h4>%s</h4>
-<dl class="recently-commented">
+        html = """<h2 class="h4">%s</h2>
+<div class="recently-commented">
 %s
-</dl>
+</div>
 """ % (title, html)
     return html
 

@@ -1,6 +1,13 @@
 // So we can do things like if ($('.classname').exists()) {}
 jQuery.fn.exists = function(){return jQuery(this).length>0;};
 
+/**
+ * Checks whether a value is numeric or not. Returns true/false.
+ */
+function isNumber(n) {
+  return !isNaN(parseFloat(n)) && isFinite(n);
+};
+
 window.pepys = {};
 
 window.pepys.controller = {
@@ -18,6 +25,8 @@ window.pepys.controller = {
         if ('tooltips' in spec) {
             pepys.tooltips.init(spec.tooltips);
         };
+
+        pepys.newables.init();
     }
 
 };
@@ -107,6 +116,53 @@ window.pepys.tooltips = {
             return text;
         };
     }
+};
+
+
+/**
+ * For any comments
+ * (well, any element with the class "newable" and a data-time attribute)
+ * adds a "NEW" marker to any that are new for this user, based on the
+ * cookies set in VisitTimeMiddleware.
+ */
+window.pepys.newables = {
+
+    /**
+     * When the user's last 'visit' ended. UTC unixtime.
+     */
+    prev_visit_end: null,
+
+    init: function() {
+        this.get_cookies();
+        this.set_markers();
+    },
+
+    /**
+     * We only need to know the end of their previous visit, if any.
+     */
+    get_cookies: function() {
+        cookie_value = readCookie('prev_visit_end');
+        if (isNumber(cookie_value)) {
+            this.prev_visit_end = parseInt(cookie_value, 10);
+        };
+    },
+
+    /**
+     * Any element with a class of .newable should have a `data-time` element
+     * containing a UTC unixtime of when that comment was posted.
+     * If it's newer than the end of the user's last visit, we add the .is-new
+     * class to its .newflag element, and add 'New' text inside it.
+     */
+    set_markers: function() {
+        var that = this;
+        $('.newable').each(function(idx){
+            if (that.prev_visit_end === null ||
+                parseInt($(this).data('time'), 10) > that.prev_visit_end) {
+                $('i.newflag', $(this)).addClass('is-new').html(
+                                    '<span>New</span>').attr('title', 'New');
+            };
+        });
+    },
 };
 
 

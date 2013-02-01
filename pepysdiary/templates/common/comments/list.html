@@ -11,11 +11,16 @@ Expects:
 * only_comments - If True, we only show the comments, no form. If False, or
 				  not present, we show the comment form.
 * link_users - If True then we link to logged-in users' profile pages.
+
+NOTE: The listings in templatetags/list_tags.py for the Recent Activity page
+	  and the preview in teamplates/inc/comment_form.html
+      use similar HTML.
 {% endcomment %}
 
 <div id="{% if object and object.comment_name %}{{ object.comment_name }}{% else %}comment{% endif %}s" class="comments">
   	{% for comment in comment_list %}
 	    <div id="c{{ comment.id }}" class="media newable" data-time="{{ comment.submit_date|date:'U' }}">
+    		<i class="newflag icon-certificate pull-left"></i>
 	    	<div {% if forloop.last %} id="latest"{% endif %}class="media-body">
 	    		{% if show_object_titles %}
 	    			<p>About <a href="{{ comment.content_object.get_absolute_url }}"><strong>{{ comment.content_object.title }}</strong></a></p>
