@@ -59,7 +59,9 @@ Expects:
 					        {% endif %}
 						    <textarea class="span12" cols="40" id="id_comment" name="{{ form.comment.name }}" rows="8">{% if form.comment.value %}{{ form.comment.value }}{% endif %}</textarea>
 						    <br />
-						    <small class="muted">No HTML allowed. URLs will be turned into links.</small>
+						    <small class="muted">No HTML allowed. URLs will be turned into links.<br />
+						    You’re not {{ user.get_full_name }}? <a href="{% url 'logout' %}">Log out.</a>
+						</small>
 
 						</div>
 					</div>
