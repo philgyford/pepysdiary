@@ -14,5 +14,6 @@ newrelic==1.9.0.21
 psycopg2==2.4.5
 pylibmc==1.2.3
 pytz==2012h
+six==1.2.0
 smartypants==1.6.0.3
 wsgiref==0.1.2
