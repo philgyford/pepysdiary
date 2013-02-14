@@ -147,10 +147,15 @@ class Annotation(Comment):
         which is after this Annotation's date, eg, during importing old
         comments. So we test for that too.)
         """
-        if self.user.first_comment_date is None or\
-                            self.user.first_comment_date > self.submit_date:
-            self.user.first_comment_date = self.submit_date
-            self.user.save()
+        # So, if this annotation has a user, and is visible:
+        if self.user is not None and self.is_public == True \
+                                                and self.is_removed == False:
+            # And if this annotation is earlier than the user's
+            # first_comment_date:
+            if self.user.first_comment_date is None or \
+                            self.submit_date < self.user.first_comment_date:
+                self.user.first_comment_date = self.submit_date
+                self.user.save()
 
 
 comment_was_posted.connect(
