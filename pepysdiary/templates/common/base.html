@@ -131,6 +131,7 @@
 
 	<script src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
 	<script src="{{ STATIC_PREFIX }}js/bootstrap.min.js"></script>
+	<script src="{{ STATIC_PREFIX }}js/jquery.timeago.js"></script>
 	<script src="{{ STATIC_PREFIX }}js/pepys.js"></script>
 
 	<script>
@@ -152,6 +153,9 @@
 					}
 				{% endif %}
 			});
+
+			// Prettify the dates/times on comments.
+			$('time.timeago').timeago();
 		});
 	</script>
 
