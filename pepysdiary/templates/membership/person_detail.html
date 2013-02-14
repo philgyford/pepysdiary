@@ -21,7 +21,13 @@
 		</p>
 
 	{% else %}
-		<p class="lead">{% if person.url %}<a href="{{ person.url }}" rel="nofollow">{{ person.url|urlizetrunc:50 }}</a>{% else %}This person has no URL set.{% endif %}</p>
+		<p class="lead">
+			{% if person.url %}
+				Website: <a href="{{ person.url }}" rel="nofollow">{{ person.url|urlizetrunc:50 }}</a>
+			{% else %}
+				This person has no personal website set.
+			{% endif %}
+		</p>
 	{% endif %}
 
 
