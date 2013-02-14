@@ -44,7 +44,8 @@ class RegistrationForm(forms.Form):
     password2 = forms.CharField(widget=forms.PasswordInput(
                                         attrs=attrs_dict, render_value=False),
                                     required=True, label=_("Repeat password"))
-    captcha = ReCaptchaField(attrs={'theme': 'clean'}, label=_("Anti-spam test"))
+    captcha = ReCaptchaField(attrs={'theme': 'clean', 'tabindex': 6, },
+                                                    label=_("Anti-spam test"))
 
     def clean_name(self):
         """
