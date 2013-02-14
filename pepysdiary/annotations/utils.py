@@ -4,6 +4,7 @@ from urllib2 import Request, urlopen
 import django
 from django.conf import settings
 from django.contrib import messages
+from django.contrib.comments import signals
 from django.contrib.comments.models import CommentFlag
 
 from django.utils.encoding import smart_str
@@ -78,11 +79,17 @@ def test_comment_for_spam(sender, comment, request, **kwargs):
         # A flag has to be flagged by a person.
         # So we're just going to get the first superuser.
         user = Person.objects.filter(is_superuser=True, is_active=True)[0]
-        CommentFlag.objects.create(
+        # If we just do create() here then we get an error if this flagged spam
+        # comment has identical content to a previously-flagged spam comment.
+        # So this ensure we don't try and create duplicate flags:
+        flag, created = CommentFlag.objects.get_or_create(
             user=user,
             comment=comment,
             flag='spam',
         )
+        signals.comment_was_flagged.send(
+            sender=comment.__class__, comment=comment,
+            flag=flag, created=created, request=request)
         comment.is_public = False
         comment.save()
 
