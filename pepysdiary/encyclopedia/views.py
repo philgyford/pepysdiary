@@ -1,5 +1,7 @@
 from django.http import Http404
+from django.utils.decorators import method_decorator
 from django.utils.translation import ugettext as _
+from django.views.decorators.cache import cache_page
 from django.views.generic.base import TemplateView
 from django.views.generic.detail import DetailView
 
@@ -9,6 +11,10 @@ from pepysdiary.encyclopedia.models import Category, Topic
 
 class EncyclopediaView(TemplateView):
     template_name = 'category_list.html'
+
+    @method_decorator(cache_page(60 * 60))
+    def dispatch(self, *args, **kwargs):
+        return super(EncyclopediaView, self).dispatch(*args, **kwargs)
 
     def get_context_data(self, **kwargs):
         context = super(EncyclopediaView, self).get_context_data(**kwargs)
