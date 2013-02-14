@@ -52,13 +52,18 @@ class Annotation(Comment):
 
     def get_user_name(self):
         """
+        Now:
+        The name saved when the comment was posted.
+
+        Formerly:
         If posted by a user account, return that user's current name, else
         return the name supplied when the comment was posted.
         """
-        if self.user:
-            return self.user.get_full_name()
-        else:
-            return self.user_name
+        # if self.user:
+        #     return self.user.get_full_name()
+        # else:
+        #     return self.user_name
+        return self.user_name
 
     def get_user_email(self):
         """
