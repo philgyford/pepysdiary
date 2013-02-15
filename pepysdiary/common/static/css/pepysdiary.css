@@ -241,6 +241,9 @@ The heights/sizes are all the same as Boostrap's for h1, h2, etc. */
 .comments .media-heading .comment-name {
 	font-weight: bold;
 }
+.media-heading a:hover .hide {
+	display: inline;
+}
 #comment-form label {
 	font-size: 17.5px;
 	margin-bottom: 0.8em;
