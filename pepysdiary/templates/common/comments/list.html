@@ -37,9 +37,9 @@ NOTE: The listings in templatetags/list_tags.py for the Recent Activity page
 	        		</span>
 	        		<small>
 	        			<time class="timeago" datetime="{{ comment.submit_date|date:'c' }}">on {{ comment.submit_date|date:date_format_mid }}</time>
-		        		• <a href="{% if show_object_titles %}{{ comment.content_object.get_absolute_url }}{% endif %}#c{{comment.id}}" title="Link directly to this {% if object and object.comment_name %}{{ object.comment_name }}{% endif %}">#</a>
+		        		&nbsp; <a href="{% if show_object_titles %}{{ comment.content_object.get_absolute_url }}{% endif %}#c{{comment.id}}" title="Link directly to this {% if object and object.comment_name %}{{ object.comment_name }}{% endif %}"><i class="icon-share icon-link"></i><span class="hide">#</span></a>
 		        		{% if user.is_authenticated %}
-			        		• <a href="{% url 'comments-flag' comment.id %}" title="You’ll have a chance to confirm">Flag this</a>
+			        		&nbsp; <a href="{% url 'comments-flag' comment.id %}" title="Flag this {% if object and object.comment_name %}{{ object.comment_name }}{% else %}comment{% endif %}. You’ll have a chance to confirm."><i class="icon-flag icon-link"></i><span class="hide">Flag this</span></a>
 			        	{% endif %}
 		        	</small>
 	        	</h3>
