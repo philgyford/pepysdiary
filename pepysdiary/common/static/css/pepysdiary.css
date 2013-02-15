@@ -31,6 +31,13 @@
 		background-image: none;
 	}
 }
+/* Make nav dropdowns work on hover, as well as click. */
+ul.nav li.dropdown:hover > ul.dropdown-menu {
+	display: block;
+}
+ul.dropdown-menu {
+	margin-top: 0;
+}
 
 blockquote {
 	margin-bottom: 0;
@@ -77,10 +84,6 @@ blockquote p {
 }
 .popover-hasthumbnail .popover-thumbnail {
 	float: left;
-}
-/* Make nav dropdowns work on hover, as well as click. */
-ul.nav li.dropdown:hover > ul.dropdown-menu {
-	display: block;
 }
 
 /* Global styles */
