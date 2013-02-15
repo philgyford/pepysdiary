@@ -78,6 +78,10 @@ blockquote p {
 .popover-hasthumbnail .popover-thumbnail {
 	float: left;
 }
+/* Make nav dropdowns work on hover, as well as click. */
+ul.nav li.dropdown:hover > ul.dropdown-menu {
+	display: block;
+}
 
 /* Global styles */
 
