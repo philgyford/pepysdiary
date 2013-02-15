@@ -27,6 +27,9 @@ window.pepys.controller = {
         };
 
         pepys.newables.init();
+
+        // Prettify the dates/times on comments.
+        $('time.timeago').timeago();
     }
 
 };

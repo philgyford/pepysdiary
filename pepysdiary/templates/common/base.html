@@ -6,7 +6,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link href="{{ STATIC_PREFIX }}css/bootstrap{% if not debug %}.min{% endif %}.css" rel="stylesheet" media="screen">
 	<link href="{{ STATIC_PREFIX }}css/bootstrap-responsive{% if not debug %}.min{% endif %}.css" rel="stylesheet">
-	<link href="{{ STATIC_PREFIX }}css/pepysdiary.css" rel="stylesheet">
+	<link href="{{ STATIC_PREFIX }}css/pepysdiary.css?v=2" rel="stylesheet">
     <!--[if lt IE 9]>
       <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
@@ -132,7 +132,7 @@
 	<script src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
 	<script src="{{ STATIC_PREFIX }}js/bootstrap.min.js"></script>
 	<script src="{{ STATIC_PREFIX }}js/jquery.timeago.js"></script>
-	<script src="{{ STATIC_PREFIX }}js/pepys.js"></script>
+	<script src="{{ STATIC_PREFIX }}js/pepys.js?v=2"></script>
 
 	<script>
 		$(document).ready(function(){
@@ -153,9 +153,6 @@
 					}
 				{% endif %}
 			});
-
-			// Prettify the dates/times on comments.
-			$('time.timeago').timeago();
 		});
 	</script>
 
