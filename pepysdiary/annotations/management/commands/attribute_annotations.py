@@ -8,7 +8,7 @@ from pepysdiary.membership.models import Person
 
 
 class Command(BaseCommand):
-    args = '[options] <email> <user_id>'
+    args = '[options] <email> <person_id>'
     help = 'Associate Annotations by a particular email address to a '\
                                                         'particular Person.'
     option_list = BaseCommand.option_list + (
