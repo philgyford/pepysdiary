@@ -43,7 +43,7 @@ Expects:
 						    <div class="media">
 					    		<i class="newflag is-new icon-certificate pull-left"><span>New</span></i>
 						    	<div class="media-body">
-						        	<h3 class="media-heading"><span class="comment-name">{{ user.get_full_name }}</span> <small>on {{ time_now|date:date_format_mid }} at {{ time_now|date:time_format|lower }}</small></h3>
+						        	<h3 class="media-heading"><span class="comment-name">{{ user.get_full_name }}</span> <small>on {{ time_now|date:date_format_mid }}</small></h3>
 							        <p>{{ form.comment.value|striptags|urlizetrunc:50|linebreaks }}</p>
 							    </div>
 							</div>

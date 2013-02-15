@@ -41,7 +41,7 @@ def commented_objects_list(model_class, context, title, quantity):
     <i class="newflag icon-certificate pull-left"></i>
     <div class="media-body">
         <h3 class="h5 media-heading">
-            <a href="%(url)s"><strong>%(obj_title)s</strong></a> by <strong>%(user_name)s</strong> <small><time class="timeago" datetime="%(iso_datetime)s">on %(date)s at %(time)s</time></small>
+            <a href="%(url)s"><strong>%(obj_title)s</strong></a> by <strong>%(user_name)s</strong> <small><time class="timeago" datetime="%(iso_datetime)s">on %(date)s</time></small>
         </h3>
         <p class="muted">%(comment)s</p>
     </div>
