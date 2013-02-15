@@ -4,7 +4,8 @@ from django.contrib.comments.signals import comment_was_posted
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.sites.models import Site
 from django.core.exceptions import ObjectDoesNotExist
-from django.db.models import Max
+from django.db.models import Max, signals
+from django.dispatch import receiver
 from django.utils.html import strip_tags
 
 from pepysdiary.annotations.utils import test_comment_for_spam
@@ -47,7 +48,7 @@ class Annotation(Comment):
         self.comment = strip_tags(self.comment)
 
         super(Annotation, self).save(*args, **kwargs)
-        self._set_parent_comment_data()
+        self.set_parent_comment_data()
         self._set_user_first_comment_date()
 
     def get_user_name(self):
@@ -85,7 +86,7 @@ class Annotation(Comment):
         else:
             return self.user_url
 
-    def _set_parent_comment_data(self):
+    def set_parent_comment_data(self):
         """
         We store the comment_count for each object that can have comments.
         So here we set the comment_count after we save each comment.
@@ -156,6 +157,15 @@ class Annotation(Comment):
                             self.submit_date < self.user.first_comment_date:
                 self.user.first_comment_date = self.submit_date
                 self.user.save()
+
+
+@receiver(signals.post_delete, sender=Annotation)
+def post_annotation_delete_actions(sender, instance, using, **kwargs):
+    """
+    If we're deleting a comment, we need to make sure the parent object's
+    comment count and most-recent-comment date are still accurate.
+    """
+    instance.set_parent_comment_data()
 
 
 comment_was_posted.connect(
