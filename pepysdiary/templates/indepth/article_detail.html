@@ -10,11 +10,17 @@
 
 {% block main_content %}
 
-	<p>{{ article.date_published|date:date_format_longest }}</p>
+	<article>
+		<p>{{ article.date_published|date:date_format_longest }}</p>
 
-	{{ article.intro_html|smartypants|safe }}
+		{{ article.intro_html|smartypants|safe }}
 
-	{{ article.text_html|smartypants|safe }}
+		{{ article.text_html|smartypants|safe }}
+
+		{% if perms.article.can_edit %}
+			<p class="admin-links"><small><a class="admin" href="{% url 'admin:indepth_article_change' article.id %}"><i class="icon-edit icon-link"></i> Edit</a></small></p>
+		{% endif %}
+	</article>
 
 	{% include 'inc/comments.html' with object=article %}
 

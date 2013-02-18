@@ -38,6 +38,10 @@
 		</ul>
 
 		<div class="tab-content">
+			{% if perms.topic.can_edit %}
+				<p class="admin-links"><small><a class="admin" href="{% url 'admin:encyclopedia_topic_change' topic.id %}"><i class="icon-edit icon-link"></i> Edit</a></small></p>
+        	{% endif %}
+
 			{% if topic.latitude %}
 				<div class="tab-pane active" id="map">
 					<h2>Map</h2>
@@ -48,27 +52,27 @@
 			{% endif %}
 
 			{% if topic.summary_html %}
-				<div class="tab-pane{% if not topic.latitude %} active{% endif %}" id="summary">
+				<article class="tab-pane{% if not topic.latitude %} active{% endif %}" id="summary">
 					<h2>Summary</h2>
 					{{ topic.summary_html|smartypants|safe }}
-				</div>
+				</article>
 			{% endif %}
 
 			{% if topic.wikipedia_fragment %}
-				<div class="tab-pane{% if not topic.latitude and not topic.summary_html %} active{% endif %}" id="wikipedia">
+				<article class="tab-pane{% if not topic.latitude and not topic.summary_html %} active{% endif %}" id="wikipedia">
 					<h2>Wikipedia</h2>
 					<p>Wikipedia content is not yet automatically copied to this page.</p>
 					<p>For now, you can directly <a href="http://en.wikipedia.org/wiki/{{ topic.wikipedia_fragment }}">visit this topic on Wikipedia</a>.</p>
-				</div>
+				</article>
 			{% endif %}
 
 			{% if topic.wheatley_html %}
-				<div class="tab-pane{% if not topic.latitude and not topic.summary_html and not topic.wikipedia_fragment %} active{% endif %}" id="wheatley">
+				<article class="tab-pane{% if not topic.latitude and not topic.summary_html and not topic.wikipedia_fragment %} active{% endif %}" id="wheatley">
 					<h2>1893 text</h2>
 					<div class="well well-manuscript">
 						{{ topic.wheatley_html|smartypants|safe }}
 					</div>
-				</div>
+				</article>
 			{% endif %}
 
 			<div class="tab-pane{% if not topic.latitude and not topic.summary_html and not topic.wikipedia_fragment and not topic.wheatley_html %} active{% endif %}" id="annotations">

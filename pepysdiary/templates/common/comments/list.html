@@ -41,6 +41,9 @@ NOTE: The listings in templatetags/list_tags.py for the Recent Activity page
 		        		{% if user.is_authenticated %}
 			        		&nbsp; <a href="{% url 'comments-flag' comment.id %}" title="You’ll have a chance to confirm."><i class="icon-flag icon-link"></i><span class="hide"> Flag this</span></a>
 			        	{% endif %}
+			        	{% if perms.annotation.can_edit %}
+			        		&nbsp; <a class="admin" href="{% url 'admin:annotations_annotation_change' comment.id %}"><i class="icon-edit icon-link"></i> Edit</a>
+			        	{% endif %}
 		        	</small>
 	        	</h3>
 		        <p>{{ comment.comment|urlizetrunc:50|linebreaks }}</p>

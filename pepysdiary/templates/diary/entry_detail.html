@@ -10,17 +10,7 @@
 
 {% block main_content %}
 
-	{% load text_formatting_filters %}
-	
-	<article class="entry well well-manuscript">
-		<h1>{{ entry.title }}</h1>
-
-		{{ entry.text|smartypants|safe }}
-		{% if entry.footnotes %}
-			<hr />
-			{{ entry.footnotes|smartypants|safe }}
-		{% endif %}
-	</article>
+	{% include 'inc/entry.html' with entry=entry %}
 
 	{% include 'inc/comments.html' with object=entry %}
 

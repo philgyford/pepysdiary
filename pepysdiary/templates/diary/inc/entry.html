@@ -1,0 +1,17 @@
+{% load text_formatting_filters %}
+
+<article class="entry well well-manuscript">
+	<h2><a href="{{ entry.get_absolute_url }}">{{ entry.title }}</a></h2>
+
+	{{ entry.text|smartypants|safe }}
+	
+	{% if entry.footnotes %}
+		<div class="footnotes">	
+			{{ entry.footnotes|smartypants|safe }}
+		</div>
+	{% endif %}
+
+	{% if perms.annotation.can_edit %}
+		<p class="admin-links"><small><a class="admin" href="{% url 'admin:diary_entry_change' entry.id %}"><i class="icon-edit icon-link"></i> Edit</a></small></p>
+	{% endif %}
+</article>

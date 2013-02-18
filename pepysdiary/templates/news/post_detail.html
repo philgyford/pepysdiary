@@ -9,11 +9,17 @@
 
 {% block main_content %}
 
-	<p>{{ post.date_published|date:date_format_longest }}</p>
+	<article>
+		<p>{{ post.date_published|date:date_format_longest }}</p>
 
-	{{ post.intro_html|smartypants|safe }}
+		{{ post.intro_html|smartypants|safe }}
 
-	{{ post.text_html|smartypants|safe }}
+		{{ post.text_html|smartypants|safe }}
+
+		{% if perms.post.can_edit %}
+			<p class="admin-links"><small><a class="admin" href="{% url 'admin:news_post_change' post.id %}"><i class="icon-edit icon-link"></i> Edit</a></small></p>
+		{% endif %}
+	</article>
 
 	{% include 'inc/comments.html' with object=post %}
 

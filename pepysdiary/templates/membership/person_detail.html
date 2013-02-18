@@ -5,30 +5,36 @@
 
 
 {% block main_content %}
+	<article>
+		{% if private_profile %}
+			{# The logged-in user viewing themselves. #}
+			<p class="row-fluid">
+				<span class="span2 text-right">Name</span>
+				<span class="span7 offset1">{{ person.name }}</span>
+			</p>
+			<p class="row-fluid">
+				<span class="span2 text-right">Email</span>
+				<span class="span7 offset1">{{ person.email }}</span>
+			</p>
+			<p class="row-fluid">
+				<span class="span2 text-right">URL</span>
+				<span class="span7 offset1">{% if person.url %}<a href="{{ person.url }}" rel="nofollow">{{ person.url|urlizetrunc:50 }}</a>{% else %}None{% endif %}</span>
+			</p>
 
-	{% if private_profile %}
-		<p class="row-fluid">
-			<span class="span2 align-right">Name</span>
-			<span class="span7 offset1">{{ person.name }}</span>
-		</p>
-		<p class="row-fluid">
-			<span class="span2 align-right">Email</span>
-			<span class="span7 offset1">{{ person.email }}</span>
-		</p>
-		<p class="row-fluid">
-			<span class="span2 align-right">URL</span>
-			<span class="span7 offset1">{% if person.url %}<a href="{{ person.url }}" rel="nofollow">{{ person.url|urlizetrunc:50 }}</a>{% else %}None{% endif %}</span>
-		</p>
-
-	{% else %}
-		<p class="lead">
-			{% if person.url %}
-				Website: <a href="{{ person.url }}" rel="nofollow">{{ person.url|urlizetrunc:50 }}</a>
-			{% else %}
-				This person has no personal website set.
+		{% else %}
+			{# Public view. #}
+			<p class="lead">
+				{% if person.url %}
+					Website: <a href="{{ person.url }}" rel="nofollow">{{ person.url|urlizetrunc:50 }}</a>
+				{% else %}
+					This person has no personal website set.
+				{% endif %}
+			</p>
+			{% if perms.person.can_edit %}
+				<p class="admin-links"><small><a class="admin" href="{% url 'admin:membership_person_change' person.id %}"><i class="icon-edit icon-link"></i> Edit</a></small></p>
 			{% endif %}
-		</p>
-	{% endif %}
+		{% endif %}
+	</article>
 
 
 	<h3 class="push-down">Annotations and comments</h3>

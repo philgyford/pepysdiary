@@ -1,21 +1,9 @@
-
-{% load text_formatting_filters %}
-
 <div class="entries">
-{% for entry in entry_list %}
-	<article class="entry">
+	{% for entry in entry_list %}
+		<div>
+			{% include 'inc/entry.html' with entry=entry %}
 
-		<div class="well well-manuscript">
-			<h2><a href="{{ entry.get_absolute_url }}">{{ entry.title }}</a></h2>
-			{{ entry.text|smartypants|safe }}
-			{% if entry.footnotes %}
-				<div class="footnotes">	
-					{{ entry.footnotes|smartypants|safe }}
-				</div>
-			{% endif %}
+			<p class="entry-meta"><a href="{{ entry.get_absolute_url }}#annotations">Read {{ entry.comment_count }} annotation{{ entry.comment_count|pluralize }} by readers</a></p>
 		</div>
-
-		<p class="entry-meta"><a href="{{ entry.get_absolute_url }}#annotations">Read {{ entry.comment_count }} annotation{{ entry.comment_count|pluralize }} by readers</a></p>
-	</article>
-{% endfor %}
+	{% endfor %}
 </div>

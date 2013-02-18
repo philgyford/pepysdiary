@@ -20,6 +20,10 @@
 		{% if letter.footnotes %}
 			{{ letter.footnotes|smartypants|safe }}
 		{% endif %}
+
+		{% if perms.letter.can_edit %}
+			<p class="admin-links"><small><a class="admin" href="{% url 'admin:letters_letter_change' letter.id %}"><i class="icon-edit icon-link"></i> Edit</a></small></p>
+		{% endif %}
 	</article>
 
 	{% include 'inc/comments.html' with object=letter %}

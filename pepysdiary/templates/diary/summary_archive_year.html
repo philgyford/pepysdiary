@@ -18,6 +18,10 @@
 			{{ summary.text_html|smartypants|safe }}
 
 			<p><small><a href="{% url 'entry_month_archive' year=summary.summary_date|date:"Y" month=summary.summary_date|date:"m" %}">See the full diary entries for {{ summary.summary_date|date:"F Y" }}</a></small></p>
+
+			{% if perms.summary.can_edit %}
+				<p class="admin-links"><small><a class="admin" href="{% url 'admin:diary_summary_change' summary.id %}"><i class="icon-edit icon-link"></i> Edit</a></small></p>
+			{% endif %}
 		</article>
 	{% endfor %}
 

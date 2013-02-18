@@ -94,7 +94,25 @@ body {
 cite {
 	font-style: italic;
 }
-.align-right {
+.admin {
+	background: #ff3;
+}
+article,
+.tab-content {
+	position: relative;
+}
+.tab-content .admin-links,
+article .admin-links {
+	position: absolute;
+	top: 0;
+	right: 0;
+	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+.well-manuscript .admin-links {
+	top: 0.5em;
+	right: 20px;
+}
+.text-right {
 	text-align: right;
 }
 .push-down {
