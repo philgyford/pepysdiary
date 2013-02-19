@@ -1,4 +1,4 @@
-{% block subject %}Activate your {{ site.name }} account{% endblock %}
+{% block subject %}Activate your {{ site.name|safe }} account{% endblock %}
 {% block plain %}Hello,
 
 Click this link to activate your account:
