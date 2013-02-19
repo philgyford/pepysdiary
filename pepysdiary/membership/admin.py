@@ -78,7 +78,8 @@ class PersonAdmin(UserAdmin):
     # The fields to be used in displaying the User model.
     # These override the definitions on the base UserAdmin
     # that reference specific fields on auth.User.
-    list_display = ('name', 'email', 'url', 'is_active', 'last_login')
+    list_display = ('name', 'email', 'url', 'is_active', 'date_created',
+                                                                'last_login')
     list_filter = ('is_staff', 'is_superuser', 'is_active', 'groups')
     readonly_fields = ('date_created', 'date_modified', 'last_login', )
     fieldsets = (
@@ -101,7 +102,7 @@ class PersonAdmin(UserAdmin):
         ),
     )
     search_fields = ('name', 'email', 'url')
-    ordering = ('name',)
+    ordering = ('-date_created',)
 
 
 admin.site.register(Person, PersonAdmin)
