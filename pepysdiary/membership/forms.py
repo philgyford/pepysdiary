@@ -33,8 +33,6 @@ class RegistrationForm(forms.Form):
     name = forms.CharField(max_length=50, validators=[validate_person_name],
                                         required=True, label=_("Your name"),
             help_text='Required. How people will know you. Can use spaces, eg "Samuel Pepys".')
-    url = forms.URLField(label=_("URL"), max_length=255, required=False,
-        help_text='Optional. eg, the address of your blog, Facebook page, Twitter page, etc.')
     email = forms.EmailField(required=True, label=_("Email address"),
                 max_length=255, widget=Html5EmailInput(attrs=attrs_dict),
                 help_text='Required. Will not be public.')
@@ -44,6 +42,8 @@ class RegistrationForm(forms.Form):
     password2 = forms.CharField(widget=forms.PasswordInput(
                                         attrs=attrs_dict, render_value=False),
                                     required=True, label=_("Repeat password"))
+    url = forms.URLField(label=_("URL"), max_length=255, required=False,
+        help_text='Optional. eg, the address of your blog, Facebook page, Twitter page, etc.')
     captcha = ReCaptchaField(attrs={'theme': 'clean', 'tabindex': 6, },
                                                     label=_("Anti-spam test"))
 
