@@ -248,10 +248,11 @@ The heights/sizes are all the same as Boostrap's for h1, h2, etc. */
 
 .comments {
 	border-top: 1px solid #E3E3E3;
-	padding-top: 1em;
 	margin-bottom: 1.2em;
 }
 .comments .media {
+	margin-top: 0;
+	padding-top: 15px;
 	border-bottom: 1px solid #E3E3E3;
 }
 .comments .media-heading {
@@ -289,6 +290,9 @@ The heights/sizes are all the same as Boostrap's for h1, h2, etc. */
 }
 .newflag span {
 	display: none;
+}
+.comments .focused {
+	background: #f5f5f5;
 }
 
 /* Recent Activity */

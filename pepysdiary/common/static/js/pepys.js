@@ -26,7 +26,7 @@ window.pepys.controller = {
             pepys.tooltips.init(spec.tooltips);
         };
 
-        pepys.newables.init();
+        pepys.comments.init();
 
         pepys.topic.init();
 
@@ -125,12 +125,13 @@ window.pepys.tooltips = {
 
 
 /**
- * For any comments
- * (well, any element with the class "newable" and a data-time attribute)
- * adds a "NEW" marker to any that are new for this user, based on the
- * cookies set in VisitTimeMiddleware.
+ * Does the 'new' flags and highlighting on a comment's #hash.
+ *
+ * The 'New' flags are actually, for any element with the class "newable"
+ * and a data-time attribute: it adds a "NEW" marker to any that are new for
+ * this user, based on the cookies set in VisitTimeMiddleware.
  */
-window.pepys.newables = {
+window.pepys.comments = {
 
     /**
      * When the user's last 'visit' ended. UTC unixtime.
@@ -138,6 +139,21 @@ window.pepys.newables = {
     prev_visit_end: null,
 
     init: function() {
+        this.init_hash_link();
+        this.init_newables();
+    },
+
+    init_hash_link: function() {
+        var hash = window.location.hash.substring(1);
+
+        if (hash) {
+            if (hash.match(/^c\d+$/) && $('#'+hash).exists()) {
+                $('#'+hash).addClass('focused');
+            };
+        };
+    },
+
+    init_newables: function() {
         this.get_cookies();
         this.set_markers();
     },
