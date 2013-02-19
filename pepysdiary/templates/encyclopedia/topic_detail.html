@@ -20,20 +20,20 @@
 	<div class="tabbable">
 		<ul class="nav nav-tabs">
 			{% if topic.latitude %}
-				<li class="active"><a href="#map" data-toggle="tab">Map</a></li>
+				<li id="tab-map" class="active"><a href="#map" data-toggle="tab">Map</a></li>
 			{% endif %}
 			{% if topic.summary_html %}
-				<li class="{% if not topic.latitude and topic.summary_html %}active{% endif %}{% if not topic.summary_html %}disabled{% endif %}"><a href="#summary" data-toggle="tab">Summary</a></li>
+				<li id="tab-summary" class="{% if not topic.latitude and topic.summary_html %}active{% endif %}{% if not topic.summary_html %}disabled{% endif %}"><a href="#summary" data-toggle="tab">Summary</a></li>
 			{% endif %}
 			{% if topic.wikipedia_fragment %}
-				<li class="{% if not topic.latitude and not topic.summary_html and topic.wikipedia_fragment %}active{% endif %}{% if not topic.wikipedia_fragment %}disabled{% endif %}"><a href="#wikipedia" data-toggle="tab">Wikipedia</a></li>
+				<li id="tab-wikipedia" class="{% if not topic.latitude and not topic.summary_html and topic.wikipedia_fragment %}active{% endif %}{% if not topic.wikipedia_fragment %}disabled{% endif %}"><a href="#wikipedia" data-toggle="tab">Wikipedia</a></li>
 			{% endif %}
 			{% if topic.wheatley_html %}
-				<li class="{% if not topic.latitude and not topic.summary_html and not topic.wikipedia_fragment and topic.wheatley_html %}active{% endif %}{% if not topic.wheatley_html %}disabled{% endif %}"><a href="#wheatley" data-toggle="tab">1893 text</a></li>
+				<li id="tab-wheatley" class="{% if not topic.latitude and not topic.summary_html and not topic.wikipedia_fragment and topic.wheatley_html %}active{% endif %}{% if not topic.wheatley_html %}disabled{% endif %}"><a href="#wheatley" data-toggle="tab">1893 text</a></li>
 			{% endif %}
-			<li class="{% if not topic.latitude and not topic.summary_html and not topic.wikipedia_fragment and not topic.wheatley_html %}active{% endif %}"><a href="#annotations" data-toggle="tab">Annotations ({{ topic.comment_count }})</a></li>
+			<li id="tab-discussion" class="{% if not topic.latitude and not topic.summary_html and not topic.wikipedia_fragment and not topic.wheatley_html %}active{% endif %}"><a href="#discussion" data-toggle="tab">Annotations ({{ topic.comment_count }})</a></li>
 			{% if diary_references %}
-				<li><a href="#references" data-toggle="tab">References ({{ topic.diary_references.count }})</a></li>
+				<li id="tab-references"><a href="#references" data-toggle="tab">References ({{ topic.diary_references.count }})</a></li>
 			{% endif %}
 		</ul>
 
@@ -75,7 +75,7 @@
 				</article>
 			{% endif %}
 
-			<div class="tab-pane{% if not topic.latitude and not topic.summary_html and not topic.wikipedia_fragment and not topic.wheatley_html %} active{% endif %}" id="annotations">
+			<div class="tab-pane{% if not topic.latitude and not topic.summary_html and not topic.wikipedia_fragment and not topic.wheatley_html %} active{% endif %}" id="discussion">
 				{% include 'inc/comments.html' with object=topic %}
 			</div>
 

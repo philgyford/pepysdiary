@@ -28,6 +28,8 @@ window.pepys.controller = {
 
         pepys.newables.init();
 
+        pepys.topic.init();
+
         // Prettify the dates/times on comments.
         $('time.timeago').timeago();
     }
@@ -168,6 +170,53 @@ window.pepys.newables = {
     },
 };
 
+/**
+ * Anything around an Encyclopedia Topic page.
+ */
+window.pepys.topic = {
+
+    valid_tabs: ['map', 'summary', 'wikipedia', 'wheatley', 'discussion',
+                                                                 'references'],
+
+    init: function() {
+        this.init_tabs();
+    },
+
+    /**
+     * Work out if we need to show one of the tabs based on the URL's #hash.
+     * Also, set the URL's #hash when a tab is clicked.
+     */
+    init_tabs: function() {
+        var hash = window.location.hash.substring(1);
+
+        if (hash) {
+            if (hash.match(/^c\d+$/) && $('#'+hash).exists()) {
+                // The hash is like 'c1234' and there's a comment with that ID.
+                $('#tab-discussion a').tab('show');
+                $('html, body').animate({scrollTop: $('#'+hash).offset().top },
+                                                                        500);
+
+            } else if ($.inArray(hash, this.valid_tabs) >= 0) {
+                // It's a valid tab ID.
+                $('#tab-'+hash+' a').tab('show');
+
+            } else if ($('#row-wikipedia').exists() && $('#wikipedia').exists()) {
+                // We might be linking to a section under the Wikipedia tab.
+                $('#tab-wikipedia a').tab('show');
+            };
+        };
+
+        // When a tab is clicked, change the URL's hash.
+        $('.nav-tabs a').on('shown', function (e) {
+            var hash = e.target.hash;
+            // We don't want to jump to the tab's content, so we change its
+            // ID, then change the URL hash, then put the ID back.
+            $(hash).attr('id', hash+'temp');
+            window.location.hash = hash;
+            $(hash+'temp').attr('id', hash);
+        });
+    }
+};
 
 /**
  * Provides a readCookie() function.
