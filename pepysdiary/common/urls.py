@@ -40,6 +40,8 @@ urlpatterns = patterns('',
     # Used on LiveJournal.
     url(r'^syndication/rdf\.php$', RedirectView.as_view(
                                 url='http://feeds.feedburner.com/PepysDiary')),
+    url(r'^syndication/full\.rdf$', RedirectView.as_view(
+                                url='http://feeds.feedburner.com/PepysDiary')),
 
 
     # LETTERS.
