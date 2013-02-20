@@ -10,14 +10,24 @@
 
 	{% load text_formatting_filters %}
 
-	<p class="lead">This section provides an opportunity to write and discuss longer articles on broader topics that might not fit in regular annotations or the <a href="{% url 'encyclopedia' %}">Encyclopedia</a>.</p>
+	<p class="lead">Longer articles on broader topics that might not fit in regular annotations or the <a href="{% url 'encyclopedia' %}">Encyclopedia</a>.</p>
+
+	<hr />
 
 	{% for article in article_list %}
 		<article class="indepth">
-			<h2><a href="{{ article.get_absolute_url }}">{{ article.title }}</a></h2>
+			<h2 class="h4"><a href="{{ article.get_absolute_url }}">{{ article.title }}</a></h2>
+
+			<p><strong>{{ article.date_published|date:date_format_longest }}</strong></p>
 
 			{{ article.intro_html|smartypants|safe }}
+
+			{% if article.text %}
+				<p><a href="{{ article.get_absolute_url }}">Continue reading…</a></p>
+			{% endif %}
 		</article>
+
+		<hr />
 	{% endfor %}
 
 {% endblock main_content %}
