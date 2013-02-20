@@ -1,4 +1,4 @@
--e git+http://github.com/django/django.git@bc6746ac303ab625f2bc6fc878bd63661c784a59#egg=Django-dev
+Django==1.5c2
 Markdown==2.2.1
 PIL==1.1.7
 South==0.7.6
