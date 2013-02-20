@@ -12,21 +12,8 @@
 
 {% block main_content %}
 
-	{% if category.topics.all %}
-		<h2>Topics</h2>
-		<ul>
-		{% for t in category.topics.all %}
-			<li><a href="{{ t.get_absolute_url }}">{{ t.order_title }}</a></li>
-		{% endfor %}
-		</ul>
-	{% endif %}
-
-{% endblock %}
-
-
-{% block sidebar_content %}
 	{% if category.get_children_count %}
-		<div class="sidebar-block">
+		<div class="well">
 			<h2>Subcategories</h2>
 			<ul>
 			{% for c in category.get_children %}
@@ -39,6 +26,22 @@
 			</ul>
 		</div>
 	{% endif %}
+	
+	{% with topics=category.topics.all %}
+		{% if topics %}
+			<h2>{{ topics|length }} Topic{{ topics|pluralize }}</h2>
+			<ul>
+			{% for t in topics %}
+				<li><a href="{{ t.get_absolute_url }}">{{ t.order_title }}</a></li>
+			{% endfor %}
+			</ul>
+		{% endif %}
+	{% endwith %}
+
+{% endblock %}
+
+
+{% block sidebar_content %}
 
 	{% load widget_tags %}
 	{% rss_feeds 'topics' %}
