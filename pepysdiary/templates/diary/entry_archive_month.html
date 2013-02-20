@@ -16,12 +16,13 @@
 
 	{% if next_month or previous_month %}
 		<div class="sidebar-block">
-		{% if next_month %}
-			<p>Next: <a href="{% url 'entry_month_archive' year=next_month|date:'Y' month=next_month|date:'m' %}">{{ next_month|date:"F Y" }}</a></p>
-		{% endif %}
-		{% if previous_month %}
-			<p>Previous: <a href="{% url 'entry_month_archive' year=previous_month|date:'Y' month=previous_month|date:'m' %}">{{ previous_month|date:"F Y" }}</a></p>
-		{% endif %}
+			{% if previous_month %}
+				<p><a href="{% url 'entry_month_archive' year=previous_month|date:'Y' month=previous_month|date:'m' %}"><i class="icon-arrow-left icon-link"></i> {{ previous_month|date:"F Y" }}</a></p>
+			{% endif %}
+
+			{% if next_month %}
+				<p class="text-right"><a href="{% url 'entry_month_archive' year=next_month|date:'Y' month=next_month|date:'m' %}">{{ next_month|date:"F Y" }} <i class="icon-arrow-right icon-link"></i></a></p>
+			{% endif %}
 		</div>
 	{% endif %}
 

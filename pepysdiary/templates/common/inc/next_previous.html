@@ -5,13 +5,13 @@ because its URLs are more manual.
 
 {% if previous or next %}
 	<div class="sidebar-block">
-	{% if next %}
-		<p>Next: <a href="{{ next.get_absolute_url }}">{{ next.title }}</a></p>
-	{% endif %}
+		{% if previous %}
+			<p><a href="{{ previous.get_absolute_url }}"><i class="icon-arrow-left icon-link"></i> {{ previous.title }}</a></p>
+		{% endif %}
 
-	{% if previous %}
-		<p>Previous: <a href="{{ previous.get_absolute_url }}">{{ previous.title }}</a></p>
-	{% endif %}
+		{% if next %}
+			<p class="text-right"><a href="{{ next.get_absolute_url }}">{{ next.title }} <i class="icon-arrow-right icon-link"></i></a></p>
+		{% endif %}
 	</div>
 {% endif %}
 
