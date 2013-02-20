@@ -13,6 +13,7 @@ class PostArchiveView(ListView):
     """
     model = Post
     queryset = Post.published_posts.all()
+    paginate_by = 20
 
     def get_context_data(self, **kwargs):
         context = super(PostArchiveView, self).get_context_data(**kwargs)
@@ -26,6 +27,7 @@ class PostCategoryArchiveView(ListView):
     """
     model = Post
     template_name_suffix = '_category_list'
+    paginate_by = 20
     # Will be set in get():
     category = None
 

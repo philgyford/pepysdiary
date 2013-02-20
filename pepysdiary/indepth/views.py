@@ -5,6 +5,12 @@ from pepysdiary.common.views import BaseRSSFeed
 from pepysdiary.indepth.models import Article
 
 
+class ArticleArchiveView(ListView):
+    model = Article
+    queryset = Article.published_articles.all()
+    paginate_by = 15
+
+
 class ArticleDetailView(DateDetailView):
     """
     Note: This generates Runtime Errors because we're using a DateTime field
@@ -48,11 +54,6 @@ class ArticleDetailView(DateDetailView):
             'previous_article': previous_article,
             'next_article': next_article,
         }
-
-
-class ArticleArchiveView(ListView):
-    model = Article
-    queryset = Article.published_articles.all()
 
 
 class LatestArticlesFeed(BaseRSSFeed):
