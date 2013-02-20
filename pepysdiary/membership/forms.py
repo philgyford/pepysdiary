@@ -44,14 +44,33 @@ class RegistrationForm(forms.Form):
                                     required=True, label=_("Repeat password"))
     url = forms.URLField(label=_("URL"), max_length=255, required=False,
         help_text='Optional. eg, the address of your blog, Facebook page, Twitter page, etc.')
-    captcha = ReCaptchaField(attrs={'theme': 'clean', 'tabindex': 6, },
+
+    honeypot = forms.CharField(required=False,
+                            label=_('If you enter anything in this field '\
+                                'your registration will be treated as spam'))
+
+    def __init__(self, *args, **kwargs):
+        """
+        We might need to add captcha and question/answer anti-spam fields,
+        depending on our site config.
+        """
+        super(RegistrationForm, self).__init__(*args, **kwargs)
+        config = Config.objects.get_site_config()
+        if config is not None:
+            if config.use_registration_captcha == True:
+                self.fields['captcha'] = ReCaptchaField(
+                                    attrs={'theme': 'clean', 'tabindex': 6, },
                                                     label=_("Anti-spam test"))
+            if config.use_registration_question == True and \
+                config.registration_question != '' and \
+                config.registration_answer != '':
+                self.fields['answer'] = forms.CharField(
+                                        max_length=255, required=True,
+                                        label=_(config.registration_question))
 
     def clean_name(self):
         """
-        Validate that the name is alphanumeric and is not already
-        in use.
-
+        Validate that the name is alphanumeric and is not already in use.
         """
         existing = Person.objects.filter(
                                         name__iexact=self.cleaned_data['name'])
@@ -59,6 +78,24 @@ class RegistrationForm(forms.Form):
             raise forms.ValidationError(_("That name has already been used."))
         else:
             return self.cleaned_data['name']
+
+    def clean_honeypot(self):
+        """Check that nothing's been entered into the honeypot."""
+        value = self.cleaned_data["honeypot"]
+        if value:
+            raise forms.ValidationError(self.fields["honeypot"].label)
+        return value
+
+    def clean_answer(self):
+        """
+        Validate that the anti-spam question was answered successfully.
+        """
+        config = Config.objects.get_site_config()
+        if config is not None:
+            if self.cleaned_data['answer'].lower() == config.registration_answer.lower():
+                return self.cleaned_data['answer']
+            else:
+                raise forms.ValidationError(_("Please try again."))
 
     def clean(self):
         """

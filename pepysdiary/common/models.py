@@ -52,6 +52,18 @@ class Config(PepysModel):
     allow_login = models.BooleanField(default=True, blank=False, null=False)
     allow_comments = models.BooleanField(default=True, blank=False, null=False)
 
+    use_registration_captcha = models.BooleanField(
+        default=False, blank=False, null=False,
+        help_text="If checked, people must complete a Captcha field when registering.")
+    use_registration_question = models.BooleanField(
+        default=False, blank=False, null=False,
+        help_text="If checked, people must successfully answer the question below when registering.")
+    registration_question = models.CharField(
+        max_length=255, blank=True, null=False, default='')
+    registration_answer = models.CharField(
+        max_length=255, blank=True, null=False, default='',
+        help_text="Not case-sensitive.")
+
     objects = ConfigManager()
 
 
