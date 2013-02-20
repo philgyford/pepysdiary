@@ -23,9 +23,11 @@ class HomeView(TemplateView):
         context = super(HomeView, self).get_context_data(**kwargs)
 
         # Show the most recent "published" entries:
+        # If we change the number of Entries, the template will need tweaking
+        # too...
         context['entry_list'] = Entry.objects.filter(
                 diary_date__lte=Entry.objects.most_recent_entry_date
-            ).order_by('-diary_date')[:7]
+            ).order_by('-diary_date')[:8]
 
         context['tooltip_references'] = Entry.objects.get_brief_references(
                                                 objects=context['entry_list'])

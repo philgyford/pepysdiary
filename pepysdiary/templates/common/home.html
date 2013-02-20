@@ -10,7 +10,16 @@
 {% block main_content %}
 	{% if entry_list %}
 		<p class="lead">A new diary entry appears here at the end of each day.</p>
-		{% include 'inc/entry_list.html' %}
+
+		{% include 'inc/entry_list.html' with entry_list=entry_list|slice:"7" %}
+
+		{% if entry_list|length > 7 %}
+			{# I should use `with entry=entry_list|slice:"7:" here, instead of `for`, but can't get it to work... #}
+			{% for entry in entry_list|slice:"7:" %}
+				<p><strong><a href="{{ entry.get_absolute_url }}"><i class="icon-arrow-left icon-link"></i> Continue reading {{ entry.title }}</a></strong></p>
+			{% endfor %}
+		{% endif %}
+
 	{% else %}
 		<p class="lead">In 1660, at age 26, Samuel Pepys began his diary. He stopped a decade later.</p>
 
