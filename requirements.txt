@@ -8,7 +8,7 @@ django-debug-toolbar==0.9.4
 django-pylibmc-sasl==0.2.4
 django-recaptcha==0.0.6
 django-storages==1.1.5
-django-treebeard==1.61
+-e hg+https://bitbucket.org/tabo/django-treebeard@2639e577fffa70f39e29674686c65afdb07048e5#egg=django_treebeard-dev
 gunicorn==0.17.2
 newrelic==1.9.0.21
 psycopg2==2.4.5
