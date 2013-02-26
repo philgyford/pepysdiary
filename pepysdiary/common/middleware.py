@@ -3,28 +3,6 @@ import calendar
 import datetime
 import pytz
 
-from django.contrib.sites.models import Site
-from django.http import HttpResponsePermanentRedirect
-
-
-class HerokuDomainRedirectMiddleware(object):
-    """
-    Used to redirect from *.herokuapp.com to our site's actual domain.
-    """
-    def process_request(self, request):
-        host = request.get_host()
-        if host.endswith('herokuapp.com'):
-            # We need to redirect, so...
-            site = Site.objects.get_current()
-            target = 'http%s://%s%s' % (
-                    request.is_secure() and 's' or '',
-                    site.domain,
-                    request.get_full_path())
-            return HttpResponsePermanentRedirect(target)
-        else:
-            # All fine, carry on!
-            return None
-
 
 class VisitTimeMiddleware(object):
     """

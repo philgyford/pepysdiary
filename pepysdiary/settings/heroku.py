@@ -23,7 +23,6 @@ EMAIL_USE_TLS = True
 
 PREPEND_WWW = True
 
-# But we redirect from the herokuapp domain in HerokuDomainRedirectMiddleware.
 ALLOWED_HOSTS = ['.pepysdiary.com', 'pepysdiary.herokuapp.com', ]
 
 os.environ['MEMCACHE_SERVERS'] = os.environ.get('MEMCACHIER_SERVERS', '').replace(',', ';')
