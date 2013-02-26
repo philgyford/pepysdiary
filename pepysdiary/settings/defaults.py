@@ -84,6 +84,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'pepysdiary.common.middleware.VisitTimeMiddleware',
+    'pepysdiary.common.middleware.HerokuDomainRedirectMiddleware',
     # Must be last:
     'django.middleware.cache.FetchFromCacheMiddleware',
 )
