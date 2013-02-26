@@ -1,9 +1,13 @@
 from django.conf import settings
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
+from django.contrib.sitemaps import FlatPageSitemap
+from django.contrib.sitemaps import views as sitemaps_views
 from django.core.urlresolvers import reverse_lazy
+from django.views.decorators.cache import cache_page
 from django.views.generic import RedirectView
 
+from pepysdiary.common import sitemaps
 from pepysdiary.common.views import *
 
 
@@ -130,9 +134,31 @@ urlpatterns += patterns('django.contrib.flatpages.views',
         'url': '/encyclopedia/familytree/'}, name='encyclopedia_familytree'),
 )
 
+
+sitemaps = {
+    'main': sitemaps.StaticSitemap,
+    'entries': sitemaps.EntrySitemap,
+    'letters': sitemaps.LetterSitemap,
+    'topics': sitemaps.TopicSitemap,
+    'articles': sitemaps.ArticleSitemap,
+    'posts': sitemaps.PostSitemap,
+    'flatpages': FlatPageSitemap,
+}
+
+
 # The main URL conf for actual pages, not redirects.
 urlpatterns += patterns('',
     url(r'^$', HomeView.as_view(), name='home'),
+
+    url(r'^sitemap\.xml$',
+        cache_page(86400)(sitemaps_views.index),
+        {'sitemaps': sitemaps, 'sitemap_url_name': 'sitemaps', },
+        name='sitemap'),
+
+    url(r'^sitemap-(?P<section>.+)\.xml$',
+        cache_page(86400)(sitemaps_views.sitemap),
+        {'sitemaps': sitemaps},
+        name='sitemaps'),
 
     url(r'^recent/$', RecentView.as_view(), name='recent'),
 
