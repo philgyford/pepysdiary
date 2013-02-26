@@ -10,7 +10,7 @@ django-recaptcha==0.0.6
 django-storages==1.1.5
 -e hg+https://bitbucket.org/tabo/django-treebeard@2639e577fffa70f39e29674686c65afdb07048e5#egg=django_treebeard-dev
 gunicorn==0.17.2
-newrelic==1.9.0.21
+newrelic==1.10.2.38
 psycopg2==2.4.5
 pylibmc==1.2.3
 pytz==2012h
