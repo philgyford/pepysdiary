@@ -286,7 +286,6 @@ window.pepys.topic = {
         var outer_width = $('.tab-content').width();
         var outer_height = Math.round(outer_width / 3.8);
 
-        console.log(outer_width, outer_height);
         // Area around the actual chart (space for axes numbers etc).
         var margin = {top: 0, right: 0,
                         bottom: Math.round(outer_height / 10), left: 0};
