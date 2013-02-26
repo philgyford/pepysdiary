@@ -268,11 +268,16 @@ class Topic(PepysModel):
     def get_annotated_diary_references(self):
         """
         Returns a list of lists, of this Topic's diary entry references.
+        Doesn't include years/months where there are no referring Entries.
         [
             ['1660', [
                 'Jan', [Entry, Entry, Entry, ],
-                'Feb', [Entry, Entry, ],
+                'Mar', [Entry, Entry, ],
             ]],
+            ['1663', [
+                'Dec', [Entry, ],
+            ],
+            ...
         ]
         """
         refs = []

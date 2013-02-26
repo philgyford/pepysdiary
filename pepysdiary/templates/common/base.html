@@ -132,6 +132,7 @@
 	<script src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
 	<script src="{{ STATIC_PREFIX }}js/bootstrap.min.js"></script>
 	<script src="{{ STATIC_PREFIX }}js/jquery.timeago.js"></script>
+	{% block extra_javascript_includes %}{% endblock %}
 	<script src="{{ STATIC_PREFIX }}js/pepys.js?v=2"></script>
 
 	<script>
@@ -153,6 +154,8 @@
 					}
 				{% endif %}
 			});
+
+			{% block extra_jquery %}{% endblock %}
 		});
 	</script>
 

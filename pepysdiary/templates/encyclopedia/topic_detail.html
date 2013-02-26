@@ -13,6 +13,28 @@
 {% endblock breadcrumbs %}
 
 
+{# For the References Chart #}
+
+{% block extra_javascript_includes %}
+	{% if diary_references %}
+		<script src="http://d3js.org/d3.v3.min.js"></script>
+	{% endif %}
+{% endblock %}
+
+{% block extra_jquery %}
+	// We'll map {'Feb 1663': 7, ...}
+	// ie, the number of references in a particular month.
+  	var references = {}; 
+  	{% for y, months in diary_references %}
+  		{% for m, refs in months %}
+	  		references['{{ m }} {{ y }}'] = {{ refs|length }};
+		{% endfor %}
+	{% endfor %}
+
+	pepys.topic.draw_references_chart(references);
+{% endblock %}
+
+
 {% block main_content %}
 
 	{% load text_formatting_filters %}
@@ -83,6 +105,8 @@
 				<div class="tab-pane" id="references">
 					<h2>References</h2>
 
+					<div id="chart-references"></div>
+
 					<ul class="references references-diary">
 						{% for y, months in diary_references %}
 							<li>{{ y }}
@@ -90,8 +114,8 @@
 									{% for m, refs in months %}
 										<li><span>{{ m }}</span>
 											<ul class="references-month">
-												{% for ref in refs %}
-													<li><a href="{{ ref.get_absolute_url }}">{{ ref.day_e }}</a></li>
+												{% for entry in refs %}
+													<li><a href="{{ entry.get_absolute_url }}">{{ entry.day_e }}</a></li>
 												{% endfor %}
 											</ul>
 										</li>

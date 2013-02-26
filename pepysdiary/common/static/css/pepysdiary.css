@@ -354,9 +354,53 @@ The heights/sizes are all the same as Boostrap's for h1, h2, etc. */
 }
 
 /* topic_detail */
+.chart {
+	width: 100%;
+	margin-bottom: 20px;
+}
+/* Bars on the chart: */
+.chart line {
+	/* General line styles. */
+    stroke-width: 1px;
+    shape-rendering: crispEdges;
+}
+.chart .bar {
+	fill: #333;
+    shape-rendering: crispEdges;
+    opacity: 0.7;
+}
+.chart .bar.highlight {
+	opacity: 1.0;
+}
+.chart .axis-y .tick line {
+    stroke: #ddd;
+}
+.chart .axis-x path {
+	/* The baseline. */
+	stroke: #000;
+    shape-rendering: crispEdges;
+}
+.chart .axis-x .tick line {
+	/* The individual ticks. */
+	stroke: #000;
+}
+.chart-tooltip {
+	background: #fff;
+	position: absolute;
+	z-index: 10;
+	visibility: hidden;
+	box-shadow: 1px 1px 3px #666;
+	/* Font size, padding is set by JS. */
+}
 .references,
 .references ul {
 	list-style-type: none;
+}
+.references li {
+	font-weight: bold;
+}
+.references ul li {
+	font-weight: normal;
 }
 .references-year li > span {
 	display: inline-block;

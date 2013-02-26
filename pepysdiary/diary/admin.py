@@ -23,20 +23,17 @@ class YearmonthListFilter(admin.SimpleListFilter):
         human-readable name for the option that will appear
         in the right sidebar.
         """
-        years = (1660, 1661, 1662, 1663, 1664, 1665, 1666, 1667, 1668, 1669, )
-        months = ('Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep',
-                                                        'Oct', 'Nov', 'Dec', )
+        years_months = Entry.objects.all_years_months()
+
         choices = []
-        for y in years:
+        for (y, months) in years_months:
             for (m_count, m) in enumerate(months):
-                if y == 1669 and m_count > 4:
-                    # Nothing after May 1669.
-                    continue
                 choices.append((
                     # Will be like ('1660-03', 'Mar 1660'):
                     '%s-%02d' % (y, (m_count + 1)),
                     '%s %s' % (y, m),
                 ))
+
         return choices
 
     def queryset(self, request, queryset):

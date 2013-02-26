@@ -33,7 +33,31 @@ window.pepys.controller = {
         // Prettify the dates/times on comments.
         $('time.timeago').timeago();
     }
+};
 
+/**
+ * Generically useful things.
+ */
+window.pepys.utilities = {
+
+    /**
+     * Returns a list of all the years, months, and number of days in each
+     * month for which there are diary entries.
+     */
+    diary_years_months: function() {
+        return {
+            '1660':{'Jan':31,'Feb':29,'Mar':31,'Apr':30,'May':31,'Jun':30,'Jul':31,'Aug':31,'Sep':30,'Oct':31,'Nov':30,'Dec':31},
+            '1661':{'Jan':31,'Feb':28,'Mar':31,'Apr':30,'May':31,'Jun':30,'Jul':31,'Aug':31,'Sep':30,'Oct':31,'Nov':30,'Dec':31},
+            '1662':{'Jan':31,'Feb':28,'Mar':31,'Apr':30,'May':31,'Jun':30,'Jul':31,'Aug':31,'Sep':30,'Oct':31,'Nov':30,'Dec':31},
+            '1663':{'Jan':31,'Feb':28,'Mar':31,'Apr':30,'May':31,'Jun':30,'Jul':31,'Aug':31,'Sep':30,'Oct':31,'Nov':30,'Dec':31},
+            '1664':{'Jan':31,'Feb':29,'Mar':31,'Apr':30,'May':31,'Jun':30,'Jul':31,'Aug':31,'Sep':30,'Oct':31,'Nov':30,'Dec':31},
+            '1665':{'Jan':31,'Feb':28,'Mar':31,'Apr':30,'May':31,'Jun':30,'Jul':31,'Aug':31,'Sep':30,'Oct':31,'Nov':30,'Dec':31},
+            '1666':{'Jan':31,'Feb':28,'Mar':31,'Apr':30,'May':31,'Jun':30,'Jul':31,'Aug':31,'Sep':30,'Oct':31,'Nov':30,'Dec':31},
+            '1667':{'Jan':31,'Feb':28,'Mar':31,'Apr':30,'May':31,'Jun':30,'Jul':31,'Aug':31,'Sep':30,'Oct':31,'Nov':30,'Dec':31},
+            '1668':{'Jan':31,'Feb':28,'Mar':31,'Apr':30,'May':31,'Jun':30,'Jul':31,'Aug':31,'Sep':30,'Oct':31,'Nov':30,'Dec':31},
+            '1669':{'Jan':31,'Feb':29,'Mar':31,'Apr':30,'May':31}
+        };
+    }
 };
 
 
@@ -183,7 +207,7 @@ window.pepys.comments = {
                                     '<span>New</span>').attr('title', 'New');
             };
         });
-    },
+    }
 };
 
 /**
@@ -231,6 +255,162 @@ window.pepys.topic = {
             window.location.hash = hash;
             $(hash+'temp').attr('id', hash);
         });
+    },
+
+    draw_references_chart: function(references) {
+
+        // data ends up as an array of objects, each object for a month:
+        // { 'name': 'Jan 1660', 'percent_refs': 42, 'num_refs': 13},
+        // `num_refs` is the number of references for this topic in that month.
+        // `percent_refs` is that number as a percentage of the number of
+        // days in that month.
+        var data = [];
+        $.each(pepys.utilities.diary_years_months(), function(year, months) {
+            $.each(months, function(month_name, month_days) {
+                var m_y = month_name+' '+year;
+                var num_refs = 0;
+                var percent_refs = 0;
+                if (m_y in references) {
+                    // A number of references were passed in for this month.
+                    num_refs = references[m_y];
+                    percent_refs = Math.round((num_refs / month_days) * 100);
+                };
+                data.push({name: m_y,
+                            num_refs: num_refs,
+                            percent_refs: percent_refs});
+            });
+        });
+
+        // Overall width/height available.
+        // We did use #chart-references' width, but that might be hidden.
+        var outer_width = $('.tab-content').width();
+        var outer_height = Math.round(outer_width / 3.8);
+
+        console.log(outer_width, outer_height);
+        // Area around the actual chart (space for axes numbers etc).
+        var margin = {top: 0, right: 0,
+                        bottom: Math.round(outer_height / 10), left: 0};
+
+        // Area of the chart itself (not including space for axes numbers).
+        var inner_width = outer_width - margin.left - margin.right;
+        var inner_height = outer_height - margin.top - margin.bottom;
+
+        var font_size = Math.round(inner_height / 13);
+
+        // The main chart area.
+        var svg = d3.select('#chart-references').append('svg')
+                .attr('class', 'chart')
+                .attr('width', outer_width)
+                .attr('height', outer_height)
+            .append('g')
+                .attr('transform',
+                        'translate(' + margin.left + ',' + margin.top + ')');
+
+        // The scales.
+        var x = d3.scale.ordinal()
+                .domain(d3.range(data.length))
+                .rangeBands([0, inner_width], 0);
+        var y = d3.scale.linear()
+                .domain([0, 100])
+                .range([inner_height, 0]);
+
+        // Construct and then add the x axis.
+        var tick_height = Math.round(inner_height / 20);
+        var xAxis = d3.svg.axis()
+                .scale(x)
+                .orient('bottom')
+                // Show only one tick per year (12 months):
+                .tickValues([0, 12, 24, 36, 48, 60, 72, 84, 96, 108])
+                .tickSize(tick_height, 0, 0)
+                .tickFormat(function(d,i){
+                    // This doesn't feel right, but it works.
+                    // Returns the year from the month-year names: '1661'.
+                    return data[d].name.substring(4, 8);
+                });
+
+        svg.append('g')
+            .attr('class', 'axis axis-x')
+            // Shift all the ticks the width of half a bar to the left.
+            // (So they're at the edge of a bar, not in the center.)
+            // And shift the whole thing to the bottom of the chart.
+            .attr('transform', 'translate(-' + (x.rangeBand() / 2) + ',' +
+                                                            inner_height + ')')
+            .call(xAxis);
+
+        // Shift all of the x-axis text labels to the right, so they're in the
+        // middle of the 12 months they refer to.
+        svg.selectAll('text')
+            .attr('dx', function(d, i) {
+                // Shift them all in relation to the width of the bars.
+                var left_padding = x.rangeBand() * 6;
+                if (i >= 9) {
+                    // But the final one we move less, because the final year
+                    // is only 5 months.
+                    left_padding = x.rangeBand() * 2.5;
+                };
+                return left_padding;
+            })
+            // Add a bit of space above each label.
+            .attr('dy', (font_size / 3))
+            .attr('font-size', font_size + 'px');
+
+        // Construct and then add the y axis.
+        var yAxis = d3.svg.axis()
+                .scale(y)
+                .orient('left')
+                // The values we want the grid lines to be for:
+                .tickValues([25, 50, 75, 100])
+                // Extend the tick marks across the full width.
+                .tickSize(-inner_width, 0, 0)
+                // Make the y-axis numbers just numbers.
+                .tickFormat('');
+
+        svg.append('g')
+            .attr('class', 'axis axis-y')
+            .call(yAxis);
+
+        var tooltip = d3.select('body')
+            .append('div')
+            .attr('class', 'chart-tooltip')
+            .style('font-size', font_size + 'px')
+            .style('padding-left', Math.round(font_size / 2) + 'px')
+            .style('padding-right', Math.round(font_size / 2) + 'px');
+
+        // Draw the actual bars themselves.
+        svg.selectAll('.bar')
+                .data(data)
+            .enter().append('rect')
+                .attr('class', 'bar')
+                .attr('x', function(d,i){ return x(d.name); })
+                .attr('y', function(d){ return y(d.percent_refs); })
+                .attr('width', x.rangeBand())
+                .attr('height', function(d,i){
+                                return inner_height - y(d.percent_refs); })
+                .on('mouseover', function(d, i){
+                    tooltip.html('<strong>' + d.num_refs + '</strong> (' + d.name + ')');
+                    d3.select(this).classed('highlight', true);
+                    tooltip.style('visibility', 'visible');
+                })
+                .on('mousemove', function(){
+                    tooltip
+                        .style('top', (event.pageY-10)+'px')
+                        .style('left',(event.pageX+10)+'px');
+                })
+                .on('mouseout', function(){
+                    d3.select(this).classed('highlight', false);
+                    tooltip.style('visibility', 'hidden');
+                });
+
+        // chart.selectAll('text')
+        //         .data(data)
+        //     .enter().append('text')
+        //         .attr('y', function(d){ return y(d.percent_refs); })
+        //         .attr('x', function(d){ return x(d.name) + x.rangeBand() / 2; })
+        //         .attr('dx', x.rangeBand())
+        //         .attr('dy', '1em')
+        //         .attr('text-anchor', 'end')
+        //         .attr('fill', '#666')
+        //         .text(function(d){ return d.num_refs; });
     }
 };
 
