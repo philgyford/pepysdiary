@@ -257,6 +257,17 @@ window.pepys.topic = {
         });
     },
 
+    /**
+     * Draw the d3 chart of diary references for this topic.
+     * `references` is an object like this:
+     * {
+     *  'Jan 1660': 13,
+     *  'Mar 1660': 3,
+     *  'Dec 1663': 24,
+     *  ...
+     * }
+     * Note that months with no references have no entry in the object.
+     */
     draw_references_chart: function(references) {
 
         // data ends up as an array of objects, each object for a month:
