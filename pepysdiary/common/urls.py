@@ -142,6 +142,7 @@ sitemaps = {
     'topics': sitemaps.TopicSitemap,
     'articles': sitemaps.ArticleSitemap,
     'posts': sitemaps.PostSitemap,
+    'archives': sitemaps.ArchiveSitemap,
     'flatpages': FlatPageSitemap,
 }
 

@@ -5,7 +5,7 @@ from django.contrib.sitemaps import Sitemap
 from django.core.urlresolvers import reverse_lazy
 
 from pepysdiary.diary.models import Entry
-from pepysdiary.encyclopedia.models import Topic
+from pepysdiary.encyclopedia.models import Category, Topic
 from pepysdiary.indepth.models import Article
 from pepysdiary.letters.models import Letter
 from pepysdiary.news.models import Post
@@ -118,3 +118,66 @@ class StaticSitemap(Sitemap):
 
     def items(self):
         return self.main_sitemaps
+
+
+class ArchiveSitemap(Sitemap):
+    """
+    All the monthly archive pages etc.
+    ie, not one-off pages, but also not item Detail pages either.
+    """
+    changefreq = 'never'
+    priority = 0.3
+
+    years_months = None
+    years = None
+
+    def __init__(self):
+        self.years_months = Entry.objects.all_years_months(month_format='m')
+
+        self.years = [year for [year, months] in self.years_months]
+
+    def items(self):
+        sitemaps = []
+        sitemaps = sitemaps + self._diary_months_sitemaps()
+        sitemaps = sitemaps + self._encyclopedia_categories_sitemaps()
+        sitemaps = sitemaps + self._news_categories_sitemaps()
+        sitemaps = sitemaps + self._summaries_sitemaps()
+        return sitemaps
+
+    def _diary_months_sitemaps(self):
+        sitemaps = []
+        for year, months in self.years_months:
+            for month in months:
+                sitemap_class = AbstractSitemapClass()
+                sitemap_class.url = reverse_lazy('entry_month_archive',
+                                        kwargs={'year': year, 'month': month})
+                sitemaps.append(sitemap_class)
+        return sitemaps
+
+    def _encyclopedia_categories_sitemaps(self):
+        sitemaps = []
+        for c in Category.objects.all():
+            sitemap_class = AbstractSitemapClass()
+            sitemap_class.url = reverse_lazy('category_detail',
+                                                    kwargs={'slugs': c.slug})
+            sitemaps.append(sitemap_class)
+        return sitemaps
+
+    def _news_categories_sitemaps(self):
+        sitemaps = []
+        for slug, label in Post.CATEGORY_CHOICES:
+            sitemap_class = AbstractSitemapClass()
+            sitemap_class.url = reverse_lazy('post_category_archive',
+                                                kwargs={'category_slug': slug})
+            sitemaps.append(sitemap_class)
+        return sitemaps
+
+    def _summaries_sitemaps(self):
+        sitemaps = []
+        for y in self.years:
+            sitemap_class = AbstractSitemapClass()
+            sitemap_class.url = reverse_lazy('summary_year_archive',
+                                                            kwargs={'year': y})
+            sitemaps.append(sitemap_class)
+        return sitemaps
+
