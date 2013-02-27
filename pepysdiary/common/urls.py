@@ -5,7 +5,7 @@ from django.contrib.sitemaps import FlatPageSitemap
 from django.contrib.sitemaps import views as sitemaps_views
 from django.core.urlresolvers import reverse_lazy
 from django.views.decorators.cache import cache_page
-from django.views.generic import RedirectView
+from django.views.generic import RedirectView, TemplateView
 
 from pepysdiary.common import sitemaps
 from pepysdiary.common.views import *
@@ -160,6 +160,9 @@ urlpatterns += patterns('',
         cache_page(86400)(sitemaps_views.sitemap),
         {'sitemaps': sitemaps},
         name='sitemaps'),
+
+    url(r'^robots\.txt$', TemplateView.as_view(
+                    template_name='robots.txt', content_type='text/plain')),
 
     url(r'^recent/$', RecentView.as_view(), name='recent'),
 
