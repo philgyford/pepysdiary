@@ -13,25 +13,56 @@
 {% endblock breadcrumbs %}
 
 
-{# For the References Chart #}
+{% block extra_css %}
+	{% if topic.has_location %}
+		<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.5.1/leaflet.css" />
+		<!--[if lte IE 8]>
+		    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.5.1/leaflet.ie.css" />
+		<![endif]-->
+	{% endif %}
+{% endblock %}
 
 {% block extra_javascript_includes %}
+	{% if topic.has_location %}
+		<script src="http://cdn.leafletjs.com/leaflet-0.5.1/leaflet.js"></script>
+	{% endif %}
+
 	{% if diary_references %}
+		<!-- For the References Chart -->
 		<script src="http://d3js.org/d3.v3.min.js"></script>
 	{% endif %}
 {% endblock %}
 
 {% block extra_jquery %}
-	// We'll map {'Feb 1663': 7, ...}
-	// ie, the number of references in a particular month.
-  	var references = {}; 
-  	{% for y, months in diary_references %}
-  		{% for m, refs in months %}
-	  		references['{{ m }} {{ y }}'] = {{ refs|length }};
-		{% endfor %}
-	{% endfor %}
+	{% if topic.has_location %}
+		pepys.topic.draw_map({
+			{% if topic.has_polygon %}
+				polygon: "{{ topic.shape|escapejs }}",
+			{% endif %}
+			{% if topic.has_path %}
+				path: "{{ topic.shape|escapejs }}",
+			{% endif %}
+			latitude: {{ topic.latitude }},
+			longitude: {{ topic.longitude }},
+			zoom: {{ topic.zoom }},
+			title: "{{ topic.title|escapejs }}",
+			tooltip_text: "{{ topic.tooltip_text|escapejs }}"
+		});
+	{% endif %}
 
-	pepys.topic.draw_references_chart(references);
+	{% if diary_references %}
+		// For the References Chart.
+		// We'll map {'Feb 1663': 7, ...}
+		// ie, the number of references in a particular month.
+	  	var references = {}; 
+	  	{% for y, months in diary_references %}
+	  		{% for m, refs in months %}
+		  		references['{{ m }} {{ y }}'] = {{ refs|length }};
+			{% endfor %}
+		{% endfor %}
+
+		pepys.topic.draw_references_chart(references);
+	{% endif %}
 {% endblock %}
 
 
@@ -64,12 +95,11 @@
 				<p class="admin-links"><small><a class="admin" href="{% url 'admin:encyclopedia_topic_change' topic.id %}"><i class="icon-edit icon-link"></i> Edit</a></small></p>
         	{% endif %}
 
-			{% if topic.latitude %}
+			{% if topic.has_location %}
 				<div class="tab-pane active" id="map">
-					<h2>Map</h2>
-					<p>Maps are not quite ready yet, sorry.</p>
-
-					<p>For now you can view this location <a href="http://maps.google.com/?ie=UTF8&amp;ll={{ topic.latitude }},{{ topic.longitude }}&amp;z={{ topic.zoom }}&amp;q={{ topic.latitude }},{{ topic.longitude }}">directly on Google Maps</a>.</p>
+					<h2 class="hide">Map</h2>
+					<div id="map-frame">
+					</div> <!-- #map-frame -->
 				</div>
 			{% endif %}
 

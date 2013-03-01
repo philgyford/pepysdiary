@@ -250,6 +250,38 @@ class Topic(PepysModel):
                 cat.set_topic_count()
             self._order_title_made = False
 
+    @property
+    def has_location(self):
+        """Do we have lat/long for this topic?"""
+        if self.latitude is not None and self.longitude is not None:
+            return True
+        else:
+            return False
+
+    @property
+    def has_polygon(self):
+        """Do we have shape data, and does it describe a complete polygon?"""
+        if self.shape == '':
+            return False
+        else:
+            points = self.shape.split(';')
+            if points[0] == points[-1]:
+                return True
+            else:
+                return False
+
+    @property
+    def has_path(self):
+        """Do we have shape data, and does it describe a path (eg, a road)?"""
+        if self.shape == '':
+            return False
+        else:
+            points = self.shape.split(';')
+            if points[0] == points[-1]:
+                return False
+            else:
+                return True
+
     def make_order_title(self):
         """
         Set the order_title, depending on what type of Topic this is.

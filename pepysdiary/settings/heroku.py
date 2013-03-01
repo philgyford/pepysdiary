@@ -106,3 +106,6 @@ USE_SPAM_CHECK = os.environ.get('USE_SPAM_CHECK')
 
 # From http://akismet.com/
 AKISMET_API_KEY = os.environ.get('AKISMET_API_KEY')
+
+# From http://cloudmade.com/
+CLOUDMADE_API_KEY = os.environ.get('CLOUDMADE_API_KEY')

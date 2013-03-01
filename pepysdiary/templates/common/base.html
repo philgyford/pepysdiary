@@ -6,6 +6,8 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link href="{{ STATIC_PREFIX }}css/bootstrap{% if not debug %}.min{% endif %}.css" rel="stylesheet" media="screen">
 	<link href="{{ STATIC_PREFIX }}css/bootstrap-responsive{% if not debug %}.min{% endif %}.css" rel="stylesheet">
+	{% block extra_css %}
+	{% endblock extra_css %}
 	<link href="{{ STATIC_PREFIX }}css/pepysdiary.css?v=3" rel="stylesheet">
     <!--[if lt IE 9]>
       <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -139,7 +141,8 @@
 		$(document).ready(function(){
 			pepys.controller.init({
 				'config': {
-					static_prefix: "{{ STATIC_PREFIX|escapejs }}"
+					cloudmade_api_key: '{{ CLOUDMADE_API_KEY }}',
+					static_prefix: '{{ STATIC_PREFIX|escapejs }}'
 				},
 
 				{% if tooltip_references %}

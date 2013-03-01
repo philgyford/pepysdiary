@@ -14,6 +14,7 @@ window.pepys.controller = {
 
     // Defaults. Override by passing values in {'config':{}} to init().
     config: {
+        'cloudmade_api_key': '',
         'static_prefix': ''
     },
 
@@ -248,13 +249,29 @@ window.pepys.topic = {
 
         // When a tab is clicked, change the URL's hash.
         $('.nav-tabs a').on('shown', function (e) {
-            var hash = e.target.hash;
+            var hash = e.target.hash.substring(1);
             // We don't want to jump to the tab's content, so we change its
             // ID, then change the URL hash, then put the ID back.
             $(hash).attr('id', hash+'temp');
-            window.location.hash = hash;
+            window.location.hash = '#' + hash;
             $(hash+'temp').attr('id', hash);
         });
+    },
+
+    /**
+     * A simple wrapper around some pepys.maps stuff, to draw a map for a
+     * single Topic.
+     * data has keys like: latitude, longitude, zoom, title.
+     * And optionally: tooltip_text and one of polygon or path.
+     */
+    draw_map: function(data) {
+        pepys.maps.init({
+            'latitude': data.latitude,
+            'longitude': data.longitude,
+            'zoom': data.zoom
+        });
+
+        pepys.maps.add_place(data, true);
     },
 
     /**
@@ -423,6 +440,107 @@ window.pepys.topic = {
         //         .text(function(d){ return d.num_refs; });
     }
 };
+
+/**
+ * All the general map-related stuff.
+ * Currently uses Leaflet.js, which we assume is already loaded.
+ * Currently we assume there is a #map-frame div to draw the map in.
+ */
+window.pepys.maps = {
+
+    // Will be the Leaflet map object.
+    map: null,
+
+    /**
+     * Draw the actual map.
+     * map_data has keys for 'latitude', 'longitude' and 'zoom'.
+     */
+    init: function(map_data) {
+
+        this.map = L.map('map-frame').setView(
+                    [map_data.latitude, map_data.longitude], map_data.zoom);
+        L.tileLayer(
+            'http://{s}.tile.cloudmade.com/' + pepys.controller.config.cloudmade_api_key + '/997/256/{z}/{x}/{y}.png',
+            {
+                attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>',
+                maxZoom: 18
+            }
+        ).addTo(this.map);
+
+        // The map is probably inside a tab on a Topic detail page.
+        // If the page opened to a different tab, then the map won't have
+        // been drawn properly.
+        // So when we switch to the map tab, re-draw the map.
+        if ($('#tab-map').exists()) {
+            var that = this;
+            $('a[data-toggle="tab"]').on('shown', function (e) {
+                if ($(e.target).attr('href') == '#map') {
+                    that.map.invalidateSize(false);
+                };
+                return true;
+            });
+        };
+    },
+
+    /**
+     * Add a single place on a map. Might be a marker, polygon or path.
+     * place_data has keys for 'latitude', 'longitude', 'title'.
+     * Optional keys: 'tooltip_text', and one of 'polygon' or 'path'.
+     * 'polygon' and 'path' are strings like:
+     * '51.513558,-0.104268;51.513552,-0.104518;...'
+     * show_popup is true/false: Should the popup be open immediately?
+     */
+    add_place: function(place_data, show_popup) {
+        // Will be a Marker, Polygon, or Polyline.
+        var place;
+        if ('polygon' in place_data) {
+            place = L.polygon(
+                this.string_to_coords(place_data['polygon'])
+            ).addTo(this.map);
+
+        } else if ('path' in place_data) {
+            place = L.polyline(
+                this.string_to_coords(place_data['path'])
+            ).addTo(this.map);
+
+        } else {
+            place = L.marker(
+                [place_data.latitude, place_data.longitude],
+                {
+                    title: place_data.title
+                }
+            ).addTo(this.map);
+        };
+
+        var popup_html = '<strong>' + place_data.title + '</strong>';
+        if ('tooltip_text' in place_data && place_data.tooltip_text !== '') {
+            popup_html += '<br />' + place_data.tooltip_text;
+        };
+        place.bindPopup(popup_html, {
+            minWidth: 150
+        });
+
+        if (show_popup === true) {
+            place.openPopup();
+        };
+    },
+
+    /**
+     * Turns this:
+     * '51.513558,-0.104268;51.513552,-0.104518;...'
+     * into this:
+     * [[51.513558,-0.104268],[51.513552,-0.104517],...]
+     */
+    string_to_coords: function(str) {
+        var arr = [];
+        $.each(str.split(';'), function(n, pair) {
+            ll = pair.split(',');
+            arr.push([parseFloat(ll[0]), parseFloat(ll[1])]);
+        });
+        return arr;
+    }
+};
+
 
 /**
  * Provides a readCookie() function.

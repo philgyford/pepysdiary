@@ -89,3 +89,6 @@ USE_SPAM_CHECK = True
 
 # From http://akismet.com/
 AKISMET_API_KEY = ''
+
+# From http://cloudmade.com/
+CLOUDMADE_API_KEY = ''
