@@ -86,6 +86,23 @@ blockquote p {
 	float: left;
 }
 
+/* Leaflet in Boostrap fixes. */
+/* (Bootstrap tramples on some of Leaflet's styles, so try to fix...) */
+.leaflet-container label {
+	font-size: 12px;
+	margin-bottom: 3px;
+}
+.leaflet-container input {
+	margin: 2px 3px 3px 3px;
+	vertical-align: 5%;
+}
+.leaflet-container span {
+	font-weight: bold;
+}
+.leaflet-control form {
+	margin-bottom: 0;
+}
+
 /* Global styles */
 
 body {
@@ -358,6 +375,7 @@ The heights/sizes are all the same as Boostrap's for h1, h2, etc. */
 #map-frame {
 	height: 400px;
 	border: 1px solid #ddd;
+	margin-bottom: 20px;
 }
 
 /* Topic references chart. */
