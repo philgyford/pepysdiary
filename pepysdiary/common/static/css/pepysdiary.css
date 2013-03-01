@@ -377,6 +377,16 @@ The heights/sizes are all the same as Boostrap's for h1, h2, etc. */
 	border: 1px solid #ddd;
 	margin-bottom: 20px;
 }
+@media (min-width: 1200px) {
+	.row-fluid #map-frame {
+		height: 500px;
+	}
+}
+@media (max-width: 979px) and (min-width: 768px) {
+	.row-fluid #map-frame {
+		height: 300px;
+	}
+}
 
 /* Topic references chart. */
 .chart {
