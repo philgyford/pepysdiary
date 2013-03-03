@@ -1,3 +1,4 @@
+import calendar
 import datetime
 import pytz
 import re
@@ -106,11 +107,15 @@ class Entry(PepysModel, OldDateMixin):
     def date_published(self):
         """The modern-day datetime this item would be published."""
         tz = pytz.timezone('Europe/London')
-        return datetime.datetime(
-                            int(self.year) + settings.YEARS_OFFSET,
-                            int(self.month),
-                            int(self.day),
-                            23, 0, 0).replace(tzinfo=tz)
+        year = int(self.year) + settings.YEARS_OFFSET
+        month = int(self.month)
+        day = int(self.day)
+        # If the 17th century date is Feb 29th, but there is no Feb 29th in
+        # the modern February, then this will be published on March 1st.
+        if month == 2 and day == 29 and calendar.monthrange(year, month)[1] == 28:
+            month = 3
+            day = 1
+        return datetime.datetime(year, month, day, 23, 0, 0).replace(tzinfo=tz)
 
     def make_references(self):
         """
