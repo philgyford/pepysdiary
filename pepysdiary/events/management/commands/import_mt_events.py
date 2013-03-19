@@ -5,7 +5,6 @@ from optparse import make_option
 from django.conf import settings
 from django.core.management.base import BaseCommand
 
-from pepysdiary.common.utilities import get_day
 from pepysdiary.events.models import DayEvent
 
 # You'll need to: pip install MySQL-python
