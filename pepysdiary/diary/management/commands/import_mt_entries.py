@@ -71,8 +71,7 @@ class Command(BaseCommand):
                         title=row['entry_title'],
                         text=text,
                         footnotes=footnotes,
-                        diary_date=row['entry_authored_on'],
-                        )
+                        diary_date=row['entry_authored_on'])
             entry.save()
 
             # SET ORIGINAL CREATED TIME.
