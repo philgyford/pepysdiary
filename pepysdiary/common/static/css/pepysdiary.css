@@ -484,9 +484,18 @@ p.letter-indent-2 {
 
 /* Sidebar */
 .sidebar-block {
-	padding-bottom: 1em;
+	padding-bottom: 10px;
 	border-bottom: 1px solid #e3e3e3;
-	margin-bottom: 2em;
+	margin-bottom: 19px;
+}
+.sidebar-block h2 {
+	font-size: 24.5px;
+	margin-top: 0;
+	line-height: 30px;
+}
+.sidebar-block h3 {
+	font-size: 17.5px;
+	line-height: 20px;
 }
 .sidebar-block:last-child {
 	padding-bottom: 0;
