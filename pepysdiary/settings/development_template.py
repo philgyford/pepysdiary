@@ -77,6 +77,7 @@ MT_MYSQL_DB_HOST = ''
 # COMPRESS_ENABLED = True
 # COMPRESS_URL = STATIC_URL
 # COMPRESS_STORAGE = STATICFILES_STORAGE
+# COMPRESS_OFFLINE = True
 
 
 #############################################################################
