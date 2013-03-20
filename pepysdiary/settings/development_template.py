@@ -46,6 +46,8 @@ if DEBUG:
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
+# Needs to be your IP address, or 127.0.0.1, if DEBUG==True.
+ALLOWED_HOSTS = ['127.0.0.1', ]
 
 # Settings used only when importing the legacy data from the Movable Type
 # MySQL database using management commands.
