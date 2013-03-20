@@ -489,13 +489,14 @@ p.letter-indent-2 {
 	margin-bottom: 19px;
 }
 .sidebar-block h2 {
-	font-size: 24.5px;
-	margin-top: 0;
-	line-height: 30px;
-}
-.sidebar-block h3 {
 	font-size: 17.5px;
 	line-height: 20px;
+}
+.sidebar-block h3 {
+	font-size: 14px;
+	line-height: 20px;
+	margin-top: 20px;
+	margin-bottom: 0;
 }
 .sidebar-block:last-child {
 	padding-bottom: 0;

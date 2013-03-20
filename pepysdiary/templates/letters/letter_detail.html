@@ -36,16 +36,21 @@
 	<div class="sidebar-block">
 		<h2>Correspondents</h2>
 
-		<p><strong>{{ letter.sender.title }}</strong><br />
-			<a href="{{ letter.sender.get_absolute_url }}">In the Encyclopedia</a><br />
-			<a href="{% url 'letter_person' pk=letter.sender.pk %}">Letters</a
-		</p>
+		<h3>{{ letter.sender.title }}</h3>
+		<ul>
+			<li><a href="{{ letter.sender.get_absolute_url }}">In the Encyclopedia</a></li>
+			<li><a href="{% url 'letter_person' pk=letter.sender.pk %}">Letters</a></li>
+		</ul>
 
-		<p><strong>{{ letter.recipient.title }}</strong><br />
-			<a href="{{ letter.recipient.get_absolute_url }}">In the Encyclopedia</a><br />
-			<a href="{% url 'letter_person' pk=letter.recipient.pk %}">Letters</a>
-		</p>
+		<h3>{{ letter.recipient.title }}</h3>
+		<ul>
+			<li><a href="{{ letter.recipient.get_absolute_url }}">In the Encyclopedia</a></li>
+			<li><a href="{% url 'letter_person' pk=letter.recipient.pk %}">Letters</a></li>
+		</ul>
 	</div>
+
+	{% load event_tags %}
+	{% events_for_day_in_sidebar letter.letter_date exclude='letters' %}
 
 	{% if letter.source %}
 		<div class="sidebar-block">

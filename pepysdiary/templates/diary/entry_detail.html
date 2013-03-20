@@ -21,7 +21,7 @@
 	{% include 'inc/next_previous.html' with next=next_entry previous=previous_entry %}
 
 	{% load event_tags %}
-	{% events_for_day_in_sidebar entry.diary_date exclude='diary' %}
+	{% events_for_day_in_sidebar entry.diary_date exclude='entries' %}
 
 	<div class="sidebar-block">
 		<p><a href="{% url 'entry_month_archive' year=entry.diary_date|date:'Y' month=entry.diary_date|date:'m' %}">All diary entries from {{ entry.diary_date|date:"F" }}&nbsp;{{ entry.diary_date|date:"Y" }}</a></p>
