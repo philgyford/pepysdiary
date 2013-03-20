@@ -10,11 +10,11 @@
 
 	{% load compress %}
 	{% compress css %}
-		<link href="{{ STATIC_PREFIX }}css/libs/bootstrap{% if not debug %}.min{% endif %}.css" rel="stylesheet" media="screen">
-		<link href="{{ STATIC_PREFIX }}css/libs/bootstrap-responsive{% if not debug %}.min{% endif %}.css" rel="stylesheet" media="screen">
+		<link href="{{ STATIC_PREFIX }}css/libs/bootstrap.css" rel="stylesheet" media="screen">
+		<link href="{{ STATIC_PREFIX }}css/libs/bootstrap-responsive.css" rel="stylesheet" media="screen">
 		{% block extra_css_compressable %}
 		{% endblock extra_css_compressable %}
-		<link href="{{ STATIC_PREFIX }}css/pepysdiary.css?v=6" rel="stylesheet" media="screen">
+		<link href="{{ STATIC_PREFIX }}css/pepysdiary.css" rel="stylesheet" media="screen">
 	{% endcompress %}
 
     <!--[if lt IE 9]>
@@ -148,7 +148,7 @@
 		<script src="{{ STATIC_PREFIX }}js/libs/bootstrap.min.js"></script>
 		<script src="{{ STATIC_PREFIX }}js/libs/jquery.timeago.js"></script>
 		{% block extra_javascript_includes_compressable %}{% endblock %}
-		<script src="{{ STATIC_PREFIX }}js/pepys.js?v=4"></script>
+		<script src="{{ STATIC_PREFIX }}js/pepys.js"></script>
 	{% endcompress %}
 
 	<script>

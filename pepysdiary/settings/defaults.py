@@ -193,6 +193,13 @@ LOGGING = {
 ####################################################################
 # THIRD-PARTY APPS
 
+# django-compressor
+COMPRESS_CSS_FILTERS = [
+    # Creates absolute urls from relative ones.
+    'compressor.filters.css_default.CssAbsoluteFilter',
+    # CSS minimizer.
+    'compressor.filters.cssmin.CSSMinFilter'
+]
 
 ####################################################################
 # PEPYSDIARY SPECIFIC

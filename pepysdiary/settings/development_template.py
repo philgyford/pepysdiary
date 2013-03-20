@@ -49,9 +49,6 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 # Needs to be your IP address, or 127.0.0.1, if DEBUG==True.
 ALLOWED_HOSTS = ['127.0.0.1', ]
 
-# Uncomment to have django-compressor compress JS and CSS.
-# COMPRESS_ENABLED = True
-
 # Settings used only when importing the legacy data from the Movable Type
 # MySQL database using management commands.
 MT_MYSQL_DB_NAME = ''
@@ -76,6 +73,8 @@ MT_MYSQL_DB_HOST = ''
 # MEDIA_URL = S3_URL + MEDIA_URL
 
 # # For django-compressor.
+# # You could just uncomment COMPRESS_ENABLED to have it compress files locally.
+# COMPRESS_ENABLED = True
 # COMPRESS_URL = STATIC_URL
 # COMPRESS_STORAGE = STATICFILES_STORAGE
 

@@ -38,8 +38,6 @@ CACHES = {
   }
 }
 
-COMPRESS_ENABLED = True
-
 # Make this unique, and don't share it with anybody.
 # http://www.miniwebtool.com/django-secret-key-generator/
 SECRET_KEY = os.environ.get('SECRET_KEY', '')
@@ -90,6 +88,7 @@ STATIC_URL = S3_URL + STATIC_URL
 MEDIA_URL = S3_URL + MEDIA_URL
 
 # For django-compressor.
+COMPRESS_ENABLED = True
 COMPRESS_URL = STATIC_URL
 COMPRESS_STORAGE = STATICFILES_STORAGE
 
