@@ -91,7 +91,6 @@ MEDIA_URL = S3_URL + MEDIA_URL
 COMPRESS_ENABLED = bool(os.environ.get('COMPRESS_ENABLED', False))
 COMPRESS_URL = STATIC_URL
 COMPRESS_STORAGE = STATICFILES_STORAGE
-COMPRESS_OFFLINE = True
 
 
 #############################################################################
