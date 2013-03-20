@@ -4,11 +4,19 @@
 	<meta charset="utf-8"/>
 	<title>{% if page_name == 'home' %}The Diary of Samuel Pepys{% else %}{% block title %}{% endblock %} (Pepys' Diary){% endif %}</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link href="{{ STATIC_PREFIX }}css/bootstrap{% if not debug %}.min{% endif %}.css" rel="stylesheet" media="screen">
-	<link href="{{ STATIC_PREFIX }}css/bootstrap-responsive{% if not debug %}.min{% endif %}.css" rel="stylesheet">
-	{% block extra_css %}
-	{% endblock extra_css %}
-	<link href="{{ STATIC_PREFIX }}css/pepysdiary.css?v=6" rel="stylesheet">
+
+	{% block extra_css_non_compressable %}
+	{% endblock extra_css_non_compressable %}
+
+	{% load compress %}
+	{% compress css %}
+		<link href="{{ STATIC_PREFIX }}css/libs/bootstrap{% if not debug %}.min{% endif %}.css" rel="stylesheet" media="screen">
+		<link href="{{ STATIC_PREFIX }}css/libs/bootstrap-responsive{% if not debug %}.min{% endif %}.css" rel="stylesheet" media="screen">
+		{% block extra_css_compressable %}
+		{% endblock extra_css_compressable %}
+		<link href="{{ STATIC_PREFIX }}css/pepysdiary.css?v=6" rel="stylesheet" media="screen">
+	{% endcompress %}
+
     <!--[if lt IE 9]>
       <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
@@ -131,11 +139,17 @@
 		{% endblock %}
 	</div> <!-- .container -->
 
-	<script src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
-	<script src="{{ STATIC_PREFIX }}js/bootstrap.min.js"></script>
-	<script src="{{ STATIC_PREFIX }}js/jquery.timeago.js"></script>
-	{% block extra_javascript_includes %}{% endblock %}
-	<script src="{{ STATIC_PREFIX }}js/pepys.js?v=4"></script>
+	{% block extra_javascript_includes_non_compressable %}
+	{% endblock %}
+
+	<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+
+	{% compress js %}
+		<script src="{{ STATIC_PREFIX }}js/libs/bootstrap.min.js"></script>
+		<script src="{{ STATIC_PREFIX }}js/libs/jquery.timeago.js"></script>
+		{% block extra_javascript_includes_compressable %}{% endblock %}
+		<script src="{{ STATIC_PREFIX }}js/pepys.js?v=4"></script>
+	{% endcompress %}
 
 	<script>
 		$(document).ready(function(){
