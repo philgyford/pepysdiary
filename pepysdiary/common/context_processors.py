@@ -35,6 +35,7 @@ def date_formats(request):
 def api_keys(request):
     return {
         'CLOUDMADE_API_KEY': settings.CLOUDMADE_API_KEY,
+        'GOOGLE_ANALYTICS_ID': settings.GOOGLE_ANALYTICS_ID,
     }
 
 
