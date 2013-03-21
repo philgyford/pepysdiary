@@ -72,12 +72,6 @@ MT_MYSQL_DB_HOST = ''
 # STATIC_URL = S3_URL + STATIC_URL
 # MEDIA_URL = S3_URL + MEDIA_URL
 
-# # For django-compressor.
-# # You could just uncomment COMPRESS_ENABLED to have it compress files locally.
-# COMPRESS_ENABLED = True
-# COMPRESS_URL = STATIC_URL
-# COMPRESS_STORAGE = STATICFILES_STORAGE
-
 
 #############################################################################
 # PEPYSDIARY-SPECIFIC SETTINGS.

@@ -87,11 +87,6 @@ S3_URL = 'https://%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
 STATIC_URL = S3_URL + STATIC_URL
 MEDIA_URL = S3_URL + MEDIA_URL
 
-# For django-compressor.
-COMPRESS_ENABLED = bool(os.environ.get('COMPRESS_ENABLED', False))
-COMPRESS_URL = STATIC_URL
-COMPRESS_STORAGE = STATICFILES_STORAGE
-
 
 #############################################################################
 # PEPYSDIARY-SPECIFIC SETTINGS.

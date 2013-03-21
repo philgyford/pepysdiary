@@ -7,6 +7,10 @@ from django.db import models
 
 class Migration(SchemaMigration):
 
+    depends_on = (
+        ('letters', '0001_initial.py'),
+    )
+
     def forwards(self, orm):
         # Adding M2M table for field letter_references on 'Topic'
         db.create_table('encyclopedia_topic_letter_references', (
