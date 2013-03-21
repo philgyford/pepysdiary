@@ -92,7 +92,7 @@ def recent_list(queryset, title, date_format):
         item.title,
         item_date.strftime(date_format))
 
-        html = """<h4>%s</h4>
+        html = """<h2>%s</h2>
 <dl class="dated">
 %s
 </dl>
