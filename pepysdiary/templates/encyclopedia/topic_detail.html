@@ -2,6 +2,7 @@
 {% load url from future %}
 
 {% block encyclopedia_nav_active %}active{% endblock %}
+{% block encyclopedia_index_nav_active %}active{% endblock %}
 
 {% block title %}{{ topic.title }}{% endblock %}}
 {% block header_title %}{{ topic.title }}{% endblock %}}
@@ -12,23 +13,22 @@
 	{% endfor %}
 {% endblock breadcrumbs %}
 
+{% load include_tags %}
+
 {% block extra_css %}
 	{% if topic.has_location %}
-		<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.5.1/leaflet.css" />
-		<!--[if lte IE 8]>
-		    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.5.1/leaflet.ie.css" />
-		<![endif]-->
+		{% include_leaflet_css %}
 	{% endif %}
 {% endblock %}
 
 {% block extra_javascript_includes %}
 	{% if topic.has_location %}
-		<script src="http://cdn.leafletjs.com/leaflet-0.5.1/leaflet.js"></script>
+		{% include_leaflet_js %}
 	{% endif %}
 
 	{% if diary_references %}
 		<!-- For the References Chart -->
-		<script src="http://d3js.org/d3.v3.min.js"></script>
+		{% include_d3_js %}
 	{% endif %}
 {% endblock %}
 
@@ -177,19 +177,12 @@
 		</div>
 	{% endif %}
 
-	{% if topic.on_pepys_family_tree or topic.title == 'Pepys family tree' %}
-		<div class="sidebar-block">
-			<p><a href="{% url 'encyclopedia_familytree' %}"><img class="thumbnail" src="{{ STATIC_PREFIX }}img/sidebar_family_tree.png" width="250" height="134" alt="Family tree thumbnail" />
-			{% if topic.on_pepys_family_tree %}
-				See this person on the Pepys family tree
-			{% else %}
-				See the Pepys family tree
-			{% endif %}
-			</a></p>
-		</div>
+	{% load widget_tags %}
+
+	{% if topic.on_pepys_family_tree or topic.id == 7390 %}
+		{% family_tree_link topic=topic %}
 	{% endif %}
 
-	{% load widget_tags %}
 	{% rss_feeds 'topics' %}
 
 {% endblock sidebar_content %}

@@ -2,6 +2,7 @@
 {% load url from future %}
 
 {% block encyclopedia_nav_active %}active{% endblock %}
+{% block encyclopedia_index_nav_active %}active{% endblock %}
 
 {% block title %}Encyclopedia{% endblock %}}
 {% block header_title %}Encyclopedia{% endblock %}}
@@ -32,6 +33,9 @@
 {% block sidebar_content %}
 
 	{% load widget_tags %}
+
+	{% family_tree_link %}
+
 	{% rss_feeds 'topics' %}
 
 {% endblock sidebar_content %}

@@ -1,0 +1,36 @@
+{% extends "base_full_width.html" %}
+{% load url from future %}
+
+{% block encyclopedia_nav_active %}active{% endblock %}
+{% block encyclopedia_map_nav_active %}active{% endblock %}
+
+{% block title %}Map{% endblock %}}
+{% block header_title %}Map{% endblock %}}
+
+
+{% load include_tags %}
+{% block extra_css %}
+	{% include_leaflet_css %}
+{% endblock %}
+{% block extra_javascript_includes %}
+	{% include_leaflet_js %}
+{% endblock %}
+
+
+{% block extra_jquery %}
+	pepys.category.init_map({
+		category_id: {{ category.id }},
+		map_categories: {
+			{% for category in map_categories %}
+				"{{ category.id }}": "{{ category.title|escapejs }}"{% if forloop.last %}{% else %},{% endif %}
+			{% endfor %}
+		}
+	});
+{% endblock %}
+
+
+{% block main_content %}
+
+	<div id="map-frame"></div>
+	
+{% endblock main_content %}

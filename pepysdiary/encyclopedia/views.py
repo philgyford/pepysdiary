@@ -1,8 +1,11 @@
+#! -*- coding: utf-8 -*-
+from django.core.exceptions import ImproperlyConfigured
 from django.http import Http404
+from django.shortcuts import redirect
 from django.utils.decorators import method_decorator
 from django.utils.translation import ugettext as _
 from django.views.decorators.cache import cache_page
-from django.views.generic.base import TemplateView
+from django.views.generic import ListView, TemplateView
 from django.views.generic.detail import DetailView
 
 from pepysdiary.common.views import BaseRSSFeed
@@ -82,3 +85,38 @@ class LatestTopicsFeed(BaseRSSFeed):
             url=item.get_absolute_url(),
             comment_name=item.comment_name
         )
+
+
+class TopicMapView(TemplateView):
+    template_name = 'topic_map.html'
+
+    # Will be a Category object.
+    category = None
+
+    # Default category:
+    category_id = 196
+    valid_categories = [196, 31, 199, 201, 29, 200, 180, 28, 27, 197, 214, 209, 30, 45, ]
+
+    def get(self, request, *args, **kwargs):
+        # Set the Category ID of Topics we're displaying.
+        if self.kwargs['category_id'] is not None:
+            if int(self.kwargs['category_id']) not in self.valid_categories:
+                return redirect('topic_map')
+            else:
+                self.category_id = int(self.kwargs['category_id'])
+
+        # Set the Category of Topics we're displaying.
+        try:
+            self.category = Category.objects.get(pk=self.category_id)
+        except Category.DoesNotExist:
+            raise ImproperlyConfigured(
+                                "'%s' has an invalid category_id: '%s'" %
+                                (self.__class__.__name__, self.category_id))
+
+        return super(TopicMapView, self).get(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        kwargs = super(TopicMapView, self).get_context_data(**kwargs)
+        kwargs['category'] = self.category
+        kwargs['map_categories'] = Category.objects.filter(pk__in=self.valid_categories)
+        return kwargs

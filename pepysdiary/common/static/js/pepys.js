@@ -211,6 +211,84 @@ window.pepys.comments = {
     }
 };
 
+
+/**
+ * Anything about a particular Category.
+ */
+window.pepys.category = {
+
+    // Both will be populated when draw_map() is called.
+    category_id: null,
+    map_categories: {},
+
+    // Each category will have its map start at one of these centres/zooms:
+    start_coords: {
+        britain:   {latitude: 52.5196, longitude: -1.4069, zoom: 6},
+        london:    {latitude: 51.5118, longitude: -0.1041, zoom: 13},
+        environs:  {latitude: 51.5118, longitude: -0.1042, zoom: 11},
+        waterways: {latitude: 52.1141, longitude: -0.8267, zoom: 7},
+        whitehall: {latitude: 51.5040, longitude: -0.1257, zoom: 17},
+        world:     {latitude: 24.0389, longitude: 38.0450, zoom: 2}
+    },
+
+    // Mapping a category ID to start coordinates.
+    // If not listed, we default to using the 'london' coordinates.
+    categories_start_coords: {
+        '30': 'britain',
+        '45': 'world',
+        '180': 'whitehall',
+        '209': 'waterways',
+        '214': 'environs'
+    },
+
+    /**
+     * Call this to set up initial categories data and draw the map.
+     * data should have `category_id` (the category to display)
+     * and `map_categories`, an object mapping category_id: category_title.
+     */
+    init_map: function(data) {
+        this.map_categories = data.map_categories;
+        if (this.is_valid_map_category_id(data.category_id)) {
+            this.category_id = data.category_id;
+            this.draw_category_map(this.category_id);
+        };
+    },
+
+    /**
+     * Assuming we've already called init_map() earlier, draw the map for a
+     * particular category (which should be in this.map_categories).
+     */
+    draw_category_map: function(category_id){
+        if ( ! this.is_valid_map_category_id(category_id)) {
+            return;
+        };
+        this.category_id = category_id;
+
+        // Work out which centre and zoom to draw.
+        var start_coords = this.start_coords['london'];
+        if (this.category_id.toString() in this.categories_start_coords) {
+            start_coords = this.start_coords[
+                                this.categories_start_coords[
+                                    this.category_id.toString()
+                                ]
+                            ];
+        };
+        pepys.maps.init(start_coords);
+    },
+
+    /**
+     * Check that the category_id is a valid one for drawing maps with.
+     */
+    is_valid_map_category_id: function(category_id) {
+        if (category_id.toString() in this.map_categories) {
+            return true;
+        } else {
+            return false;
+        };
+    }
+};
+
+
 /**
  * Anything around an Encyclopedia Topic page.
  */

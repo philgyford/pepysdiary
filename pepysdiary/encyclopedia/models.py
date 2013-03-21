@@ -204,7 +204,7 @@ class Topic(PepysModel):
     allow_comments = models.BooleanField(blank=False, null=False, default=True)
 
     map_category = models.CharField(max_length=20, blank=True, null=False,
-                                choices=MAP_CATEGORY_CHOICES,
+                                choices=MAP_CATEGORY_CHOICES, db_index=True,
                                 help_text="The type of object this is on maps")
     latitude = models.DecimalField(max_digits=11, decimal_places=6,
                                                         blank=True, null=True)

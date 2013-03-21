@@ -46,7 +46,6 @@
 			    	<ul class="nav">
 			    		<li class="dropdown {% block diary_nav_active %}{% endblock %}">
 			    			<a href="#" class="dropdown-toggle" data-toggle="dropdown">The Diary <b class="caret"></b></a>
-			    			
 			    			<ul class="dropdown-menu">
 			    				<li class="{% block diary_home_nav_active %}{% endblock %}"><a href="{% url 'home' %}">Home</a></li>
 			    				<li class="{% block diary_archive_nav_active %}{% endblock %}"><a href="{% url 'entry_archive' %}">Archive</a></li>
@@ -55,13 +54,19 @@
 			    			</ul>
 			    		</li>
 			    		<li class="{% block letter_nav_active %}{% endblock %}"><a href="{% url 'letters' %}">Letters</a></li>
-			    		<li class="{% block encyclopedia_nav_active %}{% endblock %}"><a href="{% url 'encyclopedia' %}">Encyclopedia</a></li>
+			    		<li class="dropdown {% block encyclopedia_nav_active %}{% endblock %}">
+			    			<a href="#" class="dropdown-toggle" data-toggle="dropdown">Encyclopedia <b class="caret"></b></a>
+			    			<ul class="dropdown-menu">
+			    				<li class="{% block encyclopedia_index_nav_active %}{% endblock %}"><a href="{% url 'encyclopedia' %}">All categories</a></li>
+			    				<li class="{% block encyclopedia_map_nav_active %}{% endblock %}"><a href="{% url 'topic_map' %}">Map</a></li>
+			    				<li class="{% if flatpage and flatpage.url == '/encyclopedia/familytree/' %}active{% endif %}"><a href="{% url 'encyclopedia_familytree' %}">Family tree</a></li>
+			    			</ul>
+			    		</li>
 			    		<li class="{% block indepth_nav_active %}{% endblock %}"><a href="{% url 'indepth' %}">In-Depth Articles</a></li>
 			    		<li class="{% block news_nav_active %}{% endblock %}"><a href="{% url 'news' %}">Site News</a></li>
 			    		<li class="{% block recent_nav_active %}{% endblock %}"><a href="{% url 'recent' %}">Recent Activity</a></li>
 			    		<li class="dropdown {% block about_nav_active %}{% endblock %}">
 				    		<a href="#" class="dropdown-toggle" data-toggle="dropdown">About <b class="caret"></b></a>
-
 				    		<ul class="dropdown-menu">
 				    			{% load widget_tags %}
 				    			{% about_pages_links %}
@@ -71,9 +76,9 @@
 				    <ul class="nav pull-right">
 				    	<li class="dropdown">
 							<a class="dropdown-toggle" data-toggle="dropdown" href="#">
-							<i class="icon-user {% if user.is_authenticated %}icon-white{% else %}icon-grey{% endif %}"></i>
-							<span class="hide">User</span>
-							<b class="caret"></b>
+								<i class="icon-user {% if user.is_authenticated %}icon-white{% else %}icon-grey{% endif %}"></i>
+								<span class="hide">User</span>
+								<b class="caret"></b>
 							</a>
 							<ul class="dropdown-menu">
 								{% if user.is_authenticated %}
@@ -141,11 +146,6 @@
 	<script>
 		$(document).ready(function(){
 			pepys.controller.init({
-				'config': {
-					cloudmade_api_key: '{{ CLOUDMADE_API_KEY }}',
-					static_prefix: '{{ STATIC_PREFIX|escapejs }}'
-				},
-
 				{% if tooltip_references %}
 					'tooltips': {
 						{% for id, tip in tooltip_references.items %}
@@ -155,8 +155,12 @@
 								'thumbnail_url': "{{ tip.thumbnail_url|escapejs }}"
 							}{% if not forloop.last %},{% endif %}
 						{% endfor %}
-					}
+					},
 				{% endif %}
+				'config': {
+					cloudmade_api_key: '{{ CLOUDMADE_API_KEY }}',
+					static_prefix: '{{ STATIC_PREFIX|escapejs }}'
+				}
 			});
 
 			{% block extra_jquery %}{% endblock %}

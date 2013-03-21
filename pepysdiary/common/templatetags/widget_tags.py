@@ -1,4 +1,5 @@
 from django import template
+from django.conf import settings
 from django.core.urlresolvers import reverse
 
 from pepysdiary.encyclopedia.models import Topic
@@ -182,3 +183,24 @@ def about_pages_links(context):
                 page[1]
             ))
     return "\n".join(links)
+
+
+@register.simple_tag
+def family_tree_link(topic=None):
+    """
+    Displays a thumbnail of the family tree and a link to it.
+    If `topic` is present, and the topic is featured on the family treet, then
+    the text is different.
+    """
+    text = "See the Pepys family tree"
+    if topic is not None and topic.on_pepys_family_tree:
+        text = "See this person on the Pepys family tree"
+    link_url = reverse('encyclopedia_familytree')
+
+    return """
+    <div class="sidebar-block">
+        <p><a href="%s"><img class="thumbnail" src="%simg/sidebar_family_tree.png" width="250" height="134" alt="Family tree thumbnail" />
+        %s
+        </a></p>
+    </div>
+    """ % (link_url, settings.STATIC_URL, text)
