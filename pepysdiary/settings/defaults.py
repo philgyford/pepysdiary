@@ -191,6 +191,13 @@ LOGGING = {
 ####################################################################
 # THIRD-PARTY APPS
 
+from datetime import date, timedelta
+future_date = date.today() + timedelta(days=1)
+AWS_HEADERS = {
+    'Expires': future_date.strftime('%a, %d %b %Y %H:%M:%S GMT'),
+    'Cache-Control': 'max-age=86400',
+}
+AWS_QUERYSTRING_AUTH = False
 
 ####################################################################
 # PEPYSDIARY SPECIFIC
