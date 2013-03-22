@@ -285,7 +285,7 @@ window.pepys.category = {
      * Make the map as big as possible.
      */
     resize_map: function() {
-        var $container = $('.container-main');
+        var $container = $('#container-main');
         var $map = $('#map-frame');
 
         // Set the height of the main content container to stretch to the
