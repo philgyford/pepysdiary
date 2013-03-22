@@ -247,6 +247,11 @@ window.pepys.category = {
      * and `map_categories`, an object mapping category_id: category_title.
      */
     init_map: function(data) {
+        this.resize_map();
+        var that = this;
+        $(window).resize(function(){
+            that.resize_map();
+        });
         this.map_categories = data.map_categories;
         if (this.is_valid_map_category_id(data.category_id)) {
             this.category_id = data.category_id;
@@ -274,6 +279,32 @@ window.pepys.category = {
                             ];
         };
         pepys.maps.init(start_coords);
+    },
+
+    /**
+     * Make the map as big as possible.
+     */
+    resize_map: function() {
+        var $container = $('.container-main');
+        var $map = $('#map-frame');
+
+        // Set the height of the main content container to stretch to the
+        // bottom of the window.
+        var container_height = $(window).height() - $container.offset().top - (
+                        $container.outerHeight(true) - $container.height()
+                    );
+        // But let's set a useful minimum height, or the map might disappear
+        // completely.
+        if (container_height < 400) {
+            container_height = 400;
+        };
+        // Set the map height to fill to the bottom of the container.
+        var map_height = container_height - (
+                                $map.offset().top - $container.offset().top
+                            );
+
+        $container.height(container_height + 'px');
+        $map.height(map_height + 'px');
     },
 
     /**

@@ -5,7 +5,7 @@ from django.shortcuts import redirect
 from django.utils.decorators import method_decorator
 from django.utils.translation import ugettext as _
 from django.views.decorators.cache import cache_page
-from django.views.generic import ListView, TemplateView
+from django.views.generic import TemplateView
 from django.views.generic.detail import DetailView
 
 from pepysdiary.common.views import BaseRSSFeed
