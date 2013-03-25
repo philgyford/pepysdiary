@@ -188,6 +188,29 @@ The heights/sizes are all the same as Boostrap's for h1, h2, etc. */
 .h3 small, .h4 small  { font-size: 14px; }
 .h5 small, .h6 small { font-size: 85%; }
 
+/* Category map page */
+.page-header-small {
+	margin-top: 0;
+	margin-bottom: 10px;	
+	padding-bottom: 0;
+	border-bottom: none;
+}
+.page-header-small h1,
+.page-header-small form {
+	display: inline-block;
+	margin-top: 0;
+	margin-bottom: 0;
+}
+.page-header form {
+	margin-bottom: 0;
+}
+.page-header select {
+	margin-left: 3px;
+	margin-bottom: 5px;
+	font-weight: bold;
+}
+
+
 /* Header */
 
 .site-header {

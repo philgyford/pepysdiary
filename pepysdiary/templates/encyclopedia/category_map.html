@@ -5,7 +5,16 @@
 {% block encyclopedia_map_nav_active %}active{% endblock %}
 
 {% block title %}Map{% endblock %}}
-{% block header_title %}Map{% endblock %}}
+{% block page_header %}
+	<div class="page-header page-header-small">
+		<form action="" method="post" id="category-form">
+			{% csrf_token %}
+			<h1 class="h4">Map showing<span class="hide"> {{ category.title }}</span></h1>
+			{{ form.category }}
+			<input type="submit" value="Submit" />
+		</form>
+	</div>
+{% endblock %}
 
 
 {% load include_tags %}
@@ -30,13 +39,7 @@
 
 
 {% block main_content %}
-	
-	<p>Form stuff here</p>
-	<p>Category: {{ category }}</p>
-	<form action="" method="post" id="category-form">{% csrf_token %}
-{{ form.as_p }}
-<input type="submit" value="Submit" />
-</form>
+
 
 	<div id="map-frame" class="map-frame-big"></div>
 
