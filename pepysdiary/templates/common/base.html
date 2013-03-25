@@ -58,7 +58,7 @@
 			    			<a href="#" class="dropdown-toggle" data-toggle="dropdown">Encyclopedia <b class="caret"></b></a>
 			    			<ul class="dropdown-menu">
 			    				<li class="{% block encyclopedia_index_nav_active %}{% endblock %}"><a href="{% url 'encyclopedia' %}">All categories</a></li>
-			    				<li class="{% block encyclopedia_map_nav_active %}{% endblock %}"><a href="{% url 'topic_map' %}">Map</a></li>
+			    				<li class="{% block encyclopedia_map_nav_active %}{% endblock %}"><a href="{% url 'category_map' %}">Map</a></li>
 			    				<li class="{% if flatpage and flatpage.url == '/encyclopedia/familytree/' %}active{% endif %}"><a href="{% url 'encyclopedia_familytree' %}">Family tree</a></li>
 			    			</ul>
 			    		</li>

@@ -1,3 +1,4 @@
+#! -*- coding: utf-8 -*-
 import re
 
 from django.conf import settings
@@ -7,7 +8,7 @@ from django.db import models
 from django.db.models.signals import m2m_changed, post_delete, pre_delete
 
 from markdown import markdown
-from treebeard.mp_tree import MP_Node
+from treebeard.mp_tree import MP_Node, MP_NodeManager
 
 from pepysdiary.common.models import PepysModel
 
@@ -163,6 +164,8 @@ class TopicManager(models.Manager):
 
 class Topic(PepysModel):
 
+    # These are inherited from Movable Type data, but I'm not sure we
+    # actually use them...
     MAP_CATEGORY_AREA = 'area'
     MAP_CATEGORY_GATE = 'gate'
     MAP_CATEGORY_HOME = 'home'
@@ -205,7 +208,7 @@ class Topic(PepysModel):
 
     map_category = models.CharField(max_length=20, blank=True, null=False,
                                 choices=MAP_CATEGORY_CHOICES, db_index=True,
-                                help_text="The type of object this is on maps")
+                                help_text="(UNUSED?) The type of object this is on maps")
     latitude = models.DecimalField(max_digits=11, decimal_places=6,
                                                         blank=True, null=True)
     longitude = models.DecimalField(max_digits=11, decimal_places=6,
@@ -396,12 +399,64 @@ def topic_post_delete(sender, **kwargs):
 post_delete.connect(topic_post_delete, sender=Topic)
 
 
+class CategoryManager(MP_NodeManager):
+    def map_category_choices(self):
+        """
+        The categories we DO use on the maps page.
+        As opposed to the Topic.map_category, which appears to be unused.
+        This structure is used to generate the SELECT field on the
+        /encyclopedia/map/ page.
+        The numbers are the IDs of the relevant Categories.
+
+        To add a new option to the map, you should ONLY need to add it to
+        this structure, and everything else should work...
+        You might also want to adjust the start_coords in pepys.js if the map
+        should be focused on something other than central London.
+        """
+        return (
+            ('London', (
+                (196, 'Areas of London'),
+                (31,  'Churches and cathedrals in London'),
+                (199, 'Government buildings'),
+                (201, 'Livery halls'),
+                (28,  'Streets, gates, piers, etc'),
+                (27,  'Taverns in London'),
+                (197, 'Theatres in London'),
+                (180, 'Whitehall Palace'),
+                (200, 'Other royal buildings'),
+                (29,  'Other London buildings'),
+            ), ),
+            (214, 'London environs'),
+            (209, 'Waterways in Britain'),
+            (30, 'Rest of Britain'),
+            (45, 'Rest of the world'),
+        )
+
+    def valid_map_category_ids(self):
+        """
+        Returns a list of the category IDs in map_category_choices().
+        Assumes we only have one sub-level.
+        There's probably some clever one-line way of doing this, but still.
+        """
+        choices = self.map_category_choices()
+        ids = []
+        for tup1 in choices:
+            if isinstance(tup1[0], int):
+                ids.append(tup1[0])
+            else:
+                for tup2 in tup1[1]:
+                    ids.append(tup2[0])
+        return ids
+
+
 class Category(MP_Node):
     title = models.CharField(max_length=255, blank=False, null=False)
     slug = models.SlugField(max_length=50, blank=False, null=False)
     topic_count = models.IntegerField(default=0, blank=False, null=False)
 
     # Will also have a `topics` field, listing Topics within the Category.
+
+    objects = CategoryManager()
 
     node_order_by = ['title', ]
 

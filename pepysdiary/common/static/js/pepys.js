@@ -257,6 +257,14 @@ window.pepys.category = {
             this.category_id = data.category_id;
             this.draw_category_map(this.category_id);
         };
+        this.init_form();
+    },
+
+    init_form: function() {
+        $('#category-form input[type="submit"]').hide();
+        $('#category-form select').change(function(){
+            $('#category-form').submit();
+        });
     },
 
     /**

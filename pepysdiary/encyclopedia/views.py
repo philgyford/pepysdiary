@@ -1,14 +1,16 @@
 #! -*- coding: utf-8 -*-
 from django.core.exceptions import ImproperlyConfigured
-from django.http import Http404
+from django.core.urlresolvers import reverse
+from django.http import Http404, HttpResponseRedirect
 from django.shortcuts import redirect
 from django.utils.decorators import method_decorator
 from django.utils.translation import ugettext as _
 from django.views.decorators.cache import cache_page
-from django.views.generic import TemplateView
+from django.views.generic import FormView, TemplateView
 from django.views.generic.detail import DetailView
 
 from pepysdiary.common.views import BaseRSSFeed
+from pepysdiary.encyclopedia.forms import CategoryMapForm
 from pepysdiary.encyclopedia.models import Category, Topic
 
 
@@ -87,21 +89,21 @@ class LatestTopicsFeed(BaseRSSFeed):
         )
 
 
-class TopicMapView(TemplateView):
-    template_name = 'topic_map.html'
+class CategoryMapView(FormView):
+    form_class = CategoryMapForm
+    template_name = 'category_map.html'
 
     # Will be a Category object.
     category = None
 
     # Default category:
     category_id = 196
-    valid_categories = [196, 31, 199, 201, 29, 200, 180, 28, 27, 197, 214, 209, 30, 45, ]
 
     def get(self, request, *args, **kwargs):
         # Set the Category ID of Topics we're displaying.
         if self.kwargs['category_id'] is not None:
-            if int(self.kwargs['category_id']) not in self.valid_categories:
-                return redirect('topic_map')
+            if int(self.kwargs['category_id']) not in Category.objects.valid_map_category_ids():
+                return redirect('category_map')
             else:
                 self.category_id = int(self.kwargs['category_id'])
 
@@ -113,10 +115,22 @@ class TopicMapView(TemplateView):
                                 "'%s' has an invalid category_id: '%s'" %
                                 (self.__class__.__name__, self.category_id))
 
-        return super(TopicMapView, self).get(request, *args, **kwargs)
+        return super(CategoryMapView, self).get(request, *args, **kwargs)
+
+    def get_initial(self):
+        return {'category': self.category_id, }
+
+    def form_valid(self, form):
+        # This ID will then be used to generate the success_url:
+        self.category_id = form.cleaned_data.get('category')
+        return HttpResponseRedirect(self.get_success_url())
+
+    def get_success_url(self):
+        return reverse('category_map', kwargs={'category_id': self.category_id})
 
     def get_context_data(self, **kwargs):
-        kwargs = super(TopicMapView, self).get_context_data(**kwargs)
+        kwargs = super(CategoryMapView, self).get_context_data(**kwargs)
         kwargs['category'] = self.category
-        kwargs['map_categories'] = Category.objects.filter(pk__in=self.valid_categories)
+        kwargs['map_categories'] = Category.objects.filter(
+                            pk__in=Category.objects.valid_map_category_ids())
         return kwargs

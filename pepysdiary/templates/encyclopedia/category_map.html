@@ -30,6 +30,13 @@
 
 
 {% block main_content %}
+	
+	<p>Form stuff here</p>
+	<p>Category: {{ category }}</p>
+	<form action="" method="post" id="category-form">{% csrf_token %}
+{{ form.as_p }}
+<input type="submit" value="Submit" />
+</form>
 
 	<div id="map-frame" class="map-frame-big"></div>
 

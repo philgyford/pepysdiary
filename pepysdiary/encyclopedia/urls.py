@@ -12,8 +12,8 @@ urlpatterns = patterns('',
 
     url(r'^(?P<pk>\d+)/$', TopicDetailView.as_view(), name='topic_detail'),
 
-    url(r'^map/(?:(?P<category_id>\d+)/)?$', TopicMapView.as_view(),
-                                                            name='topic_map'),
+    url(r'^map/(?:(?P<category_id>\d+)/)?$', CategoryMapView.as_view(),
+                                                        name='category_map'),
 
     url(r'^(?P<slugs>[\w\/-]+)/$', CategoryDetailView.as_view(),
                                                 name='category_detail'),
