@@ -14,6 +14,11 @@ from pepysdiary.common.models import PepysModel
 
 
 class TopicManager(models.Manager):
+
+    def pepys_homes_ids(self):
+        """The IDs of the Topics about the places Pepys has lived."""
+        return [102, 1023, ]
+
     def make_order_title(self, text, is_person=False):
         """
         If is_person we change:

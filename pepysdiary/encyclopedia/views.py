@@ -131,7 +131,11 @@ class CategoryMapView(FormView):
     def get_context_data(self, **kwargs):
         kwargs = super(CategoryMapView, self).get_context_data(**kwargs)
         kwargs['category'] = self.category
-        kwargs['map_categories'] = Category.objects.filter(
-                            pk__in=Category.objects.valid_map_category_ids())
-        kwargs['topics'] = self.category.topics.exclude(latitude__isnull=True)
+        kwargs['valid_map_category_ids'] = Category.objects.valid_map_category_ids()
+        kwargs['pepys_homes_ids'] = Topic.objects.pepys_homes_ids()
+        # Get this Category's Topics with locations:
+        topics = list(self.category.topics.exclude(latitude__isnull=True))
+        # Add Pepys' homes to every map.
+        kwargs['topics'] = topics + list(Topic.objects.filter(
+                                            pk__in=kwargs['pepys_homes_ids']))
         return kwargs

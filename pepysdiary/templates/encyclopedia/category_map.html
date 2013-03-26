@@ -29,17 +29,20 @@
 {% block extra_jquery %}
 	pepys.category.init_map({
 		category_id: {{ category.id }},
-		map_categories: {
-			{% for category in map_categories %}
-				"{{ category.id }}": "{{ category.title|escapejs }}"{% if forloop.last %}{% else %},{% endif %}
+		valid_map_category_ids: [
+			{% for id in valid_map_category_ids %}
+				{{ id }}{% if forloop.last %}{% else %},{% endif %}
 			{% endfor %}
-		},
+		],
 		topics: [
 			{% for topic in topics %}
 				{
 					id: {{ topic.id }},
 					title: "{{ topic.title|escapejs|safe }}",
 					tooltip_text: "{{ topic.tooltip_text|escapejs }}",
+					{% if topic.id in pepys_homes_ids %}
+						pepys_home: true,
+					{% endif %}
 					{% if topic.has_polygon %}
 						polygon: "{{ topic.shape|escapejs }}",
 					{% endif %}

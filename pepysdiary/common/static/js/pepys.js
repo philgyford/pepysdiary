@@ -218,8 +218,14 @@ window.pepys.comments = {
 window.pepys.category = {
 
     // These will be populated when init_map() is called.
+
+    // The ID of the category whose topics we're displaying on the map.
     category_id: null,
-    map_categories: {},
+
+    // The IDs of the categories we can display.
+    valid_map_category_ids: [],
+
+    // A list of objects describing each Topic that we need a pin/shape for.
     topics: [],
 
     // Each category will have its map start at one of these centres/zooms:
@@ -246,7 +252,7 @@ window.pepys.category = {
      * Call this to set up initial categories data and draw the map.
      * data should have:
      *  category_id: The category to display.
-     *  map_categories: An object mapping category_id: category_title.
+     *  valid_map_category_ids: A list of category IDs we can display.
      *  topics: An array of objects describing individual topics to display.
      */
     init_map: function(data) {
@@ -255,7 +261,7 @@ window.pepys.category = {
         $(window).resize(function(){
             that.resize_map();
         });
-        this.map_categories = data.map_categories;
+        this.valid_map_category_ids = data.valid_map_category_ids;
         this.topics = data.topics;
         if (this.is_valid_map_category_id(data.category_id)) {
             this.category_id = data.category_id;
@@ -273,7 +279,7 @@ window.pepys.category = {
 
     /**
      * Assuming we've already called init_map() earlier, draw the map for a
-     * particular category (which should be in this.map_categories).
+     * particular category (which should be in this.valid_map_category_ids).
      */
     draw_category_map: function(category_id){
         if ( ! this.is_valid_map_category_id(category_id)) {
@@ -326,10 +332,10 @@ window.pepys.category = {
      * Check that the category_id is a valid one for drawing maps with.
      */
     is_valid_map_category_id: function(category_id) {
-        if (category_id.toString() in this.map_categories) {
-            return true;
-        } else {
+        if ($.inArray(category_id, this.valid_map_category_ids) == -1) {
             return false;
+        } else {
+            return true;
         };
     }
 };
@@ -665,6 +671,18 @@ window.pepys.maps = {
         if ( ! options) {
             options = {};
         };
+
+        // Set up the markers that we'll use.
+        var default_marker_icon = new L.Icon.Default();
+        // We need a different colour for Pepys' houses:
+        var PepysIcon = L.Icon.Default.extend({
+            options: {
+                iconUrl: pepys.controller.config.static_prefix + 'img/marker-icon-b.png',
+                iconRetinaUrl: pepys.controller.config.static_prefix + 'img/marker-icon-b@2x.png'
+            }
+        });
+        var pepys_marker_icon = new PepysIcon();
+
         // Will be a Marker, Polygon, or Polyline.
         var place;
         if ('polygon' in place_data) {
@@ -678,11 +696,16 @@ window.pepys.maps = {
             ).addTo(this.map);
 
         } else {
+            var marker_options = {
+                title: place_data.title,
+                icon: default_marker_icon
+            };
+            if ('pepys_home' in place_data && place_data.pepys_home === true) {
+                marker_options.icon = pepys_marker_icon;
+            };
             place = L.marker(
                 [place_data.latitude, place_data.longitude],
-                {
-                    title: place_data.title
-                }
+                marker_options
             ).addTo(this.map);
         };
 
