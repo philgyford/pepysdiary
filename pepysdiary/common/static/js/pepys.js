@@ -663,7 +663,6 @@ window.pepys.maps = {
      */
     add_place: function(place_data, options) {
         if ( ! options) {
-            console.log('resetting');
             options = {};
         };
         // Will be a Marker, Polygon, or Polyline.
@@ -691,11 +690,9 @@ window.pepys.maps = {
         if ('tooltip_text' in place_data && place_data.tooltip_text !== '') {
             popup_html += '<br />' + place_data.tooltip_text;
         };
-        console.log(options);
         if ('link_to_topic' in options && options.link_to_topic === true) {
             popup_html += '<br /><a href="' + place_data.url + '" title="See more about this topic">In the Encyclopedia</a>';
         };
-        console.log(popup_html);
         place.bindPopup(popup_html, {
             minWidth: 150
         });
