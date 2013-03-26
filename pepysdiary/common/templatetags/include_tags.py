@@ -1,4 +1,5 @@
 from django import template
+from django.conf import settings
 
 register = template.Library()
 
@@ -25,8 +26,17 @@ def include_leaflet_css(*args):
 
 
 @register.simple_tag
-def include_leaflet_js(*args):
-    "All the JS needed to use Leaflet maps."
-    return """
+def include_leaflet_js(*args, **kwargs):
+    """"
+    All the JS needed to use Leaflet maps.
+    kwargs can have:
+        `include_labels` to include the code for hover labels.
+    """
+    html = """
         <script src="http://cdn.leafletjs.com/leaflet-0.5.1/leaflet.js"></script>
     """
+    if kwargs.get('include_labels', False) is True:
+        html += """
+            <script src="%sjs/libs/leaflet.label.min.js"></script>
+        """ % settings.STATIC_URL
+    return html

@@ -688,12 +688,12 @@ window.pepys.maps = {
         if ('polygon' in place_data) {
             place = L.polygon(
                 this.string_to_coords(place_data['polygon'])
-            ).addTo(this.map);
+            );
 
         } else if ('path' in place_data) {
             place = L.polyline(
                 this.string_to_coords(place_data['path'])
-            ).addTo(this.map);
+            );
 
         } else {
             var marker_options = {
@@ -706,8 +706,14 @@ window.pepys.maps = {
             place = L.marker(
                 [place_data.latitude, place_data.longitude],
                 marker_options
-            ).addTo(this.map);
+            );
         };
+
+        if (L.Label) {
+            place.bindLabel(place_data.title);
+        };
+        
+        place.addTo(this.map);
 
         var popup_html = '<strong>' + place_data.title + '</strong>';
         if ('tooltip_text' in place_data && place_data.tooltip_text !== '') {
