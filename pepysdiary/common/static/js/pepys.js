@@ -697,7 +697,6 @@ window.pepys.maps = {
 
         } else {
             var marker_options = {
-                title: place_data.title,
                 icon: default_marker_icon
             };
             if ('pepys_home' in place_data && place_data.pepys_home === true) {
@@ -712,7 +711,7 @@ window.pepys.maps = {
         if (L.Label) {
             place.bindLabel(place_data.title);
         };
-        
+
         place.addTo(this.map);
 
         var popup_html = '<strong>' + place_data.title + '</strong>';
