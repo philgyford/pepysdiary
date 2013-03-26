@@ -4,7 +4,7 @@
 {% block encyclopedia_nav_active %}active{% endblock %}
 {% block encyclopedia_map_nav_active %}active{% endblock %}
 
-{% block title %}Map{% endblock %}}
+{% block title %}Map{% if category %} of {{ category }}{% endif %}{% endblock %}}
 {% block page_header %}
 	<div class="page-header page-header-small">
 		<form action="" method="post" id="category-form">

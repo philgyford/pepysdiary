@@ -290,6 +290,19 @@ class Topic(PepysModel):
             else:
                 return True
 
+    @property
+    def category_map_id(self):
+        """
+        If this Topic is in a Category that has a category map, then this
+        returns the ID of that Category.
+        Otherwise, returns None.
+        """
+        valid_map_category_ids = Category.objects.valid_map_category_ids()
+        for category in self.categories.all():
+            if category.id in valid_map_category_ids:
+                return category.id
+        return None
+
     def make_order_title(self):
         """
         Set the order_title, depending on what type of Topic this is.

@@ -204,3 +204,24 @@ def family_tree_link(topic=None):
         </a></p>
     </div>
     """ % (link_url, settings.STATIC_URL, text)
+
+
+@register.simple_tag
+def category_map_link(category_id=None):
+    """
+    Displays a thumbnail of the category map and a link to it.
+    If `category_id` is present, we link to that category's map.
+    """
+    if category_id is None:
+        link_url = reverse('category_map')
+        text = "See places from the Diary on a map"
+    else:
+        link_url = reverse('category_map', kwargs={'category_id': category_id})
+        text = "See all places in this category on a map"
+    return """
+    <div class="sidebar-block">
+        <p><a href="%s"><img class="thumbnail" src="%simg/sidebar_category_map.png" width="250" height="134" alt="Map thumbnail" />
+        %s
+        </a></p>
+    </div>
+    """ % (link_url, settings.STATIC_URL, text)

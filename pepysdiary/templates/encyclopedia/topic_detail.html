@@ -179,6 +179,10 @@
 
 	{% load widget_tags %}
 
+	{% if topic.category_map_id %}
+		{% category_map_link category_id=topic.category_map_id %}
+	{% endif %}
+
 	{% if topic.on_pepys_family_tree or topic.id == 7390 %}
 		{% family_tree_link topic=topic %}
 	{% endif %}
