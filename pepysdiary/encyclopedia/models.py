@@ -419,7 +419,7 @@ class CategoryManager(MP_NodeManager):
                 (31,  'Churches and cathedrals in London'),
                 (199, 'Government buildings'),
                 (201, 'Livery halls'),
-                (28,  'Streets, gates, piers, etc'),
+                (28,  'Streets, gates, squares, piers, etc'),
                 (27,  'Taverns in London'),
                 (197, 'Theatres in London'),
                 (180, 'Whitehall Palace'),

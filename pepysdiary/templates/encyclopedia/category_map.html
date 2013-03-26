@@ -33,7 +33,25 @@
 			{% for category in map_categories %}
 				"{{ category.id }}": "{{ category.title|escapejs }}"{% if forloop.last %}{% else %},{% endif %}
 			{% endfor %}
-		}
+		},
+		topics: [
+			{% for topic in topics %}
+				{
+					id: {{ topic.id }},
+					title: "{{ topic.title|escapejs|safe }}",
+					tooltip_text: "{{ topic.tooltip_text|escapejs }}",
+					{% if topic.has_polygon %}
+						polygon: "{{ topic.shape|escapejs }}",
+					{% endif %}
+					{% if topic.has_path %}
+						path: "{{ topic.shape|escapejs }}",
+					{% endif %}
+					latitude: {{ topic.latitude }},
+					longitude: {{ topic.longitude }},
+					url: "{{ topic.get_absolute_url }}"
+				}{% if forloop.last %}{% else %},{% endif %}
+			{% endfor %}
+		]
 	});
 {% endblock %}
 

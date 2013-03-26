@@ -133,4 +133,5 @@ class CategoryMapView(FormView):
         kwargs['category'] = self.category
         kwargs['map_categories'] = Category.objects.filter(
                             pk__in=Category.objects.valid_map_category_ids())
+        kwargs['topics'] = self.category.topics.exclude(latitude__isnull=True)
         return kwargs

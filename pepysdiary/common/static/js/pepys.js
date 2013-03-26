@@ -217,18 +217,19 @@ window.pepys.comments = {
  */
 window.pepys.category = {
 
-    // Both will be populated when draw_map() is called.
+    // These will be populated when init_map() is called.
     category_id: null,
     map_categories: {},
+    topics: [],
 
     // Each category will have its map start at one of these centres/zooms:
     start_coords: {
-        britain:   {latitude: 52.5196, longitude: -1.4069, zoom: 6},
-        london:    {latitude: 51.5118, longitude: -0.1041, zoom: 13},
-        environs:  {latitude: 51.5118, longitude: -0.1042, zoom: 11},
-        waterways: {latitude: 52.1141, longitude: -0.8267, zoom: 7},
-        whitehall: {latitude: 51.5040, longitude: -0.1257, zoom: 17},
-        world:     {latitude: 24.0389, longitude: 38.0450, zoom: 2}
+        britain:   {latitude: 52.5000, longitude: -1.9000, zoom: 6},
+        london:    {latitude: 51.5080, longitude: -0.1091, zoom: 14},
+        environs:  {latitude: 51.5080, longitude: -0.1791, zoom: 11},
+        waterways: {latitude: 52.0000, longitude: -1.3000, zoom: 7},
+        whitehall: {latitude: 51.5035, longitude: -0.1257, zoom: 17},
+        world:     {latitude: 24.0389, longitude: 25.0450, zoom: 2}
     },
 
     // Mapping a category ID to start coordinates.
@@ -243,8 +244,10 @@ window.pepys.category = {
 
     /**
      * Call this to set up initial categories data and draw the map.
-     * data should have `category_id` (the category to display)
-     * and `map_categories`, an object mapping category_id: category_title.
+     * data should have:
+     *  category_id: The category to display.
+     *  map_categories: An object mapping category_id: category_title.
+     *  topics: An array of objects describing individual topics to display.
      */
     init_map: function(data) {
         this.resize_map();
@@ -253,6 +256,7 @@ window.pepys.category = {
             that.resize_map();
         });
         this.map_categories = data.map_categories;
+        this.topics = data.topics;
         if (this.is_valid_map_category_id(data.category_id)) {
             this.category_id = data.category_id;
             this.draw_category_map(this.category_id);
@@ -287,6 +291,9 @@ window.pepys.category = {
                             ];
         };
         pepys.maps.init(start_coords);
+        $.each(this.topics, function(n, topic) {
+            pepys.maps.add_place(topic, {link_to_topic: true});
+        });
     },
 
     /**
@@ -388,7 +395,7 @@ window.pepys.topic = {
             'zoom': data.zoom
         });
 
-        pepys.maps.add_place(data, true);
+        pepys.maps.add_place(data, {show_popup: true});
     },
 
     /**
@@ -648,9 +655,17 @@ window.pepys.maps = {
      * Optional keys: 'tooltip_text', and one of 'polygon' or 'path'.
      * 'polygon' and 'path' are strings like:
      * '51.513558,-0.104268;51.513552,-0.104518;...'
-     * show_popup is true/false: Should the popup be open immediately?
+     * `options` is an object containing these optional items:
+     *  show_popup is true/false(default):
+     *      Should the popup be open immediately?
+     *  link_to_topic is true/false(default):
+     *      Show we add a link to the place's Topic Detail page in the popup?
      */
-    add_place: function(place_data, show_popup) {
+    add_place: function(place_data, options) {
+        if ( ! options) {
+            console.log('resetting');
+            options = {};
+        };
         // Will be a Marker, Polygon, or Polyline.
         var place;
         if ('polygon' in place_data) {
@@ -676,11 +691,16 @@ window.pepys.maps = {
         if ('tooltip_text' in place_data && place_data.tooltip_text !== '') {
             popup_html += '<br />' + place_data.tooltip_text;
         };
+        console.log(options);
+        if ('link_to_topic' in options && options.link_to_topic === true) {
+            popup_html += '<br /><a href="' + place_data.url + '" title="See more about this topic">In the Encyclopedia</a>';
+        };
+        console.log(popup_html);
         place.bindPopup(popup_html, {
             minWidth: 150
         });
 
-        if (show_popup === true) {
+        if ('show_popup' in options && options.show_popup === true) {
             place.openPopup();
         };
     },
