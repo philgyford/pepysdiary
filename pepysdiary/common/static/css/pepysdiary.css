@@ -216,10 +216,11 @@ The heights/sizes are all the same as Boostrap's for h1, h2, etc. */
 .site-header {
 	background: #050505;
 	color: #999;
+	font-family: Georgia, Times, serif;
 }
 .site-header .container {
 	background: url(../img/header_pepys.jpg) right bottom no-repeat;
-	height: 125px;
+	height: 75px;
 }
 .site-header a {
 	color: #999;
@@ -229,15 +230,16 @@ The heights/sizes are all the same as Boostrap's for h1, h2, etc. */
 	text-decoration: none;
 }
 .site-header-title {
-	font-size: 36px;
-	line-height: 48px;
+	font-size: 24px;
+	line-height: 36px;
 	font-weight: bold;
-	margin: 24px 0 0 0;
+	margin: 5px 0 0 0;
 	text-rendering: optimizelegibility;
 }
 .site-header-subtitle {
-	font-size: 16px;
-	line-height: 24px;
+	font-size: 14px;
+	line-height: 18px;
+	font-style: italic;
 	text-rendering: optimizelegibility;
 }
 @media (max-width: 767px) {
@@ -246,7 +248,7 @@ The heights/sizes are all the same as Boostrap's for h1, h2, etc. */
 		margin-left: 15px;
 	}
 }
-@media (max-width: 660px) {
+@media (max-width: 500px) {
 	/* Hide portrait at narrow widths. */
 	.site-header .container {
 		background: none;
@@ -281,6 +283,9 @@ The heights/sizes are all the same as Boostrap's for h1, h2, etc. */
 @media (max-width: 320px) {
 	.site-header-subtitle {
 		display: none;
+	}
+	.site-header .container {
+		height: 40px;
 	}
 }
 
