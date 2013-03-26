@@ -64,6 +64,8 @@ urlpatterns = patterns('',
                                             url=reverse_lazy('encyclopedia'))),
     url(r'^background/familytree/$', RedirectView.as_view(
                                 url=reverse_lazy('encyclopedia_familytree'))),
+    url(r'^background/maps/$', RedirectView.as_view(
+                                            url=reverse_lazy('category_map'))),
     url(r'^background/(?P<slugs>[\w_\/]+)\.php$',
                                     EncyclopediaCategoryRedirectView.as_view()),
 
