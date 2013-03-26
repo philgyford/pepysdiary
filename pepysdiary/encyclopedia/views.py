@@ -97,7 +97,7 @@ class CategoryMapView(FormView):
     category = None
 
     # Default category:
-    category_id = 196
+    category_id = 28 
 
     def get(self, request, *args, **kwargs):
         # Set the Category ID of Topics we're displaying.
