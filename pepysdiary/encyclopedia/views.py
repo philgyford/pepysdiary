@@ -99,6 +99,10 @@ class CategoryMapView(FormView):
     # Default category:
     category_id = 28
 
+    @method_decorator(cache_page(60 * 60))
+    def dispatch(self, *args, **kwargs):
+        return super(CategoryMapView, self).dispatch(*args, **kwargs)
+
     def get(self, request, *args, **kwargs):
         # Set the Category ID of Topics we're displaying.
         if self.kwargs['category_id'] is not None:
