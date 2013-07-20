@@ -6,7 +6,7 @@ from pepysdiary.encyclopedia.models import Category, Topic
 
 
 class TopicAdmin(admin.ModelAdmin):
-    list_display = ('title', 'comment_count', )
+    list_display = ('id', 'title', 'comment_count', )
     filter_horizontal = ('categories', )
     search_fields = ['title', ]
     readonly_fields = ('date_created', 'date_modified', 'order_title',
