@@ -538,7 +538,7 @@ window.pepys.topic = {
                 .data(data)
             .enter().append('rect')
                 .attr('class', 'bar')
-                .attr('x', function(d,i){ return x(d.name); })
+                .attr('x', function(d,i){ return x(i); })
                 .attr('y', function(d){ return y(d.percent_refs); })
                 .attr('width', x.rangeBand())
                 .attr('height', function(d,i){
