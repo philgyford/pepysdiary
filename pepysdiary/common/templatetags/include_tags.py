@@ -18,9 +18,9 @@ def include_d3_js(*args):
 def include_leaflet_css(*args):
     "All the CSS needed to use Leaflet maps."
     return """
-        <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.5.1/leaflet.css" />
+        <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.css" />
         <!--[if lte IE 8]>
-            <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.5.1/leaflet.ie.css" />
+            <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.ie.css" />
         <![endif]-->
     """
 
@@ -33,7 +33,7 @@ def include_leaflet_js(*args, **kwargs):
         `include_labels` to include the code for hover labels.
     """
     html = """
-        <script src="http://cdn.leafletjs.com/leaflet-0.5.1/leaflet.js"></script>
+        <script src="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.js"></script>
     """
     if kwargs.get('include_labels', False) is True:
         html += """
