@@ -11,4 +11,7 @@ If you want to run it locally, then copy `pepysdiary/settings/development_templa
 
 To run on Heroku you'll need to set all the environment variables required in `pepysdiary/settings/heroku.py`.
 
+But first run this to transfer all static elements to S3:
+
+$ heroku run ./manage.py collectstatic --settings=pepysdiary.settings.heroku
 
