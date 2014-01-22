@@ -42,7 +42,7 @@ urlpatterns = patterns('',
             'template_name': 'message.html',
         }, 'password_reset_done'),
 
-    url(r'^reset/(?P<uidb36>[0-9A-Za-z]{1,13})-(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',
+    url(r'^reset/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',
         password_reset_confirm, {
             'template_name': 'password_confirm.html',
             'set_password_form': SetPasswordForm,
