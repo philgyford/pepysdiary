@@ -1,15 +1,15 @@
-<!DOCTYPE html>{% load url from future %}{% load static %}{% get_static_prefix as STATIC_PREFIX %}
+<!DOCTYPE html>{% load static %}{% get_static_prefix as STATIC_PREFIX %}
 <html lang="en-gb">
 <head>
 	<meta charset="utf-8"/>
-	<title>{% if page_name == 'home' %}The Diary of Samuel Pepys{% else %}{% block title %}{% endblock %} (Pepys' Diary){% endif %}</title>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>{% if page_name == 'home' %}The Diary of Samuel Pepys{% else %}{% block title %}{% endblock %} (Pepys' Diary){% endif %}</title>
 
-	<link href="{{ STATIC_PREFIX }}css/bootstrap{% if not debug %}.min{% endif %}.css" rel="stylesheet" media="screen">
-	<link href="{{ STATIC_PREFIX }}css/bootstrap-responsive{% if not debug %}.min{% endif %}.css" rel="stylesheet" media="screen">
+	<link href="{{ STATIC_PREFIX }}css/bootstrap{% if not debug %}.min{% endif %}.css" rel="stylesheet">
 	{% block extra_css %}
 	{% endblock extra_css %}
-	<link href="{{ STATIC_PREFIX }}css/pepysdiary.css?v=7" rel="stylesheet" media="screen">
+	<link href="{{ STATIC_PREFIX }}css/pepysdiary.css?v=7" rel="stylesheet">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
