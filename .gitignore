@@ -3,5 +3,4 @@
 *.pyc
 development.py
 pepysdiary/media
-pepysdiary.sublime*
 pepysdiary/static_collected
