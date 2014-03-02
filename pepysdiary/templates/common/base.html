@@ -11,9 +11,13 @@
 	{% endblock extra_css %}
 	<link href="{{ STATIC_PREFIX }}css/pepysdiary.css?v=7" rel="stylesheet" media="screen">
 
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
-      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+
     <link rel="icon" href="{{ STATIC_PREFIX }}img/favicon.ico" type="image/x-icon"> 
 
     <link rel="alternate" type="application/rss+xml" title="Diary entries" href="http://feeds.feedburner.com/PepysDiary">
@@ -138,7 +142,7 @@
 		{% endblock %}
 	</div> <!-- .container -->
 
-	<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+	<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
 	<script src="{{ STATIC_PREFIX }}js/libs/bootstrap.min.js"></script>
 	{% block extra_javascript_includes %}{% endblock %}
 	<script src="{{ STATIC_PREFIX }}js/pepys.js?v=7"></script>

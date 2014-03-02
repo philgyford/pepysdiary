@@ -8,9 +8,9 @@ require 'bootstrap-sass'
 http_path = "/"
 css_dir = "pepysdiary/common/static/css"
 sass_dir = "pepysdiary/common/static/sass"
-images_dir = "pepysdiary/common/static/css/img"
+images_dir = "pepysdiary/common/static/img"
+fonts_dir = "pepysdiary/common/static/fonts"
 #javascripts_dir = "public/js"
-#fonts_dir = "public/css/fonts"
 
 relative_assets = true
 
