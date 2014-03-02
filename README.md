@@ -17,3 +17,6 @@ But first run this to transfer all static elements to S3:
 
 	$ heroku run ./manage.py collectstatic --settings=pepysdiary.settings.heroku
 
+## Other notes
+
+Lots of site-wide stuff is in the `pepysdiary/common/` app. Including the CSS, JS and images in `pepysdiary/common/static/`.
