@@ -15,5 +15,5 @@ To run on Heroku you'll need to set all the environment variables required in `p
 
 But first run this to transfer all static elements to S3:
 
-$ heroku run ./manage.py collectstatic --settings=pepysdiary.settings.heroku
+	$ heroku run ./manage.py collectstatic --settings=pepysdiary.settings.heroku
 
