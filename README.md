@@ -35,6 +35,19 @@ to have Compass continually watch the SASS files for any changes, and compile a 
 
 We don't do any clever deploy stuff to compile the SASS files; it's all done before commiting the changes to this repository.
 
+## Bootstrap
+
+As mentioned above, we're using Boostrap SASS to generate a custom set of Bootstrap CSS. Comment/uncomment lines in `pepysdiary/common/static/sass/_bootstrap_custom.scss` to change which parts of Bootstrap's CSS are included in teh generated CSS file.
+
+For a custom version of Bootstrap's JavaScript file, we have to use http://getbootstrap.com/customize/ to generate it. Under the "jQuery plugins" section, we currently have these checked before downloading the JS file:
+
+	* Linked to components
+		* Dropdowns
+		* Tooltips
+		* Popovers
+	* Magic
+		* Collapse
+
 ## Other notes
 
 Lots of site-wide stuff is in the `pepysdiary/common/` app. Including the CSS, JS and images in `pepysdiary/common/static/`.
