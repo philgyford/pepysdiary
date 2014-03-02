@@ -17,6 +17,24 @@ But first run this to transfer all static elements to S3:
 
 	$ heroku run ./manage.py collectstatic --settings=pepysdiary.settings.heroku
 
+## Compass, SASS, CSS
+
+This uses [Compass](http://compass-style.org/) to generate CSS files from the [SASS](http://sass-lang.com/) files in `pepysdiary/common/static/sass/`. Compass is Ruby.
+
+From the top-level directory of this project, run:
+
+	$ bundle install
+
+to install the gems specified in `Gemfile` (Compass and [Bootstrap Sass](https://github.com/twbs/bootstrap-sass/)).
+
+Then, run this:
+
+	$ compass watch .
+
+to have Compass continually watch the SASS files for any changes, and compile a new `pepysdiary/common/static/css/pepysdiary.css` file.
+
+We don't do any clever deploy stuff to compile the SASS files; it's all done before commiting the changes to this repository.
+
 ## Other notes
 
 Lots of site-wide stuff is in the `pepysdiary/common/` app. Including the CSS, JS and images in `pepysdiary/common/static/`.

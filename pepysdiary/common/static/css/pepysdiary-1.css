@@ -1,0 +1,573 @@
+
+/* Modifications to Bootstrap */
+
+.navbar-inverse .navbar-inner {
+	background-color: #222;
+	border-color: #222;
+	background-image: none;
+	-webkit-border-radius: 0px;
+	-moz-border-radius: 0px;
+	border-radius: 0px;
+}
+@media (min-width: 980px) {
+	.navbar .container {
+		width: 940px;
+	}
+}
+@media (max-width: 979px) {
+	.navbar-inverse .nav li.dropdown.open > .dropdown-toggle,
+	.navbar-inverse .nav li.dropdown.active > .dropdown-toggle,
+	.navbar-inverse .nav li.dropdown.open.active > .dropdown-toggle {
+		background-color: #111;
+	}
+	.navbar-inverse .nav-collapse .nav > li > a:hover,
+	.navbar-inverse .nav-collapse .dropdown-menu a:hover {
+		background-color: #111;
+	}
+	.dropdown-menu li > a:hover,
+	.dropdown-menu li > a:focus,
+	.dropdown-submenu:hover > a {
+		/* Get rid of blue background */
+		background-image: none;
+	}
+}
+/* Make nav dropdowns work on hover, as well as click. */
+ul.nav li.dropdown:hover > ul.dropdown-menu {
+	display: block;
+}
+ul.dropdown-menu {
+	margin-top: 0;
+}
+
+blockquote {
+	margin-bottom: 0;
+	border-left: none;
+	padding-left: 30px;
+}
+blockquote p {
+	margin-bottom: 10px;	
+	font-size: 14px;
+	line-height: 20px;
+	font-weight: normal;
+}
+.well-manuscript {
+	background: #f1f4eb;
+	border-color: #e8e7dc;
+	font-family: Georgia, Times, serif;
+	font-size: 16px;
+	line-height: 24px;
+	-webkit-border-radius: 0px;
+	-moz-border-radius: 0px;
+	border-radius: 0px;
+}
+.well-manuscript li {
+	line-height: 24px;
+	margin-bottom: 10px;
+}
+.well-manuscript .popover-title,
+.well-manuscript .popover-content {
+	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;	
+	font-size: 12px;
+	line-height: 18px;
+	font-style: normal;
+}
+.well-manuscript .popover-title {
+	font-weight: bold;
+}
+.popover-hasthumbnail {
+	width: 356px;
+}
+.popover-hasthumbnail .popover-thumbtext {
+	float: left;
+	width: 208px;
+	margin-right: 10px;
+}
+.popover-hasthumbnail .popover-thumbnail {
+	float: left;
+}
+
+/* Leaflet in Boostrap fixes. */
+/* (Bootstrap tramples on some of Leaflet's styles, so try to fix...) */
+.leaflet-container label {
+	font-size: 12px;
+	margin-bottom: 3px;
+}
+.leaflet-container input {
+	margin: 2px 3px 3px 3px;
+	vertical-align: 5%;
+}
+.leaflet-container span {
+	font-weight: bold;
+}
+.leaflet-control form {
+	margin-bottom: 0;
+}
+
+/* Global styles */
+
+#container-main {
+	padding-bottom: 3em;
+}
+cite {
+	font-style: italic;
+}
+.admin {
+	background: #ff3;
+}
+article,
+.tab-content {
+	position: relative;
+}
+.tab-content .admin-links,
+article .admin-links {
+	position: absolute;
+	top: 0;
+	right: 0;
+	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+.well-manuscript .admin-links {
+	top: 0.5em;
+	right: 20px;
+}
+.text-right {
+	text-align: right;
+}
+.push-down {
+	margin-top: 1.5em;
+}
+.hide {
+	display: none;
+}
+ul.feeds {
+	margin-left: 0;
+	list-style-type: none;
+}
+.feed a {
+	padding-left: 20px;
+	background: url(../img/feed-icon-14x14.png) left 1px no-repeat;
+}
+img.force-fullwidth {
+	/* To stop max-width:100% being applied. */
+	max-width: none;
+}
+.icon-grey {
+	/* Custom icons, 50% opacity of the white ones. */
+	background-image: url("../img/glyphicons-halflings-grey.png");
+}
+.icon-link {
+	/* Custom icons, should be same as standard link color. */
+	background-image: url("../img/glyphicons-halflings-link.png");
+}
+a:hover .icon-grey {
+	background-image: url("../img/glyphicons-halflings-white.png");
+}
+.form-membership {
+	margin-top: 2em;
+}
+#id_honeypot {
+    display: none;
+}
+.fake-controls {
+	/* On person edit form. */
+	padding-top: 5px;
+}
+/* Sometimes we want to make semantically-correct headers a different size.
+So we can give them these classes.
+The heights/sizes are all the same as Boostrap's for h1, h2, etc. */
+.h1, .h2, .h3 { line-height: 40px; }
+.h4, .h5, .h6 { line-height: 20px; }
+.h1 { font-size: 38.5px; }
+.h2 { font-size: 31.5px; }
+.h3 { font-size: 24.5px; }
+.h4 { font-size: 17.5px; }
+.h5 { font-size: 14px; }
+.h6 { font-size: 11.9px; }
+
+.h1 small { font-size: 24.5px; }
+.h2 small { font-size: 17.5px; }
+.h3 small, .h4 small  { font-size: 14px; }
+.h5 small, .h6 small { font-size: 85%; }
+
+/* Category map page */
+.page-header-small {
+	margin-top: 0;
+	margin-bottom: 10px;	
+	padding-bottom: 0;
+	border-bottom: none;
+}
+.page-header-small h1,
+.page-header-small form {
+	display: inline-block;
+	margin-top: 0;
+	margin-bottom: 0;
+}
+.page-header form {
+	margin-bottom: 0;
+}
+.page-header select {
+	margin-left: 3px;
+	margin-bottom: 5px;
+	font-weight: bold;
+}
+/* Based on stuff from https://github.com/Leaflet/Leaflet.label */
+.leaflet-label {
+	background: rgb(235, 235, 235);
+	background: rgba(235, 235, 235, 0.81);
+	background-clip: padding-box;
+	border-color: #777;
+	border-color: rgba(0,0,0,0.25);
+	border-radius: 4px;
+	border-style: solid;
+	border-width: 4px;
+	color: #111;
+	display: block;
+	font: 12px/20px "Helvetica Neue", Arial, Helvetica, sans-serif;
+	font-weight: bold;
+	padding: 1px 6px;
+	position: absolute;
+	-webkit-user-select: none;
+	   -moz-user-select: none;
+	    -ms-user-select: none;
+	        user-select: none;
+	white-space: nowrap;
+	z-index: 6;
+}
+.leaflet-label:before {
+	border-right: 6px solid black;
+	border-right-color: inherit;
+	border-top: 6px solid transparent;
+	border-bottom: 6px solid transparent;
+	content: "";
+	position: absolute;
+	top: 5px;
+	left: -10px;
+}
+
+
+/* Header */
+
+.site-header {
+	background: #050505;
+	color: #999;
+	font-family: Georgia, Times, serif;
+}
+.site-header .container {
+	background: url(../img/header_pepys.jpg) right bottom no-repeat;
+	height: 75px;
+}
+.site-header a {
+	color: #999;
+}
+.site-header a:hover {
+	color: #fff;
+	text-decoration: none;
+}
+.site-header-title {
+	font-size: 24px;
+	line-height: 36px;
+	font-weight: bold;
+	margin: 5px 0 0 0;
+	text-rendering: optimizelegibility;
+}
+.site-header-subtitle {
+	font-size: 14px;
+	line-height: 18px;
+	font-style: italic;
+	text-rendering: optimizelegibility;
+}
+@media (max-width: 767px) {
+	.site-header-title,
+	.site-header-subtitle {
+		margin-left: 15px;
+	}
+}
+@media (max-width: 500px) {
+	/* Hide portrait at narrow widths. */
+	.site-header .container {
+		background: none;
+	}
+}
+@media (max-width: 530px) {
+	/* Shrink header and text at narrower widths. */
+	.site-header .container {
+		height: 70px;
+	}
+	.site-header-title {
+		font-size: 24px;
+		line-height: 36px;
+		margin-top: 6px;
+	}
+	.site-header-subtitle {
+		font-size: 14px;
+		line-height: 18px;
+	}
+}
+@media (max-width: 380px) {
+	.site-header-title {
+		font-size: 18px;
+		line-height: 24px;
+		margin-top: 6px;
+	}
+	.site-header-subtitle {
+		font-size: 12px;
+		line-height: 16px;
+	}
+}
+@media (max-width: 320px) {
+	.site-header-subtitle {
+		display: none;
+	}
+	.site-header .container {
+		height: 40px;
+	}
+}
+
+/* Comments */
+
+.comments {
+	border-top: 1px solid #E3E3E3;
+	margin-bottom: 1.2em;
+}
+.comments .media {
+	margin-top: 0;
+	padding-top: 15px;
+	border-bottom: 1px solid #E3E3E3;
+}
+.comments .media-heading {
+	font-size: 17.5px;
+	line-height: 20px;
+	font-weight: normal;
+}
+.comments .media-heading .comment-name {
+	font-weight: bold;
+}
+.media-heading a:hover .hide {
+	display: inline;
+}
+#comment-form label {
+	font-size: 17.5px;
+	margin-bottom: 0.8em;
+}
+.media .newflag {
+	/* Mirroring .icon-* classes: */
+	display: inline-block;
+	width: 14px;
+	/* Different/new compared to .icon-* classes: */
+	margin-top: 3px;
+	margin-left: 4px;
+	margin-right: 6px;
+}
+.newflag {
+	zoom: 1;
+	filter: alpha(opacity=10);
+	opacity: 0.1;
+}
+.is-new {
+	filter: alpha(opacity=100);
+	opacity: 1;
+}
+.newflag span {
+	display: none;
+}
+.comments .focused {
+	background: #f5f5f5;
+}
+
+/* Recent Activity */
+
+.recently-commented {
+	margin-top: 14px;
+	margin-bottom: 20px;
+}
+.recently-commented h3 {
+	font-weight: normal;
+	margin-bottom: 0;
+}
+.recently-commented h3 small {
+	color: #333;
+}
+.recently-commented p {
+	margin-bottom: 0;
+	margin-left: 10px;
+}
+.recently-commented .media {
+	margin-top: 0;
+}
+
+/* Entries */
+
+.entry h1,
+.entry h2,
+.intro1893 h2 {
+	margin-top: 0;
+	font-size: 24px;
+}
+.entry h2 a {
+	color: #333;
+}
+.entry-meta {
+	margin: -0.8em 0 2em 20px;
+}
+.footnotes {
+	margin-top: 1em;
+	border-top: 1px solid #d8d7cc;
+	padding-top: 1em;
+}
+
+/* entry_archive */
+.diary-archive,
+.diary-archive ul {
+	list-style-type: none;
+}
+.diary-archive li span {
+	display: inline-block;
+	width: 1.5em;
+}
+.diary-archive ul {
+	display: inline-block;
+}
+.diary-archive ul li {
+	display: inline-block;
+	margin-left: 1em;
+}
+
+/* Topic Detail page.*/
+
+#map-frame {
+	height: 400px;
+	border: 1px solid #ddd;
+	margin-bottom: 20px;
+}
+@media (min-width: 1200px) {
+	.row-fluid #map-frame {
+		height: 500px;
+	}
+}
+@media (max-width: 979px) and (min-width: 768px) {
+	.row-fluid #map-frame {
+		height: 300px;
+	}
+}
+
+/* Topic references chart. */
+.chart {
+	width: 100%;
+	margin-bottom: 20px;
+}
+/* Bars on the chart: */
+.chart line {
+	/* General line styles. */
+    stroke-width: 1px;
+    shape-rendering: crispEdges;
+}
+.chart .bar {
+	fill: #333;
+    shape-rendering: crispEdges;
+    opacity: 0.7;
+}
+.chart .bar.highlight {
+	opacity: 1.0;
+}
+.chart .axis-y .tick line {
+    stroke: #ddd;
+}
+.chart .axis-x path {
+	/* The baseline. */
+	stroke: #000;
+    shape-rendering: crispEdges;
+}
+.chart .axis-x .tick line {
+	/* The individual ticks. */
+	stroke: #000;
+}
+.chart-tooltip {
+	background: #fff;
+	position: absolute;
+	z-index: 10;
+	visibility: hidden;
+	box-shadow: 1px 1px 3px #666;
+	/* Font size, padding is set by JS. */
+}
+.references,
+.references ul {
+	list-style-type: none;
+}
+.references li {
+	font-weight: bold;
+}
+.references ul li {
+	font-weight: normal;
+}
+.references-year li > span {
+	display: inline-block;
+	width: 2.5em;
+}
+.references-month,
+.references-month li {
+	display: inline-block;
+	margin-left: 0;
+}
+
+/* Letters */
+.letters {
+	list-style-type: none;
+	margin-left: 0;
+}
+.letters li {
+	margin-bottom: 1em;
+}
+.letter-to {
+	font-style: italic;
+	margin-bottom: 1em;
+}
+.letter-from {
+	margin-bottom: 1em;
+	text-align: right;
+}
+.letter-to p,
+.letter-from p {
+	margin-bottom: 0;
+}
+.letter-yours {
+	margin-left: 130px;
+	margin-bottom: 1em;
+}
+.letter-yours p {
+	margin-left: 0;
+	margin-bottom: 0;
+}
+p.letter-indent {
+	margin-left: 4em;
+}
+p.letter-indent-2 {
+	margin-left: 8em;
+}
+
+/* Sidebar */
+.sidebar-block {
+	padding-bottom: 10px;
+	border-bottom: 1px solid #e3e3e3;
+	margin-bottom: 19px;
+}
+.sidebar-block h2 {
+	font-size: 17.5px;
+	line-height: 20px;
+}
+.sidebar-block h3 {
+	font-size: 14px;
+	line-height: 20px;
+	margin-top: 20px;
+	margin-bottom: 0;
+}
+.sidebar-block:last-child {
+	padding-bottom: 0;
+	border-bottom: none;
+	margin-bottom: 0;
+}
+dl.dated dd {
+	margin-left: 0;
+	font-size: 85%;
+	line-height: 17px;
+	color: #999;
+	margin-bottom: 3px;
+}
