@@ -34,7 +34,7 @@ def date_formats(request):
 
 def api_keys(request):
     return {
-        'CLOUDMADE_API_KEY': settings.CLOUDMADE_API_KEY,
+        'MAPBOX_MAP_ID': settings.MAPBOX_MAP_ID,
         'GOOGLE_ANALYTICS_ID': settings.GOOGLE_ANALYTICS_ID,
     }
 

@@ -14,7 +14,7 @@ window.pepys.controller = {
 
     // Defaults. Override by passing values in {'config':{}} to init().
     config: {
-        'cloudmade_api_key': '',
+        'mapbox_map_id': '',
         'static_prefix': ''
     },
 
@@ -573,7 +573,7 @@ window.pepys.topic = {
 
 /**
  * All the general map-related stuff.
- * Currently uses Leaflet.js, which we assume is already loaded.
+ * Currently uses Mapbox, whose JS we assume is already loaded.
  * Currently we assume there is a #map-frame div to draw the map in.
  */
 window.pepys.maps = {
@@ -589,13 +589,8 @@ window.pepys.maps = {
 
         this.map = L.map('map-frame').setView(
                     [map_data.latitude, map_data.longitude], map_data.zoom);
-        L.tileLayer(
-            'http://{s}.tile.cloudmade.com/' + pepys.controller.config.cloudmade_api_key + '/997/256/{z}/{x}/{y}.png',
-            {
-                attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>',
-                maxZoom: 18
-            }
-        ).addTo(this.map);
+
+        L.mapbox.tileLayer(pepys.controller.config.mapbox_map_id).addTo(this.map);
 
         this.init_overlays();
 

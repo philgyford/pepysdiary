@@ -15,25 +15,22 @@ def include_d3_js(*args):
 
 
 @register.simple_tag
-def include_leaflet_css(*args):
-    "All the CSS needed to use Leaflet maps."
+def include_maps_css(*args):
+    "All the CSS needed to use Mapbox maps."
     return """
-        <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.css" />
-        <!--[if lte IE 8]>
-            <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.ie.css" />
-        <![endif]-->
+        <link rel="stylesheet" href="https://api.tiles.mapbox.com/mapbox.js/v1.6.2/mapbox.css" />
     """
 
 
 @register.simple_tag
-def include_leaflet_js(*args, **kwargs):
+def include_maps_js(*args, **kwargs):
     """"
-    All the JS needed to use Leaflet maps.
+    All the JS needed to use Mapbox maps.
     kwargs can have:
         `include_labels` to include the code for hover labels.
     """
     html = """
-        <script src="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.js"></script>
+        <script src="https://api.tiles.mapbox.com/mapbox.js/v1.6.2/mapbox.js"></script>
     """
     if kwargs.get('include_labels', False) is True:
         html += """
