@@ -17,13 +17,13 @@
 
 {% block extra_css %}
 	{% if topic.has_location %}
-		{% include_leaflet_css %}
+		{% include_maps_css %}
 	{% endif %}
 {% endblock %}
 
 {% block extra_javascript_includes %}
 	{% if topic.has_location %}
-		{% include_leaflet_js %}
+		{% include_maps_js %}
 	{% endif %}
 
 	{% if diary_references %}

@@ -220,7 +220,7 @@ class Topic(PepysModel):
                                                         blank=True, null=True)
     zoom = models.SmallIntegerField(blank=True, null=True)
     shape = models.TextField(blank=True, null=False,
-        help_text="Lat/long coordinate pairs, separated by semicolons, eg '51.513558,-0.104268;51.513552,-0.104518;...', from http://www.birdtheme.org/useful/googletoollargemap.html (formatted slightly differently).")
+        help_text="Lat/long coordinate pairs, separated by semicolons, eg '51.513558,-0.104268;51.513552,-0.104518;...', from http://www.birdtheme.org/useful/v3largemap.html (formatted slightly differently).")
 
     categories = models.ManyToManyField('Category', related_name='topics')
 
