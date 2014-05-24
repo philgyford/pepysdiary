@@ -42,6 +42,7 @@ As mentioned above, we're using Boostrap SASS to generate a custom set of Bootst
 For a custom version of Bootstrap's JavaScript file, we have to use http://getbootstrap.com/customize/ to generate it. Under the "jQuery plugins" section, we currently have these checked before downloading the JS file:
 
 	* Linked to components
+		* Alert dismissal
 		* Dropdowns
 		* Tooltips
 		* Popovers

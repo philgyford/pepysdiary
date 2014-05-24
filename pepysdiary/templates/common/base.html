@@ -6,10 +6,9 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>{% if page_name == 'home' %}The Diary of Samuel Pepys{% else %}{% block title %}{% endblock %} (Pepys' Diary){% endif %}</title>
 
-	<link href="{{ STATIC_PREFIX }}css/bootstrap{% if not debug %}.min{% endif %}.css" rel="stylesheet">
+	<link href="{{ STATIC_PREFIX }}css/pepysdiary.css?v=7" rel="stylesheet">
 	{% block extra_css %}
 	{% endblock extra_css %}
-	<link href="{{ STATIC_PREFIX }}css/pepysdiary.css?v=7" rel="stylesheet">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -26,7 +25,6 @@
     <link rel="alternate" type="application/rss+xml" title="Site News posts" href="http://feeds.feedburner.com/PepysDiary-SiteNews">
 </head>
 <body>
-
 	<div class="site-header">
 		<div class="container">
 			{% if page_name == 'home' %}
@@ -38,76 +36,76 @@
 		</div> 
 	</div> <!-- .site-header -->
 
-	<div class="navbar navbar-inverse">
-	    <div class="navbar-inner">
-	    	<div class="container">
-	    		<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-		            <span class="icon-bar"></span>
-		            <span class="icon-bar"></span>
-		            <span class="icon-bar"></span>
-	            </a>
-	    		<div class="nav-collapse collapse">
-			    	<ul class="nav">
-			    		<li class="dropdown {% block diary_nav_active %}{% endblock %}">
-			    			<a href="#" class="dropdown-toggle" data-toggle="dropdown">The Diary <b class="caret"></b></a>
-			    			<ul class="dropdown-menu">
-			    				<li class="{% block diary_home_nav_active %}{% endblock %}"><a href="{% url 'home' %}">Home</a></li>
-			    				<li class="{% block diary_archive_nav_active %}{% endblock %}"><a href="{% url 'entry_archive' %}">Archive</a></li>
-			    				<li class="{% block diary_summary_nav_active %}{% endblock %}"><a href="{% url 'diary_summary' %}">Summary</a></li>
-			    				<li class="{% block diary_1893_nav_active %}{% endblock %}"><a href="{% url '1893_introduction' %}">1893 Introduction</a></li>
-			    			</ul>
-			    		</li>
-			    		<li class="{% block letter_nav_active %}{% endblock %}"><a href="{% url 'letters' %}">Letters</a></li>
-			    		<li class="dropdown {% block encyclopedia_nav_active %}{% endblock %}">
-			    			<a href="#" class="dropdown-toggle" data-toggle="dropdown">Encyclopedia <b class="caret"></b></a>
-			    			<ul class="dropdown-menu">
-			    				<li class="{% block encyclopedia_index_nav_active %}{% endblock %}"><a href="{% url 'encyclopedia' %}">All categories</a></li>
-			    				<li class="{% block encyclopedia_map_nav_active %}{% endblock %}"><a href="{% url 'category_map' %}">Map</a></li>
-			    				<li class="{% if flatpage and flatpage.url == '/encyclopedia/familytree/' %}active{% endif %}"><a href="{% url 'encyclopedia_familytree' %}">Family tree</a></li>
-			    			</ul>
-			    		</li>
-			    		<li class="{% block indepth_nav_active %}{% endblock %}"><a href="{% url 'indepth' %}">In-Depth Articles</a></li>
-			    		<li class="{% block news_nav_active %}{% endblock %}"><a href="{% url 'news' %}">Site News</a></li>
-			    		<li class="{% block recent_nav_active %}{% endblock %}"><a href="{% url 'recent' %}">Recent Activity</a></li>
-			    		<li class="dropdown {% block about_nav_active %}{% endblock %}">
-				    		<a href="#" class="dropdown-toggle" data-toggle="dropdown">About <b class="caret"></b></a>
-				    		<ul class="dropdown-menu">
-				    			{% load widget_tags %}
-				    			{% about_pages_links %}
-				    		</ul>
-			    		</li>
-			    	</ul>
-				    <ul class="nav pull-right">
-				    	<li class="dropdown">
-							<a class="dropdown-toggle" data-toggle="dropdown" href="#">
-								<i class="icon-user {% if user.is_authenticated %}icon-white{% else %}icon-grey{% endif %}"></i>
-								<span class="hide">User</span>
-								<b class="caret"></b>
-							</a>
-							<ul class="dropdown-menu">
-								{% if user.is_authenticated %}
-									<li><a href="{% url 'private_profile' %}">{{ user.get_full_name }}’s profile</a></li>
-									<li><a href="{% url 'logout' %}">Log out</a></li>
-								{% else %}
-									<li><a href="{% url 'login' %}{% if 'logout' not in request.path %}?next={{ request.path }}{% endif %}">Log in</a></li>
-									<li><a href="{% url 'register' %}">Register</a></li>
-								{% endif %}
-							</ul>
-						</li>
-					</ul> <!-- .nav -->
-			    </div> <!-- .nav-collapse -->
-
-			</div> <!-- .container -->
-	    </div> <!-- .navbar-inner -->
-    </div> <!-- .navbar -->
+	<nav class="navbar navbar-inverse" role="navigation">
+		<div class="container">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#site-nav-collapse">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+			</div> <!-- .navbar-header -->
+			<div class="collapse navbar-collapse" id="site-nav-collapse">
+				<ul class="nav navbar-nav">
+					<li class="dropdown {% block diary_nav_active %}{% endblock %}">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown">The Diary <b class="caret"></b></a>
+						<ul class="dropdown-menu">
+							<li class="{% block diary_home_nav_active %}{% endblock %}"><a href="{% url 'home' %}">Home</a></li>
+							<li class="{% block diary_archive_nav_active %}{% endblock %}"><a href="{% url 'entry_archive' %}">Archive</a></li>
+							<li class="{% block diary_summary_nav_active %}{% endblock %}"><a href="{% url 'diary_summary' %}">Summary</a></li>
+							<li class="{% block diary_1893_nav_active %}{% endblock %}"><a href="{% url '1893_introduction' %}">1893 Introduction</a></li>
+						</ul>
+					</li>
+					<li class="{% block letter_nav_active %}{% endblock %}"><a href="{% url 'letters' %}">Letters</a></li>
+					<li class="dropdown {% block encyclopedia_nav_active %}{% endblock %}">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown">Encyclopedia <b class="caret"></b></a>
+						<ul class="dropdown-menu">
+							<li class="{% block encyclopedia_index_nav_active %}{% endblock %}"><a href="{% url 'encyclopedia' %}">All categories</a></li>
+							<li class="{% block encyclopedia_map_nav_active %}{% endblock %}"><a href="{% url 'category_map' %}">Map</a></li>
+							<li class="{% if flatpage and flatpage.url == '/encyclopedia/familytree/' %}active{% endif %}"><a href="{% url 'encyclopedia_familytree' %}">Family tree</a></li>
+						</ul>
+					</li>
+					<li class="{% block indepth_nav_active %}{% endblock %}"><a href="{% url 'indepth' %}">In-Depth Articles</a></li>
+					<li class="{% block news_nav_active %}{% endblock %}"><a href="{% url 'news' %}">Site News</a></li>
+					<li class="{% block recent_nav_active %}{% endblock %}"><a href="{% url 'recent' %}">Recent Activity</a></li>
+					<li class="dropdown {% block about_nav_active %}{% endblock %}">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown">About <b class="caret"></b></a>
+						<ul class="dropdown-menu">
+							{% load widget_tags %}
+							{% about_pages_links %}
+						</ul>
+					</li>
+				</ul> <!-- .nav.navbar-nav -->
+				<ul class="nav navbar-nav navbar-right">
+					<li class="dropdown{% if user.is_authenticated %} active{% endif %}">
+						<a class="dropdown-toggle" data-toggle="dropdown" href="#">
+							<span class="glyphicon glyphicon-user"></span>
+							<span class="sr-only">User</span>
+							<b class="caret"></b>
+						</a>
+						<ul class="dropdown-menu">
+							{% if user.is_authenticated %}
+								<li><a href="{% url 'private_profile' %}">{{ user.get_full_name }}’s profile</a></li>
+								<li><a href="{% url 'logout' %}">Log out</a></li>
+							{% else %}
+								<li><a href="{% url 'login' %}{% if 'logout' not in request.path %}?next={{ request.path }}{% endif %}">Log in</a></li>
+								<li><a href="{% url 'register' %}">Register</a></li>
+							{% endif %}
+						</ul>
+					</li>
+				</ul> <!-- .nav.navbar-nav.navbar-right -->
+			</div> <!-- .navbar-collapse -->
+		</div> <!-- .container -->
+    </nav> <!-- .navbar -->
 
 	<div class="container" id="container-main">
 		{% block breadcrumbs %}{% endblock %}
 
 		{% if messages %}
 		    {% for message in messages %}
-			    <div class="alert{% if message.tags %} alert-{{ message.tags }}{% endif %}">
-	                <button type="button" class="close" data-dismiss="alert">&times;</button>
+			    <div class="alerti alert-dismissable{% if message.tags %} alert-{{ message.tags }}{% endif %}">
+	                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
 			    	{{ message|safe }}
 			   	</div>
 		    {% endfor %}
@@ -120,25 +118,25 @@
 		{% endblock %}
 
 		{% block content %}
-			<div class="row-fluid">
+			<div class="row">
 				{% block main %}
-				    <div class="span8">
+				    <div class="col-sm-8">
 						{% block main_content %}
 
 						{% endblock %}
-					</div> <!-- .span8 -->
+					</div> <!-- .col-sm-8 -->
 				{% endblock %}
 
 				{% block sidebar %}
-				    <div class="span4">
+				    <div class="col-sm-4">
 				        <div class="well">
 							{% block sidebar_content %}
 
 							{% endblock %}
 				      </div> <!-- .well -->
-				    </div> <!-- .span4 -->
+				    </div> <!-- .col-sm-4 -->
 				{% endblock %}
-			</div> <!-- .row-fluid -->
+			</div> <!-- .row -->
 		{% endblock %}
 	</div> <!-- .container -->
 
