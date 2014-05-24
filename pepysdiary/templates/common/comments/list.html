@@ -43,7 +43,7 @@ NOTE: The listings in templatetags/list_tags.py for the Recent Activity page
 							&nbsp; <a href="{% url 'comments-flag' comment.id %}" title="Flag this {{ object.comment_name }} if it’s spam or inappropriate. You’ll have a chance to confirm."><span class="glyphicon glyphicon-flag"></span><span class="sr-only">Flag this</span></a>
 			        	{% endif %}
 			        	{% if perms.annotation.can_edit %}
-							&nbsp; <a class="admin" href="{% url 'admin:annotations_annotation_change' comment.id %}" title="Edit"><span class="glyphicon glyphicon-edit"></i><span class="sr-only">Edit</span></a>
+							&nbsp; <a class="admin" href="{% url 'admin:annotations_annotation_change' comment.id %}" title="Edit"><span class="glyphicon glyphicon-edit"></span><span class="sr-only">Edit</span></a>
 			        	{% endif %}
 		        	</small>
 	        	</h3>
