@@ -9,9 +9,22 @@
 /****************************************************************************/
 /* Custom variables. */
 
+$admin-bg-color: #ff0;
+
+
 /****************************************************************************/
 /* Changes from our custom Boostrap CSS */
 
 /****************************************************************************/
 /* Custom generic elements */
 
+.admin {
+	background: $admin-bg-color;
+}
+
+/****************************************************************************/
+/* More specific elements - could be split into their own files. */
+
+#id_honeypot {
+    display: none;
+}

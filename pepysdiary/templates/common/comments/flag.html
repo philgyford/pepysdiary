@@ -8,8 +8,8 @@
 
     <p>If this is spam, or is otherwise inappropriate, please flag it for attention. Thanks.</p>
 
-	<div class="comments">
-	    <div class="media">
+	<ul class="media-list comments">
+	    <li class="media">
         	<h3 class="media-heading">
         		<span class="comment-name">
 	        		{{ comment.name }}
@@ -22,11 +22,11 @@
 	    	<div class="media-body">
 	    		<p>{{ comment.comment|urlizetrunc:50|linebreaks }}</p>
 	    	</div>
-	    </div>
-	</div>
+	    </li>
+	</ul>
 
-	<form action="." method="post">
-		<div class="form-actions">
+	<form action="" method="post" role="form">
+		<div class="form-group">
 		    {% csrf_token %}
 			<div class="pull-right">
 				<a href="{{ comment.get_absolute_url }}" title="Return to the previous page">Cancel</a>
