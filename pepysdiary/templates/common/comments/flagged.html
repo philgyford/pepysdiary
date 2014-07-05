@@ -1,12 +1,12 @@
 {% extends "comments/base.html" %}
 
 {% block title %}Thanks for flagging{% endblock %}
-{% block page_header %}{% endblock %}
+{% block page_header %}
+	<h1>Thank you</h1>
+{% endblock %}
 
 {% block main_content %}
-    <p class="lead">Thank you</p>
-
-    <p>Thanks for taking the time to flag that.</p>
+    <p class="lead">Thanks for taking the time to flag that.</p>
 
     <p><a href="{{ comment.get_absolute_url }}">Return to where you were</a></p>
 
