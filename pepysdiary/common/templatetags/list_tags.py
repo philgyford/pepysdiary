@@ -38,12 +38,13 @@ def commented_objects_list(model_class, context, title, quantity):
                                                     ).latest('submit_date')
             html += """
 <div class="media newable" data-time="%(data_time)s">
-    <i class="newflag icon-certificate pull-left"></i>
+    <span class="newflag glyphicon glyphicon-certificate pull-left"></span>
+    <span class="sr-only">New</span>
     <div class="media-body">
-        <h3 class="h5 media-heading">
+        <h3 class="media-heading">
             <a href="%(url)s"><strong>%(obj_title)s</strong></a> by <strong>%(user_name)s</strong> <small><time class="timeago" datetime="%(iso_datetime)s">on %(date)s</time></small>
         </h3>
-        <p class="muted">%(comment)s</p>
+        <p class="text-muted">%(comment)s</p>
     </div>
 </div>
 """ % {
@@ -59,7 +60,7 @@ def commented_objects_list(model_class, context, title, quantity):
         'comment': smart_truncate(comment.comment, 80),
             }
 
-        html = """<h2 class="h4">%s</h2>
+        html = """<h2>%s</h2>
 <div class="recently-commented">
 %s
 </div>
