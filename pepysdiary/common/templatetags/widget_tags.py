@@ -62,10 +62,10 @@ def rss_feeds(*args):
     feeds_dict = dict(feeds)
     for kind in kinds:
         if kind in feeds_dict:
-            html += '<li class="feed"><a href="%s">RSS feed of %s</a></li>' % (
+            html += '<li class="feed"><a href="%s">%s</a></li>' % (
                         feeds_dict[kind]['url'], feeds_dict[kind]['things'])
     if html != '':
-        html = put_in_block('<ul class="feeds">%s</ul>' % html)
+        html = put_in_block('<h2>RSS feeds</h2><ul class="feeds">%s</ul>' % html)
     return html
 
 
