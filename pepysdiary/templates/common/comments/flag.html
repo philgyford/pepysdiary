@@ -1,12 +1,12 @@
 {% extends "comments/base.html" %}
 
 {% block title %}Flag this comment{% endblock %}
-{% block page_header %}{% endblock %}
+{% block page_header %}
+    <h1>Really flag this?</h1>
+{% endblock %}
 
 {% block main_content %}
-    <p class="lead">Really flag this?</p>
-
-    <p>If this is spam, or is otherwise inappropriate, please flag it for attention. Thanks.</p>
+    <p class="lead">If this is spam, or is otherwise inappropriate, please flag it for attention. Thanks.</p>
 
 	<ul class="media-list comments">
 	    <li class="media">
