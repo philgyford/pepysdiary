@@ -5,7 +5,7 @@ This code is used for [www.pepysdiary.com](http://www.pepysdiary.com/). This rep
 
 I don't expect anyone else will want to run this, so there's no in-depth installation guide.
 
-Requires Django 1.6.1.
+Requires Django 1.6.4.
 
 If you want to run it locally, then copy `pepysdiary/settings/development_template.py` to `pepysdiary/settings/development.py` and set things accordingly. Then do:
 
@@ -27,6 +27,10 @@ From the top-level directory of this project, run:
 
 to install the gems specified in `Gemfile` (Compass and [Bootstrap Sass](https://github.com/twbs/bootstrap-sass/)).
 
+To update all the gems to the latest versions:
+
+	$ bundle update
+
 Then, run this:
 
 	$ compass watch .
@@ -37,9 +41,15 @@ We don't do any clever deploy stuff to compile the SASS files; it's all done bef
 
 ## Bootstrap
 
-As mentioned above, we're using Boostrap SASS to generate a custom set of Bootstrap CSS. Comment/uncomment lines in `pepysdiary/common/static/sass/_bootstrap_custom.scss` to change which parts of Bootstrap's CSS are included in teh generated CSS file.
+As mentioned above, we're using Boostrap SASS to generate a custom set of Bootstrap CSS. Comment/uncomment lines in `pepysdiary/common/static/sass/_bootstrap_custom.scss` to change which parts of Bootstrap's CSS are included in the generated CSS file.
 
-For a custom version of Bootstrap's JavaScript file, we have to use http://getbootstrap.com/customize/ to generate it. Under the "jQuery plugins" section, we currently have these checked before downloading the JS file:
+### Bootstrap's JavaScript
+
+We must manually download a custom version of Bootstrap's JavaScript file.
+
+1. Go to http://getbootstrap.com/customize/
+2. Toggle off all of the checkboxes.
+3. Under the "jQuery plugins" section check the boxes next to these plugins:
 
 	* Linked to components
 		* Alert dismissal
@@ -48,6 +58,10 @@ For a custom version of Bootstrap's JavaScript file, we have to use http://getbo
 		* Popovers
 	* Magic
 		* Collapse
+
+4. Scroll to the bottom of the page and click the "Compile and Download" button.
+5. Copy the two .js files into `pepysdiary/common/static/js/libs/`, replacing the existing files.
+
 
 ## Other notes
 
