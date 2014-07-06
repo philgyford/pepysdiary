@@ -22,6 +22,10 @@ $admin-bg-color: #ff0;
 	background: $admin-bg-color;
 }
 
+/* TODO */
+/* We want to change all these to aside-block: */
+.sidebar-block { background: red; }
+
 /****************************************************************************/
 /* More specific elements - could be split into their own files. */
 

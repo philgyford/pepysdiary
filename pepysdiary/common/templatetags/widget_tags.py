@@ -153,15 +153,17 @@ def latest_topics(context, quantity=5):
 def summary_year_navigation(current_year):
     """
     The list of years for the Diary Summary sidebar navigation.
+    current_year will either be 'year' or a date object.
     """
     css_class = ''
     if current_year == 'before':
         css_class = 'active'
+    else:
+        current_year = current_year.year
     html = '<li class="%s"><a href="%s">Before the diary</a></li>' % (
                                                     css_class,
                                                     reverse('diary_summary'))
-    for y in ['1660', '1661', '1662', '1663', '1664', '1665', '1666', '1667',
-                                                            '1668', '1669', ]:
+    for y in [1660, 1661, 1662, 1663, 1664, 1665, 1666, 1667, 1668, 1669,]:
         css_class = ''
         if y == current_year:
             css_class = 'active'
@@ -174,7 +176,7 @@ def summary_year_navigation(current_year):
                             'year': '2012', 'month': '05', 'day': '31',
                             'slug': 'the-next-chapter'}
                         ))
-    return put_in_block('<ul class="nav nav-tabs nav-stacked">%s</ul>' % html)
+    return put_in_block('<ul class="nav nav-pills nav-stacked">%s</ul>' % html)
 
 
 @register.simple_tag(takes_context=True)

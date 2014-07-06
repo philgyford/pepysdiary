@@ -1,5 +1,4 @@
 {% extends "base.html" %}
-{% load url from future %}
 
 {% block diary_nav_active %}active{% endblock %}
 {% block diary_summary_nav_active %}active{% endblock %}
@@ -13,15 +12,17 @@
 
 	{% for summary in summary_list reversed %}
 		<article id="m{{ summary.summary_date|date:"m" }}" class="summary">
-			<h2>{{ summary.summary_date|date:"F Y" }}</h2>
+			<h1>{{ summary.summary_date|date:"F Y" }}</h1>
 
 			{{ summary.text_html|smartypants|safe }}
 
-			<p><small><a href="{% url 'entry_month_archive' year=summary.summary_date|date:"Y" month=summary.summary_date|date:"m" %}">See the full diary entries for {{ summary.summary_date|date:"F Y" }}</a></small></p>
+			<footer>
+				<p><a href="{% url 'entry_month_archive' year=summary.summary_date|date:"Y" month=summary.summary_date|date:"m" %}">Diary entries for {{ summary.summary_date|date:"F Y" }}</a></p>
 
-			{% if perms.summary.can_edit %}
-				<p class="admin-links"><small><a class="admin" href="{% url 'admin:diary_summary_change' summary.id %}"><i class="icon-edit icon-link"></i> Edit</a></small></p>
-			{% endif %}
+				{% if perms.summary.can_edit %}
+					<p class="admin-links"><a class="admin" href="{% url 'admin:diary_summary_change' summary.id %}"><span class="glyphicon glyphicon-edit"></span> Edit</a></p>
+				{% endif %}
+			</footer>
 		</article>
 	{% endfor %}
 
@@ -30,13 +31,11 @@
 
 {% block sidebar_content %}
 
-	{% include "inc/summary_year_nav.html" %}
-
-	<div class="sidebar-block">
-		<p>Many thanks to <strong>Jeannine Kerwin</strong> and <strong>Dirk Van de Putte</strong> for writing these summaries of the diary's events.</p>
-	</div>
-
 	{% load widget_tags %}
-	{% rss_feeds 'entries' %}
+	{% summary_year_navigation current_year=year %}
+
+	<aside class="aside-block">
+		<p>Many thanks to <strong>Jeannine Kerwin</strong> and <strong>Dirk Van de Putte</strong> for writing these summaries of the diary's events.</p>
+	</aside>
 
 {% endblock sidebar_content %}

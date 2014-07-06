@@ -1,17 +1,33 @@
+{% comment %}
+Expects:
+	* entry - An entry object (required)
+	* in_list - boolean, True if this is part of a list of Entries.
+				(optional, default False)
+{% endcomment %}
+
 {% load text_formatting_filters %}
 
-<article class="entry well well-manuscript">
-	<h2><a href="{{ entry.get_absolute_url }}">{{ entry.title }}</a></h2>
+<article class="entry">
+	<h1><a href="{{ entry.get_absolute_url }}">{{ entry.title }}</a></h1>
 
 	{{ entry.text|smartypants|safe }}
 	
 	{% if entry.footnotes %}
-		<div class="footnotes">	
+		<aside class="footnotes">	
 			{{ entry.footnotes|smartypants|safe }}
-		</div>
+		</aside>
 	{% endif %}
 
-	{% if perms.annotation.can_edit %}
-		<p class="admin-links"><small><a class="admin" href="{% url 'admin:diary_entry_change' entry.id %}"><i class="icon-edit icon-link"></i> Edit</a></small></p>
+	{% if in_list or perms.annotation.can_edit %}
+		<footer>
+			{% if in_list %}
+				<p class="entry-meta"><a href="{{ entry.get_absolute_url }}#annotations">Read {{ entry.comment_count }} annotation{{ entry.comment_count|pluralize }} by readers</a></p>
+			{% endif %}
+
+			{% if perms.annotation.can_edit %}
+				<p class="admin-links"><a class="admin" href="{% url 'admin:diary_entry_change' entry.id %}"><span class="glyphicon glyphicon-edit"></span> Edit</a></p>
+			{% endif %}
+		</footer>
 	{% endif %}
+
 </article>

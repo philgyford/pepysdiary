@@ -4,7 +4,7 @@ because its URLs are more manual.
 {% endcomment %}
 
 {% if previous or next %}
-	<aside class="sidebar-block">
+	<aside class="aside-block">
 		{% if previous %}
 			<p><a href="{{ previous.get_absolute_url }}"><span class="glyphicon glyphicon-arrow-left"></span> {{ previous.title }}</a></p>
 		{% endif %}

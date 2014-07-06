@@ -23,12 +23,9 @@
 	{% load event_tags %}
 	{% events_for_day_in_sidebar entry.diary_date exclude='entries' %}
 
-	<div class="sidebar-block">
+	<aside class="aside-block">
 		<p><a href="{% url 'entry_month_archive' year=entry.diary_date|date:'Y' month=entry.diary_date|date:'m' %}">All diary entries from {{ entry.diary_date|date:"F" }}&nbsp;{{ entry.diary_date|date:"Y" }}</a></p>
 		<p><a href="{% url 'summary_year_archive' year=entry.diary_date|date:"Y" %}#m{{ entry.diary_date|date:"m" }}">Read a summary of this month’s events</a></p>
-	</div>
-
-	{% load widget_tags %}
-	{% rss_feeds 'entries' %}
+	</aside>
 
 {% endblock sidebar_content %}

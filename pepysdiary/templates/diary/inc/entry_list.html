@@ -1,9 +1,5 @@
-<div class="entries">
+<section class="entries">
 	{% for entry in entry_list %}
-		<div>
-			{% include 'inc/entry.html' with entry=entry %}
-
-			<p class="entry-meta"><a href="{{ entry.get_absolute_url }}#annotations">Read {{ entry.comment_count }} annotation{{ entry.comment_count|pluralize }} by readers</a></p>
-		</div>
+		{% include 'inc/entry.html' with entry=entry in_list=True %}
 	{% endfor %}
-</div>
+</section>
