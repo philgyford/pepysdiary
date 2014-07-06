@@ -142,7 +142,36 @@
 				</div> <!-- .row -->
 			{% endblock %}
 		</main>
+
 	</div> <!-- #content.container -->
+
+	{% block site_footer %}
+		<footer class="site-footer">
+			<div class="container">
+				<div class="row">
+					{% block site_footer_content %}
+						{% load widget_tags %}
+						<div class="col-sm-3">
+							{% latest_posts quantity=2 %}
+						</div>
+
+						<div class="col-sm-3">
+							{% twitter %}
+							{% email %}
+						</div>
+
+						<div class="col-sm-3">
+							{% rss_feeds %}
+						</div>
+
+						<div class="col-sm-3">
+							{% credit %}
+						</div>
+					{% endblock %}
+				</div>
+			</div>
+		</footer>
+	{% endblock %}
 
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 	<script src="{{ STATIC_PREFIX }}js/libs/bootstrap.min.js"></script>

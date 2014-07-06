@@ -36,16 +36,19 @@
 	
 	{% latest_posts quantity=2 %}
 
-	<aside class="aside-block">
-		<h1>Twitter</h1>
-		<p>Follow <a href="http://twitter.com/samuelpepys"><strong>@samuelpepys</strong></a> on Twitter for updates throughout the day.</p>
-	</aside>
+	{% twitter %}
 
-	<aside class="aside-block">
-		<h1>Email</h1>
-		<p><a href="http://feedburner.google.com/fb/a/mailverify?uri=PepysDiary&amp;loc=en_US">Receive diary entries by email daily</a></p>
-	</aside>
+	{% email %}
 
 	{% rss_feeds %}
 
 {% endblock sidebar_content %}
+
+
+{% block site_footer_content %}
+	{% load widget_tags %}
+
+	<div class="col-sm-12">
+		{% credit %}
+	</div>
+{% endblock %}
