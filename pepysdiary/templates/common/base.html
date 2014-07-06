@@ -27,16 +27,16 @@
 <body>
 	<a class="sr-only" href="#content">Skip to main content</a>
 
-	<div class="site-header">
+	<header class="site-header">
 		<div class="container">
 			{% if page_name == 'home' %}
 				<h1 class="site-header-title">The Diary of Samuel Pepys</h1>
 			{% else %}
-				<div class="site-header-title"><a href="{% url 'home' %}" title="To the front page">The Diary of Samuel Pepys</a></div>
+				<h1 class="site-header-title"><a href="{% url 'home' %}" title="To the front page">The Diary of Samuel Pepys</a></h1>
 			{% endif %}
 			<p class="site-header-subtitle">Daily entries from the 17th century London diary</p>
 		</div> 
-	</div> <!-- .site-header -->
+	</header> <!-- .site-header -->
 
 	<nav class="navbar navbar-inverse" role="navigation">
 		<div class="container">
@@ -113,34 +113,36 @@
 		    {% endfor %}
 		{% endif %}
 
-		{% block page_header %}
-			<div class="page-header">
-				<h1>{% block header_title %}{% endblock %}</h1>
-			</div>
-		{% endblock %}
+		<main role="main">
+			{% block page_header %}
+				<header class="page-header">
+					<h1>{% block header_title %}{% endblock %}</h1>
+				</header>
+			{% endblock %}
 
-		{% block content %}
-			<div class="row">
-				{% block main %}
-				    <div class="col-sm-8">
-						{% block main_content %}
-
-						{% endblock %}
-					</div> <!-- .col-sm-8 -->
-				{% endblock %}
-
-				{% block sidebar %}
-				    <div class="col-sm-4">
-				        <div class="well">
-							{% block sidebar_content %}
+			{% block content %}
+				<div class="row">
+					{% block main %}
+						<div class="col-sm-8">
+							{% block main_content %}
 
 							{% endblock %}
-				      </div> <!-- .well -->
-				    </div> <!-- .col-sm-4 -->
-				{% endblock %}
-			</div> <!-- .row -->
-		{% endblock %}
-	</div> <!-- .container -->
+						</div> <!-- .col-sm-8 -->
+					{% endblock %}
+
+					{% block sidebar %}
+						<div class="col-sm-4">
+							<div class="well">
+								{% block sidebar_content %}
+
+								{% endblock %}
+							</div> <!-- .well -->
+						</div> <!-- .col-sm-4 -->
+					{% endblock %}
+				</div> <!-- .row -->
+			{% endblock %}
+		</main>
+	</div> <!-- #content.container -->
 
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 	<script src="{{ STATIC_PREFIX }}js/libs/bootstrap.min.js"></script>

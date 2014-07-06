@@ -39,20 +39,22 @@ Expects:
 				    </div>
 				{% else %}
 					{% if preview and form.comment.value %}
-						<ul class="media-list comments">
-						    <li class="media">
+						<section class="media-list comments">
+						    <article class="media">
 								<span class="newflag glyphicon glyphicon-certificate pull-left"></span>
 								<span class="sr-only">New</span>
 							
 						    	<div class="media-body">
-						        	<h3 class="media-heading">
-										<span class="comment-name">{{ user.get_full_name }}</span>
-										<small>on {{ time_now|date:date_format_mid }}</small>
-									</h3>
+						        	<header class="media-heading">
+										<p>
+											<span class="comment-name">{{ user.get_full_name }}</span>
+											<small>on {{ time_now|date:date_format_mid }}</small>
+										</p>
+									</header>
 							        <p>{{ form.comment.value|striptags|urlizetrunc:50|linebreaks }}</p>
 							    </div>
-							</li>
-						</ul>
+							</article>
+						</section>
 					{% endif %}	
 				{% endif %}
 

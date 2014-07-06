@@ -37,16 +37,18 @@ def commented_objects_list(model_class, context, title, quantity):
                                                         content_type_id=ct.id
                                                     ).latest('submit_date')
             html += """
-<div class="media newable" data-time="%(data_time)s">
+<article class="media newable" data-time="%(data_time)s">
     <span class="newflag glyphicon glyphicon-certificate pull-left"></span>
     <span class="sr-only">New</span>
     <div class="media-body">
-        <h3 class="media-heading">
-            <a href="%(url)s"><strong>%(obj_title)s</strong></a> by <strong>%(user_name)s</strong> <small><time class="timeago" datetime="%(iso_datetime)s">on %(date)s</time></small>
-        </h3>
+        <header class="media-heading">
+            <p>
+                <a href="%(url)s"><strong>%(obj_title)s</strong></a> by <strong>%(user_name)s</strong> <small><time class="timeago" datetime="%(iso_datetime)s">on %(date)s</time></small>
+            </p>
+        </header>
         <p class="text-muted">%(comment)s</p>
     </div>
-</div>
+</article>
 """ % {
         'data_time': calendar.timegm(comment.submit_date.timetuple()),
         'url': comment.get_absolute_url(),
@@ -60,10 +62,10 @@ def commented_objects_list(model_class, context, title, quantity):
         'comment': smart_truncate(comment.comment, 80),
             }
 
-        html = """<h2>%s</h2>
-<div class="recently-commented">
+        html = """<section class="recently-commented">
+<h1>%s</h1>
 %s
-</div>
+</section>
 """ % (title, html)
     return html
 

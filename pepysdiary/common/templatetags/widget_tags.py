@@ -13,7 +13,10 @@ register = template.Library()
 
 def put_in_block(html):
     "All sidebar content should be wrapped in this."
-    return '<div class="sidebar-block">%s</div>' % html
+    return """<aside class="sidebar-block">
+%s
+</aside>
+""" % html
 
 
 # Valid feed kinds for rss_feeds().
@@ -65,7 +68,11 @@ def rss_feeds(*args):
             html += '<li class="feed"><a href="%s">%s</a></li>' % (
                         feeds_dict[kind]['url'], feeds_dict[kind]['things'])
     if html != '':
-        html = put_in_block('<h2>RSS feeds</h2><ul class="feeds">%s</ul>' % html)
+        html = put_in_block("""<h1>RSS feeds</h1>
+<ul class="feeds">
+%s
+</ul>
+""" % html)
     return html
 
 
@@ -93,7 +100,7 @@ def recent_list(queryset, title, date_format):
         item.title,
         item_date.strftime(date_format))
 
-        html = """<h2>%s</h2>
+        html = """<h1>%s</h1>
 <dl class="dated">
 %s
 </dl>
@@ -198,11 +205,11 @@ def family_tree_link(topic=None):
     link_url = reverse('encyclopedia_familytree')
 
     return """
-    <div class="sidebar-block">
+    <aside class="sidebar-block">
         <p><a href="%s"><img class="thumbnail" src="%simg/sidebar_family_tree.png" width="250" height="134" alt="Family tree thumbnail" />
         %s
         </a></p>
-    </div>
+    </aside>
     """ % (link_url, settings.STATIC_URL, text)
 
 
@@ -219,9 +226,9 @@ def category_map_link(category_id=None):
         link_url = reverse('category_map', kwargs={'category_id': category_id})
         text = "See all places in this category on a map"
     return """
-    <div class="sidebar-block">
+    <aside class="sidebar-block">
         <p><a href="%s"><img class="thumbnail" src="%simg/sidebar_category_map.png" width="250" height="134" alt="Map thumbnail" />
         %s
         </a></p>
-    </div>
+    </aside>
     """ % (link_url, settings.STATIC_URL, text)
