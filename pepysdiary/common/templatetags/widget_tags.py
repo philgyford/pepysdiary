@@ -13,7 +13,7 @@ register = template.Library()
 
 def put_in_block(html):
     "All sidebar content should be wrapped in this."
-    return """<aside class="sidebar-block">
+    return """<aside class="aside-block">
 %s
 </aside>
 """ % html
@@ -205,7 +205,7 @@ def family_tree_link(topic=None):
     link_url = reverse('encyclopedia_familytree')
 
     return """
-    <aside class="sidebar-block">
+    <aside class="aside-block">
         <p><a href="%s"><img class="thumbnail" src="%simg/sidebar_family_tree.png" width="250" height="134" alt="Family tree thumbnail" />
         %s
         </a></p>
@@ -226,7 +226,7 @@ def category_map_link(category_id=None):
         link_url = reverse('category_map', kwargs={'category_id': category_id})
         text = "See all places in this category on a map"
     return """
-    <aside class="sidebar-block">
+    <aside class="aside-block">
         <p><a href="%s"><img class="thumbnail" src="%simg/sidebar_category_map.png" width="250" height="134" alt="Map thumbnail" />
         %s
         </a></p>
