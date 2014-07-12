@@ -1,5 +1,4 @@
 {% extends "base.html" %}
-{% load url from future %}
 
 {% block encyclopedia_nav_active %}active{% endblock %}
 {% block encyclopedia_index_nav_active %}active{% endblock %}
@@ -12,6 +11,7 @@
 {% endblock breadcrumbs %}
 
 {% block main_content %}
+	{% load humanize %}
 
 	{% if category.get_children_count %}
 		<div class="well">
@@ -22,7 +22,7 @@
 					{% comment %}
 						{% if c.get_children_count %}<small>({{ c.get_children_count }} categor{{ c.get_children_count|pluralize:"y,ies" }})</small>{% endif %}
 					{% endcomment %}
-					{% if c.topic_count %}<small>({{ c.topic_count }} topic{{ c.topic_count|pluralize }})</small>{% endif %}</li>
+					{% if c.topic_count %}<small>({{ c.topic_count|intcomma }} topic{{ c.topic_count|pluralize }})</small>{% endif %}</li>
 			{% endfor %}
 			</ul>
 		</div>
@@ -30,7 +30,7 @@
 	
 	{% with topics=category.topics.all %}
 		{% if topics %}
-			<h2>{{ topics|length }} Topic{{ topics|pluralize }}</h2>
+			<h2>{{ topics|length|intcomma }} Topic{{ topics|pluralize }}</h2>
 			<ul>
 			{% for t in topics %}
 				<li><a href="{{ t.get_absolute_url }}">{{ t.order_title }}</a></li>
@@ -42,9 +42,5 @@
 {% endblock %}
 
 
-{% block sidebar_content %}
-
-	{% load widget_tags %}
-	{% rss_feeds 'topics' %}
-
-{% endblock sidebar_content %}
+{% block sidebar %}
+{% endblock sidebar %}
