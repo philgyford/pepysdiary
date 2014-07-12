@@ -225,7 +225,7 @@ def family_tree_link(topic=None):
 
     return """
     <aside class="aside-block">
-        <p><a href="%s"><img class="thumbnail" src="%simg/sidebar_family_tree.png" width="250" height="134" alt="Family tree thumbnail" />
+        <p><a href="%s"><img class="img-thumbnail" src="%simg/sidebar_family_tree.png" width="250" height="134" alt="Family tree thumbnail" />
         %s
         </a></p>
     </aside>
@@ -246,7 +246,7 @@ def category_map_link(category_id=None):
         text = "See all places in this category on a map"
     return """
     <aside class="aside-block">
-        <p><a href="%s"><img class="thumbnail" src="%simg/sidebar_category_map.png" width="250" height="134" alt="Map thumbnail" />
+        <p><a href="%s"><img class="img-thumbnail" src="%simg/sidebar_category_map.png" width="250" height="134" alt="Map thumbnail" />
         %s
         </a></p>
     </aside>
