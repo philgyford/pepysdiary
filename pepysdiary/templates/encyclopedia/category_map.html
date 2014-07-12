@@ -6,14 +6,15 @@
 
 {% block title %}Map{% if category %} of {{ category }}{% endif %}{% endblock %}}
 {% block page_header %}
-	<div class="page-header page-header-small">
-		<form action="" method="post" id="category-form">
+	<header class="page-header page-header-small">
+		<form action="" method="post" class="form-inline" id="category-form" role="form">
 			{% csrf_token %}
-			<h1 class="h4">Map showing<span class="hide"> {{ category.title }}</span></h1>
+			<h1>Map showing<span class="sr-only"> {{ category.title }}</span></h1>
+			<label for="id_category" class="sr-only">Select category:</label>
 			{{ form.category }}
-			<input type="submit" value="Submit" />
+			<button type="submit" name="submit" class="btn btn-primary">Submit</button>
 		</form>
-	</div>
+	</header>
 {% endblock %}
 
 
