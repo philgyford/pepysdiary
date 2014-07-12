@@ -56,6 +56,7 @@ We must manually download a custom version of Bootstrap's JavaScript file.
 		* Dropdowns
 		* Tooltips
 		* Popovers
+		* Togglable tabs
 	* Magic
 		* Collapse
 

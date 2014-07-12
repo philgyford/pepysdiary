@@ -21,6 +21,9 @@ $admin-bg-color: #ff0;
 .admin {
 	background: $admin-bg-color;
 }
+.admin-links {
+	text-align: right;
+}
 
 /* TODO */
 /* We want to change all these to aside-block: */
@@ -31,4 +34,10 @@ $admin-bg-color: #ff0;
 
 #id_honeypot {
     display: none;
+}
+
+/* Encyclopedia topic page. */
+#map-frame {
+	width: 100%;
+	height: 400px;
 }
