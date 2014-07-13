@@ -24,13 +24,16 @@
 		{% else %}
 			{# Public view. #}
 
+			{% if perms.person.can_edit %}
+				{% load widget_tags %}
+				{% url 'admin:membership_person_change' person.id as change_url %}
+				{% admin_link_change change_url %}
+			{% endif %}
+
 			{% if person.url %}
 				<p class="lead">Website: <a href="{{ person.url }}" rel="nofollow">{{ person.url|urlizetrunc:50 }}</a></p>
 			{% endif %}
 
-			{% if perms.person.can_edit %}
-				<p class="admin-links"><small><a class="admin" href="{% url 'admin:membership_person_change' person.id %}"><i class="icon-edit icon-link"></i> Edit</a></small></p>
-			{% endif %}
 		{% endif %}
 	</article>
 

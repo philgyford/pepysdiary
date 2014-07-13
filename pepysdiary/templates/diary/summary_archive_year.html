@@ -14,14 +14,16 @@
 		<article id="m{{ summary.summary_date|date:"m" }}" class="summary">
 			<h1>{{ summary.summary_date|date:"F Y" }}</h1>
 
+			{% if perms.summary.can_edit %}
+				{% load widget_tags %}
+				{% url 'admin:diary_summary_change' summary.id as change_url %}
+				{% admin_link_change change_url %}
+			{% endif %}
+
 			{{ summary.text_html|smartypants|safe }}
 
 			<footer>
 				<p><a href="{% url 'entry_month_archive' year=summary.summary_date|date:"Y" month=summary.summary_date|date:"m" %}">Diary entries for {{ summary.summary_date|date:"F Y" }}</a></p>
-
-				{% if perms.summary.can_edit %}
-					<p class="admin-links"><a class="admin" href="{% url 'admin:diary_summary_change' summary.id %}"><span class="glyphicon glyphicon-edit"></span> Edit</a></p>
-				{% endif %}
 			</footer>
 		</article>
 	{% endfor %}

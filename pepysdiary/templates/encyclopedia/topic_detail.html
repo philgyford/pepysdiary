@@ -67,7 +67,9 @@
 {% block main_content %}
 
 	{% if perms.topic.can_edit %}
-		<p class="admin-links"><a class="admin" href="{% url 'admin:encyclopedia_topic_change' topic.id %}"><span class="glyphicon glyphicon-edit"></span> Edit</a></p>
+		{% load widget_tags %}
+		{% url 'admin:encyclopedia_topic_change' topic.id as change_url %}
+		{% admin_link_change change_url %}
 	{% endif %}
 
 	{% load text_formatting_filters %}

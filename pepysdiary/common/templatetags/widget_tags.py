@@ -8,7 +8,7 @@ from pepysdiary.news.models import Post
 
 register = template.Library()
 
-# Things that appear in the sidebar on several pages.
+# Things that appear in the sidebar or footer on several pages.
 
 
 def put_in_block(html):
@@ -251,3 +251,10 @@ def category_map_link(category_id=None):
         </a></p>
     </aside>
     """ % (link_url, settings.STATIC_URL, text)
+
+
+@register.simple_tag
+def admin_link_change(url):
+    return """<p class="admin-links"><a class="admin" href="%s"><span class="glyphicon glyphicon-edit"></span> Edit</a></p>""" % (url)
+
+

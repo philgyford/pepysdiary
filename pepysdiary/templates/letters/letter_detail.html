@@ -11,7 +11,9 @@
 
 	<article>
 		{% if perms.letter.can_edit %}
-			<p class="admin-links"><a class="admin" href="{% url 'admin:letters_letter_change' letter.id %}"><span class="glyphicon glyphicon-edit"></span> Edit</a></p>
+			{% load widget_tags %}
+			{% url 'admin:letters_letter_change' letter.id as change_url %}
+			{% admin_link_change change_url %}
 		{% endif %}
 
 		<p>{{ letter.display_date }}</p>
