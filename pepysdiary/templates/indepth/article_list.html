@@ -1,5 +1,4 @@
 {% extends "base.html" %}
-{% load url from future %}
 
 {% block indepth_nav_active %}active{% endblock %}
 
@@ -10,15 +9,15 @@
 
 	{% load text_formatting_filters %}
 
-	<p class="lead">Longer articles on broader topics that might not fit in regular annotations or the <a href="{% url 'encyclopedia' %}">Encyclopedia</a>.</p>
+	<p class="lead">Longer articles on broader topics.</p>
 
 	<hr />
 
 	{% for article in article_list %}
-		<article class="indepth">
-			<h2 class="h4"><a href="{{ article.get_absolute_url }}">{{ article.title }}</a></h2>
+		<article>
+			<h1><a href="{{ article.get_absolute_url }}">{{ article.title }}</a></h1>
 
-			<p><strong>{{ article.date_published|date:date_format_longest }}</strong></p>
+			<p class="indepth-date">{{ article.date_published|date:date_format_longest }}</p>
 
 			{{ article.intro_html|smartypants|safe }}
 
@@ -35,9 +34,5 @@
 {% endblock main_content %}
 
 
-{% block sidebar_content %}
-
-	{% load widget_tags %}
-	{% rss_feeds 'articles' %}
-
-{% endblock sidebar_content %}
+{% block sidebar %}
+{% endblock sidebar%}
