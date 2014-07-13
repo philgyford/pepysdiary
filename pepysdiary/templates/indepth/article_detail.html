@@ -10,7 +10,7 @@
 {% block main_content %}
 
 	<article>
-		<p class="indepth-date">{{ article.date_published|date:date_format_longest }}</p>
+		<p class="article-date">{{ article.date_published|date:date_format_longest }}</p>
 
 		{{ article.intro_html|smartypants|safe }}
 

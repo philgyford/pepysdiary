@@ -2,10 +2,10 @@
 {% load text_formatting_filters %}
 
 {% for post in post_list %}
-	<article class="news">
-		<h2 class="h4"><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h2>
+	<article>
+		<h1><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h1>
 
-		<p><strong>{{ post.date_published|date:date_format_longest }}</strong></p>
+		<p class="article-date">{{ post.date_published|date:date_format_longest }}</p>
 
 		{{ post.intro_html|smartypants|safe }}
 

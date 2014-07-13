@@ -1,5 +1,4 @@
 {% extends "base.html" %}
-{% load url from future %}
 
 {% block news_nav_active %}active{% endblock %}
 
@@ -22,8 +21,5 @@
 {% block sidebar_content %}
 
 	{% include 'inc/news_category_nav.html' %}
-
-	{% load widget_tags %}
-	{% rss_feeds 'posts' %}
 
 {% endblock sidebar_content %}

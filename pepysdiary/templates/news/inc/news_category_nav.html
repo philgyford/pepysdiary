@@ -6,13 +6,12 @@ And maybe:
 	category_slug (the current category)
 {% endcomment %}
 
-{% load url from future %}
-<div class="sidebar-block">
-	<ul class="nav nav-tabs nav-stacked">
+<aside class="aside-block">
+	<ul class="nav nav-pills nav-stacked">
 		<li{% if not category_slug %} class="active"{% endif %}><a href="{% url 'news' %}">All Site News posts</a></li>
 
 		{% for slug, name in categories %}
 			<li{% if slug == category_slug %} class="active"{% endif %}><a href="{% url 'post_category_archive' category_slug=slug %}">{{ name }}</a></li>
 		{% endfor %}
 	</ul>
-</div>
+</aside>
