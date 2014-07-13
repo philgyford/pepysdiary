@@ -11,38 +11,41 @@ Expects:
 {% endcomment %}
 
 {% if form.non_field_errors %}
-    <div class="alert error">
-        <p>{{ form.non_field_errors }}</p>
+    <div class="alert alert-danger" role="alert">
+        {{ form.non_field_errors }}
     </div>
 {% endif %}
-<form action="{% if url_name %}{% url url_name %}{% endif %}" method="post"{% if form_id %} id="{{ form_id }}"{% endif %} class="form-horizontal form-membership">
+
+<form role="form" action="{% if url_name %}{% url url_name %}{% endif %}" method="post"{% if form_id %} id="{{ form_id }}"{% endif %} class="form-horizontal">
 	{% csrf_token %}
 	{% load form_filters %}
     <fieldset>
         {% for field in form %}
-        	<div class="control-group{% if field.errors %} error{% endif %}"{% if field.name == 'honeypot' %} style="display:none;"{% endif %}>
-				<label class="control-label" for="id_{{ field.html_name }}">{{ field.label }}</label>
-			    <div class="controls">
+        	<div class="form-group{% if field.errors %} error{% endif %}"{% if field.name == 'honeypot' %} style="display:none;"{% endif %}>
+				<label class="control-label col-md-5" for="id_{{ field.html_name }}">{{ field.label }}</label>
+			    <div class="col-md-7">
 			        {{ field|tabindex:forloop.counter }}
 			        {% if field.errors %}
-			            <span class="help-inline control-group error">{{ field.errors|join:'<br />' }}</span>
+			            <span class="text-danger">{{ field.errors|join:'<br />' }}</span>
 			        {% endif %}
 			        
 			        <span class="help-block">{{ field.help_text }}</span>
 			    </div>
 			</div>
         {% endfor %}
-        <div class="form-actions">
-            <button type="submit" class="btn btn-primary">{% if submit_text %}{{ submit_text }}{% else %}Submit{% endif %}</button>
-            {% if cancel_url_name %}
-            	&nbsp; or &nbsp; <a href="{% url cancel_url_name %}">Cancel</a>
-            {% endif %}
-            {% if next %}
-                <input type="hidden" name="next" value="{{ next }}" />
-            {% endif %}
-            {% for hidden in form.hidden_fields %}
-			    {{ hidden }}
-		    {% endfor %}
+        <div class="form-group">
+			<div class="col-md-7 col-md-offset-5">
+				<button type="submit" class="btn btn-primary">{% if submit_text %}{{ submit_text }}{% else %}Submit{% endif %}</button>
+				{% if cancel_url_name %}
+					&nbsp; or &nbsp; <a href="{% url cancel_url_name %}">Cancel</a>
+				{% endif %}
+				{% if next %}
+					<input type="hidden" name="next" value="{{ next }}" />
+				{% endif %}
+				{% for hidden in form.hidden_fields %}
+					{{ hidden }}
+				{% endfor %}
+			</div>
         </div>
     </fieldset>
 </form>

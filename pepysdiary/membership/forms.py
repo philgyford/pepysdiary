@@ -1,6 +1,6 @@
 # coding: utf-8
 from django import forms
-from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.forms import AuthenticationForm, PasswordResetForm, SetPasswordForm
 from django.utils.translation import ugettext_lazy as _
 
 from captcha.fields import ReCaptchaField
@@ -8,13 +8,12 @@ from captcha.fields import ReCaptchaField
 from pepysdiary.common.models import Config
 from pepysdiary.membership.models import Person
 from pepysdiary.membership.utilities import validate_person_name
-from pepysdiary.membership.widgets import Html5EmailInput
 
 
 # Much of this based on django-registration.
 
 
-attrs_dict = {'class': 'required'}
+attrs_dict = {'class': 'required form-control'}
 
 
 class RegistrationForm(forms.Form):
@@ -30,20 +29,24 @@ class RegistrationForm(forms.Form):
     registration backend.
 
     """
-    name = forms.CharField(max_length=50, validators=[validate_person_name],
-                                        required=True, label=_("Your name"),
-            help_text='Required. How people will know you. Can use spaces, eg "Samuel Pepys".')
+    name = forms.CharField(
+            widget=forms.TextInput(attrs=attrs_dict), max_length=50,
+            validators=[validate_person_name], required=True,
+            label=_("Your name"),
+            help_text='How people will know you. Can use spaces, eg "Samuel Pepys".')
     email = forms.EmailField(required=True, label=_("Email address"),
-                max_length=255, widget=Html5EmailInput(attrs=attrs_dict),
-                help_text='Required. Will not be public.')
+                max_length=254, widget=forms.EmailInput(attrs=attrs_dict),
+                help_text='Will not be public.')
     password1 = forms.CharField(widget=forms.PasswordInput(
                                         attrs=attrs_dict, render_value=False),
                                         required=True, label=_("Password"))
     password2 = forms.CharField(widget=forms.PasswordInput(
                                         attrs=attrs_dict, render_value=False),
                                     required=True, label=_("Repeat password"))
-    url = forms.URLField(label=_("URL"), max_length=255, required=False,
-        help_text='Optional. eg, the address of your blog, Facebook page, Twitter page, etc.')
+    url = forms.URLField(
+            widget=forms.URLInput(attrs=attrs_dict),
+            label=_("Personal URL"), max_length=255, required=False,
+            help_text='Optional. eg, address of your blog, Facebook page, Twitter page, etc.')
 
     honeypot = forms.CharField(required=False,
                             label=_('If you enter anything in this field '\
@@ -59,14 +62,15 @@ class RegistrationForm(forms.Form):
         if config is not None:
             if config.use_registration_captcha == True:
                 self.fields['captcha'] = ReCaptchaField(
-                                    attrs={'theme': 'clean', 'tabindex': 6, },
+                                    attrs={'theme': 'white', 'tabindex': 6, },
                                                     label=_("Anti-spam test"))
             if config.use_registration_question == True and \
                 config.registration_question != '' and \
                 config.registration_answer != '':
                 self.fields['answer'] = forms.CharField(
-                                        max_length=255, required=True,
-                                        label=_(config.registration_question))
+                                    widget=forms.TextInput(attrs=attrs_dict),
+                                    max_length=255, required=True,
+                                    label=_(config.registration_question))
 
     def clean_name(self):
         """
@@ -121,8 +125,8 @@ class RegistrationForm(forms.Form):
 
 class LoginForm(AuthenticationForm):
     username = forms.EmailField(
-        widget=Html5EmailInput(attrs=attrs_dict),
-        max_length=255, label="Email address",
+        widget=forms.EmailInput(attrs=attrs_dict),
+        max_length=254, label="Email address",
         error_messages={'invalid': u'Please enter a valid email address.'})
     password = forms.CharField(widget=forms.PasswordInput(attrs=attrs_dict))
 
@@ -139,3 +143,20 @@ class PersonEditForm(forms.ModelForm):
     class Meta:
         model = Person
         fields = ('email', 'url', )
+
+
+class PasswordResetForm(PasswordResetForm):
+    email = forms.EmailField(
+        widget=forms.EmailInput(attrs=attrs_dict),
+        max_length=254, label="Email address",
+        error_messages={'invalid': u'Please enter a valid email address.'})
+
+
+class SetPasswordForm(SetPasswordForm):
+    new_password1 = forms.CharField(
+                            label="New password",
+                            widget=forms.PasswordInput(attrs=attrs_dict))
+    new_password2 = forms.CharField(
+                            label="Repeat password",
+                            widget=forms.PasswordInput(attrs=attrs_dict))
+
