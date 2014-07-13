@@ -19,7 +19,7 @@ But first run this to transfer all static elements to S3:
 
 ## Compass, SASS, CSS
 
-This uses [Compass](http://compass-style.org/) to generate CSS files from the [SASS](http://sass-lang.com/) files in `pepysdiary/common/static/sass/`. Compass is Ruby.
+This uses [Compass](http://compass-style.org/) to generate CSS files from the [SASS](http://sass-lang.com/) files in `pepysdiary/common/static/sass/`. Compass is Ruby. Settings for this are in `config.rb`.
 
 From the top-level directory of this project, run:
 
