@@ -8,17 +8,17 @@
 	<article>
 		{% if private_profile %}
 			{# The logged-in user viewing themselves. #}
-			<p class="row-fluid">
-				<span class="span2 text-right">Name</span>
-				<span class="span7 offset1">{{ person.name }}</span>
+			<p class="row">
+				<span class="col-md-2 text-right">Name</span>
+				<span class="col-md-7">{{ person.name }}</span>
 			</p>
-			<p class="row-fluid">
-				<span class="span2 text-right">Email</span>
-				<span class="span7 offset1">{{ person.email }}</span>
+			<p class="row">
+				<span class="col-md-2 text-right">Email</span>
+				<span class="col-md-7">{{ person.email }}</span>
 			</p>
-			<p class="row-fluid">
-				<span class="span2 text-right">URL</span>
-				<span class="span7 offset1">{% if person.url %}<a href="{{ person.url }}" rel="nofollow">{{ person.url|urlizetrunc:50 }}</a>{% else %}None{% endif %}</span>
+			<p class="row">
+				<span class="col-md-2 text-right">Website</span>
+				<span class="col-md-7">{% if person.url %}<a href="{{ person.url }}" rel="nofollow">{{ person.url|urlizetrunc:50 }}</a>{% else %}None{% endif %}</span>
 			</p>
 
 		{% else %}
@@ -38,13 +38,13 @@
 	</article>
 
 
-	<h3 class="push-down">Annotations and comments</h3>
+	<h2>Annotations and comments</h2>
 
 	<p>{% if private_profile %}You have{% else %}{{ person.get_short_name }} has{% endif %} posted <strong>{{ comment_count }}</strong> annotation{{ comment_count|pluralize }}/comment{{ comment_count|pluralize }}{% if person.first_comment_date %} since {{ person.first_comment_date|date:date_format_long }}{% endif %}.</p>
 
 	{% if comment_list %}
 		<p>The most recent…</p>
-		{% include "comments/list.html" with show_object_titles=True only_comments=True %}
+		{% include "comments/list.html" with show_object_titles=True only_comments=True show_section_title=False %}
 	{% endif %}
 
 {% endblock main_content %}
@@ -52,15 +52,15 @@
 
 {% block sidebar_content %}
 	{% if private_profile %}
-		<div class="sidebar-block">
+		<aside class="aside-block">
 			<p><strong>Only you can see this page</strong></p>
 			<p><a href="{% url 'profile' pk=user.pk %}">See what everyone else sees</a></p>
 			<p><a href="{% url 'edit_profile' %}">Edit your profile</a></p>
 		</div>
 	{% elif user.is_authenticated and user.pk == person.pk %}
-		<div class="sidebar-block">
+		<aside class="aside-block">
 			<p><strong>This is the public view of your profile</strong></p>
 			<p><a href="{% url 'private_profile' %}">See or edit all your details</a></p>
-		</div>
+		</aside>
 	{% endif %}
 {% endblock sidebar_content %}
