@@ -1,5 +1,4 @@
 {% extends "base.html" %}
-{% load url from future %}
 
 {% block letter_nav_active %}active{% endblock %}
 
@@ -16,8 +15,13 @@
 {% block sidebar_content %}
 
 	{% if person.thumbnail %}
-		<p><img src="{{ person.thumbnail.url }}" width="100" height="120" alt="Thumbnail image" /><br />
-			<a href="{{ person.get_absolute_url }}">In the Encyclopedia</a></p>
+		<aside class="aside-block">
+			<p>
+				<img class="img-thumbnail" src="{{ person.thumbnail.url }}" width="100" height="120" alt="Thumbnail image" /><br />
+				{{ person.title }}<br>
+				<a href="{{ person.get_absolute_url }}">In the Encyclopedia</a>
+			</p>
+		</aside>
 	{% endif %}
 
 {% endblock sidebar_content %}

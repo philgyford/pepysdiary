@@ -1,5 +1,4 @@
 {% extends "base.html" %}
-{% load url from future %}
 
 {% block letter_nav_active %}active{% endblock %}
 
@@ -8,7 +7,7 @@
 
 {% block main_content %}
 
-	<p class="lead">Some letters sent by or to Samuel Pepys.</p>
+	<p class="lead">Letters sent by or to Samuel Pepys.</p>
 
 	{% include 'inc/letter_list.html' with letter_list=letters %}
 

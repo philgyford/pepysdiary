@@ -18,11 +18,21 @@ $admin-bg-color: #ff0;
 /****************************************************************************/
 /* Custom generic elements */
 
+cite {
+	font-style: italic;
+}
 .admin {
 	background: $admin-bg-color;
 }
 .admin-links {
 	text-align: right;
+}
+
+img.pull-right {
+	margin-left: ($grid-gutter-width / 2);
+}
+img.pull-left {
+	margin-right: ($grid-gutter-width / 2);
 }
 
 /* TODO */
