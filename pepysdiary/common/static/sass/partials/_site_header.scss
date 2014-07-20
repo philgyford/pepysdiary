@@ -1,4 +1,22 @@
 .site-header {
-	background: $site-header-bg url(#{$img-path}/backgrounds/site-header.png) 0 0 repeat;
+	//background: linear-gradient(top left, #333, #0c0);
+	background: linear-gradient(0deg,
+					rgba(50, 20, 0, 0.5),
+					rgba(50, 20, 0, 0.3),
+					rgba(50, 20, 0, 0.1),
+					rgba(50, 20, 0, 0.3),
+					rgba(50, 20, 0, 0.5)
+				),
+				$site-header-bg
+				url(#{$img-path}/backgrounds/site-header.png) 0 0 repeat;
+	border-top: 1px solid $site-header-border-color;
+	border-bottom: 1px solid $site-header-border-color;
 }
+.site-header-title {
+	color: $site-header-title-color;
+}
+.site-header-subtitle {
+	color: $site-header-subtitle-color;
+}
+
 
