@@ -22,11 +22,11 @@ $font-size-base:          18px;
 $font-size-large:         ceil(($font-size-base * 1.3333)); // 24px
 $font-size-small:         ceil(($font-size-base * 0.83));  // 15px
 
-$font-size-h1:            floor(($font-size-base * 2.5));  // 45px
-$font-size-h2:            floor(($font-size-base * 2));    // 36px
-$font-size-h3:            ceil(($font-size-base * 1.65));  // 30px 
-$font-size-h4:            $font-size-large;
-$font-size-h5:            $font-size-base;
+$font-size-h1:            ceil(($font-size-base * 2));  // 36px
+$font-size-h2:            floor(($font-size-base * 1.666666667));  // 30px
+$font-size-h3:            ceil(($font-size-base * 1.3333333));  // 24px 
+$font-size-h4:            $font-size-base;
+$font-size-h5:            $font-size-small;
 $font-size-h6:            $font-size-small;
 
 //** Unit-less `line-height` for use in components like buttons.

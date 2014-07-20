@@ -14,9 +14,13 @@
 }
 .site-header-title {
 	color: $site-header-title-color;
+	text-rendering: optimizeLegibility;
+	margin-top: 0.5em;
+	margin-bottom: 0;
 }
 .site-header-subtitle {
 	color: $site-header-subtitle-color;
+	font-style: italic;
 }
 
 
