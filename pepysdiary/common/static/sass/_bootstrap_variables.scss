@@ -2,7 +2,16 @@
 // https://github.com/twbs/bootstrap-sass/blob/master/assets/stylesheets/bootstrap/_variables.scss
 
 //== Colors
+$gray-dark:               #4a4a45;
+$gray-light:              #ebebe5;
+$gray-lighter:            #f8f8f1;
+
 //== Scaffolding
+$body-bg:                 $gray-lighter;
+$text-color:              $gray-dark;
+$link-color:              #3672ad;
+
+
 //== Typography
 
 $font-family-sans-serif:  "Droid Sans", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
@@ -75,6 +84,9 @@ $border-radius-small:       0px;
 //== Close
 //== Code
 //== Type
+
+$hr-border:               #dfdfd8;
+
 //** Blockquote font size
 //== Miscellaneou
 //== Container sizes

@@ -1,5 +1,6 @@
 /****************************************************************************/
-// Set any variables before we set the Bootstrap defaults.
+// Set any variables needed before we set the Bootstrap defaults.
+
 
 /****************************************************************************/
 /* Set up Boostrap. */
@@ -11,13 +12,36 @@
 
 // COLORS
 
-$site-header-bg-color: #08690d;
+$gray-lightish:           #e5e5e5;
 
-// "Edit" links:
-$admin-bg-color: #ff0;
+$site-supernav-bg:        #003001;
+$site-supernav-link-color:$gray-lighter;
+
+$site-header-bg:          #08690d;
+$site-header-title-color: $gray-light;
+$site-header-slogan-color:$gray-lighter;
+$site-header-border-color:#325831; // Top and bottom.
+
+$site-nav-bg:             #002801;
+$site-nav-color:          #335334; // dividers.
+$site-nav-link-color:     #fff;
+
+$site-subnav-bg:          $gray-light;
+$site-subnav-color:       #b7b7b2; // dividers.
+
+$aside-bg:                #fff;
+$aside-title-bg:          #549355;
+$aside-hr-color:          $gray-lightish;
+
+$comments-header-bg:      $gray-light; // eg behind '3 annotations'.
+$comments-hr-color:       $gray-lightish; // Between each one.
+
+$admin-bg:                #ff0; // "Edit" links.
+
+
+// PATHS
 
 $img-path: "../img";
-
 
 
 /****************************************************************************/
@@ -29,6 +53,6 @@ $img-path: "../img";
 
 /* Encyclopedia topic page. */
 #map-frame {
-	width: 100%;
-	height: 400px;
+    width: 100%;
+    height: 400px;
 }
