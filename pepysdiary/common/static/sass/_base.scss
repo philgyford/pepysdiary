@@ -14,17 +14,19 @@
 
 $gray-lightish:           #e5e5e5;
 
+// Very top, above the header.
 $site-supernav-bg:        #003001;
+$site-nav-color:          #335334; // dividers.
 $site-supernav-link-color:$gray-lighter;
 
+// Contains the title.
 $site-header-bg:          #08690d;
 $site-header-title-color: $gray-light;
 $site-header-subtitle-color: $gray-lighter;
 $site-header-border-color:#325831; // Top and bottom.
 
-$site-nav-bg:             #002801;
+// Main nav, below the header.
 $site-nav-color:          #335334; // dividers.
-$site-nav-link-color:     #fff;
 
 $site-subnav-bg:          $gray-light;
 $site-subnav-color:       #b7b7b2; // dividers.
@@ -42,6 +44,10 @@ $admin-bg:                #ff0; // "Edit" links.
 // PATHS
 
 $img-path: "../img";
+
+// NAVBAR
+
+$navbar-font-family:	$font-family-sans-serif;
 
 
 /****************************************************************************/

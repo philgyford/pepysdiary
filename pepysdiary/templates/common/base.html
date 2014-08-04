@@ -79,27 +79,24 @@
 						</ul>
 					</li>
 				</ul> <!-- .nav.navbar-nav -->
-				<ul class="nav navbar-nav navbar-right">
-					<li class="dropdown{% if user.is_authenticated %} active{% endif %}">
-						<a class="dropdown-toggle" data-toggle="dropdown" href="#">
-							<span class="glyphicon glyphicon-user"></span>
-							<span class="sr-only">User</span>
-							<b class="caret"></b>
-						</a>
-						<ul class="dropdown-menu">
-							{% if user.is_authenticated %}
-								<li><a href="{% url 'private_profile' %}">{{ user.get_full_name }}’s profile</a></li>
-								<li><a href="{% url 'logout' %}">Log out</a></li>
-							{% else %}
-								<li><a href="{% url 'login' %}{% if 'logout' not in request.path %}?next={{ request.path }}{% endif %}">Log in</a></li>
-								<li><a href="{% url 'register' %}">Register</a></li>
-							{% endif %}
-						</ul>
-					</li>
-				</ul> <!-- .nav.navbar-nav.navbar-right -->
 			</div> <!-- .navbar-collapse -->
 		</div> <!-- .container -->
     </nav> <!-- .navbar -->
+
+	<nav class="site-supernav navbar navbar-inverse" role="navigation">
+		<div class="container">
+			<ul class="nav navbar-nav navbar-right">
+				{% if user.is_authenticated %}
+					<li class="navbar-text">Logged in as {{ user.get_full_name }}</li>
+					<li><a href="{% url 'private_profile' %}">Profile</a></li>
+					<li><a href="{% url 'logout' %}">Log out</a></li>
+				{% else %}
+					<li><a href="{% url 'login' %}{% if 'logout' not in request.path %}?next={{ request.path }}{% endif %}">Log in</a></li>
+					<li><a href="{% url 'register' %}">Register</a></li>
+				{% endif %}
+			</ul>
+		</div>
+	</nav> <!-- .site-supernav -->
 
 	<div class="container" id="content">
 		{% block breadcrumbs %}{% endblock %}

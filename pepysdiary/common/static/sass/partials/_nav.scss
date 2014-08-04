@@ -1,0 +1,25 @@
+/**
+ * For adding bullet-separators.
+ */
+.nav>li {
+	padding-right: ($navbar-padding-horizontal + 2);
+	background: url(#{$img-path}/backgrounds/bullets.png) right 0.9em no-repeat;
+	&.navbar-text {
+		margin-left: 0;
+		margin-right: 0;
+		padding-left: $navbar-padding-horizontal * 2;
+		padding-right: ($navbar-padding-horizontal * 2) + 2;
+		background-position: right 0.7em;
+	}
+	&:last-child{
+		padding-right: 0;
+		background: none;
+	}
+}
+
+/**
+ * To make text line up with li's containing links.
+ */
+.nav>li.navbar-text {
+	line-height: $line-height-computed;
+}

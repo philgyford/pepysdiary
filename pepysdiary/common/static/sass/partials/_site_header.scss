@@ -12,6 +12,7 @@
 	border-bottom: 1px solid $site-header-border-color;
 	padding-top: $padding-large-vertical;
 	padding-bottom: $padding-large-vertical;
+	margin-top: $navbar-height;
 }
 .site-header .container {
 	background: url(#{$img-path}/site-header-pepys.png) 0 0 no-repeat;
