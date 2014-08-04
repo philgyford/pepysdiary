@@ -1,5 +1,4 @@
 .site-header {
-	//background: linear-gradient(top left, #333, #0c0);
 	background: linear-gradient(0deg,
 					rgba(50, 20, 0, 0.5),
 					rgba(50, 20, 0, 0.3),
@@ -11,16 +10,24 @@
 				url(#{$img-path}/backgrounds/site-header.png) 0 0 repeat;
 	border-top: 1px solid $site-header-border-color;
 	border-bottom: 1px solid $site-header-border-color;
+	padding-top: $padding-large-vertical;
+	padding-bottom: $padding-large-vertical;
+}
+.site-header .container {
+	background: url(#{$img-path}/site-header-pepys.png) 0 0 no-repeat;
+	min-height: 97px;
 }
 .site-header-title {
 	color: $site-header-title-color;
 	text-rendering: optimizeLegibility;
 	margin-top: 0.5em;
 	margin-bottom: 0;
+	margin-left: 80px;
 }
 .site-header-subtitle {
 	color: $site-header-subtitle-color;
 	font-style: italic;
+	margin-left: 87px;
 }
 
 
