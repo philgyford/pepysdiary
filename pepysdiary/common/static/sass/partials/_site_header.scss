@@ -1,10 +1,10 @@
 .site-header {
 	background: linear-gradient(0deg,
-					rgba(50, 20, 0, 0.5),
-					rgba(50, 20, 0, 0.3),
+					rgba(50, 20, 0, 0.4),
 					rgba(50, 20, 0, 0.1),
-					rgba(50, 20, 0, 0.3),
-					rgba(50, 20, 0, 0.5)
+					rgba(50, 20, 0, 0),
+					rgba(50, 20, 0, 0.1),
+					rgba(50, 20, 0, 0.4)
 				),
 				$site-header-bg
 				url(#{$img-path}/backgrounds/site-header.png) 0 0 repeat;
@@ -21,8 +21,8 @@
 .site-header-title {
 	color: $site-header-title-color;
 	text-rendering: optimizeLegibility;
-	margin-top: 0.5em;
-	margin-bottom: 0;
+	margin-top: 0.4em;
+	margin-bottom: 0.1em;
 	margin-left: 80px;
 }
 .site-header-subtitle {

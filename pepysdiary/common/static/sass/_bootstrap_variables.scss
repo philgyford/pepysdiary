@@ -20,7 +20,7 @@ $font-family-base:        $font-family-serif;
 
 $font-size-base:          18px;
 $font-size-large:         ceil(($font-size-base * 1.3333)); // 24px
-$font-size-small:         floor(($font-size-base * 0.7777778));  // 14px
+$font-size-small:         ceil(($font-size-base * 0.72222222));  // 13px
 
 $font-size-h1:            ceil(($font-size-base * 2));  // 36px
 $font-size-h2:            floor(($font-size-base * 1.666666667));  // 30px
@@ -69,7 +69,7 @@ $navbar-padding-horizontal:		   7px;
 $navbar-inverse-color:          #549355;
 $navbar-inverse-bg:				#002801; 
 
-$navbar-inverse-link-color:      #fff;
+$navbar-inverse-link-color:      #f8f8f1;
 $navbar-inverse-link-active-bg:  transparent;
 
 //== Navs

@@ -14,11 +14,6 @@
 
 $gray-lightish:           #e5e5e5;
 
-// Very top, above the header.
-$site-supernav-bg:        #003001;
-$site-nav-color:          #335334; // dividers.
-$site-supernav-link-color:$gray-lighter;
-
 // Contains the title.
 $site-header-bg:          #08690d;
 $site-header-title-color: $gray-light;
@@ -26,8 +21,6 @@ $site-header-subtitle-color: $gray-lighter;
 $site-header-border-color:#325831; // Top and bottom.
 
 // Main nav, below the header.
-$site-nav-color:          #335334; // dividers.
-
 $site-subnav-bg:          $gray-light;
 $site-subnav-color:       #b7b7b2; // dividers.
 
