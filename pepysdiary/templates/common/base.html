@@ -51,13 +51,13 @@
 			<div class="collapse navbar-collapse" id="site-nav-collapse">
 				<ul class="nav navbar-nav">
 					<li class="{% block diary_nav_active %}{% endblock %}">
-						<a href="{% url 'home' %}">Diary home</a>
+						<a href="{% url 'home' %}">The Diary</a>
 					</li>
 					<li class="{% block letter_nav_active %}{% endblock %}">
 						<a href="{% url 'letters' %}">Letters</a>
 					</li>
 					<li class="{% block encyclopedia_nav_active %}{% endblock %}">
-						<a href="#">Encyclopedia</a>
+						<a href="{% url 'encyclopedia' %}">Encyclopedia</a>
 					</li>
 					<li class="{% block indepth_nav_active %}{% endblock %}">
 						<a href="{% url 'indepth' %}">In-depth Articles</a>
@@ -114,9 +114,7 @@
 		</nav>
 	{% endif %}
 
-	<p>Name: {{ url_name }}</p>
-
-	<nav class="site-supernav navbar navbar-inverse" role="navigation">
+	<nav class="navbar navbar-inverse navbar-supernav" role="navigation">
 		<div class="container">
 			<ul class="nav navbar-nav navbar-right">
 				{% if user.is_authenticated %}
@@ -129,7 +127,7 @@
 				{% endif %}
 			</ul>
 		</div>
-	</nav> <!-- .site-supernav -->
+	</nav> <!-- .navbar-supernav -->
 
 	<div class="container" id="content">
 		{% block breadcrumbs %}{% endblock %}

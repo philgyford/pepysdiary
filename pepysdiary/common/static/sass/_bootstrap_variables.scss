@@ -65,17 +65,19 @@ $border-radius-small:       0px;
 //== Navbar
 
 $navbar-height:                    30px;
-$navbar-padding-horizontal:		   7px;
+$navbar-padding-horizontal:		   10px;
 
 $navbar-default-bg:				$gray-light;
 $navbar-default-link-color:		$link-color;
 $navbar-default-link-hover-color: $link-hover-color;
+$navbar-default-link-active-bg: $body-bg;
 
 $navbar-inverse-color:          #549355;
 $navbar-inverse-bg:				#002801; 
 
 $navbar-inverse-link-color:      #f8f8f1;
-$navbar-inverse-link-active-bg:  transparent;
+$navbar-inverse-link-active-color: $gray-dark;
+$navbar-inverse-link-active-bg:  $gray-light;
 
 //== Navs
 
