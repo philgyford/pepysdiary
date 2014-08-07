@@ -24,6 +24,9 @@
 	margin-top: 0.4em;
 	margin-bottom: 0.1em;
 	margin-left: 80px;
+	a {
+		color: $site-header-title-color;
+	}
 }
 .site-header-subtitle {
 	color: $site-header-subtitle-color;
