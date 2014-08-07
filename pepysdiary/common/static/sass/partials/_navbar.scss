@@ -9,3 +9,33 @@
 .navbar-subnav {
 	margin-top: -($navbar-margin-bottom);
 }
+
+/**
+ * For adding bullet-separators.
+ */
+.navbar-nav > li {
+	padding-right: ($navbar-padding-horizontal + 2);
+	background: url(#{$img-path}/backgrounds/bullets.png) right 0.95em no-repeat;
+	.navbar-inverse & {
+		background-position: right -1.6em;
+	
+	}
+	&.navbar-text {
+		margin-left: 0;
+		margin-right: 0;
+		padding-left: $navbar-padding-horizontal * 2;
+		padding-right: ($navbar-padding-horizontal * 2) + 2;
+		background-position: right -1.8em;
+	}
+	&:last-child{
+		padding-right: 0;
+		background: none;
+	}
+	> a {
+		&:hover,
+		&:focus {
+			text-decoration: underline;
+		}
+	}
+}
+
