@@ -145,11 +145,6 @@ class SummaryYearArchiveView(YearArchiveView):
     date_field = 'summary_date'
     make_object_list = True
 
-    def get_context_data(self, **kwargs):
-        context = super(SummaryYearArchiveView, self).get_context_data(
-                                                                    **kwargs)
-        return context
-
 
 class LatestEntriesFeed(BaseRSSFeed):
     title = "The Diary of Samuel Pepys"

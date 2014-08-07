@@ -41,3 +41,11 @@ def api_keys(request):
 
 def config(request):
     return {'config': Config.objects.get_site_config()}
+
+
+def url_name(request):
+    """
+    So we can test things in the templates based on the current named URL.
+    """
+    return {'url_name': request.resolver_match.url_name}
+

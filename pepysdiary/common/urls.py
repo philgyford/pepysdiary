@@ -108,6 +108,7 @@ urlpatterns = patterns('',
     url(r'^about/history/(?P<year>\d{4})/$',
                                             SummaryYearRedirectView.as_view()),
 
+    url(r'^about/support/$', RedirectView.as_view(url=reverse_lazy('about'))),
 )
 
 # Flatpages URLs.
@@ -118,8 +119,6 @@ urlpatterns += patterns('django.contrib.flatpages.views',
     url(r'^about/faq/$', 'flatpage', {'url': '/about/faq/'}, name='about_faq'),
     url(r'^about/formats/$', 'flatpage', {'url': '/about/formats/'},
                                                         name='about_formats'),
-    url(r'^about/support/$', 'flatpage', {'url': '/about/support/'},
-                                                        name='about_support'),
     url(r'^about/text/$', 'flatpage', {'url': '/about/text/'},
                                                             name='about_text'),
     url(r'^diary/1893-introduction/$', 'flatpage',

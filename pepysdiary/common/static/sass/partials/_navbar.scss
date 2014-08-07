@@ -6,3 +6,6 @@
 	font-size: $font-size-small;
 	border: none;
 }
+.navbar-subnav {
+	margin-top: -($navbar-margin-bottom);
+}

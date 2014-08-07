@@ -5,12 +5,6 @@
 {% block sidebar_content %}
 	{% load widget_tags %}
 
-	<aside class="aside-block">
-		<ul class="nav nav-pills nav-stacked">
-			{% about_pages_links %}
-		</ul>
-	</aside>
-
 	{% latest_posts quantity=5 %}
 
 {% endblock sidebar_content %}

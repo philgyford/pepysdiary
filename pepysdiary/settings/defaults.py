@@ -120,6 +120,7 @@ TEMPLATE_CONTEXT_PROCESSORS = global_settings.TEMPLATE_CONTEXT_PROCESSORS + (
     'pepysdiary.common.context_processors.api_keys',
     'pepysdiary.common.context_processors.config',
     'pepysdiary.common.context_processors.date_formats',
+    'pepysdiary.common.context_processors.url_name',
 )
 
 INSTALLED_APPS = (

@@ -10,11 +10,12 @@ $gray-lighter:            #f8f8f1;
 $body-bg:                 $gray-lighter;
 $text-color:              $gray-dark;
 $link-color:              #3672ad;
+$link-hover-color:        darken($link-color, 15%);
 
 
 //== Typography
 
-$font-family-sans-serif:  "Droid Sans", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+$font-family-sans-serif:  "Droid Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
 $font-family-serif:       "Crimson Text", "Times New Roman", Times, serif;
 $font-family-base:        $font-family-serif;
 
@@ -65,6 +66,10 @@ $border-radius-small:       0px;
 
 $navbar-height:                    30px;
 $navbar-padding-horizontal:		   7px;
+
+$navbar-default-bg:				$gray-light;
+$navbar-default-link-color:		$link-color;
+$navbar-default-link-hover-color: $link-hover-color;
 
 $navbar-inverse-color:          #549355;
 $navbar-inverse-bg:				#002801; 
