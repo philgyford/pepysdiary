@@ -16,15 +16,13 @@
 	> li > a {
 		padding-bottom: 0;
 		span {
-			padding-bottom: 10px;
 		}
 	}
 	@media (min-width: $grid-float-breakpoint) {
 		> li > a {
 			padding-bottom: 0;
 			span {
-				/* +1 to make bottom border meet bottom of navbar. */
-				padding-bottom: $navbar-padding-vertical + 1;
+				display: block;
 			}
 		}
 	}
@@ -36,8 +34,8 @@
 	.navbar-nav {
 		> .active > a > span {
 			background: url(#{$img-path}/backgrounds/navbar.png) center bottom no-repeat;
-			/* +5 to make bottom of span meet bottom of navbar. */
-			padding-bottom: $navbar-padding-vertical + 5;
+			/* To make up for having no border-bottom: */
+			padding-bottom: 4px;
 		}
 	}
 }
@@ -71,7 +69,7 @@
 	padding-right: ($navbar-padding-horizontal + 2);
 	background: url(#{$img-path}/backgrounds/navbar.png) right 1em no-repeat;
 	.navbar-inverse & {
-		background-position: right -0.3em;
+		background-position: right -1.0em;
 	
 	}
 	&.navbar-text {
@@ -79,7 +77,7 @@
 		margin-right: 0;
 		padding-left: $navbar-padding-horizontal * 2;
 		padding-right: ($navbar-padding-horizontal * 2) + 2;
-		background-position: right -0.6em;
+		background-position: right -1.35em;
 	}
 	&:last-child{
 		padding-right: 0;
