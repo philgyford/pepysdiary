@@ -54,9 +54,9 @@
  */
 .navbar-nav > li {
 	padding-right: ($navbar-padding-horizontal + 2);
-	background: url(#{$img-path}/backgrounds/bullets.png) right 0.95em no-repeat;
+	background: url(#{$img-path}/backgrounds/bullets.png) right 1em no-repeat;
 	.navbar-inverse & {
-		background-position: right -1.6em;
+		background-position: right -1.5em;
 	
 	}
 	&.navbar-text {
