@@ -64,20 +64,21 @@ $border-radius-small:       0px;
 
 //== Navbar
 
-$navbar-height:                    30px;
-$navbar-padding-horizontal:		   10px;
+$navbar-height:                    33px;
+$navbar-padding-horizontal:		   7px;
+$navbar-padding-vertical:          (($navbar-height - $line-height-computed) / 2);
 
 $navbar-default-bg:				$gray-light;
 $navbar-default-link-color:		$link-color;
 $navbar-default-link-hover-color: $link-hover-color;
-$navbar-default-link-active-bg: $body-bg;
+$navbar-default-link-active-color: $link-color;
+$navbar-default-link-active-bg: $navbar-default-bg;
 
 $navbar-inverse-color:          #549355;
 $navbar-inverse-bg:				#002801; 
 
 $navbar-inverse-link-color:      #f8f8f1;
-$navbar-inverse-link-active-color: $gray-dark;
-$navbar-inverse-link-active-bg:  $gray-light;
+$navbar-inverse-link-active-bg:  $navbar-inverse-bg;
 
 //== Navs
 

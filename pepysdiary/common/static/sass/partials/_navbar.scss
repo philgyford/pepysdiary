@@ -8,6 +8,32 @@
 }
 .navbar-subnav {
 	margin-top: -($navbar-margin-bottom);
+	.navbar-nav {
+		/**
+		 * We have extra <span>s inside the <a>s in the subnav, so that we can
+		 * add a bottom border 'on' state to them.
+		 * So we have to remove bottom padding from the <a>s and add it to the 
+		 * <span>s.
+		 */
+		> li > a {
+			padding-bottom: 0;
+			span {
+				padding-bottom: 10px;
+			}
+		}
+		@media (min-width: $grid-float-breakpoint) {
+			> li > a {
+				padding-bottom: 0;
+				span {
+					/* +1 to make bottom border meet bottom of navbar. */
+					padding-bottom: $navbar-padding-vertical + 1;
+				}
+			}
+		}
+		> .active > a > span {
+			border-bottom: 4px solid $site-highlight-color;	
+		}
+	}
 }
 .navbar-supernav {
 	position: absolute;
@@ -24,25 +50,25 @@
 }
 
 /**
- * For adding bullet-separators.
+ * Add bullet-separators.
  */
-//.navbar-nav > li {
-	//padding-right: ($navbar-padding-horizontal + 2);
-	//background: url(#{$img-path}/backgrounds/bullets.png) right 0.95em no-repeat;
-	//.navbar-inverse & {
-		//background-position: right -1.6em;
+.navbar-nav > li {
+	padding-right: ($navbar-padding-horizontal + 2);
+	background: url(#{$img-path}/backgrounds/bullets.png) right 0.95em no-repeat;
+	.navbar-inverse & {
+		background-position: right -1.6em;
 	
-	//}
-	//&.navbar-text {
-		//margin-left: 0;
-		//margin-right: 0;
-		//padding-left: $navbar-padding-horizontal * 2;
-		//padding-right: ($navbar-padding-horizontal * 2) + 2;
-		//background-position: right -1.8em;
-	//}
-	//&:last-child{
-		//padding-right: 0;
-		//background: none;
-	//}
-//}
+	}
+	&.navbar-text {
+		margin-left: 0;
+		margin-right: 0;
+		padding-left: $navbar-padding-horizontal * 2;
+		padding-right: ($navbar-padding-horizontal * 2) + 2;
+		background-position: right -1.8em;
+	}
+	&:last-child{
+		padding-right: 0;
+		background: none;
+	}
+}
 
