@@ -27,8 +27,10 @@ $site-subnav-color:       #b7b7b2; // dividers.
 $site-highlight-color: #589359; // eg 'on' border of subnav.
 
 $aside-bg:                #fff;
+$aside-title-color:		  #fff;
 $aside-title-bg:          #549355;
 $aside-hr-color:          $gray-lightish;
+$aside-padding-horizontal: 10px;
 
 $comments-header-bg:      $gray-light; // eg behind '3 annotations'.
 $comments-hr-color:       $gray-lightish; // Between each one.
