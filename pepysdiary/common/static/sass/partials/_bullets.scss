@@ -1,0 +1,9 @@
+.feeds {
+	list-style-type: none;
+	padding-left: $aside-padding-horizontal;
+	> li > a {
+		background: url(#{$img-path}/backgrounds/bullet_rss.png) 0 0.2em no-repeat;
+		padding-left: 25px;
+
+	}
+}
