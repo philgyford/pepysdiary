@@ -7,7 +7,7 @@
 	border: none;
 }
 /**
- * We have extra <span>s inside the <a>s in the subnav, so that we can
+ * We have extra <span class="inner">s inside the <a>s in the subnav, so that we can
  * add a bottom border 'on' state to them.
  * So we have to remove bottom padding from the <a>s and add it to the 
  * <span>s.
@@ -15,13 +15,11 @@
 .navbar-nav {
 	> li > a {
 		padding-bottom: 0;
-		span {
-		}
 	}
 	@media (min-width: $grid-float-breakpoint) {
 		> li > a {
 			padding-bottom: 0;
-			span {
+			.inner {
 				display: block;
 			}
 		}
@@ -32,7 +30,7 @@
  */
 .navbar-mainnav {
 	.navbar-nav {
-		> .active > a > span {
+		> .active > a > .inner {
 			background: url(#{$img-path}/backgrounds/navbar.png) center bottom no-repeat;
 			/* To make up for having no border-bottom: */
 			padding-bottom: 4px;
@@ -42,7 +40,7 @@
 .navbar-subnav {
 	margin-top: -($navbar-margin-bottom);
 	.navbar-nav {
-		> .active > a > span {
+		> .active > a > .inner {
 			border-bottom: 4px solid $site-highlight-color;	
 		}
 	}

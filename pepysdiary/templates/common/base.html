@@ -51,25 +51,25 @@
 			<div class="collapse navbar-collapse" id="site-nav-collapse">
 				<ul class="nav navbar-nav">
 					<li class="{% block diary_nav_active %}{% endblock %}">
-						<a href="{% url 'home' %}"><span>The Diary</span></a>
+						<a href="{% url 'home' %}"><span class="inner">The Diary</span></a>
 					</li>
 					<li class="{% block letter_nav_active %}{% endblock %}">
-						<a href="{% url 'letters' %}"><span>Letters</span></a>
+						<a href="{% url 'letters' %}"><span class="inner">Letters</span></a>
 					</li>
 					<li class="{% block encyclopedia_nav_active %}{% endblock %}">
-						<a href="{% url 'encyclopedia' %}"><span>Encyclopedia</span></a>
+						<a href="{% url 'encyclopedia' %}"><span class="inner">Encyclopedia</span></a>
 					</li>
 					<li class="{% block indepth_nav_active %}{% endblock %}">
-						<a href="{% url 'indepth' %}"><span>In-depth Articles</span></a>
+						<a href="{% url 'indepth' %}"><span class="inner">In-depth Articles</span></a>
 					</li>
 					<li class="{% block news_nav_active %}{% endblock %}">
-						<a href="{% url 'news' %}"><span>Site News</span></a>
+						<a href="{% url 'news' %}"><span class="inner">Site News</span></a>
 					</li>
 					<li class="{% block recent_nav_active %}{% endblock %}">
-						<a href="{% url 'recent' %}"><span>Recent Activity</span></a>
+						<a href="{% url 'recent' %}"><span class="inner">Recent Activity</span></a>
 					</li>
 					<li class="{% block about_nav_active %}{% endblock %}">
-						<a href="{% url 'about' %}"><span>About</span></a>
+						<a href="{% url 'about' %}"><span class="inner">About</span></a>
 					</li>
 				</ul> <!-- .nav.navbar-nav -->
 			</div> <!-- .navbar-collapse -->
@@ -83,31 +83,31 @@
 			<div class="container">
 				<ul class="nav navbar-nav">
 					{% if subnav == 'diary' %}
-						<li class="{% block diary_home_nav_active %}{% endblock %}"><a href="{% url 'home' %}"><span>Latest</span></a></li>
-						<li class="{% block diary_archive_nav_active %}{% endblock %}"><a href="{% url 'entry_archive' %}"><span>Archive</span></a></li>
-						<li class="{% block diary_summary_nav_active %}{% endblock %}"><a href="{% url 'diary_summary' %}"><span>Summary</span></a></li>
-						<li class="{% block diary_1893_nav_active %}{% endblock %}"><a href="{% url '1893_introduction' %}"><span>1893 Introduction</span></a></li>
+						<li class="{% block diary_home_nav_active %}{% endblock %}"><a href="{% url 'home' %}"><span class="inner">Latest</span></a></li>
+						<li class="{% block diary_archive_nav_active %}{% endblock %}"><a href="{% url 'entry_archive' %}"><span class="inner">Archive</span></a></li>
+						<li class="{% block diary_summary_nav_active %}{% endblock %}"><a href="{% url 'diary_summary' %}"><span class="inner">Summary</span></a></li>
+						<li class="{% block diary_1893_nav_active %}{% endblock %}"><a href="{% url '1893_introduction' %}"><span class="inner">1893 Introduction</span></a></li>
 
 					{% elif subnav == 'letters' %}
-						<li class="{% block letters_index_nav_active %}{% endblock %}"><a href="{% url 'letters' %}"><span>All letters</span></a></li>
+						<li class="{% block letters_index_nav_active %}{% endblock %}"><a href="{% url 'letters' %}"><span class="inner">All letters</span></a></li>
 
 					{% elif subnav == 'encyclopedia' %}
-						<li class="{% block encyclopedia_index_nav_active %}{% endblock %}"><a href="{% url 'encyclopedia' %}"><span>Categories</span></a></li>
-						<li class="{% block encyclopedia_map_nav_active %}{% endblock %}"><a href="{% url 'category_map' %}"><span>Map</span></a></li>
-						<li class="{% if flatpage and flatpage.url == '/encyclopedia/familytree/' %}active{% endif %}"><a href="{% url 'encyclopedia_familytree' %}"><span>Family tree</span></a></li>
+						<li class="{% block encyclopedia_index_nav_active %}{% endblock %}"><a href="{% url 'encyclopedia' %}"><span class="inner">Categories</span></a></li>
+						<li class="{% block encyclopedia_map_nav_active %}{% endblock %}"><a href="{% url 'category_map' %}"><span class="inner">Map</span></a></li>
+						<li class="{% if flatpage and flatpage.url == '/encyclopedia/familytree/' %}active{% endif %}"><a href="{% url 'encyclopedia_familytree' %}"><span class="inner">Family tree</span></a></li>
 
 					{% elif subnav == 'indepth' %}
-						<li class="{% block indepth_index_nav_active %}{% endblock %}"><a href="{% url 'indepth' %}"><span>Latest</span></a></li>
+						<li class="{% block indepth_index_nav_active %}{% endblock %}"><a href="{% url 'indepth' %}"><span class="inner">Latest</span></a></li>
 
 					{% elif subnav == 'recent' %}
-						<li class="{% block recent_index_nav_active %}{% endblock %}"><a href="{% url 'recent' %}"><span>Latest</span></a></li>
+						<li class="{% block recent_index_nav_active %}{% endblock %}"><a href="{% url 'recent' %}"><span class="inner">Latest</span></a></li>
 
 					{% elif subnav == 'about' %}
-						<li class="{% if url_name == 'about' %}active{% endif %}"><a href="{% url 'about' %}"><span>This site</span></a></li>
-						<li class="{% if url_name == 'about_text' %}active{% endif %}"><a href="{% url 'about_text' %}"><span>The text</span></a></li>
-						<li class="{% if url_name == 'about_faq' %}active{% endif %}"><a href="{% url 'about_faq' %}" title="Frequently Asked Questions"><span>FAQ</span></a></li>
-						<li class="{% if url_name == 'about_annotations' %}active{% endif %}"><a href="{% url 'about_annotations' %}"><span>Annotation guidelines</span></a></li>
-						<li class="{% if url_name == 'about_formats' %}active{% endif %}"><a href="{% url 'about_formats' %}"><span>Email &amp; RSS</span></a></li>
+						<li class="{% if url_name == 'about' %}active{% endif %}"><a href="{% url 'about' %}"><span class="inner">This site</span></a></li>
+						<li class="{% if url_name == 'about_text' %}active{% endif %}"><a href="{% url 'about_text' %}"><span class="inner">The text</span></a></li>
+						<li class="{% if url_name == 'about_faq' %}active{% endif %}"><a href="{% url 'about_faq' %}" title="Frequently Asked Questions"><span class="inner">FAQ</span></a></li>
+						<li class="{% if url_name == 'about_annotations' %}active{% endif %}"><a href="{% url 'about_annotations' %}"><span class="inner">Annotation guidelines</span></a></li>
+						<li class="{% if url_name == 'about_formats' %}active{% endif %}"><a href="{% url 'about_formats' %}"><span class="inner">Email &amp; RSS</span></a></li>
 					{% endif %}
 				</ul>
 			</div>
