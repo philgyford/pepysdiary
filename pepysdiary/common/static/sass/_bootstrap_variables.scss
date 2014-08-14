@@ -73,12 +73,14 @@ $navbar-default-link-color:		$link-color;
 $navbar-default-link-hover-color: $link-hover-color;
 $navbar-default-link-active-color: $link-color;
 $navbar-default-link-active-bg: $navbar-default-bg;
+$navbar-default-link-disabled-color: $gray-dark;
 
 $navbar-inverse-color:          #549355;
 $navbar-inverse-bg:				#002801; 
 
 $navbar-inverse-link-color:      #f8f8f1;
 $navbar-inverse-link-active-bg:  $navbar-inverse-bg;
+$navbar-inverse-link-disabled-color: $gray-light;
 
 //== Navs
 
