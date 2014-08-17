@@ -17,7 +17,10 @@
 		font-family: $font-family-serif;
 		font-size:	$font-size-base;
 		color:		$aside-title-color;
-		background:	$aside-title-bg url(#{$img-path}/aside-decoration.png) right center no-repeat;
+		@include img-retina('#{$img-path}/decorations.png', '#{$img-path}/decorations@2x.png', 194px, 120px);
+		background-position: right top;
+		background-repeat: no-repeat;
+		background-color: $aside-title-bg;
 		padding:	($line-height-computed / 3) $aside-padding-horizontal;
 	}
 
