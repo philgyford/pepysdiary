@@ -3,10 +3,15 @@
 
 @import "mixins/supernav-vertical-align";
 
-@import "partials/generic";
+
+// Overriding Bootstrap.
 @import "partials/scaffolding";
+@import "partials/type";
 @import "partials/navs";
 @import "partials/navbar";
+
+// Pepys-specific things.
+@import "partials/generic";
 @import "partials/site_header";
 @import "partials/asides";
 @import "partials/bullets";
