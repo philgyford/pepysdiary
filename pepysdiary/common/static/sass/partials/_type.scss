@@ -6,10 +6,10 @@
 }
 
 .lead {
-  font-size: $font-size-base;
-  line-height: 1.2em;
+	font-size: $font-size-base;
+	line-height: 1.2em;
 
-  @media (min-width: $screen-sm-min) {
-    font-size: $font-size-large;
-  }
+	@media (min-width: $screen-sm-min) {
+		font-size: $font-size-large;
+	}
 }
