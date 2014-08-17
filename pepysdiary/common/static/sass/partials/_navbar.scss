@@ -84,7 +84,7 @@ $subnav-active-border-height: 3px;
 .navbar-mainnav {
 	.navbar-nav {
 		> .active > a > .inner {
-			background: url(#{$img-path}/backgrounds/navbar.png) center bottom no-repeat;
+			background: url(#{$img-path}/navbar.png) center bottom no-repeat;
 		}
 	}
 }
@@ -102,7 +102,7 @@ $subnav-active-border-height: 3px;
  */
 .navbar-nav > li {
 	padding-right: ($navbar-padding-horizontal + 2);
-	background: url(#{$img-path}/backgrounds/navbar.png) right 1.3em no-repeat;
+	background: url(#{$img-path}/navbar.png) right 1.3em no-repeat;
 	.navbar-supernav & {
 		background-position: right 0.7em;
 	}

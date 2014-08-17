@@ -17,7 +17,7 @@
 		font-family: $font-family-serif;
 		font-size:	$font-size-base;
 		color:		$aside-title-color;
-		background:	$aside-title-bg url(#{$img-path}/backgrounds/aside_decoration.png) right center no-repeat;
+		background:	$aside-title-bg url(#{$img-path}/aside-decoration.png) right center no-repeat;
 		padding:	($line-height-computed / 3) $aside-padding-horizontal;
 	}
 
