@@ -84,7 +84,9 @@ $subnav-active-border-height: 3px;
 .navbar-mainnav {
 	.navbar-nav {
 		> .active > a > .inner {
-			background: url(#{$img-path}/bullets.png) center bottom no-repeat;
+			@include img-retina('#{$img-path}/bullets.png', '#{$img-path}/bullets@2x.png', 18px, 130px);
+			background-position: center bottom;
+			background-repeat: no-repeat;
 		}
 	}
 }
@@ -102,7 +104,9 @@ $subnav-active-border-height: 3px;
  */
 .navbar-nav > li {
 	padding-right: ($navbar-padding-horizontal + 2);
-	background: url(#{$img-path}/bullets.png) right 20px no-repeat;
+	@include img-retina('#{$img-path}/bullets.png', '#{$img-path}/bullets@2x.png', 18px, 130px);
+	background-position: right 20px;
+	background-repeat: no-repeat;
 	.navbar-supernav & {
 		background-position: right 12px;
 	}
