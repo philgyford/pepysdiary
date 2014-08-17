@@ -84,7 +84,7 @@ $subnav-active-border-height: 3px;
 .navbar-mainnav {
 	.navbar-nav {
 		> .active > a > .inner {
-			background: url(#{$img-path}/navbar.png) center bottom no-repeat;
+			background: url(#{$img-path}/bullets.png) center bottom no-repeat;
 		}
 	}
 }
@@ -102,15 +102,15 @@ $subnav-active-border-height: 3px;
  */
 .navbar-nav > li {
 	padding-right: ($navbar-padding-horizontal + 2);
-	background: url(#{$img-path}/navbar.png) right 1.3em no-repeat;
+	background: url(#{$img-path}/bullets.png) right 20px no-repeat;
 	.navbar-supernav & {
-		background-position: right 0.7em;
+		background-position: right 12px;
 	}
 	.navbar-inverse & {
-		background-position: right -1.9em;
+		background-position: right -29px;
 	}
 	.navbar-inverse.navbar-supernav & {
-		background-position: right -2.35em;
+		background-position: right -37px;
 	}
 	&.navbar-text {
 		margin-left: 0;
@@ -119,13 +119,13 @@ $subnav-active-border-height: 3px;
 		padding-right: ($navbar-padding-horizontal * 2) + 2;
 		background-position: right 0.85em;
 		.navbar-supernav & {
-			background-position: right 0.8em;
+			background-position: right 12px;
 		}
 		.navbar-inverse & {
-			background-position: right -2.2em;
+			background-position: right -29px;
 		}
 		.navbar-inverse.navbar-supernav & {
-			background-position: right -2.35em;
+			background-position: right -37px;
 		}
 	}
 	&:last-child{
