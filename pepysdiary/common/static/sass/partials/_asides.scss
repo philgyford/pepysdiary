@@ -24,5 +24,8 @@
 		background-color: $aside-title-bg;
 		padding:	($line-height-computed / 3) $aside-padding-horizontal;
 	}
+	&:first-child h1 {
+		margin-top: 0;
+	}
 
 }
