@@ -12,18 +12,18 @@
 	border-bottom: 1px solid $site-header-border-color;
 	padding-top: $padding-large-vertical;
 	padding-bottom: $padding-large-vertical;
-	margin-top: $navbar-height;
+	margin-top: $supernav-height;
 }
 .site-header .container {
 	background: url(#{$img-path}/site-header-pepys.png) 0 0 no-repeat;
-	min-height: 97px;
+	min-height: 144px;
 }
 .site-header-title {
 	color: $site-header-title-color;
 	text-rendering: optimizeLegibility;
-	margin-top: 0.4em;
-	margin-bottom: 0.1em;
-	margin-left: 80px;
+	margin-top: 0.6em;
+	margin-bottom: 0.15em;
+	margin-left: 121px;
 	a {
 		color: $site-header-title-color;
 	}
@@ -31,7 +31,8 @@
 .site-header-subtitle {
 	color: $site-header-subtitle-color;
 	font-style: italic;
-	margin-left: 87px;
+	font-size: $font-size-h4;
+	margin-left: 127px;
 }
 
 

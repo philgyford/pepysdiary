@@ -2,9 +2,6 @@
  * To make text line up with li's containing links.
  */
 .nav > li {
-	&.navbar-text {
-		line-height: $line-height-computed;
-	}
 	&.disabled > a {
 		&:hover,
 		&:focus {

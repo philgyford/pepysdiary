@@ -6,44 +6,10 @@
 	font-size: $font-size-small;
 	border: none;
 }
-/**
- * We have extra <span class="inner">s inside the <a>s in the subnav, so that we can
- * add a bottom border 'on' state to them.
- * So we have to remove bottom padding from the <a>s and add it to the 
- * <span>s.
- */
-.navbar-nav {
-	> li > a {
-		padding-bottom: 0;
-	}
-	@media (min-width: $grid-float-breakpoint) {
-		> li > a {
-			padding-bottom: 0;
-			.inner {
-				display: block;
-			}
-		}
-	}
-}
-/**
- * Arrow below the 'on' element.
- */
-.navbar-mainnav {
-	.navbar-nav {
-		> .active > a > .inner {
-			background: url(#{$img-path}/backgrounds/navbar.png) center bottom no-repeat;
-			/* To make up for having no border-bottom: */
-			padding-bottom: 4px;
-		}
-	}
-}
-.navbar-subnav {
-	margin-top: -($navbar-margin-bottom);
-	.navbar-nav {
-		> .active > a > .inner {
-			border-bottom: 4px solid $site-highlight-color;	
-		}
-	}
+/* Maybe need to add this back when collapsed, to look better? */
+.navbar-collapse {
+	padding-left: 0;
+	padding-right: 0;
 }
 
 .navbar-supernav {
@@ -51,6 +17,35 @@
 	top: 0;
 	left: 0;
 	width: 100%;
+
+	/* Replacements for standard navbar styles to account for smaller height. */
+	min-height: $supernav-height;
+	.navbar-nav {
+		margin-top: ($supernav-padding-vertical / 2);
+		> li > a {
+			line-height: $supernav-line-height-computed;
+		}
+
+		@media (max-width: $grid-float-breakpoint-max) {
+			> li > a {
+				line-height: $supernav-line-height-computed;
+			}
+		}
+	
+		@media (min-width: $grid-float-breakpoint) {
+			> li > a {
+				padding-top: $supernav-padding-vertical;
+				padding-bottom: $supernav-padding-vertical;
+			}
+		}
+	}
+	.navbar-text {
+		@include supernav-vertical-align($supernav-line-height-computed);
+		line-height: $supernav-line-height-computed;
+	}
+}
+.navbar-subnav {
+	margin-top: -($navbar-margin-bottom);
 }
 
 .navbar-nav > li > a {
@@ -60,22 +55,78 @@
 	}
 }
 
+
+/******************************************************************************
+ * Special 'on' markers.
+ */
+
 /**
+ * We have extra <span class="inner">s inside the <a>s in the subnav, so that 
+ * we can add a bottom border 'on' state to them.
+ * So we have to remove bottom padding from the <a>s and add to the <span>s.
+ */
+$subnav-active-border-height: 3px;
+
+.navbar-nav {
+	> li > a {
+		padding-bottom: 0;
+	}
+	@media (min-width: $grid-float-breakpoint) {
+		> li > a {
+			padding-bottom: 0;
+			.inner {
+				display: block;
+				padding-bottom: $navbar-padding-vertical;
+			}
+		}
+	}
+}
+.navbar-mainnav {
+	.navbar-nav {
+		> .active > a > .inner {
+			background: url(#{$img-path}/backgrounds/navbar.png) center bottom no-repeat;
+		}
+	}
+}
+.navbar-subnav {
+	.navbar-nav {
+		> .active > a > .inner {
+			padding-bottom: ($navbar-padding-vertical - $subnav-active-border-height);
+			border-bottom: $subnav-active-border-height solid $site-highlight-color;	
+		}
+	}
+}
+
+/******************************************************************************
  * Add bullet-separators.
  */
 .navbar-nav > li {
 	padding-right: ($navbar-padding-horizontal + 2);
-	background: url(#{$img-path}/backgrounds/navbar.png) right 1em no-repeat;
+	background: url(#{$img-path}/backgrounds/navbar.png) right 1.15em no-repeat;
+	.navbar-supernav & {
+		background-position: right 0.7em;
+	}
 	.navbar-inverse & {
-		background-position: right -1.0em;
-	
+		background-position: right -1.9em;
+	}
+	.navbar-inverse.navbar-supernav & {
+		background-position: right -2.35em;
 	}
 	&.navbar-text {
 		margin-left: 0;
 		margin-right: 0;
 		padding-left: $navbar-padding-horizontal * 2;
 		padding-right: ($navbar-padding-horizontal * 2) + 2;
-		background-position: right -1.35em;
+		background-position: right 0.85em;
+		.navbar-supernav & {
+			background-position: right 0.7em;
+		}
+		.navbar-inverse & {
+			background-position: right -2.2em;
+		}
+		.navbar-inverse.navbar-supernav & {
+			background-position: right -2.35em;
+		}
 	}
 	&:last-child{
 		padding-right: 0;

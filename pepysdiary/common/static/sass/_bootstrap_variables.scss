@@ -19,21 +19,21 @@ $font-family-sans-serif:  "Droid Sans", "Helvetica Neue", Helvetica, Arial, sans
 $font-family-serif:       "Crimson Text", "Times New Roman", Times, serif;
 $font-family-base:        $font-family-serif;
 
-$font-size-base:          18px;
-$font-size-large:         ceil(($font-size-base * 1.3333)); // 24px
-$font-size-small:         ceil(($font-size-base * 0.72222222));  // 13px
+$font-size-base:          24px;
+$font-size-large:         floor($font-size-base * 1.41666667);  // 34px
+$font-size-small:         floor($font-size-base * 0.6666667); // 16px
 
-$font-size-h1:            ceil(($font-size-base * 2));  // 36px
-$font-size-h2:            floor(($font-size-base * 1.666666667));  // 30px
-$font-size-h3:            ceil(($font-size-base * 1.3333333));  // 24px 
-$font-size-h4:            $font-size-base;
-$font-size-h5:            $font-size-small;
+$font-size-h1:            ceil($font-size-base * 1.83333333);  // 44px
+$font-size-h2:            $font-size-large;  // 34px
+$font-size-h3:            $font-size-base;                     // 24px 
+$font-size-h4:            floor($font-size-base * 0.91666667); // 22px;
+$font-size-h5:            ceil($font-size-base * 0.83333333); // 20px;
 $font-size-h6:            $font-size-small;
 
 //** Unit-less `line-height` for use in components like buttons.
-$line-height-base:        1.44444444444; // 26/18
+$line-height-base:        1.41666666667; // 24/34
 //** Computed "line-height" (`font-size` * `line-height`) for use with `margin`, `padding`, etc.
-$line-height-computed:    floor(($font-size-base * $line-height-base)); // ~20px
+$line-height-computed:    floor($font-size-base * $line-height-base); // ~34px
 
 $headings-font-weight:    400;
 $headings-line-height:    1.1;
@@ -64,7 +64,7 @@ $border-radius-small:       0px;
 
 //== Navbar
 
-$navbar-height:                    33px;
+$navbar-height:                    43px;
 $navbar-padding-horizontal:		   7px;
 $navbar-padding-vertical:          (($navbar-height - $line-height-computed) / 2);
 

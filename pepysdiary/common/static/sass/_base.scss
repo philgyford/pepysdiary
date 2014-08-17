@@ -24,13 +24,19 @@ $site-header-border-color:#325831; // Top and bottom.
 $site-subnav-bg:          $gray-light;
 $site-subnav-color:       #b7b7b2; // dividers.
 
+// User nav, top of page.
+// Thinner vertically, so some replacement styles:
+$supernav-height: 28px;
+$supernav-line-height-computed: 28px;
+$supernav-padding-vertical: (($supernav-height - $supernav-line-height-computed) / 2);
+
 $site-highlight-color: #589359; // eg 'on' border of subnav.
 
 $aside-bg:                #fff;
 $aside-title-color:		  #fff;
 $aside-title-bg:          #549355;
 $aside-hr-color:          $gray-lightish;
-$aside-padding-horizontal: 10px;
+$aside-padding-horizontal: 15px;
 
 $comments-header-bg:      $gray-light; // eg behind '3 annotations'.
 $comments-hr-color:       $gray-lightish; // Between each one.
