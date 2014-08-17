@@ -1,4 +1,10 @@
 
+.page-header h1,
+.entry h1 {
+	padding-bottom: 0.3em;
+	border-bottom: 1px solid $hr-border;
+}
+
 .lead {
   font-size: $font-size-base;
 
