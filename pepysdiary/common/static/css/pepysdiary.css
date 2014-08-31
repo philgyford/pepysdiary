@@ -242,6 +242,14 @@ The heights/sizes are all the same as Boostrap's for h1, h2, etc. */
 	top: 5px;
 	left: -10px;
 }
+/* Legacy classes, used in In-depth. */
+.author {
+	font-weight: bold;
+}
+img.illustration {
+	float: right;
+	margin: 0 0 10px 15px;
+}
 
 
 /* Header */
