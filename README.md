@@ -33,7 +33,7 @@ To update all the gems to the latest versions:
 
 Then, run this:
 
-	$ compass watch .
+	$ bundle exec compass watch .
 
 to have Compass continually watch the SASS files for any changes, and compile a new `pepysdiary/common/static/css/pepysdiary.css` file.
 
