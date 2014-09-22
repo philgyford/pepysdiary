@@ -1,17 +1,15 @@
 //@import url(http://fonts.googleapis.com/css?family=Droid+Sans:400,700|Crimson+Text:400,400italic);
 @import "base";
 
-@import "mixins/supernav-vertical-align";
+/****************************************************************************/
+/* More specific elements - TODO: should be split into their own files. */
 
+#id_honeypot {
+    display: none;
+}
 
-// Overriding Bootstrap.
-@import "partials/scaffolding";
-@import "partials/type";
-@import "partials/navs";
-@import "partials/navbar";
-
-// Pepys-specific things.
-@import "partials/generic";
-@import "partials/site_header";
-@import "partials/asides";
-@import "partials/bullets";
+/* Encyclopedia topic page. */
+#map-frame {
+    width: 100%;
+    height: 400px;
+}

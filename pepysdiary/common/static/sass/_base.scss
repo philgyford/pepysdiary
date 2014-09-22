@@ -8,16 +8,7 @@
 
 @import "_variables";
 
+@import "mixins/all";
 
-/****************************************************************************/
-/* More specific elements - TODO: should be split into their own files. */
+@import "partials/all";
 
-#id_honeypot {
-    display: none;
-}
-
-/* Encyclopedia topic page. */
-#map-frame {
-    width: 100%;
-    height: 400px;
-}
