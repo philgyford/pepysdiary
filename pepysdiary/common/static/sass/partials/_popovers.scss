@@ -1,0 +1,29 @@
+/**
+ * Updates on Bootstrap's popovers.scss
+ */
+
+.popover {
+	font-family: $font-family-sans-serif;
+	font-size: $font-size-small;
+
+	.thumbnail {
+		float: right;
+	}
+}
+
+.popover-title {
+	font-size: $font-size-small;
+	line-height: $line-height-base;
+}
+
+.popover-hasthumbnail {
+	.popover-content {
+		@include clearfix;
+	}
+	.thumbnail {
+		float: right;
+		margin-left: 5px;
+		margin-bottom: 5px;
+	}
+}
+

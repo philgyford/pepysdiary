@@ -97,11 +97,11 @@ window.pepys.tooltips = {
                     title: that.tooltips[id].title,
                     content: that.tooltip_content(
                         that.tooltips[id].text, that.tooltips[id].thumbnail_url),
-                    trigger: 'hover',
-                    placement: 'right',
+                    trigger: 'hover click',
+                    placement: 'auto',
                     html: true
                     // For debugging CSS etc:
-                    // delay: { show: 0, hide: 100000 }
+                    //delay: { show: 0, hide: 100000 }
                 };
                 if (that.tooltips[id].thumbnail_url) {
                     // We want to make the popovers wider when there's a
@@ -111,7 +111,7 @@ window.pepys.tooltips = {
                     // `popover-hasthumbnail` added to .popover and
                     // `clearfix` added to .popover-content.
                     // Original template: https://github.com/twitter/bootstrap/blob/master/js/bootstrap-popover.js#L102
-                    tip_options.template = '<div class="popover popover-hasthumbnail"><div class="arrow"></div><div class="popover-inner"><h3 class="popover-title"></h3><div class="popover-content clearfix"></div></div></div>';
+                    tip_options.template = '<div class="popover popover-hasthumbnail" role="tooltip"><div class="arrow"></div><h3 class="popover-title"></h3><div class="popover-content"></div></div>';
                 };
                 $(this).popover(tip_options);
             };
@@ -139,9 +139,7 @@ window.pepys.tooltips = {
      */
     tooltip_content: function(text, thumbnail_url) {
         if (thumbnail_url) {
-            return '<div class="popover-thumbtext">' + text + '</div><img src="' +
-                thumbnail_url +
-                '" class="thumbnail" width="100" height="120" alt="Thumbnail" />';
+            return '<img src="' + thumbnail_url + '" class="thumbnail" width="100" height="120" alt="Thumbnail" />' + text;
         } else {
             return text;
         };

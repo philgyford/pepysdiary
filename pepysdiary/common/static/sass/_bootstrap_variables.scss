@@ -3,7 +3,9 @@
 
 //== Colors
 $gray-dark:               #4a4a45;
+$gray-mid:				  #999;		// Not Bootstrap.
 $gray-light:              #ebebe5;
+$gray-lightish:           #e5e5e5; // Not Bootstrap.
 $gray-lighter:            #f8f8f1;
 
 //== Scaffolding
@@ -37,7 +39,7 @@ $line-height-base:        1.454545454545; // 22/32
 $line-height-computed:    ceil($font-size-base * $line-height-base); // 32px
 
 $headings-font-weight:    400;
-$headings-line-height:    1.1;
+$headings-line-height:    1.2;
 
 //-- Iconography
 
@@ -93,7 +95,13 @@ $nav-link-padding:				10px $navbar-padding-horizontal;
 //== Jumbotron
 //== Form states and alerts
 //== Tooltips
+
 //== Popovers
+
+$popover-max-width:			350px;
+$popover-border-color:		$gray-light;
+$popover-title-bg:			$gray-light;
+
 //== Labels
 //== Modals
 //== Alerts
