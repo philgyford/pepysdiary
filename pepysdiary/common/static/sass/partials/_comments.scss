@@ -1,0 +1,35 @@
+/**
+ * Styling for comments/annotations.
+ */
+
+.comments {
+	font-family: $font-family-sans-serif;
+}
+
+.comments-title {
+	background: $gray-light;
+	font-family: $font-family-serif;
+	font-size: $font-size-large;
+	padding: ceil($line-height-computed / 3) $grid-gutter-width;
+}
+
+.media {
+	border-bottom: 1px solid $hr-border;
+}
+
+.media-heading {
+	font-size: $font-size-base;
+	font-weight: bold;
+	margin-bottom: $font-size-small;
+
+	small {
+		color: $gray-mid;
+		font-size: $font-size-small;
+		font-weight: normal;
+	}
+}
+
+.media-body {
+	font-size: $font-size-small;
+	padding-right: ceil($grid-gutter-width / 2);
+}

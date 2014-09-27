@@ -3,6 +3,7 @@
 
 	font-size: $font-size-smallish;
 	font-family: $font-family-sans-serif;
+	font-weight: bold;
 
 	a {
 		@include img-retina('#{$img-path}/bullets.png', '#{$img-path}/bullets@2x.png', 36px, 210px);

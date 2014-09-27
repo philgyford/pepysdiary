@@ -3,7 +3,7 @@
 
 //== Colors
 $gray-dark:               #4a4a45;
-$gray-mid:				  #999;		// Not Bootstrap.
+$gray-mid:				  #7c7c74; // Not Bootstrap.
 $gray-light:              #ebebe5;
 $gray-lightish:           #e5e5e5; // Not Bootstrap.
 $gray-lighter:            #f8f8f1;
@@ -22,7 +22,7 @@ $font-family-serif:       "Crimson Text", "Times New Roman", Times, serif;
 $font-family-base:        $font-family-serif;
 
 $font-size-base:          22px;
-$font-size-large:         floor($font-size-base * 1.3636363636);  // 30px
+$font-size-large:         ceil($font-size-base * 1.3636363636);  // 30px
 $font-size-smallish:	  ceil($font-size-base * 0.818181818); // 18px; (Not Bootstrap)
 $font-size-small:         ceil($font-size-base * 0.727272727); // 16px
 

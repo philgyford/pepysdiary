@@ -31,30 +31,28 @@ NOTE: The listings in templatetags/list_tags.py for the Recent Activity page
 	    		{% if show_object_titles %}
 	    			<p>About <a href="{{ comment.content_object.get_absolute_url }}"><strong>{{ comment.content_object.title }}</strong></a></p>
 	    		{% endif %}
-				<header class="media-heading">
-					<p>
-						<span class="comment-name">
-							{% if comment.user %}
-								<a href="{{ comment.user.get_absolute_url }}" title="See more about this person">{{ comment.get_user_name }}</a>
-							{% elif comment.get_user_url %}
-								<a href="{{ comment.get_user_url }}" title="Visit this person’s website" rel="nofollow">{{ comment.get_user_name }}</a>
-							{% else %}
-								{{ comment.get_user_name }}
-							{% endif %}
-						</span>
-						<small>
-							<time class="timeago" datetime="{{ comment.submit_date|date:'c' }}">on {{ comment.submit_date|date:date_format_mid }}</time>
-							&nbsp; <a href="{% if show_object_titles %}{{ comment.content_object.get_absolute_url }}{% endif %}#c{{comment.id}}" title="Link directly to this {% if object and object.comment_name %}{{ object.comment_name }}{% endif %}"><span class="glyphicon glyphicon-share"></span><span class="sr-only">Link to this</span></a>
-							{% if user.is_authenticated %}
-								&nbsp; <a href="{% url 'comments-flag' comment.id %}" title="Flag this {{ object.comment_name }} if it’s spam or inappropriate. You’ll have a chance to confirm."><span class="glyphicon glyphicon-flag"></span><span class="sr-only">Flag this</span></a>
-							{% endif %}
-							{% if perms.annotation.can_edit %}
-								&nbsp; <a class="admin" href="{% url 'admin:annotations_annotation_change' comment.id %}" title="Edit"><span class="glyphicon glyphicon-edit"></span><span class="sr-only">Edit</span></a>
-							{% endif %}
-						</small>
-					</p>
-				</header>
-		        <p>{{ comment.comment|urlizetrunc:50|linebreaks }}</p>
+				<h2 class="media-heading">
+					<span class="comment-name">
+						{% if comment.user %}
+							<a href="{{ comment.user.get_absolute_url }}" title="See more about this person">{{ comment.get_user_name }}</a>
+						{% elif comment.get_user_url %}
+							<a href="{{ comment.get_user_url }}" title="Visit this person’s website" rel="nofollow">{{ comment.get_user_name }}</a>
+						{% else %}
+							{{ comment.get_user_name }}
+						{% endif %}
+					</span>
+					<small>
+						<time class="timeago" datetime="{{ comment.submit_date|date:'c' }}">on {{ comment.submit_date|date:date_format_mid }}</time>
+						&nbsp; <a href="{% if show_object_titles %}{{ comment.content_object.get_absolute_url }}{% endif %}#c{{comment.id}}" title="Link directly to this {% if object and object.comment_name %}{{ object.comment_name }}{% endif %}"><span class="glyphicon glyphicon-share"></span><span class="sr-only">Link to this</span></a>
+						{% if user.is_authenticated %}
+							&nbsp; <a href="{% url 'comments-flag' comment.id %}" title="Flag this {{ object.comment_name }} if it’s spam or inappropriate. You’ll have a chance to confirm."><span class="glyphicon glyphicon-flag"></span><span class="sr-only">Flag this</span></a>
+						{% endif %}
+						{% if perms.annotation.can_edit %}
+							&nbsp; <a class="admin" href="{% url 'admin:annotations_annotation_change' comment.id %}" title="Edit"><span class="glyphicon glyphicon-edit"></span><span class="sr-only">Edit</span></a>
+						{% endif %}
+					</small>
+				</h2>
+		        {{ comment.comment|urlizetrunc:50|linebreaks }}
 		    </div>
 		</article>
 	{% endfor %}
