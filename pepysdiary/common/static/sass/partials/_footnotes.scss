@@ -12,10 +12,12 @@
 		padding-left: $grid-gutter-width;
 		padding-right: $grid-gutter-width;
 	}
+
 	li,
 	li p {
 		margin-bottom: 1em;
 	}
+
 	li p:last-child {
 		margin-bottom: 0;
 	}
