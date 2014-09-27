@@ -22,7 +22,7 @@ $font-family-base:        $font-family-serif;
 $font-size-base:          22px;
 $font-size-large:         floor($font-size-base * 1.3636363636);  // 30px
 $font-size-smallish:	  ceil($font-size-base * 0.818181818); // 18px; (Not Bootstrap)
-$font-size-small:         floor($font-size-base * 0.6666667); // 16px
+$font-size-small:         ceil($font-size-base * 0.727272727); // 16px
 
 $font-size-h1:            ceil($font-size-base * 1.818181818);  // 40px
 $font-size-h2:            $font-size-large;
