@@ -1,10 +1,9 @@
 .feeds {
 	list-style-type: none;
 	> li > a {
-		@include img-retina('#{$img-path}/bullets.png', '#{$img-path}/bullets@2x.png', 18px, 130px);
+		@include img-retina('#{$img-path}/bullets.png', '#{$img-path}/bullets@2x.png', 36px, 210px);
 		background-position: 0 -73px;
 		background-repeat: no-repeat;
 		padding-left: 25px;
-		
 	}
 }

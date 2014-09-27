@@ -117,6 +117,26 @@ class Entry(PepysModel, OldDateMixin):
             day = 1
         return datetime.datetime(year, month, day, 23, 0, 0).replace(tzinfo=tz)
 
+    @property
+    def short_title(self):
+        """
+        If self.title is 'Monday 16 Septmber 1661' then self.short_title
+        is 'Mon 16 Sep 1661'.
+        """
+        replacements = {'Monday': 'Mon', 'Tuesday': 'Tue', 'Wednesday': 'Wed',
+                'Thursday': 'Thu', 'Friday': 'Fri', 'Saturday': 'Sat',
+                'Sunday': 'Sun',
+                'January': 'Jan', 'February': 'Feb', 'March': 'Mar',
+                'April': 'Apr', 'May': 'May', 'June': 'Jun', 'July': 'Jul',
+                'August': 'Aug', 'September': 'Sep', 'October': 'Oct',
+                'November': 'Nov', 'December': 'Dec'}
+
+        short_title = self.title 
+        for k, v in replacements.iteritems():
+            short_title = short_title.replace(k, v)
+
+        return short_title
+
     def make_references(self):
         """
         Sets all the Encyclopedia Topics the text of this entry (and footnotes)

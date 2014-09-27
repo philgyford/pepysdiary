@@ -8,7 +8,13 @@ Expects:
 {% load text_formatting_filters %}
 
 <article class="entry">
-	<h1><a href="{{ entry.get_absolute_url }}">{{ entry.title }}</a></h1>
+	<h1>
+		{% if in_list %}
+			<a href="{{ entry.get_absolute_url }}">{{ entry.title }}</a>
+		{% else %}
+			{{ entry.title }}
+		{% endif %}
+	</h1>
 
 	{% if perms.annotation.can_edit %}
 		{% load widget_tags %}

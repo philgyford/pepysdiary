@@ -1,0 +1,25 @@
+.nextprev {
+	@include clearfix;
+
+	font-size: $font-size-smallish;
+	font-family: $font-family-sans-serif;
+
+	a {
+		@include img-retina('#{$img-path}/bullets.png', '#{$img-path}/bullets@2x.png', 36px, 210px);
+		background-repeat: no-repeat;
+	}
+}
+.nextprev-next {
+	float: right;
+	a {
+		padding-right: 50px;
+		background-position: right -136px;
+	}
+}
+.nextprev-prev {
+	float: left;
+	a {
+		padding-left: 50px;
+		background-position: left -101px;
+	}
+}

@@ -84,7 +84,7 @@ $subnav-active-border-height: 3px;
 .navbar-mainnav {
 	.navbar-nav {
 		> .active > a > .inner {
-			@include img-retina('#{$img-path}/bullets.png', '#{$img-path}/bullets@2x.png', 18px, 130px);
+			@include img-retina('#{$img-path}/bullets.png', '#{$img-path}/bullets@2x.png', 36px, 210px);
 			background-position: center bottom;
 			background-repeat: no-repeat;
 		}
@@ -104,7 +104,7 @@ $subnav-active-border-height: 3px;
  */
 .navbar-nav > li {
 	padding-right: ($navbar-padding-horizontal + 2);
-	@include img-retina('#{$img-path}/bullets.png', '#{$img-path}/bullets@2x.png', 18px, 130px);
+	@include img-retina('#{$img-path}/bullets.png', '#{$img-path}/bullets@2x.png', 36px, 210px);
 	background-position: right 20px;
 	background-repeat: no-repeat;
 	.navbar-supernav & {

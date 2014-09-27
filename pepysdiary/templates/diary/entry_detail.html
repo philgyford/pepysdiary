@@ -11,13 +11,13 @@
 
 	{% include 'inc/entry.html' with entry=entry %}
 
+	{% include 'inc/next_previous.html' with next=next_entry previous=previous_entry %}
+
 	{% include 'inc/comments.html' with object=entry %}
 
 {% endblock main_content %}
 
-
 {% block sidebar_content %}
-	{% include 'inc/next_previous.html' with next=next_entry previous=previous_entry %}
 
 	{% load event_tags %}
 	{% events_for_day_in_sidebar entry.diary_date exclude='entries' %}

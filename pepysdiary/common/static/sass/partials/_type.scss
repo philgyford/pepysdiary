@@ -1,10 +1,14 @@
 /**
  * Overriding Bootstrap's styles.
  */
+.page-header {
+	margin-top: 0;
+}
 .page-header h1,
 .entry h1 {
 	padding-bottom: 0.3em;
 	border-bottom: 1px solid $hr-border;
+	margin-top: 0;
 }
 
 .lead {
