@@ -26,8 +26,8 @@ hr {
 	}
 	&.decoration-big {
 		border-width: 1px;
-		margin-top: ceil($line-height-computed * 2);
-		margin-bottom: ceil($line-height-computed * 2);
+		margin-top: $line-height-computed * 3;
+		margin-bottom: $line-height-computed * 2;
 		&:after {
 			top: -32px;
 			background-position: center -84px;
