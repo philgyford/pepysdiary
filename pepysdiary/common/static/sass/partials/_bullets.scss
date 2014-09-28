@@ -1,5 +1,7 @@
 .feeds {
 	list-style-type: none;
+	padding-left: 0;
+
 	> li > a {
 		@include img-retina('#{$img-path}/bullets.png', '#{$img-path}/bullets@2x.png', 36px, 210px);
 		background-position: 0 -73px;

@@ -1,16 +1,11 @@
 .aside-block {
 	background: $aside-bg;
+	margin-top: $line-height-computed;
 	padding-bottom: ($line-height-computed / 2);
+}
 
-	> ul,
-	> dl,
-	> p {
-		padding-left: $aside-padding-horizontal;
-		padding-right: $aside-padding-horizontal;
-		&:last-child {
-			margin-bottom: 0;
-		}
-	}
+.aside-block:first-child {
+	margin-top: 0;
 }
 
 .aside-title {
@@ -21,10 +16,18 @@
 	background-position: right top;
 	background-repeat: no-repeat;
 	background-color: $aside-title-bg;
+	margin-top: 0;
 	padding:	($line-height-computed / 3) $aside-padding-horizontal;
 }
 
-.aside-block:first-child .aside-title {
-	margin-top: 0;
+.aside-body {
+	padding-left: $aside-padding-horizontal;
+	padding-right: $aside-padding-horizontal;
 }
-
+	//> ul,
+	//> dl,
+	//> p {
+		//&:last-child {
+			//margin-bottom: 0;
+		//}
+	//}

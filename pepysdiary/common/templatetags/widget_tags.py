@@ -24,7 +24,9 @@ def put_in_block(body, title=''):
 
     return """<aside class="aside-block">
 %s
+    <div class="aside-body">
 %s
+    </div>
 </aside>
 """ % (header, body)
 
