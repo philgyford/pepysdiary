@@ -5,6 +5,7 @@
 .popover {
 	font-family: $font-family-sans-serif;
 	font-size: $font-size-small;
+	width: $popover-max-width;
 
 	.thumbnail {
 		float: right;
