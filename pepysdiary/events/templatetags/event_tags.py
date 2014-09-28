@@ -127,8 +127,9 @@ def events_for_day_in_sidebar(date, exclude=None):
         return """<aside class="aside-block">
     <header class="aside-header">
         <h1 class="aside-title">Also on this day</h1>
-        <div class="aside-body">
+    </header>
+    <div class="aside-body">
 %s
-        </div>
+    </div>
 </aside>
 """ % html

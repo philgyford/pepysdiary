@@ -1,7 +1,5 @@
 .aside-block {
-	background: $aside-bg;
 	margin-top: $line-height-computed;
-	padding-bottom: ($line-height-computed / 2);
 }
 
 .aside-block:first-child {
@@ -17,17 +15,18 @@
 	background-repeat: no-repeat;
 	background-color: $aside-title-bg;
 	margin-top: 0;
+	margin-bottom: 0;
 	padding:	($line-height-computed / 3) $aside-padding-horizontal;
 }
 
 .aside-body {
-	padding-left: $aside-padding-horizontal;
-	padding-right: $aside-padding-horizontal;
+	background: $aside-bg;
+	padding: ($line-height-computed / 2) $aside-padding-horizontal;
+	> ul,
+	> dl,
+	> p {
+		&:last-child {
+			margin-bottom: 0;
+		}
+	}
 }
-	//> ul,
-	//> dl,
-	//> p {
-		//&:last-child {
-			//margin-bottom: 0;
-		//}
-	//}
