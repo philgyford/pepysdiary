@@ -12,34 +12,40 @@ register = template.Library()
 # Things that appear in the sidebar or footer on several pages.
 
 
-def put_in_block(html):
-    "All sidebar content should be wrapped in this."
+def put_in_block(body, title=''):
+    """
+    All sidebar content should be wrapped in this.
+    `body` should be an HTML/text string.
+    `title` is an optional title HTML/text string.
+    """
+    header = ''
+    if title:
+        header = '<header class="aside-header"><h1 class="aside-title">%s</h1></header>' % title
+
     return """<aside class="aside-block">
 %s
+%s
 </aside>
-""" % html
+""" % (header, body)
 
 
 @register.simple_tag
 def email(*args):
-    return put_in_block("""<h1>Pepys by email</h1>
-<p><a href="http://feedburner.google.com/fb/a/mailverify?uri=PepysDiary&amp;loc=en_US">Receive diary entries by email daily</a></p>
-""")
+    return put_in_block("""<p><a href="http://feedburner.google.com/fb/a/mailverify?uri=PepysDiary&amp;loc=en_US">Receive diary entries by email daily</a></p>
+""", 'Pepys by email')
 
 
 @register.simple_tag
 def twitter(*args):
-    return put_in_block("""<h1>Pepys on Twitter</h1>
-<p>Follow <a href="http://twitter.com/samuelpepys"><strong>@samuelpepys</strong></a>’ daily life on Twitter</p>
-""")
+    return put_in_block("""<p>Follow <a href="http://twitter.com/samuelpepys"><strong>@samuelpepys</strong></a>’ daily life on Twitter</p>
+""", 'Pepys on Twitter')
 
 @register.simple_tag
 def credit(*args):
-    return put_in_block("""<h1>About</h1>
-<p>This site is run by <a href="http://www.gyford.com/">Phil&nbsp;Gyford</a></p>
+    return put_in_block("""<p>This site is run by <a href="http://www.gyford.com/">Phil&nbsp;Gyford</a></p>
 <p><a href="https://twitter.com/philgyford">@philgyford</a> on Twitter</p>
 <p><a href="{% url 'about' %}">More about this site</a></p>
-""")
+""", 'About')
 
 
 @register.simple_tag
@@ -88,11 +94,10 @@ def rss_feeds(*args):
             html += '<li class="feed"><a href="%s">%s</a></li>' % (
                         feeds_dict[kind]['url'], feeds_dict[kind]['things'])
     if html != '':
-        html = put_in_block("""<h1>RSS feeds</h1>
-<ul class="feeds">
+        html = put_in_block("""<ul class="feeds">
 %s
 </ul>
-""" % html)
+""" % html, 'RSS feeds')
     return html
 
 
@@ -120,12 +125,11 @@ def recent_list(queryset, title, date_format):
         item.title,
         item_date.strftime(date_format))
 
-        html = """<h1>%s</h1>
-<dl class="dated">
+        html = """<dl class="dated">
 %s
 </dl>
-""" % (title, html)
-    return put_in_block(html)
+""" % (html)
+    return put_in_block(html, title)
 
 
 @register.simple_tag(takes_context=True)
