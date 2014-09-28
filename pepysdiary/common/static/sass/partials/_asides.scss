@@ -24,7 +24,10 @@
 	padding: ($line-height-computed / 2) $aside-padding-horizontal;
 
 	h2 {
+		border-bottom: 1px solid $aside-hr-color;
 		font-size: $font-size-base;
+		margin-bottom: 0.3em;
+		padding-bottom: 0.3em;
 
 		&:first-child {
 			margin-top: 0;
