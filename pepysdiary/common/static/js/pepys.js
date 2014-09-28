@@ -98,10 +98,10 @@ window.pepys.tooltips = {
                     content: that.tooltip_content(
                         that.tooltips[id].text, that.tooltips[id].thumbnail_url),
                     trigger: 'hover click',
-                    placement: 'auto',
+                    placement: 'auto left',
                     html: true
                     // For debugging CSS etc:
-                    //delay: { show: 0, hide: 100000 }
+                    //,delay: { show: 0, hide: 100000 }
                 };
                 if (that.tooltips[id].thumbnail_url) {
                     // We want to make the popovers wider when there's a

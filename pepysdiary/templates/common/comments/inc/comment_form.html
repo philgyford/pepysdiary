@@ -69,12 +69,10 @@ Expects:
 							<span class="help-block has-error">{{ form.comment.errors|join:'<br />' }}</span>
 						{% endif %}
 						<textarea class="form-control" cols="40" rows="8" id="id_comment" name="{{ form.comment.name }}">{% if form.comment.value %}{{ form.comment.value }}{% endif %}</textarea>
-						<p class="text-muted">
-							<small>
-								You’re not {{ user.get_full_name }}? <a href="{% url 'logout' %}">Log out.</a><br />
-								Please keep {{ object.comment_name }}s on topic and <a href="{% url 'django.contrib.flatpages.views.flatpage' url='/about/annotations/' %}">read the guidelines</a>.<br />
-								No HTML allowed. URLs will be turned into links.
-							</small>
+						<p class="comment-form-notes text-muted">
+							Please keep {{ object.comment_name }}s on topic and <a href="{% url 'django.contrib.flatpages.views.flatpage' url='/about/annotations/' %}">read the guidelines</a>.<br />
+							No HTML allowed. URLs will be turned into links.<br />
+							You’re not {{ user.get_full_name }}? <a href="{% url 'logout' %}">Log out.</a>
 						</p>
 					</div> <!-- .form-group -->
 					<div class="pull-right">
