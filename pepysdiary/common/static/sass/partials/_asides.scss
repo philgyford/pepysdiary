@@ -1,6 +1,5 @@
 .aside-block {
 	background: $aside-bg;
-	font-size: $font-size-small;
 	padding-bottom: ($line-height-computed / 2);
 
 	> ul,
@@ -16,7 +15,7 @@
 
 .aside-title {
 	font-family: $font-family-serif;
-	font-size:	$font-size-base;
+	font-size:	$font-size-large;
 	color:		$aside-title-color;
 	@include img-retina('#{$img-path}/decorations.png', '#{$img-path}/decorations@2x.png', 194px, 120px);
 	background-position: right top;

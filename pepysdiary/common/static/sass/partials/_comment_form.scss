@@ -3,5 +3,13 @@
  */
 
 #comment-form {
+	margin-top: ($line-height-computed / 2);
 }
 
+.comment-form-title {
+	font-size: $font-size-large;
+}
+.comment-form-notes {
+	font-size: $font-size-small;
+	margin-top: ($line-height-computed / 2);
+}

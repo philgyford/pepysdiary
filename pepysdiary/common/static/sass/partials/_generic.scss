@@ -6,7 +6,9 @@ cite {
 }
 .admin {
 	background: $admin-bg;
+	font-family: $font-family-sans-serif;
 	font-size: $font-size-small;
+	margin: 0;
 }
 .admin-links {
 	text-align: right;
