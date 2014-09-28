@@ -30,7 +30,7 @@ Expects:
 		</aside>
 	{% endif %}
 
-	{% if in_list or perms.annotation.can_edit %}
+	{% if in_list %}
 		<footer>
 			{% if in_list %}
 				<p class="entry-meta"><a href="{{ entry.get_absolute_url }}#annotations">Read {{ entry.comment_count }} annotation{{ entry.comment_count|pluralize }} by readers</a></p>

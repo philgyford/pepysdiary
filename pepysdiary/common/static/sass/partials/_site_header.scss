@@ -23,6 +23,7 @@
 }
 .site-header-title {
 	color: $site-header-title-color;
+	font-family: $font-family-serif;
 	text-rendering: optimizeLegibility;
 	margin-top: 0.6em;
 	margin-bottom: 0.15em;
@@ -33,6 +34,7 @@
 }
 .site-header-subtitle {
 	color: $site-header-subtitle-color;
+	font-family: $font-family-serif;
 	font-style: italic;
 	font-size: $font-size-h4;
 	margin-left: 127px;
