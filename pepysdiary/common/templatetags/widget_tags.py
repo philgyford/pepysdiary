@@ -169,23 +169,23 @@ def summary_year_navigation(current_year):
         css_class = 'active'
     else:
         current_year = current_year.year
-    html = '<li class="%s"><a href="%s">Before the diary</a></li>' % (
+    html = '<a class="list-group-item %s" href="%s">Before the diary</a>' % (
                                                     css_class,
                                                     reverse('diary_summary'))
     for y in [1660, 1661, 1662, 1663, 1664, 1665, 1666, 1667, 1668, 1669,]:
         css_class = ''
         if y == current_year:
             css_class = 'active'
-        html += '<li class="%s"><a href="%s">%s</a></li>' % (
+        html += '<a class="list-group-item %s" href="%s">%s</a>' % (
                         css_class,
                         reverse('summary_year_archive', kwargs={'year': y}),
                         y)
-    html += '<li><a href="%s">After the diary (In-Depth Article)</a></li>' % (
+    html += '<a class="list-group-item" href="%s">After the diary (In-Depth Article)</a>' % (
                         reverse('article_detail', kwargs={
                             'year': '2012', 'month': '05', 'day': '31',
                             'slug': 'the-next-chapter'}
                         ))
-    return put_in_block('<ul class="nav nav-pills nav-stacked">%s</ul>' % html)
+    return '<div class="list-group">%s</div>' % html
 
 
 @register.simple_tag

@@ -11,6 +11,10 @@
 	margin-top: 0;
 }
 
+.page-header h1 {
+	margin-bottom: 0;
+}
+
 .lead {
 	font-size: $font-size-largish;
 	line-height: 1.2em;
@@ -24,4 +28,8 @@ sup {
 	font-size: 80%;
 	margin-left: 0.15em;
 	margin-right: 0.1em;
+}
+
+blockquote {
+	margin-bottom: ceil($line-height-computed / 2);
 }

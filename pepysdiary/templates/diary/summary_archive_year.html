@@ -26,6 +26,10 @@
 				<p><a href="{% url 'entry_month_archive' year=summary.summary_date|date:"Y" month=summary.summary_date|date:"m" %}">Diary entries for {{ summary.summary_date|date:"F Y" }}</a></p>
 			</footer>
 		</article>
+
+		{% if not forloop.last %}
+			<hr class="decoration decoration-small" />
+		{% endif %}
 	{% endfor %}
 
 {% endblock main_content %}

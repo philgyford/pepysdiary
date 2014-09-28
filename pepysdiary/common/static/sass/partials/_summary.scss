@@ -1,0 +1,12 @@
+/**
+ * For the yearly /diary/summary/<year>/ pages.
+ */
+
+.summary:first-child h1 {
+	/* First title in the list. */
+	margin-top: 0;
+}
+
+.summary footer {
+	font-weight: bold;
+}
