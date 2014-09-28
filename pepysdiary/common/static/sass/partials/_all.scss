@@ -1,13 +1,15 @@
 
 // Overriding Bootstrap.
+@import "partials/forms";
+@import "partials/navbar";
+@import "partials/navs";
 @import "partials/scaffolding";
 @import "partials/type";
-@import "partials/navs";
-@import "partials/navbar";
 
 // Pepys-specific things.
 @import "partials/asides";
 @import "partials/bullets";
+@import "partials/comment_form";
 @import "partials/comments";
 @import "partials/footnotes";
 @import "partials/generic";

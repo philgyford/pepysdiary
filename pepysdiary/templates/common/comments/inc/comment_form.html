@@ -61,9 +61,9 @@ Expects:
 			    <form action="{% comment_form_target %}" method="post" id="comment-form" role="form">
 				    <div class="form-group{% if form.comment.errors %} has-error{% endif %}">
 				    	{% if preview %}
-					    	<label class="control-label" for="id_comment">Edit your {{ object.comment_name }} if required:</label>
+					    	<label class="control-label comment-form-title" for="id_comment">Edit your {{ object.comment_name }} if required:</label>
 				    	{% else %}
-					    	<label class="control-label" for="id_comment">Post {{ object.get_a_comment_name }} as <strong>{{ user.get_full_name }}</strong>:</label>
+					    	<label class="control-label comment-form-title" for="id_comment">Post {{ object.get_a_comment_name }} as <strong>{{ user.get_full_name }}</strong>:</label>
 					    {% endif %}
 						{% if form.comment.errors %}
 							<span class="help-block has-error">{{ form.comment.errors|join:'<br />' }}</span>
