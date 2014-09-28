@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from django import template
 from django.conf import settings
 from django.core.urlresolvers import reverse
@@ -21,21 +22,23 @@ def put_in_block(html):
 
 @register.simple_tag
 def email(*args):
-    return put_in_block("""<h1>Email</h1>
+    return put_in_block("""<h1>Pepys by email</h1>
 <p><a href="http://feedburner.google.com/fb/a/mailverify?uri=PepysDiary&amp;loc=en_US">Receive diary entries by email daily</a></p>
 """)
 
 
 @register.simple_tag
 def twitter(*args):
-    return put_in_block("""<h1>Twitter</h1>
-<p>Follow <a href="http://twitter.com/samuelpepys"><strong>@samuelpepys</strong></a> on Twitter for updates throughout the day</p>
+    return put_in_block("""<h1>Pepys on Twitter</h1>
+<p>Follow <a href="http://twitter.com/samuelpepys"><strong>@samuelpepys</strong></a>’ daily life on Twitter</p>
 """)
 
 @register.simple_tag
 def credit(*args):
-    return put_in_block("""<p>This site is run by <a href="http://www.gyford.com/">Phil Gyford</a>.</p>
-<p><a href="https://twitter.com/philgyford">@philgyford</a> on Twitter.</p>
+    return put_in_block("""<h1>About</h1>
+<p>This site is run by <a href="http://www.gyford.com/">Phil&nbsp;Gyford</a></p>
+<p><a href="https://twitter.com/philgyford">@philgyford</a> on Twitter</p>
+<p><a href="{% url 'about' %}">More about this site</a></p>
 """)
 
 
