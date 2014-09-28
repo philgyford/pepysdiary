@@ -22,11 +22,28 @@
 .aside-body {
 	background: $aside-bg;
 	padding: ($line-height-computed / 2) $aside-padding-horizontal;
-	> ul,
-	> dl,
-	> p {
+
+	h2 {
+		font-size: $font-size-base;
+
+		&:first-child {
+			margin-top: 0;
+		}
+	}
+
+	ul {
+		padding-left: ceil($font-size-base * 1.25);
+	}
+
+	ul,
+	dl,
+	p {
 		&:last-child {
 			margin-bottom: 0;
 		}
+	}
+
+	.text-right {
+		font-size: $font-size-small;
 	}
 }
