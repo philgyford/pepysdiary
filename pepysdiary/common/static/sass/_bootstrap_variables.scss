@@ -7,6 +7,9 @@ $gray-mid:				  #7c7c74; // Not Bootstrap.
 $gray-light:              #ebebe5;
 $gray-lightish:           #e5e5e5; // Not Bootstrap.
 $gray-lighter:            #f8f8f1;
+
+$brand-primary:			  #549355;
+
 //== Scaffolding
 $body-bg:                 $gray-lighter;
 $text-color:              $gray-dark;
@@ -80,7 +83,7 @@ $navbar-default-link-active-color: $link-color;
 $navbar-default-link-active-bg: $navbar-default-bg;
 $navbar-default-link-disabled-color: $gray-dark;
 
-$navbar-inverse-color:          #549355;
+$navbar-inverse-color:          $brand-primary;
 $navbar-inverse-bg:				#002801; 
 
 $navbar-inverse-link-color:      #f8f8f1;
@@ -109,6 +112,11 @@ $popover-title-bg:			$gray-light;
 //== Alerts
 //== Progress bars
 //== List group
+
+$list-group-border:			$gray-light;
+$list-group-hover-bg:		$gray-lighter;
+$list-group-link-color:		$link-color;
+
 //== Panels
 //== Thumbnails
 //== Wells
@@ -122,7 +130,7 @@ $popover-title-bg:			$gray-light;
 $text-muted:			$gray-mid;
 
 $blockquote-font-size:	$font-size-base;
-$blockquote-border-color: $gray-light;
+$blockquote-border-color: transparent;
 
 $hr-border:               #dfdfd8;
 
