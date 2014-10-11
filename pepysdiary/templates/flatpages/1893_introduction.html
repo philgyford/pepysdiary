@@ -5,13 +5,19 @@
 
 
 {% block before_flatpage_content %}
-	<p class="text-muted">The text below is taken from the 1893 edition of the diary, from which the diary entries on this site are also taken.</p>
+	<p class="text-muted">The text below is taken from the 1893 edition of the diary, from which the diary entries on this site are also taken. <a href="{% url 'about_text' %}">Read more about this text.</a></p>
 
-	<article class="manuscript">
+	{% if flatpage.url == '/diary/1893-introduction/pepys/' %}
+		<p class="text-muted">There is also <a href="/diary/summary/">a more modern and brief summary</a> of Pepys and his world.</p>
+	{% endif %}
+
+	<hr class="decoration decoration-small" />
+
+	<article class="manuscript manuscript-large">
 {% endblock %}
 
 {% block after_flatpage_content %}
-	</article> <!-- .well.well-manuscript -->
+	</article> <!-- .manuscript -->
 {% endblock %}
 
 
@@ -19,18 +25,11 @@
 	{% load widget_tags %}
 
 	<aside class="aside-block">
-		<h1>Sections from the 1893 introduction</h1>
-
-		<ul class="nav nav-pills nav-stacked">
-			<li{% if flatpage.url == '/diary/1893-introduction/' %} class="active"{% endif %}><a href="{% url '1893_introduction' %}">Cover text</a></li>
-			<li{% if flatpage.url == '/diary/1893-introduction/preface/' %} class="active"{% endif %}><a href="{% url '1893_introduction_preface' %}">Preface</a></li>
-			<li{% if flatpage.url == '/diary/1893-introduction/previous/' %} class="active"{% endif %}><a href="{% url '1893_introduction_previous' %}">Previous editions of the diary</a></li>
-			<li{% if flatpage.url == '/diary/1893-introduction/pepys/' %} class="active"{% endif %}><a href="{% url '1893_introduction_pepys' %}">Particulars of the life of Samuel Pepys</a></li>
-		</ul>
-	</aside>
-
-
-	<aside class="aside-block">
-		<p><a href="{% url 'about_text' %}">Read more about the text</a></p>
+		<div class="list-group">
+			<a class="list-group-item{% if flatpage.url == '/diary/1893-introduction/' %} active{% endif %}" href="{% url '1893_introduction' %}">Cover text</a>
+			<a class="list-group-item{% if flatpage.url == '/diary/1893-introduction/preface/' %} active{% endif %}" href="{% url '1893_introduction_preface' %}">Preface</a>
+			<a class="list-group-item{% if flatpage.url == '/diary/1893-introduction/previous/' %} active{% endif %}" href="{% url '1893_introduction_previous' %}">Previous editions of the diary</a>
+			<a class="list-group-item{% if flatpage.url == '/diary/1893-introduction/pepys/' %} active{% endif %}" href="{% url '1893_introduction_pepys' %}">Particulars of the life of Samuel Pepys</a>
+		</div>
 	</aside>
 {% endblock sidebar_content %}

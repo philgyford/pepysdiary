@@ -10,7 +10,7 @@
 	font-family: $font-family-serif;
 	font-size:	$font-size-large;
 	color:		$aside-title-color;
-	@include img-retina('#{$img-path}/decorations.png', '#{$img-path}/decorations@2x.png', 194px, 120px);
+	@include img-retina('#{$img-path}/decorations.png', '#{$img-path}/decorations@2x.png', 194px, 150px);
 	background-position: right top;
 	background-repeat: no-repeat;
 	background-color: $aside-title-bg;

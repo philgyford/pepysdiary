@@ -23,7 +23,7 @@
 			{{ summary.text_html|smartypants|safe }}
 
 			<footer>
-				<p><a href="{% url 'entry_month_archive' year=summary.summary_date|date:"Y" month=summary.summary_date|date:"m" %}">Diary entries for {{ summary.summary_date|date:"F Y" }}</a></p>
+				<p><a class="link-more" href="{% url 'entry_month_archive' year=summary.summary_date|date:"Y" month=summary.summary_date|date:"m" %}">Read the full diary entries for {{ summary.summary_date|date:"F Y" }}</a></p>
 			</footer>
 		</article>
 

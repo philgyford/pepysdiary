@@ -8,32 +8,34 @@ Expects:
 {% load text_formatting_filters %}
 
 <article class="entry includes-popovers">
-	<h1>
-		{% if in_list %}
-			<a href="{{ entry.get_absolute_url }}">{{ entry.title }}</a>
-		{% else %}
-			{{ entry.title }}
+	<div class="manuscript manuscript-large">
+		<h1>
+			{% if in_list %}
+				<a href="{{ entry.get_absolute_url }}">{{ entry.title }}</a>
+			{% else %}
+				{{ entry.title }}
+			{% endif %}
+		</h1>
+
+		{% if perms.annotation.can_edit %}
+			{% load widget_tags %}
+			{% url 'admin:diary_entry_change' entry.id as change_url %}
+			{% admin_link_change change_url %}
 		{% endif %}
-	</h1>
 
-	{% if perms.annotation.can_edit %}
-		{% load widget_tags %}
-		{% url 'admin:diary_entry_change' entry.id as change_url %}
-		{% admin_link_change change_url %}
-	{% endif %}
-
-	{{ entry.text|smartypants|safe }}
-	
-	{% if entry.footnotes %}
-		<aside class="footnotes">	
-			{{ entry.footnotes|smartypants|safe }}
-		</aside>
-	{% endif %}
+		{{ entry.text|smartypants|safe }}
+		
+		{% if entry.footnotes %}
+			<aside class="footnotes">	
+				{{ entry.footnotes|smartypants|safe }}
+			</aside>
+		{% endif %}
+	</div> <!-- .manuscript -->
 
 	{% if in_list %}
 		<footer>
 			{% if in_list %}
-				<p class="entry-meta"><a href="{{ entry.get_absolute_url }}#annotations">Read {{ entry.comment_count }} annotation{{ entry.comment_count|pluralize }} by readers</a></p>
+				<p class="entry-meta"><a class="link-more" href="{{ entry.get_absolute_url }}#annotations">Read {{ entry.comment_count }} annotation{{ entry.comment_count|pluralize }} by readers</a></p>
 			{% endif %}
 		</footer>
 	{% endif %}

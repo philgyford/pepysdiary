@@ -3,6 +3,9 @@
  * eg <hr class="decoration decoration-small">
  */
 hr {
+	margin-top:    $line-height-computed * 2;
+	margin-bottom: $line-height-computed * 2;
+
 	&.decoration {
 		text-align: center;
 		&:after {
@@ -10,7 +13,7 @@ hr {
 			display: inline-block;
 			position: relative;
 			font-size: 1.5em;
-			@include img-retina('#{$img-path}/decorations.png', '#{$img-path}/decorations@2x.png', 194px, 120px);
+			@include img-retina('#{$img-path}/decorations.png', '#{$img-path}/decorations@2x.png', 194px, 150px);
 			background-repeat: no-repeat;
 			background-color: $body-bg;
 		}
@@ -19,7 +22,7 @@ hr {
 		border-width: 3px;
 		&:after {
 			top: -11px;
-			background-position: center -59px;
+			background-position: center -89px;
 			width: 26px;
 			height: 19px;
 		}
@@ -30,7 +33,7 @@ hr {
 		margin-bottom: $line-height-computed * 2;
 		&:after {
 			top: -32px;
-			background-position: center -84px;
+			background-position: center -114px;
 			width: 208px;
 			height: 36px;
 		}
