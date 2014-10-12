@@ -1,11 +1,20 @@
 
 <p class="text-muted">Numbers in brackets indicate quantity of annotations.</p>
 
-<ul>
 {% for letter in letter_list %}
+	{% ifchanged letter.letter_date|date:'Y' %}
+		{% if forloop.counter != 1 %}
+			</ul>
+		{% endif %}
+		<h2 id="y-{{ letter.letter_date|date:'Y' }}">{{ letter.letter_date|date:'Y' }}</h2>
+		<ul class="list-ruled list-unstyled">
+	{% endifchanged %}
+	
 	<li>
-		<a href="{{ letter.get_absolute_url }}">{{ letter.letter_date|date:"j F Y" }}, {{ letter.title }}</a> <small>({{ letter.comment_count }})</small><br />
+	<a href="{{ letter.get_absolute_url }}"><strong>{{ letter.letter_date|date:"j F Y" }}, {{ letter.title }}</strong></a> <small>({{ letter.comment_count }})</small><br />
 		{{ letter.excerpt }}…
 	</li>
 {% endfor %}
+
 </ul>
+
