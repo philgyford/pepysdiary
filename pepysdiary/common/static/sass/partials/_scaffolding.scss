@@ -3,8 +3,8 @@
  * eg <hr class="decoration decoration-small">
  */
 hr {
-	margin-top:    $line-height-computed * 2;
-	margin-bottom: $line-height-computed * 2;
+	margin-top:    $line-height-computed;
+	margin-bottom: $line-height-computed;
 
 	&.decoration {
 		text-align: center;

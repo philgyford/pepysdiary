@@ -1,8 +1,5 @@
 <section class="entries">
 	{% for entry in entry_list %}
 		{% include 'inc/entry.html' with entry=entry in_list=True %}
-		{% if forloop.last == False %}
-			<hr class="decoration decoration-small">
-		{% endif %}
 	{% endfor %}
 </section>
