@@ -11,7 +11,12 @@ cite {
 	margin: 0;
 }
 .admin-links {
-	text-align: right;
+	position: absolute;
+	right: 10px;
+	
+	.admin {
+		padding: 3px;
+	}
 }
 
 img.pull-right {
