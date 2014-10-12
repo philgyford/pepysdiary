@@ -11,6 +11,18 @@
 	padding-right: 0;
 }
 
+.navbar-nav {
+	margin-left: 0;
+	margin-right: 0;
+
+	> li > a {
+		&:hover,
+		&:focus {
+			text-decoration: underline;
+		}
+	}
+}
+
 .navbar-supernav {
 	position: absolute;
 	top: 0;
@@ -19,10 +31,19 @@
 
 	/* Replacements for standard navbar styles to account for smaller height. */
 	min-height: $supernav-height;
+
 	.navbar-nav {
-		margin-top: ($supernav-padding-vertical / 2);
-		> li > a {
-			line-height: $supernav-line-height-computed;
+		margin-top: 0;
+		margin-bottom: 0;
+
+		> li {
+			/* Stop it collapsing at narrow widths. */
+			float :left;
+
+			> a {
+				line-height: $supernav-line-height-computed;
+				padding-top: 0;
+			}
 		}
 
 		@media (max-width: $grid-float-breakpoint-max) {
@@ -42,17 +63,45 @@
 		@include supernav-vertical-align($supernav-line-height-computed);
 		line-height: $supernav-line-height-computed;
 	}
-}
-.navbar-subnav {
-	margin-top: -($navbar-margin-bottom);
-}
 
-.navbar-nav > li > a {
-	&:hover,
-	&:focus {
-		text-decoration: underline;
+	/* Keep it floating right at narrow widths. */
+	.navbar-right {
+		float: right;
 	}
 }
+
+.navbar-mainnav .navbar-collapse .navbar-nav {
+	@media (max-width: $grid-float-breakpoint) {
+		> li > a {
+			padding-bottom: 10px;	
+		}
+
+		> .active > a {
+			&,
+			&:hover,
+			&:focus {
+				background: $site-mainnav-collapsed-link-active-bg;
+			}
+		}
+	}
+}
+
+.navbar-subnav {
+	margin-top: -($navbar-margin-bottom);
+
+	.navbar-nav {
+		/* Fix height at small widths. */
+		margin-top: 0;
+		margin-bottom: 0;
+
+		> li {
+			/* Stop it collapsing at small widths. */
+			float: left;
+		}
+	}
+
+}
+
 
 
 /******************************************************************************
@@ -82,21 +131,25 @@ $subnav-active-border-height: 3px;
 }
 .navbar-mainnav {
 	.navbar-nav {
-		> .active > a > .inner {
-			@include img-retina('#{$img-path}/bullets.png', '#{$img-path}/bullets@2x.png', 36px, 210px);
-			background-position: center bottom;
-			background-repeat: no-repeat;
+		@media (min-width: $grid-float-breakpoint) {
+			> .active > a > .inner {
+				@include img-retina('#{$img-path}/bullets.png', '#{$img-path}/bullets@2x.png', 36px, 210px);
+				background-position: center bottom;
+				background-repeat: no-repeat;
+			}
 		}
 	}
 }
 .navbar-subnav {
 	.navbar-nav {
 		> .active > a > .inner {
+			display: block;
 			padding-bottom: ($navbar-padding-vertical - $subnav-active-border-height);
 			border-bottom: $subnav-active-border-height solid $site-highlight-color;	
 		}
 	}
 }
+
 
 /******************************************************************************
  * Add bullet-separators.
@@ -106,6 +159,7 @@ $subnav-active-border-height: 3px;
 	@include img-retina('#{$img-path}/bullets.png', '#{$img-path}/bullets@2x.png', 36px, 210px);
 	background-position: right 20px;
 	background-repeat: no-repeat;
+
 	.navbar-supernav & {
 		background-position: right 12px;
 	}
@@ -115,6 +169,14 @@ $subnav-active-border-height: 3px;
 	.navbar-inverse.navbar-supernav & {
 		background-position: right -37px;
 	}
+
+	.navbar-mainnav .navbar-collapse & {
+		/* No bullets on collapsed main nav. */
+		@media (max-width: $grid-float-breakpoint) {
+			background-image: none;
+		}
+	}
+
 	&.navbar-text {
 		margin-left: 0;
 		margin-right: 0;
@@ -131,9 +193,8 @@ $subnav-active-border-height: 3px;
 			background-position: right -37px;
 		}
 	}
-	&:last-child{
+	&:last-child {
 		padding-right: 0;
 		background: none;
 	}
 }
-

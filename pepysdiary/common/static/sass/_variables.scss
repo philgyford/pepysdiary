@@ -11,7 +11,9 @@ $site-header-title-color: $gray-light;
 $site-header-subtitle-color: $gray-lighter;
 $site-header-border-color:#325831; // Top and bottom.
 
-// Main nav, below the header.
+$site-mainnav-collapsed-link-active-bg: $brand-primary;
+
+// Bottom nav, below the header and main nav.
 $site-subnav-bg:          $gray-light;
 $site-subnav-color:       #b7b7b2; // dividers.
 
