@@ -200,13 +200,12 @@ def family_tree_link(topic=None):
         text = "See this person on the Pepys family tree"
     link_url = reverse('encyclopedia_familytree')
 
-    return """
-    <aside class="aside-block">
-        <p><a href="%s"><img class="img-thumbnail" src="%simg/sidebar_family_tree.png" width="250" height="134" alt="Family tree thumbnail" />
-        %s
-        </a></p>
-    </aside>
-    """ % (link_url, settings.STATIC_URL, text)
+    body = """
+        <p><a href="%s"><img class="img-thumbnail" src="%simg/sidebar_family_tree.png" width="250" height="134" alt="Family tree thumbnail" /></p>
+        <p><a href="%s">%s</a></p>
+    """ % (link_url, settings.STATIC_URL, link_url, text)
+
+    return put_in_block(body, 'Family tree')
 
 
 @register.simple_tag
@@ -221,13 +220,12 @@ def category_map_link(category_id=None):
     else:
         link_url = reverse('category_map', kwargs={'category_id': category_id})
         text = "See all places in this category on a map"
-    return """
-    <aside class="aside-block">
-        <p><a href="%s"><img class="img-thumbnail" src="%simg/sidebar_category_map.png" width="250" height="134" alt="Map thumbnail" />
-        %s
-        </a></p>
-    </aside>
-    """ % (link_url, settings.STATIC_URL, text)
+
+    body = """<p><a href="%s"><img class="img-thumbnail" src="%simg/sidebar_category_map.png" width="250" height="134" alt="Map thumbnail" /></a></p>
+    <p><a href="%s">%s</a></p>
+    """ % (link_url, settings.STATIC_URL, link_url, text)
+
+    return put_in_block(body, 'Maps')
 
 
 @register.simple_tag
