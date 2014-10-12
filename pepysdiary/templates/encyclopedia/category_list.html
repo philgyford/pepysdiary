@@ -8,9 +8,10 @@
 
 {% block main_content %}
 
-	<p class="lead">Information about {{ topic_count }} people, places and things in Pepys’ time.</p>
-
 	{% load humanize %}
+
+	<p class="lead">Information about {{ topic_count|intcomma }} people, places and things in Pepys’ time.</p>
+
 	{% for category, info in categories %}
 	    {% if info.open %}
 	        <ul><li>
