@@ -16,11 +16,13 @@
 
 	{% if person.thumbnail %}
 		<aside class="aside-block">
-			<p>
-				<img class="img-thumbnail" src="{{ person.thumbnail.url }}" width="100" height="120" alt="Thumbnail image" /><br />
-				{{ person.title }}<br>
-				<a href="{{ person.get_absolute_url }}">In the Encyclopedia</a>
-			</p>
+			<header class="aside-header">
+				<h1 class="aside-title">{{ person.title }}</h1>
+			</header>
+			<div class="aside-body">
+				<p><img class="img-thumbnail" src="{{ person.thumbnail.url }}" width="100" height="120" alt="Thumbnail image" /></p>
+				<p><a href="{{ person.get_absolute_url }}">In the Encyclopedia</a></p>
+			</div>
 		</aside>
 	{% endif %}
 

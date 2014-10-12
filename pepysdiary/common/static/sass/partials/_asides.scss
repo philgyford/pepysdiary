@@ -40,6 +40,10 @@
 		margin-bottom: 0.3em;
 		padding-bottom: ceil($line-height-computed / 2);
 		border-bottom: 1px solid $aside-hr-color;
+
+		&:last-child {
+			border-bottom: none;
+		}
 	}
 
 	ul,

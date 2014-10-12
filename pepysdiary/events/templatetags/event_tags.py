@@ -40,7 +40,7 @@ def entries_for_day(date):
         for entry in entries:
             event_list.append({'url': entry.get_absolute_url(),
                                 'text': entry.title})
-    return events_html('Diary Entries', event_list)
+    return events_html('In the Diary', event_list)
 
 
 def letters_for_day(date):
