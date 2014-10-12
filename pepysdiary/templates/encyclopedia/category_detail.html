@@ -14,22 +14,31 @@
 	{% load humanize %}
 
 	{% if category.get_children_count %}
-		<div class="well">
+		<div class="subcategories clearfix">
 			<h2>Subcategories</h2>
-			<ul>
-			{% for c in category.get_children %}
-				<li><a href="{{ c.get_absolute_url }}">{{ c.title }}</a>
-					{% comment %}
-						{% if c.get_children_count %}<small>({{ c.get_children_count }} categor{{ c.get_children_count|pluralize:"y,ies" }})</small>{% endif %}
-					{% endcomment %}
-					{% if c.topic_count %}<small>({{ c.topic_count|intcomma }} topic{{ c.topic_count|pluralize }})</small>{% endif %}</li>
+
+			{% load partition_filters %}
+			{% for column in category.get_children|rows:2 %}
+				<div class="col-sm-6">
+					<ul>
+						{% for cat in column %}
+							<li><a href="{{ cat.get_absolute_url }}">{{ cat.title }}</a>
+								{% comment %}
+									{% if cat.get_children_count %}<small>({{ cat.get_children_count }} categor{{ cat.get_children_count|pluralize:"y,ies" }})</small>{% endif %}
+								{% endcomment %}
+								{% if cat.topic_count %}<small>({{ cat.topic_count|intcomma }} topic{{ cat.topic_count|pluralize }})</small>{% endif %}</li>
+						{% endfor %}
+					</ul>
+				</div>
 			{% endfor %}
-			</ul>
-		</div>
+		</div> <!-- .subcategories -->
 	{% endif %}
 	
 	{% with topics=category.topics.all %}
 		{% if topics %}
+			{% if category.get_children_count %}
+			{% endif %}
+
 			<h2>{{ topics|length|intcomma }} Topic{{ topics|pluralize }}</h2>
 			<ul>
 			{% for t in topics %}

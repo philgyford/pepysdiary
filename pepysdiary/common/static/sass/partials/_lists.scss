@@ -3,6 +3,11 @@
  * Different formats of list. Apply the .list-* class to the ol or ul.
  */
 
+ul {
+	/* Putting bullets in line with left edge. */
+	padding-left: 20px;
+}
+
 /**
  * .list-spaced
  * More space below each element.
