@@ -13,32 +13,52 @@
 	background-color: $site-header-bg;
 	border-top: 1px solid $site-header-border-color;
 	border-bottom: 1px solid $site-header-border-color;
-	padding-top: $padding-large-vertical;
-	padding-bottom: $padding-large-vertical;
 	margin-top: $supernav-height;
+	padding-top: $padding-base-vertical;
+	padding-bottom: $padding-base-vertical;
+
+	@media (min-width: $grid-float-breakpoint) {
+		padding-top: $padding-large-vertical;
+		padding-bottom: $padding-large-vertical;
+	}
 }
+
 .site-header .container {
-	background: url(#{$img-path}/site-header-pepys.png) 0 0 no-repeat;
-	min-height: 144px;
+	@media (min-width: $grid-float-breakpoint) {
+		background: url(#{$img-path}/site-header-pepys.png) 0 0 no-repeat;
+		min-height: 144px;
+	}
 }
+
 .site-header-title {
 	color: $site-header-title-color;
 	font-family: $font-family-serif;
-	font-size: $font-size-base * 2.75; // 44px if base is 16px.
+	font-size: $font-size-base * 1.6;
 	text-rendering: optimizeLegibility;
-	margin-top: 0.65em;
+	margin-top: 0;
 	margin-bottom: 0;
-	margin-left: 121px;
+
 	a {
 		color: $site-header-title-color;
 	}
+
+	@media (min-width: $grid-float-breakpoint) {
+		font-size: $font-size-base * 2.75; // 44px if base is 16px.
+		margin-top: 0.65em;
+		margin-left: 121px;
+	}
 }
+
 .site-header-subtitle {
 	color: $site-header-subtitle-color;
 	font-family: $font-family-serif;
-	font-size: $font-size-large;
+	font-size: $font-size-small;
 	font-style: italic;
-	margin-left: 127px;
+
+	@media (min-width: $grid-float-breakpoint) {
+		font-size: $font-size-large;
+		margin-left: 127px;
+	}
 }
 
 

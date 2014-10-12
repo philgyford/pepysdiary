@@ -148,7 +148,7 @@
 		<div class="container">
 			<ul class="nav navbar-nav navbar-right">
 				{% if user.is_authenticated %}
-					<li class="navbar-text">Logged in as {{ user.get_full_name }}</li>
+					<li class="navbar-text navbar-logged-in">Logged in as<span> {{ user.get_full_name }}</span></li>
 					<li><a href="{% url 'private_profile' %}">Profile</a></li>
 					<li><a href="{% url 'logout' %}">Log out</a></li>
 				{% else %}

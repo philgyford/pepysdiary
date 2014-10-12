@@ -28,9 +28,14 @@
 	top: 0;
 	left: 0;
 	width: 100%;
-
-	/* Replacements for standard navbar styles to account for smaller height. */
 	min-height: $supernav-height;
+
+	@media (max-width: $grid-float-breakpoint-max) {
+		.container {
+			padding-left: 0;
+			padding-right: 0;
+		}
+	}
 
 	.navbar-nav {
 		margin-top: 0;
@@ -64,6 +69,13 @@
 		line-height: $supernav-line-height-computed;
 	}
 
+	.navbar-logged-in span {
+		display: none;
+		@media (min-width: $grid-float-breakpoint-max) {
+			display: inline;
+		}
+	}
+
 	/* Keep it floating right at narrow widths. */
 	.navbar-right {
 		float: right;
@@ -88,6 +100,13 @@
 
 .navbar-subnav {
 	margin-top: -($navbar-margin-bottom);
+
+	@media (max-width: $grid-float-breakpoint-max) {
+		.container {
+			padding-left: 0;
+			padding-right: 0;
+		}
+	}
 
 	.navbar-nav {
 		/* Fix height at small widths. */
@@ -142,10 +161,15 @@ $subnav-active-border-height: 3px;
 }
 .navbar-subnav {
 	.navbar-nav {
-		> .active > a > .inner {
+		a > .inner {
+			/* Make all the links the same height, even if 'off'. */
 			display: block;
 			padding-bottom: ($navbar-padding-vertical - $subnav-active-border-height);
-			border-bottom: $subnav-active-border-height solid $site-highlight-color;	
+			border-bottom: $subnav-active-border-height solid transparent;	
+		}
+
+		> .active > a > .inner {
+			border-bottom-color: $site-highlight-color;	
 		}
 	}
 }

@@ -11,6 +11,14 @@
 	margin-top: 0;
 }
 
+/* Reduce the big headers a little at narrow widths. */
+h1 {
+	@media (max-width: $screen-sm-min) {
+		font-size: $font-size-larger;
+	}
+}
+
+
 .page-header h1 {
 	margin-bottom: 0;
 }
@@ -33,7 +41,7 @@ blockquote {
 	margin-bottom: ceil($line-height-computed / 2);
 }
 
-/*******************
+/***************************************************************************
  * Not bootstrap */
 
 /* For 'Read more about this' type links at the ends of things. */
@@ -42,5 +50,28 @@ blockquote {
 
 	&::after {
 		content: " >";
+	}
+}
+
+/**
+ * Include this style to represent quotes old text, eg diary entries, letters, etc.
+ */
+.manuscript {
+	font-family: $font-family-serif;
+}
+
+.manuscript-large {
+	font-size: $font-size-largish;
+
+	@media (min-width: $screen-xs-min) {
+		font-size: $font-size-large;
+	}
+
+	h2 {
+		font-size: $font-size-h1;
+	}
+
+	blockquote {
+		font-size: $font-size-largish;
 	}
 }
