@@ -72,10 +72,20 @@ ul {
 		list-style-type: none;
 		padding-left: 0;
 
-		li {
+		> li {
 			display: inline-block;
 			margin-right: ceil($grid-gutter-width / 4);
 		}
+	}
+}
+
+.lists-horizontal-small {
+	padding-top: ceil($line-height-computed / 4);
+
+	> li {
+		font-size: $font-size-small;
+		margin-bottom: ceil($line-height-computed / 4); 
+		padding-bottom: ceil($line-height-computed / 4);
 	}
 }
 
@@ -86,9 +96,20 @@ ul {
 			display: inline-block;
 			padding-left: ceil($grid-gutter-width / 2);
 
-			li {
+			> li {
 				margin-right: ceil($grid-gutter-width / 3);
 			}
 		}
 	}
+
+	.lists-horizontal-small {
+		ul {
+			padding-left: ceil($grid-gutter-width / 3);
+		
+			> li {
+				margin-right: ceil($grid-gutter-width / 6);
+			}
+		}
+	}
+
 }

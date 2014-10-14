@@ -89,9 +89,9 @@
 			{% if topic.wheatley_html %}
 				<li id="tab-wheatley" class="{% if not topic.latitude and not topic.summary_html and not topic.wikipedia_fragment and topic.wheatley_html %}active{% endif %}{% if not topic.wheatley_html %}disabled{% endif %}"><a href="#wheatley" data-toggle="tab" role="tab">1893 text</a></li>
 			{% endif %}
-			<li id="tab-discussion" class="{% if not topic.latitude and not topic.summary_html and not topic.wikipedia_fragment and not topic.wheatley_html %}active{% endif %}"><a href="#discussion" data-toggle="tab" role="tab">Annotations ({{ topic.comment_count }})</a></li>
+			<li id="tab-discussion" class="{% if not topic.latitude and not topic.summary_html and not topic.wikipedia_fragment and not topic.wheatley_html %}active{% endif %}"><a href="#discussion" data-toggle="tab" role="tab">Annotations <small>({{ topic.comment_count }})</small></a></li>
 			{% if diary_references %}
-				<li id="tab-references"><a href="#references" data-toggle="tab" role="tab">References ({{ topic.diary_references.count|intcomma }})</a></li>
+			<li id="tab-references"><a href="#references" data-toggle="tab" role="tab">References <small>({{ topic.diary_references.count|intcomma }})</small></a></li>
 			{% endif %}
 		</ul>
 
@@ -115,14 +115,14 @@
 
 			{% if topic.summary_html %}
 				<article class="tab-pane{% if not topic.latitude %} active{% endif %}" id="summary">
-					<h1>Summary</h1>
+					<h1 class="sr-only">Summary</h1>
 					{{ topic.summary_html|smartypants|safe }}
 				</article>
 			{% endif %}
 
 			{% if topic.wikipedia_fragment %}
 				<article class="tab-pane{% if not topic.latitude and not topic.summary_html %} active{% endif %}" id="wikipedia">
-					<h1>Wikipedia</h1>
+					<h1 class="sr-only">Wikipedia</h1>
 					<p>Wikipedia content is not yet automatically copied to this page.</p>
 					<p>For now, you can <a href="http://en.wikipedia.org/wiki/{{ topic.wikipedia_fragment }}"><strong>visit this topic on Wikipedia</strong></a>.</p>
 				</article>
@@ -130,7 +130,7 @@
 
 			{% if topic.wheatley_html %}
 				<article class="tab-pane{% if not topic.latitude and not topic.summary_html and not topic.wikipedia_fragment %} active{% endif %}" id="wheatley">
-					<h1>1893 text</h1>
+					<h1 class="sr-only">1893 text</h1>
 
 					<div class="footnotes">
 						{{ topic.wheatley_html|smartypants|safe }}
@@ -141,32 +141,30 @@
 			{% endif %}
 
 			<section class="tab-pane{% if not topic.latitude and not topic.summary_html and not topic.wikipedia_fragment and not topic.wheatley_html %} active{% endif %}" id="discussion">
-				{% include 'inc/comments.html' with object=topic %}
+				{% include 'inc/comments.html' with object=topic hide_section_title=False %}
 			</section>
 
 			{% if diary_references %}
 				<article class="tab-pane" id="references">
-					<h1>References</h1>
+					<h1 class="sr-only">References</h1>
 
+					<p>Chart showing the number of references in each month of the diary’s entries.</p>
 					<div id="chart-references"></div>
 
-					<ul class="references references-diary">
-						{% for y, months in diary_references %}
-							<li>{{ y }}
-								<ul class="references-year">
-									{% for m, refs in months %}
-										<li><span>{{ m }}</span>
-											<ul class="references-month">
-												{% for entry in refs %}
-													<li><a href="{{ entry.get_absolute_url }}">{{ entry.day_e }}</a></li>
-												{% endfor %}
-											</ul>
-										</li>
-									{% endfor %}
-								</ul>
-							</li>
-						{% endfor %}
-					</ul>
+					{% for y, months in diary_references %}
+						<h2 class="h3">{{ y }}</h2>
+						<ul class="lists-horizontal lists-horizontal-small">
+							{% for m, refs in months %}
+								<li><span>{{ m }}</span>
+									<ul>
+										{% for entry in refs %}
+											<li><a href="{{ entry.get_absolute_url }}">{{ entry.day_e }}</a></li>
+										{% endfor %}
+									</ul>
+								</li>
+							{% endfor %}
+						</ul>
+					{% endfor %}
 				</article>
 			{% endif %}
 		</div> <!-- .tab-content -->
