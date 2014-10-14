@@ -123,8 +123,8 @@
 			{% if topic.wikipedia_fragment %}
 				<article class="tab-pane{% if not topic.latitude and not topic.summary_html %} active{% endif %}" id="wikipedia">
 					<h1 class="sr-only">Wikipedia</h1>
-					<p>Wikipedia content is not yet automatically copied to this page.</p>
-					<p>For now, you can <a href="http://en.wikipedia.org/wiki/{{ topic.wikipedia_fragment }}"><strong>visit this topic on Wikipedia</strong></a>.</p>
+
+					<p><a class="link-more" href="http://en.wikipedia.org/wiki/{{ topic.wikipedia_fragment }}">Read more about this topic on Wikipedia</a></p>
 				</article>
 			{% endif %}
 
@@ -132,9 +132,11 @@
 				<article class="tab-pane{% if not topic.latitude and not topic.summary_html and not topic.wikipedia_fragment %} active{% endif %}" id="wheatley">
 					<h1 class="sr-only">1893 text</h1>
 
-					<div class="footnotes">
+					<div class="manuscript manuscript-large">
 						{{ topic.wheatley_html|smartypants|safe }}
 					</div>
+
+					<hr/>
 
 					<p class="text-muted">This text comes from a footnote on a diary entry in the 1893 edition edited by Henry B. Wheatley.</p>
 				</article>
