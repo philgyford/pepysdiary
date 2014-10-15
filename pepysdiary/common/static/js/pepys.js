@@ -314,13 +314,14 @@ window.pepys.category = {
                     );
         // But let's set a useful minimum height, or the map might disappear
         // completely.
-        if (container_height < 400) {
-            container_height = 400;
+        if (container_height < 600) {
+            container_height = 600;
         };
         // Set the map height to fill to the bottom of the container.
+        // And allow space for the key beneath it.
         var map_height = container_height - (
                                 $map.offset().top - $container.offset().top
-                            );
+                            ) - $('.mapkey').height();
 
         $container.height(container_height + 'px');
         $map.height(map_height + 'px');

@@ -46,8 +46,8 @@ def twitter(*args):
 def credit(*args):
     return put_in_block("""<p>This site is run by <a href="http://www.gyford.com/">Phil&nbsp;Gyford</a></p>
 <p><a href="https://twitter.com/philgyford">@philgyford</a> on Twitter</p>
-<p><a href="{% url 'about' %}">More about this site</a></p>
-""", 'About')
+<p><a href="%s">More about this site</a></p>
+""" % (reverse('about')), 'About')
 
 
 @register.simple_tag
