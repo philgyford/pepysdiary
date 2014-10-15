@@ -589,6 +589,7 @@ window.pepys.maps = {
         this.map = L.map('map-frame').setView(
                     [map_data.latitude, map_data.longitude], map_data.zoom);
 
+        L.mapbox.accessToken = pepys.controller.config.mapbox_access_token;
         L.mapbox.tileLayer(pepys.controller.config.mapbox_map_id).addTo(this.map);
 
         this.init_overlays();

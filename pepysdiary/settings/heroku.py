@@ -109,3 +109,4 @@ AKISMET_API_KEY = os.environ.get('AKISMET_API_KEY')
 
 # From http://mapbox.com/
 MAPBOX_MAP_ID = os.environ.get('MAPBOX_MAP_ID')
+MAPBOX_ACCESS_TOKEN = os.environ.get('MAPBOX_ACCESS_TOKEN')

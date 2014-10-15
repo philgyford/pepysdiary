@@ -18,7 +18,7 @@ def include_d3_js(*args):
 def include_maps_css(*args):
     "All the CSS needed to use Mapbox maps."
     return """
-        <link rel="stylesheet" href="https://api.tiles.mapbox.com/mapbox.js/v1.6.2/mapbox.css" />
+        <link rel="stylesheet" href="https://api.tiles.mapbox.com/mapbox.js/v2.1.2/mapbox.css" />
     """
 
 
@@ -30,7 +30,7 @@ def include_maps_js(*args, **kwargs):
         `include_labels` to include the code for hover labels.
     """
     html = """
-        <script src="https://api.tiles.mapbox.com/mapbox.js/v1.6.2/mapbox.js"></script>
+        <script src="https://api.tiles.mapbox.com/mapbox.js/v2.1.2/mapbox.js"></script>
     """
     if kwargs.get('include_labels', False) is True:
         html += """
