@@ -703,10 +703,6 @@ window.pepys.maps = {
             );
         };
 
-        if (L.Label) {
-            place.bindLabel(place_data.title);
-        };
-
         place.addTo(this.map);
 
         var popup_html = '<strong>' + place_data.title + '</strong>';

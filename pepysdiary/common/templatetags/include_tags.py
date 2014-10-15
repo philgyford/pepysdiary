@@ -26,14 +26,8 @@ def include_maps_css(*args):
 def include_maps_js(*args, **kwargs):
     """"
     All the JS needed to use Mapbox maps.
-    kwargs can have:
-        `include_labels` to include the code for hover labels.
     """
     html = """
         <script src="https://api.tiles.mapbox.com/mapbox.js/v2.1.2/mapbox.js"></script>
     """
-    if kwargs.get('include_labels', False) is True:
-        html += """
-            <script src="%sjs/libs/leaflet.label.min.js"></script>
-        """ % settings.STATIC_URL
     return html
