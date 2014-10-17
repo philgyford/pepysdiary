@@ -17,6 +17,17 @@ class PepysModel(models.Model):
     class Meta:
         abstract = True
 
+    @property
+    def short_title(self):
+        """
+        Child models (eg, Diary Entries) might override this with a more
+        bespoke way of generating a short version of its title. 
+        """
+        if hasattr(self, 'title'):
+            return self.title
+        else:
+            return ''
+
     def get_a_comment_name(self):
         """
         If we want to print something like "an annotation" or "a comment",
