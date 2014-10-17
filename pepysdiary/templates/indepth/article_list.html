@@ -34,5 +34,10 @@
 {% endblock main_content %}
 
 
-{% block sidebar %}
-{% endblock sidebar%}
+{% block sidebar_content %}
+
+    {% load widget_tags %}
+
+    {% all_articles exclude_id=article.id %}
+
+{% endblock sidebar_content %}

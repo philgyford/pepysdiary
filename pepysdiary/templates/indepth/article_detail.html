@@ -29,6 +29,9 @@
 
 
 {% block sidebar_content %}
-	{% include 'inc/next_previous.html' with next=next_article previous=previous_article %}
+
+    {% load widget_tags %}
+
+    {% all_articles exclude_id=article.id %}
 
 {% endblock sidebar_content %}

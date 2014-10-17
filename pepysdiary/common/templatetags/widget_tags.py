@@ -137,7 +137,7 @@ def recent_list(queryset, title, date_format):
 @register.simple_tag(takes_context=True)
 def latest_posts(context, quantity=5):
     """Displays links to the most recent Site News Posts."""
-    post_list = Post.published_posts.all()[:quantity]
+    post_list = Post.published_posts.all().only('title', 'date_published')[:quantity]
     return recent_list(post_list, 'Latest Site News',
                                         context['date_format_long_strftime'])
 
@@ -145,7 +145,7 @@ def latest_posts(context, quantity=5):
 @register.simple_tag(takes_context=True)
 def latest_articles(context, quantity=5):
     """Displays links to the most recent In-Depth Articles."""
-    article_list = Article.published_articles.all()[:quantity]
+    article_list = Article.published_articles.all().only('title', 'date_published', 'slug')[:quantity]
     return recent_list(article_list, 'Latest In-Depth Articles',
                                         context['date_format_long_strftime'])
 
@@ -153,9 +153,28 @@ def latest_articles(context, quantity=5):
 @register.simple_tag(takes_context=True)
 def latest_topics(context, quantity=5):
     """Displays links to the most recent Encyclopedia Topics"""
-    topic_list = Topic.objects.order_by('-date_created')[:quantity]
+    topic_list = Topic.objects.order_by('-date_created').only('title', 'date_created')[:quantity]
     return recent_list(topic_list, 'Latest Encyclopedia Topics',
                                         context['date_format_long_strftime'])
+
+
+@register.simple_tag(takes_context=True)
+def all_articles(context, exclude_id=None):
+    """
+    Displays links to all the In-Depth Articles.
+    If `exclude_id` is set, then we include that Article, but don't link to it.
+    """
+    article_list = Article.published_articles.all().only(
+                                            'title', 'date_published', 'slug')
+    html = ''
+    for item in article_list:
+        if (item.id == exclude_id):
+            html += """<li>%s</li>""" % (item.title)
+        else:
+            html += """<li><a href="%s">%s</a></li>""" % (
+                                        item.get_absolute_url(), item.title)
+    return put_in_block("""<ul>%s</ul>""" % (html), 'All In-Depth Articles')
+
 
 
 @register.simple_tag
