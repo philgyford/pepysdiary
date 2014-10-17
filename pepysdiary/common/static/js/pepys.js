@@ -592,6 +592,8 @@ window.pepys.maps = {
         L.mapbox.accessToken = pepys.controller.config.mapbox_access_token;
         L.mapbox.tileLayer(pepys.controller.config.mapbox_map_id).addTo(this.map);
 
+        this.map.scrollWheelZoom.disable();
+
         this.init_overlays();
 
         // The map is probably inside a tab on a Topic detail page.
