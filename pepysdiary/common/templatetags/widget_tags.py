@@ -122,7 +122,7 @@ def recent_list(queryset, title, date_format):
                 item_date = item.date_created
 
             html += """<dt><a href="%s">%s</a></dt>
-<dd>%s</dd>
+<dd class="text-muted">%s</dd>
 """ % (item.get_absolute_url(),
         item.title,
         item_date.strftime(date_format))

@@ -17,15 +17,34 @@
 	border-bottom: 1px solid $hr-border;
 }
 
+/* A custom style, modifying things, used on Recent Activity page. */
+.media-small {
+	border-bottom: none;
+
+	p {
+		margin-bottom: 0;
+	}
+}
+
 .media-heading {
 	font-size: $font-size-large;
 	font-weight: bold;
 	margin-bottom: ($line-height-computed / 2);
 
+	.media-small & {
+		font-size: $font-size-base;
+		font-weight: normal;
+		margin-bottom: 0;
+	}
+
 	small {
 		color: $gray-mid;
 		font-size: $font-size-base;
 		font-weight: normal;
+
+		.media-small & {
+			font-size: $font-size-small;
+		}
 	}
 }
 
@@ -33,6 +52,17 @@
 	padding-right: ceil($grid-gutter-width / 2);
 }
 
+.comment-title,
+.comment-name {
+	font-weight: bold;
+}
+
 .newflag {
 	font-size: $font-size-large;
+	line-height: $headings-line-height;
+
+	.media-small & {
+		font-size: $font-size-base;
+	}
 }
+
