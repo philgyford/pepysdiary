@@ -28,32 +28,32 @@ class ArticleDetailView(DateDetailView):
 
     def get_context_data(self, **kwargs):
         context = super(ArticleDetailView, self).get_context_data(**kwargs)
-        #extra_context = self.get_next_previous()
-        #context.update(extra_context)
+        extra_context = self.get_next_previous()
+        context.update(extra_context)
         return context
 
-    #def get_next_previous(self):
-        #"""
-        #Get the next/previous Articles based on the current Article's date.
-        #"""
-        #try:
-            #previous_article = self.model.published_articles.filter(
-                                #date_published__lt=self.object.date_published
-                            #).order_by('-date_published')[:1].get()
-        #except self.model.DoesNotExist:
-            #previous_article = None
+    def get_next_previous(self):
+        """
+        Get the next/previous Articles based on the current Article's date.
+        """
+        try:
+            previous_article = self.model.published_articles.filter(
+                                date_published__lt=self.object.date_published
+                            ).order_by('-date_published')[:1].get()
+        except self.model.DoesNotExist:
+            previous_article = None
 
-        #try:
-            #next_article = self.model.published_articles.filter(
-                                #date_published__gt=self.object.date_published
-                            #).order_by('date_published')[:1].get()
-        #except self.model.DoesNotExist:
-            #next_article = None
+        try:
+            next_article = self.model.published_articles.filter(
+                                date_published__gt=self.object.date_published
+                            ).order_by('date_published')[:1].get()
+        except self.model.DoesNotExist:
+            next_article = None
 
-        #return {
-            #'previous_article': previous_article,
-            #'next_article': next_article,
-        #}
+        return {
+            'previous_article': previous_article,
+            'next_article': next_article,
+        }
 
 
 class LatestArticlesFeed(BaseRSSFeed):

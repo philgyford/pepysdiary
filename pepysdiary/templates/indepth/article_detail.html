@@ -23,6 +23,8 @@
 		{{ article.text_html|smartypants|safe }}
 	</article>
 
+	{% include 'inc/next_previous.html' with next=next_article previous=previous_article %}
+
 	{% include 'inc/comments.html' with object=article %}
 
 {% endblock main_content %}
