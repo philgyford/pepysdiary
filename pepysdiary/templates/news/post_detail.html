@@ -22,14 +22,14 @@
 		{{ post.text_html|smartypants|safe }}
 	</article>
 
+	{% include 'inc/next_previous.html' with next=next_post previous=previous_post %}
+
 	{% include 'inc/comments.html' with object=post %}
 
 {% endblock main_content %}
 
 
 {% block sidebar_content %}
-
-	{% include 'inc/next_previous.html' with next=next_post previous=previous_post %}
 
 	{% include 'inc/news_category_nav.html' %}
 

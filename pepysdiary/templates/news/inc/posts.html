@@ -3,14 +3,16 @@
 
 {% for post in post_list %}
 	<article>
-		<h1><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h1>
+		<header>
+			<h1 class="h2"><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h1>
+		</header>
 
-		<p class="article-date">{{ post.date_published|date:date_format_longest }}</p>
+		<p class="article-date">{{ post.date_published|date:date_format_long }}</p>
 
 		{{ post.intro_html|smartypants|safe }}
 
 		{% if post.text %}
-			<p><a href="{{ post.get_absolute_url }}">Continue reading…</a></p>
+			<p><a class="link-more" href="{{ post.get_absolute_url }}">Continue reading…</a></p>
 		{% endif %}
 	</article>
 	<hr />

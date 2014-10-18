@@ -43,6 +43,10 @@ def get_subnav(request):
         ('indepth', ('indepth',
                     'article_detail',
         )),
+        ('news', ('news',
+                    'post_category_archive',
+                    'post_detail',
+        )),
         ('recent', ('recent',
         )),
         ('about', ('about',
@@ -52,7 +56,7 @@ def get_subnav(request):
                     'about_formats',
                     'about_support',
         )),
-    )   
+    )
     for subnav, names in subnavs:
         if url_name in names:
             return subnav
