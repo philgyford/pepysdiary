@@ -166,14 +166,19 @@ def all_articles(context, exclude_id=None):
     """
     article_list = Article.published_articles.all().only(
                                             'title', 'date_published', 'slug')
+    date_format = context['date_format_long_strftime']
     html = ''
     for item in article_list:
         if (item.id == exclude_id):
-            html += """<li>%s</li>""" % (item.title)
+            html += """<li>%s<br>%s</li>""" % (
+                                    item.title,
+                                    item.date_published.strftime(date_format))
         else:
-            html += """<li><a href="%s">%s</a></li>""" % (
-                                        item.get_absolute_url(), item.title)
-    return put_in_block("""<ul>%s</ul>""" % (html), 'All In-Depth Articles')
+            html += """<li><a href="%s">%s</a><br>%s</li>""" % (
+                                    item.get_absolute_url(),
+                                    item.title,
+                                    item.date_published.strftime(date_format))
+    return put_in_block("""<ul class="list-spaced list-small list-unstyled">%s</ul>""" % (html), 'All In-Depth Articles')
 
 
 
