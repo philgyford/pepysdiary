@@ -26,10 +26,10 @@ NOTE: The listings in templatetags/list_tags.py for the Recent Activity page
 			{% if object.comment_name %}
 				{{ object.comment_name|capfirst }}{{ object.comment_count|pluralize }}
 			{% else %}
-				Comment{{ object.comment_count|pluralize }}
+				Comments
 			{% endif %}
 		{% else %}
-			Comment{{ object.comment_count|pluralize }}
+			Comments
 		{% endif %}
 	</h1>
   	{% for comment in comment_list %}
