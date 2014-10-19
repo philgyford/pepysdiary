@@ -9,3 +9,9 @@
 .label-static {
 	@extend label;
 }
+
+/* Django thing. */
+#id_honeypot {
+    display: none;
+}
+

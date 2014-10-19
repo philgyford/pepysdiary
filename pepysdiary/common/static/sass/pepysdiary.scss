@@ -1,15 +1,3 @@
 //@import url(http://fonts.googleapis.com/css?family=Droid+Sans:400,700|Crimson+Text:400,400italic);
 @import "base";
 
-/****************************************************************************/
-/* More specific elements - TODO: should be split into their own files. */
-
-#id_honeypot {
-    display: none;
-}
-
-/* Encyclopedia topic page. */
-#map-frame {
-    width: 100%;
-    height: 400px;
-}
