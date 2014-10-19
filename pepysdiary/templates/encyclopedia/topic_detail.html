@@ -137,7 +137,7 @@
 			{% endif %}
 
 			<section class="tab-pane{% if not topic.latitude and not topic.summary_html and not topic.wikipedia_fragment and not topic.wheatley_html %} active{% endif %}" id="discussion">
-				{% include 'inc/comments.html' with object=topic hide_section_title=False %}
+				{% include 'inc/comments.html' with object=topic show_section_title=False %}
 			</section>
 
 			{% if diary_references %}

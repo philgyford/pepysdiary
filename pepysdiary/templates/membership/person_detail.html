@@ -5,38 +5,46 @@
 
 
 {% block main_content %}
-	<article>
-		{% if private_profile %}
-			{# The logged-in user viewing themselves. #}
-			<p class="row">
-				<span class="col-md-2 text-right">Name</span>
-				<span class="col-md-7">{{ person.name }}</span>
-			</p>
-			<p class="row">
-				<span class="col-md-2 text-right">Email</span>
-				<span class="col-md-7">{{ person.email }}</span>
-			</p>
-			<p class="row">
-				<span class="col-md-2 text-right">Website</span>
-				<span class="col-md-7">{% if person.url %}<a href="{{ person.url }}" rel="nofollow">{{ person.url|urlizetrunc:50 }}</a>{% else %}None{% endif %}</span>
-			</p>
 
-		{% else %}
-			{# Public view. #}
+    {% if perms.person.can_edit %}
+        {% load widget_tags %}
+        {% url 'admin:membership_person_change' person.id as change_url %}
+        {% admin_link_change change_url %}
+    {% endif %}
 
-			{% if perms.person.can_edit %}
-				{% load widget_tags %}
-				{% url 'admin:membership_person_change' person.id as change_url %}
-				{% admin_link_change change_url %}
-			{% endif %}
+    {% if private_profile or person.url %}
+        {# There is something to show... #}
 
-			{% if person.url %}
-				<p class="lead">Website: <a href="{{ person.url }}" rel="nofollow">{{ person.url|urlizetrunc:50 }}</a></p>
-			{% endif %}
+        <article>
+            {% if private_profile %}
+                {# The logged-in user viewing themselves. #}
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <span class="control-label label-static col-md-4">Name</span>
+                        <span class="col-md-8 form-control-static">{{ person.name }}</span>
+                    </div>
+                    <div class="form-group">
+                        <span class="control-label label-static col-md-4">Email</span>
+                        <span class="col-md-8 form-control-static">{{ person.email }}</span>
+                    </div>
+                    <div class="form-group">
+                        <span class="control-label label-static col-md-4">Website</span>
+                        <span class="col-md-8 form-control-static">{% if person.url %}<a href="{{ person.url }}" rel="nofollow">{{ person.url|urlizetrunc:50 }}</a>{% else %}None{% endif %}</span>
+                    </div>
+                </div>
 
-		{% endif %}
-	</article>
+            {% else %}
+                {# Public view. #}
 
+                {% if person.url %}
+                    <p class="lead">Website: <a href="{{ person.url }}" rel="nofollow">{{ person.url|urlizetrunc:50 }}</a></p>
+                {% endif %}
+
+            {% endif %}
+        </article>
+
+        <hr class="decoration decoration-small">
+    {% endif %}
 
 	<h2>Annotations and comments</h2>
 
@@ -44,6 +52,7 @@
 
 	{% if comment_list %}
 		<p>The most recent…</p>
+        <hr>
 		{% include "comments/list.html" with show_object_titles=True only_comments=True show_section_title=False %}
 	{% endif %}
 
@@ -53,14 +62,18 @@
 {% block sidebar_content %}
 	{% if private_profile %}
 		<aside class="aside-block">
-			<p><strong>Only you can see this page</strong></p>
-			<p><a href="{% url 'profile' pk=user.pk %}">See what everyone else sees</a></p>
-			<p><a href="{% url 'edit_profile' %}">Edit your profile</a></p>
-		</div>
+            <div class="aside-body">
+                <p><strong>Only you can see this page</strong></p>
+                <p><a href="{% url 'profile' pk=user.pk %}">See what everyone else sees</a></p>
+                <p><a href="{% url 'edit_profile' %}">Edit your profile</a></p>
+            </div>
+		</aside>
 	{% elif user.is_authenticated and user.pk == person.pk %}
 		<aside class="aside-block">
-			<p><strong>This is the public view of your profile</strong></p>
-			<p><a href="{% url 'private_profile' %}">See or edit all your details</a></p>
+            <div class="aside-body">
+                <p><strong>This is the public view of your profile</strong></p>
+                <p><a href="{% url 'private_profile' %}">See or edit all your details</a></p>
+            </div>
 		</aside>
 	{% endif %}
 {% endblock sidebar_content %}

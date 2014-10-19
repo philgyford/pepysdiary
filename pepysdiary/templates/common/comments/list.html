@@ -8,7 +8,7 @@ Expects:
 		   Profile page `object` is the currently-viewed Person.
 * show_object_titles - If True, we display the titles of the objects the
 					   comments are posted on. Optional, default False.
-* hide_section_title - If True we show the 'Comments' (or similar) h1 title.
+* show_section_title - If True we show the 'Comments' (or similar) h1 title.
 					   Optional, default True.
 * only_comments - If True, we only show the comments, no form. If False, or
 				  not present, we show the comment form.
@@ -20,7 +20,7 @@ NOTE: The listings in templatetags/list_tags.py for the Recent Activity page
 {% endcomment %}
 
 <section id="{% if object and object.comment_name %}{{ object.comment_name }}{% else %}comment{% endif %}s" class="media-list comments">
-	<h1 class="comments-title{% if hide_section_title == False %} sr-only{% endif %}">
+	<h1 class="comments-title{% if show_section_title == False %} sr-only{% endif %}">
 		{% if object %}
 			{{ object.comment_count }} 
 			{% if object.comment_name %}
