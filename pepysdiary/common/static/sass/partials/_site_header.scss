@@ -25,7 +25,9 @@
 
 .site-header .container {
 	@media (min-width: $grid-float-breakpoint) {
-		background: url(#{$img-path}/site-header-pepys.png) 0 0 no-repeat;
+		@include image-retina('#{$img-path}/site-header-pepys', 'png', 118px, 145px);
+		background-position: 0 0;
+		background-repeat: no-repeat;
 		min-height: 144px;
 	}
 }
