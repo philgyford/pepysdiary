@@ -2,7 +2,10 @@
  * Overriding Bootstrap's default label styles.
  */
 
-label {
-	font-weight: normal;
+/**
+ * Use when wanting something to line up with actual labels in a form.
+ * Maybe use with a .form-control-static fake input element.
+ */
+.label-static {
+	@extend label;
 }
-

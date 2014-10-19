@@ -144,6 +144,10 @@ class PersonEditForm(forms.ModelForm):
         model = Person
         fields = ('email', 'url', )
 
+    def __init__(self, *args, **kwargs):
+        super(PersonEditForm, self).__init__(*args, **kwargs)
+        self.fields['email'].widget=forms.TextInput(attrs=attrs_dict)
+        self.fields['url'].widget=forms.TextInput(attrs=attrs_dict)
 
 class PasswordResetForm(PasswordResetForm):
     email = forms.EmailField(
