@@ -205,8 +205,8 @@ class MessageView(TemplateView):
 
 class RegisterCompleteView(MessageView):
     """After the user has successfully filled in the Register form."""
-    title = "Thanks for registering."
-    message = "An email has been sent to you containing a link. You'll need to click it to confirm your email address before you can log in."
+    title = "Please check your email"
+    message = "Nearly there… An email has been sent to you containing a link.<br><br>You'll need to click it to confirm your email address before you can log in."
 
     def get(self, request, *args, **kwargs):
         if request.user.is_authenticated():
@@ -243,7 +243,7 @@ class ActivationCompleteView(MessageView):
     """After the user has successfully clicked the link in their Activation
     email.
     """
-    title = 'Thanks!'
+    title = 'Done!'
 
     def get(self, request, *args, **kwargs):
         if request.user.is_authenticated():
@@ -253,5 +253,5 @@ class ActivationCompleteView(MessageView):
                                                     request, *args, **kwargs)
 
     def get_message(self):
-        return "Your email address is confirmed. You can now <a href=\"%s\">log in</a>." \
+        return "Your email address is confirmed and you are now registered.<br><br><a class=\"link-more\" href=\"%s\">You can now log in</a>" \
             % reverse('login')
