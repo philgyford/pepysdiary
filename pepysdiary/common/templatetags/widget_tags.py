@@ -32,15 +32,12 @@ def put_in_block(body, title=''):
 
 
 @register.simple_tag
-def email(*args):
-    return put_in_block("""<p><a href="http://feedburner.google.com/fb/a/mailverify?uri=PepysDiary&amp;loc=en_US">Receive diary entries by email daily</a></p>
-""", 'Pepys by email')
+def twitter_and_email(*args):
+    return put_in_block("""
+<p><a href="http://feedburner.google.com/fb/a/mailverify?uri=PepysDiary&amp;loc=en_US">Receive diary entries by email daily</a></p>
+<p><a href="http://twitter.com/samuelpepys">Follow <strong>@SamuelPepys’</strong> daily life on Twitter</a></p>
+""", 'Twitter &amp; Email')
 
-
-@register.simple_tag
-def twitter(*args):
-    return put_in_block("""<p>Follow <a href="http://twitter.com/samuelpepys"><strong>@samuelpepys</strong></a>’ daily life on Twitter</p>
-""", 'Pepys on Twitter')
 
 @register.simple_tag
 def credit(*args):
