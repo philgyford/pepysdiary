@@ -13,7 +13,7 @@ hr {
 			display: inline-block;
 			position: relative;
 			font-size: 1.5em;
-			@include img-retina('#{$img-path}/decorations.png', '#{$img-path}/decorations@2x.png', 194px, 150px);
+			@include image-retina('#{$img-path}/decorations', 'png', 194px, 150px);
 			background-repeat: no-repeat;
 			background-color: $body-bg;
 		}
