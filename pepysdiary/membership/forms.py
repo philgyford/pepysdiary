@@ -33,10 +33,10 @@ class RegistrationForm(forms.Form):
             widget=forms.TextInput(attrs=attrs_dict), max_length=50,
             validators=[validate_person_name], required=True,
             label=_("Your name"),
-            help_text='How people will know you. Can use spaces, eg "Samuel Pepys".')
+            help_text='How people will know you. Can use spaces, eg “Samuel Pepys”.')
     email = forms.EmailField(required=True, label=_("Email address"),
                 max_length=254, widget=forms.EmailInput(attrs=attrs_dict),
-                help_text='Will not be public.')
+                help_text='This will not be visible to others.')
     password1 = forms.CharField(widget=forms.PasswordInput(
                                         attrs=attrs_dict, render_value=False),
                                         required=True, label=_("Password"))
@@ -46,7 +46,7 @@ class RegistrationForm(forms.Form):
     url = forms.URLField(
             widget=forms.URLInput(attrs=attrs_dict),
             label=_("Personal URL"), max_length=255, required=False,
-            help_text='Optional. eg, address of your blog, Facebook page, Twitter page, etc.')
+            help_text='Optional. eg, the web address of your blog, Facebook page, Twitter page, etc.')
 
     honeypot = forms.CharField(required=False,
                             label=_('If you enter anything in this field '\
