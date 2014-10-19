@@ -254,6 +254,6 @@ def category_map_link(category_id=None):
 
 @register.simple_tag
 def admin_link_change(url):
-    return """<p class="admin-links"><a class="admin" href="%s"><span class="glyphicon glyphicon-edit"></span> Edit</a></p>""" % (url)
+    return """<p class="admin-links"><a class="admin" href="%s">Edit</a></p>""" % (url)
 
 
