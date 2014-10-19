@@ -10,20 +10,20 @@ Expects:
 	* cancel_url_name - If we want a 'Cancel' link, the name of the URL to link to.
 {% endcomment %}
 
-{% if form.non_field_errors %}
+{% for error in form.non_field_errors %}
     <div class="alert alert-danger" role="alert">
-        {{ form.non_field_errors }}
+		{{ error }}
     </div>
-{% endif %}
+{% endfor %}
 
 <form role="form" action="{% if url_name %}{% url url_name %}{% endif %}" method="post"{% if form_id %} id="{{ form_id }}"{% endif %} class="form-horizontal">
 	{% csrf_token %}
 	{% load form_filters %}
     <fieldset>
         {% for field in form %}
-        	<div class="form-group{% if field.errors %} error{% endif %}"{% if field.name == 'honeypot' %} style="display:none;"{% endif %}>
-				<label class="control-label col-md-5" for="id_{{ field.html_name }}">{{ field.label }}</label>
-			    <div class="col-md-7">
+        	<div class="form-group{% if field.errors %} has-error{% endif %}"{% if field.name == 'honeypot' %} style="display:none;"{% endif %}>
+				<label class="control-label col-md-4" for="id_{{ field.html_name }}">{{ field.label }}</label>
+			    <div class="col-md-8">
 			        {{ field|tabindex:forloop.counter }}
 			        {% if field.errors %}
 			            <span class="text-danger">{{ field.errors|join:'<br />' }}</span>
@@ -34,7 +34,7 @@ Expects:
 			</div>
         {% endfor %}
         <div class="form-group">
-			<div class="col-md-7 col-md-offset-5">
+			<div class="col-md-8 col-md-offset-4">
 				<button type="submit" class="btn btn-primary">{% if submit_text %}{{ submit_text }}{% else %}Submit{% endif %}</button>
 				{% if cancel_url_name %}
 					&nbsp; or &nbsp; <a href="{% url cancel_url_name %}">Cancel</a>
