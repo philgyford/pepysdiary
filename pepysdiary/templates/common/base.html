@@ -4,7 +4,7 @@
 	<meta charset="utf-8"/>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>{% if page_name == 'home' %}Samuel Pepys: Diary, Letters, Family Tree, Maps, Encyclopedia, Discussion and more{% else %}{% block title %}{% endblock %} (Pepys' Diary){% endif %}</title>
+	<title>{% if url_name == 'home' %}Samuel Pepys: Diary, Letters, Family Tree, Maps, Encyclopedia, Discussion and more{% else %}{% block title %}{% endblock %} (Pepys' Diary){% endif %}</title>
 
 	<link href="{{ STATIC_PREFIX }}css/pepysdiary.css?v=8" rel="stylesheet">
 	{% block extra_css %}
@@ -29,7 +29,7 @@
 
 	<header class="site-header">
 		<div class="container">
-			{% if page_name == 'home' %}
+			{% if url_name == 'home' %}
 				<h1 class="site-header-title">The Diary of Samuel Pepys</h1>
 			{% else %}
 				<h1 class="site-header-title"><a href="{% url 'home' %}" title="To the front page">The Diary of Samuel Pepys</a></h1>

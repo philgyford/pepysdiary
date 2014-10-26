@@ -33,7 +33,6 @@ class HomeView(TemplateView):
                                                 objects=context['entry_list'])
 
         context['post_list'] = Post.published_posts.all()[:2]
-        context['page_name'] = 'home'
         return context
 
 
