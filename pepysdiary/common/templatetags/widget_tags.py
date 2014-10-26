@@ -35,7 +35,7 @@ def put_in_block(body, title=''):
 def twitter_and_email(*args):
     return put_in_block("""
 <p><a href="http://feedburner.google.com/fb/a/mailverify?uri=PepysDiary&amp;loc=en_US">Receive diary entries by email daily</a></p>
-<p><a href="http://twitter.com/samuelpepys">Follow <strong>@SamuelPepys’</strong> daily life on Twitter</a></p>
+<p><a href="http://twitter.com/samuelpepys">Follow @SamuelPepys’ life on Twitter</a></p>
 """, 'Twitter &amp; Email')
 
 
