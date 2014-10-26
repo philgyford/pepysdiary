@@ -121,6 +121,22 @@
 
 }
 
+/******************************************************************************
+ * Collapse button.
+ */
+
+.navbar-toggle {
+
+	float: none;
+
+	&:hover {
+		text-decoration: underline;
+	}
+
+	.navbar-inverse & {
+		color: $navbar-inverse-link-color;
+	}
+}
 
 
 /******************************************************************************
