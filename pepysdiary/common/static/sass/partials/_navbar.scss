@@ -152,7 +152,7 @@ $subnav-active-border-height: 3px;
 	.navbar-nav {
 		@media (min-width: $grid-float-breakpoint) {
 			> .active > a > .inner {
-				@include image-retina('#{$img-path}/bullets', 'png', 36px, 210px);
+				@include image-retina('#{$img-path}/bullets', 'png', 36px, 352px);
 				background-position: center bottom;
 				background-repeat: no-repeat;
 			}
@@ -180,7 +180,7 @@ $subnav-active-border-height: 3px;
  */
 .navbar-nav > li {
 	padding-right: ($navbar-padding-horizontal + 2);
-	@include image-retina('#{$img-path}/bullets', 'png', 36px, 210px);
+	@include image-retina('#{$img-path}/bullets', 'png', 36px, 352px);
 	background-position: right 20px;
 	background-repeat: no-repeat;
 

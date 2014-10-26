@@ -7,7 +7,7 @@
 	}
 
 	> li > a {
-		@include image-retina('#{$img-path}/bullets', 'png', 36px, 210px);
+		@include image-retina('#{$img-path}/bullets', 'png', 36px, 352px);
 		background-position: 0 -73px;
 		background-repeat: no-repeat;
 		padding-left: 25px;
