@@ -41,3 +41,4 @@
     background-image: url(if($bootstrap-sass-asset-helper, twbs-image-path("#{$file}@3x.#{$ext}"), "#{$file}@3x.#{$ext}"));
   }
 }
+
