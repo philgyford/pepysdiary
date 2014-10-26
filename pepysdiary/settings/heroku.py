@@ -21,7 +21,7 @@ EMAIL_HOST_PASSWORD = environ.get('SENDGRID_PASSWORD')
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
-PREPEND_WWW = True
+PREPEND_WWW = False
 
 ALLOWED_HOSTS = environ.get('ALLOWED_HOSTS', '*').split(',')
 
