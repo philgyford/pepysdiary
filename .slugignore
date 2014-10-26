@@ -1,3 +1,5 @@
 media
 fixtures
 graphics
+# We only use Ruby stuff locally; don't want Heroku to think this is a Ruby app.
+Gemfile*
