@@ -1,6 +1,7 @@
 BeautifulSoup==3.2.1
 Django==1.6.5
 Markdown==2.2.1
+Pillow==2.6.1
 South==0.7.6
 boto==2.6.0
 dj-database-url==0.2.1
