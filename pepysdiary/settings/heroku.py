@@ -21,7 +21,9 @@ EMAIL_HOST_PASSWORD = environ.get('SENDGRID_PASSWORD')
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
-PREPEND_WWW = environ.get('PREPEND_WWW')
+# If you *don't* want to prepend www to the URL, remove the setting from
+# the environment entirely. Otherwise, set to 'True' (or anything tbh).
+PREPEND_WWW = environ.get('PREPEND_WWW', False)
 
 ALLOWED_HOSTS = environ.get('ALLOWED_HOSTS', '*').split(',')
 
