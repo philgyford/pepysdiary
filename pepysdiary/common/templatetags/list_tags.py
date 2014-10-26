@@ -38,8 +38,8 @@ def commented_objects_list(model_class, context, title, quantity):
                                                     ).latest('submit_date')
             html += """
 <article class="media newable media-small" data-time="%(data_time)s">
-    <span class="newflag glyphicon glyphicon-certificate pull-left"></span>
-    <span class="sr-only">New</span>
+    <span class="newflag pull-left" aria-hidden="true" title="New since your last visit">✹</span>
+    <span class="sr-only">New since your last visit</span>
     <div class="media-body">
         <h2 class="media-heading">
             <span class="comment-title">

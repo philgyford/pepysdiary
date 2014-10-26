@@ -34,8 +34,8 @@ NOTE: The listings in templatetags/list_tags.py for the Recent Activity page
 	</h1>
   	{% for comment in comment_list %}
 	    <article id="c{{ comment.id }}" class="media newable" data-time="{{ comment.submit_date|date:'U' }}">
-    		<span class="newflag glyphicon glyphicon-certificate pull-left"></span>
-			<span class="sr-only">New {{ object.comment_name }}</span>
+    		<span class="newflag pull-left" aria-hidden="true" title="New since your last visit">✹</span>
+			<span class="sr-only">New since your last visit</span>
 	    	<div {% if forloop.last %} id="latest"{% endif %}class="media-body">
 	    		{% if show_object_titles %}
 	    			<p>About <a href="{{ comment.content_object.get_absolute_url }}"><strong>{{ comment.content_object.title }}</strong></a></p>
