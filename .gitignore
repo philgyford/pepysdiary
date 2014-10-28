@@ -6,5 +6,6 @@ pepysdiary/media
 pepysdiary/static_collected
 .sass-cache
 .bundle
-vendor
+/vendor
+/node_modules
 

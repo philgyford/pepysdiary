@@ -6,7 +6,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>{% if url_name == 'home' %}Samuel Pepys: Diary, Letters, Family Tree, Maps, Encyclopedia, Discussion and more{% else %}{% block title %}{% endblock %} (Pepys' Diary){% endif %}</title>
 
-	<link href="{{ STATIC_PREFIX }}css/pepysdiary.css?v=8" rel="stylesheet">
+	<link href="{{ STATIC_PREFIX }}css/site.css?v=1" rel="stylesheet">
 	{% block extra_css %}
 	{% endblock extra_css %}
 
@@ -231,10 +231,9 @@
 		</footer>
 	{% endblock %}
 
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-	<script src="{{ STATIC_PREFIX }}js/libs/bootstrap.min.js"></script>
 	{% block extra_javascript_includes %}{% endblock %}
-	<script src="{{ STATIC_PREFIX }}js/pepys.js?v=7"></script>
+
+	<script src="{{ STATIC_PREFIX }}js/site.min.js?v=1"></script>
 
 	<script>
 		$(document).ready(function(){

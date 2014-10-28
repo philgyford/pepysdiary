@@ -1,0 +1,30 @@
+{
+  "name": "django-pepysdiary",
+  "version": "1.0.0",
+  "description": "pepysdiary ==========",
+  "main": "gulpfile.js",
+  "dependencies": {
+    "gulp": "^3.8.9"
+  },
+  "devDependencies": {
+    "gulp": "^3.8.9",
+    "gulp-concat": "^2.4.1",
+    "gulp-ruby-sass": "^0.7.1",
+    "gulp-uglify": "^1.0.1"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "gulp": "gulp",
+    "watch": "gulp watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/philgyford/pepysdiary.git"
+  },
+  "author": "Phil Gyford",
+  "license": "",
+  "bugs": {
+    "url": "https://github.com/philgyford/pepysdiary/issues"
+  },
+  "homepage": "https://github.com/philgyford/pepysdiary"
+}

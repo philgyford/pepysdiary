@@ -17,27 +17,60 @@ But first run this to transfer all static elements to S3:
 
 	$ heroku run ./manage.py collectstatic --settings=pepysdiary.settings.heroku
 
-## Compass, SASS, CSS
 
-This uses [Compass](http://compass-style.org/) to generate CSS files from the [SASS](http://sass-lang.com/) files in `pepysdiary/common/static/sass/`. Compass is Ruby. Settings for this are in `config.rb`.
+## Development
 
-From the top-level directory of this project, run:
+Summary:
 
-	$ bundle install
+	* `cd django-pepysdiary`
+	* Install the Ruby SASS gem (`bundle install --path vendor/bundle`)
+	* Install Node.js and NPM.
+	* Install Gulp (`npm install`).
+	* Watch for changes to SCSS and JS files with `npm run watch`.
 
-to install the gems specified in `Gemfile` (Compass and [Bootstrap Sass](https://github.com/twbs/bootstrap-sass/)).
+More detail:
+
+### SASS and CSS
+
+This uses [SASS](http://sass-lang.com/), generating CSS files from the SCSS in `pepysdiary/common/static/sass/`. Compass is Ruby. Settings for this are in `config.rb`.
+
+To ensure SASS (Ruby) is installed, rom the top-level directory of this project, run:
+
+	$ bundle install --path vendor/bundle
+
+to install the gem specified in `Gemfile` (SASS) and install it locally.
 
 To update all the gems to the latest versions:
 
 	$ bundle update
 
-Then, run this:
+You'll probably use Gulp to do SASS conversion, but should you just want to run SASS on its own, you can do it with:
 
-	$ bundle exec compass watch .
+	$ bundle exec sass --watch pepysdiary/common/static/sass:pepysdiary/common/static/css
 
-to have Compass continually watch the SASS files for any changes, and compile a new `pepysdiary/common/static/css/pepysdiary.css` file.
+to continually watch the SASS files for any changes, and compile a new `pepysdiary/common/static/css/pepysdiary.css` file.
 
-We don't do any clever deploy stuff to compile the SASS files; it's all done before commiting the changes to this repository.
+
+### Gulp
+
+We use [Gulp](http://gulpjs.com/) to:
+
+	* Compile the SCSS files into CSS.
+	* Minify our custom JavaScript.
+	* Concatenate a few JavaScript files into one.
+
+You'll need [Node.js](http://nodejs.org/) and [Node Package Manager](https://www.npmjs.org/). Once those are installed, then running this from inside the same directory as `package.json` should install the required Node packages for Gulp:
+
+	$ npm install
+
+Then run this to watch for any changes to the SCSS or JS files:
+
+	$ npm run watch
+
+Or, for a one-off run:
+
+	$ npm run gulp
+
 
 ## Bootstrap
 
