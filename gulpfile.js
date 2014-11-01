@@ -23,6 +23,7 @@ gulp.task('watch', function () {
 
 
 // Minify our custom JS file.
+// (3rd-party JS files are already minified.)
 gulp.task('js-minify', function(cb) {
     gulp.src('pepysdiary/common/static/js/pepys.js')
         .pipe(uglify())
@@ -37,7 +38,7 @@ gulp.task('js-minify', function(cb) {
 // Must run js-minify first.
 gulp.task('js-concat', ['js-minify'], function() {
     return gulp.src([
-        'pepysdiary/common/static/js/libs/jquery-1.11.0.min.js',
+        'pepysdiary/common/static/js/libs/jquery.min.js',
         'pepysdiary/common/static/js/libs/bootstrap.min.js',
         'pepysdiary/common/static/js/pepys.min.js',
     ])
@@ -46,8 +47,9 @@ gulp.task('js-concat', ['js-minify'], function() {
 });
 
 
+// SASSify our sass/site.scss file into css/site.css.
 gulp.task('sass', function () {
-    gulp.src('pepysdiary/common/static/sass/**/*.scss')
+    gulp.src('pepysdiary/common/static/sass/site.scss')
         .pipe(sass({bundleExec: true, style: 'compressed'}))
         .pipe(gulp.dest('pepysdiary/common/static/css'));
 });
