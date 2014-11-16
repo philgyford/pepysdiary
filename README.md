@@ -82,6 +82,8 @@ As mentioned above, we're using Boostrap SASS to generate a custom set of Bootst
 
 We must manually download a custom version of Bootstrap's JavaScript file.
 
+Instead of steps 2 and 3 you can hopefully upload the `js/src/vendor/bootstrap_config.json` file.
+
 1. Go to http://getbootstrap.com/customize/
 2. Toggle off all of the checkboxes.
 3. Under the "jQuery plugins" section check the boxes next to these plugins:
