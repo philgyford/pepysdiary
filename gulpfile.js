@@ -10,6 +10,7 @@ var gulp        = require('gulp')
     rev         = require('gulp-rev'),
     sass        = require('gulp-ruby-sass'),
     uglify      = require('gulp-uglify'),
+    usemin      = require('gulp-usemin'),
     gutil       = require('gulp-util');
 
 var baseDir = 'pepysdiary/common/static/',
@@ -43,7 +44,7 @@ var addToRevisions = function(obj) {
  * Does everything to CSS and JS files one time.
  * Run with `npm run gulp`.
  */
-gulp.task('default', ['js', 'sass'], function() {
+gulp.task('default', ['js', 'js-copy', 'sass'], function() {
     gutil.log(revisions);
 });
 
@@ -55,7 +56,7 @@ gulp.task('default', ['js', 'sass'], function() {
 gulp.task('watch', function() {
     gulp.watch(paths.css.src + '**/*.scss', ['sass']);
 
-    gulp.watch(paths.js.src + '*.js', ['js']);
+    gulp.watch(paths.js.src + '*.js', ['js', 'js-copy']);
 });
 
 
@@ -64,53 +65,22 @@ gulp.task('watch', function() {
  */
 
 /**
- * Our main JS task.
- * Must run js-concat first.
- * Which in turn must run js-minify first.
- * Finally we're back here and we:
- *  * Delete the temp file created by js-minify.
- *  * Copy JS files we only sometimes need into the dest directory.
- */
-gulp.task('js', ['js-concat'], function() {
-
-    del(['<%= paths.js.temp %>*.js'], function() {
-        gutil.log('Temporary JS files deleted');
-    });
-
-    // NOTE: We need js-concat etc to finish before we copy these files below,
-    // or else they might get deleted when old JS files are deleted.
-
-    // Concat and copy the JS needed for <IE9 from src to dest.
-    gulp.src([
-        '<%= paths.js.src %>vendor/html5shiv.min.js',
-        '<%= paths.js.src %>vendor/respond.min.js'
-    ])
-    .pipe(concat('lt-ie-9.min.js'))
-    .pipe(gulp.dest(paths.js.dest));
-
-    // Copy d3.js from src to dest.
-    // (Just because it's tidier if all the JS we include on the site comes
-    // from the same directory.)
-    gulp.src([
-        '<%= paths.js.src %>vendor/d3.v3.min.js'
-    ])
-    .pipe(gulp.dest(paths.js.dest));
-});
-
-
-/**
  * Put the JS files we include on every page into one site.min.js file.
  * Must run js-minify first.
  *
  * Creates revisioned files like site-d03917af.min.js
  * Deletes old revisioned files first.
  */
-gulp.task('js-concat', ['js-minify'], function() {
+gulp.task('js', ['js-minify'], function() {
 
-    // First, we delete the old revisioned files.
-    del('<%= paths.js.dest %>*.js', function(err) {
-        gutil.log('Previous JS files deleted');
-    });
+    // First, we delete the temp file created by js-minify and the old
+    // revisioned site file.
+    del(['<%= paths.js.temp %>*.js',
+         '<%= paths.js.dest %>site-*.min.js'],
+        function(err) {
+            gutil.log('Previous JS files deleted');
+        }
+    );
 
     // All the files to combine:
     return gulp.src([
@@ -139,10 +109,11 @@ gulp.task('js-concat', ['js-minify'], function() {
     }));
 });
 
-
 /**
  * Minify our custom JS file, into a temporary file.
  * (3rd-party JS files are already minified.)
+ * In a separate task so that the main 'js' one has to wait for it to complete
+ * before continuing (I think).
  */
 gulp.task('js-minify', function() {
 
@@ -150,6 +121,32 @@ gulp.task('js-minify', function() {
         .pipe(uglify())
         .pipe(concat('pepys.min.js'))
         .pipe(gulp.dest(paths.js.temp));
+});
+
+
+/**
+ * Copies a few vendor JS files from vendor to dest.
+ * These are files which aren't used on every page, or need to be separate from
+ * the main site.js
+ *
+ * They're already minified, so nothing else to do.
+ */
+gulp.task('js-copy', [], function() {
+    // Concat and copy the JS needed for <IE9 from src to dest.
+    gulp.src([
+        '<%= paths.js.src %>vendor/html5shiv.min.js',
+        '<%= paths.js.src %>vendor/respond.min.js'
+    ])
+    .pipe(concat('lt-ie-9.min.js'))
+    .pipe(gulp.dest(paths.js.dest));
+
+    // Copy d3.js from src to dest.
+    // (Just because it's tidier if all the JS we include on the site comes
+    // from the same directory.)
+    gulp.src([
+        '<%= paths.js.src %>vendor/d3.v3.min.js'
+    ])
+    .pipe(gulp.dest(paths.js.dest));
 });
 
 
