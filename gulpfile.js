@@ -53,9 +53,9 @@ gulp.task('default', ['js', 'sass'], function() {
  * Run with `npm run watch`.
  */
 gulp.task('watch', function() {
-    gulp.watch('<%= paths.css.src %>*.scss', ['sass']);
+    gulp.watch(paths.css.src + '**/*.scss', ['sass']);
 
-    gulp.watch('<%= paths.js.src %>*.js', ['js']);
+    gulp.watch(paths.js.src + '*.js', ['js']);
 });
 
 
@@ -117,7 +117,7 @@ gulp.task('js-concat', ['js-minify'], function() {
         '<%= paths.js.src %>vendor/jquery.min.js',
         '<%= paths.js.src %>vendor/jquery.timeago.min.js',
         '<%= paths.js.src %>vendor/bootstrap.min.js',
-        paths.js.temp+'pepys.min.js',
+        '<%= paths.js.temp %>pepys.min.js',
     ])
     // Into this filename:
     .pipe(concat('site'))
@@ -133,7 +133,9 @@ gulp.task('js-concat', ['js-minify'], function() {
     // Instead of saving it, parse the object in the file's content and save
     // it for later.
     .pipe(gutil.buffer(function(err, files){
-        addToRevisions(JSON.parse(files[0].contents.toString()));
+        if (files.length > 0) {
+            addToRevisions(JSON.parse(files[0].contents.toString()));
+        };
     }));
 });
 
