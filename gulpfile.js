@@ -6,6 +6,7 @@
 var gulp        = require('gulp')
     concat      = require('gulp-concat'),
     del         = require('del'),
+    rename      = require('gulp-rename'),
     rev         = require('gulp-rev'),
     sass        = require('gulp-ruby-sass'),
     uglify      = require('gulp-uglify'),
@@ -32,24 +33,35 @@ var addToRevisions = function(obj) {
     };
 };
 
+/***********************************************************************
+ * The main tasks to run from the command line.
+ * 
+ * To add new tasks, add an entry in the "scripts" section of /package.json
+ */
 
 /**
  * Does everything to CSS and JS files one time.
+ * Run with `npm run gulp`.
  */
 gulp.task('default', ['js', 'sass'], function() {
-    console.log(revisions);
+    gutil.log(revisions);
 });
 
 
 /**
  * Does everything to CSS and JS files whenever they change.
+ * Run with `npm run watch`.
  */
 gulp.task('watch', function() {
-    gulp.watch(paths.css.src+'*.scss', ['sass']);
+    gulp.watch('<%= paths.css.src %>*.scss', ['sass']);
 
-    gulp.watch(paths.js.src+'*.js', ['js']);
+    gulp.watch('<%= paths.js.src %>*.js', ['js']);
 });
 
+
+/***********************************************************************
+ * Sub-tasks that are run by the main tasks (above).
+ */
 
 /**
  * Our main JS task.
@@ -61,7 +73,7 @@ gulp.task('watch', function() {
  */
 gulp.task('js', ['js-concat'], function() {
 
-    del([paths.js.temp+'*.js'], function() {
+    del(['<%= paths.js.temp %>*.js'], function() {
         gutil.log('Temporary JS files deleted');
     });
 
@@ -70,8 +82,8 @@ gulp.task('js', ['js-concat'], function() {
 
     // Concat and copy the JS needed for <IE9 from src to dest.
     gulp.src([
-        paths.js.src+'vendor/html5shiv.min.js',
-        paths.js.src+'vendor/respond.min.js'
+        '<%= paths.js.src %>vendor/html5shiv.min.js',
+        '<%= paths.js.src %>vendor/respond.min.js'
     ])
     .pipe(concat('lt-ie-9.min.js'))
     .pipe(gulp.dest(paths.js.dest));
@@ -80,7 +92,7 @@ gulp.task('js', ['js-concat'], function() {
     // (Just because it's tidier if all the JS we include on the site comes
     // from the same directory.)
     gulp.src([
-        paths.js.src+'vendor/d3.v3.min.js'
+        '<%= paths.js.src %>vendor/d3.v3.min.js'
     ])
     .pipe(gulp.dest(paths.js.dest));
 });
@@ -90,27 +102,30 @@ gulp.task('js', ['js-concat'], function() {
  * Put the JS files we include on every page into one site.min.js file.
  * Must run js-minify first.
  *
- * Creates revisioned files like site.min-d03917af.js
+ * Creates revisioned files like site-d03917af.min.js
  * Deletes old revisioned files first.
  */
 gulp.task('js-concat', ['js-minify'], function() {
 
     // First, we delete the old revisioned files.
-    del(paths.js.dest+'*.js', function(err) {
+    del('<%= paths.js.dest %>*.js', function(err) {
         gutil.log('Previous JS files deleted');
     });
 
     // All the files to combine:
     return gulp.src([
-        paths.js.src+'vendor/jquery.min.js',
-        paths.js.src+'vendor/jquery.timeago.min.js',
-        paths.js.src+'vendor/bootstrap.min.js',
+        '<%= paths.js.src %>vendor/jquery.min.js',
+        '<%= paths.js.src %>vendor/jquery.timeago.min.js',
+        '<%= paths.js.src %>vendor/bootstrap.min.js',
         paths.js.temp+'pepys.min.js',
     ])
     // Into this filename:
-    .pipe(concat('site.min.js'))
+    .pipe(concat('site'))
     // Add a unique hash to this revision:
     .pipe(rev())
+    .pipe(rename({
+        extname: ".min.js"
+    }))
     // Save it:
     .pipe(gulp.dest(paths.js.dest))
     // Generate the manifest file that maps original to new filename.
@@ -129,7 +144,7 @@ gulp.task('js-concat', ['js-minify'], function() {
  */
 gulp.task('js-minify', function() {
 
-    return gulp.src(paths.js.src+'pepys.js')
+    return gulp.src('<%= paths.js.src %>pepys.js')
         .pipe(uglify())
         .pipe(concat('pepys.min.js'))
         .pipe(gulp.dest(paths.js.temp));
@@ -145,9 +160,11 @@ gulp.task('js-minify', function() {
 gulp.task('sass', function() {
 
     // First, we delete the old revisioned files.
-    del([paths.css.dest+'*.css', paths.css.dest+'*.map'], function(err) {
-        gutil.log('Previous CSS files deleted');
-    });
+    del(['<%= paths.css.dest %>*.css', '<%= paths.css.dest %>*.map'],
+        function(err) {
+            gutil.log('Previous CSS files deleted');
+        }
+    );
 
     // Our single main SCSS file (which @imports everything else).
     return gulp.src(paths.css.src+'site.scss')
