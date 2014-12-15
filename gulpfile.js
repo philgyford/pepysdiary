@@ -7,6 +7,7 @@ var gulp        = require('gulp')
     concat      = require('gulp-concat'),
     del         = require('del'),
     rename      = require('gulp-rename'),
+    replace     = require('gulp-replace'),
     rev         = require('gulp-rev'),
     sass        = require('gulp-ruby-sass'),
     uglify      = require('gulp-uglify'),
@@ -23,16 +24,49 @@ var baseDir = 'pepysdiary/common/static/',
             src:  baseDir + 'js/src/',
             dest: baseDir + 'js/dist/',
             temp: baseDir + 'js/tmp/'
+        },
+        django: {
+            templates: 'pepysdiary/templates/'
         }
     };
 
+/***********************************************************************
+ * Stuff we need to keep track of revisions and then update templates.
+ */
+
+/**
+ * Keeps track of files that will have a cache-busting hash in their filename.
+ * Will map something like:
+ *  'site.css': 'site-be017230.css'.
+ */
 var revisions = {};
 
+/**
+ * Add an object to the revisions array.
+ */
 var addToRevisions = function(obj) {
     for (var source in obj) {
         revisions[source] = obj[source];
     };
 };
+
+/**
+ * Called when other tasks have finished.
+ * revisions should by then have some replacements to make.
+ */
+var updateTemplates = function(){
+    gutil.log('Updating template');
+
+    // To see what's in revisions now:
+    gutil.log(revisions);
+
+    gulp.src(paths.django.templates + 'common/base.html')
+        // Only do the replacements if we have a replacement to do:
+        .pipe('site.css' in revisions ? replace(/site\-[a-fA-F0-9]{8}\.css/, revisions['site.css']) : gutil.noop())
+        .pipe('site' in revisions ? replace(/site\-[a-fA-F0-9]{8}\.min.js/, revisions['site']) : gutil.noop())
+        .pipe(gulp.dest(paths.django.templates + 'common/'));
+};
+
 
 /***********************************************************************
  * The main tasks to run from the command line.
@@ -44,9 +78,7 @@ var addToRevisions = function(obj) {
  * Does everything to CSS and JS files one time.
  * Run with `npm run gulp`.
  */
-gulp.task('default', ['js', 'js-copy', 'sass'], function() {
-    gutil.log(revisions);
-});
+gulp.task('default', ['js', 'js-copy', 'sass']);
 
 
 /**
@@ -65,18 +97,33 @@ gulp.task('watch', function() {
  */
 
 /**
- * Put the JS files we include on every page into one site.min.js file.
- * Must run js-minify first.
+ * Does the main JS stuff... minifies our JS, then concats several things.
+ * Then removes temporary files.
  *
+ * So, runs js-concat, which runs js-minify, then comes back here when done.
+ */
+gulp.task('js', ['js-concat'], function() {
+
+    // Tidy up...
+    del([paths.js.temp + 'pepys.min.js'],
+        function(err) {
+            gutil.log('Temporary JS files deleted');
+        }
+    );
+
+    updateTemplates();
+});
+
+/*
+ * Put the JS files we include on every page into one site.min.js file.
+ * Must run js-concat first.
+ * 
  * Creates revisioned files like site-d03917af.min.js
  * Deletes old revisioned files first.
  */
-gulp.task('js', ['js-minify'], function() {
-
-    // First, we delete the temp file created by js-minify and the old
-    // revisioned site file.
-    del(['<%= paths.js.temp %>*.js',
-         '<%= paths.js.dest %>site-*.min.js'],
+gulp.task('js-concat', ['js-minify'], function() {
+    // First, we delete the old revisioned site file.
+    del([paths.js.dest + 'site-*.min.js'],
         function(err) {
             gutil.log('Previous JS files deleted');
         }
@@ -84,10 +131,10 @@ gulp.task('js', ['js-minify'], function() {
 
     // All the files to combine:
     return gulp.src([
-        '<%= paths.js.src %>vendor/jquery.min.js',
-        '<%= paths.js.src %>vendor/jquery.timeago.min.js',
-        '<%= paths.js.src %>vendor/bootstrap.min.js',
-        '<%= paths.js.temp %>pepys.min.js',
+        paths.js.src + 'vendor/jquery.min.js',
+        paths.js.src + 'vendor/jquery.timeago.min.js',
+        paths.js.src + 'vendor/bootstrap.min.js',
+        paths.js.temp + 'pepys.min.js',
     ])
     // Into this filename:
     .pipe(concat('site'))
@@ -117,7 +164,7 @@ gulp.task('js', ['js-minify'], function() {
  */
 gulp.task('js-minify', function() {
 
-    return gulp.src('<%= paths.js.src %>pepys.js')
+    return gulp.src(paths.js.src + 'pepys.js')
         .pipe(uglify())
         .pipe(concat('pepys.min.js'))
         .pipe(gulp.dest(paths.js.temp));
@@ -130,12 +177,13 @@ gulp.task('js-minify', function() {
  * the main site.js
  *
  * They're already minified, so nothing else to do.
+ * Not reliant on other processes.
  */
 gulp.task('js-copy', [], function() {
     // Concat and copy the JS needed for <IE9 from src to dest.
     gulp.src([
-        '<%= paths.js.src %>vendor/html5shiv.min.js',
-        '<%= paths.js.src %>vendor/respond.min.js'
+        paths.js.src + 'vendor/html5shiv.min.js',
+        paths.js.src + 'vendor/respond.min.js'
     ])
     .pipe(concat('lt-ie-9.min.js'))
     .pipe(gulp.dest(paths.js.dest));
@@ -144,11 +192,18 @@ gulp.task('js-copy', [], function() {
     // (Just because it's tidier if all the JS we include on the site comes
     // from the same directory.)
     gulp.src([
-        '<%= paths.js.src %>vendor/d3.v3.min.js'
+        paths.js.src + 'vendor/d3.v3.min.js'
     ])
     .pipe(gulp.dest(paths.js.dest));
 });
 
+
+/**
+ * Just calls our main SASS task and *then* does the update templates stuff.
+ */
+gulp.task('sass', ['sass-do'], function() {
+    updateTemplates();
+});
 
 /**
  * SASSify our sass/site.scss file into css/site.css.
@@ -156,10 +211,9 @@ gulp.task('js-copy', [], function() {
  * Creates revisioned files like site-d03917af.css and site.css-d03917af.map
  * Deletes old revisioned files first.
  */
-gulp.task('sass', function() {
-
+gulp.task('sass-do', function() {
     // First, we delete the old revisioned files.
-    del(['<%= paths.css.dest %>*.css', '<%= paths.css.dest %>*.map'],
+    del([paths.css.dest + '*.css', paths.css.dest + '*.map'],
         function(err) {
             gutil.log('Previous CSS files deleted');
         }
