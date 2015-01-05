@@ -32,6 +32,7 @@ window.pepys.controller = {
         pepys.topic.init();
 
         // Prettify the dates/times on comments.
+        $.timeago.settings.cutoff = 7*24*60*60*1000;
         $('time.timeago').timeago();
     }
 };
