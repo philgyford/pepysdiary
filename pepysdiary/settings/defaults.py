@@ -194,7 +194,7 @@ LOGGING = {
 # THIRD-PARTY APPS
 
 from datetime import date, timedelta
-future_date = date.today() + timedelta(years=1)
+future_date = date.today() + timedelta(days=365)
 AWS_HEADERS = {
     'Expires': future_date.strftime('%a, %d %b %Y %H:%M:%S GMT'),
     'Cache-Control': 'max-age=86400',
