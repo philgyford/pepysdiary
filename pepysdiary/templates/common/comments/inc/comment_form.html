@@ -80,7 +80,7 @@ Expects:
 							<a href="{{ object.get_absolute_url }}#comment" title="Return to the previous page">Cancel</a>
 							&nbsp; or &nbsp;
 						{% endif %}
-						<button type="submit" name="preview" class="btn {% if not preview %}btn-primary{% else %}btn-default{% endif %}">Preview your {{ object.comment_name }}{% if preview %} again{% endif %}</button>
+						<button type="submit" name="preview" class="btn btn-primary">Preview your {{ object.comment_name }}{% if preview %} again{% endif %}</button>
 						{% if preview %}
 							&nbsp; or &nbsp; <button type="submit" name="submit" class="btn btn-primary">Post it</button>
 						{% endif %}
