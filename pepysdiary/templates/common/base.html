@@ -6,9 +6,10 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>{% if url_name == 'home' %}Samuel Pepys: Diary, Letters, Family Tree, Maps, Encyclopedia, Discussion and more{% else %}{% block title %}{% endblock %} (Pepys' Diary){% endif %}</title>
 
-	<link href="{{ STATIC_PREFIX }}css/site-be017230.css" rel="stylesheet">
 	{% block extra_css %}
 	{% endblock extra_css %}
+    {# Mapbox CSS needs to go in before our own CSS. #}
+	<link href="{{ STATIC_PREFIX }}css/site-48bb3c20.css" rel="stylesheet">
 
     <!--[if lt IE 9]>
       <script src="{{ STATIC_PREFIX }}js/dist/lt-ie-9.min.js"></script>
@@ -230,7 +231,7 @@
 
 	{% block extra_javascript_includes %}{% endblock %}
 
-	<script src="{{ STATIC_PREFIX }}js/dist/site-9e9bb3a1.min.js"></script>
+	<script src="{{ STATIC_PREFIX }}js/dist/site-c06d43b7.min.js"></script>
 
 	<script>
 		$(document).ready(function(){

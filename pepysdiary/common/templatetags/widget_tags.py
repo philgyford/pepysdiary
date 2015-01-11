@@ -218,11 +218,11 @@ def family_tree_link(topic=None):
     """
     text = "See the Pepys family tree"
     if topic is not None and topic.on_pepys_family_tree:
-        text = "See this person on the Pepys family tree"
+        text = "See this person on the Pepys family&nbsp;tree"
     link_url = reverse('encyclopedia_familytree')
 
     body = """
-        <p><a href="%s"><img class="img-responsive" src="%simg/sidebar_family_tree.png" width="250" height="134" alt="Family tree thumbnail" /></p>
+        <p><a href="%s"><img class="img-responsive" src="%simg/sidebar_family_tree.png" width="330" height="110" alt="Family tree thumbnail" /></p>
         <p><a href="%s">%s</a></p>
     """ % (link_url, settings.STATIC_URL, link_url, text)
 
@@ -237,13 +237,15 @@ def category_map_link(category_id=None):
     """
     if category_id is None:
         link_url = reverse('category_map')
-        text = "See places from the Diary on a map"
+        text = "See places from the Diary on a&nbsp;map"
     else:
         link_url = reverse('category_map', kwargs={'category_id': category_id})
-        text = "See all places in this category on a map"
+        text = "See all places in this category on one&nbsp;map"
 
-    body = """<p><a href="%s"><img class="img-responsive" src="%simg/sidebar_category_map.png" width="250" height="134" alt="Map thumbnail" /></a></p>
-    <p><a href="%s">%s</a></p>
+    body = """<p class="clearfix">
+    <a href="%s"><img class="pull-right" src="%simg/sidebar_category_map.png" width="110" height="62" alt="Map thumbnail" /></a>
+    <a href="%s">%s</a>
+    </p>
     """ % (link_url, settings.STATIC_URL, link_url, text)
 
     return put_in_block(body, 'Maps')

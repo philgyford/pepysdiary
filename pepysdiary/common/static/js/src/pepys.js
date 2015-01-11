@@ -671,26 +671,31 @@ window.pepys.maps = {
         };
 
         // Set up the markers that we'll use.
-        var default_marker_icon = new L.Icon.Default();
-        // We need a different colour for Pepys' houses:
+        var DefaultIcon = L.Icon.Default.extend({
+            options: {
+                iconUrl: pepys.controller.config.static_prefix + 'img/marker-icon.png',
+                iconRetinaUrl: pepys.controller.config.static_prefix + 'img/marker-icon@2x.png'
+            }
+        });
         var PepysIcon = L.Icon.Default.extend({
             options: {
                 iconUrl: pepys.controller.config.static_prefix + 'img/marker-icon-b.png',
                 iconRetinaUrl: pepys.controller.config.static_prefix + 'img/marker-icon-b@2x.png'
             }
         });
+        var default_marker_icon = new DefaultIcon();
         var pepys_marker_icon = new PepysIcon();
 
         // Will be a Marker, Polygon, or Polyline.
         var place;
         if ('polygon' in place_data) {
             place = L.polygon(
-                this.string_to_coords(place_data['polygon'])
+                this.string_to_coords(place_data['polygon']), {color: '#a02b2d', opacity: 0.75, fill: '#a02b2d', fillOpacity: 0.4, weight: 2}
             );
 
         } else if ('path' in place_data) {
             place = L.polyline(
-                this.string_to_coords(place_data['path'])
+                this.string_to_coords(place_data['path']), {color: '#a02b2d', opacity: 0.5}
             );
 
         } else {

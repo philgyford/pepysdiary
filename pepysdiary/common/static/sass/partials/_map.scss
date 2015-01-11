@@ -28,6 +28,21 @@
 	}
 }
 
+/* Remove icon, add text. */
+a.leaflet-control-layers-toggle {
+    background-image: none;
+    width: auto;
+    height: auto;
+    padding: 0.3em 10px;
+    font-weight: bold;
+    color: $text-color;
+    opacity: 1;
+
+    &::before {
+        content: "Add layers";
+    }
+}
+
 /* Based on stuff from https://github.com/Leaflet/Leaflet.label */
 .leaflet-label {
 	background: rgb(235, 235, 235);
