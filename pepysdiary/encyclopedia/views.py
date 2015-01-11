@@ -8,6 +8,7 @@ from django.shortcuts import redirect
 from django.utils.decorators import method_decorator
 from django.utils.translation import ugettext as _
 from django.views.decorators.cache import cache_page
+from django.views.decorators.csrf import csrf_protect
 from django.views.generic import FormView, TemplateView
 from django.views.generic.detail import DetailView
 
@@ -119,6 +120,7 @@ class CategoryMapView(FormView):
     category_id = 28
 
     @method_decorator(cache_page(60 * 60))
+    @method_decorator(csrf_protect)
     def dispatch(self, *args, **kwargs):
         return super(CategoryMapView, self).dispatch(*args, **kwargs)
 
