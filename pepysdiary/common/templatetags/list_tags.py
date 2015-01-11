@@ -36,7 +36,7 @@ def commented_objects_list(model_class, context, title, quantity):
             comment = Annotation.visible_objects.filter(object_pk=obj.pk,
                                                         content_type_id=ct.id
                                                     ).latest('submit_date')
-            html += """
+            html += u"""
 <article class="media newable media-small" data-time="%(data_time)s">
     <span class="newflag pull-left" aria-hidden="true" title="New since your last visit">✹</span>
     <span class="sr-only">New since your last visit</span>
