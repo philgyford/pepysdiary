@@ -37,6 +37,7 @@ class TopicManager(models.Manager):
         "Monsieur du Prat" to "Prat, Monsieur du"
         "Catherine of Braganza (Queen)" to "Braganza, Catherine of (Queen)"
         "Michiel van Gogh (Dutch Ambassador, 1664-5)" to "Gogh, Michiel van (Dutch Ambassador, 1664-5)"
+        "Mr Butler (Mons. L'impertinent)" to "Butler, Mr (Mons. L'impertinent)"
 
         Stay the same:
         "Mary (c, Pepys' chambermaid)"
@@ -97,7 +98,7 @@ class TopicManager(models.Manager):
                     # Save any title, plus a space, or just nothing:
                     title = ''
                     if matches[0] is not None:
-                        title = '%s ' % matches[0]
+                        title = '%s' % (matches[0])
 
                     if matches[2] is not None:
                         # The "surname" part has something in it.
@@ -131,8 +132,12 @@ class TopicManager(models.Manager):
                             if surname_match is None:
                                 # "surname" was just one word, simple.
                                 # eg, (None, 'Fred', 'Bloggs', None)
-                                order_title = '%s, %s%s%s' % (matches[2], title,
+                                if title == '':
+                                    order_title = '%s, %s%s' % (matches[2],
                                                         matches[1], parentheses)
+                                else:
+                                    order_title = '%s, %s %s%s' % (matches[2],
+                                                title, matches[1], parentheses)
                             else:
                                 # "surname" has more than one word.
                                 # eg, (None, 'Adriaen', 'de Haes', None)
@@ -147,7 +152,10 @@ class TopicManager(models.Manager):
                     elif title != '':
                         # eg, ('Mr', 'Hazard', None)
                         # Need to remove extra space from title, eg 'Mr ':
-                        order_title = '%s, %s' % (matches[1], title[:-1])
+                        if parentheses == '':
+                            order_title = '%s, %s' % (matches[1], title)
+                        else:
+                            order_title = '%s, %s%s' % (matches[1], title, parentheses)
                     else:
                         pass
 
