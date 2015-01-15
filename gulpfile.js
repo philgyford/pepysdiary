@@ -222,6 +222,7 @@ gulp.task('sass-do', function() {
     // Our single main SCSS file (which @imports everything else).
     return gulp.src(paths.css.src+'site.scss')
         // Run SASS with options:
+        // style can be nested, compact, compressed, expanded
         .pipe(sass({bundleExec: true, style: 'compressed'}))
         // Add a unique hash to this revision:
         .pipe(rev())
