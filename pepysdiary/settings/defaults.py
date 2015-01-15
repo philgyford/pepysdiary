@@ -201,7 +201,7 @@ AWS_HEADERS = {
 }
 AWS_QUERYSTRING_AUTH = False
 # By default does CSS and JS files:
-AWS_IS_GZIPPED = True
+#AWS_IS_GZIPPED = True
 
 ####################################################################
 # PEPYSDIARY SPECIFIC
