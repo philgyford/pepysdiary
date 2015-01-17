@@ -1,11 +1,11 @@
 {% if paginator.num_pages > 1 %}
-	<div class="pagination pagination-centered">
-		<ul>
-			<li{% if not page_obj.has_previous %} class="disabled"{% endif %}><a href="{% if page_obj.has_previous %}?page={{ page_obj.previous_page_number }}{% else %}#{% endif %}">&laquo;</a></li>
+	<nav class="text-center">
+		<ul class="pagination">
+			<li{% if not page_obj.has_previous %} class="disabled"{% endif %}><a href="{% if page_obj.has_previous %}?page={{ page_obj.previous_page_number }}{% else %}#{% endif %}"{% if page_obj.has_previous %} title="Previous page"{% endif %}>Previous</a></li>
 			{% for p in paginator.page_range %}
 				<li{% if p == page_obj.number %} class="active"{% endif %}><a href="?page={{ p }}">{{ p }}</a></li>
 			{% endfor %}
-			<li{% if not page_obj.has_next %} class="disabled"{% endif %}><a href="{% if page_obj.has_next %}?page={{ page_obj.next_page_number }}{% else %}#{% endif %}">&raquo;</a></li>
+			<li{% if not page_obj.has_next %} class="disabled"{% endif %}><a href="{% if page_obj.has_next %}?page={{ page_obj.next_page_number }}{% else %}#{% endif %}"{% if page_obj.has_next %} title="Next page"{% endif %}>Next</a></li>
 		</ul>
-	</div>
+	</nav>
 {% endif %}

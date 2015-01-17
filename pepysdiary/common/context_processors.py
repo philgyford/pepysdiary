@@ -35,9 +35,18 @@ def date_formats(request):
 def api_keys(request):
     return {
         'MAPBOX_MAP_ID': settings.MAPBOX_MAP_ID,
+        'MAPBOX_ACCESS_TOKEN': settings.MAPBOX_ACCESS_TOKEN,
         'GOOGLE_ANALYTICS_ID': settings.GOOGLE_ANALYTICS_ID,
     }
 
 
 def config(request):
     return {'config': Config.objects.get_site_config()}
+
+
+def url_name(request):
+    """
+    So we can test things in the templates based on the current named URL.
+    """
+    return {'url_name': request.resolver_match.url_name}
+

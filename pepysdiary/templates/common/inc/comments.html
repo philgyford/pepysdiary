@@ -5,6 +5,5 @@ Expects these passed in:
 {% endcomment %}
 {% load comments %}
 
-<h2>{{ object.comment_count }} {{ object.comment_name|capfirst }}{{ object.comment_count|pluralize }}</h2>
-
 {% render_comment_list for object %}
+

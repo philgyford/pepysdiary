@@ -1,32 +1,32 @@
 {% extends "comments/base.html" %}
 
 {% block title %}Flag this comment{% endblock %}
-{% block page_header %}{% endblock %}
+{% block header_title %}Really flag this?{% endblock %}
 
 {% block main_content %}
-    <p class="lead">Really flag this?</p>
+    <p class="lead">If this is spam, or is otherwise inappropriate, please flag it for attention. Thanks.</p>
 
-    <p>If this is spam, or is otherwise inappropriate, please flag it for attention. Thanks.</p>
-
-	<div class="comments">
-	    <div class="media">
-        	<h3 class="media-heading">
-        		<span class="comment-name">
-	        		{{ comment.name }}
-        		</span>
-        		<small>
-        			on {{ comment.submit_date|date:date_format_mid }} at 
-	        		{{ comment.submit_date|date:time_format|lower }}
-		        </small>
-        	</h3>
-	    	<div class="media-body">
+	<section class="media-list comments">
+	    <article class="media">
+			<div class="media-body">
+				<header class="media-heading">
+					<p>
+						<span class="comment-name">
+							{{ comment.name }}
+						</span>
+						<small>
+							on {{ comment.submit_date|date:date_format_mid }} at 
+							{{ comment.submit_date|date:time_format|lower }}
+						</small>
+					</p>
+				</header>
 	    		<p>{{ comment.comment|urlizetrunc:50|linebreaks }}</p>
 	    	</div>
-	    </div>
-	</div>
+	    </article>
+	</section>
 
-	<form action="." method="post">
-		<div class="form-actions">
+	<form action="" method="post" role="form">
+		<div class="form-group">
 		    {% csrf_token %}
 			<div class="pull-right">
 				<a href="{{ comment.get_absolute_url }}" title="Return to the previous page">Cancel</a>

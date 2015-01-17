@@ -4,15 +4,7 @@
 
 {% block sidebar_content %}
 	{% load widget_tags %}
-	{% load url from future %}
-
-	<div class="sidebar-block">
-		<ul class="nav nav-tabs nav-stacked">
-			{% about_pages_links %}
-		</ul>
-	</div>
 
 	{% latest_posts quantity=5 %}
 
-	{% rss_feeds %}
 {% endblock sidebar_content %}

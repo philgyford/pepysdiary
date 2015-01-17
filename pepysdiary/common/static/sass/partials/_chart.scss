@@ -1,0 +1,51 @@
+/**
+ * CHART.
+ * The chart showing topic references in the Encyclopedia.
+ */
+
+
+.chart {
+	width: 100%;
+}
+
+/* Bars on the chart: */
+.chart line {
+	/* General line styles. */
+    stroke-width: 1px;
+    shape-rendering: crispEdges;
+}
+
+.chart .bar {
+	fill: $gray-dark;
+    shape-rendering: crispEdges;
+    opacity: 0.7;
+}
+
+.chart .bar.highlight {
+	opacity: 1.0;
+}
+
+.chart .axis-y .tick line {
+    stroke: $gray-light;
+}
+
+.chart .axis-x path {
+	/* The baseline. */
+	stroke: $text-color;
+    shape-rendering: crispEdges;
+}
+
+.chart .axis-x .tick line {
+	/* The individual ticks. */
+	stroke: $text-color; 
+}
+
+.chart-tooltip {
+	background: #fff;
+	position: absolute;
+	z-index: 10;
+	visibility: hidden;
+	box-shadow: 1px 1px 3px #666;
+	/* Font size, padding is set by JS. */
+}
+

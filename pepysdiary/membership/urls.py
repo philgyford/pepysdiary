@@ -1,7 +1,7 @@
 # coding: utf-8
 from django.conf.urls import *
-from django.contrib.auth.forms import PasswordResetForm, SetPasswordForm
 
+from pepysdiary.membership.forms import PasswordResetForm, SetPasswordForm
 from pepysdiary.membership.views import *
 
 

@@ -1,0 +1,27 @@
+/****************************************************************************/
+/* Custom generic elements */
+
+cite {
+	font-style: italic;
+}
+.admin {
+	background: $admin-bg;
+	font-family: $font-family-sans-serif;
+	font-size: $font-size-small;
+	margin: 0;
+}
+.admin-links {
+	position: absolute;
+	right: 10px;
+	
+	.admin {
+		padding: 3px;
+	}
+}
+
+img.pull-right {
+	margin-left: ($grid-gutter-width / 2);
+}
+img.pull-left {
+	margin-right: ($grid-gutter-width / 2);
+}

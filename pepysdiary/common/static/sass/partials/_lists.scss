@@ -1,0 +1,83 @@
+/**
+ * LISTS
+ * Groups of lists.
+ */
+
+/**
+ * .lists-horizontal
+ *
+ * Not just one list, but used like:
+ *
+ * <ul class="lists-horizontal">
+ *  <li>Description
+ *		<ul>
+ *		<li>Item</li>
+ *	 	</ul>
+ *	</li>
+ * </ul>
+ * 
+ * Makes each outer li and its contents appear on one line.
+ *
+ * Used on diary/entry_archive.html.
+ */
+.lists-horizontal {
+	border-top: 1px solid $hr-border;
+	display: inline-block;
+	font-weight: bold;
+	list-style-type: none;
+	padding-left: 0;
+	padding-top: ceil($line-height-computed / 2);
+
+	> li {
+		border-bottom: 1px solid $hr-border;
+		margin-bottom: ceil($line-height-computed / 2); 
+		padding-bottom: ceil($line-height-computed / 2);
+	}
+
+	ul {
+		display: block;
+		font-weight: normal;
+		list-style-type: none;
+		padding-left: 0;
+
+		> li {
+			display: inline-block;
+			margin-right: ceil($grid-gutter-width / 4);
+		}
+	}
+}
+
+.lists-horizontal-small {
+	padding-top: ceil($line-height-computed / 4);
+
+	> li {
+		font-size: $font-size-small;
+		margin-bottom: ceil($line-height-computed / 4); 
+		padding-bottom: ceil($line-height-computed / 4);
+	}
+}
+
+@media (min-width: $screen-md-min) {
+
+	.lists-horizontal {
+		ul {
+			display: inline-block;
+			padding-left: ceil($grid-gutter-width / 2);
+
+			> li {
+				margin-right: ceil($grid-gutter-width / 3);
+			}
+		}
+	}
+
+	.lists-horizontal-small {
+		ul {
+			padding-left: ceil($grid-gutter-width / 3);
+		
+			> li {
+				margin-right: ceil($grid-gutter-width / 6);
+			}
+		}
+	}
+
+}

@@ -1,19 +1,20 @@
-<!DOCTYPE html>{% load url from future %}{% load static %}{% get_static_prefix as STATIC_PREFIX %}
+<!DOCTYPE html>{% load static %}{% get_static_prefix as STATIC_PREFIX %}
 <html lang="en-gb">
 <head>
 	<meta charset="utf-8"/>
-	<title>{% if page_name == 'home' %}The Diary of Samuel Pepys{% else %}{% block title %}{% endblock %} (Pepys' Diary){% endif %}</title>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>{% if url_name == 'home' %}Samuel Pepys: Diary, Letters, Family Tree, Maps, Encyclopedia, Discussion and more{% else %}{% block title %}{% endblock %} (Pepys' Diary){% endif %}</title>
 
-	<link href="{{ STATIC_PREFIX }}css/bootstrap{% if not debug %}.min{% endif %}.css" rel="stylesheet" media="screen">
-	<link href="{{ STATIC_PREFIX }}css/bootstrap-responsive{% if not debug %}.min{% endif %}.css" rel="stylesheet" media="screen">
 	{% block extra_css %}
 	{% endblock extra_css %}
-	<link href="{{ STATIC_PREFIX }}css/pepysdiary.css?v=8" rel="stylesheet" media="screen">
+    {# Mapbox CSS needs to go in before our own CSS. #}
+	<link href="{{ STATIC_PREFIX }}css/site-a2b91eea.css" rel="stylesheet">
 
     <!--[if lt IE 9]>
-      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+      <script src="{{ STATIC_PREFIX }}js/dist/lt-ie-9.min.js"></script>
     <![endif]-->
+
     <link rel="icon" href="{{ STATIC_PREFIX }}img/favicon.ico" type="image/x-icon"> 
 
     <link rel="alternate" type="application/rss+xml" title="Diary entries" href="http://feeds.feedburner.com/PepysDiary">
@@ -22,126 +23,215 @@
     <link rel="alternate" type="application/rss+xml" title="Site News posts" href="http://feeds.feedburner.com/PepysDiary-SiteNews">
 </head>
 <body>
+	<a class="sr-only" href="#content">Skip to main content</a>
 
-	<div class="site-header">
+	<header class="site-header">
 		<div class="container">
-			{% if page_name == 'home' %}
+			{% if url_name == 'home' %}
 				<h1 class="site-header-title">The Diary of Samuel Pepys</h1>
 			{% else %}
-				<div class="site-header-title"><a href="{% url 'home' %}" title="To the front page">The Diary of Samuel Pepys</a></div>
+				<h1 class="site-header-title"><a href="{% url 'home' %}" title="To the front page">The Diary of Samuel Pepys</a></h1>
 			{% endif %}
 			<p class="site-header-subtitle">Daily entries from the 17th century London diary</p>
 		</div> 
-	</div> <!-- .site-header -->
+	</header> <!-- .site-header -->
 
-	<div class="navbar navbar-inverse">
-	    <div class="navbar-inner">
-	    	<div class="container">
-	    		<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-		            <span class="icon-bar"></span>
-		            <span class="icon-bar"></span>
-		            <span class="icon-bar"></span>
-	            </a>
-	    		<div class="nav-collapse collapse">
-			    	<ul class="nav">
-			    		<li class="dropdown {% block diary_nav_active %}{% endblock %}">
-			    			<a href="#" class="dropdown-toggle" data-toggle="dropdown">The Diary <b class="caret"></b></a>
-			    			<ul class="dropdown-menu">
-			    				<li class="{% block diary_home_nav_active %}{% endblock %}"><a href="{% url 'home' %}">Home</a></li>
-			    				<li class="{% block diary_archive_nav_active %}{% endblock %}"><a href="{% url 'entry_archive' %}">Archive</a></li>
-			    				<li class="{% block diary_summary_nav_active %}{% endblock %}"><a href="{% url 'diary_summary' %}">Summary</a></li>
-			    				<li class="{% block diary_1893_nav_active %}{% endblock %}"><a href="{% url '1893_introduction' %}">1893 Introduction</a></li>
-			    			</ul>
-			    		</li>
-			    		<li class="{% block letter_nav_active %}{% endblock %}"><a href="{% url 'letters' %}">Letters</a></li>
-			    		<li class="dropdown {% block encyclopedia_nav_active %}{% endblock %}">
-			    			<a href="#" class="dropdown-toggle" data-toggle="dropdown">Encyclopedia <b class="caret"></b></a>
-			    			<ul class="dropdown-menu">
-			    				<li class="{% block encyclopedia_index_nav_active %}{% endblock %}"><a href="{% url 'encyclopedia' %}">All categories</a></li>
-			    				<li class="{% block encyclopedia_map_nav_active %}{% endblock %}"><a href="{% url 'category_map' %}">Map</a></li>
-			    				<li class="{% if flatpage and flatpage.url == '/encyclopedia/familytree/' %}active{% endif %}"><a href="{% url 'encyclopedia_familytree' %}">Family tree</a></li>
-			    			</ul>
-			    		</li>
-			    		<li class="{% block indepth_nav_active %}{% endblock %}"><a href="{% url 'indepth' %}">In-Depth Articles</a></li>
-			    		<li class="{% block news_nav_active %}{% endblock %}"><a href="{% url 'news' %}">Site News</a></li>
-			    		<li class="{% block recent_nav_active %}{% endblock %}"><a href="{% url 'recent' %}">Recent Activity</a></li>
-			    		<li class="dropdown {% block about_nav_active %}{% endblock %}">
-				    		<a href="#" class="dropdown-toggle" data-toggle="dropdown">About <b class="caret"></b></a>
-				    		<ul class="dropdown-menu">
-				    			{% load widget_tags %}
-				    			{% about_pages_links %}
-				    		</ul>
-			    		</li>
-			    	</ul>
-				    <ul class="nav pull-right">
-				    	<li class="dropdown">
-							<a class="dropdown-toggle" data-toggle="dropdown" href="#">
-								<i class="icon-user {% if user.is_authenticated %}icon-white{% else %}icon-grey{% endif %}"></i>
-								<span class="hide">User</span>
-								<b class="caret"></b>
-							</a>
-							<ul class="dropdown-menu">
-								{% if user.is_authenticated %}
-									<li><a href="{% url 'private_profile' %}">{{ user.get_full_name }}’s profile</a></li>
-									<li><a href="{% url 'logout' %}">Log out</a></li>
-								{% else %}
-									<li><a href="{% url 'login' %}{% if 'logout' not in request.path %}?next={{ request.path }}{% endif %}">Log in</a></li>
-									<li><a href="{% url 'register' %}">Register</a></li>
-								{% endif %}
-							</ul>
+	<nav class="navbar navbar-inverse navbar-mainnav" role="navigation">
+		<div class="container">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#site-nav-collapse">
+					Menu
+				</button>
+			</div> <!-- .navbar-header -->
+			<div class="collapse navbar-collapse" id="site-nav-collapse">
+				<ul class="nav navbar-nav">
+					<li class="{% block diary_nav_active %}{% endblock %}">
+						<a href="{% url 'home' %}"><span class="inner">The Diary</span></a>
+					</li>
+					<li class="{% block letter_nav_active %}{% endblock %}">
+						<a href="{% url 'letters' %}"><span class="inner">Letters</span></a>
+					</li>
+					<li class="{% block encyclopedia_nav_active %}{% endblock %}">
+						<a href="{% url 'encyclopedia' %}"><span class="inner">Encyclopedia</span></a>
+					</li>
+					<li class="{% block indepth_nav_active %}{% endblock %}">
+						<a href="{% url 'indepth' %}"><span class="inner">In-depth Articles</span></a>
+					</li>
+					<li class="{% block news_nav_active %}{% endblock %}">
+						<a href="{% url 'news' %}"><span class="inner">Site News</span></a>
+					</li>
+					<li class="{% block recent_nav_active %}{% endblock %}">
+						<a href="{% url 'recent' %}"><span class="inner">Recent Activity</span></a>
+					</li>
+					<li class="{% block about_nav_active %}{% endblock %}">
+						<a href="{% url 'about' %}"><span class="inner">About</span></a>
+					</li>
+				</ul> <!-- .nav.navbar-nav -->
+			</div> <!-- .navbar-collapse -->
+		</div> <!-- .container -->
+    </nav> <!-- .navbar -->
+
+	{% load nav_tags %}
+	{% get_subnav request as subnav %}
+	{% if subnav %}
+		<nav class="navbar navbar-default navbar-subnav" role="navigation">
+			<div class="container">
+				<ul class="nav navbar-nav">
+					{% if subnav == 'diary' %}
+						<li class="{% block diary_home_nav_active %}{% endblock %}">
+							<a href="{% url 'home' %}"><span class="inner">Latest</span></a>
 						</li>
-					</ul> <!-- .nav -->
-			    </div> <!-- .nav-collapse -->
+						<li class="{% block diary_archive_nav_active %}{% endblock %}">
+							<a href="{% url 'entry_archive' %}"><span class="inner">Archive</span></a>
+						</li>
+						<li class="{% block diary_summary_nav_active %}{% endblock %}">
+							<a href="{% url 'diary_summary' %}"><span class="inner">Summary</span></a>
+						</li>
+						<li class="{% block diary_1893_nav_active %}{% endblock %}">
+							<a href="{% url '1893_introduction' %}"><span class="inner">1893 Introduction</span></a>
+						</li>
 
-			</div> <!-- .container -->
-	    </div> <!-- .navbar-inner -->
-    </div> <!-- .navbar -->
+					{% elif subnav == 'letters' %}
+						<li class="{% block letters_index_nav_active %}{% endblock %}">
+							<a href="{% url 'letters' %}"><span class="inner">All letters</span></a>
+						</li>
 
-	<div class="container" id="container-main">
+					{% elif subnav == 'encyclopedia' %}
+						<li class="{% block encyclopedia_index_nav_active %}{% endblock %}">
+							<a href="{% url 'encyclopedia' %}"><span class="inner">Categories</span></a>
+						</li>
+						<li class="{% block encyclopedia_map_nav_active %}{% endblock %}">
+							<a href="{% url 'category_map' %}"><span class="inner">Map</span></a>
+						</li>
+						<li class="{% if flatpage and flatpage.url == '/encyclopedia/familytree/' %}active{% endif %}">
+							<a href="{% url 'encyclopedia_familytree' %}"><span class="inner">Family tree</span></a>
+						</li>
+
+					{% elif subnav == 'indepth' %}
+						<li class="{% block indepth_index_nav_active %}{% endblock %}">
+							<a href="{% url 'indepth' %}"><span class="inner">Latest Articles</span></a>
+						</li>
+
+					{% elif subnav == 'news' %}
+						<li class="{% block news_index_nav_active %}{% endblock %}">
+							<a href="{% url 'news' %}"><span class="inner">Latest Posts</span></a>
+						</li>
+
+					{% elif subnav == 'recent' %}
+						<li class="{% block recent_index_nav_active %}{% endblock %}">
+							<a href="{% url 'recent' %}"><span class="inner">Latest</span></a>
+						</li>
+
+					{% elif subnav == 'about' %}
+						<li class="{% if url_name == 'about' %}active{% endif %}">
+							<a href="{% url 'about' %}"><span class="inner">This site</span></a>
+						</li>
+						<li class="{% if url_name == 'about_text' %}active{% endif %}">
+							<a href="{% url 'about_text' %}"><span class="inner">The text</span></a>
+						</li>
+						<li class="{% if url_name == 'about_faq' %}active{% endif %}">
+							<a href="{% url 'about_faq' %}" title="Frequently Asked Questions"><span class="inner">FAQ</span></a>
+						</li>
+						<li class="{% if url_name == 'about_annotations' %}active{% endif %}">
+							<a href="{% url 'about_annotations' %}"><span class="inner">Annotation guidelines</span></a>
+						</li>
+						<li class="{% if url_name == 'about_formats' %}active{% endif %}">
+							<a href="{% url 'about_formats' %}"><span class="inner">Email, Twitter &amp;  RSS</span></a>
+						</li>
+					{% endif %}
+				</ul>
+			</div>
+		</nav>
+	{% endif %}
+
+	<nav class="navbar navbar-inverse navbar-supernav" role="navigation">
+		<div class="container">
+			<ul class="nav navbar-nav navbar-right">
+				{% if user.is_authenticated %}
+					<li class="navbar-text navbar-logged-in">Logged in<span> as {{ user.get_full_name }}</span></li>
+					<li><a href="{% url 'private_profile' %}">Profile</a></li>
+					<li><a href="{% url 'logout' %}">Log out</a></li>
+				{% else %}
+					<li><a href="{% url 'login' %}{% if 'logout' not in request.path %}?next={{ request.path }}{% endif %}">Log in</a></li>
+					<li><a href="{% url 'register' %}">Register</a></li>
+				{% endif %}
+			</ul>
+		</div>
+	</nav> <!-- .navbar-supernav -->
+
+	<div class="container" id="content">
 		{% block breadcrumbs %}{% endblock %}
 
 		{% if messages %}
 		    {% for message in messages %}
-			    <div class="alert{% if message.tags %} alert-{{ message.tags }}{% endif %}">
-	                <button type="button" class="close" data-dismiss="alert">&times;</button>
+			    <div class="alert alert-dismissable{% if message.tags %} alert-{{ message.tags }}{% endif %}" role="alert">
+	                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
 			    	{{ message|safe }}
 			   	</div>
 		    {% endfor %}
 		{% endif %}
 
-		{% block page_header %}
-			<div class="page-header">
-				<h1>{% block header_title %}{% endblock %}</h1>
-			</div>
-		{% endblock %}
+		<main role="main">
+			{% block page_header %}
+				<header class="page-header">
+					<h1>{% block header_title %}{% endblock %}</h1>
+				</header>
+			{% endblock %}
 
-		{% block content %}
-			<div class="row-fluid">
-				{% block main %}
-				    <div class="span8">
-						{% block main_content %}
+			{% block content %}
+				<div class="row">
+					{% block main %}
+						<div class="col-sm-8">
+							{% block main_content %}
 
-						{% endblock %}
-					</div> <!-- .span8 -->
-				{% endblock %}
+							{% endblock %}
+						</div> <!-- .col-sm-8 -->
+					{% endblock %}
 
-				{% block sidebar %}
-				    <div class="span4">
-				        <div class="well">
+					{% block sidebar %}
+						<div class="col-sm-4">
 							{% block sidebar_content %}
 
 							{% endblock %}
-				      </div> <!-- .well -->
-				    </div> <!-- .span4 -->
-				{% endblock %}
-			</div> <!-- .row-fluid -->
-		{% endblock %}
-	</div> <!-- .container -->
+						</div> <!-- .col-sm-4 -->
+					{% endblock %}
+				</div> <!-- .row -->
+			{% endblock %}
+		</main>
 
-	<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
-	<script src="{{ STATIC_PREFIX }}js/libs/bootstrap.min.js"></script>
+	</div> <!-- #content.container -->
+
+	{% block site_footer %}
+		<footer class="site-footer">
+			<hr class="decoration decoration-big">
+			<div class="container">
+				<div class="row">
+					{% block site_footer_content %}
+						{% load widget_tags %}
+						<div class="col-sm-3">
+							{% latest_posts quantity=2 %}
+						</div>
+
+						<div class="col-sm-3">
+							{% twitter_and_email %}
+						</div>
+
+						<div class="col-sm-3">
+							{% rss_feeds %}
+						</div>
+
+						<div class="col-sm-3">
+							{% credit %}
+						</div>
+					{% endblock %}
+				</div>
+			</div>
+		</footer>
+	{% endblock %}
+
 	{% block extra_javascript_includes %}{% endblock %}
-	<script src="{{ STATIC_PREFIX }}js/pepys.js?v=7"></script>
+
+	<script src="{{ STATIC_PREFIX }}js/dist/site-c06d43b7.min.js"></script>
 
 	<script>
 		$(document).ready(function(){
@@ -159,6 +249,7 @@
 				{% endif %}
 				'config': {
 					mapbox_map_id: '{{ MAPBOX_MAP_ID }}',
+					mapbox_access_token: '{{ MAPBOX_ACCESS_TOKEN }}',
 					static_prefix: '{{ STATIC_PREFIX|escapejs }}'
 				}
 			});

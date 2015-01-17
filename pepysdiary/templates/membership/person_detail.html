@@ -5,43 +5,55 @@
 
 
 {% block main_content %}
-	<article>
-		{% if private_profile %}
-			{# The logged-in user viewing themselves. #}
-			<p class="row-fluid">
-				<span class="span2 text-right">Name</span>
-				<span class="span7 offset1">{{ person.name }}</span>
-			</p>
-			<p class="row-fluid">
-				<span class="span2 text-right">Email</span>
-				<span class="span7 offset1">{{ person.email }}</span>
-			</p>
-			<p class="row-fluid">
-				<span class="span2 text-right">URL</span>
-				<span class="span7 offset1">{% if person.url %}<a href="{{ person.url }}" rel="nofollow">{{ person.url|urlizetrunc:50 }}</a>{% else %}None{% endif %}</span>
-			</p>
 
-		{% else %}
-			{# Public view. #}
+    {% if perms.person.can_edit %}
+        {% load widget_tags %}
+        {% url 'admin:membership_person_change' person.id as change_url %}
+        {% admin_link_change change_url %}
+    {% endif %}
 
-			{% if person.url %}
-				<p class="lead">Website: <a href="{{ person.url }}" rel="nofollow">{{ person.url|urlizetrunc:50 }}</a></p>
-			{% endif %}
+    {% if private_profile or person.url %}
+        {# There is something to show... #}
 
-			{% if perms.person.can_edit %}
-				<p class="admin-links"><small><a class="admin" href="{% url 'admin:membership_person_change' person.id %}"><i class="icon-edit icon-link"></i> Edit</a></small></p>
-			{% endif %}
-		{% endif %}
-	</article>
+        <article>
+            {% if private_profile %}
+                {# The logged-in user viewing themselves. #}
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <span class="control-label label-static col-md-4">Name</span>
+                        <span class="col-md-8 form-control-static">{{ person.name }}</span>
+                    </div>
+                    <div class="form-group">
+                        <span class="control-label label-static col-md-4">Email</span>
+                        <span class="col-md-8 form-control-static">{{ person.email }}</span>
+                    </div>
+                    <div class="form-group">
+                        <span class="control-label label-static col-md-4">Website</span>
+                        <span class="col-md-8 form-control-static">{% if person.url %}<a href="{{ person.url }}" rel="nofollow">{{ person.url|urlizetrunc:50 }}</a>{% else %}None{% endif %}</span>
+                    </div>
+                </div>
 
+            {% else %}
+                {# Public view. #}
 
-	<h3 class="push-down">Annotations and comments</h3>
+                {% if person.url %}
+                    <p class="lead">Website: <a href="{{ person.url }}" rel="nofollow">{{ person.url|urlizetrunc:50 }}</a></p>
+                {% endif %}
+
+            {% endif %}
+        </article>
+
+        <hr class="decoration decoration-small">
+    {% endif %}
+
+	<h2>Annotations and comments</h2>
 
 	<p>{% if private_profile %}You have{% else %}{{ person.get_short_name }} has{% endif %} posted <strong>{{ comment_count }}</strong> annotation{{ comment_count|pluralize }}/comment{{ comment_count|pluralize }}{% if person.first_comment_date %} since {{ person.first_comment_date|date:date_format_long }}{% endif %}.</p>
 
 	{% if comment_list %}
 		<p>The most recent…</p>
-		{% include "comments/list.html" with show_object_titles=True only_comments=True %}
+        <hr>
+		{% include "comments/list.html" with show_object_titles=True only_comments=True show_section_title=False %}
 	{% endif %}
 
 {% endblock main_content %}
@@ -49,15 +61,19 @@
 
 {% block sidebar_content %}
 	{% if private_profile %}
-		<div class="sidebar-block">
-			<p><strong>Only you can see this page</strong></p>
-			<p><a href="{% url 'profile' pk=user.pk %}">See what everyone else sees</a></p>
-			<p><a href="{% url 'edit_profile' %}">Edit your profile</a></p>
-		</div>
+		<aside class="aside-block">
+            <div class="aside-body">
+                <p><strong>Only you can see this page</strong></p>
+                <p><a href="{% url 'profile' pk=user.pk %}">See what everyone else sees</a></p>
+                <p><a href="{% url 'edit_profile' %}">Edit your profile</a></p>
+            </div>
+		</aside>
 	{% elif user.is_authenticated and user.pk == person.pk %}
-		<div class="sidebar-block">
-			<p><strong>This is the public view of your profile</strong></p>
-			<p><a href="{% url 'private_profile' %}">See or edit all your details</a></p>
-		</div>
+		<aside class="aside-block">
+            <div class="aside-body">
+                <p><strong>This is the public view of your profile</strong></p>
+                <p><a href="{% url 'private_profile' %}">See or edit all your details</a></p>
+            </div>
+		</aside>
 	{% endif %}
 {% endblock sidebar_content %}

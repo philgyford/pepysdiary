@@ -1,5 +1,4 @@
 {% extends "base.html" %}
-{% load url from future %}
 
 {% block encyclopedia_nav_active %}active{% endblock %}
 {% block encyclopedia_index_nav_active %}active{% endblock %}
@@ -9,7 +8,9 @@
 
 {% block main_content %}
 
-	<p class="lead">Information about {{ topic_count }} people, places and things in Pepys’ time.</p>
+	{% load humanize %}
+
+	<p class="lead">Information about {{ topic_count|intcomma }} people, places and things in Pepys’ time.</p>
 
 	{% for category, info in categories %}
 	    {% if info.open %}
@@ -20,7 +21,7 @@
 
 	    <a href="{{ category.get_absolute_url }}">{{ category.title }}</a>
 
-		{% if category.topic_count %}<small>({{ category.topic_count }})</small>{% endif %}
+		{% if category.topic_count %}<small>({{ category.topic_count|intcomma }})</small>{% endif %}
 
 	    {% for close in info.close %}
 	        </li></ul>
@@ -37,7 +38,5 @@
 	{% category_map_link %}
 	
 	{% family_tree_link %}
-
-	{% rss_feeds 'topics' %}
 
 {% endblock sidebar_content %}

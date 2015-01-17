@@ -1,5 +1,4 @@
 {% extends "base.html" %}
-{% load url from future %}
 {% load text_formatting_filters %}
 
 {% block indepth_nav_active %}active{% endblock %}
@@ -11,16 +10,20 @@
 {% block main_content %}
 
 	<article>
-		<p>{{ article.date_published|date:date_format_longest }}</p>
+		{% if perms.article.can_edit %}
+			{% load widget_tags %}
+			{% url 'admin:indepth_article_change' article.id as change_url %}
+			{% admin_link_change change_url %}
+		{% endif %}
+
+		<p class="article-date">{{ article.date_published|date:date_format_longest }}</p>
 
 		{{ article.intro_html|smartypants|safe }}
 
 		{{ article.text_html|smartypants|safe }}
-
-		{% if perms.article.can_edit %}
-			<p class="admin-links"><small><a class="admin" href="{% url 'admin:indepth_article_change' article.id %}"><i class="icon-edit icon-link"></i> Edit</a></small></p>
-		{% endif %}
 	</article>
+
+	{% include 'inc/next_previous.html' with next=next_article previous=previous_article %}
 
 	{% include 'inc/comments.html' with object=article %}
 
@@ -28,9 +31,9 @@
 
 
 {% block sidebar_content %}
-	{% include 'inc/next_previous.html' with next=next_article previous=previous_article %}
 
-	{% load widget_tags %}
-	{% rss_feeds 'articles' %}
+    {% load widget_tags %}
+
+    {% all_articles exclude_id=article.id %}
 
 {% endblock sidebar_content %}

@@ -1,7 +1,7 @@
 {% extends "base.html" %}
-{% load url from future %}
 
 {% block recent_nav_active %}active{% endblock %}
+{% block recent_index_nav_active %}active{% endblock %}
 
 {% block title %}Recent activity{% endblock %}}
 {% block header_title %}Recent activity{% endblock %}}
@@ -9,7 +9,7 @@
 
 {% block main_content %}
 
-	<p class="muted">These lists update every five minutes.</p>
+	<p class="text-muted">These lists update every five minutes.</p>
 
 	{% load list_tags %}
 
@@ -34,7 +34,5 @@
 	{% latest_articles quantity=5 %}
 
 	{% latest_topics quantity=5 %}
-
-	{% rss_feeds %}
 
 {% endblock sidebar_content %}

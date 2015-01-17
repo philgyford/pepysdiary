@@ -4,15 +4,19 @@ because its URLs are more manual.
 {% endcomment %}
 
 {% if previous or next %}
-	<div class="sidebar-block">
-		{% if previous %}
-			<p><a href="{{ previous.get_absolute_url }}"><i class="icon-arrow-left icon-link"></i> {{ previous.title }}</a></p>
-		{% endif %}
+	<hr class="decoration decoration-small"/>
 
-		{% if next %}
-			<p class="text-right"><a href="{{ next.get_absolute_url }}">{{ next.title }} <i class="icon-arrow-right icon-link"></i></a></p>
-		{% endif %}
-	</div>
+	<nav class="nextprev">
+		<ul class="list-unstyled">
+			{% if previous %}
+				<li class="nextprev-prev"><a href="{{ previous.get_absolute_url }}">{{ previous.short_title }}</a></li>
+			{% endif %}
+
+			{% if next %}
+				<li class="nextprev-next"><a href="{{ next.get_absolute_url }}">{{ next.short_title }}</a></li>
+			{% endif %}
+		</ul>
+	</nav>
 {% endif %}
 
 

@@ -1,7 +1,7 @@
 {% extends "base.html" %}
-{% load url from future %}
 
 {% block indepth_nav_active %}active{% endblock %}
+{% block indepth_index_nav_active %}active{% endblock %}
 
 {% block title %}In-Depth Articles{% endblock %}}
 {% block header_title %}In-Depth Articles{% endblock %}}
@@ -10,25 +10,27 @@
 
 	{% load text_formatting_filters %}
 
-	<p class="lead">Longer articles on broader topics that might not fit in regular annotations or the <a href="{% url 'encyclopedia' %}">Encyclopedia</a>.</p>
+	<p class="lead">Longer articles on broader topics.</p>
 
 	<hr />
 
-	{% for article in article_list %}
-		<article class="indepth">
-			<h2 class="h4"><a href="{{ article.get_absolute_url }}">{{ article.title }}</a></h2>
+    {% for article in article_list %}
+        <article>
+            <header>
+                <h1 class="h2"><a href="{{ article.get_absolute_url }}">{{ article.title }}</a></h1>
+            </header>
 
-			<p><strong>{{ article.date_published|date:date_format_longest }}</strong></p>
+            <p class="article-date">{{ article.date_published|date:date_format_long }}</p>
 
-			{{ article.intro_html|smartypants|safe }}
+            {{ article.intro_html|smartypants|safe }}
 
-			{% if article.text %}
-				<p><a href="{{ article.get_absolute_url }}">Continue reading…</a></p>
-			{% endif %}
-		</article>
+            {% if article.text %}
+                <p><a class="link-more" href="{{ article.get_absolute_url }}">Continue reading…</a></p>
+            {% endif %}
+        </article>
 
-		<hr />
-	{% endfor %}
+        <hr />
+    {% endfor %}
 	
 	{% include 'inc/paginator.html' %}
 
@@ -37,7 +39,8 @@
 
 {% block sidebar_content %}
 
-	{% load widget_tags %}
-	{% rss_feeds 'articles' %}
+    {% load widget_tags %}
+
+    {% all_articles exclude_id=article.id %}
 
 {% endblock sidebar_content %}

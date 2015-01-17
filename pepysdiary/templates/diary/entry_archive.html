@@ -11,7 +11,7 @@
 
 	<p class="lead">Every entry of Samuel Pepys’ diary, in separate monthly pages.</p>
 
-	<ul class="diary-archive">
+	<ul class="lists-horizontal">
 	{% for month in date_list %}
 		{% ifchanged month|date:'Y' %}
 			{% if forloop.counter != 1 %}
@@ -30,9 +30,6 @@
 {% endblock main_content %}
 
 
-{% block sidebar_content %}
+{% block sidebar %}
 
-	{% load widget_tags %}
-	{% rss_feeds 'entries' %}
-
-{% endblock sidebar_content %}
+{% endblock sidebar %}

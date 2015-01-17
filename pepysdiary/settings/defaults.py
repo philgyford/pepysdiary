@@ -120,11 +120,13 @@ TEMPLATE_CONTEXT_PROCESSORS = global_settings.TEMPLATE_CONTEXT_PROCESSORS + (
     'pepysdiary.common.context_processors.api_keys',
     'pepysdiary.common.context_processors.config',
     'pepysdiary.common.context_processors.date_formats',
+    'pepysdiary.common.context_processors.url_name',
 )
 
 INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
+    'django.contrib.humanize',
     'django.contrib.sessions',
     'django.contrib.sites',
     'django.contrib.messages',
@@ -192,12 +194,14 @@ LOGGING = {
 # THIRD-PARTY APPS
 
 from datetime import date, timedelta
-future_date = date.today() + timedelta(days=1)
+future_date = date.today() + timedelta(days=365)
 AWS_HEADERS = {
     'Expires': future_date.strftime('%a, %d %b %Y %H:%M:%S GMT'),
-    'Cache-Control': 'max-age=86400',
+    'Cache-Control': 'public, max-age=86400',
 }
 AWS_QUERYSTRING_AUTH = False
+# By default does CSS and JS files:
+AWS_IS_GZIPPED = True
 
 ####################################################################
 # PEPYSDIARY SPECIFIC

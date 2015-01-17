@@ -1,2 +1,5 @@
-User-agent: *
+User-agent: *{% if 'staging' in config.site.domain %}
+Disallow: /
+{% else %}
 Disallow: /admin/
+{% endif %}

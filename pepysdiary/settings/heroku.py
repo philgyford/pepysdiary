@@ -1,5 +1,5 @@
 from defaults import *
-import os
+from os import environ
 import dj_database_url
 
 DEBUG = False
@@ -12,27 +12,29 @@ ADMINS = (
 MANAGERS = ADMINS
 
 DATABASES = {'default': dj_database_url.config(
-                                    default=os.environ.get('DATABASE_URL'))}
+                                    default=environ.get('DATABASE_URL'))}
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.sendgrid.net'
-EMAIL_HOST_USER = os.environ.get('SENDGRID_USERNAME')
-EMAIL_HOST_PASSWORD = os.environ.get('SENDGRID_PASSWORD')
+EMAIL_HOST_USER = environ.get('SENDGRID_USERNAME')
+EMAIL_HOST_PASSWORD = environ.get('SENDGRID_PASSWORD')
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
-PREPEND_WWW = True
+# If you *don't* want to prepend www to the URL, remove the setting from
+# the environment entirely. Otherwise, set to 'True' (or anything tbh).
+PREPEND_WWW = environ.get('PREPEND_WWW', False)
 
-ALLOWED_HOSTS = ['.pepysdiary.com', 'pepysdiary.herokuapp.com', ]
+ALLOWED_HOSTS = environ.get('ALLOWED_HOSTS', '*').split(',')
 
-os.environ['MEMCACHE_SERVERS'] = os.environ.get('MEMCACHIER_SERVERS', '').replace(',', ';')
-os.environ['MEMCACHE_USERNAME'] = os.environ.get('MEMCACHIER_USERNAME', '')
-os.environ['MEMCACHE_PASSWORD'] = os.environ.get('MEMCACHIER_PASSWORD', '')
+environ['MEMCACHE_SERVERS'] = environ.get('MEMCACHIER_SERVERS', '').replace(',', ';')
+environ['MEMCACHE_USERNAME'] = environ.get('MEMCACHIER_USERNAME', '')
+environ['MEMCACHE_PASSWORD'] = environ.get('MEMCACHIER_PASSWORD', '')
 
 CACHES = {
   'default': {
     'BACKEND': 'django_pylibmc.memcached.PyLibMCCache',
-    'LOCATION': os.environ.get('MEMCACHIER_SERVERS', '').replace(',', ';'),
+    'LOCATION': environ.get('MEMCACHIER_SERVERS', '').replace(',', ';'),
     'TIMEOUT': 500,
     'BINARY': True,
   }
@@ -40,7 +42,7 @@ CACHES = {
 
 # Make this unique, and don't share it with anybody.
 # http://www.miniwebtool.com/django-secret-key-generator/
-SECRET_KEY = os.environ.get('SECRET_KEY', '')
+SECRET_KEY = environ.get('SECRET_KEY', '')
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
@@ -78,9 +80,9 @@ LOGGING = {
 DEFAULT_FILE_STORAGE = 'pepysdiary.common.s3utils.MediaS3BotoStorage'
 STATICFILES_STORAGE = 'pepysdiary.common.s3utils.StaticS3BotoStorage'
 
-AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
-AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
-AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_STORAGE_BUCKET_NAME')
+AWS_ACCESS_KEY_ID = environ.get('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = environ.get('AWS_SECRET_ACCESS_KEY')
+AWS_STORAGE_BUCKET_NAME = environ.get('AWS_STORAGE_BUCKET_NAME')
 
 S3_URL = 'https://%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
 # Store static and media files in separate directories:
@@ -91,21 +93,22 @@ MEDIA_URL = S3_URL + MEDIA_URL
 #############################################################################
 # PEPYSDIARY-SPECIFIC SETTINGS.
 
-GOOGLE_MAPS_API_KEY = os.environ.get('GOOGLE_MAPS_API_KEY')
-GOOGLE_ANALYTICS_ID = os.environ.get('GOOGLE_ANALYTICS_ID')
+GOOGLE_MAPS_API_KEY = environ.get('GOOGLE_MAPS_API_KEY')
+GOOGLE_ANALYTICS_ID = environ.get('GOOGLE_ANALYTICS_ID')
 
 # From https://www.google.com/recaptcha/
-RECAPTCHA_PUBLIC_KEY = os.environ.get('RECAPTCHA_PUBLIC_KEY')
-RECAPTCHA_PRIVATE_KEY = os.environ.get('RECAPTCHA_PRIVATE_KEY')
+RECAPTCHA_PUBLIC_KEY = environ.get('RECAPTCHA_PUBLIC_KEY')
+RECAPTCHA_PRIVATE_KEY = environ.get('RECAPTCHA_PRIVATE_KEY')
 RECAPTCHA_USE_SSL = True
 
 # Do we use Akismet/TypePad spam checking?
 # True/False. If false, no posted comments are checked.
 # If True, AKISMET_API_KEY must also be set.
-USE_SPAM_CHECK = os.environ.get('USE_SPAM_CHECK')
+USE_SPAM_CHECK = environ.get('USE_SPAM_CHECK')
 
 # From http://akismet.com/
-AKISMET_API_KEY = os.environ.get('AKISMET_API_KEY')
+AKISMET_API_KEY = environ.get('AKISMET_API_KEY')
 
 # From http://mapbox.com/
-MAPBOX_MAP_ID = os.environ.get('MAPBOX_MAP_ID')
+MAPBOX_MAP_ID = environ.get('MAPBOX_MAP_ID')
+MAPBOX_ACCESS_TOKEN = environ.get('MAPBOX_ACCESS_TOKEN')

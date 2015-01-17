@@ -94,3 +94,4 @@ AKISMET_API_KEY = ''
 
 # From http://mapbox.com/
 MAPBOX_MAP_ID = ''
+MAPBOX_ACCESS_TOKEN = ''

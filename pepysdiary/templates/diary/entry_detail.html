@@ -1,5 +1,4 @@
 {% extends "base.html" %}
-{% load url from future %}
 
 {% block diary_nav_active %}active{% endblock %}
 {% block diary_archive_nav_active %}active{% endblock %}
@@ -12,23 +11,27 @@
 
 	{% include 'inc/entry.html' with entry=entry %}
 
+	{% include 'inc/next_previous.html' with next=next_entry previous=previous_entry %}
+
 	{% include 'inc/comments.html' with object=entry %}
 
 {% endblock main_content %}
 
-
 {% block sidebar_content %}
-	{% include 'inc/next_previous.html' with next=next_entry previous=previous_entry %}
 
 	{% load event_tags %}
 	{% events_for_day_in_sidebar entry.diary_date exclude='entries' %}
 
-	<div class="sidebar-block">
-		<p><a href="{% url 'entry_month_archive' year=entry.diary_date|date:'Y' month=entry.diary_date|date:'m' %}">All diary entries from {{ entry.diary_date|date:"F" }}&nbsp;{{ entry.diary_date|date:"Y" }}</a></p>
-		<p><a href="{% url 'summary_year_archive' year=entry.diary_date|date:"Y" %}#m{{ entry.diary_date|date:"m" }}">Read a summary of this month’s events</a></p>
-	</div>
-
-	{% load widget_tags %}
-	{% rss_feeds 'entries' %}
+	<aside class="aside-block">
+		<header class="aside-header">
+			<h1 class="aside-title">
+				Read more
+			</h1>
+		</header>
+		<div class="aside-body">
+			<p><a href="{% url 'entry_month_archive' year=entry.diary_date|date:'Y' month=entry.diary_date|date:'m' %}">All diary entries from {{ entry.diary_date|date:"F" }}&nbsp;{{ entry.diary_date|date:"Y" }}</a></p>
+			<p><a href="{% url 'summary_year_archive' year=entry.diary_date|date:"Y" %}#m{{ entry.diary_date|date:"m" }}">Read a summary of this month’s events</a></p>
+		</div>
+	</aside>
 
 {% endblock sidebar_content %}

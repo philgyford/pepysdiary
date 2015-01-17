@@ -1,8 +1,8 @@
 {% extends "base.html" %}
 {% load url from future %}
 
-{% block diary_nav_active %}active{% endblock %}
-{% block diary_home_nav_active %}active{% endblock %}
+{% block diary_nav_active %}active disabled{% endblock %}
+{% block diary_home_nav_active %}active disabled{% endblock %}
 
 {% block page_header %}{% endblock %}
 
@@ -36,16 +36,17 @@
 	
 	{% latest_posts quantity=2 %}
 
-	<div class="sidebar-block">
-		<h2>Twitter</h2>
-		<p>Follow <a href="http://twitter.com/samuelpepys"><strong>@samuelpepys</strong></a> on Twitter for updates throughout the day.</p>
-	</div>
-
-	<div class="sidebar-block">
-		<h2>Email</h2>
-		<p><a href="http://feedburner.google.com/fb/a/mailverify?uri=PepysDiary&amp;loc=en_US">Receive diary entries by email daily</a></p>
-	</div>
+	{% twitter_and_email %}
 
 	{% rss_feeds %}
 
 {% endblock sidebar_content %}
+
+
+{% block site_footer_content %}
+	{% load widget_tags %}
+
+	<div class="col-sm-12 asides-flatten">
+		{% credit %}
+	</div>
+{% endblock %}

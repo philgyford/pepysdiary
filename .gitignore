@@ -3,5 +3,9 @@
 *.pyc
 development.py
 pepysdiary/media
-pepysdiary.sublime*
 pepysdiary/static_collected
+.sass-cache
+.bundle
+/vendor
+/node_modules
+

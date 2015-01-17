@@ -1,5 +1,4 @@
 {% extends "base.html" %}
-{% load url from future %}
 
 {% block diary_nav_active %}active{% endblock %}
 {% block diary_archive_nav_active %}active{% endblock %}
@@ -14,24 +13,27 @@
 
 {% block sidebar_content %}
 
-	{% if next_month or previous_month %}
-		<div class="sidebar-block">
-			{% if previous_month %}
-				<p><a href="{% url 'entry_month_archive' year=previous_month|date:'Y' month=previous_month|date:'m' %}"><i class="icon-arrow-left icon-link"></i> {{ previous_month|date:"F Y" }}</a></p>
-			{% endif %}
+    <aside class="aside-block">
+        <div class="aside-body">
+            {% if next_month or previous_month %}
+                <nav class="nextprev">
+                    <ul class="list-unstyled">
+                        {% if previous_month %}
+                            <li class="nextprev-prev"><a href="{% url 'entry_month_archive' year=previous_month|date:'Y' month=previous_month|date:'m' %}">{{ previous_month|date:"M Y" }}</a></li>
+                        {% endif %}
 
-			{% if next_month %}
-				<p class="text-right"><a href="{% url 'entry_month_archive' year=next_month|date:'Y' month=next_month|date:'m' %}">{{ next_month|date:"F Y" }} <i class="icon-arrow-right icon-link"></i></a></p>
-			{% endif %}
-		</div>
-	{% endif %}
+                        {% if next_month %}
+                            <li class="nextprev-next"><a href="{% url 'entry_month_archive' year=next_month|date:'Y' month=next_month|date:'m' %}">{{ next_month|date:"M Y" }}</a></li>
+                        {% endif %}
+                    </ul>
+                </nav>
+            {% endif %}
 
-	<div class="sidebar-block">
-		<p><a href="{% url 'summary_year_archive' year=month|date:"Y" %}#m{{ month|date:"m" }}">Read a summary of this month’s events</a></p>
-	</div>
+            <hr>
 
-	{% load widget_tags %}
-	{% rss_feeds 'entries' %}
+            <p><a href="{% url 'summary_year_archive' year=month|date:"Y" %}#m{{ month|date:"m" }}">Read a summary of these diary entries</a></p>
+        </div>
+    </aside>
 
 {% endblock sidebar_content %}
 

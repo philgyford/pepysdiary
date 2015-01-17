@@ -25,7 +25,7 @@ Expects:
 		    		{% for message in messages %}
 		    			{% if message.tags == 'spam warning' %}
 		    				<div class="alert alert-{{ message.tags }}">
-				                <button type="button" class="close" data-dismiss="alert">&times;</button>
+				                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
 				                {{ message|safe }}
 				            </div>
 		    			{% endif %}
@@ -39,73 +39,73 @@ Expects:
 				    </div>
 				{% else %}
 					{% if preview and form.comment.value %}
-						<div class="comments">
-						    <div class="media">
-					    		<i class="newflag is-new icon-certificate pull-left"><span>New</span></i>
+						<section class="media-list comments">
+						    <article class="media">
+								<span class="newflag pull-left" aria-hidden="true" title="New since your last visit">✹</span>
+								<span class="sr-only">New since your last visit</span>
+							
 						    	<div class="media-body">
-						        	<h3 class="media-heading"><span class="comment-name">{{ user.get_full_name }}</span> <small>on {{ time_now|date:date_format_mid }}</small></h3>
+						        	<header class="media-heading">
+										<p>
+											<span class="comment-name">{{ user.get_full_name }}</span>
+											<small>on {{ time_now|date:date_format_mid }}</small>
+										</p>
+									</header>
 							        <p>{{ form.comment.value|striptags|urlizetrunc:50|linebreaks }}</p>
 							    </div>
-							</div>
-						</div>
+							</article>
+						</section>
 					{% endif %}	
 				{% endif %}
 
-			    <form action="{% comment_form_target %}" method="post" id="comment-form">
-				    <div class="control-group{% if form.comment.errors %} error{% endif %}">
+			    <form action="{% comment_form_target %}" method="post" id="comment-form" role="form">
+				    <div class="form-group{% if form.comment.errors %} has-error{% endif %}">
 				    	{% if preview %}
-					    	<label class="control-label" for="id_comment">Edit your {{ object.comment_name }} if required:</label>
+					    	<label class="control-label comment-form-title" for="id_comment">Edit your {{ object.comment_name }} if required:</label>
 				    	{% else %}
-					    	<label class="control-label" for="id_comment">Post {{ object.get_a_comment_name }} as <strong>{{ user.get_full_name }}</strong>:</label>
+					    	<label class="control-label comment-form-title" for="id_comment">Post {{ object.get_a_comment_name }} as <strong>{{ user.get_full_name }}</strong>:</label>
 					    {% endif %}
-				    	<div class="controls">
-					        {% if form.comment.errors %}
-					            <span class="help-block error">{{ form.comment.errors|join:'<br />' }}</span>
-					        {% endif %}
-						    <textarea class="span12" cols="40" id="id_comment" name="{{ form.comment.name }}" rows="8">{% if form.comment.value %}{{ form.comment.value }}{% endif %}</textarea>
-						    <p class="muted">
-							    <small>
-							    	You’re not {{ user.get_full_name }}? <a href="{% url 'logout' %}">Log out.</a><br />
-							    	Please keep {{ object.comment_name }}s on topic and <a href="{% url 'django.contrib.flatpages.views.flatpage' url='/about/annotations/' %}">read the guidelines</a>.<br />
-							    	No HTML allowed. URLs will be turned into links.
-								</small>
-							</p>
-
-						</div>
-					</div>
-					<div class="form-actions">
-						<div class="pull-right">
-							{% if preview %}
-								<a href="{{ object.get_absolute_url }}#comment" title="Return to the previous page">Cancel</a>
-								&nbsp; or &nbsp;
-							{% endif %}
-						    <button type="submit" name="preview" class="btn{% if not preview %} btn-primary{% endif %}">Preview your {{ object.comment_name }}{% if preview %} again{% endif %}</button>
-							{% if preview %}
-							    &nbsp; or &nbsp; <button type="submit" name="submit" class="btn btn-primary">Post it</button>
-							{% endif %}
-						</div>
-
-					    {% csrf_token %}
-					    {{ form.honeypot }}
-					    {{ form.content_type }}
-					    {{ form.object_pk }}
-					    {{ form.timestamp }}
-					    {{ form.security_hash }}
-					    {% if preview %}
-					    	{% if next %}
-					    		<input type="hidden" name="next" value="{{ next }}" />
-					    	{% endif %}
-					    {% else %}
-						    <input type="hidden" name="next" value="{{ object.get_absolute_url }}#latest" />
+						{% if form.comment.errors %}
+							<span class="help-block has-error">{{ form.comment.errors|join:'<br />' }}</span>
+						{% endif %}
+						<textarea class="form-control" cols="40" rows="8" id="id_comment" name="{{ form.comment.name }}">{% if form.comment.value %}{{ form.comment.value }}{% endif %}</textarea>
+						<p class="comment-form-notes text-muted">
+							Please keep {{ object.comment_name }}s on topic and <a href="{% url 'django.contrib.flatpages.views.flatpage' url='/about/annotations/' %}">read the guidelines</a>.<br />
+							No HTML allowed. URLs will be turned into links.<br />
+							You’re not {{ user.get_full_name }}? <a href="{% url 'logout' %}">Log out.</a>
+						</p>
+					</div> <!-- .form-group -->
+					<div class="pull-right">
+						{% if preview %}
+							<a href="{{ object.get_absolute_url }}#comment" title="Return to the previous page">Cancel</a>
+							&nbsp; or &nbsp;
+						{% endif %}
+						<button type="submit" name="preview" class="btn btn-primary">Preview your {{ object.comment_name }}{% if preview %} again{% endif %}</button>
+						{% if preview %}
+							&nbsp; or &nbsp; <button type="submit" name="submit" class="btn btn-primary">Post it</button>
 						{% endif %}
 					</div>
+
+					{% csrf_token %}
+					{{ form.honeypot }}
+					{{ form.content_type }}
+					{{ form.object_pk }}
+					{{ form.timestamp }}
+					{{ form.security_hash }}
+					{% if preview %}
+						{% if next %}
+							<input type="hidden" name="next" value="{{ next }}" />
+						{% endif %}
+					{% else %}
+						<input type="hidden" name="next" value="{{ object.get_absolute_url }}#latest" />
+					{% endif %}
 			    </form>
 			</div> <!-- #comment -->
 		{% else %}
 			{# User isn't logged in #}
-			<div id="comment" class="well">
+			<div id="comment" class="comments-no-form">
 				{% if config.allow_login %}
-					<p><a href="{% url 'login' %}?next={{ request.path }}#comment">Log in</a> to post {{ object.get_a_comment_name }}.</p>
+				<p><strong><a href="{% url 'login' %}?next={{ request.path }}#comment">Log in</a> to post {{ object.get_a_comment_name }}.</strong></p>
 
 					{% if config.allow_registration %}
 						<p>If you don't have an account, then <a href="{% url 'register' %}?next={{ request.path }}#comment">register here</a>.</p>
@@ -113,13 +113,15 @@ Expects:
 				{% else %}
 					<p class="text-warning">Sorry, it’s not possible to log in and post {{ object.comment_name }}s at the moment.</p>
 				{% endif %}
-			</div> <!-- .well -->
+			</div>
 		{% endif %}
 	{% else %}
-		<p class="text-warning">{{ object.comment_name|capfirst }}s are closed on this page.</p>
+		<div id="comment" class="comments-no-form">
+			<p class="text-warning">{{ object.comment_name|capfirst }}s are closed on this page.</p>
+		</div>
 	{% endif %}
 {% else %}
-
-	<p class="text-warning">Sorry, it’s not possible to post {{ object.comment_name }}s at the moment.</p>
-
+	<div id="comment" class="comments-no-form">
+		<p class="text-warning">Sorry, it’s not possible to post {{ object.comment_name }}s at the moment.</p>
+	</div>
 {% endif %}

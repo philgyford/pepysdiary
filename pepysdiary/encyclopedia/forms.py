@@ -9,7 +9,7 @@ class CategoryMapForm(forms.Form):
     We just have one select field showing a list of available categories.
     """
     category = forms.ChoiceField(required=True,
-                            widget=forms.Select(attrs={'class': 'input-xlarge'}),
+                            widget=forms.Select(attrs={'class': 'form-control'}),
                             choices=Category.objects.map_category_choices())
 
     def clean_category(self):

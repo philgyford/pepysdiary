@@ -1,0 +1,39 @@
+.nextprev {
+	@include clearfix;
+
+	font-size: $font-size-largish;
+	font-weight: bold;
+
+	a {
+		@include image-retina('#{$img-path}/bullets', 'png', 36px, 352px);
+		background-repeat: no-repeat;
+	}
+}
+.nextprev-next {
+	float: right;
+
+	a {
+		padding-right: 50px;
+		// Gray:
+		//background-position: right -137px;
+		background-position: right -208px;
+
+		&:hover {
+			background-position: right -279px;
+		}
+	}
+}
+.nextprev-prev {
+	float: left;
+
+	a {
+		padding-left: 50px;
+		// Gray:
+		//background-position: left -103px;
+		background-position: left -174px;
+
+		&:hover {
+			background-position: left -245px;
+		}
+	}
+}

@@ -1,5 +1,4 @@
 {% extends "base.html" %}
-{% load url from future %}
 
 {% block encyclopedia_nav_active %}active{% endblock %}
 {% block encyclopedia_index_nav_active %}active{% endblock %}
@@ -12,39 +11,74 @@
 {% endblock breadcrumbs %}
 
 {% block main_content %}
+	{% load humanize %}
 
 	{% if category.get_children_count %}
-		<div class="well">
+		<div class="subcategories clearfix">
 			<h2>Subcategories</h2>
-			<ul>
-			{% for c in category.get_children %}
-				<li><a href="{{ c.get_absolute_url }}">{{ c.title }}</a>
-					{% comment %}
-						{% if c.get_children_count %}<small>({{ c.get_children_count }} categor{{ c.get_children_count|pluralize:"y,ies" }})</small>{% endif %}
-					{% endcomment %}
-					{% if c.topic_count %}<small>({{ c.topic_count }} topic{{ c.topic_count|pluralize }})</small>{% endif %}</li>
+
+			{% load partition_filters %}
+			{% for column in category.get_children|rows:2 %}
+				<div class="col-sm-6">
+					<ul>
+						{% for cat in column %}
+							<li><a href="{{ cat.get_absolute_url }}">{{ cat.title }}</a>
+								{% comment %}
+									{% if cat.get_children_count %}<small>({{ cat.get_children_count }} categor{{ cat.get_children_count|pluralize:"y,ies" }})</small>{% endif %}
+								{% endcomment %}
+								{% if cat.topic_count %}<small>({{ cat.topic_count|intcomma }} topic{{ cat.topic_count|pluralize }})</small>{% endif %}</li>
+						{% endfor %}
+					</ul>
+				</div>
 			{% endfor %}
-			</ul>
-		</div>
+		</div> <!-- .subcategories -->
 	{% endif %}
 	
 	{% with topics=category.topics.all %}
 		{% if topics %}
-			<h2>{{ topics|length }} Topic{{ topics|pluralize }}</h2>
-			<ul>
-			{% for t in topics %}
-				<li><a href="{{ t.get_absolute_url }}">{{ t.order_title }}</a></li>
-			{% endfor %}
-			</ul>
+			<h2>{{ topics|length|intcomma }} Topic{{ topics|pluralize }}</h2>
+
+			{% if topics.count < 25 %}
+				{# Just a simple list because there's not many. #}
+				<ul>
+					{% for t in topics %}
+						<li><a href="{{ t.get_absolute_url }}">{{ t.order_title }}</a></li>
+					{% endfor %}
+				</ul>
+
+			{% else %}
+				{# There are lots, so we separate by first letter. #}
+
+				{# For the top list of letters, we use two prepared lists from the view. #}
+				<ul class="pagination pagination-sm">
+					{% for az in all_letters %}
+						{% if az in used_letters %}
+							<li><a href="#{{ az }}">{{ az }}</a></li>
+						{% else %}
+							<li class="disabled"><a href="#">{{ az }}</a></li>
+						{% endif %}
+					{% endfor %}
+				</ul>
+
+				{# For the list we regroup the topics by first letter. #}
+				{% regroup topics by order_title|first|upper as letters %}
+
+				{% for letter in letters %}
+					<h3 id="{{ letter.grouper }}">{{ letter.grouper }}</h3>
+					<ul>
+						{% for t in letter.list %}
+							<li><a href="{{ t.get_absolute_url }}">{{ t.order_title }}</a></li>
+						{% endfor %}
+					</ul>
+				{% endfor %}
+
+			{% endif %}
+
 		{% endif %}
 	{% endwith %}
 
 {% endblock %}
 
 
-{% block sidebar_content %}
-
-	{% load widget_tags %}
-	{% rss_feeds 'topics' %}
-
-{% endblock sidebar_content %}
+{% block sidebar %}
+{% endblock sidebar %}

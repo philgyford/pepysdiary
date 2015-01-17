@@ -117,6 +117,11 @@ class TopicManagerTestCase(PepysdiaryTestCase):
             'Abdallah al-Ghailan ("Guiland", "Gayland")', is_person=True),
             'Ghailan, Abdallah al- ("Guiland", "Gayland")')
 
+    def test_make_order_title_name_mr_parentheses(self):
+        self.assertEqual(Topic.objects.make_order_title(
+            'Mr Butler (Mons. L\'impertinent)', is_person=True),
+            'Butler, Mr (Mons. L\'impertinent)')
+
     # PEOPLE THAT STAY THE SAME.
 
     def test_make_order_title_name_single(self):

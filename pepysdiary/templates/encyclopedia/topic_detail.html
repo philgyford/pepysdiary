@@ -1,5 +1,4 @@
 {% extends "base.html" %}
-{% load url from future %}
 
 {% block encyclopedia_nav_active %}active{% endblock %}
 {% block encyclopedia_index_nav_active %}active{% endblock %}
@@ -67,101 +66,102 @@
 
 {% block main_content %}
 
+	{% if perms.topic.can_edit %}
+		{% load widget_tags %}
+		{% url 'admin:encyclopedia_topic_change' topic.id as change_url %}
+		{% admin_link_change change_url %}
+	{% endif %}
+
 	{% load text_formatting_filters %}
+	{% load humanize %}
 
 	<div class="tabbable">
-		<ul class="nav nav-tabs">
+		<ul class="nav nav-tabs" role="tablist">
 			{% if topic.latitude %}
-				<li id="tab-map" class="active"><a href="#map" data-toggle="tab">Map</a></li>
+				<li id="tab-map" class="active"><a href="#map" data-toggle="tab" role="tab">Map</a></li>
 			{% endif %}
 			{% if topic.summary_html %}
-				<li id="tab-summary" class="{% if not topic.latitude and topic.summary_html %}active{% endif %}{% if not topic.summary_html %}disabled{% endif %}"><a href="#summary" data-toggle="tab">Summary</a></li>
+				<li id="tab-summary" class="{% if not topic.latitude and topic.summary_html %}active{% endif %}{% if not topic.summary_html %}disabled{% endif %}"><a href="#summary" data-toggle="tab" role="tab">Summary</a></li>
 			{% endif %}
 			{% if topic.wikipedia_fragment %}
-				<li id="tab-wikipedia" class="{% if not topic.latitude and not topic.summary_html and topic.wikipedia_fragment %}active{% endif %}{% if not topic.wikipedia_fragment %}disabled{% endif %}"><a href="#wikipedia" data-toggle="tab">Wikipedia</a></li>
+				<li id="tab-wikipedia" class="{% if not topic.latitude and not topic.summary_html and topic.wikipedia_fragment %}active{% endif %}{% if not topic.wikipedia_fragment %}disabled{% endif %}"><a href="#wikipedia" data-toggle="tab" role="tab">Wikipedia</a></li>
 			{% endif %}
 			{% if topic.wheatley_html %}
-				<li id="tab-wheatley" class="{% if not topic.latitude and not topic.summary_html and not topic.wikipedia_fragment and topic.wheatley_html %}active{% endif %}{% if not topic.wheatley_html %}disabled{% endif %}"><a href="#wheatley" data-toggle="tab">1893 text</a></li>
+				<li id="tab-wheatley" class="{% if not topic.latitude and not topic.summary_html and not topic.wikipedia_fragment and topic.wheatley_html %}active{% endif %}{% if not topic.wheatley_html %}disabled{% endif %}"><a href="#wheatley" data-toggle="tab" role="tab">1893 text</a></li>
 			{% endif %}
-			<li id="tab-discussion" class="{% if not topic.latitude and not topic.summary_html and not topic.wikipedia_fragment and not topic.wheatley_html %}active{% endif %}"><a href="#discussion" data-toggle="tab">Annotations ({{ topic.comment_count }})</a></li>
+			<li id="tab-discussion" class="{% if not topic.latitude and not topic.summary_html and not topic.wikipedia_fragment and not topic.wheatley_html %}active{% endif %}"><a href="#discussion" data-toggle="tab" role="tab">Annotations <small>({{ topic.comment_count }})</small></a></li>
 			{% if diary_references %}
-				<li id="tab-references"><a href="#references" data-toggle="tab">References ({{ topic.diary_references.count }})</a></li>
+			<li id="tab-references"><a href="#references" data-toggle="tab" role="tab">References <small>({{ topic.diary_references.count|intcomma }})</small></a></li>
 			{% endif %}
 		</ul>
 
 		<div class="tab-content">
-			{% if perms.topic.can_edit %}
-				<p class="admin-links"><small><a class="admin" href="{% url 'admin:encyclopedia_topic_change' topic.id %}"><i class="icon-edit icon-link"></i> Edit</a></small></p>
-        	{% endif %}
 
 			{% if topic.has_location %}
-				<div class="tab-pane active" id="map">
-					<h2 class="hide">Map</h2>
+				<section class="tab-pane active" id="map">
+					<h1 class="sr-only">Map</h1>
 					<div id="map-frame">
 					</div> <!-- #map-frame -->
-
-					<div class="muted">
-						<p>The overlays that highlight 17th century London features are approximate and derived from:</p>
-						<ul>
-							<li>Built-up London – <a href="http://link.library.utoronto.ca/hollar/digobject.cfm?Idno=Hollar_k_2465&size=zoom&query=london&type=search">Hollar's 1666 map before the Fire</a></li>
-							<li>City of London wall and Great Fire damage – <a href="http://commons.wikimedia.org/wiki/File:Map.London.gutted.1666.jpg">Hollar's 1666 map after the Fire</a></li>
-						</ul>
-					</div>
-				</div>
+					{% load encyclopedia_tags %}
+					{% map_key %}
+				</section>
 			{% endif %}
 
 			{% if topic.summary_html %}
 				<article class="tab-pane{% if not topic.latitude %} active{% endif %}" id="summary">
-					<h2>Summary</h2>
+					<h1 class="sr-only">Summary</h1>
 					{{ topic.summary_html|smartypants|safe }}
 				</article>
 			{% endif %}
 
 			{% if topic.wikipedia_fragment %}
 				<article class="tab-pane{% if not topic.latitude and not topic.summary_html %} active{% endif %}" id="wikipedia">
-					<h2>Wikipedia</h2>
-					<p>Wikipedia content is not yet automatically copied to this page.</p>
-					<p>For now, you can directly <a href="http://en.wikipedia.org/wiki/{{ topic.wikipedia_fragment }}">visit this topic on Wikipedia</a>.</p>
+					<h1 class="sr-only">Wikipedia</h1>
+
+					<p><a class="link-more" href="http://en.wikipedia.org/wiki/{{ topic.wikipedia_fragment }}">Read more about this topic on Wikipedia</a></p>
 				</article>
 			{% endif %}
 
 			{% if topic.wheatley_html %}
 				<article class="tab-pane{% if not topic.latitude and not topic.summary_html and not topic.wikipedia_fragment %} active{% endif %}" id="wheatley">
-					<h2>1893 text</h2>
-					<div class="well well-manuscript">
+					<h1 class="sr-only">1893 text</h1>
+
+					<div class="manuscript manuscript-large">
 						{{ topic.wheatley_html|smartypants|safe }}
 					</div>
+
+					<hr/>
+
+					<p class="text-muted">This text comes from a footnote on a diary entry in the 1893 edition edited by Henry B. Wheatley.</p>
 				</article>
 			{% endif %}
 
-			<div class="tab-pane{% if not topic.latitude and not topic.summary_html and not topic.wikipedia_fragment and not topic.wheatley_html %} active{% endif %}" id="discussion">
-				{% include 'inc/comments.html' with object=topic %}
-			</div>
+			<section class="tab-pane{% if not topic.latitude and not topic.summary_html and not topic.wikipedia_fragment and not topic.wheatley_html %} active{% endif %}" id="discussion">
+				{% include 'inc/comments.html' with object=topic show_section_title=False %}
+			</section>
 
 			{% if diary_references %}
-				<div class="tab-pane" id="references">
-					<h2>References</h2>
+				<article class="tab-pane" id="references">
+					<h1 class="sr-only">References</h1>
 
+					<p>Chart showing the number of references in each month of the diary’s entries.</p>
 					<div id="chart-references"></div>
 
-					<ul class="references references-diary">
-						{% for y, months in diary_references %}
-							<li>{{ y }}
-								<ul class="references-year">
-									{% for m, refs in months %}
-										<li><span>{{ m }}</span>
-											<ul class="references-month">
-												{% for entry in refs %}
-													<li><a href="{{ entry.get_absolute_url }}">{{ entry.day_e }}</a></li>
-												{% endfor %}
-											</ul>
-										</li>
-									{% endfor %}
-								</ul>
-							</li>
-						{% endfor %}
-					</ul>
-				</div>
+					{% for y, months in diary_references %}
+						<h2 class="h3">{{ y }}</h2>
+						<ul class="lists-horizontal lists-horizontal-small">
+							{% for m, refs in months %}
+								<li><span>{{ m }}</span>
+									<ul>
+										{% for entry in refs %}
+											<li><a href="{{ entry.get_absolute_url }}">{{ entry.day_e }}</a></li>
+										{% endfor %}
+									</ul>
+								</li>
+							{% endfor %}
+						</ul>
+					{% endfor %}
+				</article>
 			{% endif %}
 		</div> <!-- .tab-content -->
 	</div> <!-- .tabbable -->
@@ -172,9 +172,9 @@
 {% block sidebar_content %}
 
 	{% if topic.thumbnail %}
-		<div class="sidebar-block">
-			<p><img src="{{ topic.thumbnail.url }}" class="thumbnail" width="100" height="120" alt="Thumbnail image" /></p>
-		</div>
+		<aside class="aside-block">
+			<p><img src="{{ topic.thumbnail.url }}" class="img-thumbnail" width="100" height="120" alt="Thumbnail image" /></p>
+		</aside>
 	{% endif %}
 
 	{% load widget_tags %}
@@ -186,7 +186,5 @@
 	{% if topic.on_pepys_family_tree or topic.id == 7390 %}
 		{% family_tree_link topic=topic %}
 	{% endif %}
-
-	{% rss_feeds 'topics' %}
 
 {% endblock sidebar_content %}

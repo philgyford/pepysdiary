@@ -1,0 +1,28 @@
+/**
+ * Gradients.
+ * 
+ * Different to those found in bootstrap/mixins/_gradients.scss.
+ */
+
+/**
+ * For combining a gradient with a background image.
+ * Set background-repeat, background-position and background-color manually.
+ * $colors is two or more colors.
+ * Example:
+ * 	@include gradient-with-image(
+ *					'#{$img-path}/site-header.png',
+ * 					0deg,
+ * 					rgba(50, 20, 0, 0.4),
+ * 					rgba(50, 20, 0, 0.1),
+ * 					rgba(50, 20, 0, 0),
+ * 					rgba(50, 20, 0, 0.1),
+ * 					rgba(50, 20, 0, 0.4)
+ * 				);
+ */
+@mixin gradient-with-image($url, $angle, $colors...) {
+	background-image: -webkit-linear-gradient($angle, $colors), url($url);
+	background-image: -o-linear-gradient($angle, $colors), url($url);
+	background-image: linear-gradient($angle, $colors), url($url);
+	background-image: url($url);
+}
+

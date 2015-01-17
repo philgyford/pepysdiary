@@ -2,15 +2,15 @@
 Might have this passed in:
 * `link_final_item` either "true" or "false" (default).
 {% endcomment %}
-{% load url from future %}
-<ul class="breadcrumb">
-<li><a href="{% url 'encyclopedia' %}">Encyclopedia</a> <span class="divider">/</span></li>
+<ol class="breadcrumb">
+<li><a href="{% url 'encyclopedia' %}">Encyclopedia</a></li>
 {% for a in category.get_ancestors %}
-	<li><a href="{{ a.get_absolute_url }}">{{ a.title }}</a> <span class="divider">/</span></li>
+	<li><a href="{{ a.get_absolute_url }}">{{ a.title }}</a></li>
 {% endfor %}
 {% if link_final_item == 'true' %}
 	<li><a href="{{ category.get_absolute_url }}">{{ category.title }}</a></li>
 {% else %}
 	<li class="active">{{ category.title }}</li>
 {% endif %}
-</ul>
+</ol>
+

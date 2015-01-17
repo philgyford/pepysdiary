@@ -1,2 +1,6 @@
 media
 fixtures
+graphics
+# Don't want Heroku to think this is a Ruby or Node app.
+Gemfile*
+package.json

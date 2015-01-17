@@ -12,13 +12,13 @@ register = template.Library()
 def events_html(title, event_list):
     """
     Generates the HTML for a list of Diary Entries, Letters or DayEvents.
-    `title` is for the <h3>, eg 'Diary Entries' or 'In Parliament'.
+    `title` is for the <h2>, eg 'Diary Entries' or 'In Parliament'.
     `event_list` is a list of dicts, each dict having a `text` element and an
     optional `url`.
     """
     if len(event_list) == 0:
         return ''
-    html = u"<h3>%s</h3>\n<ul>\n" % title
+    html = u"<h2>%s</h2>\n<ul>\n" % title
     for li in event_list:
         if 'url' in li and li['url'] != '':
             html += u"<li><a href=\"%s\">%s</a></li>\n" % (
@@ -40,7 +40,7 @@ def entries_for_day(date):
         for entry in entries:
             event_list.append({'url': entry.get_absolute_url(),
                                 'text': entry.title})
-    return events_html('Diary Entries', event_list)
+    return events_html('In the Diary', event_list)
 
 
 def letters_for_day(date):
@@ -124,4 +124,12 @@ def events_for_day_in_sidebar(date, exclude=None):
     if html == '':
         return html
     else:
-        return '<div class="sidebar-block"><h2>Also on this day</h2>%s</div>' % html
+        return """<aside class="aside-block">
+    <header class="aside-header">
+        <h1 class="aside-title">Also on this day</h1>
+    </header>
+    <div class="aside-body">
+%s
+    </div>
+</aside>
+""" % html

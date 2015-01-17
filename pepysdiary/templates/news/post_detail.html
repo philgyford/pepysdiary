@@ -1,5 +1,4 @@
 {% extends "base.html" %}
-{% load url from future %}
 {% load text_formatting_filters %}
 
 {% block news_nav_active %}active{% endblock %}
@@ -10,16 +9,20 @@
 {% block main_content %}
 
 	<article>
-		<p><strong>{{ post.date_published|date:date_format_longest }}</strong></p>
+		{% if perms.post.can_edit %}
+			{% load widget_tags %}
+			{% url 'admin:news_post_change' post.id as change_url %}
+			{% admin_link_change change_url %}
+		{% endif %}
+
+		<p class="article-date">{{ post.date_published|date:date_format_longest }}</p>
 
 		{{ post.intro_html|smartypants|safe }}
 
 		{{ post.text_html|smartypants|safe }}
-
-		{% if perms.post.can_edit %}
-			<p class="admin-links"><small><a class="admin" href="{% url 'admin:news_post_change' post.id %}"><i class="icon-edit icon-link"></i> Edit</a></small></p>
-		{% endif %}
 	</article>
+
+	{% include 'inc/next_previous.html' with next=next_post previous=previous_post %}
 
 	{% include 'inc/comments.html' with object=post %}
 
@@ -28,11 +31,6 @@
 
 {% block sidebar_content %}
 
-	{% include 'inc/next_previous.html' with next=next_post previous=previous_post %}
-
 	{% include 'inc/news_category_nav.html' %}
-
-	{% load widget_tags %}
-	{% rss_feeds 'posts' %}
 
 {% endblock sidebar_content %}

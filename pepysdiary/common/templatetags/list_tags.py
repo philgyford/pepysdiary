@@ -36,16 +36,26 @@ def commented_objects_list(model_class, context, title, quantity):
             comment = Annotation.visible_objects.filter(object_pk=obj.pk,
                                                         content_type_id=ct.id
                                                     ).latest('submit_date')
-            html += """
-<div class="media newable" data-time="%(data_time)s">
-    <i class="newflag icon-certificate pull-left"></i>
+            html += u"""
+<article class="media newable media-small" data-time="%(data_time)s">
+    <span class="newflag pull-left" aria-hidden="true" title="New since your last visit">✹</span>
+    <span class="sr-only">New since your last visit</span>
     <div class="media-body">
-        <h3 class="h5 media-heading">
-            <a href="%(url)s"><strong>%(obj_title)s</strong></a> by <strong>%(user_name)s</strong> <small><time class="timeago" datetime="%(iso_datetime)s">on %(date)s</time></small>
-        </h3>
-        <p class="muted">%(comment)s</p>
+        <h2 class="media-heading">
+            <span class="comment-title">
+                <a href="%(url)s">%(obj_title)s</a>
+            </span>
+            by
+            <span class="comment-name">
+                %(user_name)s
+            </span>
+            <small>
+                <time class="timeago" datetime="%(iso_datetime)s">on %(date)s</time>
+            </small>
+        </h2>
+        <p class="text-muted">%(comment)s</p>
     </div>
-</div>
+</article>
 """ % {
         'data_time': calendar.timegm(comment.submit_date.timetuple()),
         'url': comment.get_absolute_url(),
@@ -56,13 +66,16 @@ def commented_objects_list(model_class, context, title, quantity):
                                         context['date_format_mid_strftime']),
         'time': comment.submit_date.strftime(
                         context['time_format_strftime']).lstrip('0').lower(),
-        'comment': smart_truncate(comment.comment, 80),
+        'comment': smart_truncate(comment.comment, 70),
             }
 
-        html = """<h2 class="h4">%s</h2>
-<div class="recently-commented">
+        html = """<section class="recently-commented">
+<header>
+    <h1 class="h2">%s</h1>
+</header>
 %s
-</div>
+</section>
+<hr>
 """ % (title, html)
     return html
 

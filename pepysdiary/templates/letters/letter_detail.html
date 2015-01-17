@@ -1,5 +1,4 @@
 {% extends "base.html" %}
-{% load url from future %}
 
 {% block letter_nav_active %}active{% endblock %}
 
@@ -10,19 +9,21 @@
 
 	{% load text_formatting_filters %}
 
-	<article class="letter">
-		<p>{{ letter.display_date }}</p>
-
-		<div class="well well-manuscript">
-			{{ letter.text|smartypants|safe }}
-		</div>
-
-		{% if letter.footnotes %}
-			{{ letter.footnotes|smartypants|safe }}
+	<article class="manuscript manuscript-large">
+		{% if perms.letter.can_edit %}
+			{% load widget_tags %}
+			{% url 'admin:letters_letter_change' letter.id as change_url %}
+			{% admin_link_change change_url %}
 		{% endif %}
 
-		{% if perms.letter.can_edit %}
-			<p class="admin-links"><small><a class="admin" href="{% url 'admin:letters_letter_change' letter.id %}"><i class="icon-edit icon-link"></i> Edit</a></small></p>
+		<p>{{ letter.display_date }}</p>
+
+		{{ letter.text|smartypants|safe }}
+
+		{% if letter.footnotes %}
+			<aside class="footnotes">
+				{{ letter.footnotes|smartypants|safe }}
+			</aside>
 		{% endif %}
 	</article>
 
@@ -33,40 +34,42 @@
 
 {% block sidebar_content %}
 
-	<div class="sidebar-block">
-		<h2>Correspondents</h2>
+	<aside class="aside-block">
+		<header class="aside-header">
+			<h1 class="aside-title">Correspondents</h1>
+		</header>
+		<div class="aside-body">
+			<h2>{{ letter.sender.title }}</h2>
+			<ul>
+				<li><a href="{{ letter.sender.get_absolute_url }}">In the Encyclopedia</a></li>
+				<li><a href="{% url 'letter_person' pk=letter.sender.pk %}">Letters</a></li>
+			</ul>
 
-		<h3>{{ letter.sender.title }}</h3>
-		<ul>
-			<li><a href="{{ letter.sender.get_absolute_url }}">In the Encyclopedia</a></li>
-			<li><a href="{% url 'letter_person' pk=letter.sender.pk %}">Letters</a></li>
-		</ul>
-
-		<h3>{{ letter.recipient.title }}</h3>
-		<ul>
-			<li><a href="{{ letter.recipient.get_absolute_url }}">In the Encyclopedia</a></li>
-			<li><a href="{% url 'letter_person' pk=letter.recipient.pk %}">Letters</a></li>
-		</ul>
-	</div>
+			<h2>{{ letter.recipient.title }}</h2>
+			<ul>
+				<li><a href="{{ letter.recipient.get_absolute_url }}">In the Encyclopedia</a></li>
+				<li><a href="{% url 'letter_person' pk=letter.recipient.pk %}">Letters</a></li>
+			</ul>
+		</div>
+	</aside>
 
 	{% load event_tags %}
 	{% events_for_day_in_sidebar letter.letter_date exclude='letters' %}
 
 	{% if letter.source %}
-		<div class="sidebar-block">
-			<h2>Source</h2>
-			{% if letter.source == letter.GUY_DE_LA_BEDOYERE_SOURCE %}
-				<div class="row-fluid">
-					<div class="span9">
-						<p>Thanks to Guy de la Bédoyère for supplying the text and footnotes for this letter. You can purchase his book, <cite>Particular Friends: The Correspondence of Samuel Pepys and John Evelyn</cite>, at <a href="http://www.amazon.co.uk/gp/product/1843831341/ref=as_li_qf_sp_asin_il_tl?ie=UTF8&amp;tag=haddockorg-21&amp;linkCode=as2&amp;camp=1634&amp;creative=6738&amp;creativeASIN=1843831341">Amazon.co.uk</a> or <a href="http://www.amazon.com/gp/product/1843831341/ref=as_li_qf_sp_asin_il_tl?ie=UTF8&amp;tag=haddockorg-20&amp;linkCode=as2&amp;camp=1789&amp;creative=9325&amp;creativeASIN=1843831341">Amazon.com</a>.</p>
-					</div>
-					<div class="span3">
-						<img src="{{ STATIC_PREFIX }}img/sidebar_particular_friends.jpg" width="49" height="75" alt="Book cover" />
-					</div>
-			{% elif letter.source == letter.HELEN_TRUESDELL_HEATH_SOURCE %}
-				<p>Excerpted from Helen Truesdell Heath's 1955 book, <cite>The Letters of Samuel Pepys and his Family Circle</cite>, available at <a href="http://www.amazon.co.uk/gp/product/B000XE6C64/ref=as_li_qf_sp_asin_il_tl?ie=UTF8&tag=haddockorg-21&linkCode=as2&camp=1634&creative=6738&creativeASIN=B000XE6C64">Amazon.co.uk</a> or <a href="http://www.amazon.com/gp/product/B000XE6C64/ref=as_li_qf_sp_asin_il_tl?ie=UTF8&tag=haddockorg-20&linkCode=as2&camp=1789&creative=9325&creativeASIN=B000XE6C64">Amazon.com</a>.</p>
-			{% endif %}
-		</div>
+		<aside class="aside-block">
+			<header class="aside-header">
+				<h1 class="aside-title">Source</h1>
+			</header>
+			<div class="aside-body">
+				{% if letter.source == letter.GUY_DE_LA_BEDOYERE_SOURCE %}
+					<img class="pull-right" src="{{ STATIC_PREFIX }}img/sidebar_particular_friends.jpg" width="49" height="75" alt="Book cover" />
+					<p>Thanks to Guy de la Bédoyère for supplying the text and footnotes for this letter. You can purchase his book, <cite>Particular Friends: The Correspondence of Samuel Pepys and John Evelyn</cite>, at <a href="http://www.amazon.co.uk/gp/product/1843831341/ref=as_li_qf_sp_asin_il_tl?ie=UTF8&amp;tag=haddockorg-21&amp;linkCode=as2&amp;camp=1634&amp;creative=6738&amp;creativeASIN=1843831341">Amazon.co.uk</a> or <a href="http://www.amazon.com/gp/product/1843831341/ref=as_li_qf_sp_asin_il_tl?ie=UTF8&amp;tag=haddockorg-20&amp;linkCode=as2&amp;camp=1789&amp;creative=9325&amp;creativeASIN=1843831341">Amazon.com</a>.</p>
+				{% elif letter.source == letter.HELEN_TRUESDELL_HEATH_SOURCE %}
+					<p>Excerpted from Helen Truesdell Heath's 1955 book, <cite>The Letters of Samuel Pepys and his Family Circle</cite>, available at <a href="http://www.amazon.co.uk/gp/product/B000XE6C64/ref=as_li_qf_sp_asin_il_tl?ie=UTF8&tag=haddockorg-21&linkCode=as2&camp=1634&creative=6738&creativeASIN=B000XE6C64">Amazon.co.uk</a> or <a href="http://www.amazon.com/gp/product/B000XE6C64/ref=as_li_qf_sp_asin_il_tl?ie=UTF8&tag=haddockorg-20&linkCode=as2&camp=1789&creative=9325&creativeASIN=B000XE6C64">Amazon.com</a>.</p>
+				{% endif %}
+			</div>
+		</aside>
 	{% endif %}
 
 {% endblock sidebar_content %}

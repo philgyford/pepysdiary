@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from django import template
 from django.conf import settings
 from django.core.urlresolvers import reverse
@@ -8,15 +9,42 @@ from pepysdiary.news.models import Post
 
 register = template.Library()
 
-# Things that appear in the sidebar on several pages.
+# Things that appear in the sidebar or footer on several pages.
 
 
-def put_in_block(html):
-    "All sidebar content should be wrapped in this."
-    return '<div class="sidebar-block">%s</div>' % html
+def put_in_block(body, title=''):
+    """
+    All sidebar content should be wrapped in this.
+    `body` should be an HTML/text string.
+    `title` is an optional title HTML/text string.
+    """
+    header = ''
+    if title:
+        header = '<header class="aside-header"><h1 class="aside-title">%s</h1></header>' % title
+
+    return """<aside class="aside-block">
+%s
+    <div class="aside-body">
+%s
+    </div>
+</aside>
+""" % (header, body)
 
 
-# Valid feed kinds for rss_feeds().
+@register.simple_tag
+def twitter_and_email(*args):
+    return put_in_block("""
+<p><a href="http://feedburner.google.com/fb/a/mailverify?uri=PepysDiary&amp;loc=en_US">Receive diary entries by email daily</a></p>
+<p><a href="http://twitter.com/samuelpepys">Follow @SamuelPepys’ life on Twitter</a></p>
+""", 'Twitter &amp; Email')
+
+
+@register.simple_tag
+def credit(*args):
+    return put_in_block("""<p>This site is run by <a href="http://www.gyford.com/">Phil&nbsp;Gyford</a></p>
+<p><a href="https://twitter.com/philgyford">@philgyford</a> on Twitter</p>
+<p><a href="%s">More about this site</a></p>
+""" % (reverse('about')), 'About')
 
 
 @register.simple_tag
@@ -62,10 +90,13 @@ def rss_feeds(*args):
     feeds_dict = dict(feeds)
     for kind in kinds:
         if kind in feeds_dict:
-            html += '<li class="feed"><a href="%s">RSS feed of %s</a></li>' % (
+            html += '<li class="feed"><a href="%s">%s</a></li>' % (
                         feeds_dict[kind]['url'], feeds_dict[kind]['things'])
     if html != '':
-        html = put_in_block('<ul class="feeds">%s</ul>' % html)
+        html = put_in_block("""<ul class="feeds">
+%s
+</ul>
+""" % html, 'RSS feeds')
     return html
 
 
@@ -88,23 +119,22 @@ def recent_list(queryset, title, date_format):
                 item_date = item.date_created
 
             html += """<dt><a href="%s">%s</a></dt>
-<dd>%s</dd>
+<dd class="text-muted">%s</dd>
 """ % (item.get_absolute_url(),
         item.title,
         item_date.strftime(date_format))
 
-        html = """<h2>%s</h2>
-<dl class="dated">
+        html = """<dl class="dated">
 %s
 </dl>
-""" % (title, html)
-    return put_in_block(html)
+""" % (html)
+    return put_in_block(html, title)
 
 
 @register.simple_tag(takes_context=True)
 def latest_posts(context, quantity=5):
     """Displays links to the most recent Site News Posts."""
-    post_list = Post.published_posts.all()[:quantity]
+    post_list = Post.published_posts.all().only('title', 'date_published')[:quantity]
     return recent_list(post_list, 'Latest Site News',
                                         context['date_format_long_strftime'])
 
@@ -112,7 +142,7 @@ def latest_posts(context, quantity=5):
 @register.simple_tag(takes_context=True)
 def latest_articles(context, quantity=5):
     """Displays links to the most recent In-Depth Articles."""
-    article_list = Article.published_articles.all()[:quantity]
+    article_list = Article.published_articles.all().only('title', 'date_published', 'slug')[:quantity]
     return recent_list(article_list, 'Latest In-Depth Articles',
                                         context['date_format_long_strftime'])
 
@@ -120,69 +150,63 @@ def latest_articles(context, quantity=5):
 @register.simple_tag(takes_context=True)
 def latest_topics(context, quantity=5):
     """Displays links to the most recent Encyclopedia Topics"""
-    topic_list = Topic.objects.order_by('-date_created')[:quantity]
+    topic_list = Topic.objects.order_by('-date_created').only('title', 'date_created')[:quantity]
     return recent_list(topic_list, 'Latest Encyclopedia Topics',
                                         context['date_format_long_strftime'])
+
+
+@register.simple_tag(takes_context=True)
+def all_articles(context, exclude_id=None):
+    """
+    Displays links to all the In-Depth Articles.
+    If `exclude_id` is set, then we include that Article, but don't link to it.
+    """
+    article_list = Article.published_articles.all().only(
+                                            'title', 'date_published', 'slug')
+    date_format = context['date_format_long_strftime']
+    html = ''
+    for item in article_list:
+        if (item.id == exclude_id):
+            html += """<li>%s<br>%s</li>""" % (
+                                    item.title,
+                                    item.date_published.strftime(date_format))
+        else:
+            html += """<li><a href="%s">%s</a><br>%s</li>""" % (
+                                    item.get_absolute_url(),
+                                    item.title,
+                                    item.date_published.strftime(date_format))
+    return put_in_block("""<ul class="list-spaced list-small list-unstyled">%s</ul>""" % (html), 'All In-Depth Articles')
+
 
 
 @register.simple_tag
 def summary_year_navigation(current_year):
     """
     The list of years for the Diary Summary sidebar navigation.
+    current_year will either be 'year' or a date object.
     """
     css_class = ''
     if current_year == 'before':
         css_class = 'active'
-    html = '<li class="%s"><a href="%s">Before the diary</a></li>' % (
+    else:
+        current_year = current_year.year
+    html = '<a class="list-group-item %s" href="%s">Before the diary</a>' % (
                                                     css_class,
                                                     reverse('diary_summary'))
-    for y in ['1660', '1661', '1662', '1663', '1664', '1665', '1666', '1667',
-                                                            '1668', '1669', ]:
+    for y in [1660, 1661, 1662, 1663, 1664, 1665, 1666, 1667, 1668, 1669,]:
         css_class = ''
         if y == current_year:
             css_class = 'active'
-        html += '<li class="%s"><a href="%s">%s</a></li>' % (
+        html += '<a class="list-group-item %s" href="%s">%s</a>' % (
                         css_class,
                         reverse('summary_year_archive', kwargs={'year': y}),
                         y)
-    html += '<li><a href="%s">After the diary (In-Depth Article)</a></li>' % (
+    html += '<a class="list-group-item" href="%s">After the diary (In-Depth Article)</a>' % (
                         reverse('article_detail', kwargs={
                             'year': '2012', 'month': '05', 'day': '31',
                             'slug': 'the-next-chapter'}
                         ))
-    return put_in_block('<ul class="nav nav-tabs nav-stacked">%s</ul>' % html)
-
-
-@register.simple_tag(takes_context=True)
-def about_pages_links(context):
-    """
-    Used to build both the drop-down navigation menu and the list in the
-    sidebar on About pages.
-    Will highlight the correct link if there is a 'flatpage' in context.
-    Returns HTML containing <li>s (no <ul>s).
-    """
-    # Mapping URL conf names to titles.
-    # The titles should match the flatpages' titles in the Admin.
-    # The links will be in this order:
-    flatpages = (
-        ('about', 'About this site'),
-        ('about_text', 'About the text'),
-        ('about_faq', 'FAQ'),
-        ('about_annotations', 'Annotation guidelines'),
-        ('about_formats', 'Email and RSS'),
-        ('about_support', 'Supporting this site'),
-    )
-    links = []
-    for page in flatpages:
-        css_class = ''
-        if 'flatpage' in context and context['flatpage'].title == page[1]:
-            css_class = 'active'
-        links.append('<li class="%s"><a href="%s">%s</a></li>' % (
-                css_class,
-                reverse(page[0]),
-                page[1]
-            ))
-    return "\n".join(links)
+    return '<div class="list-group">%s</div>' % html
 
 
 @register.simple_tag
@@ -194,16 +218,15 @@ def family_tree_link(topic=None):
     """
     text = "See the Pepys family tree"
     if topic is not None and topic.on_pepys_family_tree:
-        text = "See this person on the Pepys family tree"
+        text = "See this person on the Pepys family&nbsp;tree"
     link_url = reverse('encyclopedia_familytree')
 
-    return """
-    <div class="sidebar-block">
-        <p><a href="%s"><img class="thumbnail" src="%simg/sidebar_family_tree.png" width="250" height="134" alt="Family tree thumbnail" />
-        %s
-        </a></p>
-    </div>
-    """ % (link_url, settings.STATIC_URL, text)
+    body = """
+        <p><a href="%s"><img class="img-responsive" src="%simg/sidebar_family_tree.png" width="330" height="110" alt="Family tree thumbnail" /></p>
+        <p><a href="%s">%s</a></p>
+    """ % (link_url, settings.STATIC_URL, link_url, text)
+
+    return put_in_block(body, 'Family tree')
 
 
 @register.simple_tag
@@ -214,14 +237,22 @@ def category_map_link(category_id=None):
     """
     if category_id is None:
         link_url = reverse('category_map')
-        text = "See places from the Diary on a map"
+        text = "See places from the Diary on a&nbsp;map"
     else:
         link_url = reverse('category_map', kwargs={'category_id': category_id})
-        text = "See all places in this category on a map"
-    return """
-    <div class="sidebar-block">
-        <p><a href="%s"><img class="thumbnail" src="%simg/sidebar_category_map.png" width="250" height="134" alt="Map thumbnail" />
-        %s
-        </a></p>
-    </div>
-    """ % (link_url, settings.STATIC_URL, text)
+        text = "See all places in this category on one&nbsp;map"
+
+    body = """<p class="clearfix">
+    <a href="%s"><img class="pull-right" src="%simg/sidebar_category_map.png" width="110" height="62" alt="Map thumbnail" /></a>
+    <a href="%s">%s</a>
+    </p>
+    """ % (link_url, settings.STATIC_URL, link_url, text)
+
+    return put_in_block(body, 'Maps')
+
+
+@register.simple_tag
+def admin_link_change(url):
+    return """<p class="admin-links"><a class="admin" href="%s">Edit</a></p>""" % (url)
+
+
