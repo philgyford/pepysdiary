@@ -1,0 +1,12 @@
+/**
+ * Overriding or adding to Bootstrap's .table styles.
+ */
+
+.table {
+
+    .th-number,
+    .td-number {
+        text-align: right;
+    }
+
+}

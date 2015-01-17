@@ -39,38 +39,3 @@ sup {
 blockquote {
 	margin-bottom: ceil($line-height-computed / 2);
 }
-
-/***************************************************************************
- * Not bootstrap */
-
-/* For 'Read more about this' type links at the ends of things. */
-.link-more {
-	font-weight: bold;
-
-	&::after {
-		content: " >";
-	}
-}
-
-/**
- * Include this style to represent quotes old text, eg diary entries, letters, etc.
- */
-.manuscript {
-	font-family: $font-family-serif;
-}
-
-.manuscript-large {
-	font-size: $font-size-largish;
-
-	@media (min-width: $screen-xs-min) {
-		font-size: $font-size-large;
-	}
-
-	h2 {
-		font-size: $font-size-h1;
-	}
-
-	blockquote {
-		font-size: $font-size-largish;
-	}
-}

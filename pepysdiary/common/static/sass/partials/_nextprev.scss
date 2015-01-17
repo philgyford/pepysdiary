@@ -11,6 +11,8 @@
 }
 .nextprev-next {
 	float: right;
+    margin-left: 10px;
+    margin-bottom: 0.5em;
 
 	a {
 		padding-right: 50px;
@@ -25,6 +27,8 @@
 }
 .nextprev-prev {
 	float: left;
+    margin-right: 10px;
+    margin-bottom: 0.5em;
 
 	a {
 		padding-left: 50px;

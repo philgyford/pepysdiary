@@ -1,5 +1,5 @@
 /****************************************************************************/
-/* Custom generic elements */
+/* Custom generic elements. Not overriding Bootstrap. */
 
 cite {
 	font-style: italic;
@@ -24,4 +24,59 @@ img.pull-right {
 }
 img.pull-left {
 	margin-right: ($grid-gutter-width / 2);
+}
+
+
+/* For 'Read more about this' type links at the ends of things. */
+.link-more {
+	font-weight: bold;
+
+	&::after {
+		content: " >";
+	}
+}
+
+/**********************************************************************/
+/* For In-Depth Articles and Site News Posts. */
+.article-date {
+    font-weight: bold;
+}
+.article-author {
+    font-weight: bold;
+}
+
+p.illustration {
+    text-align: center;
+
+    img {
+        margin-bottom: 0.5em;
+    }
+
+    .img-responsive {
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+
+/**********************************************************************
+ * Include this style to represent quotes old text, eg diary entries, letters, etc.
+ */
+.manuscript {
+	font-family: $font-family-serif;
+}
+
+.manuscript-large {
+	font-size: $font-size-largish;
+
+	@media (min-width: $screen-xs-min) {
+		font-size: $font-size-large;
+	}
+
+	h2 {
+		font-size: $font-size-h1;
+	}
+
+	blockquote {
+		font-size: $font-size-largish;
+	}
 }
