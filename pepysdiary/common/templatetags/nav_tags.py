@@ -3,7 +3,7 @@ from django import template
 register = template.Library()
 
 @register.assignment_tag
-def get_subnav(request):
+def get_subnav(url_name):
     """
     Determines which subnavigation is needed for the current page.
 
@@ -17,7 +17,6 @@ def get_subnav(request):
     This either returns the name of the subnav (eg, `diary`) or False, if there
     is no subnav specified for this URL name.
     """
-    url_name = request.resolver_match.url_name
     subnavs = (
         ('diary', ('home',
                     'entry_archive',

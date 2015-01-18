@@ -48,5 +48,8 @@ def url_name(request):
     """
     So we can test things in the templates based on the current named URL.
     """
-    return {'url_name': request.resolver_match.url_name}
+    url_name = False
+    if request.resolver_match:
+        url_name = request.resolver_match.url_name
+    return {'url_name': url_name}
 

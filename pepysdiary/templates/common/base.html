@@ -9,7 +9,7 @@
 	{% block extra_css %}
 	{% endblock extra_css %}
     {# Mapbox CSS needs to go in before our own CSS. #}
-	<link href="{{ STATIC_PREFIX }}css/site-c38008f6.css" rel="stylesheet">
+	<link href="{{ STATIC_PREFIX }}css/site-9c99775d.css" rel="stylesheet">
 
     <!--[if lt IE 9]>
       <script src="{{ STATIC_PREFIX }}js/dist/lt-ie-9.min.js"></script>
@@ -72,7 +72,7 @@
     </nav> <!-- .navbar -->
 
 	{% load nav_tags %}
-	{% get_subnav request as subnav %}
+	{% get_subnav url_name as subnav %}
 	{% if subnav %}
 		<nav class="navbar navbar-default navbar-subnav" role="navigation">
 			<div class="container">
