@@ -203,8 +203,10 @@ window.pepys.comments = {
         $('.newable').each(function(idx){
             if (that.prev_visit_end === null ||
                 parseInt($(this).data('time'), 10) > that.prev_visit_end) {
-                $('i.newflag', $(this)).addClass('is-new').html(
-                                    '<span>New</span>').attr('title', 'New');
+                $('span.newflag', $(this))
+                    .addClass('is-new')
+                    .attr('title', 'New since your last visit')
+                    .after('<span class="sr-only">New since your last visit</span>');
             };
         });
     }

@@ -41,16 +41,14 @@ Expects:
 					{% if preview and form.comment.value %}
 						<section class="media-list comments">
 						    <article class="media">
-								<span class="newflag pull-left" aria-hidden="true" title="New since your last visit">✹</span>
+								<span class="newflag pull-left is-new" aria-hidden="true" title="New since your last visit">✹</span>
 								<span class="sr-only">New since your last visit</span>
 							
 						    	<div class="media-body">
-						        	<header class="media-heading">
-										<p>
-											<span class="comment-name">{{ user.get_full_name }}</span>
-											<small>on {{ time_now|date:date_format_mid }}</small>
-										</p>
-									</header>
+						        	<h2 class="media-heading">
+										<span class="comment-name">{{ user.get_full_name }}</span>
+										<small>on {{ time_now|date:date_format_mid }}</small>
+									</h2>
 							        <p>{{ form.comment.value|striptags|urlizetrunc:50|linebreaks }}</p>
 							    </div>
 							</article>

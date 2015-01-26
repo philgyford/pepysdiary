@@ -61,6 +61,11 @@
 .newflag {
 	font-size: $font-size-large;
 	line-height: $headings-line-height;
+    color: $gray-light;
+
+    &.is-new {
+        color: $text-color;
+    }
 
 	.media-small & {
 		font-size: $font-size-base;
