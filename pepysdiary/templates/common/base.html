@@ -22,15 +22,13 @@
     <link rel="alternate" type="application/rss+xml" title="In-Depth articles" href="http://feeds.feedburner.com/PepysDiary-InDepthArticles">
     <link rel="alternate" type="application/rss+xml" title="Site News posts" href="http://feeds.feedburner.com/PepysDiary-SiteNews">
 
-    {% comment %}
     <meta property="og:site_name" content="The Diary of Samuel Pepys">
-    {% if url_name != 'home' %}
-        <meta property="og:title" content="{% block title %}{% endblock %}">
-    {% endif %}
     <meta property="og:locale" content="en_GB">
-    <meta property="article:publisher" content="https://www.facebook.com/philgyford">
+    <meta property="article:author" content="https://www.facebook.com/pepysdiary">
     <meta property="og:image" content="{{ STATIC_PREFIX }}img/facebook.jpg">
-    {% endcomment %}
+    {% if url_name == 'entry_detail' %}
+        <meta property="og:title" content="{{ entry.title }}">
+    {% endif %}
 </head>
 <body>
 	<a class="sr-only" href="#content">Skip to main content</a>
