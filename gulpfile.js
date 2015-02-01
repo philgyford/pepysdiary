@@ -6,7 +6,6 @@
 var gulp        = require('gulp')
     concat      = require('gulp-concat'),
     del         = require('del'),
-    filter      = require('gulp-filter'),
     rename      = require('gulp-rename'),
     replace     = require('gulp-replace'),
     rev         = require('gulp-rev'),
@@ -209,8 +208,7 @@ gulp.task('sass', ['sass-do'], function() {
 /**
  * SASSify our sass/site.scss file into css/site.css.
  *
- * Creates a revisioned CSS file like site-d03917af.css.
- * (The *.css.map file will not be revisioned.)
+ * Creates revisioned files like site-d03917af.css and site.css-d03917af.map
  * Deletes old revisioned files first.
  */
 gulp.task('sass-do', function() {
@@ -221,20 +219,13 @@ gulp.task('sass-do', function() {
         }
     );
 
-    // A filter that will return only our .css file, and not our .css.map file:
-    var cssFilter = filter('*.css');
-
     // Our single main SCSS file (which @imports everything else).
     return gulp.src(paths.css.src+'site.scss')
         // Run SASS with options:
         // style can be nested, compact, compressed, expanded
         .pipe(sass({bundleExec: true, style: 'compressed'}))
-        // Filter so we only get the .css file:
-        .pipe(cssFilter)
         // Add a unique hash to this revision:
         .pipe(rev())
-        // Return to the original files (ie, including *.css.map):
-        .pipe(cssFilter.restore())
         // Save it:
         .pipe(gulp.dest(paths.css.dest))
         // Generate the manifest file that maps original to new filename.
