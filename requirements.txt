@@ -8,7 +8,7 @@ dj-database-url==0.2.1
 django-appconf==0.6
 django-debug-toolbar==1.0.1
 django-pylibmc-sasl==0.2.4
-django-recaptcha==0.0.6
+django-recaptcha==1.0.3
 django-storages==1.1.8
 -e hg+https://bitbucket.org/tabo/django-treebeard@2639e577fffa70f39e29674686c65afdb07048e5#egg=django_treebeard-dev
 gunicorn==0.17.2
