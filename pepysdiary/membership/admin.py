@@ -78,8 +78,8 @@ class PersonAdmin(UserAdmin):
     # The fields to be used in displaying the User model.
     # These override the definitions on the base UserAdmin
     # that reference specific fields on auth.User.
-    list_display = ('name', 'email', 'url', 'is_active', 'date_created',
-                                                                'last_login')
+    list_display = ('name', 'email', 'url', 'is_trusted_commenter', 
+                                'is_active', 'date_created', 'last_login')
     list_filter = ('is_staff', 'is_superuser', 'is_active', 'groups')
     readonly_fields = ('date_created', 'date_modified', 'last_login', )
     fieldsets = (
@@ -91,8 +91,8 @@ class PersonAdmin(UserAdmin):
                                         'first_comment_date', 'last_login', )
         }),
         ('Permissions', {
-            'fields': ('is_active', 'is_staff', 'is_superuser',
-                                               'groups', 'user_permissions')
+            'fields': ('is_active', 'is_trusted_commenter', 'is_staff',
+                                'is_superuser', 'groups', 'user_permissions')
         }),
     )
     add_fieldsets = (

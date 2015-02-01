@@ -208,6 +208,9 @@ class Person(AbstractBaseUser, PermissionsMixin):
     is_active = models.BooleanField(verbose_name='Is active?', default=False,
         help_text='Designates whether this user should be treated as '
                         'active. Unselect this instead of deleting accounts.')
+    is_trusted_commenter = models.BooleanField(
+            verbose_name='Is trusted commenter?', default=False,
+            help_text="Allows them to post comments without spam-filtering")
     activation_key = models.CharField(max_length=40,
             help_text="Will be 'ALREADY_ACTIVATED' when 'Is active?' is true.")
     first_comment_date = models.DateTimeField(blank=True, null=True,
