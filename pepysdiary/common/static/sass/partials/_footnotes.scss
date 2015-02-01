@@ -3,7 +3,8 @@
 	font-size: $font-size-base;
 	padding-top: ceil($line-height-computed / 2);
 
-	& > p {
+	& > p,
+    & > blockquote > p {
 		padding-left: ($grid-gutter-width);
 		padding-right: ($grid-gutter-width);
 	}
