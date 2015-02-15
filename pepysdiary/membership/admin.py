@@ -56,6 +56,7 @@ class PersonChangeForm(forms.ModelForm):
 
     class Meta:
         model = Person
+        exclude = []
 
     def __init__(self, *args, **kwargs):
         super(PersonChangeForm, self).__init__(*args, **kwargs)
