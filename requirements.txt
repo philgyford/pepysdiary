@@ -1,12 +1,11 @@
 BeautifulSoup==3.2.1
-Django==1.6.10
+Django==1.7.4
 Markdown==2.2.1
 Pillow==2.6.1
-South==0.7.6
 boto==2.6.0
 dj-database-url==0.2.1
 django-appconf==0.6
-django-debug-toolbar==1.0.1
+django-debug-toolbar==1.2.2
 django-pylibmc-sasl==0.2.4
 django-recaptcha==1.0.3
 django-storages==1.1.8
@@ -18,6 +17,6 @@ pylibmc==1.2.3
 pytz==2012h
 six==1.2.0
 smartypants==1.6.0.3
-sqlparse==0.1.10
+sqlparse==0.1.14
 unittest2==0.5.1
 wsgiref==0.1.2

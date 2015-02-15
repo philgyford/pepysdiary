@@ -1,52 +1,36 @@
 # -*- coding: utf-8 -*-
-import datetime
-from south.db import db
-from south.v2 import SchemaMigration
-from django.db import models
+from __future__ import unicode_literals
+
+from django.db import models, migrations
 
 
-class Migration(SchemaMigration):
+class Migration(migrations.Migration):
 
-    def forwards(self, orm):
-        # Adding model 'Post'
-        db.create_table('news_post', (
-            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('date_created', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, blank=True)),
-            ('date_modified', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, blank=True)),
-            ('title', self.gf('django.db.models.fields.CharField')(max_length=255)),
-            ('intro', self.gf('django.db.models.fields.TextField')()),
-            ('intro_html', self.gf('django.db.models.fields.TextField')(blank=True)),
-            ('text', self.gf('django.db.models.fields.TextField')(blank=True)),
-            ('text_html', self.gf('django.db.models.fields.TextField')(blank=True)),
-            ('date_published', self.gf('django.db.models.fields.DateTimeField')(null=True, blank=True)),
-            ('comment_count', self.gf('django.db.models.fields.IntegerField')(default=0)),
-            ('status', self.gf('django.db.models.fields.IntegerField')(default=10)),
-            ('category', self.gf('django.db.models.fields.IntegerField')()),
-        ))
-        db.send_create_signal('news', ['Post'])
+    dependencies = [
+    ]
 
-
-    def backwards(self, orm):
-        # Deleting model 'Post'
-        db.delete_table('news_post')
-
-
-    models = {
-        'news.post': {
-            'Meta': {'ordering': "['-date_published']", 'object_name': 'Post'},
-            'category': ('django.db.models.fields.IntegerField', [], {}),
-            'comment_count': ('django.db.models.fields.IntegerField', [], {'default': '0'}),
-            'date_created': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
-            'date_modified': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'}),
-            'date_published': ('django.db.models.fields.DateTimeField', [], {'null': 'True', 'blank': 'True'}),
-            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'intro': ('django.db.models.fields.TextField', [], {}),
-            'intro_html': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
-            'status': ('django.db.models.fields.IntegerField', [], {'default': '10'}),
-            'text': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
-            'text_html': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
-            'title': ('django.db.models.fields.CharField', [], {'max_length': '255'})
-        }
-    }
-
-    complete_apps = ['news']
+    operations = [
+        migrations.CreateModel(
+            name='Post',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('date_created', models.DateTimeField(auto_now_add=True)),
+                ('date_modified', models.DateTimeField(auto_now=True)),
+                ('title', models.CharField(max_length=255)),
+                ('intro', models.TextField(help_text=b'Can use Markdown.')),
+                ('intro_html', models.TextField(help_text=b'The intro field, with Markdown etc, turned into HTML.', blank=True)),
+                ('text', models.TextField(help_text=b'Can use Markdown. Images go in `pepysdiary/news/static/img/news/`. Files go in `pepysdiary/news/static/files/news/`', blank=True)),
+                ('text_html', models.TextField(help_text=b'The text field, with Markdown etc, turned into HTML.', blank=True)),
+                ('date_published', models.DateTimeField(null=True, blank=True)),
+                ('comment_count', models.IntegerField(default=0)),
+                ('last_comment_time', models.DateTimeField(null=True, blank=True)),
+                ('allow_comments', models.BooleanField(default=True)),
+                ('status', models.IntegerField(default=10, choices=[(10, b'Draft'), (20, b'Published')])),
+                ('category', models.CharField(db_index=True, max_length=25, choices=[(b'events', b'Events'), (b'housekeeping', b'Housekeeping'), (b'new-features', b'New features'), (b'pepys-in-the-media', b'Pepys in the media'), (b'press', b'Press for this site'), (b'statistics', b'Site statistics')])),
+            ],
+            options={
+                'ordering': ['-date_published'],
+            },
+            bases=(models.Model,),
+        ),
+    ]

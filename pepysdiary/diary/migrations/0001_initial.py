@@ -1,44 +1,51 @@
 # -*- coding: utf-8 -*-
-import datetime
-from south.db import db
-from south.v2 import SchemaMigration
-from django.db import models
+from __future__ import unicode_literals
+
+from django.db import models, migrations
+import pepysdiary.common.models
 
 
-class Migration(SchemaMigration):
+class Migration(migrations.Migration):
 
-    def forwards(self, orm):
-        # Adding model 'Entry'
-        db.create_table('diary_entry', (
-            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('date_created', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, blank=True)),
-            ('date_modified', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, blank=True)),
-            ('title', self.gf('django.db.models.fields.CharField')(max_length=100)),
-            ('diary_date', self.gf('django.db.models.fields.DateField')()),
-            ('text', self.gf('django.db.models.fields.TextField')()),
-            ('footnotes', self.gf('django.db.models.fields.TextField')(default='')),
-            ('comment_count', self.gf('django.db.models.fields.IntegerField')(default=0)),
-        ))
-        db.send_create_signal('diary', ['Entry'])
+    dependencies = [
+    ]
 
-
-    def backwards(self, orm):
-        # Deleting model 'Entry'
-        db.delete_table('diary_entry')
-
-
-    models = {
-        'diary.entry': {
-            'Meta': {'ordering': "['diary_date']", 'object_name': 'Entry'},
-            'comment_count': ('django.db.models.fields.IntegerField', [], {'default': '0'}),
-            'date_created': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
-            'date_modified': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'}),
-            'diary_date': ('django.db.models.fields.DateField', [], {}),
-            'footnotes': ('django.db.models.fields.TextField', [], {'default': "''"}),
-            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'text': ('django.db.models.fields.TextField', [], {}),
-            'title': ('django.db.models.fields.CharField', [], {'max_length': '100'})
-        }
-    }
-
-    complete_apps = ['diary']
+    operations = [
+        migrations.CreateModel(
+            name='Entry',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('date_created', models.DateTimeField(auto_now_add=True)),
+                ('date_modified', models.DateTimeField(auto_now=True)),
+                ('title', models.CharField(max_length=100)),
+                ('diary_date', models.DateField(unique=True)),
+                ('text', models.TextField(help_text=b'HTML only, no Markdown.')),
+                ('footnotes', models.TextField(help_text=b'HTML only, no Markdown.', blank=True)),
+                ('comment_count', models.IntegerField(default=0)),
+                ('last_comment_time', models.DateTimeField(null=True, blank=True)),
+                ('allow_comments', models.BooleanField(default=True)),
+            ],
+            options={
+                'ordering': ['diary_date'],
+                'verbose_name_plural': 'Entries',
+            },
+            bases=(models.Model, pepysdiary.common.models.OldDateMixin),
+        ),
+        migrations.CreateModel(
+            name='Summary',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('date_created', models.DateTimeField(auto_now_add=True)),
+                ('date_modified', models.DateTimeField(auto_now=True)),
+                ('title', models.CharField(max_length=100)),
+                ('text', models.TextField(help_text=b'Can use Markdown.')),
+                ('text_html', models.TextField(help_text=b'The text field, with Markdown etc, turned into HTML.')),
+                ('summary_date', models.DateField(help_text=b'Only the month and year are relevant.')),
+            ],
+            options={
+                'ordering': ['summary_date'],
+                'verbose_name_plural': 'Summaries',
+            },
+            bases=(models.Model, pepysdiary.common.models.OldDateMixin),
+        ),
+    ]

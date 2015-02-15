@@ -137,7 +137,6 @@ INSTALLED_APPS = (
     'django.contrib.flatpages',
     'storages',
     'treebeard',
-    'south',
     'gunicorn',
     'captcha',
     'pepysdiary.common',
@@ -159,6 +158,8 @@ LOGIN_URL = 'login'
 LOGOUT_URL = 'logout'
 
 COMMENTS_APP = 'pepysdiary.annotations'
+
+TEST_RUNNER = 'django.test.runner.DiscoverRunner'
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to

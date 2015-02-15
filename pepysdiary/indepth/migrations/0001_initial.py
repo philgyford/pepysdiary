@@ -1,48 +1,37 @@
 # -*- coding: utf-8 -*-
-import datetime
-from south.db import db
-from south.v2 import SchemaMigration
-from django.db import models
+from __future__ import unicode_literals
+
+from django.db import models, migrations
 
 
-class Migration(SchemaMigration):
+class Migration(migrations.Migration):
 
-    def forwards(self, orm):
-        # Adding model 'Article'
-        db.create_table('indepth_article', (
-            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('date_created', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, blank=True)),
-            ('date_modified', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, blank=True)),
-            ('title', self.gf('django.db.models.fields.CharField')(max_length=255)),
-            ('intro', self.gf('django.db.models.fields.TextField')()),
-            ('text', self.gf('django.db.models.fields.TextField')(blank=True)),
-            ('excerpt', self.gf('django.db.models.fields.TextField')(blank=True)),
-            ('date_published', self.gf('django.db.models.fields.DateTimeField')(null=True, blank=True)),
-            ('comment_count', self.gf('django.db.models.fields.IntegerField')(default=0)),
-            ('status', self.gf('django.db.models.fields.IntegerField')(default=10)),
-        ))
-        db.send_create_signal('indepth', ['Article'])
+    dependencies = [
+    ]
 
-
-    def backwards(self, orm):
-        # Deleting model 'Article'
-        db.delete_table('indepth_article')
-
-
-    models = {
-        'indepth.article': {
-            'Meta': {'ordering': "['date_published']", 'object_name': 'Article'},
-            'comment_count': ('django.db.models.fields.IntegerField', [], {'default': '0'}),
-            'date_created': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
-            'date_modified': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'}),
-            'date_published': ('django.db.models.fields.DateTimeField', [], {'null': 'True', 'blank': 'True'}),
-            'excerpt': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
-            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'intro': ('django.db.models.fields.TextField', [], {}),
-            'status': ('django.db.models.fields.IntegerField', [], {'default': '10'}),
-            'text': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
-            'title': ('django.db.models.fields.CharField', [], {'max_length': '255'})
-        }
-    }
-
-    complete_apps = ['indepth']
+    operations = [
+        migrations.CreateModel(
+            name='Article',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('date_created', models.DateTimeField(auto_now_add=True)),
+                ('date_modified', models.DateTimeField(auto_now=True)),
+                ('title', models.CharField(max_length=255)),
+                ('intro', models.TextField(help_text=b'Can use Markdown.')),
+                ('intro_html', models.TextField(help_text=b'The intro field, with Markdown etc, turned into HTML.', blank=True)),
+                ('text', models.TextField(help_text=b'Can use Markdown. Any images should be put in `pepysdiary/indepth/static/img/indepth/`.', blank=True)),
+                ('text_html', models.TextField(help_text=b'The text field, with Markdown etc, turned into HTML.', blank=True)),
+                ('excerpt', models.TextField(blank=True)),
+                ('date_published', models.DateTimeField(null=True, blank=True)),
+                ('slug', models.SlugField(unique_for_date=b'date_published')),
+                ('comment_count', models.IntegerField(default=0)),
+                ('last_comment_time', models.DateTimeField(null=True, blank=True)),
+                ('allow_comments', models.BooleanField(default=True)),
+                ('status', models.IntegerField(default=10, choices=[(10, b'Draft'), (20, b'Published')])),
+            ],
+            options={
+                'ordering': ['-date_published'],
+            },
+            bases=(models.Model,),
+        ),
+    ]

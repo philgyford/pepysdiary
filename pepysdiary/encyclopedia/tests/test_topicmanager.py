@@ -1,5 +1,5 @@
 # coding: utf-8
-from pepysdiary.common.tests.base import PepysdiaryTestCase
+from pepysdiary.common.tests.test_base import PepysdiaryTestCase
 from pepysdiary.encyclopedia.models import Topic
 
 
