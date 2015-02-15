@@ -1,1 +1,1 @@
-web: gunicorn pepysdiary.wsgi --settings pepysdiary.settings.heroku
+web: gunicorn pepysdiary.wsgi
