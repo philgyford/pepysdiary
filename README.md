@@ -5,7 +5,7 @@ This code is used for [www.pepysdiary.com](http://www.pepysdiary.com/). This rep
 
 I don't expect anyone else will want to run this, so there's no in-depth installation guide.
 
-Requires Django 1.6.4.
+Requires Django 1.7.10.
 
 If you want to run it locally, then copy `pepysdiary/settings/development_template.py` to `pepysdiary/settings/development.py` and set things accordingly. Then do:
 
@@ -13,7 +13,11 @@ If you want to run it locally, then copy `pepysdiary/settings/development_templa
 
 To run on Heroku you'll need to set all the environment variables required in `pepysdiary/settings/heroku.py`.
 
-But first run this to transfer all static elements to S3:
+And also specify that settings file itself by setting the `DJANGO_SETTINGS_MODULE` environment variable. ie:
+
+	$ heroku config:set DJANGO_SETTINGS_MODULE=pepysdiary.settings.heroku
+
+But first run this to transfer all static elements to S3. (Note, this seems to happen automatically when pushing to Heroku these days.):
 
 	$ heroku run ./manage.py collectstatic --app=pepysdiary --settings=pepysdiary.settings.heroku
 
