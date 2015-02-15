@@ -1,48 +1,34 @@
 # -*- coding: utf-8 -*-
-import datetime
-from south.db import db
-from south.v2 import SchemaMigration
-from django.db import models
+from __future__ import unicode_literals
+
+from django.db import models, migrations
 
 
-class Migration(SchemaMigration):
+class Migration(migrations.Migration):
 
-    def forwards(self, orm):
-        # Adding model 'Config'
-        db.create_table('common_config', (
-            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('date_created', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, blank=True)),
-            ('date_modified', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, blank=True)),
-            ('site', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['sites.Site'], unique=True)),
-            ('allow_registration', self.gf('django.db.models.fields.BooleanField')(default=True)),
-            ('allow_login', self.gf('django.db.models.fields.BooleanField')(default=True)),
-            ('allow_comments', self.gf('django.db.models.fields.BooleanField')(default=True)),
-        ))
-        db.send_create_signal('common', ['Config'])
+    dependencies = [
+        ('sites', '0001_initial'),
+    ]
 
-
-    def backwards(self, orm):
-        # Deleting model 'Config'
-        db.delete_table('common_config')
-
-
-    models = {
-        'common.config': {
-            'Meta': {'object_name': 'Config'},
-            'allow_comments': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
-            'allow_login': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
-            'allow_registration': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
-            'date_created': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
-            'date_modified': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'}),
-            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'site': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['sites.Site']", 'unique': 'True'})
-        },
-        'sites.site': {
-            'Meta': {'ordering': "('domain',)", 'object_name': 'Site', 'db_table': "'django_site'"},
-            'domain': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
-            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'name': ('django.db.models.fields.CharField', [], {'max_length': '50'})
-        }
-    }
-
-    complete_apps = ['common']
+    operations = [
+        migrations.CreateModel(
+            name='Config',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('date_created', models.DateTimeField(auto_now_add=True)),
+                ('date_modified', models.DateTimeField(auto_now=True)),
+                ('allow_registration', models.BooleanField(default=True)),
+                ('allow_login', models.BooleanField(default=True)),
+                ('allow_comments', models.BooleanField(default=True)),
+                ('use_registration_captcha', models.BooleanField(default=False, help_text=b'If checked, people must complete a Captcha field when registering.')),
+                ('use_registration_question', models.BooleanField(default=False, help_text=b'If checked, people must successfully answer the question below when registering.')),
+                ('registration_question', models.CharField(default=b'', max_length=255, blank=True)),
+                ('registration_answer', models.CharField(default=b'', help_text=b'Not case-sensitive.', max_length=255, blank=True)),
+                ('site', models.OneToOneField(to='sites.Site')),
+            ],
+            options={
+                'abstract': False,
+            },
+            bases=(models.Model,),
+        ),
+    ]

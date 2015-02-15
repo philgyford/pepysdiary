@@ -92,7 +92,6 @@ CACHE_MIDDLEWARE_ALIAS = 'default'
 # Also see the CACHES setting in the server-specific settings files.
 CACHE_MIDDLEWARE_SECONDS = 500
 CACHE_MIDDLEWARE_KEY_PREFIX = 'pepys'
-CACHE_MIDDLEWARE_ANONYMOUS_ONLY = True
 
 ROOT_URLCONF = 'pepysdiary.common.urls'
 
@@ -138,7 +137,6 @@ INSTALLED_APPS = (
     'django.contrib.flatpages',
     'storages',
     'treebeard',
-    'south',
     'gunicorn',
     'captcha',
     'pepysdiary.common',
@@ -160,6 +158,8 @@ LOGIN_URL = 'login'
 LOGOUT_URL = 'logout'
 
 COMMENTS_APP = 'pepysdiary.annotations'
+
+TEST_RUNNER = 'django.test.runner.DiscoverRunner'
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to

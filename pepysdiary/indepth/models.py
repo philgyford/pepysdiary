@@ -12,8 +12,8 @@ class PublishedArticleManager(models.Manager):
     """
     All Articles that have been Published.
     """
-    def get_query_set(self):
-        return super(PublishedArticleManager, self).get_query_set().filter(
+    def get_queryset(self):
+        return super(PublishedArticleManager, self).get_queryset().filter(
                                                status=Article.STATUS_PUBLISHED)
 
 

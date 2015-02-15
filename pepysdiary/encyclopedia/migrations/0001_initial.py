@@ -1,62 +1,62 @@
 # -*- coding: utf-8 -*-
-import datetime
-from south.db import db
-from south.v2 import SchemaMigration
-from django.db import models
+from __future__ import unicode_literals
+
+from django.db import models, migrations
 
 
-class Migration(SchemaMigration):
+class Migration(migrations.Migration):
 
-    def forwards(self, orm):
-        # Adding model 'Topic'
-        db.create_table('encyclopedia_topic', (
-            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('date_created', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, blank=True)),
-            ('date_modified', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, blank=True)),
-            ('title', self.gf('django.db.models.fields.CharField')(max_length=255)),
-            ('order_title', self.gf('django.db.models.fields.CharField')(max_length=255, blank=True)),
-            ('summary', self.gf('django.db.models.fields.TextField')(blank=True)),
-            ('summary_html', self.gf('django.db.models.fields.TextField')(blank=True)),
-            ('wheatley', self.gf('django.db.models.fields.TextField')(blank=True)),
-            ('wheatley_html', self.gf('django.db.models.fields.TextField')(blank=True)),
-            ('tooltip_text', self.gf('django.db.models.fields.TextField')(blank=True)),
-            ('wikipedia_fragment', self.gf('django.db.models.fields.CharField')(max_length=255, blank=True)),
-            ('thumbnail', self.gf('django.db.models.fields.files.ImageField')(max_length=100, null=True, blank=True)),
-            ('map_category', self.gf('django.db.models.fields.CharField')(max_length=20, blank=True)),
-            ('latitude', self.gf('django.db.models.fields.DecimalField')(null=True, max_digits=11, decimal_places=6, blank=True)),
-            ('longitude', self.gf('django.db.models.fields.DecimalField')(null=True, max_digits=11, decimal_places=6, blank=True)),
-            ('zoom', self.gf('django.db.models.fields.SmallIntegerField')(null=True, blank=True)),
-            ('shape', self.gf('django.db.models.fields.TextField')(blank=True)),
-        ))
-        db.send_create_signal('encyclopedia', ['Topic'])
+    dependencies = [
+        ('diary', '0001_initial'),
+    ]
 
-
-    def backwards(self, orm):
-        # Deleting model 'Topic'
-        db.delete_table('encyclopedia_topic')
-
-
-    models = {
-        'encyclopedia.topic': {
-            'Meta': {'object_name': 'Topic'},
-            'date_created': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
-            'date_modified': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'}),
-            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'latitude': ('django.db.models.fields.DecimalField', [], {'null': 'True', 'max_digits': '11', 'decimal_places': '6', 'blank': 'True'}),
-            'longitude': ('django.db.models.fields.DecimalField', [], {'null': 'True', 'max_digits': '11', 'decimal_places': '6', 'blank': 'True'}),
-            'map_category': ('django.db.models.fields.CharField', [], {'max_length': '20', 'blank': 'True'}),
-            'order_title': ('django.db.models.fields.CharField', [], {'max_length': '255', 'blank': 'True'}),
-            'shape': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
-            'summary': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
-            'summary_html': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
-            'thumbnail': ('django.db.models.fields.files.ImageField', [], {'max_length': '100', 'null': 'True', 'blank': 'True'}),
-            'title': ('django.db.models.fields.CharField', [], {'max_length': '255'}),
-            'tooltip_text': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
-            'wheatley': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
-            'wheatley_html': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
-            'wikipedia_fragment': ('django.db.models.fields.CharField', [], {'max_length': '255', 'blank': 'True'}),
-            'zoom': ('django.db.models.fields.SmallIntegerField', [], {'null': 'True', 'blank': 'True'})
-        }
-    }
-
-    complete_apps = ['encyclopedia']
+    operations = [
+        migrations.CreateModel(
+            name='Category',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('path', models.CharField(unique=True, max_length=255)),
+                ('depth', models.PositiveIntegerField()),
+                ('numchild', models.PositiveIntegerField(default=0)),
+                ('title', models.CharField(max_length=255)),
+                ('slug', models.SlugField()),
+                ('topic_count', models.IntegerField(default=0)),
+            ],
+            options={
+                'verbose_name_plural': 'Categories',
+            },
+            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
+            name='Topic',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('date_created', models.DateTimeField(auto_now_add=True)),
+                ('date_modified', models.DateTimeField(auto_now=True)),
+                ('title', models.CharField(max_length=255)),
+                ('order_title', models.CharField(max_length=255, blank=True)),
+                ('summary', models.TextField(help_text=b'Can use Markdown.', blank=True)),
+                ('summary_html', models.TextField(help_text=b'The summary field, with Markdown etc, turned into HTML.', blank=True)),
+                ('wheatley', models.TextField(help_text=b'Can use Markdown. Taken from footnotes in the 1893 Wheatley edition of the diary.', blank=True)),
+                ('wheatley_html', models.TextField(help_text=b'The wheatley field, with Markdown etc, turned into HTML.', blank=True)),
+                ('tooltip_text', models.TextField(help_text=b'For hovering over links in diary entries.', blank=True)),
+                ('wikipedia_fragment', models.CharField(help_text=b"From the Wikipedia page URL, if any, eg, 'Samuel_Pepys'.", max_length=255, blank=True)),
+                ('thumbnail', models.ImageField(help_text=b'100 x 120 pixels', null=True, upload_to=b'encyclopedia/thumbnails', blank=True)),
+                ('on_pepys_family_tree', models.BooleanField(default=False, verbose_name=b'Is on the Pepys family tree?')),
+                ('comment_count', models.IntegerField(default=0)),
+                ('last_comment_time', models.DateTimeField(null=True, blank=True)),
+                ('allow_comments', models.BooleanField(default=True)),
+                ('map_category', models.CharField(blank=True, help_text=b'(UNUSED?) The type of object this is on maps', max_length=20, db_index=True, choices=[(b'area', b'Area'), (b'gate', b'Gate'), (b'home', b"Pepys' home(s)"), (b'misc', b'Misc'), (b'road', b'Road/Street'), (b'stair', b'Stair/Pier'), (b'town', b'Town/Village')])),
+                ('latitude', models.DecimalField(null=True, max_digits=11, decimal_places=6, blank=True)),
+                ('longitude', models.DecimalField(null=True, max_digits=11, decimal_places=6, blank=True)),
+                ('zoom', models.SmallIntegerField(null=True, blank=True)),
+                ('shape', models.TextField(help_text=b"Lat/long coordinate pairs, separated by semicolons, eg '51.513558,-0.104268;51.513552,-0.104518;...', from http://www.birdtheme.org/useful/v3largemap.html (formatted slightly differently).", blank=True)),
+                ('categories', models.ManyToManyField(related_name='topics', to='encyclopedia.Category')),
+                ('diary_references', models.ManyToManyField(related_name='topics', to='diary.Entry')),
+            ],
+            options={
+                'ordering': ['order_title'],
+            },
+            bases=(models.Model,),
+        ),
+    ]

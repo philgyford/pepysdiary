@@ -12,8 +12,8 @@ class PublishedPostManager(models.Manager):
     """
     All Posts that have been Published.
     """
-    def get_query_set(self):
-        return super(PublishedPostManager, self).get_query_set().filter(
+    def get_queryset(self):
+        return super(PublishedPostManager, self).get_queryset().filter(
                                                status=Post.STATUS_PUBLISHED)
 
     def is_valid_category_slug(self, slug):
