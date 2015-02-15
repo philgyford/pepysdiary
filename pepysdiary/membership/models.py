@@ -62,18 +62,18 @@ class PersonManager(BaseUserManager):
         user. To disable this, pass ``send_email=False``.
 
         """
-        person = Person.objects.create_user(
-                                        name, email, password, **extra_fields)
-        person.is_active = False
-        person.save()
+        with transaction.atomic():
+            person = Person.objects.create_user(
+                                            name, email, password, **extra_fields)
+            person.is_active = False
+            person.save()
 
-        person = self.set_activation_key(person)
+            person = self.set_activation_key(person)
 
-        if send_email:
-            person.send_activation_email(site)
+            if send_email:
+                person.send_activation_email(site)
 
-        return person
-    create_inactive_user = transaction.commit_on_success(create_inactive_user)
+            return person
 
     def set_activation_key(self, person):
         salt = hashlib.sha1(str(random.random())).hexdigest()[:5]
