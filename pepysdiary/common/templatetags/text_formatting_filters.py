@@ -7,6 +7,6 @@ register = template.Library()
 def smartypants(value):
     try:
         import smartypants
-        return smartypants.smartyPants(value)
+        return smartypants.smartypants(value)
     except ImportError:
         return value

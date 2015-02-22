@@ -82,8 +82,8 @@ class BaseRSSFeed(Feed):
         comment_name is one of 'comment' or 'annotation'.
         """
         return '%s %s <p><strong><a href="%s#%ss">Read the %ss</a></strong></p>' % (
-            force_unicode(smartypants.smartyPants(text1)),
-            force_unicode(smartypants.smartyPants(text2)),
+            force_unicode(smartypants.smartypants(text1)),
+            force_unicode(smartypants.smartypants(text2)),
             add_domain(Site.objects.get_current().domain, url),
             comment_name,
             comment_name
