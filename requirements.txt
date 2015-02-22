@@ -12,7 +12,6 @@ Pillow==2.7.0
 psycopg2==2.5.4
 pylibmc==1.2.3
 pytz==2014.10
-six==1.2.0
 smartypants==1.8.6
 sqlparse==0.1.14
 unittest2==0.5.1
