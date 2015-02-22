@@ -14,4 +14,3 @@ pylibmc==1.2.3
 pytz==2014.10
 smartypants==1.8.6
 sqlparse==0.1.14
-unittest2==0.5.1
