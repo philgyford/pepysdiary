@@ -1,8 +1,8 @@
-from django.contrib.comments.moderation import CommentModerator, moderator
 from django.core.urlresolvers import reverse
 from django.db import models
 from django.utils import timezone
 
+from django_comments.moderation import CommentModerator, moderator
 from markdown import markdown
 
 from pepysdiary.common.models import PepysModel
