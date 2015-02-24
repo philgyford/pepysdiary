@@ -5,7 +5,7 @@ This code is used for [www.pepysdiary.com](http://www.pepysdiary.com/). This rep
 
 I don't expect anyone else will want to run this, so there's no in-depth installation guide.
 
-Requires Django 1.7.10.
+Requires Django 1.7.4.
 
 If you want to run it locally, then copy `pepysdiary/settings/development_template.py` to `pepysdiary/settings/development.py` and set things accordingly. Then do:
 
