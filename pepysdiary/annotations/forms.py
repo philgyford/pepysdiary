@@ -1,6 +1,6 @@
 import re
 
-from django.contrib.comments.forms import CommentForm
+from django_comments.forms import CommentForm
 from pepysdiary.annotations.models import Annotation
 
 

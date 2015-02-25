@@ -1,12 +1,13 @@
-from django.contrib.comments.managers import CommentManager
-from django.contrib.comments.models import Comment
-from django.contrib.comments.signals import comment_was_posted
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.sites.models import Site
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Max, signals
 from django.dispatch import receiver
 from django.utils.html import strip_tags
+
+from django_comments.managers import CommentManager
+from django_comments.models import Comment
+from django_comments.signals import comment_was_posted
 
 from pepysdiary.annotations.utils import test_comment_for_spam
 

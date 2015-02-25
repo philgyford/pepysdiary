@@ -1,10 +1,10 @@
 # coding: utf-8
 import re
 
-from django.contrib.comments.moderation import CommentModerator, moderator
 from django.core.urlresolvers import reverse
 from django.db import models
 
+from django_comments.moderation import CommentModerator, moderator
 from pepysdiary.common.models import OldDateMixin, PepysModel,\
                                                         ReferredManagerMixin
 from pepysdiary.common.utilities import *

@@ -147,7 +147,7 @@ INSTALLED_APPS = (
     'pepysdiary.news',
     'pepysdiary.membership',
     'pepysdiary.events',
-    'django.contrib.comments',
+    'django_comments',
     'pepysdiary.annotations',
 )
 

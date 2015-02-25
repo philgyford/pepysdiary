@@ -4,11 +4,11 @@ from urllib2 import Request, urlopen
 import django
 from django.conf import settings
 from django.contrib import messages
-from django.contrib.comments import signals
-from django.contrib.comments.models import CommentFlag
 
 from django.utils.encoding import smart_str
 
+from django_comments import signals
+from django_comments.models import CommentFlag
 from pepysdiary.membership.models import Person
 
 
