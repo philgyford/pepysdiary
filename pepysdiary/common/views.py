@@ -35,6 +35,8 @@ class HomeView(TemplateView):
         context['post_list'] = Post.published_posts.all()[:2]
         return context
 
+class SearchView(TemplateView):
+    template_name = 'search.html'
 
 class RecentView(TemplateView):
     """Recent Activity page."""

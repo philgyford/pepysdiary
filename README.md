@@ -50,12 +50,6 @@ To update all the gems to the latest versions:
 
 	$ bundle update
 
-You'll probably use Gulp to do SASS conversion, but should you just want to run SASS on its own, you can do it with:
-
-	$ bundle exec sass --watch pepysdiary/common/static/sass:pepysdiary/common/static/css
-
-to continually watch the SASS files for any changes, and compile a new `pepysdiary/common/static/css/pepysdiary.css` file.
-
 
 ### Gulp
 
