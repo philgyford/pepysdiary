@@ -75,6 +75,10 @@ input.gsc-search-button:focus {
 .gs-result img.gs-promotion-image {
 	margin-left: 8px !important;
 }
+/* Holder for the search result thumbnail */
+gsc-table-cell-thumbnail {
+	padding-top: 2px;
+}
 
 /**
  * Pagination
