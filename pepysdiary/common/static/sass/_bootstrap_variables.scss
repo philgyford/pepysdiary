@@ -52,6 +52,12 @@ $icon-font-path: "../fonts/";
 
 //== Components
 
+$padding-small-vertical:    5px;
+$padding-small-horizontal:  8px;
+
+$line-height-large:         1.3333333; // extra decimals for Win 8.1 Chrome
+$line-height-small:         1.5;
+
 $border-radius-base:        0px;
 $border-radius-large:       0px;
 $border-radius-small:       0px;
@@ -59,6 +65,10 @@ $border-radius-small:       0px;
 //== Tables
 //== Buttons
 //== Forms
+
+// For search input.
+$input-height-small: (floor($font-size-small * $line-height-small) + $padding-small-vertical);
+
 //== Dropdowns
 //-- Z-index master list
 //== Media queries breakpoints

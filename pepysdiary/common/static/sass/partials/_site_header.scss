@@ -26,7 +26,7 @@
 .site-header .container {
 	@media (min-width: $grid-float-breakpoint) {
 		@include image-retina('#{$img-path}/site-header-pepys', 'png', 118px, 145px);
-		background-position: 0 0;
+		background-position: ($grid-gutter-width / 2) 0;
 		background-repeat: no-repeat;
 		min-height: 144px;
 	}
@@ -47,7 +47,7 @@
 	@media (min-width: $grid-float-breakpoint) {
 		font-size: $font-size-base * 2.75; // 44px if base is 16px.
 		margin-top: 0.65em;
-		margin-left: 121px;
+		margin-left: 136px;
 	}
 }
 
@@ -59,7 +59,7 @@
 
 	@media (min-width: $grid-float-breakpoint) {
 		font-size: $font-size-large;
-		margin-left: 127px;
+		margin-left: 142px;
 	}
 }
 

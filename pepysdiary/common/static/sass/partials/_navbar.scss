@@ -5,16 +5,8 @@
 	border: none;
 	font-size: $font-size-small;
 }
-/* Maybe need to add this back when collapsed, to look better? */
-.navbar-collapse {
-	padding-left: 0;
-	padding-right: 0;
-}
 
 .navbar-nav {
-	margin-left: 0;
-	margin-right: 0;
-
 	> li > a {
 		&:hover,
 		&:focus {
@@ -30,16 +22,10 @@
 	width: 100%;
 	min-height: $supernav-height;
 
-	@media (max-width: $grid-float-breakpoint-max) {
-		.container {
-			padding-left: 0;
-			padding-right: 0;
-		}
-	}
-
 	.navbar-nav {
 		margin-top: 0;
 		margin-bottom: 0;
+        float: left;
 
 		> li {
 			/* Stop it collapsing at narrow widths. */
@@ -67,19 +53,33 @@
 	.navbar-text {
 		@include supernav-vertical-align($supernav-line-height-computed);
 		line-height: $supernav-line-height-computed;
+        padding-left: 0;
 	}
 
-	.navbar-logged-in span {
+	.navbar-logged-in {
 		display: none;
 		@media (min-width: $grid-float-breakpoint-max) {
-			display: inline;
+			display: block;
 		}
 	}
 
-	/* Keep it floating right at narrow widths. */
-	.navbar-right {
-		float: right;
-	}
+    .navbar-form {
+        float: right;
+        padding-top: 0;
+        padding-bottom: 0;
+        border: none;
+
+        .form-group {
+            display: inline-block;
+            vertical-align: middle;
+            margin-bottom: 0;
+        }
+        .form-control {
+            display: inline-block;
+            width: 150px;
+        }
+    
+    }
 }
 
 .navbar-mainnav .navbar-collapse .navbar-nav {
@@ -103,8 +103,8 @@
 
 	@media (max-width: $grid-float-breakpoint-max) {
 		.container {
-			padding-left: 0;
-			padding-right: 0;
+			padding-left: ($grid-gutter-width / 2);
+			padding-right: ($grid-gutter-width / 2);
 		}
 	}
 
@@ -112,6 +112,7 @@
 		/* Fix height at small widths. */
 		margin-top: 0;
 		margin-bottom: 0;
+        padding-left: 7px;
 
 		> li {
 			/* Stop it collapsing at small widths. */
