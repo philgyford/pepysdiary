@@ -19,8 +19,8 @@ $site-subnav-color:       #b7b7b2; // dividers.
 
 // User nav, top of page.
 // Thinner vertically, so some replacement styles:
-$supernav-height: 28px;
-$supernav-line-height-computed: 28px;
+$supernav-height: 32px;
+$supernav-line-height-computed: 32px;
 $supernav-padding-vertical: (($supernav-height - $supernav-line-height-computed) / 2);
 
 $site-highlight-color: #589359; // eg 'on' border of subnav.

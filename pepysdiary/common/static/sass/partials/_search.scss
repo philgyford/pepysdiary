@@ -24,11 +24,31 @@
 .gscb_a {
 	vertical-align: middle;
 }
-.gsc-search-button {
-	height: 36px !important;
+td.gsc-search-button {
+	padding-top: 2px !important;
+}
+input.gsc-search-button {
 	-webkit-border-radius: 0px !important;
 	-moz-border-radius: 0px !important;
 	border-radius: 0px !important;
+	padding-top: 10px !important;
+	padding-bottom: 12px !important;
+
+	/* Fix icon not appearing. */
+	background-image: inherit;
+    box-sizing: content-box;
+    -moz-box-sizing: content-box;
+
+	&:hover {
+		background-color: #417342 !important;
+		border-color: #345c35 !important;
+	}
+}
+.cse input.gsc-search-button:focus,
+input.gsc-search-button:focus {
+	-webkit-box-shadow: none !important;
+	-moz-box-shadow: none !important;
+	box-shadow: none !important;
 }
 
 /* Title of search result. */

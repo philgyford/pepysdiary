@@ -9,26 +9,43 @@
 	{% block extra_css %}
 	{% endblock extra_css %}
     {# Mapbox CSS needs to go in before our own CSS. #}
-	<link href="{{ STATIC_PREFIX }}css/site-ac29a2b9.css" rel="stylesheet">
+	<link href="{{ STATIC_PREFIX }}css/site-38ed13bc.css" rel="stylesheet">
 
     <!--[if lt IE 9]>
       <script src="{{ STATIC_PREFIX }}js/dist/lt-ie-9.min.js"></script>
     <![endif]-->
 
-    <link rel="icon" href="{{ STATIC_PREFIX }}img/favicon.ico" type="image/x-icon"> 
+    <link rel="apple-touch-icon" sizes="57x57" href="{{ STATIC_PREFIX }}img/favicons/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="{{ STATIC_PREFIX }}img/favicons/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="{{ STATIC_PREFIX }}img/favicons/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="{{ STATIC_PREFIX }}img/favicons/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="{{ STATIC_PREFIX }}img/favicons/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="{{ STATIC_PREFIX }}img/favicons/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="{{ STATIC_PREFIX }}img/favicons/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="{{ STATIC_PREFIX }}img/favicons/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ STATIC_PREFIX }}img/favicons/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="{{ STATIC_PREFIX }}img/favicons/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="{{ STATIC_PREFIX }}img/favicons/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="{{ STATIC_PREFIX }}img/favicons/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="{{ STATIC_PREFIX }}img/favicons/favicon-16x16.png" sizes="16x16">
+    <link rel="manifest" href="{{ STATIC_PREFIX }}img/favicons/manifest.json">
+    <link rel="shortcut icon" href="{{ STATIC_PREFIX }}img/favicons/favicon.ico">
+    <meta name="msapplication-TileColor" content="#00a300">
+    <meta name="msapplication-TileImage" content="{{ STATIC_PREFIX }}img/favicons/mstile-144x144.png">
+    <meta name="msapplication-config" content="{{ STATIC_PREFIX }}img/favicons/browserconfig.xml">
 
     <link rel="alternate" type="application/rss+xml" title="Diary entries" href="http://feeds.feedburner.com/PepysDiary">
     <link rel="alternate" type="application/rss+xml" title="Encyclopedia topics" href="http://feeds.feedburner.com/PepysDiary-Encyclopedia">
     <link rel="alternate" type="application/rss+xml" title="In-Depth articles" href="http://feeds.feedburner.com/PepysDiary-InDepthArticles">
     <link rel="alternate" type="application/rss+xml" title="Site News posts" href="http://feeds.feedburner.com/PepysDiary-SiteNews">
+    {% block link_tags %}{% endblock %}
 
     <meta property="og:site_name" content="The Diary of Samuel Pepys">
     <meta property="og:locale" content="en_GB">
     <meta property="article:author" content="https://www.facebook.com/pepysdiary">
     <meta property="og:image" content="{{ STATIC_PREFIX }}img/facebook.jpg">
-    {% if url_name == 'entry_detail' %}
-        <meta property="og:title" content="{{ entry.title }}">
-    {% endif %}
+    {% block meta_tags %}{% endblock %}
+    {% block pagemap %}{% endblock %}
 </head>
 <body>
 	<a class="sr-only" href="#content">Skip to main content</a>
@@ -154,9 +171,9 @@
 
 	<nav class="navbar navbar-inverse navbar-supernav" role="navigation">
 		<div class="container">
-			<ul class="nav navbar-nav navbar-right">
+			<ul class="nav navbar-nav navbar-left">
 				{% if user.is_authenticated %}
-					<li class="navbar-text navbar-logged-in">Logged in<span> as {{ user.get_full_name }}</span></li>
+					<li class="navbar-text navbar-logged-in">Logged in as {{ user.get_full_name }}</li>
 					<li><a href="{% url 'private_profile' %}">Profile</a></li>
 					<li><a href="{% url 'logout' %}">Log out</a></li>
 				{% else %}
@@ -164,7 +181,16 @@
 					<li><a href="{% url 'register' %}">Register</a></li>
 				{% endif %}
 			</ul>
-		</div>
+            {% if url_name != 'search' %}
+                <form class="navbar-form navbar-right" role="search" method="get" action="{% url 'search' %}">
+                    <div class="form-group">
+                        <label for="search-input" class="sr-only">Search</label>
+                        <input type="search" name="q" id="search-input" class="form-control input-sm" placeholder="Search">
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-sm">Go</button>
+                </form>
+            {% endif %}
+        </div>
 	</nav> <!-- .navbar-supernav -->
 
 	<div class="container" id="content">
