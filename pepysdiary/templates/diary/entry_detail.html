@@ -5,6 +5,15 @@
 
 {% block title %}{{ entry.title }}{% endblock %}
 
+{% block link_tags %}
+    {% if next_entry %}
+        <link rel="next" href="{{ next_entry.get_absolute_url }}">
+    {% endif %}
+    {% if previous_entry %}
+        <link rel="prev" href="{{ previous_entry.get_absolute_url }}">
+    {% endif %}
+{% endblock %}
+
 {% block page_header %}{% endblock %}
 
 {% block main_content %}
