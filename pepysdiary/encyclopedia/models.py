@@ -174,6 +174,13 @@ class TopicManager(models.Manager):
 
         return order_title
 
+    def fetch_wikipedia_texts(self, *args):
+        #topics = Topic.objects.filter(pk__in=args)
+        #topics = Topic.objects.exclude(wikipedia_fragment__exact='') 
+        print args
+        return True
+
+
 
 class Topic(PepysModel):
 
