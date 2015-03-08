@@ -2,18 +2,15 @@ from mock import patch
 
 from django.core.management import call_command
 from django.core.management.base import CommandError
-from django.test import TestCase
 from django.utils.six import StringIO
 
+from pepysdiary.common.tests.test_base import PepysdiaryTestCase
 
-class ArgumentsTest(TestCase):
+class FetchWikipediaTestCase(PepysdiaryTestCase):
     """
     Tests for the management command that calls the
     TopicManager.fetch_wikipedia_texts() method. That method isn't tested here.
     """
-
-    # ./manage.py dumpdata encyclopedia.Topic --pks=344,112,6079 --indent 4 > pepysdiary/encyclopedia/fixtures/wikipedia_test.json
-    fixtures = ['wikipedia_test.json']
 
     def test_no_args(self):
         with self.assertRaises(CommandError):
