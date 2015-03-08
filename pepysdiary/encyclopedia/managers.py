@@ -35,11 +35,13 @@ class TopicManager(models.Manager):
             topics = self.model.objects.filter(pk__in=topic_ids).exclude(
                                                 wikipedia_fragment__exact='') 
 
+        fetcher = WikipediaFetcher()
+
         if topics is not None:
             for topic in topics:
-                result = WikipediaFetcher.fetch(topic.wikipedia_fragment)
-                if result != False:
-                    topic.wikipedia_html = result
+                result = fetcher.fetch(topic.wikipedia_fragment)
+                if result['success'] == True:
+                    topic.wikipedia_html = result['content']
                     topic.wikipedia_last_fetch = timezone.now()
                     topic.save()
                     updated_count += 1

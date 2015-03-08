@@ -6,7 +6,8 @@ from django.utils.six import StringIO
 
 from pepysdiary.common.tests.test_base import PepysdiaryTestCase
 
-class FetchWikipediaTestCase(PepysdiaryTestCase):
+
+class FetchWikipediaTest(PepysdiaryTestCase):
     """
     Tests for the management command that calls the
     TopicManager.fetch_wikipedia_texts() method. That method isn't tested here.

@@ -5,7 +5,7 @@ from pepysdiary.common.tests.test_base import PepysdiaryTestCase
 from pepysdiary.encyclopedia.models import Topic
 
 
-class FetchWikipediaTextsTestCase(PepysdiaryTestCase):
+class FetchWikipediaTextsTest(PepysdiaryTestCase):
     # ./manage.py dumpdata encyclopedia.Topic --pks=344,112,6079 --indent 4 > pepysdiary/encyclopedia/fixtures/wikipedia_test.json
     fixtures = ['wikipedia_test.json']
 
@@ -15,10 +15,16 @@ class FetchWikipediaTextsTestCase(PepysdiaryTestCase):
         'Charles_II_of_England'
     ]
 
+    responses = [
+        {'success': True, 'content': '112 html'},
+        {'success': True, 'content': '344 html'}
+    ]
+
     @patch('pepysdiary.encyclopedia.wikipedia_fetcher.WikipediaFetcher.fetch')
     def test_it_calls_fetcher_with_ids(self, fetch_method):
+        # What the mocked method will return on successive calls:
+        fetch_method.side_effect = self.responses
         # 2 names with Wikipedia pages, 1 without, 1 invalid ID:
-        fetch_method.side_effect = ['112 html', '344 html']
         num_updated = Topic.objects.fetch_wikipedia_texts(
                                         topic_ids=[112, 344, 6079, 9999999])
         calls = [call(self.page_names[0]), call(self.page_names[1])]
@@ -27,7 +33,7 @@ class FetchWikipediaTextsTestCase(PepysdiaryTestCase):
         
     @patch('pepysdiary.encyclopedia.wikipedia_fetcher.WikipediaFetcher.fetch')
     def test_it_calls_fetcher_with_all(self, fetch_method):
-        fetch_method.side_effect = ['112 html', '344 html']
+        fetch_method.side_effect = self.responses
         num_updated = Topic.objects.fetch_wikipedia_texts(topic_ids='all')
         calls = [call(self.page_names[0]), call(self.page_names[1])]
         fetch_method.assert_has_calls(calls, any_order=True)
@@ -35,8 +41,7 @@ class FetchWikipediaTextsTestCase(PepysdiaryTestCase):
         
     @patch('pepysdiary.encyclopedia.wikipedia_fetcher.WikipediaFetcher.fetch')
     def test_it_saves_returned_texts(self, fetch_method):
-        # The values it'll return:
-        fetch_method.side_effect = ['112 html', '344 html']
+        fetch_method.side_effect = self.responses
         num_updated = Topic.objects.fetch_wikipedia_texts(
                                         topic_ids=[112, 344, 6079, 9999999])
         self.assertEqual(num_updated, 2)

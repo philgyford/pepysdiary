@@ -1,3 +1,4 @@
+beautifulsoup4==4.3.2
 boto==2.36.0
 dj-database-url==0.3.0
 Django==1.7.5
@@ -9,9 +10,13 @@ django-storages==1.1.8
 django-treebeard==3.0
 gunicorn==19.2.1
 Markdown==2.6
+mock==1.0.1
 Pillow==2.7.0
 psycopg2==2.6
 pylibmc==1.4.1
 pytz==2014.10
+requests==2.5.3
+responses==0.3.0
+six==1.9.0
 smartypants==1.8.6
 sqlparse==0.1.14
