@@ -3,6 +3,8 @@
     "fields": {
         "shape": "",
         "wikipedia_fragment": "Edward_Montagu%2C_1st_Earl_of_Sandwich",
+        "wikipedia_html": "",
+        "wikipedia_last_fetch": null,
         "title": "Sir Edward Mountagu (\"my Lord,\" Earl of Sandwich)",
         "order_title": "Mountagu, Sir Edward (\"my Lord,\" Earl of Sandwich)",
         "comment_count": 27,
@@ -32,6 +34,8 @@
     "fields": {
         "shape": "",
         "wikipedia_fragment": "Charles_II_of_England",
+        "wikipedia_html": "",
+        "wikipedia_last_fetch": null,
         "title": "Charles Stuart (II, King)",
         "order_title": "Stuart, Charles (II, King)",
         "comment_count": 22,
@@ -61,6 +65,8 @@
     "fields": {
         "shape": "",
         "wikipedia_fragment": "",
+        "wikipedia_html": "",
+        "wikipedia_last_fetch": null,
         "title": "John Abraham",
         "order_title": "Abraham, John",
         "comment_count": 1,

@@ -21,11 +21,12 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         if options['all']:
-            success = Topic.objects.fetch_wikipedia_texts('all')
+            success = Topic.objects.fetch_wikipedia_texts(topic_ids='all')
         elif len(args) == 0:
             raise CommandError("Specify topic_id(s) or --all topics.")
         else:
-            success = Topic.objects.fetch_wikipedia_texts(*args)
+            ids = [int(s) for s in args[0].split(' ')]
+            success = Topic.objects.fetch_wikipedia_texts(topic_ids=ids)
 
         verbosity = int(options['verbosity'])
 
