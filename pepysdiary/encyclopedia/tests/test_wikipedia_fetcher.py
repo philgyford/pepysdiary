@@ -1,4 +1,5 @@
 # coding: utf-8
+from mock import patch
 import responses
 import requests
 from requests.exceptions import ConnectionError, Timeout, TooManyRedirects
@@ -55,9 +56,24 @@ class FetchTest(PepysdiaryTestCase):
         self.assertFalse(result['success'])
         self.assertEqual(result['content'], 'HTTP Error: 500')
 
-    def test_it_filters_returned_html(self):
-        pass
+    @responses.activate
+    @patch('pepysdiary.encyclopedia.wikipedia_fetcher.WikipediaFetcher.filter_html')
+    def test_it_filters_returned_html(self, filter_method):
+        """
+        Test that the fetch() method will pass the results of get_html() to
+        filter_html() and then return the result.
+        """
+        # Our pretend WikipediaFetcher.filter_html() method should just
+        # return what we pass into it:
+        filter_method.return_value = self.source_html
+        # When we pretend to call the URL in get_html() it'll return this:
+        self.add_response(body=self.source_html)
+        result = WikipediaFetcher().fetch(self.page_name)
+        # Check filter_html() was called with what get_html() returned:
+        filter_method.assert_called_with(self.source_html)
+        # Whatever called fetch() should get this back:
+        self.assertEqual(result, {'success': True, 'content': self.source_html})
 
-    def test_it_returns_html(self):
+    def test_filters_do_the_correct_thing(self):
         pass
 
