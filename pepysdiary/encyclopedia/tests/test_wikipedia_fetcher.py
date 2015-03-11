@@ -1,7 +1,7 @@
 # coding: utf-8
 import responses
 import requests
-from requests.exceptions import ConnectionError, ConnectTimeout, ReadTimeout, TooManyRedirects, HTTPError
+from requests.exceptions import ConnectionError, Timeout, TooManyRedirects
 
 from pepysdiary.common.tests.test_base import PepysdiaryTestCase
 from pepysdiary.encyclopedia.wikipedia_fetcher import WikipediaFetcher
@@ -31,9 +31,7 @@ class FetchTest(PepysdiaryTestCase):
     def test_it_handles_exceptions(self):
         errors = ( 
             (ConnectionError,   "Can't connect to domain."),
-            # For some reason this returns the ConnectionError message:
-            #(ConnectTimeout,    "Connection timed out."),
-            (ReadTimeout,       "Read timed out."),
+            (Timeout,           "Connection timed out."),
             (TooManyRedirects,  "Too many redirects."),
         ) 
         for error, message in errors:

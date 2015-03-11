@@ -25,10 +25,8 @@ class WikipediaFetcher(object):
             response = requests.get(url, params={'action':'render'}, timeout=5)
         except requests.exceptions.ConnectionError as e:
             error_message = "Can't connect to domain."
-        except requests.exceptions.ConnectTimeout as e:
+        except requests.exceptions.Timeout as e:
             error_message = "Connection timed out."
-        except requests.exceptions.ReadTimeout as e:
-            error_message = "Read timed out."
         except requests.exceptions.TooManyRedirects as e:
             error_message = "Too many redirects."
 
