@@ -1,0 +1,69 @@
+/**
+ * Styling content that's fetched from Wikipedia.
+ */
+
+.wikipedia {
+
+     // Things to hide; maybe strip out of HTML?
+
+     // The V T E links in bottom 'navbar'header.
+     .plainlinks.navbar.mini {
+        display: none;
+    }
+
+     // Generic styles.
+
+    .tleft {
+        float: left;
+        margin: 0 $padding-large-horizontal $padding-base-vertical 0;
+    }
+    .tright {
+        float: right;
+        margin: 0 0 $padding-base-vertical $padding-large-horizontal;
+    }
+
+    // Images.
+
+    .thumb img {
+        @extend .thumbnail;
+        margin-bottom: 0;
+    }
+    .thumbcaption {
+        font-size: $font-size-small;
+        margin-top: 0.5em;
+    }
+
+    // Other things.
+
+    .toc ul {
+        @include list-unstyled;
+    }
+
+    .wikitable,
+    .navbox {
+        @extend .table;
+        @extend .table-bordered;
+
+        th {
+            text-align: center;
+            // Override colors set in the HTML:
+            border-top-color: $table-border-color !important;
+        }
+    }
+
+    .navbox {
+        th,
+        td {
+            font-size: $font-size-small;
+        }
+    }
+    .navbox-image {
+        width: auto !important;
+        padding: $table-cell-padding !important;
+    }
+    .navbox-list {
+        border-left: 1px solid $table-border-color !important;
+        width: auto !important;
+    }
+
+}
