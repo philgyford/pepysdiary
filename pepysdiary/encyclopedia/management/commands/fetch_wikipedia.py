@@ -37,7 +37,7 @@ class Command(BaseCommand):
 
         if number_updated > 0:
             if verbosity > 0:
-                self.stdout.write('Done')
+                self.stdout.write('Fetched %s topic(s)' % number_updated)
         else:
             self.stderr.write("No topics were updated with Wikipedia texts.")
 
