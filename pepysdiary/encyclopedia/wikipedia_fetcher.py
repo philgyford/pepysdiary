@@ -1,5 +1,6 @@
 #! -*- coding: utf-8 -*-
 from bs4 import BeautifulSoup
+import bleach
 import requests
 
 
@@ -46,5 +47,40 @@ class WikipediaFetcher(object):
             return {'success': True, 'content': response.text}
 
     def filter_html(self, html):
+        # Pretty much most elements, but no forms or audio/video.
+        allowed_tags = [
+            'a', 'abbr', 'acronym', 'address', 'area', 'article',
+            'b', 'blockquote', 'br',
+            'caption', 'cite', 'code', 'col', 'colgroup',
+            'dd', 'del', 'dfn', 'div', 'dl', 'dt',
+            'em',
+            'figcaption', 'figure', 'footer',
+            'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'header', 'hgroup', 'hr',
+            'i', 'img', 'ins',
+            'kbd',
+            'li',
+            'map',
+            'nav',
+            'ol',
+            'p', 'pre',
+            'q',
+            's', 'samp', 'section', 'small', 'span', 'strong', 'sub', 'sup',
+            'table', 'tbody', 'td', 'tfoot', 'th', 'thead', 'time', 'tr',
+            'ul',
+            'var',
+        ]
+
+        allowed_attributes = {
+            '*':        ['class', 'id'],
+            'a':        ['href', 'title'],
+            'abbr':     ['title'],
+            'acronym':  ['title'],
+            'img':      ['alt', 'src'],
+            'td':       ['colspan', 'rowspan'],
+            'th':       ['colspan', 'rowspan', 'scope'],
+        }
+
+        html = bleach.clean(html, tags=allowed_tags,
+                                    attributes=allowed_attributes, strip=True)
         return html
 

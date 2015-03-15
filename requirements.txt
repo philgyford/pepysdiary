@@ -1,4 +1,5 @@
 beautifulsoup4==4.3.2
+bleach==1.4.1
 boto==2.36.0
 dj-database-url==0.3.0
 Django==1.7.5
@@ -9,6 +10,7 @@ django-recaptcha==1.0.3
 django-storages==1.1.8
 django-treebeard==3.0
 gunicorn==19.2.1
+html5lib==0.999
 Markdown==2.6
 mock==1.0.1
 Pillow==2.7.0
