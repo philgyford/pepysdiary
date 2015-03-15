@@ -25,10 +25,10 @@
 
 .site-header .container {
 	@media (min-width: $grid-float-breakpoint) {
-		@include image-retina('#{$img-path}/site-header-pepys', 'png', 118px, 145px);
-		background-position: 0 0;
+		@include image-retina('#{$img-path}/site-header-pepys', 'png', 85px, 104px);
+		background-position: ($grid-gutter-width - 5px) 0;
 		background-repeat: no-repeat;
-		min-height: 144px;
+		min-height: 104px;
 	}
 }
 
@@ -37,7 +37,7 @@
 	font-family: $font-family-serif;
 	font-size: $font-size-base * 1.6;
 	text-rendering: optimizeLegibility;
-	margin-top: 0.2em;
+	margin-top: 0;
 	margin-bottom: 0;
 
 	a {
@@ -45,21 +45,23 @@
 	}
 
 	@media (min-width: $grid-float-breakpoint) {
-		font-size: $font-size-base * 2.75; // 44px if base is 16px.
-		margin-top: 0.65em;
-		margin-left: 121px;
+		font-size: $font-size-base * 2.5; // 40px if base is 16px.
+		margin-top: 0.2em;
+		margin-left: 110px;
 	}
 }
 
 .site-header-subtitle {
 	color: $site-header-subtitle-color;
 	font-family: $font-family-serif;
-	font-size: $font-size-small;
+	font-size: $font-size-base;
 	font-style: italic;
+    margin-bottom: 0;
+    margin-left: 4px;
 
 	@media (min-width: $grid-float-breakpoint) {
 		font-size: $font-size-large;
-		margin-left: 127px;
+		margin-left: 117px;
 	}
 }
 

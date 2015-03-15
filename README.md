@@ -5,7 +5,7 @@ This code is used for [www.pepysdiary.com](http://www.pepysdiary.com/). This rep
 
 I don't expect anyone else will want to run this, so there's no in-depth installation guide.
 
-Requires Django 1.7.4.
+Requires Django 1.7.x.
 
 If you want to run it locally, then copy `pepysdiary/settings/development_template.py` to `pepysdiary/settings/development.py` and set things accordingly. Then do:
 
@@ -49,12 +49,6 @@ to install the gem specified in `Gemfile` (SASS) and install it locally.
 To update all the gems to the latest versions:
 
 	$ bundle update
-
-You'll probably use Gulp to do SASS conversion, but should you just want to run SASS on its own, you can do it with:
-
-	$ bundle exec sass --watch pepysdiary/common/static/sass:pepysdiary/common/static/css
-
-to continually watch the SASS files for any changes, and compile a new `pepysdiary/common/static/css/pepysdiary.css` file.
 
 
 ### Gulp

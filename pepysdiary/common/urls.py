@@ -17,7 +17,7 @@ admin.autodiscover()
 urlpatterns = patterns('',
 
     url(r'^favicon\.ico$', RedirectView.as_view(
-                            url='%simg/favicon.ico' % settings.STATIC_URL)),
+                    url='%simg/favicons/favicon.ico' % settings.STATIC_URL)),
 
     # Redirect any URL with a trailiing 'index.php' to its base URL.
     # eg /diary/1660/01/01/index.php to /diary/1660/01/01/
@@ -167,6 +167,8 @@ urlpatterns += patterns('',
 
     url(r'^robots\.txt$', TemplateView.as_view(
                     template_name='robots.txt', content_type='text/plain')),
+
+    url(r'^search/$', SearchView.as_view(), name='search'),
 
     url(r'^recent/$', RecentView.as_view(), name='recent'),
 

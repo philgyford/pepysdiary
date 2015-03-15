@@ -6,6 +6,26 @@
 {% block title %}{{ topic.title }}{% endblock %}}
 {% block header_title %}{{ topic.title }}{% endblock %}}
 
+{% block meta_tags %}
+    {% if topic.tooltip_text %}
+        <meta name="description" content="{{ topic.tooltip_text }}">
+    {% endif %}
+{% endblock meta_tags %}
+
+{% block pagemap %}
+	{% if topic.thumbnail %}
+        <!--
+        <PageMap>
+            <DataObject type="thumbnail">
+                <Attribute name="src" value="{{ topic.thumbnail.url }}" />
+                <Attribute name="width" value="100" />
+                <Attribute name="height" value="120" />
+             </DataObject>
+        </PageMap>
+        -->
+	{% endif %}
+{% endblock pagemap %}
+
 {% block breadcrumbs %}
 	{% for category in topic.categories.all %}
 		{% include 'inc/category_breadcrumb.html' with link_final_item="true" %}

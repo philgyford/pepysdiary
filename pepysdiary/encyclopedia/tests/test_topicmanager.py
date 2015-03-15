@@ -76,6 +76,12 @@ class MakeOrderTitleTestCase(PepysdiaryTestCase):
             'The Alchemist (Ben Jonson)', is_person=False),
             'Alchemist, The (Ben Jonson)')
 
+    def test_make_order_starts_with_apostrophe(self):
+        self.assertEqual(Topic.objects.make_order_title(
+            "'A dialogue concerning the rights of his most christian majesty'",
+                                                            is_person=False),
+            "A dialogue concerning the rights of his most christian majesty'")
+
     # PEOPLE THAT NEED CHANGING.
 
     def test_name(self):
