@@ -16,7 +16,8 @@ Expects:
     </div>
 {% endfor %}
 
-<form role="form" action="{% if url_name %}{% url url_name %}{% endif %}" method="post"{% if form_id %} id="{{ form_id }}"{% endif %} class="form-horizontal">
+{# password_reset_confirm requires extra parameters, so if it's that URL, we'll just resubmit to this current page. #}
+<form role="form" action="{% if url_name and url_name != 'password_reset_confirm' %}{% url url_name %}{% endif %}" method="post"{% if form_id %} id="{{ form_id }}"{% endif %} class="form-horizontal">
 	{% csrf_token %}
 	{% load form_filters %}
     <fieldset>
