@@ -139,7 +139,7 @@
 					<h1 class="sr-only">Wikipedia</h1>
 
                     {% if topic.wikipedia_last_fetch %}
-                        <p>This text was last copied <a href="http://en.wikipedia.org/wiki/{{ topic.wikipedia_fragment }}">from Wikipedia</a> on {{ topic.wikipedia_last_fetch|date:date_format_long }} at {{ topic.wikipedia_last_fetch|date:time_format }}.</p>
+                        <p class="text-muted">This text was copied <a href="http://en.wikipedia.org/wiki/{{ topic.wikipedia_fragment }}">from Wikipedia</a> on {{ topic.wikipedia_last_fetch|date:date_format_long }} at {{ topic.wikipedia_last_fetch|date:time_format }}.</p>
 
                         <div class="wikipedia">
                             {{ topic.wikipedia_html|safe }}

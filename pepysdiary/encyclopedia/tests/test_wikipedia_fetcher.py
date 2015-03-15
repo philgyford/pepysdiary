@@ -94,3 +94,8 @@ class FetchTest(PepysdiaryTestCase):
         out_html = '<div>This is OK</div><div>This is also fine</div>'
         self.assertEqual(WikipediaFetcher()._strip_html(in_html), out_html)
 
+    def test_it_adds_classes(self):
+        in_html = '<div class="infobox">Infobox</div><div class="bibble">Untouched</div><div class="infobox">Infobox 2</div>'
+        out_html = '<div class="infobox table table-bordered">Infobox</div><div class="bibble">Untouched</div><div class="infobox table table-bordered">Infobox 2</div>'
+        self.assertEqual(WikipediaFetcher()._strip_html(in_html), out_html)
+

@@ -20,21 +20,27 @@ class Command(BaseCommand):
     )
 
     def handle(self, *args, **options):
+        args_error_message = "Specify topic_id(s) or --all topics."
+        number_updated = 0
+
         if options['all']:
             success = Topic.objects.fetch_wikipedia_texts(topic_ids='all')
         elif len(args) == 0:
-            raise CommandError("Specify topic_id(s) or --all topics.")
+            raise CommandError(args_error_message)
         else:
-            ids = [int(s) for s in args[0].split(' ')]
-            success = Topic.objects.fetch_wikipedia_texts(topic_ids=ids)
+            try:
+                ids = [int(s) for s in args[0].split(' ')]
+            except ValueError:
+                raise CommandError(args_error_message)
+            number_updated = Topic.objects.fetch_wikipedia_texts(topic_ids=ids)
 
         verbosity = int(options['verbosity'])
 
-        if success:
+        if number_updated > 0:
             if verbosity > 0:
                 self.stdout.write('Done')
         else:
-            self.stderr.write("Error when fetching Wikipedia texts")
+            self.stderr.write("No topics were updated with Wikipedia texts.")
 
 
 

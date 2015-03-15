@@ -17,6 +17,10 @@ class FetchWikipediaTest(PepysdiaryTestCase):
         with self.assertRaises(CommandError):
             call_command('fetch_wikipedia')
 
+    def test_wrong_args(self):
+        with self.assertRaises(CommandError):
+            call_command('fetch_wikipedia', 'all')
+
     @patch('pepysdiary.encyclopedia.models.TopicManager.fetch_wikipedia_texts')
     def test_with_single_topic_id(self, fetch_method):
         call_command('fetch_wikipedia', '112', stdout=StringIO())
@@ -29,7 +33,7 @@ class FetchWikipediaTest(PepysdiaryTestCase):
 
     @patch('pepysdiary.encyclopedia.models.TopicManager.fetch_wikipedia_texts')
     def test_with_all(self, fetch_method):
-        call_command('fetch_wikipedia', all=True, stdout=StringIO())
+        call_command('fetch_wikipedia', all=True, stderr=StringIO())
         fetch_method.assert_called_with(topic_ids='all')
 
     @patch('pepysdiary.encyclopedia.models.TopicManager.fetch_wikipedia_texts')
