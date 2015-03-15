@@ -1,5 +1,6 @@
 #! -*- coding: utf-8 -*-
 import re
+import time
 
 from django.db import models
 from django.utils import timezone
@@ -45,6 +46,8 @@ class TopicManager(models.Manager):
                     topic.wikipedia_last_fetch = timezone.now()
                     topic.save()
                     updated_count += 1
+                # Be nice when fetching things:
+                time.sleep(0.5)
 
         return updated_count
 
@@ -78,6 +81,7 @@ class TopicManager(models.Manager):
         If not is_person we change:
         "The Royal Prince" to "Royal Prince, The"
         "The Alchemist (Ben Jonson)" to "Alchemist, The (Ben Jonson)"
+        "'A dialogue concerning...'" to "A dialogue concerning...'"
         """
         order_title = text
 
@@ -188,7 +192,8 @@ class TopicManager(models.Manager):
                     else:
                         pass
 
-        else:
+        else: # Not a person.
+            # Remove leading 'The '.
             the_pattern = re.compile(r'^The\s(.*?)(?:\s\((.*?)\))?$')
             the_match = the_pattern.match(text)
             if the_match is not None:
@@ -200,6 +205,12 @@ class TopicManager(models.Manager):
                 else:
                     # eg, ('Alchemist', 'Ben Jonson')
                     order_title = '%s, The (%s)' % (matches[0], matches[1])
+
+            # Remove leading apostrophe.
+            apos_pattern = re.compile(r"^'(.*)$")
+            apos_match = apos_pattern.match(text)
+            if apos_match is not None:
+                order_title = apos_match.groups()[0]
 
         return order_title
 
