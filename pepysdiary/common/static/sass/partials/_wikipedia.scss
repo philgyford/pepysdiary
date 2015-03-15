@@ -4,13 +4,6 @@
 
 .wikipedia {
 
-     // Things to hide; maybe strip out of HTML?
-
-     // The V T E links in bottom 'navbar'header.
-     .plainlinks.navbar.mini {
-        display: none;
-    }
-
      // Generic styles.
 
     .tleft {
@@ -24,6 +17,12 @@
 
     // Images.
 
+    .thumb,
+    .thumbinner {
+        // Make them collapse to image's width.
+        display: table;
+        width: 1%;
+    }
     .thumb img {
         @extend .thumbnail;
         margin-bottom: 0;
@@ -34,6 +33,10 @@
     }
 
     // Other things.
+
+    table table {
+        width: 100%;
+    }
 
     .toc ul {
         @include list-unstyled;
