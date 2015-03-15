@@ -21,10 +21,9 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         args_error_message = "Specify topic_id(s) or --all topics."
-        number_updated = 0
 
         if options['all']:
-            success = Topic.objects.fetch_wikipedia_texts(topic_ids='all')
+            number_updated = Topic.objects.fetch_wikipedia_texts(topic_ids='all')
         elif len(args) == 0:
             raise CommandError(args_error_message)
         else:

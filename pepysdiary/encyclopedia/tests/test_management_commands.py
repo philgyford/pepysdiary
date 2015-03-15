@@ -33,7 +33,7 @@ class FetchWikipediaTest(PepysdiaryTestCase):
 
     @patch('pepysdiary.encyclopedia.models.TopicManager.fetch_wikipedia_texts')
     def test_with_all(self, fetch_method):
-        call_command('fetch_wikipedia', all=True, stderr=StringIO())
+        call_command('fetch_wikipedia', all=True, stdout=StringIO())
         fetch_method.assert_called_with(topic_ids='all')
 
     @patch('pepysdiary.encyclopedia.models.TopicManager.fetch_wikipedia_texts')
