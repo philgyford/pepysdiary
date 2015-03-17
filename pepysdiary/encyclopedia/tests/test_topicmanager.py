@@ -12,12 +12,18 @@ class FetchWikipediaTextsTest(PepysdiaryTestCase):
     # Of the topics in the fixture, two have `wikipedia_fragment`s:
     page_names = [
         'Edward_Montagu%2C_1st_Earl_of_Sandwich',
-        'Charles_II_of_England'
+        'Elisabeth_Pepys',
+        'Charles_II_of_England',
+        'Zeeland',
+        'Christopher_Wren',
     ]
 
     responses = [
         {'success': True, 'content': '112 html'},
-        {'success': True, 'content': '344 html'}
+        {'success': True, 'content': '150 html'},
+        {'success': True, 'content': '344 html'},
+        {'success': True, 'content': '480 html'},
+        {'success': True, 'content': '9711 html'},
     ]
 
     @patch('pepysdiary.encyclopedia.wikipedia_fetcher.WikipediaFetcher.fetch')
@@ -27,21 +33,40 @@ class FetchWikipediaTextsTest(PepysdiaryTestCase):
         # 2 names with Wikipedia pages, 1 without, 1 invalid ID:
         num_updated = Topic.objects.fetch_wikipedia_texts(
                                         topic_ids=[112, 344, 6079, 9999999])
-        calls = [call(self.page_names[0]), call(self.page_names[1])]
+        calls = [call(self.page_names[0]), call(self.page_names[2])]
         fetch_method.assert_has_calls(calls, any_order=True)
         self.assertEqual(num_updated, 2)
         
     @patch('pepysdiary.encyclopedia.wikipedia_fetcher.WikipediaFetcher.fetch')
     def test_it_calls_fetcher_with_all(self, fetch_method):
         fetch_method.side_effect = self.responses
-        num_updated = Topic.objects.fetch_wikipedia_texts(topic_ids='all')
-        calls = [call(self.page_names[0]), call(self.page_names[1])]
+        num_updated = Topic.objects.fetch_wikipedia_texts(num='all')
+        calls = [
+                    call(self.page_names[0]), call(self.page_names[1]),
+                    call(self.page_names[2]), call(self.page_names[3]),
+                    call(self.page_names[4]),
+                ]
         fetch_method.assert_has_calls(calls, any_order=True)
-        self.assertEqual(num_updated, 2)
+        self.assertEqual(num_updated, 5)
         
     @patch('pepysdiary.encyclopedia.wikipedia_fetcher.WikipediaFetcher.fetch')
+    def test_it_calls_fetcher_with_num(self, fetch_method):
+        fetch_method.side_effect = [self.responses[4],
+                                    self.responses[2],
+                                    self.responses[1],]
+        num_updated = Topic.objects.fetch_wikipedia_texts(num=3)
+        calls = [
+                    call(self.page_names[4]), # Has null wikipedia_last_fetch
+                    call(self.page_names[2]), #
+                    call(self.page_names[1]), #
+                ]
+        fetch_method.assert_has_calls(calls, any_order=True)
+        self.assertEqual(num_updated, 3)
+
+    @patch('pepysdiary.encyclopedia.wikipedia_fetcher.WikipediaFetcher.fetch')
     def test_it_saves_returned_texts(self, fetch_method):
-        fetch_method.side_effect = self.responses
+        fetch_method.side_effect = [self.responses[0],
+                                    self.responses[2],]
         num_updated = Topic.objects.fetch_wikipedia_texts(
                                         topic_ids=[112, 344, 6079, 9999999])
         self.assertEqual(num_updated, 2)

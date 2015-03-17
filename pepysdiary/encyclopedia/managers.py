@@ -14,13 +14,17 @@ class TopicManager(models.Manager):
         """The IDs of the Topics about the places Pepys has lived."""
         return [102, 1023, ]
 
-    def fetch_wikipedia_texts(self, topic_ids=[]):
+    def fetch_wikipedia_texts(self, topic_ids=[], num=None):
         """
         Passed a list of Topic IDs, this calls the method that fetches and
         munges the Wikipedia HTML for any of those Topics that have
         `wikipedia_fragment`s set.
 
-        topic_ids is either a list of topic IDs (ints), or the string 'all'.
+        topic_ids is a list of topic IDs (ints).
+        num is either the number of topics to update, or the string 'all'.
+
+        If num is set then topic_ids is ignored.
+
         By default, this method will fetch nothing.
 
         Returns the number of Topics whose HTML was successfully fetched.
@@ -30,11 +34,21 @@ class TopicManager(models.Manager):
         updated_count = 0 
         topics = None
 
-        if topic_ids == 'all':
-            topics = self.model.objects.exclude(wikipedia_fragment__exact='') 
+        qs = self.model.objects.only('wikipedia_fragment').exclude(wikipedia_fragment__exact='')
+
+        if num == 'all':
+            topics = qs
+        elif num is not None and isinstance(num, (int, long)):
+            # We want any topics with wikipedia_last_fetch = NULL to be
+            # returned first, before any low datetimes. By default they would
+            # be listed last. This fixes that.
+            # http://stackoverflow.com/a/12631576/250962
+            topics = qs.extra(
+                        select={'null_fetch': 'wikipedia_last_fetch is null'},
+                        order_by=['-null_fetch', 'wikipedia_last_fetch']
+                    )[:num]
         else:
-            topics = self.model.objects.filter(pk__in=topic_ids).exclude(
-                                                wikipedia_fragment__exact='') 
+            topics = qs.filter(pk__in=topic_ids)
 
         fetcher = WikipediaFetcher()
 

@@ -1,3 +1,4 @@
+#! -*- coding: utf-8 -*-
 from mock import patch
 
 from django.core.management import call_command
@@ -34,18 +35,27 @@ class FetchWikipediaTest(PepysdiaryTestCase):
     @patch('pepysdiary.encyclopedia.models.TopicManager.fetch_wikipedia_texts')
     def test_with_all(self, fetch_method):
         call_command('fetch_wikipedia', all=True, stdout=StringIO())
-        fetch_method.assert_called_with(topic_ids='all')
+        fetch_method.assert_called_with(num='all')
+
+    @patch('pepysdiary.encyclopedia.models.TopicManager.fetch_wikipedia_texts')
+    def test_with_num(self, fetch_method):
+        call_command('fetch_wikipedia', num=30, stdout=StringIO())
+        fetch_method.assert_called_with(num=30)
 
     @patch('pepysdiary.encyclopedia.models.TopicManager.fetch_wikipedia_texts')
     def test_with_default_verbosity(self, fetch_method):
+        # What the mocked method will return:
+        fetch_method.side_effect = [1]
         out = StringIO()
         call_command('fetch_wikipedia', '112', stdout=out)
-        self.assertIn('Done', out.getvalue())
+        self.assertIn('Fetched 1 topic(s)', out.getvalue())
 
     @patch('pepysdiary.encyclopedia.models.TopicManager.fetch_wikipedia_texts')
     def test_with_zero_verbosity(self, fetch_method):
+        # What the mocked method will return:
+        fetch_method.side_effect = [1]
         out = StringIO()
         call_command('fetch_wikipedia', '112', verbosity=0, stdout=out)
-        self.assertNotIn('Done', out.getvalue())
+        self.assertNotIn('Fetched 1 topic(s)', out.getvalue())
 
 
