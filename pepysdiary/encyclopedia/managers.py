@@ -27,14 +27,20 @@ class TopicManager(models.Manager):
 
         By default, this method will fetch nothing.
 
-        Returns the number of Topics whose HTML was successfully fetched.
-        (Doesn't count Topics with no texts, or where something went wrong
-        when fetching the text.)
+        Returns a dict with 'success' and 'failure' elements. Each of those is
+        a list containing the relevant Topic IDs.
+        Success is when we fetched the Wikipedia text for a topic.
+        Failure is when we tried but failed.
+        Topics that have no Wikipedia URL fragments aren't counted (as we
+        don't even try to fetch their texts).
         """
-        updated_count = 0 
+        results = {
+            'success': [],
+            'failure': [],
+        }
         topics = None
 
-        qs = self.model.objects.only('wikipedia_fragment').exclude(wikipedia_fragment__exact='')
+        qs = self.model.objects.only('id', 'wikipedia_fragment').exclude(wikipedia_fragment__exact='')
 
         if num == 'all':
             topics = qs
@@ -54,16 +60,18 @@ class TopicManager(models.Manager):
 
         if topics is not None:
             for topic in topics:
-                result = fetcher.fetch(topic.wikipedia_fragment)
-                if result['success'] == True:
-                    topic.wikipedia_html = result['content']
+                fetched = fetcher.fetch(topic.wikipedia_fragment)
+                if fetched['success'] == True:
+                    topic.wikipedia_html = fetched['content']
                     topic.wikipedia_last_fetch = timezone.now()
                     topic.save()
-                    updated_count += 1
+                    results['success'].append(topic.id)
+                else:
+                    results['failure'].append(topic.id)
                 # Be nice when fetching things:
                 time.sleep(0.5)
 
-        return updated_count
+        return results 
 
     def make_order_title(self, text, is_person=False):
         """

@@ -45,17 +45,31 @@ class FetchWikipediaTest(PepysdiaryTestCase):
     @patch('pepysdiary.encyclopedia.models.TopicManager.fetch_wikipedia_texts')
     def test_with_default_verbosity(self, fetch_method):
         # What the mocked method will return:
-        fetch_method.side_effect = [1]
+        fetch_method.side_effect = [{'success': [112], 'failure': []}]
         out = StringIO()
         call_command('fetch_wikipedia', '112', stdout=out)
-        self.assertIn('Fetched 1 topic(s)', out.getvalue())
+        self.assertIn('Successfully fetched 1 topic(s)', out.getvalue())
 
     @patch('pepysdiary.encyclopedia.models.TopicManager.fetch_wikipedia_texts')
     def test_with_zero_verbosity(self, fetch_method):
         # What the mocked method will return:
-        fetch_method.side_effect = [1]
+        fetch_method.side_effect = [{'success': [112], 'failure': []}]
         out = StringIO()
         call_command('fetch_wikipedia', '112', verbosity=0, stdout=out)
-        self.assertNotIn('Fetched 1 topic(s)', out.getvalue())
+        self.assertNotIn('Successfully fetched 1 topic(s)', out.getvalue())
+
+    @patch('pepysdiary.encyclopedia.models.TopicManager.fetch_wikipedia_texts')
+    def test_with_extra_verbosity(self, fetch_method):
+        # What the mocked method will return:
+        fetch_method.side_effect = [{'success': [112, 150], 'failure': [344]}]
+        out = StringIO()
+        out_err = StringIO()
+        call_command('fetch_wikipedia', '112 344 150', verbosity=2, stdout=out,
+                                                                stderr=out_err)
+        self.assertIn('Successfully fetched 2 topic(s)', out.getvalue())
+        self.assertIn('IDs: 112, 150', out.getvalue())
+        self.assertIn('Tried and failed to fetch texts for 1 topic(s)',
+                                                            out_err.getvalue())
+        self.assertIn('IDs: 344', out_err.getvalue())
 
 
