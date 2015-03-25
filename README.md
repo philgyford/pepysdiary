@@ -99,6 +99,16 @@ Instead of steps 2 and 3 you can hopefully upload the `js/src/vendor/bootstrap_c
 5. Copy the two .js files into `pepysdiary/common/static/js/libs/`, replacing the existing files.
 
 
+## Wikipedia content
+
+To fetch content for all Encyclopedia Topics which have matching Wikipedia
+pages, run:
+
+	$ ./manage.py fetch_wikipedia --all --verbosity=2
+
+It might take some time. See `encyclopedia/management/commands/fetch_wikipedia.py` for more options.
+
+
 ## Other notes
 
 Lots of site-wide stuff is in the `pepysdiary/common/` app. Including the CSS, JS and images in `pepysdiary/common/static/`.
