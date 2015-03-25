@@ -82,7 +82,7 @@
         width: 100%;
     }
 
-    .toc ul c{
+    .toc ul {
         @include list-unstyled;
 
         ul {
