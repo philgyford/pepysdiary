@@ -12,6 +12,10 @@ class WikipediaFetcher(object):
         'Edward_Montagu,_1st_Earl_of_Sandwich', this will fetch the page's
         main contents, tidy the HTML, strip out any elements we don't want
         and return the final HTML string.
+
+        Returns a dict with two elements:
+            'success' is either True or, if we couldn't fetch the page, False.
+            'content' is the HTML if success==True, or else an error message.
         """
         result = self._get_html(page_name)
 
@@ -25,7 +29,9 @@ class WikipediaFetcher(object):
         Passed the name of a Wikipedia page (eg, 'Samuel_Pepys'), it fetches
         the HTML content (not the entire HTML page) and returns it.
 
-        Returns either the HTML text or None, if there was an error.
+        Returns a dict with two elements:
+            'success' is either True or, if we couldn't fetch the page, False.
+            'content' is the HTML if success==True, or else an error message.
         """
         error_message = ''
         
@@ -68,6 +74,8 @@ class WikipediaFetcher(object):
         Ensures we have valid HTML; no unclosed or mis-nested tags.
         Removes any tags and attributes we don't want to let through.
         Doesn't remove the contents of any disallowed tags.
+
+        Pass it an HTML string, it'll return the bleached HTML string.
         """
 
         # Pretty much most elements, but no forms or audio/video.
@@ -115,6 +123,8 @@ class WikipediaFetcher(object):
         Takes out any tags, and their contents, that we don't want at all.
         And adds custom classes to existing tags (so we can apply CSS styles
         without having to multiply our CSS).
+
+        Pass it an HTML string, it returns the stripped HTML string.
         """
 
         # CSS selectors. Strip these and their contents.
