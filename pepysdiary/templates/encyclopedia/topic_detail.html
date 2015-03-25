@@ -138,7 +138,16 @@
 				<article class="tab-pane{% if not topic.latitude and not topic.summary_html %} active{% endif %}" id="wikipedia">
 					<h1 class="sr-only">Wikipedia</h1>
 
-					<p><a class="link-more" href="http://en.wikipedia.org/wiki/{{ topic.wikipedia_fragment }}">Read more about this topic on Wikipedia</a></p>
+                    {% if topic.wikipedia_last_fetch %}
+                        <p class="text-muted">This text was copied <a href="http://en.wikipedia.org/wiki/{{ topic.wikipedia_fragment }}">from Wikipedia</a> on {{ topic.wikipedia_last_fetch|date:date_format_long }} at {{ topic.wikipedia_last_fetch|date:time_format }}.</p>
+
+                        <div class="wikipedia">
+                            {{ topic.wikipedia_html|safe }}
+                        </div>
+                    {% else %}
+                        <p><a class="link-more" href="http://en.wikipedia.org/wiki/{{ topic.wikipedia_fragment }}">Read more about this topic on Wikipedia</a></p>
+                    {% endif %}
+
 				</article>
 			{% endif %}
 
