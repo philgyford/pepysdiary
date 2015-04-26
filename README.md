@@ -7,6 +7,8 @@ I don't expect anyone else will want to run this, so there's no in-depth install
 
 Requires Django 1.7.x.
 
+Can be run in Vagrant using https://github.com/philgyford/vagrant-heroku-cedar-14-python (symlink that projects `Vagrantfile` and `config/vagrant/` into the root of `django-pepysdiary/`).
+
 If you want to run it locally, then copy `pepysdiary/settings/development_template.py` to `pepysdiary/settings/development.py` and set things accordingly. Then do:
 
 	$ ./manage.py runserver

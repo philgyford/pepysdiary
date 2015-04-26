@@ -1,0 +1,11 @@
+django:
+  settings_module: pepysdiary.settings.development
+virtualenv:
+  envname: django-pepysdiary
+foreman:
+  procfile: Procfile.dev
+db:
+  name: django_pepysdiary
+  user: pepysdiary_user
+  password: asfd6ghkdfopdf
+

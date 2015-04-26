@@ -1,0 +1,1 @@
+web: gunicorn pepysdiary.wsgi > /vagrant/gunicorn.log 2>&1

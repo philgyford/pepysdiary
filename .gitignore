@@ -8,4 +8,7 @@ pepysdiary/static_collected
 .bundle
 /vendor
 /node_modules
+/.vagrant
+/config/vagrant
+/Vagrantfile
 
