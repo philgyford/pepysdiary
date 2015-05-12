@@ -1,6 +1,6 @@
 beautifulsoup4==4.3.2
 bleach==1.4.1
-boto==2.36.0
+boto==2.38.0
 dj-database-url==0.3.0
 Django==1.7.7
 django-contrib-comments==1.5
