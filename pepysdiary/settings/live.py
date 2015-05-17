@@ -30,22 +30,18 @@ EMAIL_USE_TLS = True
 
 # If you *don't* want to prepend www to the URL, remove the setting from
 # the environment entirely. Otherwise, set to 'True' (or anything tbh).
-PREPEND_WWW = environ.get('PREPEND_WWW', False)
+#PREPEND_WWW = environ.get('PREPEND_WWW', False)
+PREPEND_WWW = False
 
 ALLOWED_HOSTS = environ.get('ALLOWED_HOSTS', '*').split(',')
 
-#environ['MEMCACHE_SERVERS'] = environ.get('MEMCACHIER_SERVERS', '').replace(',', ';')
-#environ['MEMCACHE_USERNAME'] = environ.get('MEMCACHIER_USERNAME', '')
-#environ['MEMCACHE_PASSWORD'] = environ.get('MEMCACHIER_PASSWORD', '')
-
-#CACHES = {
-  #'default': {
-    #'BACKEND': 'django_pylibmc.memcached.PyLibMCCache',
-    #'LOCATION': environ.get('MEMCACHIER_SERVERS', '').replace(',', ';'),
-    #'TIMEOUT': 500,
-    #'BINARY': True,
-  #}
-#}
+CACHES = {
+  'default': {
+    'BACKEND': 'django_pylibmc.memcached.PyLibMCCache',
+    'LOCATION': '127.0.0.1:11211',
+    'TIMEOUT': 500, # milliseconds
+  }
+}
 
 # Make this unique, and don't share it with anybody.
 # http://www.miniwebtool.com/django-secret-key-generator/
@@ -83,7 +79,7 @@ LOGGING = {
 #############################################################################
 # PEPYSDIARY-SPECIFIC SETTINGS.
 
-GOOGLE_MAPS_API_KEY = environ.get('GOOGLE_MAPS_API_KEY')
+#GOOGLE_MAPS_API_KEY = environ.get('GOOGLE_MAPS_API_KEY')
 GOOGLE_ANALYTICS_ID = environ.get('GOOGLE_ANALYTICS_ID')
 
 # From https://www.google.com/recaptcha/
