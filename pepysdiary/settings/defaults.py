@@ -135,7 +135,6 @@ INSTALLED_APPS = (
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
     'django.contrib.flatpages',
-    'storages',
     'treebeard',
     'gunicorn',
     'captcha',
@@ -195,13 +194,6 @@ LOGGING = {
 
 from datetime import date, timedelta
 future_date = date.today() + timedelta(days=365)
-AWS_HEADERS = {
-    'Expires': future_date.strftime('%a, %d %b %Y %H:%M:%S GMT'),
-    'Cache-Control': 'public, max-age=86400',
-}
-AWS_QUERYSTRING_AUTH = False
-# By default does CSS and JS files:
-AWS_IS_GZIPPED = True
 
 ####################################################################
 # PEPYSDIARY SPECIFIC

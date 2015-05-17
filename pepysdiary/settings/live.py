@@ -80,22 +80,6 @@ LOGGING = {
     }
 }
 
-######################################################################
-# S3 storage
-
-#DEFAULT_FILE_STORAGE = 'pepysdiary.common.s3utils.MediaS3BotoStorage'
-#STATICFILES_STORAGE = 'pepysdiary.common.s3utils.StaticS3BotoStorage'
-
-#AWS_ACCESS_KEY_ID = environ.get('AWS_ACCESS_KEY_ID')
-#AWS_SECRET_ACCESS_KEY = environ.get('AWS_SECRET_ACCESS_KEY')
-#AWS_STORAGE_BUCKET_NAME = environ.get('AWS_STORAGE_BUCKET_NAME')
-
-#S3_URL = 'https://%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
-## Store static and media files in separate directories:
-#STATIC_URL = S3_URL + STATIC_URL
-#MEDIA_URL = S3_URL + MEDIA_URL
-
-
 #############################################################################
 # PEPYSDIARY-SPECIFIC SETTINGS.
 
