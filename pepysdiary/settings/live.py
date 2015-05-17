@@ -1,6 +1,5 @@
 from defaults import *
 from os import environ
-import dj_database_url
 
 DEBUG = False
 TEMPLATE_DEBUG = DEBUG
@@ -13,6 +12,17 @@ MANAGERS = ADMINS
 
 DATABASES = {'default': dj_database_url.config(
                                     default=environ.get('DATABASE_URL'))}
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': environ.get('DB_NAME'),
+        'USER': environ.get('DB_USERNAME'),
+        'PASSWORD': environ.get('DB_PASSWORD'),
+        'HOST': environ.get('DB_HOST'),
+        'PORT': '',
+    }
+}
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.sendgrid.net'
@@ -73,21 +83,20 @@ LOGGING = {
     }
 }
 
-
 ######################################################################
 # S3 storage
 
-DEFAULT_FILE_STORAGE = 'pepysdiary.common.s3utils.MediaS3BotoStorage'
-STATICFILES_STORAGE = 'pepysdiary.common.s3utils.StaticS3BotoStorage'
+#DEFAULT_FILE_STORAGE = 'pepysdiary.common.s3utils.MediaS3BotoStorage'
+#STATICFILES_STORAGE = 'pepysdiary.common.s3utils.StaticS3BotoStorage'
 
-AWS_ACCESS_KEY_ID = environ.get('AWS_ACCESS_KEY_ID')
-AWS_SECRET_ACCESS_KEY = environ.get('AWS_SECRET_ACCESS_KEY')
-AWS_STORAGE_BUCKET_NAME = environ.get('AWS_STORAGE_BUCKET_NAME')
+#AWS_ACCESS_KEY_ID = environ.get('AWS_ACCESS_KEY_ID')
+#AWS_SECRET_ACCESS_KEY = environ.get('AWS_SECRET_ACCESS_KEY')
+#AWS_STORAGE_BUCKET_NAME = environ.get('AWS_STORAGE_BUCKET_NAME')
 
-S3_URL = 'https://%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
-# Store static and media files in separate directories:
-STATIC_URL = S3_URL + STATIC_URL
-MEDIA_URL = S3_URL + MEDIA_URL
+#S3_URL = 'https://%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
+## Store static and media files in separate directories:
+#STATIC_URL = S3_URL + STATIC_URL
+#MEDIA_URL = S3_URL + MEDIA_URL
 
 
 #############################################################################
