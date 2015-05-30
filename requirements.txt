@@ -1,5 +1,6 @@
 beautifulsoup4==4.3.2
 bleach==1.4.1
+boto==2.9.4
 Django==1.7.7
 django-contrib-comments==1.5
 django-debug-toolbar==1.2.2
@@ -13,9 +14,11 @@ mock==1.0.1
 Pillow==2.7.0
 psycopg2==2.6
 pylibmc==1.4.1
+python-dateutil==2.1
 pytz==2014.10
 requests==2.5.3
 responses==0.3.0
+s3-backups==0.1.0
 six==1.9.0
 smartypants==1.8.6
 sqlparse==0.1.14
