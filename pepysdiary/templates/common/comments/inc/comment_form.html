@@ -56,7 +56,7 @@ Expects:
 					{% endif %}	
 				{% endif %}
 
-			    <form action="{% comment_form_target %}" method="post" id="comment-form" role="form">
+			    <form action="{% comment_form_target %}" method="post" id="comment-form" role="form" class="clearfix">
 				    <div class="form-group{% if form.comment.errors %} has-error{% endif %}">
 				    	{% if preview %}
 					    	<label class="control-label comment-form-title" for="id_comment">Edit your {{ object.comment_name }} if required:</label>
@@ -73,7 +73,7 @@ Expects:
 							You’re not {{ user.get_full_name }}? <a href="{% url 'logout' %}">Log out.</a>
 						</p>
 					</div> <!-- .form-group -->
-					<div class="pull-right">
+					<p class="pull-right">
 						{% if preview %}
 							<a href="{{ object.get_absolute_url }}#comment" title="Return to the previous page">Cancel</a>
 							&nbsp; or &nbsp;
@@ -82,7 +82,7 @@ Expects:
 						{% if preview %}
 							&nbsp; or &nbsp; <button type="submit" name="submit" class="btn btn-primary">Post it</button>
 						{% endif %}
-					</div>
+					</p>
 
 					{% csrf_token %}
 					{{ form.honeypot }}
