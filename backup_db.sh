@@ -25,11 +25,20 @@
 BUCKET_NAME=pepysdiary-pg-backups
 APP=pepysdiary
 
+# Where we put the temporary database dump.
+# Must be writable to by the file when run via cron.
+TEMP_DIR=/home/phil
+
+# Location of the s3cmd config file.
+# This is generated when you run `s3cmd --configure`.
+S3CMD_CONFIG_FILE=/home/phil/.s3cfg
+
+
 TIMESTAMP=$(date +%F_%T | tr ':' '-')
-TEMP_FILE=$(mktemp tmp.XXXXXXXXXX)
+TEMP_FILE=$(mktemp ${TEMP_DIR}/tmp.XXXXXXXXXX)
 S3_FILE="s3://$BUCKET_NAME/$APP/$APP-backup-$TIMESTAMP"
 
 PGPASSWORD=$DB_PASSWORD pg_dump -Fc --no-acl -h $DB_HOST -U $DB_USERNAME $DB_NAME > $TEMP_FILE
-s3cmd put $TEMP_FILE $S3_FILE --encrypt
+s3cmd put --encrypt --config=$S3CMD_CONFIG_FILE $TEMP_FILE $S3_FILE
 rm "$TEMP_FILE"
 
