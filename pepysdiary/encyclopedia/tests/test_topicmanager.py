@@ -171,6 +171,11 @@ class MakeOrderTitleTestCase(PepysdiaryTestCase):
             'Monsieur du Prat', is_person=True),
             'Prat, Monsieur du')
 
+    def test_name_de_du(self):
+        self.assertEqual(Topic.objects.make_order_title(
+            'Guillaume de Salluste Du Bartas', is_person=True),
+            'Bartas, Guillaume de Salluste Du')
+
     def test_name_of(self):
         self.assertEqual(Topic.objects.make_order_title(
             'Catherine of Braganza (Queen)', is_person=True),
@@ -232,3 +237,4 @@ class MakeOrderTitleTestCase(PepysdiaryTestCase):
         self.assertEqual(Topic.objects.make_order_title(
             'Ivan the Terrible', is_person=True),
             'Ivan the Terrible')
+
