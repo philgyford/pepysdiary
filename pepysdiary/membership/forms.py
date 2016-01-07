@@ -20,7 +20,7 @@ class RegistrationForm(forms.Form):
     """
     Form for registering a new user account.
 
-    Validates that the requested username is not already in use, and
+    Validates that the requested name and email are not already in use, and
     requires the password to be entered twice to catch typos.
 
     Subclasses should feel free to add any additional validation they
@@ -82,6 +82,18 @@ class RegistrationForm(forms.Form):
             raise forms.ValidationError(_("That name has already been used."))
         else:
             return self.cleaned_data['name']
+
+    def clean_email(self):
+        """
+        Validate that the email is not already in use.
+        """
+        existing = Person.objects.filter(
+                                    email__iexact=self.cleaned_data['email'])
+        if existing.exists():
+            raise forms.ValidationError(
+                                _("That email address has already been used."))
+        else:
+            return self.cleaned_data['email']
 
     def clean_honeypot(self):
         """Check that nothing's been entered into the honeypot."""
