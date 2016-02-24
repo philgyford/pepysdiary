@@ -1,24 +1,33 @@
 from defaults import *
+from os import environ
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
-    # ('Your Name', 'your_email@example.com'),
+    ('Phil Gyford', 'phil@gyford.com'),
 )
 
 MANAGERS = ADMINS
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': '',                      # Or path to database file if using sqlite3.
-        'USER': '',                      # Not used with sqlite3.
-        'PASSWORD': '',                  # Not used with sqlite3.
-        'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
-        'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': environ.get('DB_NAME'),
+        'USER': environ.get('DB_USERNAME'),
+        'PASSWORD': environ.get('DB_PASSWORD'),
+        'HOST': environ.get('DB_HOST'),
+        'PORT': '',
     }
 }
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+# If you *don't* want to prepend www to the URL, remove the setting from
+# the environment entirely. Otherwise, set to 'True' (or anything tbh).
+PREPEND_WWW = environ.get('PREPEND_WWW', False)
+
+ALLOWED_HOSTS = environ.get('ALLOWED_HOSTS', '*').split(',')
 
 CACHES = {
     'default': {
@@ -28,12 +37,13 @@ CACHES = {
         # Or use local memcached:
         # 'BACKEND': 'django_pylibmc.memcached.PyLibMCCache',
         # 'LOCATION': '127.0.0.1:11211',
+        # 'TIMEOUT': 500, # millisecond
     }
 }
 
 # Make this unique, and don't share it with anybody.
 # http://www.miniwebtool.com/django-secret-key-generator/
-SECRET_KEY = ''
+SECRET_KEY = environ.get('SECRET_KEY', ''
 
 # Debug Toolbar settings.
 if DEBUG:
@@ -44,37 +54,25 @@ if DEBUG:
     }
     INTERNAL_IPS = ('127.0.0.1', )
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-
-# Needs to be your IP address, or 127.0.0.1, if DEBUG==True.
-ALLOWED_HOSTS = ['127.0.0.1', ]
-
-# Settings used only when importing the legacy data from the Movable Type
-# MySQL database using management commands.
-MT_MYSQL_DB_NAME = ''
-MT_MYSQL_DB_USER = ''
-MT_MYSQL_DB_PASSWORD = ''
-MT_MYSQL_DB_HOST = ''
-
 
 #############################################################################
 # PEPYSDIARY-SPECIFIC SETTINGS.
 
-GOOGLE_ANALYTICS_ID = ''
+GOOGLE_ANALYTICS_ID = environ.get('GOOGLE_ANALYTICS_ID')
 
 # From https://www.google.com/recaptcha/
-RECAPTCHA_PUBLIC_KEY = ''
-RECAPTCHA_PRIVATE_KEY = ''
+RECAPTCHA_PUBLIC_KEY = environ.get('RECAPTCHA_PUBLIC_KEY')
+RECAPTCHA_PRIVATE_KEY = environ.get('RECAPTCHA_PRIVATE_KEY')
 RECAPTCHA_USE_SSL = True
 
 # Do we use Akismet/TypePad spam checking?
 # True/False. If false, no posted comments are checked.
 # If True, AKISMET_API_KEY must also be set.
-USE_SPAM_CHECK = True
+USE_SPAM_CHECK = environ.get('USE_SPAM_CHECK')
 
 # From http://akismet.com/
-AKISMET_API_KEY = ''
+AKISMET_API_KEY = environ.get('AKISMET_API_KEY')
 
 # From http://mapbox.com/
-MAPBOX_MAP_ID = ''
-MAPBOX_ACCESS_TOKEN = ''
+MAPBOX_MAP_ID = 'philgyford.hnhb28lo'
+MAPBOX_ACCESS_TOKEN = 'pk.eyJ1IjoicGhpbGd5Zm9yZCIsImEiOiJUUGpZME9zIn0.O3bxMZ-0-Fq-e0HwR6-xcA';

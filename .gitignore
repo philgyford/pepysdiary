@@ -1,7 +1,6 @@
 *.log
 *.pot
 *.pyc
-development.py
 pepysdiary/media
 pepysdiary/static_collected
 .sass-cache
@@ -11,4 +10,3 @@ pepysdiary/static_collected
 /.vagrant
 /config/vagrant
 /Vagrantfile
-

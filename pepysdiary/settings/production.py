@@ -78,7 +78,6 @@ LOGGING = {
 #############################################################################
 # PEPYSDIARY-SPECIFIC SETTINGS.
 
-#GOOGLE_MAPS_API_KEY = environ.get('GOOGLE_MAPS_API_KEY')
 GOOGLE_ANALYTICS_ID = environ.get('GOOGLE_ANALYTICS_ID')
 
 # From https://www.google.com/recaptcha/
@@ -97,4 +96,3 @@ AKISMET_API_KEY = environ.get('AKISMET_API_KEY')
 # From http://mapbox.com/
 MAPBOX_MAP_ID = environ.get('MAPBOX_MAP_ID')
 MAPBOX_ACCESS_TOKEN = environ.get('MAPBOX_ACCESS_TOKEN')
-
