@@ -43,7 +43,7 @@ CACHES = {
 
 # Make this unique, and don't share it with anybody.
 # http://www.miniwebtool.com/django-secret-key-generator/
-SECRET_KEY = environ.get('SECRET_KEY', ''
+SECRET_KEY = environ.get('SECRET_KEY', '')
 
 # Debug Toolbar settings.
 if DEBUG:
