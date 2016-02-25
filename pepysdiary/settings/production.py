@@ -30,7 +30,7 @@ EMAIL_USE_TLS = True
 
 # If you *don't* want to prepend www to the URL, remove the setting from
 # the environment entirely. Otherwise, set to 'True' (or anything tbh).
-PREPEND_WWW = environ.get('PREPEND_WWW', False)
+PREPEND_WWW = True
 
 ALLOWED_HOSTS = environ.get('ALLOWED_HOSTS', '*').split(',')
 
@@ -78,7 +78,7 @@ LOGGING = {
 #############################################################################
 # PEPYSDIARY-SPECIFIC SETTINGS.
 
-GOOGLE_ANALYTICS_ID = environ.get('GOOGLE_ANALYTICS_ID')
+GOOGLE_ANALYTICS_ID = 'UA-89135-2'
 
 # From https://www.google.com/recaptcha/
 RECAPTCHA_PUBLIC_KEY = environ.get('RECAPTCHA_PUBLIC_KEY')
@@ -88,7 +88,7 @@ RECAPTCHA_USE_SSL = True
 # Do we use Akismet/TypePad spam checking?
 # True/False. If false, no posted comments are checked.
 # If True, AKISMET_API_KEY must also be set.
-USE_SPAM_CHECK = environ.get('USE_SPAM_CHECK')
+USE_SPAM_CHECK = True
 
 # From http://akismet.com/
 AKISMET_API_KEY = environ.get('AKISMET_API_KEY')
