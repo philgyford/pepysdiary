@@ -3,6 +3,12 @@ import re
 from django.utils.feedgenerator import Rss201rev2Feed
 
 
+def is_leap_year(year):
+    """Determine whether a year is a leap year."""
+
+    return year % 4 == 0 and (year % 100 != 0 or year % 400 == 0)
+
+
 def expire_view_cache(view_name, args=[], namespace=None, key_prefix=None, method="GET"):
     """
     This function allows you to invalidate any view-level cache.
