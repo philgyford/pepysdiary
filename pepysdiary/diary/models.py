@@ -12,6 +12,7 @@ from markdown import markdown
 
 from pepysdiary.common.models import OldDateMixin, PepysModel,\
                                                         ReferredManagerMixin
+from pepysdiary.common.utilities import is_leap_year
 from pepysdiary.encyclopedia.models import Topic
 
 
@@ -30,11 +31,15 @@ class EntryManager(models.Manager, ReferredManagerMixin):
             # It's before 11pm, so we still show yesterday's entry.
             time_now = time_now - datetime.timedelta(days=1)
 
-        return datetime.date(
-                        int(time_now.strftime('%Y')) - settings.YEARS_OFFSET,
-                        int(time_now.strftime('%m')),
-                        int(time_now.strftime('%d'))
-                    )
+	entry_year = int(time_now.strftime('%Y')) - settings.YEARS_OFFSET
+	entry_month = int(time_now.strftime('%m'))
+	entry_day = int(time_now.strftime('%d'))
+
+	if time_now.strftime('%m-%d') == '02-29' and is_leap_year(entry_year) == False:
+		entry_day = entry_day - 1
+
+        return datetime.date(entry_year, entry_month, entry_day)
+
 
     def all_years_months(self, month_format='b'):
         """
