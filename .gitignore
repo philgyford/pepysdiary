@@ -10,3 +10,4 @@ pepysdiary/static_collected
 /.vagrant
 /config/vagrant
 /Vagrantfile
+.env

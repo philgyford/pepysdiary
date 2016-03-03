@@ -36,7 +36,7 @@ ALLOWED_HOSTS = environ.get('ALLOWED_HOSTS', '*').split(',')
 
 CACHES = {
   'default': {
-    'BACKEND': 'django_pylibmc.memcached.PyLibMCCache',
+    'BACKEND': 'django.core.cache.backends.memcached.PyLibMCCache',
     'LOCATION': '127.0.0.1:11211',
     'TIMEOUT': 500, # milliseconds
   }
