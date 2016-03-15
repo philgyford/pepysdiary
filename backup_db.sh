@@ -27,11 +27,11 @@ APP=pepysdiary
 
 # Where we put the temporary database dump.
 # Must be writable to by the file when run via cron.
-TEMP_DIR=/home/phil
+TEMP_DIR=/home/deploy
 
 # Location of the s3cmd config file.
 # This is generated when you run `s3cmd --configure`.
-S3CMD_CONFIG_FILE=/home/phil/.s3cfg
+S3CMD_CONFIG_FILE=/home/deploy/.s3cfg
 
 
 TIMESTAMP=$(date +%F_%T | tr ':' '-')
