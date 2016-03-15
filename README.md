@@ -114,3 +114,15 @@ It might take some time. See `encyclopedia/management/commands/fetch_wikipedia.p
 ## Other notes
 
 Lots of site-wide stuff is in the `pepysdiary/common/` app. Including the CSS, JS and images in `pepysdiary/common/static/`.
+
+
+## Setting up with Ansible
+
+Using https://github.com/philgyford/ansible-playbook on DigitalOcean.
+
+1. Follow the DigitalOcean instructions in that README.
+
+2. Maybe: Follow the "Django database" section, to destro empty database and import from a backup.
+
+3. Maybe: Upload Media files.
+
