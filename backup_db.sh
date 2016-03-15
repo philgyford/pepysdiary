@@ -15,6 +15,17 @@
 #
 #     $ s3cmd get s3://BUCKET_NAME/APP/APP-backup-DATE_TIME
 #
+# Resture the dump with:
+#
+#     $ pg_restore -c -F c -h localhost -d pepysdiary -U pepysdiary -W FILENAME-HERE
+#
+# -c: Clean - Drop database objects before recreating them.
+# -F c: Format - Should be the same as we use with pg_dump, below (c, d, or t).
+# -h: Host
+# -d: Database name
+# -U: Username
+# -W: Ask for password
+#
 # Expects these ENV variables to be set:
 # $DB_NAME
 # $DB_USERNAME
