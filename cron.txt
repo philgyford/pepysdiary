@@ -1,0 +1,11 @@
+SHELL=/bin/bash
+MAILTO=”phil@gyford.com”
+APP_ENV=/home/deploy/.pyenv/versions/pepysdiary
+APP_HOME=/webapps/pepysdiary
+LOGFILE=/var/log/cron/pepysdiary.log
+
+#10 4 * * * deploy source $APP_HOME/.env && $APP_HOME/backup_db.sh >> $LOGFILE 2>&1
+
+#22 3,15 * * * deploy source $APP_HOME/.env && $APP_ENV/bin/python $APP_HOME/manage.py fetch_wikipedia --num=100 >> $LOGFILE 2>&1
+
+
