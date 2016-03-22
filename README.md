@@ -3,30 +3,35 @@ pepysdiary
 
 This code is used for [www.pepysdiary.com](http://www.pepysdiary.com/). This repository includes fixtures for all of the site's data (apart from user accounts and user-contributed comments) although it's often out of date compared to what's live.
 
-I don't expect anyone else will want to run this, so there's no in-depth installation guide.
-
-Requires Django 1.7.x.
-
-Can be run in Vagrant using https://github.com/philgyford/vagrant-heroku-cedar-14-python (symlink that projects `Vagrantfile` and `config/vagrant/` into the root of `django-pepysdiary/`).
-
-If you want to run it locally, then copy `pepysdiary/settings/development_template.py` to `pepysdiary/settings/development.py` and set things accordingly. Then do:
-
-	$ ./manage.py runserver
-
-To run on Heroku you'll need to set all the environment variables required in `pepysdiary/settings/heroku.py`.
-
-And also specify that settings file itself by setting the `DJANGO_SETTINGS_MODULE` environment variable. ie:
-
-	$ heroku config:set DJANGO_SETTINGS_MODULE=pepysdiary.settings.heroku
-
-But first run this to transfer all static elements to S3. (Note, this seems to happen automatically when pushing to Heroku these days.):
-
-	$ heroku run ./manage.py collectstatic --app=pepysdiary --settings=pepysdiary.settings.heroku
-
-(The `--app` setting only needed if you have more than one set up, eg `pepysdiary-staging` too.)
+Uses Python 2.7.x and Django 1.7.x.
 
 
-## Development
+## Installation
+
+We're using [this Ansible playbook](https://github.com/philgyford/ansible-playbook).
+
+Add the site as a new app as per the playbook's instructions. Set up the app's variables, download and import the database, manually copy any existing Django media files to the new server.
+
+The environment variables the site uses:
+
+	```
+	AKISMET_API_KEY
+	ALLOWED_HOSTS
+	DB_NAME
+	DB_USERNAME
+	DB_HOST
+	DB_PASSWORD
+	DJANGO_SETTINGS_MODULE
+	MAPBOX_ACCESS_TOKEN
+	MAPBOX_ACCESS_ID
+	RECAPTCHA_PRIVATE_KEY
+	RECAPTCHA_PUBLIC_KEY
+	SENDGRID_USERNAME
+	SENDGRID_PASSWORD
+	```
+
+
+## Development (might be out of date)
 
 Summary:
 
