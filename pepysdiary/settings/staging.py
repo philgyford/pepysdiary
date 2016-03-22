@@ -30,7 +30,7 @@ EMAIL_USE_TLS = True
 
 # If you *don't* want to prepend www to the URL, remove the setting from
 # the environment entirely. Otherwise, set to 'True' (or anything tbh).
-PREPEND_WWW = True
+PREPEND_WWW = False
 
 ALLOWED_HOSTS = environ.get('ALLOWED_HOSTS', '*').split(',')
 
