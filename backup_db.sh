@@ -33,7 +33,7 @@
 # $DB_HOST
 #
 # Set these to what you need:
-BUCKET_NAME=pepysdiary-pg-backups
+BUCKET_NAME=jagged-production-pg-backups
 APP=pepysdiary
 
 # Where we put the temporary database dump.
