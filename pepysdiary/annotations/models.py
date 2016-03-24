@@ -43,6 +43,7 @@ class Annotation(Comment):
 
     class Meta:
         proxy = True
+        app_label = 'annotations'
 
     def save(self, *args, **kwargs):
         # We don't allow HTML at all:
