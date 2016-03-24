@@ -19,98 +19,102 @@ admin.autodiscover()
 urlpatterns = [
 
     url(r'^favicon\.ico$', RedirectView.as_view(
-                    url='%simg/favicons/favicon.ico' % settings.STATIC_URL)),
+                    url='%simg/favicons/favicon.ico' % settings.STATIC_URL,
+                    permanent=True)),
 
     # Redirect any URL with a trailiing 'index.php' to its base URL.
     # eg /diary/1660/01/01/index.php to /diary/1660/01/01/
     url(r'^(?P<base_url>.*?)index\.php$', RedirectView.as_view(
-                                url='%(site_url)s%(base_url)s'),
-                                kwargs={'site_url': reverse_lazy('home')}),
+                            url='%(site_url)s%(base_url)s', permanent=True),
+                            kwargs={'site_url': reverse_lazy('home')}),
 
     # DIARY.
 
     # From main /archive/ page.
     url(r'^archive/$', RedirectView.as_view(
-                                        url=reverse_lazy('entry_archive'))),
+                            url=reverse_lazy('entry_archive'), permanent=True)),
 
     # From /archive/1660/01/ URLs:
     url(r'^archive/(?P<year>\d{4})/(?P<month>\d{2})/$',
-        DiaryMonthRedirectView.as_view()
+        DiaryMonthRedirectView.as_view(permanent=True)
     ),
 
     # From /archive/1660/01/01/index.php URLs:
     url(r'^archive/(?P<year>\d{4})/(?P<month>\d{2})/(?P<day>\d{2})/(index\.php)?$',
-        DiaryEntryRedirectView.as_view()
+        DiaryEntryRedirectView.as_view(permanent=True)
     ),
 
     # The URL of the RSS feed that Feedburner fetches.
     url(r'^syndication/full-fb\.rdf$', RedirectView.as_view(
-                                            url=reverse_lazy('entry_rss'))),
+                            url=reverse_lazy('entry_rss'), permanent=True)),
     # Used on LiveJournal.
     url(r'^syndication/rdf\.php$', RedirectView.as_view(
-                                url='http://feeds.feedburner.com/PepysDiary')),
+                url='http://feeds.feedburner.com/PepysDiary', permanent=True)),
     url(r'^syndication/full\.rdf$', RedirectView.as_view(
-                                url='http://feeds.feedburner.com/PepysDiary')),
+                url='http://feeds.feedburner.com/PepysDiary', permanent=True)),
 
 
     # LETTERS.
 
     # From /letters/1660/01/01/slug-field.php URLs:
     url(r'^letters/(?P<year>\d{4})/(?P<month>\d{2})/(?P<day>\d{2})/(?P<slug>[\w-]+)\.php$',
-        LetterRedirectView.as_view()
+        LetterRedirectView.as_view(permanent=True)
     ),
 
     # ENCYCLOPEDIA.
 
     url(r'^background/$', RedirectView.as_view(
-                                            url=reverse_lazy('encyclopedia'))),
+                            url=reverse_lazy('encyclopedia'), permanent=True)),
     url(r'^background/familytree/$', RedirectView.as_view(
-                                url=reverse_lazy('encyclopedia_familytree'))),
+                url=reverse_lazy('encyclopedia_familytree'), permanent=True)),
     url(r'^background/maps/$', RedirectView.as_view(
-                                            url=reverse_lazy('category_map'))),
+                            url=reverse_lazy('category_map'), permanent=True)),
     url(r'^background/(?P<slugs>[\w_\/]+)\.php$',
-                                    EncyclopediaCategoryRedirectView.as_view()),
+                    EncyclopediaCategoryRedirectView.as_view(permanent=True)),
 
-    url(r'^p/(?P<pk>\d+)\.php$', EncyclopediaTopicRedirectView.as_view()),
+    url(r'^p/(?P<pk>\d+)\.php$',
+                        EncyclopediaTopicRedirectView.as_view(permanent=True)),
 
     # The URL of the RSS feed that Feedburner fetches.
     url(r'^syndication/encyclopedia-fb\.rdf$', RedirectView.as_view(
-                                            url=reverse_lazy('topic_rss'))),
+                            url=reverse_lazy('topic_rss'), permanent=True)),
 
     # IN-DEPTH.
 
     # From /indepth/archive/2012/05/31/slug_field.php URLs:
     url(r'^indepth/archive/(?P<year>\d{4})/(?P<month>\d{2})/(?P<day>\d{2})/(?P<slug>[\w_]+)\.php$',
-        ArticleRedirectView.as_view()
+        ArticleRedirectView.as_view(permanent=True)
     ),
 
     # The URL of the RSS feed that Feedburner fetches.
     url(r'^syndication/indepth-fb\.rdf$', RedirectView.as_view(
-                                            url=reverse_lazy('article_rss'))),
+                            url=reverse_lazy('article_rss'), permanent=True)),
 
     # SITE NEWS.
 
     # From main Site News front page.
-    url(r'^about/news/$', RedirectView.as_view(url=reverse_lazy('news'))),
+    url(r'^about/news/$',RedirectView.as_view(
+                                    url=reverse_lazy('news'), permanent=True)),
 
     # From /about/archive/2012/05/31/3456.php URLs:
     url(r'^about/archive/(?P<year>\d{4})/(?P<month>\d{2})/(?P<day>\d{2})/(?P<pk>\d+)\.php$',
-        PostRedirectView.as_view()
+        PostRedirectView.as_view(permanent=True)
     ),
 
     # The URL of the RSS feed that Feedburner fetches.
     url(r'^syndication/recentnews-fb\.rdf$', RedirectView.as_view(
-                                            url=reverse_lazy('post_rss'))),
+                                url=reverse_lazy('post_rss'), permanent=True)),
 
     # SUMMARYIES.
 
     url(r'^about/history/(?:index.php)?$', RedirectView.as_view(
-                                        url=reverse_lazy('diary_summary'))),
+                            url=reverse_lazy('diary_summary'), permanent=True)),
 
     url(r'^about/history/(?P<year>\d{4})/$',
-                                            SummaryYearRedirectView.as_view()),
+                            SummaryYearRedirectView.as_view(permanent=True)),
 
-    url(r'^about/support/$', RedirectView.as_view(url=reverse_lazy('about'))),
+    url(r'^about/support/$', RedirectView.as_view(
+                                url=reverse_lazy('about'), permanent=True)),
 ]
 
 # Flatpages URLs.
@@ -194,4 +198,4 @@ if settings.DEBUG:
         url(r'^media/(?P<path>.*)$', serve, {
             'document_root': settings.MEDIA_ROOT,
         }),
-   ] 
+   ]
