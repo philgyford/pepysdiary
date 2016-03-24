@@ -5,7 +5,7 @@ from pepysdiary.encyclopedia.views import *
 
 # ALL REDIRECTS are in common/urls.py.
 
-urlpatterns = patterns('',
+urlpatterns = [
     url(r'^$', EncyclopediaView.as_view(), name='encyclopedia'),
 
     url(r'^rss/$', LatestTopicsFeed(), name='topic_rss'),
@@ -17,4 +17,4 @@ urlpatterns = patterns('',
 
     url(r'^(?P<slugs>[\w\/-]+)/$', CategoryDetailView.as_view(),
                                                 name='category_detail'),
-)
+]

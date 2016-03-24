@@ -1,11 +1,13 @@
 from django.conf import settings
-from django.conf.urls import patterns, include, url
+from django.conf.urls import include, url
 from django.contrib import admin
+from django.contrib.flatpages import views as flatpages_views
 from django.contrib.sitemaps import FlatPageSitemap
 from django.contrib.sitemaps import views as sitemaps_views
 from django.core.urlresolvers import reverse_lazy
 from django.views.decorators.cache import cache_page
 from django.views.generic import RedirectView, TemplateView
+from django.views.static import serve
 
 from pepysdiary.common import sitemaps
 from pepysdiary.common.views import *
@@ -14,7 +16,7 @@ from pepysdiary.common.views import *
 admin.autodiscover()
 
 # Redirects from old Movable Type URLs to new ones.
-urlpatterns = patterns('',
+urlpatterns = [
 
     url(r'^favicon\.ico$', RedirectView.as_view(
                     url='%simg/favicons/favicon.ico' % settings.STATIC_URL)),
@@ -109,34 +111,36 @@ urlpatterns = patterns('',
                                             SummaryYearRedirectView.as_view()),
 
     url(r'^about/support/$', RedirectView.as_view(url=reverse_lazy('about'))),
-)
+]
 
 # Flatpages URLs.
-urlpatterns += patterns('django.contrib.flatpages.views',
-    url(r'^about/$', 'flatpage', {'url': '/about/'}, name='about'),
-    url(r'^about/annotations/$', 'flatpage', {'url': '/about/annotations/'},
-                                                    name='about_annotations'),
-    url(r'^about/faq/$', 'flatpage', {'url': '/about/faq/'}, name='about_faq'),
-    url(r'^about/formats/$', 'flatpage', {'url': '/about/formats/'},
-                                                        name='about_formats'),
-    url(r'^about/text/$', 'flatpage', {'url': '/about/text/'},
-                                                            name='about_text'),
-    url(r'^diary/1893-introduction/$', 'flatpage',
+urlpatterns += [
+    url(r'^about/$', flatpages_views.flatpage,
+                                            {'url': '/about/'}, name='about'),
+    url(r'^about/annotations/$', flatpages_views.flatpage,
+                    {'url': '/about/annotations/'}, name='about_annotations'),
+    url(r'^about/faq/$', flatpages_views.flatpage,
+                                    {'url': '/about/faq/'}, name='about_faq'),
+    url(r'^about/formats/$', flatpages_views.flatpage,
+                            {'url': '/about/formats/'}, name='about_formats'),
+    url(r'^about/text/$', flatpages_views.flatpage,
+                                {'url': '/about/text/'}, name='about_text'),
+    url(r'^diary/1893-introduction/$', flatpages_views.flatpage,
             {'url': '/diary/1893-introduction/'}, name='1893_introduction'),
-    url(r'^diary/1893-introduction/pepys/$', 'flatpage',
+    url(r'^diary/1893-introduction/pepys/$', flatpages_views.flatpage,
                                     {'url': '/diary/1893-introduction/pepys/'},
                                     name='1893_introduction_pepys'),
-    url(r'^diary/1893-introduction/preface/$', 'flatpage',
+    url(r'^diary/1893-introduction/preface/$', flatpages_views.flatpage,
                                 {'url': '/diary/1893-introduction/preface/'},
                                 name='1893_introduction_preface'),
-    url(r'^diary/1893-introduction/previous/$', 'flatpage',
+    url(r'^diary/1893-introduction/previous/$', flatpages_views.flatpage,
                                 {'url': '/diary/1893-introduction/previous/'},
                                 name='1893_introduction_previous'),
-    url(r'^diary/summary/$', 'flatpage', {'url': '/diary/summary/'},
-                                                        name='diary_summary'),
-    url(r'^encyclopedia/familytree/$', 'flatpage', {
-        'url': '/encyclopedia/familytree/'}, name='encyclopedia_familytree'),
-)
+    url(r'^diary/summary/$', flatpages_views.flatpage,
+                            {'url': '/diary/summary/'}, name='diary_summary'),
+    url(r'^encyclopedia/familytree/$', flatpages_views.flatpage,
+        {'url': '/encyclopedia/familytree/'}, name='encyclopedia_familytree'),
+]
 
 
 sitemaps = {
@@ -152,7 +156,7 @@ sitemaps = {
 
 
 # The main URL conf for actual pages, not redirects.
-urlpatterns += patterns('',
+urlpatterns += [
     url(r'^$', HomeView.as_view(), name='home'),
 
     url(r'^sitemap\.xml$',
@@ -183,11 +187,11 @@ urlpatterns += patterns('',
     # Uncomment the admin/doc line below to enable admin documentation:
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
     url(r'^admin/', include(admin.site.urls)),
-)
+]
 
 if settings.DEBUG:
-    urlpatterns += patterns('',
-        url(r'^media/(?P<path>.*)$', 'django.views.static.serve', {
+    urlpatterns += [
+        url(r'^media/(?P<path>.*)$', serve, {
             'document_root': settings.MEDIA_ROOT,
         }),
-   )
+   ] 
