@@ -5,7 +5,7 @@ from pepysdiary.indepth.views import *
 
 # ALL REDIRECTS are in common/urls.py.
 
-urlpatterns = patterns('',
+urlpatterns = [
 
     url(r'^rss/$', LatestArticlesFeed(), name='article_rss'),
 
@@ -13,4 +13,4 @@ urlpatterns = patterns('',
                         ArticleDetailView.as_view(), name='article_detail'),
 
     url(r'^$', ArticleArchiveView.as_view(), name='indepth'),
-)
+]

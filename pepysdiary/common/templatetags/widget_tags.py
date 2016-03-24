@@ -260,7 +260,7 @@ def admin_link_change(url):
 def detailed_topics():
     topics = (
         (150,  "Elizabeth Pepys"),
-        (112,  "Sir Edward Mountagu (Pepys’ patron)"),
+        (112,  u"Sir Edward Mountagu (Pepys’ patron)"),
         (2381, "Catherine of Braganza (Queen)"),
         (5036, "Frances Stuart (Duchess of Richmond)"),
         (1062, "Barbara Palmer (Countess of Castlemaine)"),
@@ -273,7 +273,7 @@ def detailed_topics():
 
     body = '<ul>'
     for topic in topics:
-        body += '<li><a href="%s">%s</a></li>' % (reverse('topic_detail', kwargs={'pk': topic[0]}), topic[1])
+        body += u'<li><a href="%s">%s</a></li>' % (reverse('topic_detail', kwargs={'pk': topic[0]}), topic[1])
     body += '</ul><p>Written by readers of this site</p>'
     return put_in_block(body, 'Detailed topics')
 

@@ -5,7 +5,7 @@ from pepysdiary.membership.forms import PasswordResetForm, SetPasswordForm
 from pepysdiary.membership.views import *
 
 
-urlpatterns = patterns('',
+urlpatterns = [
 
     url(r'^login/$', login, name='login'),
 
@@ -52,4 +52,4 @@ urlpatterns = patterns('',
         password_reset_complete, {
             'template_name': 'message.html',
         }, 'password_reset_complete'),
-)
+]

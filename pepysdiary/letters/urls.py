@@ -5,7 +5,7 @@ from pepysdiary.letters.views import *
 
 # ALL REDIRECTS are in common/urls.py.
 
-urlpatterns = patterns('',
+urlpatterns = [
     url(r'^rss/$', LatestLettersFeed(), name='letter_rss'),
 
     url(r'^(?P<year>\d{4})/(?P<month>\d{2})/(?P<day>\d{2})/(?P<slug>[\w-]+)/$',
@@ -15,4 +15,4 @@ urlpatterns = patterns('',
                                                         name='letter_person'),
 
     url(r'^$', LetterArchiveView.as_view(), name='letters'),
-)
+]
