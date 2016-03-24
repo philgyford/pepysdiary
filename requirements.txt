@@ -4,7 +4,7 @@ Pillow==2.7.0
 argparse==1.2.1
 beautifulsoup4==4.3.2
 bleach==1.4.1
-django-contrib-comments==1.5
+django-contrib-comments==1.6.2
 django-debug-toolbar==1.4
 django-recaptcha==1.0.3
 django-treebeard==3.0
