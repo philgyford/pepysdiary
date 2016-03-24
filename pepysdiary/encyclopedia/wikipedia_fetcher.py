@@ -177,7 +177,7 @@ class WikipediaFetcher(object):
             soup = soup.html.body
 
         # Put the content back into a string.
-        html = ''.join(str(tag) for tag in soup.contents)
+        html = ''.join(tag.encode('utf-8') for tag in soup.contents)
 
         return html
 
