@@ -45,7 +45,7 @@ def email_list(to_list, template_path, from_address, context_dict):
     from django.template import loader, Context
 
     nodes = dict((n.name, n) for n in loader.get_template(
-                template_path).nodelist if n.__class__.__name__ == 'BlockNode')
+                template_path).template if n.__class__.__name__ == 'BlockNode')
     con = Context(context_dict)
     r = lambda n: nodes[n].render(con)
 
