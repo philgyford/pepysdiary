@@ -4,6 +4,7 @@ cookies==2.2.1
 Django==1.9.4
 django-contrib-comments==1.6.2
 django-debug-toolbar==1.4
+django-memcache-status==1.2
 django-recaptcha==1.0.5
 django-treebeard==4.0
 funcsigs==0.4
@@ -15,6 +16,7 @@ pbr==1.8.1
 Pillow==2.9.0
 psycopg2==2.6.1
 pylibmc==1.5.1
+python-memcached==1.57
 pytz==2016.3
 requests==2.9.1
 responses==0.5.1

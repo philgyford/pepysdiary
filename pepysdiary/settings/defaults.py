@@ -139,6 +139,7 @@ INSTALLED_APPS = [
     'treebeard',
     'gunicorn',
     'captcha',
+    'memcache_status',
     'pepysdiary.common',
     'pepysdiary.diary',
     'pepysdiary.encyclopedia',
