@@ -1,6 +1,6 @@
 # coding: utf-8
 from django.contrib.auth import views as auth_views
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.urlresolvers import reverse
 from django.shortcuts import redirect
@@ -63,8 +63,8 @@ class ProfileView(DetailView):
             context['comment_list'] = comments_qs.order_by('-submit_date')[:10]
         return context
 
-@method_decorator([login_required, never_cache], name='dispatch')
-class PrivateProfileView(ProfileView):
+@method_decorator([never_cache], name='dispatch')
+class PrivateProfileView(LoginRequiredMixin, ProfileView):
     """
     The logged-in user viewing themself.
     """
@@ -77,8 +77,8 @@ class PrivateProfileView(ProfileView):
         return self.request.user
 
 
-@method_decorator([csrf_protect, login_required, never_cache], name='dispatch')
-class EditProfileView(UpdateView):
+@method_decorator([csrf_protect, never_cache], name='dispatch')
+class EditProfileView(LoginRequiredMixin, UpdateView):
     """
     A logged-in user editing their details.
     """
