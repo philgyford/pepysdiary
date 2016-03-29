@@ -4,7 +4,7 @@ Django==1.9.4
 django-contrib-comments==1.6.2
 django-debug-toolbar==1.4
 django-recaptcha==1.0.3
-django-treebeard==3.0
+django-treebeard==4.0
 gunicorn==19.3.0
 html5lib==0.9999999
 Markdown==2.6
