@@ -33,10 +33,11 @@ class Letter(PepysModel, OldDateMixin):
     footnotes = models.TextField(blank=True, null=False)
     excerpt = models.TextField(blank=False, null=False,
         help_text="200 or so characters from the start of the letter, after salutations.")
-    sender = models.ForeignKey('encyclopedia.Topic', blank=False, null=False,
-                                                related_name='leter_senders')
-    recipient = models.ForeignKey('encyclopedia.Topic', blank=False,
-                                null=False, related_name='letter_recipients')
+    sender = models.ForeignKey('encyclopedia.Topic', on_delete=models.SET_NULL,
+                        blank=False, null=True, related_name='leter_senders')
+    recipient = models.ForeignKey('encyclopedia.Topic',
+                            on_delete=models.SET_NULL, blank=False, null=True,
+                            related_name='letter_recipients')
     source = models.IntegerField(blank=True, null=True, choices=SOURCE_CHOICES)
     slug = models.SlugField(max_length=50, blank=False, null=False,
                                                 unique_for_date='letter_date')

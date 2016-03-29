@@ -57,7 +57,8 @@ class Config(PepysModel):
     """
     Site-wide configuration settings.
     """
-    site = models.OneToOneField(Site, blank=False, null=False)
+    site = models.OneToOneField(Site, on_delete=models.SET_NULL, blank=False,
+                                                                    null=True)
     allow_registration = models.BooleanField(default=True, blank=False,
                                                                     null=False)
     allow_login = models.BooleanField(default=True, blank=False, null=False)
