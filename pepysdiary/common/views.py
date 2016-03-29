@@ -26,7 +26,7 @@ class HomeView(TemplateView):
         # If we change the number of Entries, the template will need tweaking
         # too...
         context['entry_list'] = Entry.objects.filter(
-                diary_date__lte=Entry.objects.most_recent_entry_date
+                diary_date__lte=Entry.objects.most_recent_entry_date()
             ).order_by('-diary_date')[:8]
 
         context['tooltip_references'] = Entry.objects.get_brief_references(
