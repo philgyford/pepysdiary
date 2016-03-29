@@ -1,6 +1,6 @@
 beautifulsoup4==4.4.1
 bleach==1.4.2
-Django==1.8.11
+Django==1.9.4
 django-contrib-comments==1.6.2
 django-debug-toolbar==1.4
 django-recaptcha==1.0.3
