@@ -2,7 +2,6 @@ from defaults import *
 from os import environ
 
 DEBUG = True
-TEMPLATE_DEBUG = DEBUG
 
 ADMINS = [
     ('Phil Gyford', 'phil@gyford.com'),
@@ -55,6 +54,7 @@ if DEBUG:
         'SHOW_TOOLBAR_CALLBACK': "%s.true" % __name__
     }
     INTERNAL_IPS = ['127.0.0.1', '192.168.33.1', '0.0.0.0']
+    RESULTS_CACHE_SIZE = 100
 
     def true(request):
         return True

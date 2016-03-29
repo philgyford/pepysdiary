@@ -98,29 +98,38 @@ ROOT_URLCONF = 'pepysdiary.common.urls'
 # Python dotted path to the WSGI application used by Django's runserver.
 WSGI_APPLICATION = 'pepysdiary.wsgi.application'
 
-TEMPLATE_DIRS = [ 
-    # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
-    # Always use forward slashes, even on Windows.
-    # Don't forget to use absolute paths, not relative paths.
-    'treebeard/templates/',
-    os.path.join(PROJECT_ROOT, 'templates', ),
-    os.path.join(PROJECT_ROOT, 'templates', 'common', ),
-    os.path.join(PROJECT_ROOT, 'templates', 'diary', ),
-    os.path.join(PROJECT_ROOT, 'templates', 'encyclopedia', ),
-    os.path.join(PROJECT_ROOT, 'templates', 'letters', ),
-    os.path.join(PROJECT_ROOT, 'templates', 'news', ),
-    os.path.join(PROJECT_ROOT, 'templates', 'membership', ),
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [
+            'treebeard/templates/',
+            os.path.join(PROJECT_ROOT, 'templates', ),
+            os.path.join(PROJECT_ROOT, 'templates', 'common', ),
+            os.path.join(PROJECT_ROOT, 'templates', 'diary', ),
+            os.path.join(PROJECT_ROOT, 'templates', 'encyclopedia', ),
+            os.path.join(PROJECT_ROOT, 'templates', 'letters', ),
+            os.path.join(PROJECT_ROOT, 'templates', 'news', ),
+            os.path.join(PROJECT_ROOT, 'templates', 'membership', ),
+        ],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+
+                # Needed for django-treebeard admin:
+                'django.template.context_processors.request',
+
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+                'pepysdiary.common.context_processors.api_keys',
+                'pepysdiary.common.context_processors.config',
+                'pepysdiary.common.context_processors.date_formats',
+                'pepysdiary.common.context_processors.url_name',
+            ],
+        },
+    },
 ]
 
-from django.conf import global_settings
-TEMPLATE_CONTEXT_PROCESSORS = global_settings.TEMPLATE_CONTEXT_PROCESSORS + [
-    # Needed for django-treebeard admin:
-    'django.core.context_processors.request',
-    'pepysdiary.common.context_processors.api_keys',
-    'pepysdiary.common.context_processors.config',
-    'pepysdiary.common.context_processors.date_formats',
-    'pepysdiary.common.context_processors.url_name',
-]
 
 INSTALLED_APPS = [
     'django.contrib.auth',

@@ -2,7 +2,6 @@ from defaults import *
 from os import environ
 
 DEBUG = False
-TEMPLATE_DEBUG = DEBUG
 
 ADMINS = [
     ('Phil Gyford', 'phil@gyford.com'),
