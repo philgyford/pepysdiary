@@ -187,6 +187,10 @@ TEST_RUNNER = 'django.test.runner.DiscoverRunner'
 from datetime import date, timedelta
 future_date = date.today() + timedelta(days=365)
 
+# From https://github.com/praekelt/django-recaptcha
+NOCAPTCHA = True
+
+
 ####################################################################
 # PEPYSDIARY SPECIFIC
 
