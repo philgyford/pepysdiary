@@ -4,9 +4,9 @@ from os import environ
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
-ADMINS = (
+ADMINS = [
     ('Phil Gyford', 'phil@gyford.com'),
-)
+]
 
 MANAGERS = ADMINS
 
@@ -47,14 +47,14 @@ SECRET_KEY = environ.get('SECRET_KEY', '')
 
 # Debug Toolbar settings.
 if DEBUG:
-    MIDDLEWARE_CLASSES += ('debug_toolbar.middleware.DebugToolbarMiddleware', )
-    INSTALLED_APPS += ('debug_toolbar', )
+    MIDDLEWARE_CLASSES += ['debug_toolbar.middleware.DebugToolbarMiddleware', ]
+    INSTALLED_APPS += ['debug_toolbar', ]
     DEBUG_TOOLBAR_CONFIG = {
         'INTERCEPT_REDIRECTS': False,
         # Force the toolbar to show as INTERNAL_IPS wasn't working with Vagrant.
         'SHOW_TOOLBAR_CALLBACK': "%s.true" % __name__
     }
-    INTERNAL_IPS = ('127.0.0.1', '192.168.33.1', '0.0.0.0')
+    INTERNAL_IPS = ['127.0.0.1', '192.168.33.1', '0.0.0.0']
 
     def true(request):
         return True

@@ -51,29 +51,29 @@ STATIC_ROOT = os.path.join(PROJECT_ROOT, 'static_collected/')
 STATIC_URL = '/static/'
 
 # Additional locations of static files
-STATICFILES_DIRS = (
+STATICFILES_DIRS = [
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
     os.path.join(PROJECT_ROOT, 'common', 'static'),
-)
+]
 
 # List of finder classes that know how to find static files in
 # various locations.
-STATICFILES_FINDERS = (
+STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 #    'django.contrib.staticfiles.finders.DefaultStorageFinder',
-)
+]
 
 # List of callables that know how to import templates from various sources.
-TEMPLATE_LOADERS = (
+TEMPLATE_LOADERS = [
     'django.template.loaders.filesystem.Loader',
     'django.template.loaders.app_directories.Loader',
 #     'django.template.loaders.eggs.Loader',
-)
+]
 
-MIDDLEWARE_CLASSES = (
+MIDDLEWARE_CLASSES = [
     # Must be first:
     'django.middleware.cache.UpdateCacheMiddleware',
     'django.middleware.gzip.GZipMiddleware',
@@ -86,7 +86,7 @@ MIDDLEWARE_CLASSES = (
     'pepysdiary.common.middleware.VisitTimeMiddleware',
     # Must be last:
     'django.middleware.cache.FetchFromCacheMiddleware',
-)
+]
 
 CACHE_MIDDLEWARE_ALIAS = 'default'
 # Also see the CACHES setting in the server-specific settings files.
@@ -98,7 +98,7 @@ ROOT_URLCONF = 'pepysdiary.common.urls'
 # Python dotted path to the WSGI application used by Django's runserver.
 WSGI_APPLICATION = 'pepysdiary.wsgi.application'
 
-TEMPLATE_DIRS = (
+TEMPLATE_DIRS = [ 
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
@@ -110,19 +110,19 @@ TEMPLATE_DIRS = (
     os.path.join(PROJECT_ROOT, 'templates', 'letters', ),
     os.path.join(PROJECT_ROOT, 'templates', 'news', ),
     os.path.join(PROJECT_ROOT, 'templates', 'membership', ),
-)
+]
 
 from django.conf import global_settings
-TEMPLATE_CONTEXT_PROCESSORS = global_settings.TEMPLATE_CONTEXT_PROCESSORS + (
+TEMPLATE_CONTEXT_PROCESSORS = global_settings.TEMPLATE_CONTEXT_PROCESSORS + [
     # Needed for django-treebeard admin:
     'django.core.context_processors.request',
     'pepysdiary.common.context_processors.api_keys',
     'pepysdiary.common.context_processors.config',
     'pepysdiary.common.context_processors.date_formats',
     'pepysdiary.common.context_processors.url_name',
-)
+]
 
-INSTALLED_APPS = (
+INSTALLED_APPS = [
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.humanize',
@@ -148,7 +148,7 @@ INSTALLED_APPS = (
     'pepysdiary.events',
     'django_comments',
     'pepysdiary.annotations',
-)
+]
 
 AUTH_USER_MODEL = 'membership.Person'
 

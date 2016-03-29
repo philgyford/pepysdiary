@@ -5,9 +5,9 @@ import dj_database_url
 DEBUG = False
 TEMPLATE_DEBUG = DEBUG
 
-ADMINS = (
+ADMINS = [
     ('Phil Gyford', 'phil@gyford.com'),
-)
+]
 
 MANAGERS = ADMINS
 
