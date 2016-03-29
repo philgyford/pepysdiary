@@ -12,7 +12,7 @@ MANAGERS = ADMINS
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'ENGINE': 'django.db.backends.postgresql',
         'NAME': environ.get('DB_NAME'),
         'USER': environ.get('DB_USERNAME'),
         'PASSWORD': environ.get('DB_PASSWORD'),
