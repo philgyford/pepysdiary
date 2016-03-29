@@ -18,15 +18,10 @@ from pepysdiary.membership import forms
 from pepysdiary.membership.models import Person
 
 
+@method_decorator([csrf_protect, never_cache, sensitive_post_parameters('password1', 'password2')], name='dispatch')
 class RegisterView(FormView):
     template_name = 'register.html'
     form_class = forms.RegistrationForm
-
-    @method_decorator(csrf_protect)
-    @method_decorator(never_cache)
-    @method_decorator(sensitive_post_parameters('password1', 'password2'))
-    def dispatch(self, *args, **kwargs):
-        return super(RegisterView, self).dispatch(*args, **kwargs)
 
     def get(self, request, *args, **kwargs):
         if request.user.is_authenticated():
@@ -68,7 +63,7 @@ class ProfileView(DetailView):
             context['comment_list'] = comments_qs.order_by('-submit_date')[:10]
         return context
 
-
+@method_decorator([login_required, never_cache], name='dispatch')
 class PrivateProfileView(ProfileView):
     """
     The logged-in user viewing themself.
@@ -81,24 +76,14 @@ class PrivateProfileView(ProfileView):
         """
         return self.request.user
 
-    @method_decorator(login_required)
-    @method_decorator(never_cache)
-    def dispatch(self, *args, **kwargs):
-        return super(PrivateProfileView, self).dispatch(*args, **kwargs)
 
-
+@method_decorator([csrf_protect, login_required, never_cache], name='dispatch')
 class EditProfileView(UpdateView):
     """
     A logged-in user editing their details.
     """
     model = Person
     form_class = forms.PersonEditForm
-
-    @method_decorator(csrf_protect)
-    @method_decorator(login_required)
-    @method_decorator(never_cache)
-    def dispatch(self, *args, **kwargs):
-        return super(EditProfileView, self).dispatch(*args, **kwargs)
 
     def get_object(self, queryset=None):
         return self.request.user
@@ -165,6 +150,7 @@ def password_reset_complete(request, *args, **kwargs):
     return auth_views.password_reset_complete(request, *args, **kwargs)
 
 
+@method_decorator(never_cache, name='dispatch')
 class MessageView(TemplateView):
     """
     For displaying generic messages.
@@ -175,10 +161,6 @@ class MessageView(TemplateView):
     template_name = 'message.html'
     title = 'Message'
     message = ''
-
-    @method_decorator(never_cache)
-    def dispatch(self, *args, **kwargs):
-        return super(MessageView, self).dispatch(*args, **kwargs)
 
     def get_title(self):
         if 'title' in self.kwargs:
