@@ -2,6 +2,7 @@
 from django import template
 from django.conf import settings
 from django.core.urlresolvers import reverse
+from django.utils.html import mark_safe
 
 from pepysdiary.encyclopedia.models import Topic
 from pepysdiary.indepth.models import Article
@@ -33,18 +34,18 @@ def put_in_block(body, title=''):
 
 @register.simple_tag
 def twitter_and_email(*args):
-    return put_in_block("""
+    return mark_safe(put_in_block("""
 <p><a href="http://feedburner.google.com/fb/a/mailverify?uri=PepysDiary&amp;loc=en_US">Receive diary entries by email daily</a></p>
 <p><a href="http://twitter.com/samuelpepys">Follow @SamuelPepys’ life on Twitter</a></p>
-""", 'Twitter &amp; Email')
+""", 'Twitter &amp; Email'))
 
 
 @register.simple_tag
 def credit(*args):
-    return put_in_block("""<p>This site is run by <a href="http://www.gyford.com/">Phil&nbsp;Gyford</a></p>
+    return mark_safe(put_in_block("""<p>This site is run by <a href="http://www.gyford.com/">Phil&nbsp;Gyford</a></p>
 <p><a href="https://twitter.com/philgyford">@philgyford</a> on Twitter</p>
 <p><a href="%s">More about this site</a></p>
-""" % (reverse('about')), 'About')
+""" % (reverse('about')), 'About'))
 
 
 @register.simple_tag
@@ -97,7 +98,7 @@ def rss_feeds(*args):
 %s
 </ul>
 """ % html, 'RSS feeds')
-    return html
+    return mark_safe(html)
 
 
 def recent_list(queryset, title, date_format):
@@ -135,24 +136,24 @@ def recent_list(queryset, title, date_format):
 def latest_posts(context, quantity=5):
     """Displays links to the most recent Site News Posts."""
     post_list = Post.published_posts.all().only('title', 'date_published')[:quantity]
-    return recent_list(post_list, 'Latest Site News',
-                                        context['date_format_long_strftime'])
+    return mark_safe(recent_list(post_list, 'Latest Site News',
+                                        context['date_format_long_strftime']))
 
 
 @register.simple_tag(takes_context=True)
 def latest_articles(context, quantity=5):
     """Displays links to the most recent In-Depth Articles."""
     article_list = Article.published_articles.all().only('title', 'date_published', 'slug')[:quantity]
-    return recent_list(article_list, 'Latest In-Depth Articles',
-                                        context['date_format_long_strftime'])
+    return mark_safe(recent_list(article_list, 'Latest In-Depth Articles',
+                                        context['date_format_long_strftime']))
 
 
 @register.simple_tag(takes_context=True)
 def latest_topics(context, quantity=5):
     """Displays links to the most recent Encyclopedia Topics"""
     topic_list = Topic.objects.order_by('-date_created').only('title', 'date_created')[:quantity]
-    return recent_list(topic_list, 'Latest Encyclopedia Topics',
-                                        context['date_format_long_strftime'])
+    return mark_safe(recent_list(topic_list, 'Latest Encyclopedia Topics',
+                                        context['date_format_long_strftime']))
 
 
 @register.simple_tag(takes_context=True)
@@ -175,7 +176,7 @@ def all_articles(context, exclude_id=None):
                                     item.get_absolute_url(),
                                     item.title,
                                     item.date_published.strftime(date_format))
-    return put_in_block("""<ul class="list-spaced list-small list-unstyled">%s</ul>""" % (html), 'All In-Depth Articles')
+    return mark_safe(put_in_block("""<ul class="list-spaced list-small list-unstyled">%s</ul>""" % (html), 'All In-Depth Articles'))
 
 
 
@@ -206,7 +207,7 @@ def summary_year_navigation(current_year):
                             'year': '2012', 'month': '05', 'day': '31',
                             'slug': 'the-next-chapter'}
                         ))
-    return '<div class="list-group">%s</div>' % html
+    return mark_safe('<div class="list-group">%s</div>' % html)
 
 
 @register.simple_tag
@@ -226,7 +227,7 @@ def family_tree_link(topic=None):
         <p><a href="%s">%s</a></p>
     """ % (link_url, settings.STATIC_URL, link_url, text)
 
-    return put_in_block(body, 'Family tree')
+    return mark_safe(put_in_block(body, 'Family tree'))
 
 
 @register.simple_tag
@@ -248,12 +249,12 @@ def category_map_link(category_id=None):
     </p>
     """ % (link_url, settings.STATIC_URL, link_url, text)
 
-    return put_in_block(body, 'Maps')
+    return mark_safe(put_in_block(body, 'Maps'))
 
 
 @register.simple_tag
 def admin_link_change(url):
-    return """<p class="admin-links"><a class="admin" href="%s">Edit</a></p>""" % (url)
+    return mark_safe("""<p class="admin-links"><a class="admin" href="%s">Edit</a></p>""" % (url))
 
 
 @register.simple_tag
@@ -275,5 +276,5 @@ def detailed_topics():
     for topic in topics:
         body += u'<li><a href="%s">%s</a></li>' % (reverse('topic_detail', kwargs={'pk': topic[0]}), topic[1])
     body += '</ul><p>Written by readers of this site</p>'
-    return put_in_block(body, 'Detailed topics')
+    return mark_safe(put_in_block(body, 'Detailed topics'))
 

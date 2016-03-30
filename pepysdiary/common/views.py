@@ -26,7 +26,7 @@ class HomeView(TemplateView):
         # If we change the number of Entries, the template will need tweaking
         # too...
         context['entry_list'] = Entry.objects.filter(
-                diary_date__lte=Entry.objects.most_recent_entry_date
+                diary_date__lte=Entry.objects.most_recent_entry_date()
             ).order_by('-diary_date')[:8]
 
         context['tooltip_references'] = Entry.objects.get_brief_references(
@@ -38,13 +38,11 @@ class HomeView(TemplateView):
 class SearchView(TemplateView):
     template_name = 'search.html'
 
+
+@method_decorator(cache_page(60 * 5), name='dispatch')
 class RecentView(TemplateView):
     """Recent Activity page."""
     template_name = 'recent.html'
-
-    @method_decorator(cache_page(60 * 5))
-    def dispatch(self, *args, **kwargs):
-        return super(RecentView, self).dispatch(*args, **kwargs)
 
 
 class BaseRSSFeed(Feed):

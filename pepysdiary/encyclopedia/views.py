@@ -17,12 +17,9 @@ from pepysdiary.encyclopedia.forms import CategoryMapForm
 from pepysdiary.encyclopedia.models import Category, Topic
 
 
+@method_decorator(cache_page(60 * 60), name='dispatch')
 class EncyclopediaView(TemplateView):
     template_name = 'category_list.html'
-
-    @method_decorator(cache_page(60 * 60))
-    def dispatch(self, *args, **kwargs):
-        return super(EncyclopediaView, self).dispatch(*args, **kwargs)
 
     def get_context_data(self, **kwargs):
         context = super(EncyclopediaView, self).get_context_data(**kwargs)
@@ -109,6 +106,7 @@ class LatestTopicsFeed(BaseRSSFeed):
         )
 
 
+@method_decorator([cache_page(60 * 60), csrf_protect], name='dispatch')
 class CategoryMapView(FormView):
     form_class = CategoryMapForm
     template_name = 'category_map.html'
@@ -118,11 +116,6 @@ class CategoryMapView(FormView):
 
     # Default category:
     category_id = 28
-
-    @method_decorator(cache_page(60 * 60))
-    @method_decorator(csrf_protect)
-    def dispatch(self, *args, **kwargs):
-        return super(CategoryMapView, self).dispatch(*args, **kwargs)
 
     def get(self, request, *args, **kwargs):
         # Set the Category ID of Topics we're displaying.

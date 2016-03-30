@@ -1,6 +1,7 @@
 # coding: utf-8
 from django import forms
 from django.contrib.auth.forms import AuthenticationForm, PasswordResetForm, SetPasswordForm
+from django.contrib.auth import password_validation
 from django.utils.translation import ugettext_lazy as _
 
 from captcha.fields import ReCaptchaField
@@ -39,7 +40,8 @@ class RegistrationForm(forms.Form):
                 help_text='This will not be visible to others.')
     password1 = forms.CharField(widget=forms.PasswordInput(
                                         attrs=attrs_dict, render_value=False),
-                                        required=True, label=_("Password"))
+                                        required=True, label=_("Password"),
+                                        help_text='At least 8 characters.')
     password2 = forms.CharField(widget=forms.PasswordInput(
                                         attrs=attrs_dict, render_value=False),
                                     required=True, label=_("Repeat password"))
@@ -112,6 +114,12 @@ class RegistrationForm(forms.Form):
                 return self.cleaned_data['answer']
             else:
                 raise forms.ValidationError(_("Please try again."))
+
+    def clean_password1(self):
+        """Check the password is OK by Django >=1.9's validators."""
+        password1 = self.cleaned_data['password1']
+        password_validation.validate_password(password1)
+        return password1
 
     def clean(self):
         """

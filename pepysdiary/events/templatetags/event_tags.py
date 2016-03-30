@@ -1,6 +1,7 @@
 # coding: utf-8
 from django import template
 from django.core.urlresolvers import reverse
+from django.utils.html import mark_safe
 
 from pepysdiary.diary.models import Entry
 from pepysdiary.events.models import DayEvent
@@ -40,7 +41,7 @@ def entries_for_day(date):
         for entry in entries:
             event_list.append({'url': entry.get_absolute_url(),
                                 'text': entry.title})
-    return events_html('In the Diary', event_list)
+    return mark_safe(events_html('In the Diary', event_list))
 
 
 def letters_for_day(date):
@@ -54,7 +55,7 @@ def letters_for_day(date):
         for letter in letters:
             event_list.append({'url': letter.get_absolute_url(),
                                 'text': letter.title})
-    return events_html('Letters', event_list)
+    return mark_safe(events_html('Letters', event_list))
 
 
 def dayevents_for_day(date):
@@ -115,16 +116,14 @@ def events_for_day(date, exclude=None):
     if exclude != 'letters':
         html += letters_for_day(date)
     html += dayevents_for_day(date)
-    return html
+    return mark_safe(html)
 
 
 @register.simple_tag
 def events_for_day_in_sidebar(date, exclude=None):
     html = events_for_day(date, exclude)
-    if html == '':
-        return html
-    else:
-        return """<aside class="aside-block">
+    if html != '':
+        html = """<aside class="aside-block">
     <header class="aside-header">
         <h1 class="aside-title">Also on this day</h1>
     </header>
@@ -133,3 +132,4 @@ def events_for_day_in_sidebar(date, exclude=None):
     </div>
 </aside>
 """ % html
+    return mark_safe(html)

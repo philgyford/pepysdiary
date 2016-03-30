@@ -2,17 +2,16 @@ from defaults import *
 from os import environ
 
 DEBUG = False
-TEMPLATE_DEBUG = DEBUG
 
-ADMINS = (
+ADMINS = [
     ('Phil Gyford', 'phil@gyford.com'),
-)
+]
 
 MANAGERS = ADMINS
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'ENGINE': 'django.db.backends.postgresql',
         'NAME': environ.get('DB_NAME'),
         'USER': environ.get('DB_USERNAME'),
         'PASSWORD': environ.get('DB_PASSWORD'),
