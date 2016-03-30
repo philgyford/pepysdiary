@@ -152,7 +152,7 @@ class LatestEntriesFeed(BaseRSSFeed):
 
     def items(self):
         return Entry.objects.filter(
-                diary_date__lte=Entry.objects.most_recent_entry_date
+                diary_date__lte=Entry.objects.most_recent_entry_date()
             ).order_by('-diary_date')[:5]
 
     def item_description(self, item):
