@@ -113,6 +113,7 @@ TEMPLATES = [
 
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.media',
                 'pepysdiary.common.context_processors.api_keys',
                 'pepysdiary.common.context_processors.config',
                 'pepysdiary.common.context_processors.date_formats',
