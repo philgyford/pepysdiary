@@ -1,7 +1,6 @@
 # coding: utf-8
 from mock import patch
 import responses
-import requests
 from requests.exceptions import ConnectionError, Timeout, TooManyRedirects
 
 from pepysdiary.common.tests.test_base import PepysdiaryTestCase
@@ -30,11 +29,11 @@ class FetchTest(PepysdiaryTestCase):
 
     @responses.activate
     def test_it_handles_exceptions(self):
-        errors = ( 
+        errors = (
             (ConnectionError,   "Can't connect to domain."),
             (Timeout,           "Connection timed out."),
             (TooManyRedirects,  "Too many redirects."),
-        ) 
+        )
         for error, message in errors:
             self.add_response(body=error())
             result = WikipediaFetcher()._get_html(self.page_name)

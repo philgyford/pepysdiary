@@ -1,5 +1,4 @@
 from django import template
-from django.conf import settings
 from django.utils.html import mark_safe
 
 register = template.Library()
