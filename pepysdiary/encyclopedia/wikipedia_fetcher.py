@@ -34,21 +34,21 @@ class WikipediaFetcher(object):
             'content' is the HTML if success==True, or else an error message.
         """
         error_message = ''
-        
+
         url = 'https://en.wikipedia.org/wiki/%s' % page_name
 
         try:
             response = requests.get(url, params={'action':'render'}, timeout=5)
-        except requests.exceptions.ConnectionError as e:
+        except requests.exceptions.ConnectionError:
             error_message = "Can't connect to domain."
-        except requests.exceptions.Timeout as e:
+        except requests.exceptions.Timeout:
             error_message = "Connection timed out."
-        except requests.exceptions.TooManyRedirects as e:
+        except requests.exceptions.TooManyRedirects:
             error_message = "Too many redirects."
 
         try:
             response.raise_for_status()
-        except requests.exceptions.HTTPError as e:
+        except requests.exceptions.HTTPError:
             # 4xx or 5xx errors:
             error_message = "HTTP Error: %s" % response.status_code
         except NameError:
@@ -56,7 +56,7 @@ class WikipediaFetcher(object):
                 error_message = "Something unusual went wrong."
 
         if error_message:
-            return {'success': False, 'content': error_message} 
+            return {'success': False, 'content': error_message}
         else:
             return {'success': True, 'content': response.text}
 
@@ -155,7 +155,7 @@ class WikipediaFetcher(object):
             'infobox':   ['table', 'table-bordered'],
             'ambox':     ['table', 'table-bordered'],
             'wikitable': ['table', 'table-bordered'],
-        } 
+        }
 
         soup = BeautifulSoup(html)
 
