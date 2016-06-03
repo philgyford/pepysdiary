@@ -7,7 +7,7 @@
 {% block header_title %}Diary entries from {{ month|date:"F" }}&nbsp;{{ month|date:"Y" }}{% endblock %}
 
 {% block main_content %}
-	{% include 'inc/entry_list.html' %}
+	{% include 'inc/entry_list.html' with reversed=True %}
 {% endblock main_content %}
 
 
