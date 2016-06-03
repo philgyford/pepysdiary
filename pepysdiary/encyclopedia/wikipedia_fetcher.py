@@ -38,7 +38,8 @@ class WikipediaFetcher(object):
         url = 'https://en.wikipedia.org/wiki/%s' % page_name
 
         try:
-            response = requests.get(url, params={'action':'render'}, timeout=5)
+            response = requests.get(url,
+                                    params={'action': 'render'}, timeout=5)
         except requests.exceptions.ConnectionError:
             error_message = "Can't connect to domain."
         except requests.exceptions.Timeout:
@@ -116,7 +117,7 @@ class WikipediaFetcher(object):
         }
 
         return bleach.clean(html, tags=allowed_tags,
-                                    attributes=allowed_attributes, strip=True)
+                            attributes=allowed_attributes, strip=True)
 
     def _strip_html(self, html):
         """
@@ -130,7 +131,7 @@ class WikipediaFetcher(object):
         # CSS selectors. Strip these and their contents.
         selectors = [
             'div.hatnote',
-            'div.navbar.mini', # Will also match div.mini.navbar
+            'div.navbar.mini',  # Will also match div.mini.navbar
             # Bottom of https://en.wikipedia.org/wiki/Charles_II_of_England :
             'div.topicon',
             'a.mw-headline-anchor',
@@ -163,10 +164,10 @@ class WikipediaFetcher(object):
             [tag.decompose() for tag in soup.select(selector)]
 
         for clss in classes:
-            [tag.decompose() for tag in soup.find_all(attrs={'class':clss})]
+            [tag.decompose() for tag in soup.find_all(attrs={'class': clss})]
 
         for clss, new_classes in add_classes.iteritems():
-            for tag in soup.find_all(attrs={'class':clss}):
+            for tag in soup.find_all(attrs={'class': clss}):
                 tag['class'] = tag.get('class', []) + new_classes
 
         # Depending on the HTML parser BeautifulSoup used, soup may have
@@ -180,4 +181,3 @@ class WikipediaFetcher(object):
         html = ''.join(tag.encode('utf-8') for tag in soup.contents)
 
         return html
-

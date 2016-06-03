@@ -30,4 +30,3 @@ def include_maps_js(*args, **kwargs):
     return mark_safe("""
         <script src="https://api.tiles.mapbox.com/mapbox.js/v2.1.2/mapbox.js"></script>
     """)
-

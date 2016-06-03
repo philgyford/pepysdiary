@@ -147,7 +147,8 @@ class ArchiveSitemap(Sitemap):
             for month in months:
                 sitemap_class = AbstractSitemapClass()
                 sitemap_class.url = reverse_lazy('entry_month_archive',
-                                        kwargs={'year': year, 'month': month})
+                                                 kwargs={'year': year,
+                                                         'month': month})
                 sitemaps.append(sitemap_class)
         return sitemaps
 
@@ -156,7 +157,7 @@ class ArchiveSitemap(Sitemap):
         for c in Category.objects.all():
             sitemap_class = AbstractSitemapClass()
             sitemap_class.url = reverse_lazy('category_detail',
-                                                    kwargs={'slugs': c.slug})
+                                             kwargs={'slugs': c.slug})
             sitemaps.append(sitemap_class)
         return sitemaps
 
@@ -165,7 +166,7 @@ class ArchiveSitemap(Sitemap):
         for slug, label in Post.CATEGORY_CHOICES:
             sitemap_class = AbstractSitemapClass()
             sitemap_class.url = reverse_lazy('post_category_archive',
-                                                kwargs={'category_slug': slug})
+                                             kwargs={'category_slug': slug})
             sitemaps.append(sitemap_class)
         return sitemaps
 
@@ -174,7 +175,6 @@ class ArchiveSitemap(Sitemap):
         for y in self.years:
             sitemap_class = AbstractSitemapClass()
             sitemap_class.url = reverse_lazy('summary_year_archive',
-                                                            kwargs={'year': y})
+                                             kwargs={'year': y})
             sitemaps.append(sitemap_class)
         return sitemaps
-
