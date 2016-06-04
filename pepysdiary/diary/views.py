@@ -111,11 +111,16 @@ class EntryDetailView(EntryMixin, DateDetailView):
 class EntryMonthArchiveView(EntryMixin, MonthArchiveView):
     """Show all the Entries from one month."""
 
+    ordering = 'diary_date'
+
     def get_context_data(self, **kwargs):
         context = super(EntryMonthArchiveView, self).get_context_data(**kwargs)
         context['tooltip_references'] = Entry.objects.get_brief_references(
                                                 objects=kwargs['object_list'])
         return context
+
+    def get_ordering(self):
+        return self.ordering
 
 
 class EntryArchiveView(EntryMixin, ArchiveIndexView):
