@@ -1,5 +1,11 @@
 <section class="entries">
-	{% for entry in entry_list %}
-		{% include 'inc/entry.html' with entry=entry in_list=True %}
-	{% endfor %}
+	{% if reversed %}
+		{% for entry in entry_list reversed %}
+			{% include 'inc/entry.html' with entry=entry in_list=True %}
+		{% endfor %}
+	{% else %}
+		{% for entry in entry_list %}
+			{% include 'inc/entry.html' with entry=entry in_list=True %}
+		{% endfor %}
+	{% endif %}
 </section>
