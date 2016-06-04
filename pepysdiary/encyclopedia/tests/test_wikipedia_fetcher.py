@@ -1,11 +1,11 @@
 # coding: utf-8
 from mock import patch
 import responses
-import requests
 from requests.exceptions import ConnectionError, Timeout, TooManyRedirects
 
 from pepysdiary.common.tests.test_base import PepysdiaryTestCase
 from pepysdiary.encyclopedia.wikipedia_fetcher import WikipediaFetcher
+
 
 class FetchTest(PepysdiaryTestCase):
 
@@ -30,11 +30,11 @@ class FetchTest(PepysdiaryTestCase):
 
     @responses.activate
     def test_it_handles_exceptions(self):
-        errors = ( 
+        errors = (
             (ConnectionError,   "Can't connect to domain."),
             (Timeout,           "Connection timed out."),
             (TooManyRedirects,  "Too many redirects."),
-        ) 
+        )
         for error, message in errors:
             self.add_response(body=error())
             result = WikipediaFetcher()._get_html(self.page_name)
@@ -72,7 +72,8 @@ class FetchTest(PepysdiaryTestCase):
         # Check _tidy_html() was called with what _get_html() returned:
         filter_method.assert_called_with(self.source_html)
         # Whatever called fetch() should get this back:
-        self.assertEqual(result, {'success': True, 'content': self.source_html})
+        self.assertEqual(result,
+                         {'success': True, 'content': self.source_html})
 
     def test_it_removes_disallowed_tags(self):
         in_html = '<blink>Blinking</blink> <strong>Bold</strong>'
@@ -80,22 +81,32 @@ class FetchTest(PepysdiaryTestCase):
         self.assertEqual(WikipediaFetcher()._tidy_html(in_html), out_html)
 
     def test_it_removes_disallowed_attributes(self):
-        in_html = '<a class="my-class" href="test.html" data-bad="My data">Link</a>'
+        in_html = ('<a class="my-class" href="test.html" '
+                   'data-bad="My data">Link</a>')
         out_html = '<a class="my-class" href="test.html">Link</a>'
         self.assertEqual(WikipediaFetcher()._tidy_html(in_html), out_html)
 
     def test_it_removes_disallowed_selectors(self):
-        in_html = '<div>This is OK</div><div class="navbar mini">This is not</div><div>This is also fine</div><div class="mini navbar">This is not either</div>'
+        in_html = ('<div>This is OK</div>'
+                   '<div class="navbar mini">This is not</div>'
+                   '<div>This is also fine</div>'
+                   '<div class="mini navbar">This is not either</div>')
         out_html = '<div>This is OK</div><div>This is also fine</div>'
         self.assertEqual(WikipediaFetcher()._strip_html(in_html), out_html)
 
     def test_it_removes_disallowed_classes(self):
-        in_html = '<div>This is OK</div><div class="noprint">This is not</div><div>This is also fine</div><p class="noprint">This is not either</p>'
+        in_html = ('<div>This is OK</div><div class="noprint">This is not'
+                   '</div><div>This is also fine</div><p class="noprint">This '
+                   'is not either</p>')
         out_html = '<div>This is OK</div><div>This is also fine</div>'
         self.assertEqual(WikipediaFetcher()._strip_html(in_html), out_html)
 
     def test_it_adds_classes(self):
-        in_html = '<div class="infobox">Infobox</div><div class="bibble">Untouched</div><div class="infobox">Infobox 2</div>'
-        out_html = '<div class="infobox table table-bordered">Infobox</div><div class="bibble">Untouched</div><div class="infobox table table-bordered">Infobox 2</div>'
+        in_html = ('<div class="infobox">Infobox</div>'
+                   '<div class="bibble">Untouched</div>'
+                   '<div class="infobox">Infobox 2</div>')
+        out_html = ('<div class="infobox table table-bordered">Infobox</div>'
+                    '<div class="bibble">Untouched</div>'
+                    '<div class="infobox table table-bordered">Infobox 2'
+                    '</div>')
         self.assertEqual(WikipediaFetcher()._strip_html(in_html), out_html)
-

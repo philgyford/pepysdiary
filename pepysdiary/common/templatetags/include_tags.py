@@ -1,5 +1,4 @@
 from django import template
-from django.conf import settings
 from django.utils.html import mark_safe
 
 register = template.Library()
@@ -31,4 +30,3 @@ def include_maps_js(*args, **kwargs):
     return mark_safe("""
         <script src="https://api.tiles.mapbox.com/mapbox.js/v2.1.2/mapbox.js"></script>
     """)
-
