@@ -92,6 +92,7 @@ class TopicManager(models.Manager):
         "Catherine of Braganza (Queen)" to "Braganza, Catherine of (Queen)"
         "Michiel van Gogh (Dutch Ambassador, 1664-5)" to "Gogh, Michiel van (Dutch Ambassador, 1664-5)"
         "Mr Butler (Mons. L'impertinent)" to "Butler, Mr (Mons. L'impertinent)"
+        'Abd Allah al-Ghailan ("Guiland")' to 'Ghailan, Abd Allah al- ("Guiland")'
 
         Stay the same:
         "Mary (c, Pepys' chambermaid)"
@@ -171,14 +172,23 @@ class TopicManager(models.Manager):
                             # We want to move any leading "d'" or "l'" from the
                             # start of the surname to the end of the first names.
                             # So that we'll order by "Esquier".
-                            apostrophe_match = re.match(r"^(d'|l'|al-)(.*?)$", matches[2])
+                            apostrophe_match = re.match(r"^(.*?)\s?(d'|l'|al-)(.*?)$", matches[2])
                             if apostrophe_match is not None:
-                                # Will be something like ("d'", "Esquier"):
+                                # Will be something like ("Pierre", "d'", "Esquier")
+                                # or ('', "d'", "Esquier"):
                                 apostrophe_matches = apostrophe_match.groups()
-                                # Will be like "Monsieur d'":
-                                matches[1] = '%s %s' % (matches[1], apostrophe_matches[0])
+                                if apostrophe_matches[0] == '':
+                                    # Will be like "Monsieur d'":
+                                    matches[1] = '%s %s' % (
+                                                        matches[1],
+                                                        apostrophe_matches[1])
+                                else:
+                                    matches[1] = '%s %s %s' % (
+                                                        matches[1],
+                                                        apostrophe_matches[0],
+                                                        apostrophe_matches[1])
                                 # Will be like "Esquier":
-                                matches[2] = apostrophe_matches[1]
+                                matches[2] = apostrophe_matches[2]
 
                             # See what's in the "surname" part.
                             # One word or more?

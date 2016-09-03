@@ -203,8 +203,8 @@ class MakeOrderTitleTestCase(PepysdiaryTestCase):
 
     def test_name_al(self):
         self.assertEqual(Topic.objects.make_order_title(
-            'Abdallah al-Ghailan ("Guiland", "Gayland")', is_person=True),
-            'Ghailan, Abdallah al- ("Guiland", "Gayland")')
+            'Abd Allah al-Ghailan ("Guiland", "Gayland")', is_person=True),
+            'Ghailan, Abd Allah al- ("Guiland", "Gayland")')
 
     def test_name_mr_parentheses(self):
         self.assertEqual(Topic.objects.make_order_title(
