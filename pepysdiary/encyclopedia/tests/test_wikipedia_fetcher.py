@@ -110,3 +110,13 @@ class FetchTest(PepysdiaryTestCase):
                     '<div class="infobox table table-bordered">Infobox 2'
                     '</div>')
         self.assertEqual(WikipediaFetcher()._strip_html(in_html), out_html)
+
+    def test_it_removes_scripts(self):
+        "All <script> tags and contents should be removed."
+        in_html = ('<div class="bibble">'
+                   '<script>console.log("This should be removed.")</script>'
+                   'This should show up.'
+                   '</div>')
+        out_html = ('<div class="bibble">This should show up.</div>')
+        self.assertEqual(WikipediaFetcher()._strip_html(in_html), out_html)
+

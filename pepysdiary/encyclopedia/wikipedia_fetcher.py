@@ -135,6 +135,7 @@ class WikipediaFetcher(object):
             # Bottom of https://en.wikipedia.org/wiki/Charles_II_of_England :
             'div.topicon',
             'a.mw-headline-anchor',
+            'script',
         ]
 
         # Strip any element that has one of these classes.
