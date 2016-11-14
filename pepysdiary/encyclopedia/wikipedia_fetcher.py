@@ -100,6 +100,9 @@ class WikipediaFetcher(object):
             'table', 'tbody', 'td', 'tfoot', 'th', 'thead', 'time', 'tr',
             'ul',
             'var',
+            # We allow script here, so we can close/un-mis-nest its tags,
+            # but then it's removed completely in _strip_html():
+            'script',
         ]
 
         # These attributes will be removed from any of the allowed tags.
