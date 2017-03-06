@@ -5,7 +5,7 @@ from django.contrib.syndication.views import add_domain, Feed
 from django.core.urlresolvers import reverse
 from django.utils.decorators import method_decorator
 from django.utils.encoding import force_unicode
-from django.utils.html import escape, strip_tags
+from django.utils.html import strip_tags
 from django.views.decorators.cache import cache_page
 from django.views.generic import RedirectView
 from django.views.generic.base import TemplateView
@@ -57,7 +57,7 @@ class BaseRSSFeed(Feed):
         return {'content_encoded': self.item_content_encoded(item)}
 
     def item_title(self, item):
-        return escape(force_unicode(item.title))
+        return force_unicode(item.title)
 
     def item_pubdate(self, item):
         return item.date_published
