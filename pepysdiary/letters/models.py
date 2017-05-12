@@ -89,6 +89,21 @@ class Letter(PepysModel, OldDateMixin):
             topic = Topic.objects.get(pk=id)
             topic.letter_references.add(self)
 
+    @property
+    def short_date(self):
+        """
+        Shorter than self.display_date, like '27 April 1665'.
+        """
+        return '%s %s %s' % (self.day_e, self.month_b, self.year)
+
+    @property
+    def full_title(self):
+        """
+        Uniquish title including correspondents and date, like
+        '27 April 1665, Samuel Pepys to John Evelyn'.
+        """
+        return '%s, %s' % (self.short_date, self.title)
+
 
 class LetterModerator(CommentModerator):
     email_notification = False
