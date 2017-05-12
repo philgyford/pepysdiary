@@ -113,6 +113,16 @@ class Post(PepysModel):
                 'pk': self.pk,
             })
 
+    @property
+    def category_title(self):
+        """
+        Return the title of this Post's category.
+        e.g. "New features".
+        """
+        categories = {c[0]:c[1] for c in self.CATEGORY_CHOICES}
+        if self.category in categories:
+            return categories[self.category]
+
 
 class PostModerator(CommentModerator):
     email_notification = False
