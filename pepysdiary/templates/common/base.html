@@ -58,7 +58,7 @@
 				<h1 class="site-header-title"><a href="{% url 'home' %}" title="To the front page">The Diary of Samuel Pepys</a></h1>
 			{% endif %}
 			<p class="site-header-subtitle">Daily entries from the 17th century London diary</p>
-		</div> 
+		</div>
 	</header> <!-- .site-header -->
 
 	<nav class="navbar navbar-inverse navbar-mainnav" role="navigation">
@@ -107,7 +107,7 @@
 							<a href="{% url 'home' %}"><span class="inner">Latest</span></a>
 						</li>
 						<li class="{% block diary_archive_nav_active %}{% endblock %}">
-							<a href="{% url 'entry_archive' %}"><span class="inner">Archive</span></a>
+							<a href="{% url 'entry_archive' %}"><span class="inner">All entries</span></a>
 						</li>
 						<li class="{% block diary_summary_nav_active %}{% endblock %}">
 							<a href="{% url 'diary_summary' %}"><span class="inner">Summary</span></a>
