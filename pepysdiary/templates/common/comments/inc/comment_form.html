@@ -43,7 +43,7 @@ Expects:
 						    <article class="media">
 								<span class="newflag pull-left is-new" aria-hidden="true" title="New since your last visit">✹</span>
 								<span class="sr-only">New since your last visit</span>
-							
+
 						    	<div class="media-body">
 						        	<h2 class="media-heading">
 										<span class="comment-name">{{ user.get_full_name }}</span>
@@ -53,7 +53,7 @@ Expects:
 							    </div>
 							</article>
 						</section>
-					{% endif %}	
+					{% endif %}
 				{% endif %}
 
 			    <form action="{% comment_form_target %}" method="post" id="comment-form" role="form" class="clearfix">
@@ -68,7 +68,7 @@ Expects:
 						{% endif %}
 						<textarea class="form-control" cols="40" rows="8" id="id_comment" name="{{ form.comment.name }}">{% if form.comment.value %}{{ form.comment.value }}{% endif %}</textarea>
 						<p class="comment-form-notes text-muted">
-							Please keep {{ object.comment_name }}s on topic and <a href="{% url 'django.contrib.flatpages.views.flatpage' url='/about/annotations/' %}">read the guidelines</a>.<br />
+							Please keep {{ object.comment_name }}s on topic and <a href="{% url 'about_annotations' %}">read the guidelines</a>.<br />
 							No HTML allowed. URLs will be turned into links.<br />
 							You’re not {{ user.get_full_name }}? <a href="{% url 'logout' %}">Log out.</a>
 						</p>

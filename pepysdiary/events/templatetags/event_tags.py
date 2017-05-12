@@ -100,10 +100,7 @@ def dayevents_for_day(date):
             html += events_html(sources[source_key], event_list)
 
     if html != '':
-        html += '<p class="text-right"><small><a href="%s#on-this-day">About these events</a></small></p>' % (
-            reverse('django.contrib.flatpages.views.flatpage',
-                    kwargs={'url': '/about/text/'})
-        )
+        html += '<p class="text-right"><small><a href="%s#on-this-day">About these events</a></small></p>' % ( reverse('about_text') )
 
     return html
 

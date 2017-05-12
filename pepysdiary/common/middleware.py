@@ -3,8 +3,10 @@ import calendar
 import datetime
 import pytz
 
+from django.utils.deprecation import MiddlewareMixin
 
-class VisitTimeMiddleware(object):
+
+class VisitTimeMiddleware(MiddlewareMixin):
     """
     Used to set cookies with various times, which we use to mark comments as
     "new".

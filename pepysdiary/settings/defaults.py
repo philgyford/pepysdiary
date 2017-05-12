@@ -65,7 +65,7 @@ STATICFILES_FINDERS = [
 #    'django.contrib.staticfiles.finders.DefaultStorageFinder',
 ]
 
-MIDDLEWARE_CLASSES = [
+MIDDLEWARE = [
     # Must be first:
     'django.middleware.cache.UpdateCacheMiddleware',
     'django.middleware.gzip.GZipMiddleware',
@@ -140,7 +140,10 @@ INSTALLED_APPS = [
     'treebeard',
     'gunicorn',
     'captcha',
-    'memcache_status',
+
+    # Started breaking with Django 1.10.7 although it shouldn't:
+    # 'memcache_status',
+
     'pepysdiary.common',
     'pepysdiary.diary',
     'pepysdiary.encyclopedia',
