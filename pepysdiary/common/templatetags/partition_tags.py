@@ -1,13 +1,18 @@
-"""
-Template filters to partition lists into rows or columns.
+from django.template import Library
 
-From https://djangosnippets.org/snippets/401/
+register = Library()
+
+"""
+Template tags to partition lists into rows or columns.
+
+Originally filters from https://djangosnippets.org/snippets/401/
 
 A common use-case is for splitting a list into a table with columns::
 
-    {% load partition %}
+    {% load partition_tags %}
+    {% make_columns mylist 3 as columns %}
     <table>
-    {% for row in mylist|columns:3 %}
+    {% for row in columns %}
         <tr>
         {% for item in row %}
             <td>{{ item }}</td>
@@ -17,14 +22,12 @@ A common use-case is for splitting a list into a table with columns::
     </table>
 """
 
-from django.template import Library
 
-register = Library()
-
-def rows(thelist, n):
+@register.simple_tag
+def make_rows(thelist, num_rows, threshold=None):
     """
-    Break a list into ``n`` rows, filling up each row to the maximum equal
-    length possible. For example::
+    Break a list into ``num_rows`` rows, filling up each row to the maximum
+    equal length possible. For example::
 
         >>> l = range(10)
 
@@ -43,26 +46,41 @@ def rows(thelist, n):
         >>> rows(l, 9)
         [[0, 1], [2, 3], [4, 5], [6, 7], [8, 9], [], [], [], []]
 
-        # This filter will always return `n` rows, even if some are empty:
+    This tag will always return `num_rows` rows, even if some are empty:
+
         >>> rows(range(2), 3)
         [[0], [1], []]
+
+    If ``threshold`` is supplied, the list will only be split if it has
+    more items than ``threshold``. Again, `num_rows` rows are always returned:
+
+        >>> rows(range(4), num_rows=3, threshold=5)
+        [[0,1,2,3], [], []]
     """
     try:
-        n = int(n)
-        thelist = list(thelist)
-    except (ValueError, TypeError):
+        num_rows = int(num_rows)
+    except (ValueError):
         return [thelist]
+
     list_len = len(thelist)
-    split = list_len // n
 
-    if list_len % n != 0:
-        split += 1
-    return [thelist[split*i:split*(i+1)] for i in range(n)]
+    if threshold is not None and list_len <= threshold:
+        # Not enough elements to split it up.
+        # Return something like [thelist, [], [],] .
+        return [thelist] + [[] for i in range(num_rows-1)]
+    else:
+        split = list_len // num_rows
 
-def rows_distributed(thelist, n):
+        if list_len % num_rows != 0:
+            split += 1
+        return [thelist[split*i:split*(i+1)] for i in range(num_rows)]
+
+
+@register.simple_tag
+def make_rows_distributed(thelist, num_rows):
     """
-    Break a list into ``n`` rows, distributing columns as evenly as possible
-    across the rows. For example::
+    Break a list into ``num_rows`` rows, distributing columns as evenly as
+    possible across the rows. For example::
 
         >>> l = range(10)
 
@@ -81,22 +99,24 @@ def rows_distributed(thelist, n):
         >>> rows_distributed(l, 9)
         [[0, 1], [2], [3], [4], [5], [6], [7], [8], [9]]
 
-        # This filter will always return `n` rows, even if some are empty:
+        # This filter will always return `num_rows` rows, even if some are
+        empty:
+
         >>> rows(range(2), 3)
         [[0], [1], []]
     """
     try:
-        n = int(n)
+        num_rows = int(num_rows)
         thelist = list(thelist)
     except (ValueError, TypeError):
         return [thelist]
     list_len = len(thelist)
-    split = list_len // n
+    split = list_len // num_rows
 
-    remainder = list_len % n
+    remainder = list_len % num_rows
     offset = 0
     rows = []
-    for i in range(n):
+    for i in range(num_rows):
         if remainder:
             start, end = (split+1)*i, (split+1)*(i+1)
         else:
@@ -107,10 +127,12 @@ def rows_distributed(thelist, n):
             offset += 1
     return rows
 
-def columns(thelist, n):
+
+@register.simple_tag
+def make_columns(thelist, num_cols):
     """
-    Break a list into ``n`` columns, filling up each column to the maximum equal
-    length possible. For example::
+    Break a list into ``num_cols`` columns, filling up each column to the
+    maximum equal length possible. For example::
 
         >>> from pprint import pprint
         >>> for i in range(7, 11):
@@ -134,30 +156,19 @@ def columns(thelist, n):
          [2, 6],
          [3, 7]]
 
-        # Note that this filter does not guarantee that `n` columns will be
-        # present:
+        # Note that this filter does not guarantee that `num_cols` columns will
+        be present:
         >>> pprint(columns(range(4), 3), width=10)
         [[0, 2],
          [1, 3]]
     """
     try:
-        n = int(n)
+        num_cols = int(num_cols)
         thelist = list(thelist)
     except (ValueError, TypeError):
         return [thelist]
     list_len = len(thelist)
-    split = list_len // n
-    if list_len % n != 0:
+    split = list_len // num_cols
+    if list_len % num_cols != 0:
         split += 1
     return [thelist[i::split] for i in range(split)]
-
-register.filter(rows)
-register.filter(rows_distributed)
-register.filter(columns)
-
-def _test():
-    import doctest
-    doctest.testmod()
-
-if __name__ == "__main__":
-    _test()

@@ -17,8 +17,9 @@
 		<div class="subcategories clearfix">
 			<h2>Subcategories</h2>
 
-			{% load partition_filters %}
-			{% for column in category.get_children|rows:2 %}
+			{% load partition_tags %}
+			{% make_rows category.get_children 2 5 as rows %}
+			{% for column in rows %}
 				<div class="col-sm-6">
 					<ul>
 						{% for cat in column %}
@@ -33,7 +34,7 @@
 			{% endfor %}
 		</div> <!-- .subcategories -->
 	{% endif %}
-	
+
 	{% with topics=category.topics.all %}
 		{% if topics %}
 			<h2>{{ topics|length|intcomma }} Topic{{ topics|pluralize }}</h2>
