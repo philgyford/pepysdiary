@@ -1,6 +1,4 @@
 # coding: utf-8
-from optparse import make_option
-
 from django.core.management.base import BaseCommand, CommandError
 
 from pepysdiary.encyclopedia.models import Topic
@@ -14,7 +12,7 @@ class Command(BaseCommand):
     ./manage.py fetch_wikipedia --all
 
     Gets it for the three topics with these IDs:
-    ./manage.py fetch_wikipedia 150 112 344
+    ./manage.py fetch_wikipedia --ids 150 112 344
 
     Gets it for the 20 Topics that have been fetched least recently:
     ./manage.py fetch_wikipedia --num=20
@@ -25,42 +23,39 @@ class Command(BaseCommand):
     0: No output
     1: The number of successes and failures
     2: Lists all IDs which succeeded and which failed.
-    
     """
-    args = '<topic_id topic_id ...>'
-    help = "Fetches Wikipedia content Topics that have it"
+    help = "Fetches Wikipedia content for Topics that have it. Use --ids OR --all OR --num."
 
-    option_list = BaseCommand.option_list + (
-        make_option('-a', '--all',
-            action='store_true',
-            dest='all',
-            default=False,
-            help="Fetch Wikipedia content for all Topics that have Wikipedia pages."
-        ),
-        make_option('-n', '--num',
+    def add_arguments(self, parser):
+        parser.add_argument('--all', '-a',
+                action='store_true',
+                dest='all',
+                default=False,
+                help="Fetch Wikipedia content for all Topics that have Wikipedia pages.")
+        parser.add_argument('--num', '-n',
             action='store',
             dest='num',
             default=False,
-            type='int',
-            help="Fetch Wikipedia content for this many Topics, starting with those whose fetched content is oldest."
-        ),
-    )
+            type=int,
+            help="Fetch Wikipedia content for this many Topics, starting with those whose fetched content is oldest.")
+        parser.add_argument('--ids', '-i',
+            action='store',
+            nargs='+',
+            type=int,
+            help="Space-separated ID(s). Only fetch Wikipedia content for Topics with these id(s)")
 
     def handle(self, *args, **options):
-        args_error_message = "Specify topic_id(s), --all topics or --num=n topics."
+        args_error_message = "Specify --ids, --all topics or --num=n topics."
 
         if options['all']:
             updated = Topic.objects.fetch_wikipedia_texts(num='all')
         elif options['num']:
             updated = Topic.objects.fetch_wikipedia_texts(num=options['num'])
-        elif len(args) == 0:
-            raise CommandError(args_error_message)
+        elif options['ids']:
+            updated = Topic.objects.fetch_wikipedia_texts(
+                                                    topic_ids=options['ids'])
         else:
-            try:
-                ids = [int(s) for s in args[0].split(' ')]
-            except ValueError:
-                raise CommandError(args_error_message)
-            updated = Topic.objects.fetch_wikipedia_texts(topic_ids=ids)
+            raise CommandError(args_error_message)
 
         verbosity = int(options['verbosity'])
 

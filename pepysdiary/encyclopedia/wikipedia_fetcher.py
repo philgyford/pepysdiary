@@ -162,7 +162,7 @@ class WikipediaFetcher(object):
             'wikitable': ['table', 'table-bordered'],
         }
 
-        soup = BeautifulSoup(html)
+        soup = BeautifulSoup(html, 'html5lib')
 
         for selector in selectors:
             [tag.decompose() for tag in soup.select(selector)]

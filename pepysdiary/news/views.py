@@ -112,8 +112,8 @@ class PostDetailView(DateDetailView):
 
 
 class LatestPostsFeed(BaseRSSFeed):
-    title = "Pepys' Diary - Site News"
-    description = "News about the Pepys' Diary website"
+    title = "The Diary of Samuel Pepys - Site News"
+    description = "News about the Diary of Samuel Pepys website"
 
     def items(self):
         return Post.published_posts.all().order_by('-date_published')[:3]

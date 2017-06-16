@@ -2,7 +2,7 @@
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.sites.shortcuts import get_current_site
-from django.core.urlresolvers import reverse
+from django.core.urlresolvers import reverse, reverse_lazy
 from django.shortcuts import redirect
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import never_cache
@@ -92,62 +92,54 @@ class EditProfileView(LoginRequiredMixin, UpdateView):
         return reverse('private_profile')
 
 
-@csrf_protect
-@never_cache
-@sensitive_post_parameters('password')
-def login(request, *args, **kwargs):
-    """Wrapper for auth.login."""
-    if request.user.is_authenticated():
-        return redirect('home')
-    else:
-        kwargs['template_name'] = 'login.html'
-        kwargs['authentication_form'] = forms.LoginForm
-        auth_view_response = auth_views.login(request, *args, **kwargs)
-        return auth_view_response
+@method_decorator([csrf_protect, never_cache], name='dispatch')
+@method_decorator(sensitive_post_parameters('password'), name='dispatch')
+class LoginView(auth_views.LoginView):
+    authentication_form = forms.LoginForm
+    template_name = 'login.html'
 
 
-def logout(request, *args, **kwargs):
-    """Wrapper for auth.logout."""
-    if request.user.is_authenticated():
-        kwargs['template_name'] = 'message.html'
-        if 'extra_context' not in kwargs:
-            kwargs['extra_context'] = {}
-        kwargs['extra_context']['title'] = "You are now logged out"
-        kwargs['extra_context']['message'] = "Thanks for coming."
-        return auth_views.logout(request, *args, **kwargs)
-    else:
-        # Not logged in anyway!
-        return redirect('home')
+class LogoutView(auth_views.LogoutView):
+    template_name = 'message.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(LogoutView, self).get_context_data(**kwargs)
+        context['title'] = 'You are now logged out'
+        context['message'] = 'Thanks for coming.'
+        return context
 
 
-def password_reset(request, *args, **kwargs):
-    """Wrapper for auth.password_reset."""
-    kwargs['post_reset_redirect'] = reverse('password_reset_done')
-    return auth_views.password_reset(request, *args, **kwargs)
+class PasswordResetView(auth_views.PasswordResetView):
+    email_template_name = 'emails/password_reset.txt'
+    form_class = forms.PasswordResetForm
+    success_url = reverse_lazy('password_reset_done')
+    template_name = 'password_reset.html'
 
 
-def password_reset_done(request, *args, **kwargs):
-    """Wrapper for auth.password_reset_done."""
-    if 'extra_context' not in kwargs:
-        kwargs['extra_context'] = {}
-    kwargs['extra_context']['title'] = 'Reset instructions sent'
-    kwargs['extra_context']['message'] = "We’ve sent instructions for resetting your password to the email address you submitted."
-    return auth_views.password_reset_done(request, *args, **kwargs)
+class PasswordResetDoneView(auth_views.PasswordResetDoneView):
+    template_name = 'message.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(PasswordResetDoneView, self).get_context_data(**kwargs)
+        context['title'] = 'Reset instructions sent'
+        context['message'] = "We’ve sent instructions for resetting your password to the email address you submitted."
+        return context
 
 
-def password_reset_confirm(request, *args, **kwargs):
-    """Wrapper for auth.password_reset_confirm."""
-    kwargs['post_reset_redirect'] = reverse('password_reset_complete')
-    return auth_views.password_reset_confirm(request, *args, **kwargs)
+class PasswordResetConfirmView(auth_views.PasswordResetConfirmView):
+    form_class = forms.SetPasswordForm
+    success_url = reverse_lazy('password_reset_complete')
+    template_name = 'password_confirm.html'
 
 
-def password_reset_complete(request, *args, **kwargs):
-    """Wrapper for auth.password_reset_complete."""
-    if 'extra_context' not in kwargs:
-        kwargs['extra_context'] = {}
-    kwargs['extra_context']['title'] = "Password reset"
-    kwargs['extra_context']['message'] = "Your password has been changed. <a href=\"%s\">Now you can log in.</a>" % reverse('login')
-    return auth_views.password_reset_complete(request, *args, **kwargs)
+class PasswordResetCompleteView(auth_views.PasswordResetCompleteView):
+    template_name = 'message.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(PasswordResetCompleteView, self).get_context_data(**kwargs)
+        context['title'] = 'Password reset'
+        context['message'] = "Your password has been changed. <a href=\"%s\">Now you can log in.</a>" % reverse('login')
+        return context
 
 
 @method_decorator(never_cache, name='dispatch')

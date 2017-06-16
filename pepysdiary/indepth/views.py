@@ -57,7 +57,7 @@ class ArticleDetailView(DateDetailView):
 
 
 class LatestArticlesFeed(BaseRSSFeed):
-    title = "Pepys' Diary - In-Depth Articles"
+    title = "The Diary of Samuel Pepys - In-Depth Articles"
     description = "Articles about Samuel Pepys and his world"
 
     def items(self):
