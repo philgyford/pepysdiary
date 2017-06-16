@@ -14,7 +14,6 @@ Add the site as a new app as per the playbook's instructions. Set up the app's v
 
 The environment variables the site uses:
 
-	```
 	AKISMET_API_KEY
 	ALLOWED_HOSTS
 	DB_NAME
@@ -28,18 +27,17 @@ The environment variables the site uses:
 	RECAPTCHA_PUBLIC_KEY
 	SENDGRID_USERNAME
 	SENDGRID_PASSWORD
-	```
 
 
 ## Development (might be out of date)
 
 Summary:
 
-	* `cd django-pepysdiary`
-	* Install the Ruby SASS gem (`bundle install --path vendor/bundle`)
-	* Install Node.js and NPM.
-	* Install Gulp (`npm install`).
-	* Watch for changes to SCSS and JS files with `npm run watch`.
+* `cd django-pepysdiary`
+* Install the Ruby SASS gem (`bundle install --path vendor/bundle`)
+* Install Node.js and NPM.
+* Install Gulp (`npm install`).
+* Watch for changes to SCSS and JS files with `npm run watch`.
 
 More detail:
 
