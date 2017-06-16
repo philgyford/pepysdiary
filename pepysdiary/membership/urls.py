@@ -7,9 +7,9 @@ from pepysdiary.membership.views import *
 
 urlpatterns = [
 
-    url(r'^login/$', login, name='login'),
+    url(r'^login/$', LoginView.as_view(), name='login'),
 
-    url(r'^logout/$', logout, name='logout'),
+    url(r'^logout/$', LogoutView.as_view(), name='logout'),
 
     url(r'^register/$', RegisterView.as_view(), name='register'),
 
@@ -30,26 +30,15 @@ urlpatterns = [
     # A public user profile page:
     url(r'^profile/(?P<pk>[\d]+)/$', ProfileView.as_view(), name='profile'),
 
-    url(r'^password/reset/$',
-        password_reset, {
-            'template_name': 'password_reset.html',
-            'password_reset_form': PasswordResetForm,
-            'email_template_name': 'emails/password_reset.txt'
-        }, 'password_reset'),
+    url(r'^password/reset/$', PasswordResetView.as_view(),
+                                                        name='password_reset'),
 
-    url(r'^password/reset/done/$',
-        password_reset_done, {
-            'template_name': 'message.html',
-        }, 'password_reset_done'),
+    url(r'^password/reset/done/$', PasswordResetDoneView.as_view(),
+                                                 name='password_reset_done'),
 
     url(r'^reset/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',
-        password_reset_confirm, {
-            'template_name': 'password_confirm.html',
-            'set_password_form': SetPasswordForm,
-        }, 'password_reset_confirm'),
+            PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
 
-    url(r'^password/reset/complete/$',
-        password_reset_complete, {
-            'template_name': 'message.html',
-        }, 'password_reset_complete'),
+    url(r'^password/reset/complete/$', PasswordResetCompleteView.as_view(),
+                                                name='password_reset_complete'),
 ]
