@@ -2,25 +2,23 @@
 #
 # For backing up the Postgres database to S3.
 #
-# First do:
+# Assumes the AWS CLI tool is already installed and configured.
+# http://aws.amazon.com/documentation/cli
 #
-#     $ sudo apt-get install s3cmd
-#     $ s3cmd --configure
+# Test by doing something like:
 #
-# Then, if env variables are set, just run with:
+#     $ aws s3 ls s3://BUCKET_NAME/DIRECTORY_NAME
+#
+# Then, run with:
 #
 #     $ ./backup_db.sh
 #
-# Retrieve a decrypted backup with this (replacing VALUES with correct path):
+# Download an uploaded file and then you can restore the dump with:
 #
-#     $ s3cmd get s3://BUCKET_NAME/APP/APP-backup-DATE_TIME
-#
-# Resture the dump with:
-#
-#     $ pg_restore -c -F c -h localhost -d pepysdiary -U pepysdiary -W FILENAME-HERE
+#     $ pg_restore -c -Fc -h localhost -d pepysdiary -U pepysdiary -W FILENAME
 #
 # -c: Clean - Drop database objects before recreating them.
-# -F c: Format - Should be the same as we use with pg_dump, below (c, d, or t).
+# -Fc: Format - Should be the same as we use with pg_dump, below (c, d, or t).
 # -h: Host
 # -d: Database name
 # -U: Username
@@ -40,16 +38,17 @@ APP=pepysdiary
 # Must be writable to by the file when run via cron.
 TEMP_DIR=/home/deploy
 
-# Location of the s3cmd config file.
-# This is generated when you run `s3cmd --configure`.
-S3CMD_CONFIG_FILE=/home/deploy/.s3cfg
-
-
 TIMESTAMP=$(date +%F_%T | tr ':' '-')
+
 TEMP_FILE=$(mktemp ${TEMP_DIR}/tmp.XXXXXXXXXX)
+
 S3_FILE="s3://$BUCKET_NAME/$APP/$APP-backup-$TIMESTAMP"
 
+# Dump the database to a file:
 PGPASSWORD=$DB_PASSWORD pg_dump -Fc --no-acl -h $DB_HOST -U $DB_USERNAME $DB_NAME > $TEMP_FILE
-s3cmd put --encrypt --config=$S3CMD_CONFIG_FILE $TEMP_FILE $S3_FILE
+
+# Upload to S3
+aws s3 cp $TEMP_FILE $S3_FILE
+
 rm "$TEMP_FILE"
 
