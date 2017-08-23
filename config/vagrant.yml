@@ -5,6 +5,7 @@ django:
   settings_module: pepysdiary.settings.vagrant
 virtualenv:
   envname: pepysdiary
+  requirements_file: requirements_dev.txt
 foreman:
   procfile: Procfile.dev
 db:
