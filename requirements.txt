@@ -16,3 +16,4 @@ python-memcached==1.58
 requests==2.18.1
 responses==0.5.1
 smartypants==2.0.0
+whitenoise==3.3.0
