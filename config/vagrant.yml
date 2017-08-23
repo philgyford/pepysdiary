@@ -1,11 +1,15 @@
+virtualbox:
+  name: 'PepysDiary'
+  memory: '512'
 django:
-  settings_module: pepysdiary.settings.development
+  settings_module: pepysdiary.settings.vagrant
 virtualenv:
-  envname: django-pepysdiary
+  envname: pepysdiary
 foreman:
   procfile: Procfile.dev
 db:
-  name: django_pepysdiary
-  user: pepysdiary_user
-  password: asfd6ghkdfopdf
+  name: pepysdiary
+  user: pepysdiary
+  password: pepysdiary
+use_geodjango: 'false'
 

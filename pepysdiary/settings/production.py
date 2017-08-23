@@ -12,10 +12,10 @@ MANAGERS = ADMINS
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': environ.get('DB_NAME'),
-        'USER': environ.get('DB_USERNAME'),
-        'PASSWORD': environ.get('DB_PASSWORD'),
-        'HOST': environ.get('DB_HOST'),
+        'NAME': environ.get('DATABASE_NAME'),
+        'USER': environ.get('DATABASE_USER'),
+        'PASSWORD': environ.get('DATABASE_PASSWORD'),
+        'HOST': 'localhost',
         'PORT': '',
     }
 }
@@ -35,7 +35,7 @@ ALLOWED_HOSTS = environ.get('ALLOWED_HOSTS', '*').split(',')
 
 CACHES = {
   'default': {
-    'BACKEND': 'django.core.cache.backends.memcached.PyLibMCCache',
+    'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
     'LOCATION': '127.0.0.1:11211',
     'TIMEOUT': 500, # milliseconds
   }
