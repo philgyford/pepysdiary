@@ -1,10 +1,89 @@
 pepysdiary
 ==========
 
-This code is used for [www.pepysdiary.com](http://www.pepysdiary.com/). This repository includes fixtures for all of the site's data (apart from user accounts and user-contributed comments) although it's often out of date compared to what's live.
+This code is used for [www.pepysdiary.com](http://www.pepysdiary.com/).
 
-Uses Python 2.7.x and Django 1.9.x.
+Uses Python 2.7.x and Django 1.11.x.
 
+## Local development
+
+There is a Vagrantfile, and accompanying config and shell scripts in `config/`,
+based on [this repo](https://github.com/philgyford/vagrant-heroku-cedar-16-python). With a following wind you should be able to do:
+
+    $ vagrant up
+
+To get a version of the site up and running and accessible at
+http://0.0.0.0:5000. Apart from no data in the database, and no "media" files.
+
+Media files 
+
+1. Go to the IAM service, Users, and 'Add User'.
+
+2. Enter a name and check 'Programmatic access'.
+
+3. 'Attach existing policies directly', and select 'AmazonS3FullAccess'.
+
+4. Create user.
+
+5. Save the Access key and Secret key.
+
+6. On the list of Users, click the user you just made and note the User ARN.
+
+7. Go to the S3 service and 'Create Bucket'. Name it, select the region, and click through to create the bucket.
+
+8. Click the bucker just created and then the 'Permissions' tab. Add this
+   policy, replacing `BUCKER-NAME` and `USER-ARN` with yours:
+
+    ```
+    {
+        "Statement": [
+            {
+              "Sid":"PublicReadForGetBucketObjects",
+              "Effect":"Allow",
+              "Principal": {
+                    "AWS": "*"
+                 },
+              "Action":["s3:GetObject"],
+              "Resource":["arn:aws:s3:::BUCKET-NAME/*"
+              ]
+            },
+            {
+                "Action": "s3:*",
+                "Effect": "Allow",
+                "Resource": [
+                    "arn:aws:s3:::BUCKET-NAME",
+                    "arn:aws:s3:::BUCKET-NAME/*"
+                ],
+                "Principal": {
+                    "AWS": [
+                        "USER-ARN"
+                    ]
+                }
+            }
+        ]
+    }
+    ```
+
+9. Click on 'CORS configuration' and add this:
+
+    ```
+    <CORSConfiguration>
+        <CORSRule>
+            <AllowedOrigin>*</AllowedOrigin>
+            <AllowedMethod>GET</AllowedMethod>
+            <MaxAgeSeconds>3000</MaxAgeSeconds>
+            <AllowedHeader>Authorization</AllowedHeader>
+        </CORSRule>
+    </CORSConfiguration>
+    ```
+
+
+
+
+
+
+----
+Everything below this line might be way out of date...
 
 ## Installation
 

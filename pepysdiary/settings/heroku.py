@@ -24,8 +24,6 @@ EMAIL_USE_TLS = True
 # the environment entirely. Otherwise, set to 'True' (or anything tbh).
 PREPEND_WWW = True
 
-ALLOWED_HOSTS = environ.get('ALLOWED_HOSTS', '*').split(',')
-
 # See https://devcenter.heroku.com/articles/memcachier#django
 environ['MEMCACHE_SERVERS'] = environ.get('MEMCACHIER_SERVERS', '').replace(',', ';')
 environ['MEMCACHE_USERNAME'] = environ.get('MEMCACHIER_USERNAME', '')
@@ -65,10 +63,6 @@ CACHES = {
   }
 }
 
-# Make this unique, and don't share it with anybody.
-# http://www.miniwebtool.com/django-secret-key-generator/
-SECRET_KEY = environ.get('SECRET_KEY', '')
-
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
 # the site admins on every HTTP 500 error when DEBUG=False.
@@ -104,20 +98,6 @@ LOGGING = {
         },
     }
 }
-
-
-######################################################################
-# S3 storage
-
-DEFAULT_FILE_STORAGE = 'pepysdiary.common.s3utils.MediaS3BotoStorage'
-
-AWS_ACCESS_KEY_ID = environ.get('AWS_ACCESS_KEY_ID')
-AWS_SECRET_ACCESS_KEY = environ.get('AWS_SECRET_ACCESS_KEY')
-AWS_STORAGE_BUCKET_NAME = environ.get('AWS_STORAGE_BUCKET_NAME')
-
-S3_URL = 'https://%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
-# Store static and media files in separate directories:
-MEDIA_URL = S3_URL + MEDIA_URL
 
 
 #############################################################################

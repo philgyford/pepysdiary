@@ -2,6 +2,7 @@
 
 # Should be extended by settings in, eg, production.py.
 import os
+from os import environ
 
 PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 
@@ -89,6 +90,12 @@ CACHE_MIDDLEWARE_SECONDS = 500
 CACHE_MIDDLEWARE_KEY_PREFIX = 'pepys'
 
 ROOT_URLCONF = 'pepysdiary.common.urls'
+
+# Make this unique, and don't share it with anybody.
+# http://www.miniwebtool.com/django-secret-key-generator/
+SECRET_KEY = environ.get('SECRET_KEY', '')
+
+ALLOWED_HOSTS = environ.get('ALLOWED_HOSTS', '*').split(',')
 
 # Python dotted path to the WSGI application used by Django's runserver.
 WSGI_APPLICATION = 'pepysdiary.wsgi.application'
@@ -199,6 +206,20 @@ future_date = date.today() + timedelta(days=365)
 
 # From https://github.com/praekelt/django-recaptcha
 NOCAPTCHA = True
+
+# Storing Media files on AWS.
+
+DEFAULT_FILE_STORAGE = 'pepysdiary.common.s3utils.MediaS3Boto3Storage'
+
+AWS_ACCESS_KEY_ID = environ.get('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = environ.get('AWS_SECRET_ACCESS_KEY')
+AWS_STORAGE_BUCKET_NAME = environ.get('AWS_STORAGE_BUCKET_NAME')
+
+AWS_QUERYSTRING_AUTH = False
+
+S3_URL = 'https://%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
+# Store static and media files in separate directories:
+MEDIA_URL = S3_URL + MEDIA_URL
 
 
 ####################################################################
