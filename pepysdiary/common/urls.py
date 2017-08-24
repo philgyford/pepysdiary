@@ -16,7 +16,7 @@ from pepysdiary.common.views import *
 admin.autodiscover()
 
 
-urlpatterns = [] 
+urlpatterns = []
 
 
 if settings.MEDIA_URL != '/media/':
