@@ -22,6 +22,8 @@ Log in to admin and change the Site domain name.
 
 ## Heroku site
 
+To set up a new copy of the site on Heroku.
+
 1. Create an S3 bucket for Media files (see below) and copy them there.
 
 2. Create a new Heroku app and add it as a git remote.
