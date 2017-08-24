@@ -22,7 +22,7 @@ EMAIL_USE_TLS = True
 
 # If you *don't* want to prepend www to the URL, remove the setting from
 # the environment entirely. Otherwise, set to 'True' (or anything tbh).
-# PREPEND_WWW = True
+PREPEND_WWW = True
 
 # See https://devcenter.heroku.com/articles/memcachier#django
 environ['MEMCACHE_SERVERS'] = environ.get('MEMCACHIER_SERVERS', '').replace(',', ';')
