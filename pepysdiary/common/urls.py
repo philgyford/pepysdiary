@@ -15,8 +15,22 @@ from pepysdiary.common.views import *
 
 admin.autodiscover()
 
+
+urlpatterns = [] 
+
+
+if settings.MEDIA_URL != '/media/':
+    # Redirect /media/* URLs to go to our S3 URLs.
+    # Not terribly efficient I suppose, but simple.
+    urlpatterns += [
+        url(r'^media/(?P<path>.*)$',
+            RedirectView.as_view(
+                        url=settings.MEDIA_URL + '%(path)s', permanent=True)),
+    ]
+
+
 # Redirects from old Movable Type URLs to new ones.
-urlpatterns = [
+urlpatterns += [
 
     url(r'^favicon\.ico$', RedirectView.as_view(
                     url='%simg/favicons/favicon.ico' % settings.STATIC_URL,
