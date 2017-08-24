@@ -6,7 +6,7 @@ This code is used for [www.pepysdiary.com](http://www.pepysdiary.com/).
 Uses Python 2.7.x and Django 1.11.x.
 
 
-## Local development
+## Local development using Vagrant
 
 There is a Vagrantfile, and accompanying config and shell scripts in `config/`,
 based on [this repo](https://github.com/philgyford/vagrant-heroku-cedar-16-python). With a following wind you should be able to do:
@@ -17,10 +17,29 @@ To get a version of the site up and running and accessible at
 http://0.0.0.0:5000. Apart from no data in the database (see that Vagrant repo
 for import instructions), and no "media" files (see below).
 
+Log in to admin and change the Site domain name.
+
 
 ## Heroku site
 
-TODO
+1. Create an S3 bucket for Media files (see below) and copy them there.
+
+2. Create a new Heroku app and add it as a git remote.
+
+3. Add a Heroku Postgres (Hobby Basic) add-on.
+
+4. Add the Memcachier (Free) add-on.
+
+5. Set all environment variables with `heroku config:set`.
+
+6. Upload a postgres backup file somewhere with an accessible URL.
+
+7. Import postgres data using `heroku pg:backups:restore
+   'http://your-url-here'`.
+
+8. Delete the postgres backup file you uploaded somewhere.
+
+9. Log in to admin and change the Site domain name.
 
 
 ## Environment variables
@@ -32,10 +51,6 @@ The environment variables the site uses:
     AWS_ACCESS_KEY_ID
     AWS_SECRET_ACCESS_KEY
     AWS_STORAGE_BUCKET_NAME
-	DB_NAME
-	DB_USERNAME
-	DB_HOST
-	DB_PASSWORD
 	DJANGO_SETTINGS_MODULE
 	MAPBOX_ACCESS_TOKEN
 	MAPBOX_ACCESS_ID
@@ -44,6 +59,22 @@ The environment variables the site uses:
     SECRET_KEY
 	SENDGRID_USERNAME
 	SENDGRID_PASSWORD
+
+### Additional Vagrant-only env vars
+
+	DB_NAME
+	DB_USERNAME
+	DB_HOST
+	DB_PASSWORD
+
+### Additional Heroku-only env vars
+
+Created automatically by add-ons:
+
+    DATABASE_URL
+    MEMCACHIER_PASSWORD
+    MEMCACHIER_SERVERS
+    MEMCACHIER_USERNAME
 
 
 ## Media files
@@ -65,37 +96,37 @@ Whether using Vagrant or Heroku, we need an S3 bucket to store Media files in
 
 7. Go to the S3 service and 'Create Bucket'. Name it, select the region, and click through to create the bucket.
 
-8. Click the bucker just created and then the 'Permissions' tab. Add this
+8. Click the bucket just created and then the 'Permissions' tab. Add this
    policy, replacing `BUCKER-NAME` and `USER-ARN` with yours:
 
     ```
-    {
-        "Statement": [
-            {
-              "Sid":"PublicReadForGetBucketObjects",
-              "Effect":"Allow",
-              "Principal": {
-                    "AWS": "*"
-                 },
-              "Action":["s3:GetObject"],
-              "Resource":["arn:aws:s3:::BUCKET-NAME/*"
-              ]
-            },
-            {
-                "Action": "s3:*",
-                "Effect": "Allow",
-                "Resource": [
-                    "arn:aws:s3:::BUCKET-NAME",
-                    "arn:aws:s3:::BUCKET-NAME/*"
-                ],
-                "Principal": {
-                    "AWS": [
-                        "USER-ARN"
-                    ]
-                }
+{
+    "Statement": [
+        {
+          "Sid":"PublicReadForGetBucketObjects",
+          "Effect":"Allow",
+          "Principal": {
+                "AWS": "*"
+             },
+          "Action":["s3:GetObject"],
+          "Resource":["arn:aws:s3:::BUCKET-NAME/*"
+          ]
+        },
+        {
+            "Action": "s3:*",
+            "Effect": "Allow",
+            "Resource": [
+                "arn:aws:s3:::BUCKET-NAME",
+                "arn:aws:s3:::BUCKET-NAME/*"
+            ],
+            "Principal": {
+                "AWS": [
+                    "USER-ARN"
+                ]
             }
-        ]
-    }
+        }
+    ]
+}
     ```
 
 9. Click on 'CORS configuration' and add this:
