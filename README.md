@@ -14,7 +14,8 @@ based on [this repo](https://github.com/philgyford/vagrant-heroku-cedar-16-pytho
     $ vagrant up
 
 To get a version of the site up and running and accessible at
-http://0.0.0.0:5000. Apart from no data in the database, and no "media" files.
+http://0.0.0.0:5000. Apart from no data in the database (see that Vagrant repo
+for import instructions), and no "media" files (see below).
 
 
 ## Heroku site
@@ -45,7 +46,7 @@ The environment variables the site uses:
 	SENDGRID_PASSWORD
 
 
-## Media files 
+## Media files
 
 Whether using Vagrant or Heroku, we need an S3 bucket to store Media files in
 (Static files are served using Whitenoise).
