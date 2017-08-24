@@ -5,6 +5,7 @@ This code is used for [www.pepysdiary.com](http://www.pepysdiary.com/).
 
 Uses Python 2.7.x and Django 1.11.x.
 
+
 ## Local development
 
 There is a Vagrantfile, and accompanying config and shell scripts in `config/`,
@@ -14,6 +15,34 @@ based on [this repo](https://github.com/philgyford/vagrant-heroku-cedar-16-pytho
 
 To get a version of the site up and running and accessible at
 http://0.0.0.0:5000. Apart from no data in the database, and no "media" files.
+
+
+## Heroku site
+
+TODO
+
+
+## Environment variables
+
+The environment variables the site uses:
+
+	AKISMET_API_KEY
+	ALLOWED_HOSTS
+    AWS_ACCESS_KEY_ID
+    AWS_SECRET_ACCESS_KEY
+    AWS_STORAGE_BUCKET_NAME
+	DB_NAME
+	DB_USERNAME
+	DB_HOST
+	DB_PASSWORD
+	DJANGO_SETTINGS_MODULE
+	MAPBOX_ACCESS_TOKEN
+	MAPBOX_ACCESS_ID
+	RECAPTCHA_PRIVATE_KEY
+	RECAPTCHA_PUBLIC_KEY
+    SECRET_KEY
+	SENDGRID_USERNAME
+	SENDGRID_PASSWORD
 
 
 ## Media files 
@@ -87,6 +116,15 @@ Whether using Vagrant or Heroku, we need an S3 bucket to store Media files in
     `AWS_SECRET_ACCESS_KEY` and `AWS_STORAGE_BUCKET_NAME`.
 
 
+## Wikipedia content
+
+To fetch content for all Encyclopedia Topics which have matching Wikipedia
+pages, run:
+
+	$ ./manage.py fetch_wikipedia --all --verbosity=2
+
+It might take some time. See `encyclopedia/management/commands/fetch_wikipedia.py` for more options.
+
 
 ----
 Everything below this line might be way out of date...
@@ -101,6 +139,9 @@ The environment variables the site uses:
 
 	AKISMET_API_KEY
 	ALLOWED_HOSTS
+    AWS_ACCESS_KEY_ID
+    AWS_SECRET_ACCESS_KEY
+    AWS_STORAGE_BUCKET_NAME
 	DB_NAME
 	DB_USERNAME
 	DB_HOST
@@ -110,6 +151,7 @@ The environment variables the site uses:
 	MAPBOX_ACCESS_ID
 	RECAPTCHA_PRIVATE_KEY
 	RECAPTCHA_PUBLIC_KEY
+    SECRET_KEY
 	SENDGRID_USERNAME
 	SENDGRID_PASSWORD
 
