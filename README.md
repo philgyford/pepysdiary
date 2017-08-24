@@ -15,7 +15,11 @@ based on [this repo](https://github.com/philgyford/vagrant-heroku-cedar-16-pytho
 To get a version of the site up and running and accessible at
 http://0.0.0.0:5000. Apart from no data in the database, and no "media" files.
 
-Media files 
+
+## Media files 
+
+Whether using Vagrant or Heroku, we need an S3 bucket to store Media files in
+(Static files are served using Whitenoise).
 
 1. Go to the IAM service, Users, and 'Add User'.
 
@@ -77,8 +81,10 @@ Media files
     </CORSConfiguration>
     ```
 
+10. Create a `/media/` directory in the bucket and upload all the files.
 
-
+11. Update the server's environment variables for `AWS_ACCESS_KEY_ID`,
+    `AWS_SECRET_ACCESS_KEY` and `AWS_STORAGE_BUCKET_NAME`.
 
 
 
