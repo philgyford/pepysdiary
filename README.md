@@ -99,7 +99,7 @@ Whether using Vagrant or Heroku, we need an S3 bucket to store Media files in
 7. Go to the S3 service and 'Create Bucket'. Name it, select the region, and click through to create the bucket.
 
 8. Click the bucket just created and then the 'Permissions' tab. Add this
-   policy, replacing `BUCKER-NAME` and `USER-ARN` with yours:
+   policy, replacing `BUCKET-NAME` and `USER-ARN` with yours:
 
     ```
 {
