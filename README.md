@@ -34,14 +34,16 @@ To set up a new copy of the site on Heroku.
 
 5. Set all environment variables with `heroku config:set`.
 
-6. Upload a postgres backup file somewhere with an accessible URL.
+6. Push code to Heroku: `git push heroku master`.
 
-7. Import postgres data using `heroku pg:backups:restore
+7. Upload a postgres backup file somewhere with an accessible URL.
+
+8. Import postgres data using `heroku pg:backups:restore
    'http://your-url-here'`.
 
-8. Delete the postgres backup file you uploaded somewhere.
+9. Delete the postgres backup file you uploaded somewhere.
 
-9. Log in to admin and change the Site domain name.
+10. Log in to Django admin and change the Site domain name (if necessary).
 
 
 ## Environment variables
@@ -102,33 +104,33 @@ Whether using Vagrant or Heroku, we need an S3 bucket to store Media files in
    policy, replacing `BUCKET-NAME` and `USER-ARN` with yours:
 
     ```
-{
-    "Statement": [
-        {
-          "Sid":"PublicReadForGetBucketObjects",
-          "Effect":"Allow",
-          "Principal": {
-                "AWS": "*"
-             },
-          "Action":["s3:GetObject"],
-          "Resource":["arn:aws:s3:::BUCKET-NAME/*"
-          ]
-        },
-        {
-            "Action": "s3:*",
-            "Effect": "Allow",
-            "Resource": [
-                "arn:aws:s3:::BUCKET-NAME",
-                "arn:aws:s3:::BUCKET-NAME/*"
-            ],
-            "Principal": {
-                "AWS": [
-                    "USER-ARN"
-                ]
+    {
+        "Statement": [
+            {
+              "Sid":"PublicReadForGetBucketObjects",
+              "Effect":"Allow",
+              "Principal": {
+                    "AWS": "*"
+                 },
+              "Action":["s3:GetObject"],
+              "Resource":["arn:aws:s3:::BUCKET-NAME/*"
+              ]
+            },
+            {
+                "Action": "s3:*",
+                "Effect": "Allow",
+                "Resource": [
+                    "arn:aws:s3:::BUCKET-NAME",
+                    "arn:aws:s3:::BUCKET-NAME/*"
+                ],
+                "Principal": {
+                    "AWS": [
+                        "USER-ARN"
+                    ]
+                }
             }
-        }
-    ]
-}
+        ]
+    }
     ```
 
 9. Click on 'CORS configuration' and add this:
