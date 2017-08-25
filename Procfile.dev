@@ -1,0 +1,1 @@
+web: gunicorn --reload --log-level debug pepysdiary.wsgi > /home/vagrant/gunicorn.log 2>&1

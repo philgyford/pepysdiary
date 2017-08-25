@@ -3,7 +3,6 @@ from os import environ
 import dj_database_url
 
 DEBUG = False
-TEMPLATE_DEBUG = DEBUG
 
 ADMINS = [
     ('Phil Gyford', 'phil@gyford.com'),
@@ -23,10 +22,9 @@ EMAIL_USE_TLS = True
 
 # If you *don't* want to prepend www to the URL, remove the setting from
 # the environment entirely. Otherwise, set to 'True' (or anything tbh).
-PREPEND_WWW = environ.get('PREPEND_WWW', False)
+PREPEND_WWW = True
 
-ALLOWED_HOSTS = environ.get('ALLOWED_HOSTS', '*').split(',')
-
+# See https://devcenter.heroku.com/articles/memcachier#django
 environ['MEMCACHE_SERVERS'] = environ.get('MEMCACHIER_SERVERS', '').replace(',', ';')
 environ['MEMCACHE_USERNAME'] = environ.get('MEMCACHIER_USERNAME', '')
 environ['MEMCACHE_PASSWORD'] = environ.get('MEMCACHIER_PASSWORD', '')
@@ -34,15 +32,36 @@ environ['MEMCACHE_PASSWORD'] = environ.get('MEMCACHIER_PASSWORD', '')
 CACHES = {
   'default': {
     'BACKEND': 'django_pylibmc.memcached.PyLibMCCache',
-    'LOCATION': environ.get('MEMCACHIER_SERVERS', '').replace(',', ';'),
-    'TIMEOUT': 500,
+
+    # Use binary memcache protocol (needed for authentication)
     'BINARY': True,
+
+    # TIMEOUT is not the connection timeout! It's the default expiration
+    # timeout that should be applied to keys! Setting it to `None`
+    # disables expiration.
+    'TIMEOUT': None,
+
+    'OPTIONS': {
+        # Enable faster IO
+        'tcp_nodelay': True,
+
+        # Keep connection alive
+        'tcp_keepalive': True,
+
+        # Timeout settings
+        'connect_timeout': 2000, # ms
+        'send_timeout': 750 * 1000, # us
+        'receive_timeout': 750 * 1000, # us
+        '_poll_timeout': 2000, # ms
+
+        # Better failover
+        'ketama': True,
+        'remove_failed': 1,
+        'retry_timeout': 2,
+        'dead_timeout': 30,
+    }
   }
 }
-
-# Make this unique, and don't share it with anybody.
-# http://www.miniwebtool.com/django-secret-key-generator/
-SECRET_KEY = environ.get('SECRET_KEY', '')
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
@@ -62,7 +81,10 @@ LOGGING = {
             'level': 'ERROR',
             'filters': ['require_debug_false'],
             'class': 'django.utils.log.AdminEmailHandler'
-        }
+        },
+        'null': {
+            'class': 'logging.NullHandler',
+        },
     },
     'loggers': {
         'django.request': {
@@ -70,31 +92,20 @@ LOGGING = {
             'level': 'ERROR',
             'propagate': True,
         },
+        'django.security.DisallowedHost': {
+            'handlers': ['null'],
+            'propagate': False,
+        },
     }
 }
-
-
-######################################################################
-# S3 storage
-
-DEFAULT_FILE_STORAGE = 'pepysdiary.common.s3utils.MediaS3BotoStorage'
-STATICFILES_STORAGE = 'pepysdiary.common.s3utils.StaticS3BotoStorage'
-
-AWS_ACCESS_KEY_ID = environ.get('AWS_ACCESS_KEY_ID')
-AWS_SECRET_ACCESS_KEY = environ.get('AWS_SECRET_ACCESS_KEY')
-AWS_STORAGE_BUCKET_NAME = environ.get('AWS_STORAGE_BUCKET_NAME')
-
-S3_URL = 'https://%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
-# Store static and media files in separate directories:
-STATIC_URL = S3_URL + STATIC_URL
-MEDIA_URL = S3_URL + MEDIA_URL
 
 
 #############################################################################
 # PEPYSDIARY-SPECIFIC SETTINGS.
 
+GOOGLE_ANALYTICS_ID = 'UA-89135-2'
+
 GOOGLE_MAPS_API_KEY = environ.get('GOOGLE_MAPS_API_KEY')
-GOOGLE_ANALYTICS_ID = environ.get('GOOGLE_ANALYTICS_ID')
 
 # From https://www.google.com/recaptcha/
 RECAPTCHA_PUBLIC_KEY = environ.get('RECAPTCHA_PUBLIC_KEY')

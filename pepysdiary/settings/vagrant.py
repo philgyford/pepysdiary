@@ -24,9 +24,8 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 # If you *don't* want to prepend www to the URL, remove the setting from
 # the environment entirely. Otherwise, set to 'True' (or anything tbh).
-PREPEND_WWW = True
+# PREPEND_WWW = False
 
-ALLOWED_HOSTS = environ.get('ALLOWED_HOSTS', '*').split(',')
 
 CACHES = {
     'default': {
@@ -39,10 +38,6 @@ CACHES = {
         #'TIMEOUT': 500, # millisecond
     }
 }
-
-# Make this unique, and don't share it with anybody.
-# http://www.miniwebtool.com/django-secret-key-generator/
-SECRET_KEY = environ.get('SECRET_KEY', '')
 
 # Debug Toolbar settings.
 if DEBUG:
@@ -66,8 +61,8 @@ if DEBUG:
 GOOGLE_ANALYTICS_ID = 'UA-89135-2'
 
 # From https://www.google.com/recaptcha/
-RECAPTCHA_PUBLIC_KEY = environ.get('RECAPTCHA_PUBLIC_KEY')
-RECAPTCHA_PRIVATE_KEY = environ.get('RECAPTCHA_PRIVATE_KEY')
+RECAPTCHA_PUBLIC_KEY = environ.get('RECAPTCHA_PUBLIC_KEY', '')
+RECAPTCHA_PRIVATE_KEY = environ.get('RECAPTCHA_PRIVATE_KEY', '')
 RECAPTCHA_USE_SSL = True
 
 # Do we use Akismet/TypePad spam checking?
@@ -76,7 +71,7 @@ RECAPTCHA_USE_SSL = True
 USE_SPAM_CHECK = True
 
 # From http://akismet.com/
-AKISMET_API_KEY = environ.get('AKISMET_API_KEY')
+AKISMET_API_KEY = environ.get('AKISMET_API_KEY', '')
 
 # From http://mapbox.com/
 MAPBOX_MAP_ID = 'philgyford.hnhb28lo'

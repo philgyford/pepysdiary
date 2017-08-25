@@ -20,6 +20,13 @@ framework.
 from django.core.wsgi import get_wsgi_application
 application = get_wsgi_application()
 
+
+# Fix django closing connection to MemCachier after every request (#11331)
+# From https://devcenter.heroku.com/articles/memcachier#django
+from django.core.cache.backends.memcached import BaseMemcachedCache
+BaseMemcachedCache.close = lambda self, **kwargs: None
+
+
 # Apply WSGI middleware here.
 # from helloworld.wsgi import HelloWorldApplication
 # application = HelloWorldApplication(application)
