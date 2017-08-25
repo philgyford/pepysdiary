@@ -28,7 +28,7 @@ To set up a new copy of the site on Heroku.
 
 2. Create a new Heroku app and add it as a git remote.
 
-3. Add a Heroku Postgres (Hobby Basic) add-on.
+3. Add a Heroku Postgres add-on.
 
 4. Add the Memcachier (Free) add-on.
 
@@ -36,14 +36,16 @@ To set up a new copy of the site on Heroku.
 
 6. Push code to Heroku: `git push heroku master`.
 
-7. Upload a postgres backup file somewhere with an accessible URL.
+7. Set the Heroku dyno to be Hobby Basic, if necessary.
 
-8. Import postgres data using `heroku pg:backups:restore
+8. Upload a postgres backup file somewhere with an accessible URL.
+
+9. Import postgres data using `heroku pg:backups:restore
    'http://your-url-here'`.
 
-9. Delete the postgres backup file you uploaded somewhere.
+10. Delete the postgres backup file you uploaded somewhere.
 
-10. Log in to Django admin and change the Site domain name (if necessary).
+11. Log in to Django admin and change the Site domain name (if necessary).
 
 
 ## Environment variables
