@@ -32,21 +32,28 @@ To set up a new copy of the site on Heroku.
 
 4. Add the Memcachier (Free) add-on.
 
-5. Set all environment variables with `heroku config:set`.
+6. Add the Heroku Scheduler (Free) add-on.
 
-6. Push code to Heroku: `git push heroku master`.
+7. Set all environment variables with `heroku config:set`.
 
-7. Set the Heroku dyno to be Hobby Basic, if necessary.
+8. Push code to Heroku: `git push heroku master`.
 
-8. Upload a postgres backup file somewhere with an accessible URL.
+9. Set the Heroku dyno to be Hobby Basic, if necessary.
 
-9. Import postgres data using `heroku pg:backups:restore
+10. Upload a postgres backup file somewhere with an accessible URL.
+
+11. Import postgres data using `heroku pg:backups:restore
    'http://your-url-here'`.
 
-10. Delete the postgres backup file you uploaded somewhere.
+12. Delete the postgres backup file you uploaded somewhere.
 
-11. Log in to Django admin and change the Site domain name (if necessary).
+13. Log in to Django admin and change the Site domain name (if necessary).
 
+14. Go to the Heroku Scheduler Resource and add a new Job to run once a day:
+
+    ```
+    python manage.py fetch_wikipedia --num=100
+    ```
 
 ## Environment variables
 
