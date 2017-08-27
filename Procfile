@@ -1,1 +1,1 @@
-web: gunicorn pepysdiary.wsgi
+web: gunicorn pepysdiary.wsgi --preload
