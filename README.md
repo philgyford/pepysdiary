@@ -26,6 +26,11 @@ Log in to admin and change the Site domain name.
     vagrant$ sudo apt-get install nodejs
     vagrant$ sudo ln -s /usr/bin/nodejs /usr/bin/node
     vagrant$ sudo apt-get install npm
+    vagrant$ npm install gulp -g
+
+Or, for gulp, cd to _dev/ and do `npm install gulp`?
+
+Install node modules in _dev.
 
 
 

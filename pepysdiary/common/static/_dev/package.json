@@ -17,5 +17,8 @@
   },
   "homepage": "https://github.com/philgyford/pepysdiary",
   "dependencies": {
+    "gulp-sass": "^3.1.0",
+    "gulp-sourcemaps": "^2.6.1",
+    "watch": "^1.0.2"
   }
 }

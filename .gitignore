@@ -3,10 +3,9 @@
 *.pyc
 pepysdiary/media
 pepysdiary/static_collected
-.sass-cache
 .bundle
 /vendor
-/node_modules
+pepysdiary/common/static/_dev/node_modules
 /.vagrant
 /config/vagrant
 /Vagrantfile

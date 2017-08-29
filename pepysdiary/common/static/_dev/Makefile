@@ -1,5 +1,7 @@
+# Assumes we have these python packages:
+# * libsass
+# * watchdog
 
-SASSC		= sassc
 BIN 		= ./node_modules/.bin
 
 SASS_DIR	= ./sass
@@ -8,17 +10,30 @@ SASS_FILES  = $(SASS_DIR)/site.scss
 CSS_DIR		= ../css
 CSS_TARGET	= $(CSS_DIR)/site.css 
 
+SASS_CMD	= sassc --style=compressed --sourcemap $(SASS_FILES) $(CSS_TARGET)
+
 all: clean build-css
 
 build-css: $(CSS_TARGET)
 
+watch: watch-css
+
 $(CSS_TARGET): $(SASS_FILES)
 	@echo Compiling $@
-	@mkdir -p $(@D)
-	@$(SASSC) --style=compressed --sourcemap $(SASS_FILES) $(CSS_TARGET)
+	@$(SASS_CMD)
 
 clean:
+	@mkdir -p $(CSS_DIR)
 	rm -f $(CSS_DIR)/*.css*
+
+
+watch-css:
+	@echo "Started watching CSS..."
+	#watchmedo shell-command --patterns="*.scss" --recursive --command="sassc --style compressed sass/site.scss ../css/site.css" sass
+
+	while sleep .5; do find $(SASS_DIR) -name "*css" -print | entr -d $(SASS_CMD); done
+
+
 
 ## Our CSS list (replaces .scss with .css in the list)
 #CSS = $(SASS:.scss=.css) 
