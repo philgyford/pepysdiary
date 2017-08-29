@@ -16,7 +16,7 @@ gulp.task('clean', function() {
 });
 
 
-gulp.task('sass', ['clean'], function () {
+gulp.task('sass', gulp.series('clean', function buildSass() {
   var sassOptions = {
     outputStyle: 'compressed',
     sourceComments: false
@@ -24,15 +24,18 @@ gulp.task('sass', ['clean'], function () {
   return gulp.src(sassFiles)
     .pipe(sourcemaps.init())
     .pipe(sass(sassOptions).on('error', sass.logError))
+    .pipe(revAll.revision())
     .pipe(sourcemaps.write('.'))
+    .pipe(gulp.dest(cssDir))
+    .pipe(revAll.manifestFile())
     .pipe(gulp.dest(cssDir));
-});
+}));
 
 
 gulp.task('sass:watch', function () {
-  gulp.watch(sassFiles, ['sass']);
+  gulp.watch(sassFiles, gulp.series('sass'));
 });
 
 
-gulp.task('default', ['sass']);
-gulp.task('watch', ['sass:watch']);
+gulp.task('default', gulp.parallel('sass'));
+gulp.task('watch', gulp.parallel('sass:watch'));
