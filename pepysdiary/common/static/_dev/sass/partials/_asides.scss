@@ -83,8 +83,11 @@
         p {
             display: inline-block;
             
-            &::after {
-                content: ' \0000a0 \0000a0 • \0000a0 ';
+            &:after {
+                // [converter] Workaround for https://github.com/sass/libsass/issues/1115
+                //$nbsp: "\00a0";
+                //content: " #{$nbsp} #{$nbsp} • #{$nbsp} ";
+                content: " x ";
             }
             &:last-child::after {
                 content: '';

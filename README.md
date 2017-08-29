@@ -19,6 +19,15 @@ for import instructions), and no "media" files (see below).
 
 Log in to admin and change the Site domain name.
 
+### Front-end building
+
+    $ vagrant ssh
+    vagrant$ sudo apt-get update
+    vagrant$ sudo apt-get install nodejs
+    vagrant$ sudo ln -s /usr/bin/nodejs /usr/bin/node
+    vagrant$ sudo apt-get install npm
+
+
 
 ## Heroku site
 

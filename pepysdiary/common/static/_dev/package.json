@@ -1,0 +1,21 @@
+{
+  "name": "django-pepysdiary",
+  "version": "2.0.0",
+  "description": "Front-end assets for pepysdiary.com",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/philgyford/pepysdiary.git"
+  },
+  "author": "Phil Gyford",
+  "license": "",
+  "bugs": {
+    "url": "https://github.com/philgyford/pepysdiary/issues"
+  },
+  "homepage": "https://github.com/philgyford/pepysdiary",
+  "dependencies": {
+  }
+}
