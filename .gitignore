@@ -5,7 +5,7 @@ pepysdiary/media
 pepysdiary/static_collected
 .bundle
 /vendor
-pepysdiary/common/static/_dev/node_modules
+/node_modules
 /.vagrant
 /config/vagrant
 /Vagrantfile
