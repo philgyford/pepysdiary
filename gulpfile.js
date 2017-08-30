@@ -56,10 +56,16 @@ gulp.task('inject', function doInjection() {
     cssDir + '/**/*.css'
   ], {read: false});
 
+  /**
+   * Add Django 'static' formatting.
+   */
   var transformFunc = function(filepath) {
-    if (filepath.slice(-4) === '.css') {
+    if (filepath.slice(-3) === '.js') {
+      return '<script src="{% static \'' + filepath + '\' %}"></script>';
+    } else if (filepath.slice(-4) === '.css') {
       return '<link href="{% static \'' + filepath + '\' %}" rel="stylesheet">';
     }
+    // Default:
     return inject.transform.apply(inject.transform, arguments);
   };
 
@@ -71,7 +77,6 @@ gulp.task('inject', function doInjection() {
 
   return target.pipe(inject(sources, options))
     .pipe(gulp.dest(templatesDir))
-
 });
 
 
