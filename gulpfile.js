@@ -75,13 +75,16 @@ gulp.task('inject', function doInjection() {
     transform: transformFunc
   };
 
-  return target.pipe(inject(sources, options))
+  return target
+    .pipe(inject(sources, options))
     .pipe(gulp.dest(templatesDir))
 });
 
 
 gulp.task('sass:watch', function () {
-  gulp.watch(sassFiles, gulp.series(
+  // Must have usePolling if running this in a VM, and editing the files on
+  // the host, because changes won't be noticed otherwise.
+  gulp.watch(sassFiles, {usePolling: true}, gulp.series(
     'sass',
     'inject'
   ));
