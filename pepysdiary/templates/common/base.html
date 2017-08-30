@@ -271,6 +271,7 @@
     <script src="{% static 'js/site-64bf898c27.min.js' %}"></script>
     <!-- endinject -->
 
+    {% get_static_prefix as STATIC_PREFIX %}
 	<script>
 		$(document).ready(function(){
 			pepys.controller.init({
