@@ -85,9 +85,8 @@
             
             &:after {
                 // [converter] Workaround for https://github.com/sass/libsass/issues/1115
-                //$nbsp: "\00a0";
-                //content: " #{$nbsp} #{$nbsp} • #{$nbsp} ";
-                content: " x ";
+                $nbsp: "\00a0";
+                content: " #{$nbsp} #{$nbsp} • #{$nbsp} ";
             }
             &:last-child::after {
                 content: '';
