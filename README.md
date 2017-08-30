@@ -64,6 +64,9 @@ To watch for changes in any of the files:
 
 The latter won't notice changes in any JS files in `static/src/js/vendor/`.
 
+Links to CSS and JS files in `templates/500.html` won't currently be changed
+automatically.
+
 
 ## Heroku site
 

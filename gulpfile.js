@@ -21,7 +21,6 @@
 var gulp        = require('gulp');
 var concat      = require('gulp-concat');
 var del         = require('del');
-var gutil       = require('gulp-util');
 var inject      = require('gulp-inject');
 var rev         = require('gulp-rev');
 var sass        = require('gulp-sass');
