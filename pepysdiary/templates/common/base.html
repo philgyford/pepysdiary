@@ -266,8 +266,10 @@
 	{% endblock %}
 
 	{% block extra_javascript_includes %}{% endblock %}
-
-	<script src="{% static 'js/dist/site-8074b560.min.js' %}"></script>
+    
+    <!-- inject:js -->
+    <script src="{% static 'js/site-64bf898c27.min.js' %}"></script>
+    <!-- endinject -->
 
 	<script>
 		$(document).ready(function(){
