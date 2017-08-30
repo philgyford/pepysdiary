@@ -21,10 +21,18 @@ Log in to admin and change the Site domain name.
 
 ### Front-end building
 
+The usual node via apt-get is rather behind, so we use a different source:
+
     $ vagrant ssh
-    vagrant$ sudo apt-get update
-    vagrant$ sudo apt-get install nodejs
+    vagrant$ curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
+    vagrant$ sudo apt-get install -y nodejs
+
+And we want `node` to work, but by default on ubuntu it's only `nodejs`. So:
+
     vagrant$ sudo ln -s /usr/bin/nodejs /usr/bin/node
+
+Then add npm and gulp:
+
     vagrant$ sudo apt-get install npm
     vagrant$ sudo npm install -g gulp-cli
 
