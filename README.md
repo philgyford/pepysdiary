@@ -19,6 +19,54 @@ for import instructions), and no "media" files (see below).
 
 Log in to admin and change the Site domain name.
 
+### Front-end building
+
+We use gulp to build the front-end CSS and JS files. The minified files are
+committed to git. The `base.html` template is updated with references to the
+created files, with unique names.
+
+### Installation
+
+Install all the requirements...
+
+The usual node via apt-get is rather behind, so we use a different source:
+
+    $ vagrant ssh
+    vagrant$ curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
+    vagrant$ sudo apt-get install -y nodejs
+
+And we want `node` to work, but by default on ubuntu it's only `nodejs`. So:
+
+    vagrant$ sudo ln -s /usr/bin/nodejs /usr/bin/node
+
+Then add npm and gulp:
+
+    vagrant$ sudo apt-get install npm
+    vagrant$ sudo npm install -g gulp-cli
+
+Install required node modules from `package.json`:
+
+    vagrant$ cd /vagrant
+    vagrant$ npm install
+
+### Usage
+
+    $ vagrant ssh
+    vagrant$ cd /vagrant
+
+Then, this will recreate all the CSS and JS files:
+
+    vagrant$ gulp
+
+To watch for changes in any of the files:
+
+    vagrant$ gulp watch
+
+The latter won't notice changes in any JS files in `static/src/js/vendor/`.
+
+Links to CSS and JS files in `templates/500.html` won't currently be changed
+automatically.
+
 
 ## Heroku site
 

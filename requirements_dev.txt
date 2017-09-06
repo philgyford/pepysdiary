@@ -1,2 +1,5 @@
 -r requirements.txt
 django-debug-toolbar==1.8
+libsass==0.13.3
+watchdog==0.8.3
+

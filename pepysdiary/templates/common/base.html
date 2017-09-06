@@ -1,4 +1,4 @@
-<!DOCTYPE html>{% load static %}{% get_static_prefix as STATIC_PREFIX %}
+<!DOCTYPE html>{% load static %}
 <html lang="en-gb">
 <head>
 	<meta charset="utf-8"/>
@@ -9,30 +9,32 @@
 	{% block extra_css %}
 	{% endblock extra_css %}
     {# Mapbox CSS needs to go in before our own CSS. #}
-	<link href="{{ STATIC_PREFIX }}css/site-055c8363.css" rel="stylesheet">
+    <!-- inject:css -->
+    <link href="{% static 'css/site-c8c1bec3ca.css' %}" rel="stylesheet">
+    <!-- endinject -->
 
     <!--[if lt IE 9]>
-      <script src="{{ STATIC_PREFIX }}js/dist/lt-ie-9.min.js"></script>
+      <script src="{% static 'js/dist/lt-ie-9.min.js' %}"></script>
     <![endif]-->
 
-    <link rel="apple-touch-icon" sizes="57x57" href="{{ STATIC_PREFIX }}img/favicons/apple-touch-icon-57x57.png">
-    <link rel="apple-touch-icon" sizes="60x60" href="{{ STATIC_PREFIX }}img/favicons/apple-touch-icon-60x60.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="{{ STATIC_PREFIX }}img/favicons/apple-touch-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="76x76" href="{{ STATIC_PREFIX }}img/favicons/apple-touch-icon-76x76.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="{{ STATIC_PREFIX }}img/favicons/apple-touch-icon-114x114.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="{{ STATIC_PREFIX }}img/favicons/apple-touch-icon-120x120.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="{{ STATIC_PREFIX }}img/favicons/apple-touch-icon-144x144.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="{{ STATIC_PREFIX }}img/favicons/apple-touch-icon-152x152.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="{{ STATIC_PREFIX }}img/favicons/apple-touch-icon-180x180.png">
-    <link rel="icon" type="image/png" href="{{ STATIC_PREFIX }}img/favicons/favicon-32x32.png" sizes="32x32">
-    <link rel="icon" type="image/png" href="{{ STATIC_PREFIX }}img/favicons/android-chrome-192x192.png" sizes="192x192">
-    <link rel="icon" type="image/png" href="{{ STATIC_PREFIX }}img/favicons/favicon-96x96.png" sizes="96x96">
-    <link rel="icon" type="image/png" href="{{ STATIC_PREFIX }}img/favicons/favicon-16x16.png" sizes="16x16">
-    <link rel="manifest" href="{{ STATIC_PREFIX }}img/favicons/manifest.json">
-    <link rel="shortcut icon" href="{{ STATIC_PREFIX }}img/favicons/favicon.ico">
+    <link rel="apple-touch-icon" sizes="57x57" href="{% static 'img/favicons/apple-touch-icon-57x57.png' %}">
+    <link rel="apple-touch-icon" sizes="60x60" href="{% static 'img/favicons/apple-touch-icon-60x60.png' %}">
+    <link rel="apple-touch-icon" sizes="72x72" href="{% static 'img/favicons/apple-touch-icon-72x72.png' %}">
+    <link rel="apple-touch-icon" sizes="76x76" href="{% static 'img/favicons/apple-touch-icon-76x76.png' %}">
+    <link rel="apple-touch-icon" sizes="114x114" href="{% static 'img/favicons/apple-touch-icon-114x114.png' %}">
+    <link rel="apple-touch-icon" sizes="120x120" href="{% static 'img/favicons/apple-touch-icon-120x120.png' %}">
+    <link rel="apple-touch-icon" sizes="144x144" href="{% static 'img/favicons/apple-touch-icon-144x144.png' %}">
+    <link rel="apple-touch-icon" sizes="152x152" href="{% static 'img/favicons/apple-touch-icon-152x152.png' %}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'img/favicons/apple-touch-icon-180x180.png' %}">
+    <link rel="icon" type="image/png" href="{% static 'img/favicons/favicon-32x32.png" sizes="32x32' %}">
+    <link rel="icon" type="image/png" href="{% static 'img/favicons/android-chrome-192x192.png" sizes="192x192' %}">
+    <link rel="icon" type="image/png" href="{% static 'img/favicons/favicon-96x96.png" sizes="96x96' %}">
+    <link rel="icon" type="image/png" href="{% static 'img/favicons/favicon-16x16.png" sizes="16x16' %}">
+    <link rel="manifest" href="{% static 'img/favicons/manifest.json' %}">
+    <link rel="shortcut icon" href="{% static 'img/favicons/favicon.ico' %}">
     <meta name="msapplication-TileColor" content="#00a300">
-    <meta name="msapplication-TileImage" content="{{ STATIC_PREFIX }}img/favicons/mstile-144x144.png">
-    <meta name="msapplication-config" content="{{ STATIC_PREFIX }}img/favicons/browserconfig.xml">
+    <meta name="msapplication-TileImage" content="{% static 'img/favicons/mstile-144x144.png' %}">
+    <meta name="msapplication-config" content="{% static 'img/favicons/browserconfig.xml' %}">
 
     <link rel="alternate" type="application/rss+xml" title="Diary entries" href="http://feeds.feedburner.com/PepysDiary">
     <link rel="alternate" type="application/rss+xml" title="Encyclopedia topics" href="http://feeds.feedburner.com/PepysDiary-Encyclopedia">
@@ -43,7 +45,7 @@
     <meta property="og:site_name" content="The Diary of Samuel Pepys">
     <meta property="og:locale" content="en_GB">
     <meta property="article:author" content="https://www.facebook.com/pepysdiary">
-    {#<meta property="og:image" content="{{ STATIC_PREFIX }}img/facebook.jpg">#}
+    {#<meta property="og:image" content="{% static 'img/facebook.jpg' %}">#}
     {% block meta_tags %}{% endblock %}
     {% block pagemap %}{% endblock %}
 </head>
@@ -264,9 +266,12 @@
 	{% endblock %}
 
 	{% block extra_javascript_includes %}{% endblock %}
+    
+    <!-- inject:js -->
+    <script src="{% static 'js/site-64bf898c27.min.js' %}"></script>
+    <!-- endinject -->
 
-	<script src="{{ STATIC_PREFIX }}js/dist/site-8074b560.min.js"></script>
-
+    {% get_static_prefix as STATIC_PREFIX %}
 	<script>
 		$(document).ready(function(){
 			pepys.controller.init({
