@@ -79,7 +79,7 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     # Must be before those that modify the `Vary` header:
     'django.middleware.cache.UpdateCacheMiddleware',
-    # Above all other middleware apart from Django’s SecurityMiddleware:
+    # Above all other middleware apart from Django's SecurityMiddleware:
     'whitenoise.middleware.WhiteNoiseMiddleware',
     # Before any middleware that may change or use the response body:
     'django.middleware.gzip.GZipMiddleware',
