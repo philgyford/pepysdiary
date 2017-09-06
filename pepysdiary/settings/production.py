@@ -10,8 +10,9 @@ ADMINS = [
 
 MANAGERS = ADMINS
 
-DATABASES = {'default': dj_database_url.config(
-                                    default=environ.get('DATABASE_URL'))}
+# Uses DATABASE_URL environment variable:
+db_from_env = dj_database_url.config(conn_max_age=500)
+DATABASES['default'].update(db_from_env)
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.sendgrid.net'
