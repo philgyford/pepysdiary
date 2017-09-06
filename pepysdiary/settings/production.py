@@ -5,7 +5,7 @@ import dj_database_url
 DEBUG = False
 
 ADMINS = [
-    ('Phil Gyford', 'phil@gyford.com'),
+    # ('Phil Gyford', 'phil@gyford.com'),
 ]
 
 MANAGERS = ADMINS
