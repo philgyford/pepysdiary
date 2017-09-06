@@ -5,7 +5,7 @@ import dj_database_url
 DEBUG = False
 
 ADMINS = [
-    # ('Phil Gyford', 'phil@gyford.com'),
+    ('Phil Gyford', 'phil@gyford.com'),
 ]
 
 MANAGERS = ADMINS
@@ -88,11 +88,11 @@ LOGGING = {
         },
     },
     'loggers': {
-        # 'django.request': {
-            # 'handlers': ['mail_admins'],
-            # 'level': 'ERROR',
-            # 'propagate': True,
-        # },
+        'django.request': {
+            'handlers': ['mail_admins'],
+            'level': 'ERROR',
+            'propagate': True,
+        },
         'django.security.DisallowedHost': {
             'handlers': ['null'],
             'propagate': False,
