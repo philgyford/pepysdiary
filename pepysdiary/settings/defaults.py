@@ -77,10 +77,10 @@ MIDDLEWARE = [
 
     # Should go near top of the list:
     'django.middleware.security.SecurityMiddleware',
-    # Must be before those that modify the `Vary` header:
-    'django.middleware.cache.UpdateCacheMiddleware',
     # Above all other middleware apart from Django's SecurityMiddleware:
     'whitenoise.middleware.WhiteNoiseMiddleware',
+    # Must be before those that modify the `Vary` header:
+    'django.middleware.cache.UpdateCacheMiddleware',
     # Before any middleware that may change or use the response body:
     'django.middleware.gzip.GZipMiddleware',
     # After GZipMiddleware and close to top:
