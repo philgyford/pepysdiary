@@ -25,7 +25,7 @@ We use gulp to build the front-end CSS and JS files. The minified files are
 committed to git. The `base.html` template is updated with references to the
 created files, with unique names.
 
-### Installation
+#### Installation
 
 Install all the requirements...
 
@@ -49,7 +49,7 @@ Install required node modules from `package.json`:
     vagrant$ cd /vagrant
     vagrant$ npm install
 
-### Usage
+#### Usage
 
     $ vagrant ssh
     vagrant$ cd /vagrant
