@@ -19,6 +19,7 @@
 'use strict';
 
 var gulp        = require('gulp');
+var gutil       = require('gulp-util');
 var concat      = require('gulp-concat');
 var del         = require('del');
 var inject      = require('gulp-inject');
@@ -33,17 +34,22 @@ var uglify      = require('gulp-uglify');
  * VARIABLES
  */
 
+// I don't know why we need this.
+// Need to manually add this to the front of filepaths when injecting them
+// into html pages.
+var INJECT_PATH_PREFIX = 'common/';
 
-var STATIC_DIR    = 'pepysdiary/common/static';
+var SRC_DIR       = 'pepysdiary/common/static/common/src';
+var STATIC_DIR    = 'pepysdiary/common/static/common';
 var TEMPLATES_DIR = 'pepysdiary/templates/common';
 
 var PATHS = {
   src: {
-    sassFiles:      STATIC_DIR + '/src/sass/**/*.scss',
-    jsDir:          STATIC_DIR + '/src/js',
-    jsVendorDir:    STATIC_DIR + '/src/js/vendor',
+    sassFiles:      SRC_DIR + '/sass/**/*.scss',
+    jsDir:          SRC_DIR + '/js',
+    jsVendorDir:    SRC_DIR + '/js/vendor',
     // Our custom file(s):
-    jsSiteFiles:    STATIC_DIR + '/src/js/*.js',
+    jsSiteFiles:    SRC_DIR + '/js/*.js',
   },
   dest: {
     cssDir:         STATIC_DIR + '/css',
@@ -139,6 +145,8 @@ gulp.task('inject', function doInjection() {
    * Add Django 'static' formatting.
    */
   var transformFunc = function(filepath) {
+    filepath = INJECT_PATH_PREFIX + filepath;
+
     if (filepath.slice(-3) === '.js') {
       return '<script src="{% static \'' + filepath + '\' %}"></script>';
     } else if (filepath.slice(-4) === '.css') {

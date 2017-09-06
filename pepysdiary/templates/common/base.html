@@ -10,27 +10,27 @@
 	{% endblock extra_css %}
     {# Mapbox CSS needs to go in before our own CSS. #}
     <!-- inject:css -->
-    <link href="{% static 'css/site-c8c1bec3ca.css' %}" rel="stylesheet">
+    <link href="{% static 'common/css/site-c8c1bec3ca.css' %}" rel="stylesheet">
     <!-- endinject -->
 
-    <link rel="apple-touch-icon" sizes="57x57" href="{% static 'img/favicons/apple-touch-icon-57x57.png' %}">
-    <link rel="apple-touch-icon" sizes="60x60" href="{% static 'img/favicons/apple-touch-icon-60x60.png' %}">
-    <link rel="apple-touch-icon" sizes="72x72" href="{% static 'img/favicons/apple-touch-icon-72x72.png' %}">
-    <link rel="apple-touch-icon" sizes="76x76" href="{% static 'img/favicons/apple-touch-icon-76x76.png' %}">
-    <link rel="apple-touch-icon" sizes="114x114" href="{% static 'img/favicons/apple-touch-icon-114x114.png' %}">
-    <link rel="apple-touch-icon" sizes="120x120" href="{% static 'img/favicons/apple-touch-icon-120x120.png' %}">
-    <link rel="apple-touch-icon" sizes="144x144" href="{% static 'img/favicons/apple-touch-icon-144x144.png' %}">
-    <link rel="apple-touch-icon" sizes="152x152" href="{% static 'img/favicons/apple-touch-icon-152x152.png' %}">
-    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'img/favicons/apple-touch-icon-180x180.png' %}">
-	<link rel="icon" type="image/png" href="{% static 'img/favicons/favicon-32x32.png' %}" sizes="32x32' %}">
-    <link rel="icon" type="image/png" href="{% static 'img/favicons/android-chrome-192x192.png' %}" sizes="192x192' %}">
-    <link rel="icon" type="image/png" href="{% static 'img/favicons/favicon-96x96.png' %}" sizes="96x96' %}">
-    <link rel="icon" type="image/png" href="{% static 'img/favicons/favicon-16x16.png' %}" sizes="16x16' %}">
-    <link rel="manifest" href="{% static 'img/favicons/manifest.json' %}">
-    <link rel="shortcut icon" href="{% static 'img/favicons/favicon.ico' %}">
+    <link rel="apple-touch-icon" sizes="57x57" href="{% static 'common/img/favicons/apple-touch-icon-57x57.png' %}">
+    <link rel="apple-touch-icon" sizes="60x60" href="{% static 'common/img/favicons/apple-touch-icon-60x60.png' %}">
+    <link rel="apple-touch-icon" sizes="72x72" href="{% static 'common/img/favicons/apple-touch-icon-72x72.png' %}">
+    <link rel="apple-touch-icon" sizes="76x76" href="{% static 'common/img/favicons/apple-touch-icon-76x76.png' %}">
+    <link rel="apple-touch-icon" sizes="114x114" href="{% static 'common/img/favicons/apple-touch-icon-114x114.png' %}">
+    <link rel="apple-touch-icon" sizes="120x120" href="{% static 'common/img/favicons/apple-touch-icon-120x120.png' %}">
+    <link rel="apple-touch-icon" sizes="144x144" href="{% static 'common/img/favicons/apple-touch-icon-144x144.png' %}">
+    <link rel="apple-touch-icon" sizes="152x152" href="{% static 'common/img/favicons/apple-touch-icon-152x152.png' %}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'common/img/favicons/apple-touch-icon-180x180.png' %}">
+	<link rel="icon" type="image/png" href="{% static 'common/img/favicons/favicon-32x32.png' %}" sizes="32x32' %}">
+    <link rel="icon" type="image/png" href="{% static 'common/img/favicons/android-chrome-192x192.png' %}" sizes="192x192' %}">
+    <link rel="icon" type="image/png" href="{% static 'common/img/favicons/favicon-96x96.png' %}" sizes="96x96' %}">
+    <link rel="icon" type="image/png" href="{% static 'common/img/favicons/favicon-16x16.png' %}" sizes="16x16' %}">
+    <link rel="manifest" href="{% static 'common/img/favicons/manifest.json' %}">
+    <link rel="shortcut icon" href="{% static 'common/img/favicons/favicon.ico' %}">
     <meta name="msapplication-TileColor" content="#00a300">
-    <meta name="msapplication-TileImage" content="{% static 'img/favicons/mstile-144x144.png' %}">
-    <meta name="msapplication-config" content="{% static 'img/favicons/browserconfig.xml' %}">
+    <meta name="msapplication-TileImage" content="{% static 'common/img/favicons/mstile-144x144.png' %}">
+    <meta name="msapplication-config" content="{% static 'common/img/favicons/browserconfig.xml' %}">
 
     <link rel="alternate" type="application/rss+xml" title="Diary entries" href="http://feeds.feedburner.com/PepysDiary">
     <link rel="alternate" type="application/rss+xml" title="Encyclopedia topics" href="http://feeds.feedburner.com/PepysDiary-Encyclopedia">
@@ -41,7 +41,7 @@
     <meta property="og:site_name" content="The Diary of Samuel Pepys">
     <meta property="og:locale" content="en_GB">
     <meta property="article:author" content="https://www.facebook.com/pepysdiary">
-    {#<meta property="og:image" content="{% static 'img/facebook.jpg' %}">#}
+    {#<meta property="og:image" content="{% static 'common/img/facebook.jpg' %}">#}
     {% block meta_tags %}{% endblock %}
     {% block pagemap %}{% endblock %}
 </head>
@@ -264,7 +264,7 @@
 	{% block extra_javascript_includes %}{% endblock %}
     
     <!-- inject:js -->
-    <script src="{% static 'js/site-64bf898c27.min.js' %}"></script>
+    <script src="{% static 'common/js/site-64bf898c27.min.js' %}"></script>
     <!-- endinject -->
 
     {% get_static_prefix as STATIC_PREFIX %}
@@ -285,7 +285,7 @@
 				'config': {
 					mapbox_map_id: '{{ MAPBOX_MAP_ID }}',
 					mapbox_access_token: '{{ MAPBOX_ACCESS_TOKEN }}',
-					static_prefix: '{{ STATIC_PREFIX|escapejs }}'
+					static_prefix: '{{ STATIC_PREFIX|escapejs }}common/'
 				}
 			});
 
