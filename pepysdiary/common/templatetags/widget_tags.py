@@ -223,7 +223,7 @@ def family_tree_link(topic=None):
     link_url = reverse('encyclopedia_familytree')
 
     body = """
-        <p><a href="%s"><img class="img-responsive" src="%simg/sidebar_family_tree.png" width="330" height="110" alt="Family tree thumbnail" /></p>
+        <p><a href="%s"><img class="img-responsive" src="%scommon/img/sidebar_family_tree.png" width="330" height="110" alt="Family tree thumbnail" /></p>
         <p><a href="%s">%s</a></p>
     """ % (link_url, settings.STATIC_URL, link_url, text)
 
@@ -244,7 +244,7 @@ def category_map_link(category_id=None):
         text = "See all places in this category on one&nbsp;map"
 
     body = """<p class="clearfix">
-    <a href="%s"><img class="pull-right" src="%simg/sidebar_category_map.png" width="110" height="62" alt="Map thumbnail" /></a>
+    <a href="%s"><img class="pull-right" src="%scommon/img/sidebar_category_map.png" width="110" height="62" alt="Map thumbnail" /></a>
     <a href="%s">%s</a>
     </p>
     """ % (link_url, settings.STATIC_URL, link_url, text)
