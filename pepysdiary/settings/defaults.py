@@ -68,20 +68,34 @@ STATICFILES_FINDERS = [
 #    'django.contrib.staticfiles.finders.DefaultStorageFinder',
 ]
 
+
 MIDDLEWARE = [
-    # Must be first:
-    'django.middleware.cache.UpdateCacheMiddleware',
+    # These modify the `Vary` header:
+    # * SessionMiddleware (adds Cookie)
+    # * GZipMiddleware (adds Accept-Encoding)
+    # * LocaleMiddleware (adds Accept-Language)
+
+    # Should go near top of the list:
     'django.middleware.security.SecurityMiddleware',
+    # Must be before those that modify the `Vary` header:
+    'django.middleware.cache.UpdateCacheMiddleware',
+    # Above all other middleware apart from Django’s SecurityMiddleware:
     'whitenoise.middleware.WhiteNoiseMiddleware',
-    # 'django.middleware.gzip.GZipMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
+    # Before any middleware that may change or use the response body:
+    'django.middleware.gzip.GZipMiddleware',
+    # After GZipMiddleware and close to top:
     'django.middleware.common.CommonMiddleware',
+    # After UpdateCacheMiddleware:
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    # After SessionMiddleware:
     'django.middleware.csrf.CsrfViewMiddleware',
+    # After SessionMiddleware:
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    # After SessionMiddleware:
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'pepysdiary.common.middleware.VisitTimeMiddleware',
-    # Must be last:
+    # Must be before those that modify the `Vary` header:
     'django.middleware.cache.FetchFromCacheMiddleware',
 ]
 
