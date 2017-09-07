@@ -52,6 +52,8 @@ class CategoryDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super(CategoryDetailView, self).get_context_data(**kwargs)
 
+        topics = self.object.topics.only('id', 'order_title')
+
         # Makes a list of unique letters. Each letter is only included if this
         # category has a topic starting with that letter.
         # eg, ['A', 'B', 'E', 'N', 'T']
@@ -59,8 +61,12 @@ class CategoryDetailView(DetailView):
         # http://www.peterbe.com/plog/uniqifiers-benchmark
         seen = set()
         context['used_letters'] = [
-            topic.order_title[0].upper() for topic in self.object.topics.all() if topic.order_title[0].upper() not in seen and not seen.add(topic.order_title[0].upper())
+            topic.order_title[0].upper() for topic in topics if topic.order_title[0].upper() not in seen and not seen.add(topic.order_title[0].upper())
         ]
+
+        # Quicker than relying on category.topics.all() in the template.
+        # And we can fetch only the fields we need.
+        context['topics'] = topics
 
         context['all_letters'] = list(string.ascii_uppercase)
 
