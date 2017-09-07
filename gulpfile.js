@@ -34,13 +34,8 @@ var uglify      = require('gulp-uglify');
  * VARIABLES
  */
 
-// I don't know why we need this.
-// Need to manually add this to the front of filepaths when injecting them
-// into html pages.
-var INJECT_PATH_PREFIX = 'common/';
-
 var SRC_DIR       = 'pepysdiary/common/static/common/src';
-var STATIC_DIR    = 'pepysdiary/common/static/common';
+var STATIC_DIR    = 'pepysdiary/common/static';
 var TEMPLATES_DIR = 'pepysdiary/templates/common';
 
 var PATHS = {
@@ -52,11 +47,11 @@ var PATHS = {
     jsSiteFiles:    SRC_DIR + '/js/*.js',
   },
   dest: {
-    cssDir:         STATIC_DIR + '/css',
-    cssFiles:       STATIC_DIR + '/css/**/*.css',
-    jsDir:          STATIC_DIR + '/js',
+    cssDir:         STATIC_DIR + '/common/css',
+    cssFiles:       STATIC_DIR + '/common/css/**/*.css',
+    jsDir:          STATIC_DIR + '/common/js',
     // All generated JS files:
-    jsFiles:        STATIC_DIR + '/js/**/*.js'
+    jsFiles:        STATIC_DIR + '/common/js/**/*.js'
   },
   templates: {
     files:          [TEMPLATES_DIR + '/base.html']
@@ -145,8 +140,6 @@ gulp.task('inject', function doInjection() {
    * Add Django 'static' formatting.
    */
   var transformFunc = function(filepath) {
-    filepath = INJECT_PATH_PREFIX + filepath;
-
     if (filepath.slice(-3) === '.js') {
       return '<script src="{% static \'' + filepath + '\' %}"></script>';
     } else if (filepath.slice(-4) === '.css') {
