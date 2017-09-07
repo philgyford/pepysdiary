@@ -352,6 +352,9 @@ window.pepys.topic = {
                                                                  'references'],
 
     init: function() {
+        if ($('.nav-tabs').length === 0) {
+            return;
+        };
         this.init_tabs();
     },
 
@@ -363,7 +366,7 @@ window.pepys.topic = {
         var hash = window.location.hash.substring(1);
 
         if (hash) {
-            if (hash.match(/^c\d+$/) && $('#'+hash).exists()) {
+            if ((hash.match(/^c\d+$/) || hash === 'latest') && $('#'+hash).exists()) {
                 // The hash is like 'c1234' and there's a comment with that ID.
                 $('#tab-discussion a').tab('show');
                 $('html, body').animate({scrollTop: $('#'+hash).offset().top },
