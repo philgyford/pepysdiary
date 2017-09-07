@@ -1,6 +1,12 @@
 import factory
+from faker import Faker
+
+from django.db import IntegrityError
+
 from pepysdiary.encyclopedia import models
 from pepysdiary.encyclopedia import category_lookups
+
+fake = Faker()
 
 
 class CategoryFactory(factory.django.DjangoModelFactory):
@@ -37,7 +43,8 @@ class TopicFactory(factory.django.DjangoModelFactory):
 
 class PersonTopicFactory(TopicFactory):
 
-    title = factory.Faker('name')
+    title = factory.LazyAttribute(
+                        lambda p: '{} {}'.format(fake.prefix(), fake.name()))
 
     @factory.post_generation
     def categories(self, create, extracted, **kwargs):
@@ -50,9 +57,12 @@ class PersonTopicFactory(TopicFactory):
             for category in extracted:
                 self.categories.add(category)
         else:
-            # Adding the category with an ID of 2, which is People:
-            self.categories.add(CategoryFactory(id=category_lookups.PEOPLE))
-    
+            try:
+                # Adding the category with an ID of 2, which is People:
+                self.categories.add(CategoryFactory(id=category_lookups.PEOPLE))
+            except IntegrityError:
+                pass
+
 
 class PlaceTopicFactory(TopicFactory):
 
@@ -68,5 +78,8 @@ class PlaceTopicFactory(TopicFactory):
                 self.categories.add(category)
         else:
             # Adding the category with an ID of 3, which is Places:
-            self.categories.add(CategoryFactory(id=category_lookups.PLACES))
+            try:
+                self.categories.add(CategoryFactory(id=category_lookups.PLACES))
+            except IntegrityError:
+                pass
     
