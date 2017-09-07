@@ -14,7 +14,12 @@
 }
 
 .media {
+	margin-top: 0;
+	padding-top: 15px;
 	border-bottom: 1px solid $hr-border;
+}
+.comments .media:target .comment-link {
+	font-weight: bold;
 }
 
 /* A custom style, modifying things, used on Recent Activity page. */

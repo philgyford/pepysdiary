@@ -52,7 +52,7 @@ NOTE: The listings in templatetags/list_tags.py for the Recent Activity page
 					<small>
 						<time class="timeago" datetime="{{ comment.submit_date|date:'c' }}">on {{ comment.submit_date|date:date_format_mid }}</time>
 						<small>
-							&nbsp;•&nbsp; <a href="{% if show_object_titles %}{{ comment.content_object.get_absolute_url }}{% endif %}#c{{comment.id}}" title="Link directly to this {% if object and object.comment_name %}{{ object.comment_name }}{% endif %}">Link</a>
+							&nbsp;•&nbsp; <a href="{% if show_object_titles %}{{ comment.content_object.get_absolute_url }}{% endif %}#c{{comment.id}}" title="Link directly to this {% if object and object.comment_name %}{{ object.comment_name }}{% endif %}" class="comment-link">Link</a>
 							{% if user.is_authenticated %}
 								&nbsp;•&nbsp; <a href="{% url 'comments-flag' comment.id %}" title="Flag this {{ object.comment_name }} if it’s spam or inappropriate. You’ll have a chance to confirm.">Flag</a>
 							{% endif %}
