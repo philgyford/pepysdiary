@@ -34,9 +34,11 @@ var uglify      = require('gulp-uglify');
  * VARIABLES
  */
 
-var SRC_DIR       = 'pepysdiary/common/static/common/src';
-var STATIC_DIR    = 'pepysdiary/common/static';
-var TEMPLATES_DIR = 'pepysdiary/templates/common';
+var SRC_DIR             = 'pepysdiary/common/static/common/src';
+var STATIC_DIR          = 'pepysdiary/common/static';
+var TEMPLATES_DIR       = 'pepysdiary/templates';
+// Removed from the start of CSS/JS paths inserted into files by inject:
+var INJECT_IGNORE_PATH  = 'pepysdiary/common';
 
 var PATHS = {
   src: {
@@ -54,7 +56,8 @@ var PATHS = {
     jsFiles:        STATIC_DIR + '/common/js/**/*.js'
   },
   templates: {
-    files:          [TEMPLATES_DIR + '/base.html']
+    files:          [TEMPLATES_DIR + '/common/base.html',
+                     TEMPLATES_DIR + '/500.html']
   }
 };
 
@@ -127,35 +130,21 @@ gulp.task('js', gulp.series('clean:js', function buildJS() {
 
 /**
  * Add links to generated CSS files into templates.
+ * We just add conventional paths, rather than adding Django's {% static ... %}
+ * tags using a transform function, because then it also works for templates
+ * like the static 500.html.
  */
 gulp.task('inject', function doInjection() {
-  var target = gulp.src(PATHS.templates.files);
-
   var sources = gulp.src([
     PATHS.dest.cssFiles,
     PATHS.dest.jsFiles
   ], {read: false});
 
-  /**
-   * Add Django 'static' formatting.
-   */
-  var transformFunc = function(filepath) {
-    if (filepath.slice(-3) === '.js') {
-      return '<script src="{% static \'' + filepath + '\' %}"></script>';
-    } else if (filepath.slice(-4) === '.css') {
-      return '<link href="{% static \'' + filepath + '\' %}" rel="stylesheet">';
-    }
-    // Default:
-    return inject.transform.apply(inject.transform, arguments);
-  };
-
   var options = {
-    ignorePath: '/' + STATIC_DIR + '/',
-    addRootSlash: false,
-    transform: transformFunc
+    ignorePath: INJECT_IGNORE_PATH
   };
 
-  return target
+  return gulp.src(PATHS.templates.files, {'base': TEMPLATES_DIR})
     .pipe(inject(sources, options))
     .pipe(gulp.dest(TEMPLATES_DIR))
 });

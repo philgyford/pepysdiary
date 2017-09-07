@@ -44,6 +44,9 @@ urlpatterns += [
                             url='%(site_url)s%(base_url)s', permanent=True),
                             kwargs={'site_url': reverse_lazy('home')}),
 
+    # For testing the 500 template:
+    url(r'^errors/500/$', TemplateView.as_view(template_name='500.html')),
+
     # DIARY.
 
     # From main /archive/ page.
