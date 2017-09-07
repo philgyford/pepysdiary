@@ -205,11 +205,15 @@
 {% block sidebar_content %}
 
 	{% if topic.thumbnail %}
-		<aside class="aside-block" itemprop="image" itemscope itemtype="http://schema.org/ImageObject">
+		<aside class="aside-block" >
 			<p class="aside-body">
-                <img src="{{ topic.thumbnail.url }}" class="img-thumbnail pull-left" width="100" height="120" alt="Thumbnail image" itemprop="contentUrl" />
+                <span itemprop="image" itemscope itemtype="http://schema.org/ImageObject">
+                    <img src="{{ topic.thumbnail.url }}" class="img-thumbnail pull-left" width="100" height="120" alt="Thumbnail image" itemprop="contentUrl" />
+                </span>
                 {% if topic.tooltip_text %}
-                    <span itemprop="description">{{ topic.tooltip_text|markup_tooltip }}</span>
+                    <span itemprop="description">
+                        {{ topic.tooltip_text|markup_tooltip }}
+                    </span>
                 {% endif %}
             </p>
 		</aside>
