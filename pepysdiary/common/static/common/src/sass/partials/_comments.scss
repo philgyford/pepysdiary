@@ -18,8 +18,8 @@
 	padding-top: 15px;
 	border-bottom: 1px solid $hr-border;
 }
-.comments .media:target .comment-link {
-	font-weight: bold;
+.comments .media:target {
+	background: #fff;
 }
 
 /* A custom style, modifying things, used on Recent Activity page. */
@@ -58,7 +58,11 @@
 	padding-right: ceil($grid-gutter-width / 2);
 }
 
-.comment-title,
+.comments-title {
+	margin-bottom: 0;
+	font-weight: bold;
+}
+
 .comment-name {
 	font-weight: bold;
 }
@@ -67,6 +71,7 @@
 	font-size: $font-size-large;
 	line-height: $headings-line-height;
     color: $gray-light;
+	padding-left: 3px;
 
     &.is-new {
         color: $text-color;
