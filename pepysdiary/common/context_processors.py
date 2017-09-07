@@ -2,6 +2,7 @@ from django.conf import settings
 from django.utils.timezone import now
 
 from pepysdiary.common.models import Config
+from pepysdiary.encyclopedia import category_lookups, topic_lookups
 
 # Things that we want to be available in the context of every page.
 
@@ -52,23 +53,4 @@ def url_name(request):
     if request.resolver_match:
         url_name = request.resolver_match.url_name
     return {'url_name': url_name}
-
-
-def topics_lookup(request):
-    """
-    We want to reference a few particular topics in the templates, so:
-    """
-    return {
-        'family_tree': 7390,
-    }
-
-
-def categories_lookup(request):
-    """
-    We want to reference a few particular categories in the templates, so:
-    """
-    return {
-        'people': 2,
-        'places': 3,
-    }
 

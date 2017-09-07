@@ -10,6 +10,8 @@ from treebeard.mp_tree import MP_Node, MP_NodeManager
 
 from pepysdiary.common.models import PepysModel
 from pepysdiary.encyclopedia.managers import TopicManager
+from pepysdiary.encyclopedia import category_lookups
+from pepysdiary.encyclopedia import topic_lookups
 
 
 class Topic(PepysModel):
@@ -206,6 +208,34 @@ class Topic(PepysModel):
             refs.append(year_refs)
         return refs
 
+    # Useful in the templates:
+
+    @property
+    def is_family_tree(self):
+        return self.id == topic_lookups.FAMILY_TREE
+
+    @property
+    def is_person(self):
+        """
+        If at least one of this topic's categories is directly within People,
+        then True. All people topics are direct descendants of People category.
+        """
+        for c in self.categories.all():
+            if c.id == category_lookups.PEOPLE:
+                return True
+        return False
+
+    @property
+    def is_place(self):
+        """
+        If this Topic is somewhere beneath the Places top-level category, then
+        true, else false.
+        """
+        for c in self.categories.all():
+            if c.get_root().id == category_lookups.PLACES:
+                return True
+        return False
+
 
 class TopicModerator(CommentModerator):
     email_notification = False
@@ -284,21 +314,21 @@ class CategoryManager(MP_NodeManager):
         """
         return (
             ('London', (
-                (196, 'Areas of London'),
-                (31,  'Churches and cathedrals in London'),
-                (199, 'Government buildings'),
-                (201, 'Livery halls'),
-                (28,  'Streets, gates, squares, piers, etc'),
-                (27,  'Taverns in London'),
-                (197, 'Theatres in London'),
-                (180, 'Whitehall Palace'),
-                (200, 'Other royal buildings'),
-                (29,  'Other London buildings'),
+                (category_lookups.PLACES_LONDON_AREAS,          'Areas of London'),
+                (category_lookups.PLACES_LONDON_CHURCHES,       'Churches and cathedrals in London'),
+                (category_lookups.PLACES_LONDON_GOVERNMENT,     'Government buildings'),
+                (category_lookups.PLACES_LONDON_LIVERY_HALLS,   'Livery halls'),
+                (category_lookups.PLACES_LONDON_STREETS,        'Streets, gates, squares, piers, etc'),
+                (category_lookups.PLACES_LONDON_TAVERNS,        'Taverns in London'),
+                (category_lookups.PLACES_LONDON_THEATRES,       'Theatres in London'),
+                (category_lookups.PLACES_LONDON_WHITEHALL,      'Whitehall Palace'),
+                (category_lookups.PLACES_LONDON_ROYAL,          'Other royal buildings'),
+                (category_lookups.PLACES_LONDON_OTHER,          'Other London buildings'),
             ), ),
-            (214, 'London environs'),
-            (209, 'Waterways in Britain'),
-            (30, 'Rest of Britain'),
-            (45, 'Rest of the world'),
+            (category_lookups.PLACES_LONDON_ENVIRONS,       'London environs'),
+            (category_lookups.PLACES_BRITAIN_WATERWAYS,     'Waterways in Britain'),
+            (category_lookups.PLACES_BRITAIN_REST,          'Rest of Britain'),
+            (category_lookups.PLACES_WORLD_REST,            'Rest of the world'),
         )
 
     def valid_map_category_ids(self):

@@ -203,10 +203,10 @@
 		    {% endfor %}
 		{% endif %}
 
-		<main role="main">
+		<main role="main"{% if topic %} itemscope=""{% if topic.is_person %} itemtype="http://schema.org/Person"{% elif topic.is_place %} itemtype="http://schema.org/Place"{% endif %}{% endif %}>
 			{% block page_header %}
 				<header class="page-header">
-					<h1>{% block header_title %}{% endblock %}</h1>
+					<h1 itemprop="name">{% block header_title %}{% endblock %}</h1>
 				</header>
 			{% endblock %}
 

@@ -1,4 +1,9 @@
 {% extends "base.html" %}
+{% load text_formatting_filters %}
+{% load humanize %}
+{% load include_tags %}
+{% load widget_tags %}
+
 
 {% block encyclopedia_nav_active %}active{% endblock %}
 {% block encyclopedia_index_nav_active %}active{% endblock %}
@@ -32,7 +37,6 @@
 	{% endfor %}
 {% endblock breadcrumbs %}
 
-{% load include_tags %}
 
 {% block extra_css %}
 	{% if topic.has_location %}
@@ -87,13 +91,9 @@
 {% block main_content %}
 
 	{% if perms.topic.can_edit %}
-		{% load widget_tags %}
 		{% url 'admin:encyclopedia_topic_change' topic.id as change_url %}
 		{% admin_link_change change_url %}
 	{% endif %}
-
-	{% load text_formatting_filters %}
-	{% load humanize %}
 
 	<div class="tabbable">
 		<ul class="nav nav-tabs" role="tablist">
@@ -124,6 +124,10 @@
 					</div> <!-- #map-frame -->
 					{% load encyclopedia_tags %}
 					{% map_key %}
+
+                    <div itemprop="geo" itemscope="" itemtype="http://schema.org/GeoCoordinates">
+                        <p>Open location in Google Maps: <a href="https://www.google.com/maps/search/?api=1&query={{ topic.latitude}},{{ topic.longitude }}"><span itemprop="latitude">{{ topic.latitude }}</span>, <span itemprop="longitude">{{ topic.longitude }}</span></a></p>
+                    </div>
 				</section>
 			{% endif %}
 
@@ -201,18 +205,22 @@
 {% block sidebar_content %}
 
 	{% if topic.thumbnail %}
-		<aside class="aside-block">
-			<p><img src="{{ topic.thumbnail.url }}" class="img-thumbnail" width="100" height="120" alt="Thumbnail image" /></p>
+		<aside class="aside-block" itemprop="image" itemscope itemtype="http://schema.org/ImageObject">
+			<p class="aside-body">
+                <img src="{{ topic.thumbnail.url }}" class="img-thumbnail pull-left" width="100" height="120" alt="Thumbnail image" itemprop="contentUrl" />
+                {% if topic.tooltip_text %}
+                    <span itemprop="description">{{ topic.tooltip_text|markup_tooltip }}</span>
+                {% endif %}
+            </p>
 		</aside>
 	{% endif %}
 
-	{% load widget_tags %}
 
 	{% if topic.category_map_id %}
 		{% category_map_link category_id=topic.category_map_id %}
 	{% endif %}
 
-	{% if topic.on_pepys_family_tree or topic.id == topics_lookup.family_tree %}
+	{% if topic.on_pepys_family_tree or topic.is_family_tree %}
 		{% family_tree_link topic=topic %}
 	{% endif %}
 

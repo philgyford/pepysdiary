@@ -143,8 +143,6 @@ TEMPLATES = [
                 'pepysdiary.common.context_processors.config',
                 'pepysdiary.common.context_processors.date_formats',
                 'pepysdiary.common.context_processors.url_name',
-                'pepysdiary.common.context_processors.categories_lookup',
-                'pepysdiary.common.context_processors.topics_lookup',
             ],
         },
     },
