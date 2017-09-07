@@ -9,6 +9,8 @@ $gray-light:              #ebebe5;
 $gray-lighter:            #f8f8f1;
 
 $brand-primary:			  #549355;
+$brand-success:			  darken($brand-primary, 10%);
+$brand-danger:			  #D95D4F;
 
 //== Scaffolding
 $body-bg:                 $gray-lighter;
@@ -113,6 +115,15 @@ $nav-link-padding:				10px $navbar-padding-horizontal;
 //== Pager
 //== Jumbotron
 //== Form states and alerts
+
+$state-success-text:             $brand-success;
+$state-success-bg:               lighten($state-success-text, 55%);
+$state-success-border:           darken(adjust-hue($state-success-bg, -10), 5%);
+
+$state-danger-text:             $brand-danger;
+$state-danger-bg:               lighten($state-danger-text, 38%);
+$state-danger-border:           darken(adjust-hue($state-danger-bg, -10), 5%);
+
 //== Tooltips
 
 //== Popovers
