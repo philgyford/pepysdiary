@@ -76,8 +76,12 @@
         }
         .form-control {
             display: inline-block;
-            width: 150px;
             padding-top: 6px;
+			width: 100px;
+
+			@media (min-width: 350px) {
+				width: 150px;
+			}
         }
     
     }
