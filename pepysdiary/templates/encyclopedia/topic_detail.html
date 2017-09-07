@@ -212,7 +212,7 @@
 		{% category_map_link category_id=topic.category_map_id %}
 	{% endif %}
 
-	{% if topic.on_pepys_family_tree or topic.id == 7390 %}
+	{% if topic.on_pepys_family_tree or topic.id == topics_lookup.family_tree %}
 		{% family_tree_link topic=topic %}
 	{% endif %}
 

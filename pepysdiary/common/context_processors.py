@@ -53,3 +53,22 @@ def url_name(request):
         url_name = request.resolver_match.url_name
     return {'url_name': url_name}
 
+
+def topics_lookup(request):
+    """
+    We want to reference a few particular topics in the templates, so:
+    """
+    return {
+        'family_tree': 7390,
+    }
+
+
+def categories_lookup(request):
+    """
+    We want to reference a few particular categories in the templates, so:
+    """
+    return {
+        'people': 2,
+        'places': 3,
+    }
+
