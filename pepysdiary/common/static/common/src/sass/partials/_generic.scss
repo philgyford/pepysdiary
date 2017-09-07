@@ -79,4 +79,8 @@ p.illustration {
 	blockquote {
 		font-size: $font-size-largish;
 	}
+
+	.footnotes blockquote {
+		font-size: $font-size-base;
+	}
 }
