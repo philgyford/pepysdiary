@@ -5,10 +5,10 @@ from pepysdiary.encyclopedia.models import Topic
 
 # This was used to replace all the instances of old Media URLs with new
 # ones. Saved in case we need it, or similar, again.
+# Copy and paste stuff into the Django shell.
 
-
-to_find = 'http://www.pepysdiary.com/media/'
-to_replace = '/media/'
+to_find = 'src="/media/'
+to_replace = 'src="https://pepysdiary-production.s3.amazonaws.com/media/'
 
 
 def replace_func(field_name, find_str, replace_str):
