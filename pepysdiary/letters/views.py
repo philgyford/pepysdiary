@@ -22,7 +22,45 @@ class LetterDetailView(DateDetailView):
         context = super(LetterDetailView, self).get_context_data(**kwargs)
         context['tooltip_references'] = Letter.objects.get_brief_references(
                                                         objects=[self.object])
+        extra_context = self.get_next_previous()
+        context.update(extra_context)
         return context
+
+    def get_next_previous(self):
+        """
+        Get the next/previous Letters based on the current Letter's date.
+        """
+        date = self.object.letter_date
+        order = self.object.order
+
+        try:
+            previous_letter = self.model.objects \
+                                .filter( \
+                                    Q(letter_date__lte=date, order__lt=order) \
+                                    | \
+                                    Q(letter_date__lt=date) \
+                                ) \
+                                .order_by('-letter_date', '-order')[:1] \
+                                .get()
+        except self.model.DoesNotExist:
+            previous_letter = None
+
+        try:
+            next_letter = self.model.objects \
+                                .filter( \
+                                    Q(letter_date__gte=date, order__gt=order) \
+                                    | \
+                                    Q(letter_date__gt=date) \
+                                ) \
+                                .order_by('letter_date', 'order')[:1] \
+                                .get()
+        except self.model.DoesNotExist:
+            next_letter = None
+
+        return {
+            'previous_letter': previous_letter,
+            'next_letter': next_letter,
+        }
 
 
 class LetterPersonView(ListView):

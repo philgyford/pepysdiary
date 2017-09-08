@@ -44,6 +44,8 @@ class Letter(PepysModel, OldDateMixin):
     comment_count = models.IntegerField(default=0, blank=False, null=False)
     last_comment_time = models.DateTimeField(blank=True, null=True)
     allow_comments = models.BooleanField(blank=False, null=False, default=True)
+    order = models.PositiveSmallIntegerField(blank=False, null=False, default=0,
+        help_text="If letters are from the same day, this is used to order them, lowest number first.")
 
     old_date_field = 'letter_date'
     comment_name = 'annotation'
@@ -53,7 +55,7 @@ class Letter(PepysModel, OldDateMixin):
     objects = LetterManager()
 
     class Meta:
-        ordering = ['letter_date', ]
+        ordering = ['letter_date', 'order',]
 
     def __unicode__(self):
         return '%s: %s' % (self.letter_date, self.title)

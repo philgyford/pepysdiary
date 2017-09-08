@@ -6,6 +6,16 @@
 {% block title %}{{ letter.full_title }}{% endblock %}}
 {% block header_title %}{{ letter.title }}{% endblock %}}
 
+{% block link_tags %}
+    {% if next_letter %}
+        <link rel="next" href="{{ next_letter.get_absolute_url }}">
+    {% endif %}
+    {% if previous_letter %}
+        <link rel="prev" href="{{ previous_letter.get_absolute_url }}">
+    {% endif %}
+{% endblock %}
+
+
 {% block main_content %}
 
 	{% load text_formatting_filters %}
@@ -27,6 +37,8 @@
 			</aside>
 		{% endif %}
 	</article>
+
+	{% include 'inc/next_previous.html' with next=next_letter previous=previous_letter name='letter' %}
 
 	{% include 'inc/comments.html' with object=letter %}
 

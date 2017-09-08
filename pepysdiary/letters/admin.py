@@ -4,13 +4,15 @@ from pepysdiary.letters.models import Letter
 
 
 class LetterAdmin(admin.ModelAdmin):
-    list_display = ('letter_date', 'title', 'comment_count', )
+    list_display = ('letter_date', 'order',  'slug', 'title', 'comment_count', )
+    list_editable = ('order', 'slug',)
     search_fields = ('title', 'text', 'footnotes', 'excerpt', )
     readonly_fields = ('date_created', 'date_modified', 'last_comment_time', )
     raw_id_fields = ('sender', 'recipient', )
     fieldsets = (
         (None, {
             'fields': ('title', 'letter_date', 'display_date',
+                        'order',
                         'sender', 'recipient',
                         'slug', 'source', 'allow_comments', )
         }),

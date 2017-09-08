@@ -1,6 +1,11 @@
 {% comment %}
 NOTE: The next/prev in diary/entry_archive_month.html is done separately
 because its URLs are more manual.
+
+Expects:
+* next -- An object.
+* previous -- An object.
+* name -- A string like 'letter' or 'entry'. (optional)
 {% endcomment %}
 
 {% if previous or next %}
@@ -9,11 +14,15 @@ because its URLs are more manual.
 	<nav class="nextprev">
 		<ul class="list-unstyled">
 			{% if previous %}
-				<li class="nextprev-prev"><a href="{{ previous.get_absolute_url }}">{{ previous.short_title }}</a></li>
+				<li class="nextprev-prev">
+					<a href="{{ previous.get_absolute_url }}" title="Earlier {{ name|default:"item" }}">{{ previous.short_title }}</a>
+				</li>
 			{% endif %}
 
 			{% if next %}
-				<li class="nextprev-next"><a href="{{ next.get_absolute_url }}">{{ next.short_title }}</a></li>
+				<li class="nextprev-next">
+					<a href="{{ next.get_absolute_url }}" title="Later {{ name|default:"item" }}">{{ next.short_title }}</a>
+				</li>
 			{% endif %}
 		</ul>
 	</nav>
