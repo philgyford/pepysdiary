@@ -1,6 +1,6 @@
 -r requirements.txt
 django-debug-toolbar==1.8
 factory-boy==2.9.2
-libsass==0.13.3
+libsass==0.13.2
 watchdog==0.8.3
 
