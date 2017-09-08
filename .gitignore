@@ -7,6 +7,4 @@ pepysdiary/static_collected
 /vendor
 /node_modules
 /.vagrant
-/config/vagrant
-/Vagrantfile
 .env

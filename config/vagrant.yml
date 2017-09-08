@@ -3,11 +3,13 @@ virtualbox:
   memory: '512'
 django:
   settings_module: pepysdiary.settings.vagrant
+  run_migrations: 'false'
 virtualenv:
   envname: pepysdiary
   requirements_file: requirements_dev.txt
 foreman:
   procfile: Procfile.dev
+  start_foreman: 'false'
 db:
   name: pepysdiary
   user: pepysdiary
