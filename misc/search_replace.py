@@ -7,8 +7,12 @@ from pepysdiary.encyclopedia.models import Topic
 # ones. Saved in case we need it, or similar, again.
 # Copy and paste stuff into the Django shell.
 
-to_find = 'src="/media/'
-to_replace = 'src="https://pepysdiary-production.s3.amazonaws.com/media/'
+# Don't forget to change src= and href=
+# And there are 3+ Annotations that contain direct references to media files
+# (change those manually in the admin).
+
+to_find = 'href="/media/'
+to_replace = 'href="https://pepysdiary-production.s3.amazonaws.com/media/'
 
 
 def replace_func(field_name, find_str, replace_str):
