@@ -445,7 +445,11 @@ window.pepys.topic = {
 
         // Overall width/height available.
         var outer_width = $('.js-wealth-chart').width();
+        // Keep height proportionate, unless it'll get too short:
         var outer_height = Math.round(outer_width / 3);
+        if (outer_height < 200) {
+            outer_height = 200;
+        };
     
         // Area around the actual chart (space for axes numbers etc).
         var margin = {top: 15, right: 5, bottom: 25, left: 50};
@@ -471,17 +475,29 @@ window.pepys.topic = {
                     .domain([0, 7000])
                     .range([inner_height, 0]);
 
-        // Reduce the number of ticks if the chart is narrow.
-        var num_x_ticks = inner_width < 600 ? 5 : 10;
-
         // Construct and then add the x axis.
         var xAxis = d3.svg.axis()
                             .scale(x)
                             .orient('bottom')
-                            .ticks(num_x_ticks)
                             .tickSize(5, 0, 0)
                             .tickPadding(7)
-                            .tickFormat(formatDate);
+                            .tickFormat(formatDate)
+                            .tickValues([
+                                    parseDate('1660-01-01'),
+                                    parseDate('1662-01-01'),
+                                    parseDate('1664-01-01'),
+                                    parseDate('1666-01-01'),
+                                    parseDate('1668-01-01')
+                                ]);
+
+        // When it's very narrow, reduce the number of ticks.
+        if (inner_width < 340) {
+            xAxis.tickValues([
+                parseDate('1660-01-01'),
+                parseDate('1663-01-01'),
+                parseDate('1666-01-01'),
+            ]);
+        };
 
         svg.append('g')
             .attr('class', 'axis axis-x')
@@ -738,8 +754,6 @@ window.pepys.topic = {
                     .attr('class', 'bar')
                     .attr('x', function(d,i){ return x(i); })
                     .attr('y', function(d){ return y(d.percent_refs); })
-                    // Fudge to stop the bars overlapping the x-axis:
-                    .attr('transform', 'translate(0, -1)')
                     .attr('width', x.rangeBand())
                     .attr('height', function(d,i){
                                     return inner_height - y(d.percent_refs); })
