@@ -1,4 +1,6 @@
 {% extends "base.html" %}
+{% load humanize %}
+{% load widget_tags %}
 
 {% block encyclopedia_nav_active %}active{% endblock %}
 {% block encyclopedia_index_nav_active %}active{% endblock %}
@@ -7,8 +9,6 @@
 {% block header_title %}Encyclopedia{% endblock %}}
 
 {% block main_content %}
-
-	{% load humanize %}
 
 	<p class="lead">Information about {{ topic_count|intcomma }} people, places and things in Pepys’ time.</p>
 
@@ -33,11 +33,11 @@
 
 {% block sidebar_content %}
 
-	{% load widget_tags %}
-
 	{% category_map_link %}
 	
 	{% family_tree_link %}
+
+	{% pepys_wealth_link %}
 
 	{% detailed_topics %}
 

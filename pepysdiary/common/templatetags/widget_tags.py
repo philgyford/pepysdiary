@@ -5,6 +5,7 @@ from django.core.urlresolvers import reverse
 from django.utils.html import mark_safe
 
 from pepysdiary.encyclopedia.models import Topic
+from pepysdiary.encyclopedia import topic_lookups
 from pepysdiary.indepth.models import Article
 from pepysdiary.news.models import Post
 
@@ -214,7 +215,7 @@ def summary_year_navigation(current_year):
 def family_tree_link(topic=None):
     """
     Displays a thumbnail of the family tree and a link to it.
-    If `topic` is present, and the topic is featured on the family treet, then
+    If `topic` is present, and the topic is featured on the family tree, then
     the text is different.
     """
     text = "See the Pepys family tree"
@@ -228,6 +229,24 @@ def family_tree_link(topic=None):
     """ % (link_url, settings.STATIC_URL, link_url, text)
 
     return mark_safe(put_in_block(body, 'Family tree'))
+
+
+@register.simple_tag
+def pepys_wealth_link():
+    """
+    Displays a thumbnail of the Pepys' Wealth chart and a link to it.
+    If `topic` is present, and the topic is featured on the family treet, then
+    the text is different.
+    """
+    text = "See his wealth change during the diary"
+    link_url = reverse('topic_detail', kwargs={'pk': topic_lookups.PEPYS_WEALTH})
+
+    body = """
+        <p><a href="%s"><img class="img-responsive" src="%scommon/img/sidebar_wealth_chart.png" width="330" height="110" alt="Wealth chart thumbnail" /></p>
+        <p><a href="%s">%s</a></p>
+    """ % (link_url, settings.STATIC_URL, link_url, text)
+
+    return mark_safe(put_in_block(body, 'Samuel Pepys&#8217; wealth'))
 
 
 @register.simple_tag
