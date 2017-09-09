@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<!--
+    The JavaScript on this page generates a table listing Pepys' wealth on
+    different dates.
+
+    That HTML is then pasted into the Encyclopedia article about his wealth.
+
+    We're keeping this in case we want to change the format etc in the future.
+-->
+<html lang="en-gb">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <style type="text/css">
+        .th-number,
+        .td-number {
+            text-align: right;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-8">
+                <div id="table"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        var data = [
+            ['1660-01-01', 40],
+            ['1660-02-17', 40],
+            ['1660-05-06', 40],
+            ['1660-05-30', 80],
+            ['1660-06-03', 100],
+            ['1660-06-04', 100],
+            ['1660-06-05', 100],
+            ['1660-07-27', 100],
+            ['1660-07-29', 120],
+            ['1660-09-05', 200],
+            ['1660-10-01', 200],
+            ['1660-10-31', 150],
+            ['1660-11-29', 200],
+            ['1660-12-10', 240],
+            ['1661-01-01', 300],
+            ['1661-02-15', 350],
+            ['1661-05-24', 500],
+            ['1661-09-08', 600],
+            ['1661-12-31', 500],
+            ['1662-03-01', 500],
+            ['1662-05-30', 530],
+            ['1662-05-31', 530],
+            ['1662-06-03', 530],
+            ['1662-06-29', 650],
+            ['1662-07-31', 650],
+            ['1662-08-31', 687],
+            ['1662-09-30', 680],
+            ['1662-10-26', 679],
+            ['1662-11-30', 660],
+            ['1662-12-27', 630],
+            ['1662-12-31', 650],
+            ['1663-01-30', 640],
+            ['1663-02-28', 640],
+            ['1663-03-29', 670],
+            ['1663-04-26', 700],
+            ['1663-05-31', 726],
+            ['1663-06-28', 719],
+            ['1663-06-30', 700],
+            ['1663-07-31', 730],
+            ['1663-08-30', 750],
+            ['1663-09-30', 760],
+            ['1663-10-31', 717],
+            ['1663-11-29', 770],
+            ['1663-12-31', 800],
+            ['1664-01-31', 858],
+            ['1664-02-29', 890],
+            ['1664-03-31', 900],
+            ['1664-05-01', 908],
+            ['1664-05-31', 930],
+            ['1664-06-30', 951],
+            ['1664-07-31', 1014],
+            ['1664-08-31', 1020],
+            ['1664-09-30', 1203],
+            ['1664-10-31', 1205],
+            ['1664-11-30', 1209],
+            ['1664-12-31', 1349],
+            ['1665-01-31', 1257],
+            ['1665-02-28', 1270],
+            ['1665-03-31', 1300],
+            ['1665-04-30', 1400],
+            ['1665-06-04', 1400],
+            ['1665-07-02', 1450],
+            ['1665-08-02', 1900],
+            ['1665-08-13', 2164],
+            ['1665-08-30', 2180],
+            ['1665-12-30', 4000],
+            ['1665-12-31', 4400],
+            ['1666-03-04', 4600],
+            ['1666-04-03', 5000],
+            ['1666-04-30', 5200],
+            ['1666-05-31', 5200],
+            ['1666-07-03', 5600],
+            ['1666-08-01', 5700],
+            ['1666-10-31', 6200],
+            ['1666-12-31', 6200],
+            ['1667-02-28', 6800],
+            ['1667-04-30', 6700],
+            ['1667-05-31', 6900]
+        ];
+
+        /**
+         * Adds commas and decimal points to numbers.
+         * n - The number to be formatted.
+         * dp - The number of digits after the decimal point.
+         * Via https://stackoverflow.com/a/20545587/250962
+         */
+        function formatThousands(n, dp){
+            var w = n.toFixed(dp), k = w|0, b = n < 0 ? 1 : 0;
+            var u = Math.abs(w-k), d = (''+u.toFixed(dp)).substr(2, dp);
+            var s = ''+k, i = s.length, r = '';
+            while ( (i-=3) > b ) { r = ',' + s.substr(i, 3) + r; }
+            return s.substr(0, i + 3) + r + (d ? '.'+d: '');
+        };
+
+        var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+
+        var html = '<table class="table table-condensed js-wealth-table">\n';
+        html += '<thead><tr>\n';
+        html += '<th class="th-number">Date</th>\n';
+        html += '<th class="th-number">1660s Pounds</th>\n';
+        html += '<th class="th-number">2016<br>Standard of living<br>value (£)</th>\n';
+        html += '<th class="th-number">2016<br>Economic status<br>value (£)</th>\n';
+        html += '</tr></thead><tbody>\n';
+
+        for (var i = 0; i < data.length; i++) {
+            var parts = data[i][0].split('-');
+
+            var year = parseInt(parts[0]);
+            var monthIdx = parseInt(parts[1]) - 1;
+            var month = months[monthIdx];
+            var day = parseInt(parts[2]);
+
+            var pounds = data[i][1];
+
+            html +=  '<tr>\n';
+            html += '<td class="td-number"><a href="/diary/' + parts[0] + '/' + parts[1] + '/' + parts[2] + '/"><time datetime="' + data[i][0] + '">' + day + ' ' + month + ' ' + year + '</time></a></td>\n';
+            html += '<td class="td-number">' + formatThousands(pounds) + '</td>\n';
+            // Standard of living
+            html += '<td class="td-number">' + formatThousands(pounds * 147.30, 0) + '</td>\n';
+            // Economic status
+            html += '<td class="td-number">' + formatThousands(pounds * 3350, 0) + '</td>\n';
+            html += '</tr>\n'
+        }
+
+        html += '</tbody></table>\n';
+
+        document.getElementById('table').innerHTML = html;
+    </script>
+</body>
+</html>

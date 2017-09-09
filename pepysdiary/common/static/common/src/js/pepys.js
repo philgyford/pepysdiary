@@ -356,6 +356,7 @@ window.pepys.topic = {
             return;
         };
         this.init_tabs();
+        this.draw_wealth_chart();
     },
 
     /**
@@ -410,6 +411,199 @@ window.pepys.topic = {
     },
 
     /**
+     * Used for both wealth and references charts.
+     */
+    chart_tooltip: function() {
+    },
+
+    /**
+     * Draw the d3 chart of Pepys' wealth in a div.js-wealth-chart.
+     * Assumes that the date is in the first column and the £ value in the
+     * second.
+     * Also requires a div.js-wealth-chart to draw the chart in.
+     */
+    draw_wealth_chart: function() {
+        if ($('.js-wealth-chart').length === 0 || $('.js-wealth-table').length === 0) {
+            return;
+        };
+
+        var parseDate = d3.time.format('%Y-%m-%d').parse;
+        var formatDate = d3.time.format('%_d %b %Y');
+        var formatValue = function(d) { return '£' + d3.format(',')(d); };
+        var font_size = '14px';
+
+        var data = [];
+
+        // Read the dates and 1660s values from the <table>
+        $('.js-wealth-table tbody tr').each(function(idx) {
+            var date = $('time', $(this)).attr('datetime');
+            var value = $('td', $(this)).eq(1).text();
+            value = value.replace(',', '');
+            value = parseInt(value);
+            data.push({'date': parseDate(date), 'value': value});
+        });
+
+        // Overall width/height available.
+        var outer_width = $('.js-wealth-chart').width();
+        var outer_height = Math.round(outer_width / 3);
+    
+        // Area around the actual chart (space for axes numbers etc).
+        var margin = {top: 15, right: 5, bottom: 25, left: 50};
+
+        // Area of the chart itself (not including space for axes numbers).
+        var inner_width = outer_width - margin.left - margin.right;
+        var inner_height = outer_height - margin.top - margin.bottom;
+
+        var svg = d3.select('.js-wealth-chart').append('svg')
+                        .attr('class', 'chart')
+                        .attr('width', outer_width)
+                        .attr('height', outer_height)
+                    .append('g')
+                        .attr('transform',
+                            'translate(' + margin.left + ',' + margin.top + ')');
+
+        // The scales.
+        var x = d3.time.scale()
+                    .domain([parseDate('1660-01-01'), parseDate('1669-05-31')])
+                    .range([0, inner_width], 0);
+
+        var y = d3.scale.linear()
+                    .domain([0, 7000])
+                    .range([inner_height, 0]);
+
+        // Reduce the number of ticks if the chart is narrow.
+        var num_x_ticks = inner_width < 600 ? 5 : 10;
+
+        // Construct and then add the x axis.
+        var xAxis = d3.svg.axis()
+                            .scale(x)
+                            .orient('bottom')
+                            .ticks(num_x_ticks)
+                            .tickSize(5, 0, 0)
+                            .tickPadding(7)
+                            .tickFormat(formatDate);
+
+        svg.append('g')
+            .attr('class', 'axis axis-x')
+            .attr("transform", "translate(0," + inner_height + ")")
+            .call(xAxis);
+
+        // Construct and then add the y axis.
+        var yAxis = d3.svg.axis()
+                        .scale(y)
+                        .orient('left')
+                        // Extend lines across the full width.
+                        .innerTickSize(-inner_width)
+                        .outerTickSize(0)
+                        .tickPadding(5)
+                        .tickFormat(formatValue);
+
+        svg.append('g')
+            .attr('class', 'axis axis-y')
+            .call(yAxis);
+
+        // Text on both axes.
+        svg.selectAll('.axis text')
+            .attr('font-size', font_size);
+
+        // Construct and add the chart's line.
+        var line = d3.svg.line()
+                        .x(function(d) { return x(d.date); })
+                        .y(function(d) { return y(d.value); });
+
+         svg.append('path')
+                .datum(data)
+                    .attr('class', 'valueline')
+                    .attr('fill', 'none')
+                    .attr('stroke-linejoin', 'round')
+                    .attr('stroke-linecap', 'round')
+                    .attr('d', line);
+
+        // Do all the stuff for the hover-focus circle thing.
+
+        var focus = svg.append('g')
+                        .attr('class', 'focus')
+                        .style('display', 'none');
+
+        focus.append('circle')
+                .attr('r', 4.5);
+
+        // We need to add a text element for each of the Date and the Value.
+        // AND we add two for each - one background colour, in the background,
+        // and one readable one in the foreground.
+        // The background one means the text is still readable when on top of
+        // a line etc.
+        // via http://www.d3noob.org/2014/07/my-favourite-tooltip-method-for-line.html
+        // http://bl.ocks.org/d3noob/6eb506b129f585ce5c8a
+
+        // Date elements.
+        focus.append('text')
+            .attr('class', 'focus-date-b')
+            .style('stroke', '#f8f8f1')
+            .style('stroke-width', '5px')
+            .style('font-size', font_size)
+            .style('opacity', 0.8)
+            .attr('dx', 10)
+            .attr('dy', '-.3em');
+
+        focus.append('text')
+            .attr('class', 'focus-date-f')
+            .style('font-size', font_size)
+            .attr('dx', 10)
+            .attr('dy', '-.3em');
+
+        // Value elements.
+        focus.append('text')
+            .attr('class', 'focus-value-b')
+            .style('stroke', '#f8f8f1')
+            .style('stroke-width', '5px')
+            .style('font-size', font_size)
+            .style('opacity', 0.8)
+            .attr('dx', 10)
+            .attr('dy', '1em');
+
+        focus.append('text')
+            .attr('class', 'focus-value-f')
+            .style('font-size', font_size)
+            .attr('dx', 10)
+            .attr('dy', '1em');
+
+        var bisectDate = d3.bisector(function(d) { return d.date; }).left;
+
+        function mousemove() {
+            var x0 = x.invert(d3.mouse(this)[0]);
+            var i = bisectDate(data, x0, 1);
+            var d0 = data[i - 1];
+            var d1 = data[i];
+            if (d0 && d1) {
+                d = x0 - d0.date > d1.date - x0 ? d1 : d0;
+                var translate = 'translate(' + x(d.date) + ',' + y(d.value) + ')';
+                focus.select('circle').attr('transform', translate);
+                focus.select('.focus-date-b')
+                        .attr('transform', translate)
+                        .text(formatDate(d.date));
+                focus.select('.focus-date-f')
+                        .attr('transform', translate)
+                        .text(formatDate(d.date));
+                focus.select('.focus-value-b')
+                        .attr('transform', translate)
+                        .text(formatValue(d.value));
+                focus.select('.focus-value-f')
+                        .attr('transform', translate)
+                        .text(formatValue(d.value));
+            };
+        };
+
+        svg.append('rect')
+            .attr('class', 'overlay')
+            .attr('width', inner_width)
+            .attr('height', inner_height)
+            .on('mouseover', function() { focus.style('display', null); })
+            .on('mouseout', function() { focus.style('display', 'none'); })
+            .on('mousemove', mousemove);
+    },
+
+    /**
      * Draw the d3 chart of diary references for this topic.
      * `references` is an object like this:
      * {
@@ -450,14 +644,13 @@ window.pepys.topic = {
         var outer_height = Math.round(outer_width / 3.8);
 
         // Area around the actual chart (space for axes numbers etc).
-        var margin = {top: 0, right: 0,
-                        bottom: Math.round(outer_height / 10), left: 0};
+        var margin = {top: 0, right: 0, bottom: 20, left: 0};
 
         // Area of the chart itself (not including space for axes numbers).
         var inner_width = outer_width - margin.left - margin.right;
         var inner_height = outer_height - margin.top - margin.bottom;
 
-        var font_size = Math.round(inner_height / 13);
+        var font_size = 14;
 
         // The main chart area.
         var svg = d3.select('#chart-references').append('svg')
@@ -476,14 +669,13 @@ window.pepys.topic = {
                 .domain([0, 100])
                 .range([inner_height, 0]);
 
-        // Construct and then add the x axis.
-        var tick_height = Math.round(inner_height / 20);
         var xAxis = d3.svg.axis()
                 .scale(x)
                 .orient('bottom')
                 // Show only one tick per year (12 months):
                 .tickValues([0, 12, 24, 36, 48, 60, 72, 84, 96, 108])
-                .tickSize(tick_height, 0, 0)
+                .tickSize(8, 0, 0)
+                .tickPadding(5)
                 .tickFormat(function(d,i){
                     // This doesn't feel right, but it works.
                     // Returns the year from the month-year names: '1661'.
@@ -532,49 +724,42 @@ window.pepys.topic = {
             .call(yAxis);
 
         var tooltip = d3.select('body')
-            .append('div')
-            .attr('class', 'chart-tooltip')
-            .style('font-size', font_size + 'px')
-            .style('padding-left', Math.round(font_size / 2) + 'px')
-            .style('padding-right', Math.round(font_size / 2) + 'px');
+                            .append('div')
+                            .attr('class', 'chart-tooltip')
+                            .style('font-size', '14px')
+                            .style('padding-left', '7px')
+                            .style('padding-right', '7px');
 
         // Draw the actual bars themselves.
         svg.selectAll('.bar')
                 .data(data)
-            .enter().append('rect')
-                .attr('class', 'bar')
-                .attr('x', function(d,i){ return x(i); })
-                .attr('y', function(d){ return y(d.percent_refs); })
-                .attr('width', x.rangeBand())
-                .attr('height', function(d,i){
-                                return inner_height - y(d.percent_refs); })
-                .on('mouseover', function(d, i){
-                    tooltip.html('<strong>' + d.num_refs + '</strong> (' + d.name + ')');
-                    d3.select(this).classed('highlight', true);
-                    tooltip.style('visibility', 'visible');
-                })
-                .on('mousemove', function(){
-                    tooltip
-                        .style('top', (event.pageY-10)+'px')
-                        .style('left',(event.pageX+10)+'px');
-                })
-                .on('mouseout', function(){
-                    d3.select(this).classed('highlight', false);
-                    tooltip.style('visibility', 'hidden');
-                });
-
-        // chart.selectAll('text')
-        //         .data(data)
-        //     .enter().append('text')
-        //         .attr('y', function(d){ return y(d.percent_refs); })
-        //         .attr('x', function(d){ return x(d.name) + x.rangeBand() / 2; })
-        //         .attr('dx', x.rangeBand())
-        //         .attr('dy', '1em')
-        //         .attr('text-anchor', 'end')
-        //         .attr('fill', '#666')
-        //         .text(function(d){ return d.num_refs; });
+            .enter()
+                .append('rect')
+                    .attr('class', 'bar')
+                    .attr('x', function(d,i){ return x(i); })
+                    .attr('y', function(d){ return y(d.percent_refs); })
+                    // Fudge to stop the bars overlapping the x-axis:
+                    .attr('transform', 'translate(0, -1)')
+                    .attr('width', x.rangeBand())
+                    .attr('height', function(d,i){
+                                    return inner_height - y(d.percent_refs); })
+                    .on('mouseover', function(d, i){
+                        tooltip.html('<strong>' + d.num_refs + '</strong> (' + d.name + ')');
+                        d3.select(this).classed('highlight', true);
+                        tooltip.style('visibility', 'visible');
+                    })
+                    .on('mousemove', function(){
+                        tooltip
+                            .style('top', (event.pageY-10)+'px')
+                            .style('left',(event.pageX+10)+'px');
+                    })
+                    .on('mouseout', function(){
+                        d3.select(this).classed('highlight', false);
+                        tooltip.style('visibility', 'hidden');
+                    });
     }
 };
+
 
 /**
  * All the general map-related stuff.
