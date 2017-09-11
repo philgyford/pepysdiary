@@ -35,20 +35,20 @@
 	opacity: 1.0;
 }
 
-.chart .axis-y .tick line {
-    stroke: $gray-light;
-}
-
-.chart-wealth .axis-y path,
-.chart .axis-x path {
-	/* The baseline. */
+.chart .axis path,
+.chart .axis line {
+	shape-rendering: crispEdges;
 	stroke: $text-color;
     width: 1px;
 }
 
-.chart .axis-x .tick line {
-	/* The individual ticks. */
-	stroke: $text-color; 
+#chart-references .axis-y path {
+	stroke: none;
+}
+
+// The horizontal lines across the chart.
+.chart .axis-y .tick line {
+    stroke: $gray-light;
 }
 
 .chart-tooltip {

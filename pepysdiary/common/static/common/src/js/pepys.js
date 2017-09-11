@@ -475,6 +475,20 @@ window.pepys.topic = {
                     .domain([0, 7000])
                     .range([inner_height, 0]);
 
+        // Construct and then add the y axis.
+        var yAxis = d3.svg.axis()
+                        .scale(y)
+                        .orient('left')
+                        // Extend lines across the full width.
+                        .innerTickSize(-inner_width)
+                        .outerTickSize(0)
+                        .tickPadding(5)
+                        .tickFormat(formatValue);
+
+        svg.append('g')
+            .attr('class', 'axis axis-y')
+            .call(yAxis);
+
         // Construct and then add the x axis.
         var xAxis = d3.svg.axis()
                             .scale(x)
@@ -503,20 +517,6 @@ window.pepys.topic = {
             .attr('class', 'axis axis-x')
             .attr("transform", "translate(0," + inner_height + ")")
             .call(xAxis);
-
-        // Construct and then add the y axis.
-        var yAxis = d3.svg.axis()
-                        .scale(y)
-                        .orient('left')
-                        // Extend lines across the full width.
-                        .innerTickSize(-inner_width)
-                        .outerTickSize(0)
-                        .tickPadding(5)
-                        .tickFormat(formatValue);
-
-        svg.append('g')
-            .attr('class', 'axis axis-y')
-            .call(yAxis);
 
         // Text on both axes.
         svg.selectAll('.axis text')
