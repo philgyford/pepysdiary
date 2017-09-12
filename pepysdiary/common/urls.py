@@ -198,6 +198,8 @@ urlpatterns += [
     url(r'^backstage/', admin.site.urls),
 ]
 
+admin.site.site_header = 'The Diary of Samuel Pepys admin'
+
 if settings.DEBUG:
     import debug_toolbar
     urlpatterns += [
