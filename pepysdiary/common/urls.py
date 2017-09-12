@@ -195,7 +195,7 @@ urlpatterns += [
     url(r'^annotations/', include('django_comments.urls')),
     url(r'^account/', include('pepysdiary.membership.urls')),
 
-    url(r'^admin/', admin.site.urls),
+    url(r'^backstage/', admin.site.urls),
 ]
 
 if settings.DEBUG:
