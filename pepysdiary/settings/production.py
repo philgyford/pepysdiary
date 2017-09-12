@@ -115,8 +115,6 @@ CSRF_COOKIE_SECURE = True
 
 GOOGLE_ANALYTICS_ID = 'UA-89135-2'
 
-GOOGLE_MAPS_API_KEY = get_env_variable('GOOGLE_MAPS_API_KEY')
-
 # From https://www.google.com/recaptcha/
 RECAPTCHA_PUBLIC_KEY = get_env_variable('RECAPTCHA_PUBLIC_KEY')
 RECAPTCHA_PRIVATE_KEY = get_env_variable('RECAPTCHA_PRIVATE_KEY')
