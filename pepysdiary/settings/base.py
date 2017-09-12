@@ -1,8 +1,18 @@
-# Django settings for pepysdiary project.
-
 # Should be extended by settings in, eg, production.py.
 import os
 from os import environ
+
+from django.core.exceptions import ImproperlyConfigured
+
+
+def get_env_variable(var_name):
+    """Get the environment variable or raise exception."""
+    try:
+        return os.environ[var_name]
+    except KeyError:
+        error_msg = 'Set the {} environemnt variable.'.format(var_name)
+        raise ImproperlyConfigured(error_msg)
+
 
 PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 
@@ -108,9 +118,9 @@ ROOT_URLCONF = 'pepysdiary.common.urls'
 
 # Make this unique, and don't share it with anybody.
 # http://www.miniwebtool.com/django-secret-key-generator/
-SECRET_KEY = environ.get('SECRET_KEY', '')
+SECRET_KEY = get_env_variable('SECRET_KEY')
 
-ALLOWED_HOSTS = environ.get('ALLOWED_HOSTS', '*').split(',')
+ALLOWED_HOSTS = get_env_variable('ALLOWED_HOSTS').split(',')
 
 # Python dotted path to the WSGI application used by Django's runserver.
 WSGI_APPLICATION = 'pepysdiary.wsgi.application'
@@ -226,9 +236,9 @@ NOCAPTCHA = True
 
 DEFAULT_FILE_STORAGE = 'pepysdiary.common.s3utils.MediaS3Boto3Storage'
 
-AWS_ACCESS_KEY_ID = environ.get('AWS_ACCESS_KEY_ID')
-AWS_SECRET_ACCESS_KEY = environ.get('AWS_SECRET_ACCESS_KEY')
-AWS_STORAGE_BUCKET_NAME = environ.get('AWS_STORAGE_BUCKET_NAME')
+AWS_ACCESS_KEY_ID = get_env_variable('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = get_env_variable('AWS_SECRET_ACCESS_KEY')
+AWS_STORAGE_BUCKET_NAME = get_env_variable('AWS_STORAGE_BUCKET_NAME')
 
 AWS_QUERYSTRING_AUTH = False
 

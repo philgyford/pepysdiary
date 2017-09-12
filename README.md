@@ -120,6 +120,7 @@ The environment variables the site uses:
     SECRET_KEY
 	SENDGRID_USERNAME
 	SENDGRID_PASSWORD
+	USE_SPAM_CHECK
 
 ### Additional Vagrant-only env vars
 

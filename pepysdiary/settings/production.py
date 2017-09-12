@@ -1,6 +1,6 @@
 from base import *
-from os import environ
 import dj_database_url
+
 
 DEBUG = False
 
@@ -16,8 +16,8 @@ DATABASES['default']['CONN_MAX_AGE'] = 500
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.sendgrid.net'
-EMAIL_HOST_USER = environ.get('SENDGRID_USERNAME')
-EMAIL_HOST_PASSWORD = environ.get('SENDGRID_PASSWORD')
+EMAIL_HOST_USER = get_env_variable('SENDGRID_USERNAME')
+EMAIL_HOST_PASSWORD = get_env_variable('SENDGRID_PASSWORD')
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
@@ -26,9 +26,9 @@ EMAIL_USE_TLS = True
 PREPEND_WWW = True
 
 # See https://devcenter.heroku.com/articles/memcachier#django
-environ['MEMCACHE_SERVERS'] = environ.get('MEMCACHIER_SERVERS', '').replace(',', ';')
-environ['MEMCACHE_USERNAME'] = environ.get('MEMCACHIER_USERNAME', '')
-environ['MEMCACHE_PASSWORD'] = environ.get('MEMCACHIER_PASSWORD', '')
+environ['MEMCACHE_SERVERS'] = get_env_variable('MEMCACHIER_SERVERS').replace(',', ';')
+environ['MEMCACHE_USERNAME'] = get_env_variable('MEMCACHIER_USERNAME')
+environ['MEMCACHE_PASSWORD'] = get_env_variable('MEMCACHIER_PASSWORD')
 
 CACHES = {
   'default': {
@@ -115,21 +115,21 @@ CSRF_COOKIE_SECURE = True
 
 GOOGLE_ANALYTICS_ID = 'UA-89135-2'
 
-GOOGLE_MAPS_API_KEY = environ.get('GOOGLE_MAPS_API_KEY')
+GOOGLE_MAPS_API_KEY = get_env_variable('GOOGLE_MAPS_API_KEY')
 
 # From https://www.google.com/recaptcha/
-RECAPTCHA_PUBLIC_KEY = environ.get('RECAPTCHA_PUBLIC_KEY')
-RECAPTCHA_PRIVATE_KEY = environ.get('RECAPTCHA_PRIVATE_KEY')
+RECAPTCHA_PUBLIC_KEY = get_env_variable('RECAPTCHA_PUBLIC_KEY')
+RECAPTCHA_PRIVATE_KEY = get_env_variable('RECAPTCHA_PRIVATE_KEY')
 RECAPTCHA_USE_SSL = True
 
 # Do we use Akismet/TypePad spam checking?
 # True/False. If false, no posted comments are checked.
 # If True, AKISMET_API_KEY must also be set.
-USE_SPAM_CHECK = environ.get('USE_SPAM_CHECK')
+USE_SPAM_CHECK = get_env_variable('USE_SPAM_CHECK')
 
 # From http://akismet.com/
-AKISMET_API_KEY = environ.get('AKISMET_API_KEY')
+AKISMET_API_KEY = get_env_variable('AKISMET_API_KEY')
 
 # From http://mapbox.com/
-MAPBOX_MAP_ID = environ.get('MAPBOX_MAP_ID')
-MAPBOX_ACCESS_TOKEN = environ.get('MAPBOX_ACCESS_TOKEN')
+MAPBOX_MAP_ID = get_env_variable('MAPBOX_MAP_ID')
+MAPBOX_ACCESS_TOKEN = get_env_variable('MAPBOX_ACCESS_TOKEN')

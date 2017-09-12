@@ -1,5 +1,5 @@
 from base import *
-from os import environ
+
 
 DEBUG = True
 
@@ -11,12 +11,12 @@ MANAGERS = ADMINS
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': environ.get('DB_NAME'),
-        'USER': environ.get('DB_USERNAME'),
-        'PASSWORD': environ.get('DB_PASSWORD'),
-        'HOST': environ.get('DB_HOST'),
-        'PORT': '',
+        'ENGINE':   'django.db.backends.postgresql',
+        'NAME':     get_env_variable('DB_NAME'),
+        'USER':     get_env_variable('DB_USERNAME'),
+        'PASSWORD': get_env_variable('DB_PASSWORD'),
+        'HOST':     get_env_variable('DB_HOST'),
+        'PORT':     '',
     }
 }
 
@@ -61,8 +61,8 @@ if DEBUG:
 GOOGLE_ANALYTICS_ID = 'UA-89135-2'
 
 # From https://www.google.com/recaptcha/
-RECAPTCHA_PUBLIC_KEY = environ.get('RECAPTCHA_PUBLIC_KEY', '')
-RECAPTCHA_PRIVATE_KEY = environ.get('RECAPTCHA_PRIVATE_KEY', '')
+RECAPTCHA_PUBLIC_KEY = get_env_variable('RECAPTCHA_PUBLIC_KEY')
+RECAPTCHA_PRIVATE_KEY = get_env_variable('RECAPTCHA_PRIVATE_KEY')
 RECAPTCHA_USE_SSL = True
 
 # Do we use Akismet/TypePad spam checking?
@@ -71,7 +71,7 @@ RECAPTCHA_USE_SSL = True
 USE_SPAM_CHECK = True
 
 # From http://akismet.com/
-AKISMET_API_KEY = environ.get('AKISMET_API_KEY', '')
+AKISMET_API_KEY = get_env_variable('AKISMET_API_KEY')
 
 # From http://mapbox.com/
 MAPBOX_MAP_ID = 'philgyford.hnhb28lo'
