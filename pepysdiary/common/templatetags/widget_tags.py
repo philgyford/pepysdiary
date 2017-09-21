@@ -238,7 +238,7 @@ def pepys_wealth_link():
     If `topic` is present, and the topic is featured on the family treet, then
     the text is different.
     """
-    text = "See his wealth change during the diary"
+    text = "See his wealth during the diary"
     link_url = reverse('topic_detail', kwargs={'pk': topic_lookups.PEPYS_WEALTH})
 
     body = """
