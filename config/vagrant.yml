@@ -6,7 +6,7 @@ django:
   run_migrations: 'false'
 virtualenv:
   envname: pepysdiary
-  requirements_file: requirements_dev.txt
+  requirements_file: requirements/vagrant.txt
 foreman:
   procfile: Procfile.dev
   start_foreman: 'false'
