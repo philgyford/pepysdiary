@@ -110,6 +110,21 @@ SECURE_HSTS_SECONDS = 3600
 SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 SECURE_HSTS_PRELOAD = True
 
+# Sentry
+# https://devcenter.heroku.com/articles/sentry#integrating-with-python-or-django
+# via https://simonwillison.net/2017/Oct/17/free-continuous-deployment/# Step_4_Monitor_errors_with_Sentry_75
+
+SENTRY_DSN = os.environ.get('SENTRY_DSN')
+
+if SENTRY_DSN:
+    INSTALLED_APPS += (
+        'raven.contrib.django.raven_compat',
+    )
+    RAVEN_CONFIG = {
+        'dsn': SENTRY_DSN,
+        'release': os.environ.get('HEROKU_SLUG_COMMIT', ''),
+    }
+
 
 #############################################################################
 # PEPYSDIARY-SPECIFIC SETTINGS.

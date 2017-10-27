@@ -103,6 +103,15 @@ To set up a new copy of the site on Heroku.
     python manage.py fetch_wikipedia --num=100
     ```
 
+15. [Enable Dyno Metadata]($ heroku labs:enable runtime-dyno-metadata -a pepysdiary-production) (used by our Sentry debugging):
+
+	```
+	$ heroku labs:enable runtime-dyno-metadata -a <app name>
+	```
+
+16. Add the [Sentry add-on](https://devcenter.heroku.com/articles/sentry).
+
+
 ## Environment variables
 
 The environment variables the site uses:
@@ -137,6 +146,7 @@ Created automatically by add-ons:
     MEMCACHIER_PASSWORD
     MEMCACHIER_SERVERS
     MEMCACHIER_USERNAME
+	SENTRY_DSN
 
 
 ## Media files
