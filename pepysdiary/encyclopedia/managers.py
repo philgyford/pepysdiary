@@ -71,7 +71,7 @@ class TopicManager(models.Manager):
                 # Be nice when fetching things:
                 time.sleep(0.5)
 
-        return results 
+        return results
 
     def make_order_title(self, text, is_person=False):
         """
@@ -142,11 +142,11 @@ class TopicManager(models.Manager):
                 # "Mary I of England"
                 # "Philip IV (King of Spain, 1621-1665)"
                 # "Ivan the Terrible"
-                king_match = None
+                monarch_match = None
                 if matches[2] is not None:
-                    king_match = re.match(r'^(I|II|III|IV|V|VI|VII|VIII|XI|XIV|the)(?:\s|$)',
+                    monarch_match = re.match(r'^(I|II|III|IV|V|VI|VII|VIII|XI|XII|XIII|XIV|XV|the)(?:\s|$)',
                                                                     matches[2])
-                if king_match is not None:
+                if monarch_match is not None:
                     # Looks like it's a king-type person.
                     # Leave the text as it was.
                     pass
@@ -245,4 +245,3 @@ class TopicManager(models.Manager):
                 order_title = apos_match.groups()[0]
 
         return order_title
-
