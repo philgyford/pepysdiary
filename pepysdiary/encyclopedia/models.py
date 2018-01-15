@@ -88,7 +88,7 @@ class Topic(PepysModel):
     class Meta:
         ordering = ['order_title', ]
 
-    def __unicode__(self):
+    def __str__(self):
         return self.title
 
     def save(self, *args, **kwargs):
@@ -362,7 +362,7 @@ class Category(MP_Node):
     class Meta:
         verbose_name_plural = 'Categories'
 
-    def __unicode__(self):
+    def __str__(self):
         return '%s' % self.title
 
     def get_absolute_url(self):

@@ -236,7 +236,7 @@ class Person(AbstractBaseUser, PermissionsMixin):
     def get_absolute_url(self):
         return reverse('profile', kwargs={'pk': self.pk, })
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
     def activation_key_expired(self):

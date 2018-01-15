@@ -91,7 +91,7 @@ class Post(PepysModel):
     class Meta:
         ordering = ['-date_published', ]
 
-    def __unicode__(self):
+    def __str__(self):
         return '%s' % (self.title)
 
     def save(self, *args, **kwargs):

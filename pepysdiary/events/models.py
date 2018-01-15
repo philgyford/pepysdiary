@@ -24,5 +24,5 @@ class DayEvent(PepysModel, OldDateMixin):
         ordering = ['event_date', ]
         verbose_name = 'Day Event'
 
-    def __unicode__(self):
+    def __str__(self):
         return self.title

@@ -94,7 +94,7 @@ class Entry(PepysModel, OldDateMixin):
         ordering = ['diary_date', ]
         verbose_name_plural = 'Entries'
 
-    def __unicode__(self):
+    def __str__(self):
         return self.title
 
     def save(self, *args, **kwargs):
@@ -187,7 +187,7 @@ class Summary(PepysModel, OldDateMixin):
         ordering = ['summary_date', ]
         verbose_name_plural = 'Summaries'
 
-    def __unicode__(self):
+    def __str__(self):
         return self.title
 
     def save(self, *args, **kwargs):
