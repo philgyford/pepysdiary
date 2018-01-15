@@ -90,6 +90,14 @@ Or, for a one-off run:
 	$ gulp
 
 
+### Tests
+
+There are only a handful of tests, but run them with:
+
+	$ cd /vagrant
+	$ ./manage.py test
+
+
 ## Environment variables
 
 The environment variables the site uses:
