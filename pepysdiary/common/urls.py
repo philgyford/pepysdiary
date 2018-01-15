@@ -23,7 +23,7 @@ urlpatterns = []
 urlpatterns += [
 
     url(r'^favicon\.ico$', RedirectView.as_view(
-                    url='%simg/favicons/favicon.ico' % settings.STATIC_URL,
+                    url='%scommon/img/favicons/favicon.ico' % settings.STATIC_URL,
                     permanent=True)),
 
     # Redirect any URL with a trailiing 'index.php' to its base URL.
