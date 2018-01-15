@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html>{% load static %}
 <html lang="en-gb">
 <head>
 	<meta charset="utf-8"/>
@@ -6,19 +6,13 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>{% if url_name == 'home' %}Samuel Pepys: Diary, Letters, Family Tree, Maps, Encyclopedia, Discussion and more{% else %}{% block title %}{% endblock %} (The Diary of Samuel Pepys){% endif %}</title>
 
-	{% load static %}
-	{% load compress %}
+	{% block extra_css %}
+	{% endblock extra_css %}
+	{# Mapbox CSS needs to go in before our own CSS. #}
 
-	{% compress css %}
-		{% block extra_css %}
-		{% endblock extra_css %}
-		{# Mapbox CSS needs to go in before our own CSS. #}
-		<link rel="stylesheet" type="text/x-scss" href="{% static 'sass/site.scss' %}">
-	{% endcompress %}
-
-    <!--[if lt IE 9]>
-	  <script src="{% static 'js/vendor/lt-ie-9.min.js' %}"></script>
-    <![endif]-->
+	<!-- inject:css -->
+	<link rel="stylesheet" href="/static/common/css/site-9b19faea67.css">
+	<!-- endinject -->
 
     <link rel="apple-touch-icon" sizes="57x57" href="{% static 'img/favicons/apple-touch-icon-57x57.png' %}">
     <link rel="apple-touch-icon" sizes="60x60" href="{% static 'img/favicons/apple-touch-icon-60x60.png' %}">
@@ -268,15 +262,12 @@
 		</footer>
 	{% endblock %}
 
-	{% compress js %}
-		{% block extra_javascript_includes %}
-		{% endblock %}
+	{% block extra_javascript_includes %}
+	{% endblock %}
 
-		<script src="{% static 'js/vendor/jquery.js' %}" type="text/javascript" charset="utf-8"></script>
-		<script src="{% static 'js/vendor/jquery.timeago.js' %}" type="text/javascript" charset="utf-8"></script>
-		<script src="{% static 'js/vendor/bootstrap.js' %}" type="text/javascript" charset="utf-8"></script>
-		<script src="{% static 'js/pepys.js' %}" type="text/javascript" charset="utf-8"></script>
-	{% endcompress %}
+	<!-- inject:js -->
+	<script src="/static/common/js/site-d6bd435a4d.min.js"></script>
+	<!-- endinject -->
 
 	<script>
 		$(document).ready(function(){
