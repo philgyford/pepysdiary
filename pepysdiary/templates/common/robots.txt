@@ -3,3 +3,4 @@ Disallow: /
 {% else %}
 Disallow: /admin/
 {% endif %}
+Crawl-delay: 1
