@@ -28,6 +28,11 @@ Then visit http://localhost:5000 or http://127.0.0.1:5000.
 
 In the Django Admin set the Domain Name of the one Site.
 
+### Ongoing work
+
+Once the Vagrant box is set up then in future do as above, but skip the `migrate` `collectstatic` and `createsuperuser` steps.
+
+
 ### Front end development - setup
 
 Once the Vagrant box is up and running, ssh into it and then install Ruby using

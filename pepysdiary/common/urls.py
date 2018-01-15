@@ -4,7 +4,7 @@ from django.contrib import admin
 from django.contrib.flatpages import views as flatpages_views
 from django.contrib.flatpages.sitemaps import FlatPageSitemap
 from django.contrib.sitemaps import views as sitemaps_views
-from django.core.urlresolvers import reverse_lazy
+from django.urls import reverse_lazy
 from django.views.decorators.cache import cache_page
 from django.views.generic import RedirectView, TemplateView
 from django.views.static import serve

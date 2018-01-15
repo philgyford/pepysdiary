@@ -1,6 +1,6 @@
 #! -*- coding: utf-8 -*-
 from django.conf import settings
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.db import models
 from django.db.models.signals import m2m_changed, post_delete, pre_delete
 

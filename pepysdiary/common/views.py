@@ -2,7 +2,7 @@ import smartypants
 
 from django.contrib.sites.models import Site
 from django.contrib.syndication.views import add_domain, Feed
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.utils.decorators import method_decorator
 from django.utils.encoding import force_text
 from django.utils.html import strip_tags

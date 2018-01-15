@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from django import template
 from django.conf import settings
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.utils.html import mark_safe
 
 from pepysdiary.encyclopedia.models import Topic
