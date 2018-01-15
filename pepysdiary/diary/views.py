@@ -46,7 +46,7 @@ class EntryDetailView(EntryMixin, DateDetailView):
         qs = queryset or self.get_queryset()
 
         if not self.get_allow_future() and date > datetime.date.today():
-            raise Http404(_(u"Future %(verbose_name_plural)s not available because %(class_name)s.allow_future is False.") % {
+            raise Http404(_("Future %(verbose_name_plural)s not available because %(class_name)s.allow_future is False.") % {
                 'verbose_name_plural': qs.model._meta.verbose_name_plural,
                 'class_name': self.__class__.__name__,
             })
@@ -66,7 +66,7 @@ class EntryDetailView(EntryMixin, DateDetailView):
         try:
             obj = qs.get()
         except ObjectDoesNotExist:
-            raise Http404(_(u"No %(verbose_name)s found matching the query") %
+            raise Http404(_("No %(verbose_name)s found matching the query") %
                               {'verbose_name': qs.model._meta.verbose_name})
         return obj
 

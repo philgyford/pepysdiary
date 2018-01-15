@@ -170,7 +170,7 @@ class WikipediaFetcher(object):
         for clss in classes:
             [tag.decompose() for tag in soup.find_all(attrs={'class': clss})]
 
-        for clss, new_classes in add_classes.iteritems():
+        for clss, new_classes in add_classes.items():
             for tag in soup.find_all(attrs={'class': clss}):
                 tag['class'] = tag.get('class', []) + new_classes
 
@@ -182,6 +182,6 @@ class WikipediaFetcher(object):
             soup = soup.html.body
 
         # Put the content back into a string.
-        html = ''.join(tag.encode('utf-8') for tag in soup.contents)
+        html = ''.join(str(tag) for tag in soup.contents)
 
         return html

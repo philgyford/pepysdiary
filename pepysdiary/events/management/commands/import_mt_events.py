@@ -55,11 +55,11 @@ class Command(BaseCommand):
         count = 0
         for row in rows:
             if count % 100 == 0:
-                print count
+                print(count)
 
             if row['event_date'] is None:
-                print "Invalid Date (ID %s): %s" % (
-                                                row['id'], row['event_date'])
+                print("Invalid Date (ID %s): %s" % (
+                                                row['id'], row['event_date']))
             else:
                 sources = {
                     'gadbury': DayEvent.GADBURY_CHOICE,
@@ -69,7 +69,7 @@ class Command(BaseCommand):
 
                 event = DayEvent(id=row['id'],
                                         title=row['event_text'],
-                                        url=row.get('event_url', u''),
+                                        url=row.get('event_url', ''),
                                         event_date=row['event_date'],
                                         source=sources[row['event_source']])
                 event.save()

@@ -147,7 +147,7 @@ class LoginForm(AuthenticationForm):
     username = forms.EmailField(
         widget=forms.EmailInput(attrs=attrs_dict),
         max_length=254, label="Email address",
-        error_messages={'invalid': u'Please enter a valid email address.'})
+        error_messages={'invalid': 'Please enter a valid email address.'})
     password = forms.CharField(widget=forms.PasswordInput(attrs=attrs_dict))
 
     def clean(self):
@@ -173,7 +173,7 @@ class PasswordResetForm(PasswordResetForm):
     email = forms.EmailField(
         widget=forms.EmailInput(attrs=attrs_dict),
         max_length=254, label="Email address",
-        error_messages={'invalid': u'Please enter a valid email address.'})
+        error_messages={'invalid': 'Please enter a valid email address.'})
 
 
 class SetPasswordForm(SetPasswordForm):

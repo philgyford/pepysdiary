@@ -1,7 +1,7 @@
 # coding: utf-8
 import re
 
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.db import models
 
 from django_comments.moderation import CommentModerator, moderator
@@ -57,7 +57,7 @@ class Letter(PepysModel, OldDateMixin):
     class Meta:
         ordering = ['letter_date', 'order',]
 
-    def __unicode__(self):
+    def __str__(self):
         return '%s: %s' % (self.letter_date, self.title)
 
     def save(self, *args, **kwargs):

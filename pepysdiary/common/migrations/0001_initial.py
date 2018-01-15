@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
+
 
 from django.db import models, migrations
 
@@ -24,7 +24,7 @@ class Migration(migrations.Migration):
                 ('use_registration_question', models.BooleanField(default=False, help_text=b'If checked, people must successfully answer the question below when registering.')),
                 ('registration_question', models.CharField(default=b'', max_length=255, blank=True)),
                 ('registration_answer', models.CharField(default=b'', help_text=b'Not case-sensitive.', max_length=255, blank=True)),
-                ('site', models.OneToOneField(to='sites.Site')),
+                ('site', models.OneToOneField(to='sites.Site', on_delete= models.SET_NULL)),
             ],
             options={
                 'abstract': False,

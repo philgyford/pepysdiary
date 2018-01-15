@@ -9,7 +9,7 @@ from django.contrib import messages
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin,\
                                                                 BaseUserManager
 from django.contrib.auth.signals import user_logged_in
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.db import models
 from django.db import transaction
 from django.utils import timezone
@@ -78,7 +78,7 @@ class PersonManager(BaseUserManager):
     def set_activation_key(self, person):
         salt = hashlib.sha1(str(random.random())).hexdigest()[:5]
         name = person.name
-        if isinstance(name, unicode):
+        if isinstance(name, str):
             name = name.encode('utf-8')
         person.activation_key = hashlib.sha1(salt + name).hexdigest()
         person.save()
@@ -187,7 +187,7 @@ class Person(AbstractBaseUser, PermissionsMixin):
     """
     # The value that `activation_key` will be set to after the user has
     # activated their account.
-    ACTIVATED = u'ALREADY_ACTIVATED'
+    ACTIVATED = 'ALREADY_ACTIVATED'
 
     # ALSO HAS:
     # password
@@ -236,7 +236,7 @@ class Person(AbstractBaseUser, PermissionsMixin):
     def get_absolute_url(self):
         return reverse('profile', kwargs={'pk': self.pk, })
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
     def activation_key_expired(self):

@@ -15,7 +15,7 @@ from pepysdiary.news.models import Post
 register = template.Library()
 
 
-def smart_truncate(content, length=80, suffix=u'…'):
+def smart_truncate(content, length=80, suffix='…'):
     """Truncate a string at word boundaries."""
     if len(content) <= length:
         return content
@@ -37,7 +37,7 @@ def commented_objects_list(model_class, context, title, quantity):
             comment = Annotation.visible_objects.filter(object_pk=obj.pk,
                                                         content_type_id=ct.id
                                                     ).latest('submit_date')
-            html += u"""
+            html += """
 <article class="media newable media-small" data-time="%(data_time)s">
     <span class="newflag pull-left" aria-hidden="true" title="New since your last visit">✹</span>
     <span class="sr-only">New since your last visit</span>

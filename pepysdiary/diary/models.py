@@ -4,7 +4,7 @@ import pytz
 import re
 
 from django.conf import settings
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.db import models
 
 from django_comments.moderation import CommentModerator, moderator
@@ -31,12 +31,12 @@ class EntryManager(models.Manager, ReferredManagerMixin):
             # It's before 11pm, so we still show yesterday's entry.
             time_now = time_now - datetime.timedelta(days=1)
 
-	entry_year = int(time_now.strftime('%Y')) - settings.YEARS_OFFSET
-	entry_month = int(time_now.strftime('%m'))
-	entry_day = int(time_now.strftime('%d'))
+        entry_year = int(time_now.strftime('%Y')) - settings.YEARS_OFFSET
+        entry_month = int(time_now.strftime('%m'))
+        entry_day = int(time_now.strftime('%d'))
 
-	if time_now.strftime('%m-%d') == '02-29' and is_leap_year(entry_year) == False:
-		entry_day = entry_day - 1
+        if time_now.strftime('%m-%d') == '02-29' and is_leap_year(entry_year) == False:
+            entry_day = entry_day - 1
 
         return datetime.date(entry_year, entry_month, entry_day)
 
@@ -94,7 +94,7 @@ class Entry(PepysModel, OldDateMixin):
         ordering = ['diary_date', ]
         verbose_name_plural = 'Entries'
 
-    def __unicode__(self):
+    def __str__(self):
         return self.title
 
     def save(self, *args, **kwargs):
@@ -136,8 +136,8 @@ class Entry(PepysModel, OldDateMixin):
                 'August': 'Aug', 'September': 'Sep', 'October': 'Oct',
                 'November': 'Nov', 'December': 'Dec'}
 
-        short_title = self.title 
-        for k, v in replacements.iteritems():
+        short_title = self.title
+        for k, v in replacements.items():
             short_title = short_title.replace(k, v)
 
         return short_title
@@ -187,7 +187,7 @@ class Summary(PepysModel, OldDateMixin):
         ordering = ['summary_date', ]
         verbose_name_plural = 'Summaries'
 
-    def __unicode__(self):
+    def __str__(self):
         return self.title
 
     def save(self, *args, **kwargs):

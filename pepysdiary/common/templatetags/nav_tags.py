@@ -2,7 +2,7 @@ from django import template
 
 register = template.Library()
 
-@register.assignment_tag
+@register.simple_tag
 def get_subnav(url_name):
     """
     Determines which subnavigation is needed for the current page.
@@ -60,4 +60,3 @@ def get_subnav(url_name):
         if url_name in names:
             return subnav
     return False
-

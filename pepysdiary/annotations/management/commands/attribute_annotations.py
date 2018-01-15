@@ -44,8 +44,8 @@ class Command(BaseCommand):
             self.person.save()
 
         else:
-            print "DRY RUN, NOTHING CHANGED IN THE DATABASE. "\
-                    "WHAT WOULD HAVE HAPPENED:"
+            print("DRY RUN, NOTHING CHANGED IN THE DATABASE. "\
+                    "WHAT WOULD HAVE HAPPENED:")
             updated = annotations.count()
             first_comment = Annotation.visible_objects.filter(
                                     user_email=self.email, user=None).order_by(
@@ -57,10 +57,10 @@ class Command(BaseCommand):
         else:
             output_str = "%s Annotations were" % updated
 
-        print "%s associated with %s (ID %s)." % (
-                    output_str, self.person.get_full_name(), self.person.id)
-        print "%s first_comment_date was set to %s" % (
-                            self.person.get_full_name(), first_comment_date)
+        print("%s associated with %s (ID %s)." % (
+                    output_str, self.person.get_full_name(), self.person.id))
+        print("%s first_comment_date was set to %s" % (
+                            self.person.get_full_name(), first_comment_date))
 
     def process_args(self, args, options):
         if len(args) != 2:

@@ -1,6 +1,6 @@
 # coding: utf-8
 from django import template
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.utils.html import mark_safe
 
 from pepysdiary.diary.models import Entry
@@ -19,13 +19,13 @@ def events_html(title, event_list):
     """
     if len(event_list) == 0:
         return ''
-    html = u"<h2>%s</h2>\n<ul>\n" % title
+    html = "<h2>%s</h2>\n<ul>\n" % title
     for li in event_list:
         if 'url' in li and li['url'] != '':
-            html += u"<li><a href=\"%s\">%s</a></li>\n" % (
+            html += "<li><a href=\"%s\">%s</a></li>\n" % (
                                                         li['url'], li['text'])
         else:
-            html += u"<li>%s</li>\n" % li['text']
+            html += "<li>%s</li>\n" % li['text']
     html += "</ul>\n"
     return html
 
@@ -78,10 +78,10 @@ def dayevents_for_day(date):
             events_by_source[ev.source][ev.title] = []
         events_by_source[ev.source][ev.title].append(ev)
 
-    for source_key, titles in events_by_source.items():
+    for source_key, titles in list(events_by_source.items()):
         if len(titles) > 0:
             event_list = []
-            for title, events in titles.items():
+            for title, events in list(titles.items()):
                 # So, title is the string that all the events share.
                 # events is now a list of DayEvent objects.
                 if len(events) == 1:
@@ -90,9 +90,9 @@ def dayevents_for_day(date):
                                         'text': events[0].title})
                 else:
                     # Many events with the same title. So show numbered links.
-                    event_html = u'%s: ' % title
+                    event_html = '%s: ' % title
                     for n, event in enumerate(events):
-                        event_html += u'<a href="%s">%s</a> ' % (
+                        event_html += '<a href="%s">%s</a> ' % (
                                                             event.url, (n + 1))
                     event_list.append({'text': event_html})
 

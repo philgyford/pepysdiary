@@ -22,7 +22,7 @@ def expire_view_cache(view_name, args=[], namespace=None, key_prefix=None, metho
         from: http://stackoverflow.com/questions/2268417/expire-a-view-cache-in-django
         added: method to request to get the key generating properly
     """
-    from django.core.urlresolvers import reverse
+    from django.urls import reverse
     from django.http import HttpRequest
     from django.utils.cache import get_cache_key
     from django.core.cache import cache
@@ -157,4 +157,4 @@ class ExtendedRSSFeed(Rss201rev2Feed):
 
     def add_item_elements(self, handler, item):
         super(ExtendedRSSFeed, self).add_item_elements(handler, item)
-        handler.addQuickElement(u'content:encoded', item['content_encoded'])
+        handler.addQuickElement('content:encoded', item['content_encoded'])

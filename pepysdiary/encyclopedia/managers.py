@@ -44,7 +44,7 @@ class TopicManager(models.Manager):
 
         if num == 'all':
             topics = qs
-        elif num is not None and isinstance(num, (int, long)):
+        elif num is not None and isinstance(num, int):
             # We want any topics with wikipedia_last_fetch = NULL to be
             # returned first, before any low datetimes. By default they would
             # be listed last. This fixes that.

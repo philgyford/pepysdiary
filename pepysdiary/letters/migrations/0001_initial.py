@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
+
 
 from django.db import models, migrations
 import pepysdiary.common.models
@@ -29,8 +29,8 @@ class Migration(migrations.Migration):
                 ('comment_count', models.IntegerField(default=0)),
                 ('last_comment_time', models.DateTimeField(null=True, blank=True)),
                 ('allow_comments', models.BooleanField(default=True)),
-                ('recipient', models.ForeignKey(related_name='letter_recipients', to='encyclopedia.Topic')),
-                ('sender', models.ForeignKey(related_name='leter_senders', to='encyclopedia.Topic')),
+                ('recipient', models.ForeignKey(related_name='letter_recipients', to='encyclopedia.Topic', on_delete=models.SET_NULL)),
+                ('sender', models.ForeignKey(related_name='leter_senders', to='encyclopedia.Topic', on_delete=models.SET_NULL)),
             ],
             options={
                 'ordering': ['letter_date'],

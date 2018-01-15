@@ -1,6 +1,6 @@
 #! -*- coding: utf-8 -*-
 from django.conf import settings
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.db import models
 from django.db.models.signals import m2m_changed, post_delete, pre_delete
 
@@ -88,7 +88,7 @@ class Topic(PepysModel):
     class Meta:
         ordering = ['order_title', ]
 
-    def __unicode__(self):
+    def __str__(self):
         return self.title
 
     def save(self, *args, **kwargs):
@@ -362,7 +362,7 @@ class Category(MP_Node):
     class Meta:
         verbose_name_plural = 'Categories'
 
-    def __unicode__(self):
+    def __str__(self):
         return '%s' % self.title
 
     def get_absolute_url(self):

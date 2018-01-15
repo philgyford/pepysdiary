@@ -1,4 +1,4 @@
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.db import models
 from django.utils import timezone
 
@@ -55,8 +55,8 @@ class Article(PepysModel):
     class Meta:
         ordering = ['-date_published', ]
 
-    def __unicode__(self):
-        return u'%s' % (self.title)
+    def __str__(self):
+        return '%s' % (self.title)
 
     def save(self, *args, **kwargs):
         self.intro_html = markdown(self.intro)

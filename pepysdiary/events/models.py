@@ -10,9 +10,9 @@ class DayEvent(PepysModel, OldDateMixin):
     PARLIAMENT_CHOICE = 20
     JOSSELIN_CHOICE = 30
     SOURCE_CHOICES = (
-        (GADBURY_CHOICE, u"John Gadbury’s London Diary"),
-        (PARLIAMENT_CHOICE, u'In Parliament'),
-        (JOSSELIN_CHOICE, u"In Earl’s Colne, Essex"),
+        (GADBURY_CHOICE, "John Gadbury’s London Diary"),
+        (PARLIAMENT_CHOICE, 'In Parliament'),
+        (JOSSELIN_CHOICE, "In Earl’s Colne, Essex"),
     )
 
     title = models.CharField(max_length=255, blank=False, null=False)
@@ -24,5 +24,5 @@ class DayEvent(PepysModel, OldDateMixin):
         ordering = ['event_date', ]
         verbose_name = 'Day Event'
 
-    def __unicode__(self):
+    def __str__(self):
         return self.title

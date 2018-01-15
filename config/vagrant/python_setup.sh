@@ -10,6 +10,7 @@ echo "=== Begin Vagrant Provisioning using 'config/vagrant/python_setup.sh'"
 
 apt-get -qq -y update
 
+
 # Python dev packages
 apt-get -qq -y install python python-dev python-setuptools python-pip
 
@@ -21,6 +22,8 @@ if [[ -f /vagrant/runtime.txt ]]; then
     apt-get -qq  -y install python3.5 python3.5-dev
   fi
   if [[ $python_runtime =~ ^python-3\.6 ]]; then
+    # Python 3.6 isn't available in Ubuntu 16.04, so:
+    add-apt-repository ppa:fkrull/deadsnakes
     apt-get -qq -y update
     apt-get -qq  -y install python3.6 python3.6-dev
   fi
