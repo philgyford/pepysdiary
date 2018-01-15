@@ -69,6 +69,7 @@ CACHES = {
 # the site admins on every HTTP 500 error when DEBUG=False.
 # See http://docs.djangoproject.com/en/dev/topics/logging for
 # more details on how to customize your logging configuration.
+
 # LOGGING = {
 #     'version': 1,
 #     'disable_existing_loggers': False,
@@ -99,6 +100,25 @@ CACHES = {
 #         },
 #     }
 # }
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'level': 'INFO',
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'loggers': {
+        # Redefining the logger for the `django` module
+        # prevents invoking the `AdminEmailHandler`
+        'django': {
+            'handlers': ['console'],
+            'level': 'INFO',
+        },
+    }
+}
 
 # https
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
