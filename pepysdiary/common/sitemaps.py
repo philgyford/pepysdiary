@@ -108,7 +108,7 @@ class StaticSitemap(Sitemap):
     #         self.lastmod = datetime.datetime.now(pytz.utc)
 
     main_sitemaps = []
-    for page in pages.keys():
+    for page in list(pages.keys()):
         sitemap_class = AbstractSitemapClass()
         sitemap_class.url = pages[page]
         main_sitemaps.append(sitemap_class)

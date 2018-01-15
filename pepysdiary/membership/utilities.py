@@ -21,13 +21,13 @@ def validate_person_name(value):
     test_value = ''.join(ch for ch in value if ch not in exclude).lower()
 
     if test_value in disallowed_names:
-        raise ValidationError(u'%s is not an available name' % value)
+        raise ValidationError('%s is not an available name' % value)
 
     # We allow one or more characters.
     # There can be one or more spaces after that sequence, with other
     # characters (including spaces) following.
     if re.match(r'^[\w.-_]+(?:\s+[\w\s.-_]+)?$', value) is None:
-        raise ValidationError(u'%s contains invalid characters or formatting'
+        raise ValidationError('%s contains invalid characters or formatting'
                                                                     % value)
 
 

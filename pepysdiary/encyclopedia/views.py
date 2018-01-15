@@ -38,15 +38,15 @@ class CategoryDetailView(DetailView):
             try:
                 slug = slugs.split('/')[-1]
             except:
-                raise Http404(_(u"No Category slug found"))
+                raise Http404(_("No Category slug found"))
         else:
-            raise AttributeError(u'CategoryDetailView must be called with '
+            raise AttributeError('CategoryDetailView must be called with '
                                     'slugs in the URL')
 
         try:
             obj = Category.objects.get(slug=slug)
         except Category.DoesNotExist:
-            raise Http404(_(u"No Categories found matching the query"))
+            raise Http404(_("No Categories found matching the query"))
         return obj
 
     def get_context_data(self, **kwargs):

@@ -53,11 +53,11 @@ class Command(BaseCommand):
 
         rows = cur.fetchall()
         for row in rows:
-            print '%s %s' % (row['entry_id'], row['entry_title'])
+            print('%s %s' % (row['entry_id'], row['entry_title']))
 
             # Fix any old-style links in the two text fields.
             if row['entry_text'] is None:
-                text = u''
+                text = ''
             else:
                 text = fix_old_links(row['entry_text'])
 

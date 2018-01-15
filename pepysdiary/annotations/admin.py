@@ -18,7 +18,7 @@ class AnnotationsAdmin(CommentsAdmin):
     def flag(self, obj):
         flag_name = ''
         try:
-            flag_name = obj.flags.values()[0]['flag']
+            flag_name = list(obj.flags.values())[0]['flag']
         except IndexError:
             pass
         return flag_name

@@ -92,7 +92,7 @@ class Post(PepysModel):
         ordering = ['-date_published', ]
 
     def __unicode__(self):
-        return u'%s' % (self.title)
+        return '%s' % (self.title)
 
     def save(self, *args, **kwargs):
         self.intro_html = markdown(self.intro)

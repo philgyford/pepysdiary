@@ -79,7 +79,7 @@ class Command(BaseCommand):
 
         rows = cur.fetchall()
         for row in rows:
-            print '%s %s' % (row['entry_id'], row['entry_title'])
+            print('%s %s' % (row['entry_id'], row['entry_title']))
 
             # 3) CREATE BASIC TOPIC.
 
@@ -96,11 +96,11 @@ class Command(BaseCommand):
 
             # Fix any old-style links.
             if row['entry_text'] is None:
-                summary = u''
+                summary = ''
             else:
                 summary = fix_old_links(row['entry_text'])
             if row['entry_text_more'] is None:
-                wheatley = u''
+                wheatley = ''
             else:
                 wheatley = fix_old_links(row['entry_text_more'])
             if row['entry_excerpt'] is None:
@@ -141,8 +141,8 @@ class Command(BaseCommand):
                     if meta_row['entry_meta_vchar_idx'] in valid_map_categories:
                         topic.map_category = meta_row['entry_meta_vchar_idx']
                     elif meta_row['entry_meta_vchar_idx'] != 'none':
-                        print "INVALID MAP CATEGORY: '%s' for Entry ID '%s'" % (
-                            meta_row['entry_meta_vchar_idx'], row['entry_id'])
+                        print("INVALID MAP CATEGORY: '%s' for Entry ID '%s'" % (
+                            meta_row['entry_meta_vchar_idx'], row['entry_id']))
 
                 if meta_row['entry_meta_type'] == 'field.wikipedia_title' and \
                     meta_row['entry_meta_vchar_idx'] != '':
@@ -178,8 +178,8 @@ class Command(BaseCommand):
                                         pk=cat_row['placement_category_id'])
                     topic.categories.add(category)
                 except Category.DoesNotExist:
-                    print "INVALID CATEGORY ID: '%s' for Entry ID '%s'" % (
-                        cat_row['placement_category_id'], row['entry_id'])
+                    print("INVALID CATEGORY ID: '%s' for Entry ID '%s'" % (
+                        cat_row['placement_category_id'], row['entry_id']))
 
             # 7) TIDY UP NAMES OF PEOPLE.
 

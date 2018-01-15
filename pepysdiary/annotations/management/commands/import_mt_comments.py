@@ -63,11 +63,11 @@ class Command(BaseCommand):
         count = 0
         for row in rows:
             if count % 100 == 0:
-                print count
+                print(count)
 
             # Fix any old-style links in the two text fields.
             if row['comment_text'] is None:
-                text = u''
+                text = ''
             else:
                 text = fix_old_links(row['comment_text'])
 
@@ -85,8 +85,8 @@ class Command(BaseCommand):
             elif row['comment_blog_id'] == settings.MT_LETTERS_BLOG_ID:
                 content_type_id = 13
             else:
-                print "INVALID BLOG ID (%s) FOR COMMENT ID %s" % (
-                                    row['comment_blog_id'], row['comment_id'])
+                print("INVALID BLOG ID (%s) FOR COMMENT ID %s" % (
+                                    row['comment_blog_id'], row['comment_id']))
 
             annotation = Annotation(id=row['comment_id'],
                         comment=text,

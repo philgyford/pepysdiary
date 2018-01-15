@@ -79,15 +79,15 @@ class Command(BaseCommand):
 
         rows = cur.fetchall()
         for row in rows:
-            print '%s %s' % (row['entry_id'], row['entry_title'])
+            print('%s %s' % (row['entry_id'], row['entry_title']))
 
             # 2) Fix any old-style links in the two text fields.
             if row['entry_text'] is None:
-                text = u''
+                text = ''
             else:
                 text = fix_old_links(row['entry_text'])
             if row['entry_text_more'] is None:
-                footnotes = u''
+                footnotes = ''
             else:
                 footnotes = fix_old_links(row['entry_text_more'])
 
@@ -115,10 +115,10 @@ class Command(BaseCommand):
 
                 if meta_row['entry_meta_type'] == 'field.letter_source':
                     if meta_row['entry_meta_vchar_idx'] == \
-                        u'Guy de la Bédoyère':
+                        'Guy de la Bédoyère':
                         letter.source = Letter.GUY_DE_LA_BEDOYERE_SOURCE
                     elif meta_row['entry_meta_vchar_idx'] == \
-                        u'Helen Truesdell Heath':
+                        'Helen Truesdell Heath':
                         letter.source = Letter.HELEN_TRUESDELL_HEATH_SOURCE
 
             # 5) Work out sender/recipient from title.

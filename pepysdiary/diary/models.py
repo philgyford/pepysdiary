@@ -137,7 +137,7 @@ class Entry(PepysModel, OldDateMixin):
                 'November': 'Nov', 'December': 'Dec'}
 
         short_title = self.title 
-        for k, v in replacements.iteritems():
+        for k, v in replacements.items():
             short_title = short_title.replace(k, v)
 
         return short_title
