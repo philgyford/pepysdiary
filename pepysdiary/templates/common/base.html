@@ -1,4 +1,4 @@
-<!DOCTYPE html>{% load static %}
+<!DOCTYPE html>
 <html lang="en-gb">
 <head>
 	<meta charset="utf-8"/>
@@ -6,31 +6,38 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>{% if url_name == 'home' %}Samuel Pepys: Diary, Letters, Family Tree, Maps, Encyclopedia, Discussion and more{% else %}{% block title %}{% endblock %} (The Diary of Samuel Pepys){% endif %}</title>
 
-	{% block extra_css %}
-	{% endblock extra_css %}
-    {# Mapbox CSS needs to go in before our own CSS. #}
-    <!-- inject:css -->
-    <link rel="stylesheet" href="/static/common/css/site-9b19faea67.css">
-    <!-- endinject -->
+	{% load static %}
+	{% load compress %}
 
-    <link rel="apple-touch-icon" sizes="57x57" href="{% static 'common/img/favicons/apple-touch-icon-57x57.png' %}">
-    <link rel="apple-touch-icon" sizes="60x60" href="{% static 'common/img/favicons/apple-touch-icon-60x60.png' %}">
-    <link rel="apple-touch-icon" sizes="72x72" href="{% static 'common/img/favicons/apple-touch-icon-72x72.png' %}">
-    <link rel="apple-touch-icon" sizes="76x76" href="{% static 'common/img/favicons/apple-touch-icon-76x76.png' %}">
-    <link rel="apple-touch-icon" sizes="114x114" href="{% static 'common/img/favicons/apple-touch-icon-114x114.png' %}">
-    <link rel="apple-touch-icon" sizes="120x120" href="{% static 'common/img/favicons/apple-touch-icon-120x120.png' %}">
-    <link rel="apple-touch-icon" sizes="144x144" href="{% static 'common/img/favicons/apple-touch-icon-144x144.png' %}">
-    <link rel="apple-touch-icon" sizes="152x152" href="{% static 'common/img/favicons/apple-touch-icon-152x152.png' %}">
-    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'common/img/favicons/apple-touch-icon-180x180.png' %}">
-	<link rel="icon" type="image/png" href="{% static 'common/img/favicons/favicon-32x32.png' %}" sizes="32x32' %}">
-    <link rel="icon" type="image/png" href="{% static 'common/img/favicons/android-chrome-192x192.png' %}" sizes="192x192' %}">
-    <link rel="icon" type="image/png" href="{% static 'common/img/favicons/favicon-96x96.png' %}" sizes="96x96' %}">
-    <link rel="icon" type="image/png" href="{% static 'common/img/favicons/favicon-16x16.png' %}" sizes="16x16' %}">
-    <link rel="manifest" href="{% static 'common/img/favicons/manifest.json' %}">
-    <link rel="shortcut icon" href="{% static 'common/img/favicons/favicon.ico' %}">
+	{% compress css %}
+		{% block extra_css %}
+		{% endblock extra_css %}
+		{# Mapbox CSS needs to go in before our own CSS. #}
+		<link rel="stylesheet" type="text/x-scss" href="{% static 'sass/site.scss' %}">
+	{% endcompress %}
+
+    <!--[if lt IE 9]>
+	  <script src="{% static 'js/vendor/lt-ie-9.min.js' %}"></script>
+    <![endif]-->
+
+    <link rel="apple-touch-icon" sizes="57x57" href="{% static 'img/favicons/apple-touch-icon-57x57.png' %}">
+    <link rel="apple-touch-icon" sizes="60x60" href="{% static 'img/favicons/apple-touch-icon-60x60.png' %}">
+    <link rel="apple-touch-icon" sizes="72x72" href="{% static 'img/favicons/apple-touch-icon-72x72.png' %}">
+    <link rel="apple-touch-icon" sizes="76x76" href="{% static 'img/favicons/apple-touch-icon-76x76.png' %}">
+    <link rel="apple-touch-icon" sizes="114x114" href="{% static 'img/favicons/apple-touch-icon-114x114.png' %}">
+    <link rel="apple-touch-icon" sizes="120x120" href="{% static 'img/favicons/apple-touch-icon-120x120.png' %}">
+    <link rel="apple-touch-icon" sizes="144x144" href="{% static 'img/favicons/apple-touch-icon-144x144.png' %}">
+    <link rel="apple-touch-icon" sizes="152x152" href="{% static 'img/favicons/apple-touch-icon-152x152.png' %}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'img/favicons/apple-touch-icon-180x180.png' %}">
+    <link rel="icon" type="image/png" href="{% static 'img/favicons/favicon-32x32.png' %}" sizes="32x32">
+    <link rel="icon" type="image/png" href="{% static 'img/favicons/android-chrome-192x192.png' %}" sizes="192x192">
+    <link rel="icon" type="image/png" href="{% static 'img/favicons/favicon-96x96.png' %}" sizes="96x96">
+    <link rel="icon" type="image/png" href="{% static 'img/favicons/favicon-16x16.png' %}" sizes="16x16">
+    <link rel="manifest" href="{% static 'img/favicons/manifest.json' %}">
+    <link rel="shortcut icon" href="{% static 'img/favicons/favicon.ico' %}">
     <meta name="msapplication-TileColor" content="#00a300">
-    <meta name="msapplication-TileImage" content="{% static 'common/img/favicons/mstile-144x144.png' %}">
-    <meta name="msapplication-config" content="{% static 'common/img/favicons/browserconfig.xml' %}">
+    <meta name="msapplication-TileImage" content="{% static 'img/favicons/mstile-144x144.png' %}">
+    <meta name="msapplication-config" content="{% static 'img/favicons/browserconfig.xml' %}">
 
     <link rel="alternate" type="application/rss+xml" title="Diary entries" href="http://feeds.feedburner.com/PepysDiary">
     <link rel="alternate" type="application/rss+xml" title="Encyclopedia topics" href="http://feeds.feedburner.com/PepysDiary-Encyclopedia">
@@ -41,7 +48,7 @@
     <meta property="og:site_name" content="The Diary of Samuel Pepys">
     <meta property="og:locale" content="en_GB">
     <meta property="article:author" content="https://www.facebook.com/pepysdiary">
-    {#<meta property="og:image" content="{% static 'common/img/facebook.jpg' %}">#}
+    {#<meta property="og:image" content="{% static 'img/facebook.jpg' %}">#}
     {% block meta_tags %}{% endblock %}
     {% block pagemap %}{% endblock %}
 </head>
@@ -203,10 +210,10 @@
 		    {% endfor %}
 		{% endif %}
 
-		<main role="main"{% if topic %} itemscope=""{% if topic.is_person %} itemtype="http://schema.org/Person"{% elif topic.is_place %} itemtype="http://schema.org/Place"{% endif %}{% endif %}>
+		<main role="main">
 			{% block page_header %}
 				<header class="page-header">
-					<h1 itemprop="name">{% block header_title %}{% endblock %}</h1>
+					<h1>{% block header_title %}{% endblock %}</h1>
 				</header>
 			{% endblock %}
 
@@ -261,15 +268,17 @@
 		</footer>
 	{% endblock %}
 
-	{% block extra_javascript_includes %}{% endblock %}
-    
-    <!-- inject:js -->
-    <script src="/static/common/js/site-d6bd435a4d.min.js"></script>
-    <!-- endinject -->
+	{% compress js %}
+		{% block extra_javascript_includes %}
+		{% endblock %}
 
-    {% get_static_prefix as STATIC_PREFIX %}
+		<script src="{% static 'js/vendor/jquery.js' %}" type="text/javascript" charset="utf-8"></script>
+		<script src="{% static 'js/vendor/jquery.timeago.js' %}" type="text/javascript" charset="utf-8"></script>
+		<script src="{% static 'js/vendor/bootstrap.js' %}" type="text/javascript" charset="utf-8"></script>
+		<script src="{% static 'js/pepys.js' %}" type="text/javascript" charset="utf-8"></script>
+	{% endcompress %}
+
 	<script>
-		{# Almost duplicated in 500.html #}
 		$(document).ready(function(){
 			pepys.controller.init({
 				{% if tooltip_references %}
@@ -286,7 +295,7 @@
 				'config': {
 					mapbox_map_id: '{{ MAPBOX_MAP_ID }}',
 					mapbox_access_token: '{{ MAPBOX_ACCESS_TOKEN }}',
-					static_prefix: '{{ STATIC_PREFIX|escapejs }}common/'
+					static_prefix: '{{ STATIC_PREFIX|escapejs }}'
 				}
 			});
 
@@ -295,16 +304,14 @@
 	</script>
 
 	{% if GOOGLE_ANALYTICS_ID %}
-		{# Duplicated in 500.html #}
-		<script>
-			(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-			(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-			m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-			})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-
-			ga('create', '{{ GOOGLE_ANALYTICS_ID }}', 'auto');
-			ga('send', 'pageview');
-		</script>
+	<!-- Google Analytics JS -->
+	<script>
+	    var _gaq=[['_setAccount','{{ GOOGLE_ANALYTICS_ID }}'],['_trackPageview']];
+	    (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+	    g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
+	    s.parentNode.insertBefore(g,s)}(document,'script'));
+	</script>
+	<!-- End Google Analytics JS -->
 	{% endif %}
 </body>
 </html>

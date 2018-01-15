@@ -4,7 +4,7 @@ from django.contrib.sites.models import Site
 from django.contrib.syndication.views import add_domain, Feed
 from django.core.urlresolvers import reverse
 from django.utils.decorators import method_decorator
-from django.utils.encoding import force_unicode
+from django.utils.encoding import force_text
 from django.utils.html import strip_tags
 from django.views.decorators.cache import cache_page
 from django.views.generic import RedirectView
@@ -57,7 +57,7 @@ class BaseRSSFeed(Feed):
         return {'content_encoded': self.item_content_encoded(item)}
 
     def item_title(self, item):
-        return force_unicode(item.title)
+        return force_text(item.title)
 
     def item_pubdate(self, item):
         return item.date_published
@@ -70,7 +70,7 @@ class BaseRSSFeed(Feed):
         length = 250
         text = strip_tags(text)
         if len(text) <= length:
-            return force_unicode(text)
+            return force_text(text)
         else:
             return ' '.join(text[:length + 1].split(' ')[0:-1]) + '...'
 
@@ -82,8 +82,8 @@ class BaseRSSFeed(Feed):
         comment_name is one of 'comment' or 'annotation'.
         """
         return '%s %s <p><strong><a href="%s#%ss">Read the %ss</a></strong></p>' % (
-            force_unicode(smartypants.smartypants(text1)),
-            force_unicode(smartypants.smartypants(text2)),
+            force_text(smartypants.smartypants(text1)),
+            force_text(smartypants.smartypants(text2)),
             add_domain(Site.objects.get_current().domain, url),
             comment_name,
             comment_name
