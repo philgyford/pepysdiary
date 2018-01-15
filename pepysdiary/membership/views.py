@@ -24,7 +24,7 @@ class RegisterView(FormView):
     form_class = forms.RegistrationForm
 
     def get(self, request, *args, **kwargs):
-        if request.user.is_authenticated():
+        if request.user.is_authenticated:
             return redirect('home')
         else:
             return super(RegisterView, self).get(request, *args, **kwargs)
@@ -183,7 +183,7 @@ class RegisterCompleteView(MessageView):
     message = "Nearly there… An email has been sent to you containing a link.<br><br>You'll need to click it to confirm your email address before you can log in."
 
     def get(self, request, *args, **kwargs):
-        if request.user.is_authenticated():
+        if request.user.is_authenticated:
             return redirect('home')
         else:
             return super(RegisterCompleteView, self).get(
@@ -220,7 +220,7 @@ class ActivationCompleteView(MessageView):
     title = 'Done!'
 
     def get(self, request, *args, **kwargs):
-        if request.user.is_authenticated():
+        if request.user.is_authenticated:
             return redirect('home')
         else:
             return super(ActivationCompleteView, self).get(
