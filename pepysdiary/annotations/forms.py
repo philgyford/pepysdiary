@@ -21,7 +21,7 @@ class AnnotationForm(CommentForm):
             (
                 (?:\r?\n)   # Match a single linebreak.
             )
-            (?:\h*          # 0 or more horizontal whitespace characters.
+            (?:[ \t]*          # 0 or more horizontal whitespace characters.
                 (?:\r?\n)   # Another linebreak.
             )+              # And 1 or more of that lot.
         """, '\\1\\1', comment, re.MULTILINE | re.VERBOSE)
