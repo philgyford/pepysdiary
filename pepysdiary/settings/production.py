@@ -64,62 +64,6 @@ CACHES = {
     }
 }
 
-# A sample logging configuration. The only tangible logging
-# performed by this configuration is to send an email to
-# the site admins on every HTTP 500 error when DEBUG=False.
-# See http://docs.djangoproject.com/en/dev/topics/logging for
-# more details on how to customize your logging configuration.
-
-# LOGGING = {
-#     'version': 1,
-#     'disable_existing_loggers': False,
-#     'filters': {
-#         'require_debug_false': {
-#             '()': 'django.utils.log.RequireDebugFalse'
-#         }
-#     },
-#     'handlers': {
-#         'mail_admins': {
-#             'level': 'ERROR',
-#             'filters': ['require_debug_false'],
-#             'class': 'django.utils.log.AdminEmailHandler'
-#         },
-#         'null': {
-#             'class': 'logging.NullHandler',
-#         },
-#     },
-#     'loggers': {
-#         'django.request': {
-#             'handlers': ['mail_admins'],
-#             'level': 'ERROR',
-#             'propagate': True,
-#         },
-#         'django.security.DisallowedHost': {
-#             'handlers': ['null'],
-#             'propagate': False,
-#         },
-#     }
-# }
-
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'handlers': {
-        'console': {
-            'level': 'INFO',
-            'class': 'logging.StreamHandler',
-        },
-    },
-    'loggers': {
-        # Redefining the logger for the `django` module
-        # prevents invoking the `AdminEmailHandler`
-        'django': {
-            'handlers': ['console'],
-            'level': 'INFO',
-        },
-    }
-}
-
 # https
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 SECURE_SSL_REDIRECT = True
@@ -144,6 +88,52 @@ if SENTRY_DSN:
         'dsn': SENTRY_DSN,
         'release': os.environ.get('HEROKU_SLUG_COMMIT', ''),
     }
+
+    # From https://docs.sentry.io/clients/python/integrations/django/
+    LOGGING = {
+        'version': 1,
+        'disable_existing_loggers': True,
+        'root': {
+            'level': 'WARNING',
+            'handlers': ['sentry'],
+        },
+        'formatters': {
+            'verbose': {
+                'format': '%(levelname)s %(asctime)s %(module)s '
+                          '%(process)d %(thread)d %(message)s'
+            },
+        },
+        'handlers': {
+            'sentry': {
+                'level': 'ERROR', # To capture more than ERROR, change to WARNING, INFO, etc.
+                'class': 'raven.contrib.django.raven_compat.handlers.SentryHandler',
+                # 'tags': {'custom-tag': 'x'},
+            },
+            'console': {
+                'level': 'DEBUG',
+                'class': 'logging.StreamHandler',
+                'formatter': 'verbose'
+            }
+        },
+        'loggers': {
+            'django.db.backends': {
+                'level': 'ERROR',
+                'handlers': ['console'],
+                'propagate': False,
+            },
+            'raven': {
+                'level': 'DEBUG',
+                'handlers': ['console'],
+                'propagate': False,
+            },
+            'sentry.errors': {
+                'level': 'DEBUG',
+                'handlers': ['console'],
+                'propagate': False,
+            },
+        },
+    }
+
 
 
 #############################################################################
