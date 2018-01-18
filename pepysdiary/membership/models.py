@@ -7,9 +7,11 @@ import re
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin,\
-                                                                BaseUserManager
+                                                            BaseUserManager
 from django.contrib.auth.signals import user_logged_in
 from django.urls import reverse
+from django.utils.crypto import get_random_string
+from django.utils.encoding import smart_str
 from django.db import models
 from django.db import transaction
 from django.utils import timezone
@@ -76,11 +78,9 @@ class PersonManager(BaseUserManager):
             return person
 
     def set_activation_key(self, person):
-        salt = hashlib.sha1(str(random.random())).hexdigest()[:5]
-        name = person.name
-        if isinstance(name, str):
-            name = name.encode('utf-8')
-        person.activation_key = hashlib.sha1(salt + name).hexdigest()
+        username = smart_str(person.name)
+        hash_input = (get_random_string(5) + username).encode('utf-8')
+        person.activation_key = hashlib.sha1(hash_input).hexdigest()
         person.save()
         return person
 
@@ -106,7 +106,7 @@ class PersonManager(BaseUserManager):
         # Make sure the key we're trying conforms to the pattern of a
         # SHA1 hash; if it doesn't, no point trying to look it up in
         # the database.
-        if SHA1_RE.search(activation_key):
+        if SHA1_RE.search(activation_key.lower()):
             try:
                 person = self.get(activation_key=activation_key)
             except self.model.DoesNotExist:
