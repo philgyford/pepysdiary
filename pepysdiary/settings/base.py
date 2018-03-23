@@ -175,11 +175,13 @@ INSTALLED_APPS = [
     'treebeard',
     'gunicorn',
     'captcha',
+    'rest_framework',
 
     # Started breaking with Django 1.10.7 although it shouldn't:
     # 'memcache_status',
 
     'pepysdiary.common',
+    'pepysdiary.api',
     'pepysdiary.diary',
     'pepysdiary.encyclopedia',
     'pepysdiary.letters',
@@ -243,6 +245,12 @@ AWS_QUERYSTRING_AUTH = False
 S3_URL = 'https://%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
 # Store static and media files in separate directories:
 MEDIA_URL = S3_URL + MEDIA_URL
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 50,
+}
 
 
 ####################################################################
