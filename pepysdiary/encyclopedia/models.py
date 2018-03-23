@@ -211,6 +211,13 @@ class Topic(PepysModel):
     # Useful in the templates:
 
     @property
+    def wikipedia_url(self):
+        if self.wikipedia_fragment:
+            return 'https://en.wikipedia.org/wiki/{}'.format(self.wikipedia_fragment)
+        else:
+            return ''
+
+    @property
     def is_family_tree(self):
         return self.id == topic_lookups.FAMILY_TREE
 

@@ -1,5 +1,7 @@
 import re
 
+from django.conf import settings
+from django.contrib.sites.models import Site
 from django.utils.feedgenerator import Rss201rev2Feed
 
 
@@ -143,6 +145,22 @@ def get_day_e(date_obj):
         return d[1:]
     else:
         return d
+
+
+def make_url_absolute(url):
+    """
+    Pass a url like '/encyclopedia/123/' and it will return a url more like
+    'https://yourdomain.com/encyclopedia/123/'
+    """
+    if url.startswith('http'):
+        # It's already absolute!
+        return url
+    else:
+        protocol = 'https' if settings.SECURE_SSL_REDIRECT else 'http'
+
+        domain = Site.objects.get_current().domain
+
+        return '{}://{}{}'.format(protocol, domain, url)
 
 
 class ExtendedRSSFeed(Rss201rev2Feed):

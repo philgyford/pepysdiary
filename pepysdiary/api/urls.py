@@ -13,6 +13,12 @@ entry_list = views.EntryViewSet.as_view({
 entry_detail = views.EntryViewSet.as_view({
     'get': 'retrieve',
 })
+topic_list = views.TopicViewSet.as_view({
+    'get': 'list',
+})
+topic_detail = views.TopicViewSet.as_view({
+    'get': 'retrieve',
+})
 
 urlpatterns = [
 
@@ -22,6 +28,10 @@ urlpatterns = [
 
     url(r'^entries/(?P<diary_date>\d{4}-\d{2}-\d{2})$',
                                 entry_detail, name='entry_detail'),
+
+    url(r'^topics$', topic_list, name='topic_list'),
+
+    url(r'^topics/(?P<pk>\d+)$', topic_detail, name='topic_detail'),
 ]
 
 
