@@ -39,21 +39,13 @@ class CategorySerializer(BaseSerializer):
     def get_children(self, obj):
         children = []
         for child in obj.get_children():
-            children.append(
-                make_url_absolute(
-                    reverse_lazy('api:category_detail', kwargs={'slug': child.slug})
-                )
-            )
+            children.append( _make_category_url(child) )
         return children
 
     def get_parents(self, obj):
         parents = []
         for ancestor in obj.get_ancestors():
-            parents.append(
-                make_url_absolute(
-                    reverse_lazy('api:category_detail', kwargs={'slug': ancestor.slug})
-                )
-            )
+            parents.append( _make_category_url(ancestor) )
         return parents
 
 
@@ -114,6 +106,7 @@ class TopicSerializer(BaseSerializer):
 
 
 def _make_category_url(category):
+    "Shortcut for making the API URL for a Category."
     return make_url_absolute(
         reverse_lazy('api:category_detail', kwargs={'slug': category.slug})
     )
