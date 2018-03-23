@@ -30,7 +30,11 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 CACHES = {
     'default': {
         # Use dummy cache (ie, no caching):
-        'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
+        # 'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
+
+        # Or use in-memory cache:
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'LOCATION': 'pepysdiary',
 
         # Or use local memcached:
         #'BACKEND': 'django.core.cache.backends.memcached.PyLibMCCache',

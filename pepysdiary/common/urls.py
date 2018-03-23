@@ -187,6 +187,7 @@ urlpatterns += [
 
     url(r'^recent/$', RecentView.as_view(), name='recent'),
 
+    url(r'^api/$', RedirectView.as_view(url='/api/v1/', permanent=True)),
     url(r'^api/v1/', include('pepysdiary.api.urls')),
     url(r'^diary/', include('pepysdiary.diary.urls')),
     url(r'^letters/', include('pepysdiary.letters.urls')),
