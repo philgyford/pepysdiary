@@ -7,18 +7,17 @@ from django.http import Http404, HttpResponseRedirect
 from django.shortcuts import redirect
 from django.utils.decorators import method_decorator
 from django.utils.translation import ugettext as _
-from django.views.decorators.cache import cache_page
 from django.views.decorators.csrf import csrf_protect
 from django.views.generic import FormView, TemplateView
 from django.views.generic.detail import DetailView
 
-from pepysdiary.common.views import BaseRSSFeed
+from pepysdiary.common.views import BaseRSSFeed, CacheMixin
 from pepysdiary.encyclopedia.forms import CategoryMapForm
 from pepysdiary.encyclopedia.models import Category, Topic
 
 
-@method_decorator(cache_page(60 * 60), name='dispatch')
-class EncyclopediaView(TemplateView):
+class EncyclopediaView(CacheMixin, TemplateView):
+    cache_timeout = (60 * 60)
     template_name = 'category_list.html'
 
     def get_context_data(self, **kwargs):
@@ -112,8 +111,9 @@ class LatestTopicsFeed(BaseRSSFeed):
         )
 
 
-@method_decorator([cache_page(60 * 60), csrf_protect], name='dispatch')
-class CategoryMapView(FormView):
+@method_decorator([csrf_protect], name='dispatch')
+class CategoryMapView(CacheMixin, FormView):
+    cache_timeout = (60 * 60)
     form_class = CategoryMapForm
     template_name = 'category_map.html'
 
