@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from rest_framework.reverse import reverse_lazy
 
 from ..common.utilities import make_url_absolute
 from ..diary.models import Entry
@@ -21,15 +22,39 @@ class CategorySerializer(BaseSerializer):
 
     api_url = serializers.HyperlinkedIdentityField(
         view_name='api:category_detail',
-        lookup_field='pk'
+        lookup_field='slug'
     )
+
+    children = serializers.SerializerMethodField()
+    parents = serializers.SerializerMethodField()
 
     class Meta:
         model = Category
-        fields = ('id',
-                    'slug', 'title', 'topic_count',
+        fields = ('slug',
+                    'title', 'topic_count',
+                    'parents', 'children',
                     'api_url', 'web_url',
                 )
+
+    def get_children(self, obj):
+        children = []
+        for child in obj.get_children():
+            children.append(
+                make_url_absolute(
+                    reverse_lazy('api:category_detail', kwargs={'slug': child.slug})
+                )
+            )
+        return children
+
+    def get_parents(self, obj):
+        parents = []
+        for ancestor in obj.get_ancestors():
+            parents.append(
+                make_url_absolute(
+                    reverse_lazy('api:category_detail', kwargs={'slug': ancestor.slug})
+                )
+            )
+        return parents
 
 
 
@@ -52,6 +77,7 @@ class EntrySerializer(BaseSerializer):
                     'annotation_count', 'last_annotation_time',
                     'api_url', 'web_url',
                 )
+
 
 class TopicSerializer(BaseSerializer):
 

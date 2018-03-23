@@ -32,7 +32,7 @@ urlpatterns = [
 
     url(r'^categories$', category_list, name='category_list'),
 
-    url(r'^categories/(?P<pk>\d+)$',
+    url(r'^categories/(?P<slug>[\w\/-]+)$',
                                 category_detail, name='category_detail'),
 
     url(r'^entries$', entry_list, name='entry_list'),

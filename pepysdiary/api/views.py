@@ -23,6 +23,7 @@ class CategoryViewSet(viewsets.ReadOnlyModelViewSet):
     """
     Encyclopedia categories.
     """
+    lookup_field = 'slug'
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
 
