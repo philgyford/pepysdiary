@@ -91,6 +91,7 @@ class TopicSerializer(BaseSerializer):
     annotation_count = serializers.IntegerField(source='comment_count', read_only=True)
     last_annotation_time = serializers.DateTimeField(source='last_comment_time', read_only=True)
     thumbnail_url = serializers.ImageField(source='thumbnail', read_only=True)
+    categories = serializers.SerializerMethodField()
 
     class Meta:
         model = Topic
@@ -101,5 +102,18 @@ class TopicSerializer(BaseSerializer):
                     'annotation_count', 'last_annotation_time',
                     'is_person', 'is_place',
                     'latitude', 'longitude', 'zoom', 'shape',
+                    'categories',
                     'api_url', 'web_url',
                 )
+
+    def get_categories(self, obj):
+        cats = []
+        for cat in obj.categories.all():
+            cats.append( _make_category_url(cat) )
+        return cats
+
+
+def _make_category_url(category):
+    return make_url_absolute(
+        reverse_lazy('api:category_detail', kwargs={'slug': category.slug})
+    )

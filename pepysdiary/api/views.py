@@ -30,7 +30,7 @@ class CategoryViewSet(CacheMixin, viewsets.ReadOnlyModelViewSet):
     serializer_class = CategorySerializer
 
 
-class EntryViewSet(viewsets.ReadOnlyModelViewSet):
+class EntryViewSet(CacheMixin, viewsets.ReadOnlyModelViewSet):
     """
     Diary entries.
     """
@@ -40,7 +40,7 @@ class EntryViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = EntrySerializer
 
 
-class TopicViewSet(viewsets.ReadOnlyModelViewSet):
+class TopicViewSet(CacheMixin, viewsets.ReadOnlyModelViewSet):
     """
     Encyclopedia topics.
     """
