@@ -61,13 +61,15 @@ class EntrySerializer(BaseSerializer):
 
     # Rename model fields to more publicly-useful names:
     date = serializers.DateField(source='diary_date', read_only=True)
+    entry_html = serializers.CharField(source='text', read_only=True)
+    footnotes_html = serializers.CharField(source='footnotes', read_only=True)
     annotation_count = serializers.IntegerField(source='comment_count', read_only=True)
     last_annotation_time = serializers.DateTimeField(source='last_comment_time', read_only=True)
 
     class Meta:
         model = Entry
         fields = ('date',
-                    'title', 'text', 'footnotes',
+                    'title', 'entry_html', 'footnotes_html',
                     'annotation_count', 'last_annotation_time',
                     'api_url', 'web_url',
                 )
@@ -82,7 +84,6 @@ class TopicSerializer(BaseSerializer):
     )
 
     # Rename model fields to more publicly-useful names:
-    wheatley_text = serializers.CharField(source='wheatley', read_only=True)
     annotation_count = serializers.IntegerField(source='comment_count', read_only=True)
     last_annotation_time = serializers.DateTimeField(source='last_comment_time', read_only=True)
     thumbnail_url = serializers.ImageField(source='thumbnail', read_only=True)
@@ -93,7 +94,7 @@ class TopicSerializer(BaseSerializer):
         fields = ('id',
                     'title', 'order_title',
                     # 'summary',
-                    'wheatley_text', 'tooltip_text',
+                    'wheatley_html', 'tooltip_text',
                     'wikipedia_url', 'thumbnail_url',
                     'annotation_count', 'last_annotation_time',
                     'is_person', 'is_place',
