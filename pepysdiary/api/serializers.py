@@ -2,7 +2,7 @@ from rest_framework import serializers
 
 from ..common.utilities import make_url_absolute
 from ..diary.models import Entry
-from ..encyclopedia.models import Topic
+from ..encyclopedia.models import Category, Topic
 
 
 class BaseSerializer(serializers.ModelSerializer):
@@ -15,6 +15,22 @@ class BaseSerializer(serializers.ModelSerializer):
 
     def get_web_url(self, obj):
         return make_url_absolute(obj.get_absolute_url())
+
+
+class CategorySerializer(BaseSerializer):
+
+    api_url = serializers.HyperlinkedIdentityField(
+        view_name='api:category_detail',
+        lookup_field='pk'
+    )
+
+    class Meta:
+        model = Category
+        fields = ('id',
+                    'slug', 'title', 'topic_count',
+                    'api_url', 'web_url',
+                )
+
 
 
 class EntrySerializer(BaseSerializer):

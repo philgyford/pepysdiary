@@ -7,6 +7,12 @@ from . import views
 
 app_name = 'api'
 
+category_list = views.CategoryViewSet.as_view({
+    'get': 'list',
+})
+category_detail = views.CategoryViewSet.as_view({
+    'get': 'retrieve',
+})
 entry_list = views.EntryViewSet.as_view({
     'get': 'list',
 })
@@ -23,6 +29,11 @@ topic_detail = views.TopicViewSet.as_view({
 urlpatterns = [
 
     url(r'^$', views.api_root),
+
+    url(r'^categories$', category_list, name='category_list'),
+
+    url(r'^categories/(?P<pk>\d+)$',
+                                category_detail, name='category_detail'),
 
     url(r'^entries$', entry_list, name='entry_list'),
 
