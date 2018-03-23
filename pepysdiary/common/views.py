@@ -3,7 +3,6 @@ import smartypants
 from django.contrib.sites.models import Site
 from django.contrib.syndication.views import add_domain, Feed
 from django.urls import reverse
-from django.utils.decorators import method_decorator
 from django.utils.encoding import force_text
 from django.utils.html import strip_tags
 from django.views.decorators.cache import cache_page
@@ -13,6 +12,20 @@ from django.views.generic.base import TemplateView
 from pepysdiary.common.utilities import ExtendedRSSFeed
 from pepysdiary.diary.models import Entry
 from pepysdiary.news.models import Post
+
+
+class CacheMixin(object):
+    """
+    Add this mixin to a class-based view to specify caching.
+    Set the cache_timeout on the view to change the timeout.
+    """
+    cache_timeout = 60
+
+    def get_cache_timeout(self):
+        return self.cache_timeout
+
+    def dispatch(self, *args, **kwargs):
+        return cache_page(self.get_cache_timeout())(super().dispatch)(*args, **kwargs)
 
 
 class HomeView(TemplateView):
@@ -39,9 +52,9 @@ class SearchView(TemplateView):
     template_name = 'search.html'
 
 
-@method_decorator(cache_page(60 * 5), name='dispatch')
-class RecentView(TemplateView):
+class RecentView(CacheMixin, TemplateView):
     """Recent Activity page."""
+    cache_timeout = (60 * 5)
     template_name = 'recent.html'
 
 

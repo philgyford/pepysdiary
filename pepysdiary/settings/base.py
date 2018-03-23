@@ -175,11 +175,14 @@ INSTALLED_APPS = [
     'treebeard',
     'gunicorn',
     'captcha',
+    'rest_framework',
+    'rest_framework_swagger', # Makes docs for the API
 
     # Started breaking with Django 1.10.7 although it shouldn't:
     # 'memcache_status',
 
     'pepysdiary.common',
+    'pepysdiary.api',
     'pepysdiary.diary',
     'pepysdiary.encyclopedia',
     'pepysdiary.letters',
@@ -243,6 +246,28 @@ AWS_QUERYSTRING_AUTH = False
 S3_URL = 'https://%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
 # Store static and media files in separate directories:
 MEDIA_URL = S3_URL + MEDIA_URL
+
+
+REST_FRAMEWORK = {
+    # e.g. for latitude/longitude:
+    'COERCE_DECIMAL_TO_STRING': False,
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 30,
+
+    'DEFAULT_THROTTLE_CLASSES': (
+        'rest_framework.throttling.AnonRateThrottle',
+    ),
+    'DEFAULT_THROTTLE_RATES': {
+        'anon': '3660/hour', # 1 per second plus a bit.
+    }
+}
+
+# The REST_FRAMEWORK API documentation
+SWAGGER_SETTINGS = {
+    'DOC_EXPANSION': 'list',
+    'USE_SESSION_AUTH': False,
+
+}
 
 
 ####################################################################
