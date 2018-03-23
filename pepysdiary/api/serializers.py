@@ -22,7 +22,8 @@ class CategorySerializer(BaseSerializer):
 
     api_url = serializers.HyperlinkedIdentityField(
         view_name='api:category_detail',
-        lookup_field='slug'
+        lookup_field='slug',
+        lookup_url_kwarg='category_slug'
     )
 
     children = serializers.SerializerMethodField()
@@ -54,7 +55,8 @@ class EntrySerializer(BaseSerializer):
 
     api_url = serializers.HyperlinkedIdentityField(
         view_name='api:entry_detail',
-        lookup_field='diary_date'
+        lookup_field='diary_date',
+        lookup_url_kwarg='entry_date'
     )
 
     # Rename model fields to more publicly-useful names:
@@ -75,11 +77,12 @@ class TopicSerializer(BaseSerializer):
 
     api_url = serializers.HyperlinkedIdentityField(
         view_name='api:topic_detail',
-        lookup_field='pk'
+        lookup_field='id',
+        lookup_url_kwarg='topic_id'
     )
 
     # Rename model fields to more publicly-useful names:
-    tooltip = serializers.CharField(source='tooltip_text', read_only=True)
+    wheatley_text = serializers.CharField(source='wheatley', read_only=True)
     annotation_count = serializers.IntegerField(source='comment_count', read_only=True)
     last_annotation_time = serializers.DateTimeField(source='last_comment_time', read_only=True)
     thumbnail_url = serializers.ImageField(source='thumbnail', read_only=True)
@@ -89,7 +92,8 @@ class TopicSerializer(BaseSerializer):
         model = Topic
         fields = ('id',
                     'title', 'order_title',
-                    'summary', 'wheatley', 'tooltip',
+                    # 'summary',
+                    'wheatley_text', 'tooltip_text',
                     'wikipedia_url', 'thumbnail_url',
                     'annotation_count', 'last_annotation_time',
                     'is_person', 'is_place',
@@ -108,5 +112,5 @@ class TopicSerializer(BaseSerializer):
 def _make_category_url(category):
     "Shortcut for making the API URL for a Category."
     return make_url_absolute(
-        reverse_lazy('api:category_detail', kwargs={'slug': category.slug})
+        reverse_lazy('api:category_detail', kwargs={'category_slug': category.slug})
     )

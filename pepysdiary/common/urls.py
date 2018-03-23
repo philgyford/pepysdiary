@@ -9,6 +9,8 @@ from django.views.decorators.cache import cache_page
 from django.views.generic import RedirectView, TemplateView
 from django.views.static import serve
 
+from rest_framework_swagger.views import get_swagger_view
+
 from pepysdiary.common import sitemaps
 from pepysdiary.common.views import *
 
@@ -187,8 +189,6 @@ urlpatterns += [
 
     url(r'^recent/$', RecentView.as_view(), name='recent'),
 
-    url(r'^api/$', RedirectView.as_view(url='/api/v1/', permanent=True)),
-    url(r'^api/v1/', include('pepysdiary.api.urls')),
     url(r'^diary/', include('pepysdiary.diary.urls')),
     url(r'^letters/', include('pepysdiary.letters.urls')),
     url(r'^encyclopedia/', include('pepysdiary.encyclopedia.urls')),
@@ -199,6 +199,19 @@ urlpatterns += [
 
     url(r'^backstage/', admin.site.urls),
 ]
+
+
+# API stuff
+
+schema_view = get_swagger_view()
+
+urlpatterns += [
+    url(r'^api/$', schema_view), # Documentation
+
+    url(r'^api/v1/', include('pepysdiary.api.urls')),
+]
+
+
 
 admin.site.site_header = 'The Diary of Samuel Pepys admin'
 

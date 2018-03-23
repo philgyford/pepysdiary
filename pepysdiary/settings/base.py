@@ -176,6 +176,7 @@ INSTALLED_APPS = [
     'gunicorn',
     'captcha',
     'rest_framework',
+    'rest_framework_swagger', # Makes docs for the API
 
     # Started breaking with Django 1.10.7 although it shouldn't:
     # 'memcache_status',
@@ -259,6 +260,13 @@ REST_FRAMEWORK = {
     'DEFAULT_THROTTLE_RATES': {
         'anon': '3660/hour', # 1 per second plus a bit.
     }
+}
+
+# The REST_FRAMEWORK API documentation
+SWAGGER_SETTINGS = {
+    'DOC_EXPANSION': 'list',
+    'USE_SESSION_AUTH': False,
+
 }
 
 
