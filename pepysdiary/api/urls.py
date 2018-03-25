@@ -8,29 +8,23 @@ from . import views
 app_name = 'api'
 
 
-category_list = views.CategoryViewSet.as_view({
+category_list = views.CategoryListViewSet.as_view({
     'get': 'list',
 })
-category_detail = views.CategoryViewSet.as_view({
+category_detail = views.CategoryDetailViewSet.as_view({
     'get': 'retrieve',
 })
-category_topic_list = views.CategoryTopicViewSet.as_view({
+entry_list = views.EntryListViewSet.as_view({
     'get': 'list',
 })
-entry_list = views.EntryViewSet.as_view({
-    'get': 'list',
-})
-entry_detail = views.EntryViewSet.as_view({
+entry_detail = views.EntryDetailViewSet.as_view({
     'get': 'retrieve',
 })
-topic_list = views.TopicViewSet.as_view({
+topic_list = views.TopicListViewSet.as_view({
     'get': 'list',
 })
-topic_detail = views.TopicViewSet.as_view({
+topic_detail = views.TopicDetailViewSet.as_view({
     'get': 'retrieve',
-})
-topic_entry_list = views.TopicEntryViewSet.as_view({
-    'get': 'list',
 })
 
 
@@ -43,9 +37,6 @@ urlpatterns = [
     url(r'^categories/(?P<category_slug>[\w-]+)$',
                                 category_detail, name='category_detail'),
 
-    url(r'^categories/(?P<category_slug>[\w-]+)/topics$',
-                            category_topic_list, name='category_topic_list'),
-
     url(r'^entries$', entry_list, name='entry_list'),
 
     url(r'^entries/(?P<entry_date>\d{4}-\d{2}-\d{2})$',
@@ -55,9 +46,6 @@ urlpatterns = [
     url(r'^topics$', topic_list, name='topic_list'),
 
     url(r'^topics/(?P<topic_id>\d+)$', topic_detail, name='topic_detail'),
-
-    url(r'^topics/(?P<topic_id>\d+)/entries$',
-                                topic_entry_list, name='topic_entry_list'),
 ]
 
 
