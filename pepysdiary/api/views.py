@@ -1,8 +1,7 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
-from rest_framework import mixins
-from rest_framework import viewsets
+from rest_framework import generics
 
 from ..common.views import CacheMixin
 from ..diary.models import Entry
@@ -26,7 +25,7 @@ def api_root(request, format=None):
     })
 
 
-class CategoryListViewSet(CacheMixin, mixins.ListModelMixin, viewsets.GenericViewSet):
+class CategoryListView(CacheMixin, generics.ListAPIView):
     """
     Return a list of all the Encyclopedia Categories.
     """
@@ -37,7 +36,7 @@ class CategoryListViewSet(CacheMixin, mixins.ListModelMixin, viewsets.GenericVie
     serializer_class = CategoryListSerializer
 
 
-class CategoryDetailViewSet(CacheMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
+class CategoryDetailView(CacheMixin, generics.RetrieveAPIView):
     """
     Return the Encyclopedia Category specified by `category_slug`.
 
@@ -52,7 +51,7 @@ class CategoryDetailViewSet(CacheMixin, mixins.RetrieveModelMixin, viewsets.Gene
     serializer_class = CategoryDetailSerializer
 
 
-class EntryListViewSet(CacheMixin, mixins.ListModelMixin, viewsets.GenericViewSet):
+class EntryListView(CacheMixin, generics.ListAPIView):
     """
     Return a list of all the Diary Entries.
     """
@@ -63,7 +62,7 @@ class EntryListViewSet(CacheMixin, mixins.ListModelMixin, viewsets.GenericViewSe
     serializer_class = EntryListSerializer
 
 
-class EntryDetailViewSet(CacheMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
+class EntryDetailView(CacheMixin, generics.RetrieveAPIView):
     """
     Return the Diary Entry specified by the date (`YYYY-MM-DD`).
 
@@ -78,7 +77,7 @@ class EntryDetailViewSet(CacheMixin, mixins.RetrieveModelMixin, viewsets.Generic
     serializer_class = EntryDetailSerializer
 
 
-class TopicListViewSet(CacheMixin, mixins.ListModelMixin, viewsets.GenericViewSet):
+class TopicListView(CacheMixin, generics.ListAPIView):
     """
     Return a list of all the Encyclopedia Topics.
     """
@@ -89,7 +88,7 @@ class TopicListViewSet(CacheMixin, mixins.ListModelMixin, viewsets.GenericViewSe
     serializer_class = TopicListSerializer
 
 
-class TopicDetailViewSet(CacheMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
+class TopicDetailView(CacheMixin, generics.RetrieveAPIView):
     """
     Return the Encyclopedia Topic specified by `topic_id`.
 
