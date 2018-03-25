@@ -13,6 +13,10 @@ from .serializers import (
 )
 
 
+class APICacheMixin(CacheMixin):
+    cache_timeout = (60 * 15)
+
+
 @api_view(['GET'])
 def api_root(request, format=None):
     """
@@ -25,18 +29,17 @@ def api_root(request, format=None):
     })
 
 
-class CategoryListView(CacheMixin, generics.ListAPIView):
+class CategoryListView(APICacheMixin, generics.ListAPIView):
     """
     Return a list of all the Encyclopedia Categories.
     """
-    cache_timeout = (60 * 15)
     lookup_field = 'slug'
     lookup_url_kwarg = 'category_slug'
     queryset = Category.objects.all()
     serializer_class = CategoryListSerializer
 
 
-class CategoryDetailView(CacheMixin, generics.RetrieveAPIView):
+class CategoryDetailView(APICacheMixin, generics.RetrieveAPIView):
     """
     Return the Encyclopedia Category specified by `category_slug`.
 
@@ -44,25 +47,23 @@ class CategoryDetailView(CacheMixin, generics.RetrieveAPIView):
 
     e.g. `london` or `instruments`.
     """
-    cache_timeout = (60 * 15)
     lookup_field = 'slug'
     lookup_url_kwarg = 'category_slug'
     queryset = Category.objects.all()
     serializer_class = CategoryDetailSerializer
 
 
-class EntryListView(CacheMixin, generics.ListAPIView):
+class EntryListView(APICacheMixin, generics.ListAPIView):
     """
     Return a list of all the Diary Entries.
     """
-    cache_timeout = (60 * 15)
     lookup_field = 'diary_date'
     lookup_url_kwarg = 'entry_date'
     queryset = Entry.objects.all()
     serializer_class = EntryListSerializer
 
 
-class EntryDetailView(CacheMixin, generics.RetrieveAPIView):
+class EntryDetailView(APICacheMixin, generics.RetrieveAPIView):
     """
     Return the Diary Entry specified by the date (`YYYY-MM-DD`).
 
@@ -70,33 +71,30 @@ class EntryDetailView(CacheMixin, generics.RetrieveAPIView):
 
     e.g. `1666-09-02`.
     """
-    cache_timeout = (60 * 15)
     lookup_field = 'diary_date'
     lookup_url_kwarg = 'entry_date'
     queryset = Entry.objects.all()
     serializer_class = EntryDetailSerializer
 
 
-class TopicListView(CacheMixin, generics.ListAPIView):
+class TopicListView(APICacheMixin, generics.ListAPIView):
     """
     Return a list of all the Encyclopedia Topics.
     """
-    cache_timeout = (60 * 15)
     lookup_field = 'id'
     lookup_url_kwarg = 'topic_id'
     queryset = Topic.objects.all()
     serializer_class = TopicListSerializer
 
 
-class TopicDetailView(CacheMixin, generics.RetrieveAPIView):
+class TopicDetailView(APICacheMixin, generics.RetrieveAPIView):
     """
     Return the Encyclopedia Topic specified by `topic_id`.
 
     Includes a list of all Entries that refer to this Topic.
 
-    e.g. `150` or `1023`.
+    e.g. `796` or `1075`.
     """
-    cache_timeout = (60 * 15)
     lookup_field = 'id'
     lookup_url_kwarg = 'topic_id'
     queryset = Topic.objects.all()

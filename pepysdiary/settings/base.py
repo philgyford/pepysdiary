@@ -269,6 +269,7 @@ REST_FRAMEWORK = {
 # The REST_FRAMEWORK API documentation
 SWAGGER_SETTINGS = {
     'DOC_EXPANSION': 'list',
+    'SUPPORTED_SUBMIT_METHODS': ['get',],
     'USE_SESSION_AUTH': False,
 
 }
