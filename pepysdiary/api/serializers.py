@@ -27,20 +27,20 @@ entries_kwargs = {
 
 class BaseSerializer(serializers.ModelSerializer):
     """
-    Parent class that includes a `web_url` field for the object's
+    Parent class that includes a `webURL` field for the object's
     get_absolute_url() method.
     """
 
-    web_url = serializers.SerializerMethodField()
+    webURL = serializers.SerializerMethodField()
 
-    def get_web_url(self, obj):
+    def get_webURL(self, obj):
         return make_url_absolute(obj.get_absolute_url())
 
 
 class CategoryListSerializer(BaseSerializer):
     "Brief info about each Category for the ListView"
 
-    api_url = serializers.HyperlinkedIdentityField(**categories_kwargs)
+    apiURL = serializers.HyperlinkedIdentityField(**categories_kwargs)
 
     children = serializers.HyperlinkedRelatedField(
                                     source='get_children',
@@ -54,12 +54,14 @@ class CategoryListSerializer(BaseSerializer):
                                     many=True,
                                     **categories_kwargs)
 
+    topicCount = serializers.IntegerField(source='topic_count', read_only=True)
+
     class Meta:
         model = Category
         fields = ('slug',
-                    'title', 'topic_count',
+                    'title', 'topicCount',
                     'parents', 'children',
-                    'api_url', 'web_url',
+                    'apiURL', 'webURL',
                 )
 
 
@@ -78,17 +80,17 @@ class CategoryDetailSerializer(CategoryListSerializer):
     class Meta:
         model = Category
         fields = ('slug',
-                    'title', 'topic_count',
+                    'title', 'topicCount',
                     'parents', 'children',
                     'topics',
-                    'api_url', 'web_url',
+                    'apiURL', 'webURL',
                 )
 
 
 class EntryListSerializer(BaseSerializer):
     "Brief info about an Entry for the ListView."
 
-    api_url = serializers.HyperlinkedIdentityField(**entries_kwargs)
+    apiURL = serializers.HyperlinkedIdentityField(**entries_kwargs)
 
     date = serializers.DateField(source='diary_date', read_only=True)
 
@@ -96,7 +98,7 @@ class EntryListSerializer(BaseSerializer):
         model = Entry
         fields = ('date',
                     'title',
-                    'api_url', 'web_url',
+                    'apiURL', 'webURL',
                 )
 
 
@@ -107,11 +109,11 @@ class EntryDetailSerializer(EntryListSerializer):
     Includes a list of all Topics referred to by the Entry.
     """
 
-    entry_html = serializers.CharField(source='text', read_only=True)
-    footnotes_html = serializers.CharField(source='footnotes', read_only=True)
-    annotation_count = serializers.IntegerField(
+    entryHTML = serializers.CharField(source='text', read_only=True)
+    footnotesHTML = serializers.CharField(source='footnotes', read_only=True)
+    annotationCount = serializers.IntegerField(
                                     source='comment_count', read_only=True)
-    last_annotation_time = serializers.DateTimeField(
+    lastAnnotationTime = serializers.DateTimeField(
                                     source='last_comment_time', read_only=True)
 
     topics = serializers.HyperlinkedRelatedField(
@@ -122,24 +124,30 @@ class EntryDetailSerializer(EntryListSerializer):
     class Meta:
         model = Entry
         fields = ('date',
-                    'title', 'entry_html', 'footnotes_html',
-                    'annotation_count', 'last_annotation_time',
+                    'title', 'entryHTML', 'footnotesHTML',
+                    'annotationCount', 'lastAnnotationTime',
                     'topics',
-                    'api_url', 'web_url',
+                    'apiURL', 'webURL',
                 )
 
 
 class TopicListSerializer(BaseSerializer):
     "Brief information about a Topic."
 
-    api_url = serializers.HyperlinkedIdentityField(**topics_kwargs)
+    apiURL = serializers.HyperlinkedIdentityField(**topics_kwargs)
+
+    orderTitle = serializers.CharField(source='order_title', read_only=True)
+
+    isPerson = serializers.BooleanField(source='is_person', read_only=True)
+
+    isPlace = serializers.BooleanField(source='is_place', read_only=True)
 
     class Meta:
         model = Topic
         fields = ('id',
-                    'title', 'order_title',
-                    'is_person', 'is_place',
-                    'api_url', 'web_url',
+                    'title', 'orderTitle',
+                    'isPerson', 'isPlace',
+                    'apiURL', 'webURL',
                 )
 
 
@@ -151,11 +159,11 @@ class TopicDetailSerializer(TopicListSerializer):
     """
 
     # Rename model fields to more publicly-useful names:
-    annotation_count = serializers.IntegerField(
+    annotationCount = serializers.IntegerField(
                                 source='comment_count', read_only=True)
-    last_annotation_time = serializers.DateTimeField(
+    lastAnnotationTime = serializers.DateTimeField(
                                 source='last_comment_time', read_only=True)
-    thumbnail_url = serializers.ImageField(
+    thumbnailURL = serializers.ImageField(
                                 source='thumbnail', read_only=True)
 
     categories = serializers.HyperlinkedRelatedField(
@@ -169,16 +177,22 @@ class TopicDetailSerializer(TopicListSerializer):
                                         many=True,
                                         **entries_kwargs)
 
+    wikipediaURL = serializers.URLField(source='wikipedia_url', read_only=True)
+
+    wheatleyHTML = serializers.CharField(source='wheatley_html', read_only=True)
+
+    tooltipText = serializers.CharField(source='tooltip_text', read_only=True)
+
     class Meta:
         model = Topic
         fields = ('id',
-                    'title', 'order_title',
+                    'title', 'orderTitle',
                     # 'summary',
-                    'wheatley_html', 'tooltip_text',
-                    'wikipedia_url', 'thumbnail_url',
-                    'annotation_count', 'last_annotation_time',
-                    'is_person', 'is_place',
+                    'wheatleyHTML', 'tooltipText',
+                    'wikipediaURL', 'thumbnailURL',
+                    'annotationCount', 'lastAnnotationTime',
+                    'isPerson', 'isPlace',
                     'latitude', 'longitude', 'zoom', 'shape',
                     'categories', 'entries',
-                    'api_url', 'web_url',
+                    'apiURL', 'webURL',
                 )
