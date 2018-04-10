@@ -263,7 +263,9 @@ REST_FRAMEWORK = {
     ),
     'DEFAULT_THROTTLE_RATES': {
         'anon': '3660/hour', # 1 per second plus a bit.
-    }
+    },
+
+    'EXCEPTION_HANDLER': 'pepysdiary.api.views.custom_exception_handler',
 }
 
 # The REST_FRAMEWORK API documentation

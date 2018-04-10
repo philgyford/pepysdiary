@@ -47,6 +47,7 @@ class EntryManager(models.Manager, ReferredManagerMixin):
         By default, or with `month_format='b'` then months are like
         'Jan', 'Feb', etc.
         With `month_format='m' then months are like '01', '02', '03', etc.
+        With 'month_format='-m' then months are like '1', 2', '3', etc.
         """
         years_months = (
             ('1660', ('Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec')),
@@ -60,16 +61,30 @@ class EntryManager(models.Manager, ReferredManagerMixin):
             ('1668', ('Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec')),
             ('1669', ('Jan', 'Feb', 'Mar', 'Apr', 'May')),
         )
-        if month_format == 'm':
+        if month_format == 'm' or month_format == '-m':
             years_months_m = []
             for year, months in years_months:
                 months_m = []
                 for count, month in enumerate(months):
-                    months_m.append('%02d' % (count + 1))
+                    if month_format == 'm':
+                        months_m.append('%02d' % (count + 1))
+                    else: # '-m'
+                        months_m.append((count + 1))
                 years_months_m.append(tuple([year, tuple(months_m)]))
             return tuple(years_months_m)
         else:
             return years_months
+
+    def all_years(self):
+        """
+        Returns a list of years that we have Diary Entries for.
+        Each year is a string. e.g.
+
+            ['1660', '1661', ... '1669']
+        """
+        years_months = self.all_years_months()
+        years = [year for year, months in years_months]
+        return years
 
 
 class Entry(PepysModel, OldDateMixin):
