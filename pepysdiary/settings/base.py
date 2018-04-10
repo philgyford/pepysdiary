@@ -251,7 +251,7 @@ MEDIA_URL = S3_URL + MEDIA_URL
 REST_FRAMEWORK = {
     # e.g. for latitude/longitude:
     'COERCE_DECIMAL_TO_STRING': False,
-    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'DEFAULT_PAGINATION_CLASS': 'pepysdiary.api.pagination.CustomPagination',
     'PAGE_SIZE': 50,
 
     'DEFAULT_RENDERER_CLASSES': (
