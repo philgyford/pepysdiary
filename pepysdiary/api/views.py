@@ -70,6 +70,11 @@ class CategoryDetailView(APICacheMixin, generics.RetrieveAPIView):
 class EntryListView(APICacheMixin, generics.ListAPIView):
     """
     Return a list of all the Diary Entries.
+
+    Additional optional query arguments:
+
+    * `year` - e.g. `1660`
+    * `month` - e.g. `4` or `12`. Can only be used if `year` is present.
     """
     lookup_field = 'diary_date'
     lookup_url_kwarg = 'entry_date'
