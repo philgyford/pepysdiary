@@ -176,7 +176,6 @@ INSTALLED_APPS = [
     'gunicorn',
     'captcha',
     'rest_framework',
-    'rest_framework_swagger', # Makes docs for the API
 
     # Started breaking with Django 1.10.7 although it shouldn't:
     # 'memcache_status',

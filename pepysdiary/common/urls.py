@@ -9,7 +9,7 @@ from django.views.decorators.cache import cache_page
 from django.views.generic import RedirectView, TemplateView
 from django.views.static import serve
 
-from rest_framework_swagger.views import get_swagger_view
+from rest_framework.documentation import include_docs_urls
 
 from pepysdiary.common import sitemaps
 from pepysdiary.common.views import *
@@ -203,10 +203,8 @@ urlpatterns += [
 
 # API stuff
 
-schema_view = get_swagger_view()
-
 urlpatterns += [
-    url(r'^api/$', schema_view), # Documentation
+    url(r'^api/docs/', include_docs_urls(title='The Diary of Samuel Pepys API')),
 
     url(r'^api/v1/', include('pepysdiary.api.urls')),
 ]

@@ -10,6 +10,7 @@ app_name = 'api'
 
 urlpatterns = [
 
+
     url(r'^$', views.api_root),
 
     url(r'^categories$', views.CategoryListView.as_view(), name='category_list'),
