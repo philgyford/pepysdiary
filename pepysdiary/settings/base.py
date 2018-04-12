@@ -175,6 +175,7 @@ INSTALLED_APPS = [
     'treebeard',
     'gunicorn',
     'captcha',
+    'django_filters', # Used for rest_framework
     'rest_framework',
 
     # Started breaking with Django 1.10.7 although it shouldn't:

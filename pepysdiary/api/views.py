@@ -1,3 +1,4 @@
+from django_filters import rest_framework as filters
 from rest_framework import generics
 from rest_framework.decorators import api_view
 from rest_framework.exceptions import ParseError
@@ -5,6 +6,7 @@ from rest_framework.response import Response
 from rest_framework.reverse import reverse
 from rest_framework.views import exception_handler
 
+from .filters import EntryFilter
 from ..common.views import CacheMixin
 from ..diary.models import Entry
 from ..encyclopedia.models import Category, Topic
@@ -71,81 +73,17 @@ class EntryListView(APICacheMixin, generics.ListAPIView):
     """
     Return a list of all the Diary Entries.
 
-    Additional optional query arguments:
+    Optional query parameters:
 
-    * `year` - e.g. `1660`
-    * `month` - e.g. `4` or `12`. Can only be used if `year` is present.
+    * `year` - e.g. `1660`.
+    * `month` - e.g. `4` or `12`.
     """
     lookup_field = 'diary_date'
     lookup_url_kwarg = 'entry_date'
     queryset = Entry.objects.all()
     serializer_class = EntryListSerializer
-
-    def get_queryset(self):
-        """
-        Optionally restricts the returned Entries to a year or year+month.
-        """
-        queryset = self.queryset
-        year = self.request.query_params.get('year', None)
-        month = self.request.query_params.get('month', None)
-
-        if year is not None:
-
-            # 1. Validate year is numeric.
-            try:
-                year = int(year)
-            except ValueError:
-                raise ParseError(
-                    detail="Year must be an integer between {} and {} inclusive.".format(
-                        year_range[0], year_range[1]))
-
-            # 2. Validate year is within range.
-
-            year_range = self.get_year_range()
-
-            if year < year_range[0] or year > year_range[1]:
-                raise ParseError(
-                    detail="Year must be between {} and {} inclusive.".format(
-                                        year_range[0], year_range[1]))
-
-            if month is None:
-                # No month, so just filter by this valid year.
-                queryset = queryset.filter(diary_date__year=year)
-
-            else:
-                # We have a valid year and a month.
-
-                month_range = self.get_month_range(year)
-
-                error_msg = "For year {}, month must be an integer between {} and {} inclusive.".format(year, month_range[0], month_range[1])
-
-                # 3. Validate month is numeric.
-                try:
-                    month = int(month)
-                except ValueError:
-                    raise ParseError(detail=error_msg)
-
-                # 4. Validate month is in range for this year.
-                if month < month_range[0] or month > month_range[1]:
-                    raise ParseError(detail=error_msg)
-
-                # All good - filter by year and month.
-                queryset = queryset.filter(diary_date__year=year,
-                                            diary_date__month=month)
-
-        return queryset
-
-    def get_year_range(self):
-        "e.g. [1660, 1669],"
-        years = Entry.objects.all_years()
-        return [int(years[0]), int(years[-1])]
-
-    def get_month_range(self, year):
-        years_months = Entry.objects.all_years_months('-m')
-        for y, months  in years_months:
-            if y == str(year):
-                return [int(months[0]), int(months[-1])]
-                break
+    filter_backends = (filters.DjangoFilterBackend,)
+    filter_class = EntryFilter
 
 
 class EntryDetailView(APICacheMixin, generics.RetrieveAPIView):
