@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from rest_framework.reverse import reverse_lazy
+from rest_framework.reverse import reverse
 
 from ..common.utilities import make_url_absolute
 from ..diary.models import Entry
@@ -45,7 +45,7 @@ class TopicsMixin(object):
         qs = instance.topics.values('pk').order_by('pk')
 
         for topic in qs:
-            topics.append(reverse_lazy(
+            topics.append(reverse(
                         topics_kwargs['view_name'],
                         kwargs={topics_kwargs['lookup_url_kwarg']: topic['pk']},
                         request=request))
@@ -226,7 +226,7 @@ class TopicDetailSerializer(TopicListSerializer):
         qs = instance.diary_references.values('diary_date').order_by('diary_date')
 
         for entry in qs:
-            entries.append(reverse_lazy(
+            entries.append(reverse(
                 entries_kwargs['view_name'],
                 kwargs={entries_kwargs['lookup_url_kwarg']: entry['diary_date']},
                 request=request))
