@@ -37,8 +37,8 @@ def put_in_block(body, title=''):
 def twitter_and_email(*args):
     return mark_safe(put_in_block("""
 <p><a href="http://feedburner.google.com/fb/a/mailverify?uri=PepysDiary&amp;loc=en_US">Receive diary entries by email daily</a></p>
-<p><a href="http://twitter.com/samuelpepys">Follow @SamuelPepys’ life on Twitter</a></p>
-""", 'Twitter &amp; Email'))
+<p>Follow in real time <a href="http://twitter.com/samuelpepys" title="@samuelpepys">on&nbsp;Twitter</a> or <a href="https://mastodon.social/@samuelpepys" title="@samuelpepys@mastodon.social">on&nbsp;Mastodon</a></p>
+""", 'Email, Twitter &amp;&nbsp;Mastodon'))
 
 
 @register.simple_tag
@@ -296,4 +296,3 @@ def detailed_topics():
         body += '<li><a href="%s">%s</a></li>' % (reverse('topic_detail', kwargs={'pk': topic[0]}), topic[1])
     body += '</ul><p>Written by readers of this site</p>'
     return mark_safe(put_in_block(body, 'Detailed topics'))
-
