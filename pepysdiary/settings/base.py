@@ -243,6 +243,8 @@ AWS_STORAGE_BUCKET_NAME = get_env_variable('AWS_STORAGE_BUCKET_NAME')
 
 AWS_QUERYSTRING_AUTH = False
 
+WS_DEFAULT_ACL = None
+
 S3_URL = 'https://%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
 # Store static and media files in separate directories:
 MEDIA_URL = S3_URL + MEDIA_URL
@@ -275,7 +277,6 @@ SWAGGER_SETTINGS = {
     'USE_SESSION_AUTH': False,
 
 }
-
 
 ####################################################################
 # PEPYSDIARY SPECIFIC
