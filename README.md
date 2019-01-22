@@ -10,6 +10,46 @@ Uses Python 3.6.x and Django 1.9.x.
 
 ### Setup
 
+Install python requirements:
+
+	$ pipenv install --dev
+
+In the Django Admin set the Domain Name of the one Site.
+
+Create a database user with the required privileges:
+
+	$ psql
+	# create database pepysdiary;
+	# create user pepysdiary with password 'pepysdiary';
+	# grant all privileges on database "django-hines" to hines;
+	# alter user pepysdiary createdb;
+
+I got an error ("permission denied for relation django_migrations") later:
+
+	$ psql "django-hines" -c "GRANT ALL ON ALL TABLES IN SCHEMA public to hines;"
+	$ psql "django-hines" -c "GRANT ALL ON ALL SEQUENCES IN SCHEMA public to hines;"
+	$ psql "django-hines" -c "GRANT ALL ON ALL FUNCTIONS IN SCHEMA public to hines;"
+
+Probably need to do this for a fresh install:
+
+	$ pipenv shell
+	$ ./manage.py migrate
+	$ ./manage.py collectstatic
+	$ ./manage.py createsuperuser
+
+*OR*, download the database backup file from Heroku and do this:
+
+	$ pg_restore -d django-hines my_dump_file
+
+Then run the webserver:
+
+	$ pipenv run ./manage.py runserver
+
+Then visit http://localhost:8000 or http://127.0.0.1:8000.
+
+
+
+
 We're using [this Vagrant setup](https://github.com/philgyford/vagrant-heroku-cedar-16-python). Media files are stored in an S3 bucket.
 
 	$ vagrant up
