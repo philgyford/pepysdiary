@@ -46,14 +46,12 @@ def is_akismet_spam(sender, comment, request, **kwargs):
     }
 
     if comment.user:
-        print("LOGGED IN")
         # Posted by a logged-in user.
         data['comment_author'] = comment.user.get_full_name()
         data['comment_author_email'] = comment.user.email
         if comment.user.url:
             data['comment_author_url'] = comment.user.url
     else:
-        print("NOT LOGGED IN")
         data['comment_author'] = comment.user_name
         data['comment_author_email'] = comment.user_email
         if comment.user_url:
