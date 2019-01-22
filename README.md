@@ -10,69 +10,49 @@ Uses Python 3.6.x and Django 1.9.x.
 
 ### Setup
 
-We're using [this Vagrant setup](https://github.com/philgyford/vagrant-heroku-cedar-16-python). Media files are stored in an S3 bucket.
+Install python requirements:
 
-	$ vagrant up
-
-Once done, then, for a fresh install:
-
-	$ vagrant ssh
-	vagrant$ cd /vagrant
-	vagrant$ source .env
-	vagrant$ ./manage.py migrate
-	vagrant$ ./manage.py collectstatic
-	vagrant$ ./manage.py createsuperuser
-	vagrant$ ./manage.py runserver 0.0.0.0:5000
-
-Then visit http://localhost:5000 or http://127.0.0.1:5000.
+	$ pipenv install --dev
 
 In the Django Admin set the Domain Name of the one Site.
 
-### Ongoing work
+Create a database user with the required privileges:
 
-Once the Vagrant box is set up then in future do as above, but skip the `migrate` `collectstatic` and `createsuperuser` steps.
+	$ psql
+	# create database pepysdiary;
+	# create user pepysdiary with password 'pepysdiary';
+	# grant all privileges on database "django-hines" to hines;
+	# alter user pepysdiary createdb;
 
+I got an error ("permission denied for relation django_migrations") later:
 
-### Front end development - setup
+	$ psql "pepysdiary" -c "GRANT ALL ON ALL TABLES IN SCHEMA public to pepysdiary;"
+	$ psql "pepysdiary" -c "GRANT ALL ON ALL SEQUENCES IN SCHEMA public to pepysdiary;"
+	$ psql "pepysdiary" -c "GRANT ALL ON ALL FUNCTIONS IN SCHEMA public to pepysdiary;"
 
-Once the Vagrant box is up and running, ssh into it and then install Ruby using
-rbenv ([via](https://gorails.com/setup/ubuntu/14.04)):
+Probably need to do this for a fresh install:
 
-	$ git clone https://github.com/rbenv/rbenv.git ~/.rbenv
-	$ echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bashrc
-	$ echo 'eval "$(rbenv init -)"' >> ~/.bashrc
-	$ exec $SHELL
+	$ pipenv shell
+	$ ./manage.py migrate
+	$ ./manage.py collectstatic
+	$ ./manage.py createsuperuser
 
-	$ git clone https://github.com/rbenv/ruby-build.git ~/.rbenv/plugins/ruby-build
-	$ echo 'export PATH="$HOME/.rbenv/plugins/ruby-build/bin:$PATH"' >> ~/.bashrc
-	$ exec $SHELL
+*OR*, download the database backup file from Heroku and do this:
 
-	$ rbenv install 2.4.0
-	$ rbenv global 2.4.0
+	$ pg_restore -d pepysdiary my_dump_file
 
-	$ gem install bundler
-	$ rbenv rehash
+Then run the webserver:
 
-Then install Sass:
+	$ pipenv run ./manage.py runserver
 
-	$ gem install sass
+Then visit http://localhost:8000 or http://127.0.0.1:8000.
 
-Install Node ([via](https://nodejs.org/en/download/package-manager/)):
-
-	$ curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
-	$ sudo apt-get install -y nodejs
-
-Install Gulp etc using npm, as defined in `package.json`:
-
-	$ cd /vagrant
-	$ npm install
-
-Install the command line command for gulp:
-
-	$ sudo npm install --global gulp-cli
+In the Django Admin set the Domain Name of the one Site.
 
 
-### Front end development - ongoing
+### Other local dev tasks
+
+#### Editing CSS and JS
 
 We use [Gulp](http://gulpjs.com/) to:
 
@@ -90,17 +70,18 @@ Or, for a one-off run:
 	$ gulp
 
 
-### Tests
+#### Tests
 
 There are only a handful of tests, but run them with:
 
-	$ cd /vagrant
 	$ ./manage.py test
 
 
 ## Environment variables
 
-The environment variables the site uses:
+The environment variables the site uses are below. For the local pipenv
+environment they're stored in the `.env` file and loaded by pipenv. For Heroku
+these are environment settings.
 
 	AKISMET_API_KEY
 	ALLOWED_HOSTS
@@ -115,7 +96,6 @@ The environment variables the site uses:
 	RECAPTCHA_PUBLIC_KEY
 	SENDGRID_USERNAME
 	SENDGRID_PASSWORD
-
 
 
 ## Bootstrap
