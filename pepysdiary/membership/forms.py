@@ -5,6 +5,7 @@ from django.contrib.auth import password_validation
 from django.utils.translation import ugettext_lazy as _
 
 from captcha.fields import ReCaptchaField
+from captcha.widgets import ReCaptchaV2Checkbox
 
 from pepysdiary.common.models import Config
 from pepysdiary.membership.models import Person
@@ -64,8 +65,11 @@ class RegistrationForm(forms.Form):
         if config is not None:
             if config.use_registration_captcha == True:
                 self.fields['captcha'] = ReCaptchaField(
-                                    attrs={'theme': 'white', 'tabindex': 6, },
-                                                    label=_("Anti-spam test"))
+                                    widget=ReCaptchaV2Checkbox(
+                                        attrs={'data-theme': 'light',
+                                                'data-tabindex': 6,}
+                                    ),
+                                    label=_("Anti-spam test"))
             if config.use_registration_question == True and \
                 config.registration_question != '' and \
                 config.registration_answer != '':
@@ -183,4 +187,3 @@ class SetPasswordForm(SetPasswordForm):
     new_password2 = forms.CharField(
                             label="Repeat password",
                             widget=forms.PasswordInput(attrs=attrs_dict))
-
