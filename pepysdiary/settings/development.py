@@ -29,17 +29,20 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 CACHES = {
     'default': {
+        # In-memory caching:
+        # 'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        # 'TIMEOUT': 400, # seconds before expiring a cached item. None for never expiring.
+
+        # django-redis:
+        # 'BACKEND': 'django_redis.cache.RedisCache',
+        # 'LOCATION': get_env_variable('REDIS_URL'),
+        # 'KEY_PREFIX': 'hines',
+        # 'OPTIONS': {
+        #     'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+        # },
+
         # Use dummy cache (ie, no caching):
-        # 'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
-
-        # Or use in-memory cache:
-        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
-        'LOCATION': 'pepysdiary',
-
-        # Or use local memcached:
-        #'BACKEND': 'django.core.cache.backends.memcached.PyLibMCCache',
-        #'LOCATION': '127.0.0.1:11211',
-        #'TIMEOUT': 500, # millisecond
+        'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
     }
 }
 

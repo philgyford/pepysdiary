@@ -77,6 +77,17 @@ There are only a handful of tests, but run them with:
 	$ ./manage.py test
 
 
+## Heroku set-up
+
+For hosting on Heroku, we use these add-ons:
+
+	* Heroku Postgres
+	* Heroku Redis (for caching)
+	* Heroku Scheduler
+	* Papertrail (for viewing/filtering logs)
+	* Sentry (for error reporting)
+
+
 ## Environment variables
 
 The environment variables the site uses are below. For the local pipenv
@@ -94,8 +105,13 @@ these are environment settings.
 	MAPBOX_ACCESS_ID
 	RECAPTCHA_PRIVATE_KEY
 	RECAPTCHA_PUBLIC_KEY
+	REDIS_URL
 	SENDGRID_USERNAME
 	SENDGRID_PASSWORD
+
+`REDIS_URL` is used on prodution and _can be_ used on development, if there's
+a redis server running and we set the `CACHES` setting to use it in
+`config/settings/development.py`.
 
 
 ## Bootstrap
