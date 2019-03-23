@@ -90,7 +90,7 @@ class SearchView(ListView):
         return super().dispatch(request, *args, **kwargs)
 
     def get_queryset(self):
-        query_string = self.get_search_query_string()
+        query_string = self.get_search_string()
 
         if query_string == '':
             queryset = self.model.objects.none()
@@ -112,21 +112,16 @@ class SearchView(ListView):
 
         return queryset
 
-    def set_model(self):
-        """Work out what model we're searching, based on the 'k' GET arg.
-        """
-        kind = self.request.GET.get('k', '').strip()
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
 
-        if kind == 'd':
-            self.model = Entry
-        elif kind == 'l':
-            self.model = Letter
-        elif kind == 't':
-            self.model = Topic
-        else:
-            self.model = Entry
+        context['model_name'] = self.model.__name__
+        context['order'] = self.get_ordering()
+        context['search_string'] = self.get_search_string()
 
-    def get_search_query_string(self):
+        return context
+
+    def get_search_string(self):
         return self.request.GET.get('q', '').strip()
 
     def get_ordering(self):
@@ -153,6 +148,20 @@ class SearchView(ListView):
                 order = 'order_title'
 
         return order
+
+    def set_model(self):
+        """Work out what model we're searching, based on the 'k' GET arg.
+        """
+        kind = self.request.GET.get('k', '').strip()
+
+        if kind == 'd':
+            self.model = Entry
+        elif kind == 'l':
+            self.model = Letter
+        elif kind == 't':
+            self.model = Topic
+        else:
+            self.model = Entry
 
 
 class RecentView(CacheMixin, TemplateView):

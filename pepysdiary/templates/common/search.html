@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load humanize %}
 
 {% block title %}Search{% endblock %}}
 {% block header_title %}Search{% endblock %}}
@@ -6,12 +7,48 @@
 
 {% block main_content %}
 
+  {% if search_string %}
+    <p>Searching <strong>
+      {% if model_name == 'Topic' %}
+        encyclopedia topics
+      {% elif model_name == 'Letter' %}
+        letters
+      {% elif model_name == 'Entry' %}
+        diary entries
+      {% endif %}
+      </strong>
+      for <strong>{{ search_string }}</strong>.
+    </p>
 
-  {% for object in object_list %}
+    <p>
+      {% if paginator.count > 0 %}
+        {{ paginator.count|intcomma }} found.
+      {% else %}
+        None were found.
+      {% endif %}
+    </p>
+  {% endif %}
 
-    <p>{{ object.rank }}: {{ object }}</p>
+  {% if model_name == 'Letter' %}
+    {% include 'letters/inc/letter_list.html' with letter_list=object_list show_intro=False show_years=False %}
 
-  {% endfor %}
+  {% else %}
+    <ul>
+      {% for object in object_list %}
+        <li>{% spaceless %}<a href="{{ object.get_absolute_url }}">
+          {% if model_name == 'Topic' %}
+            {{ object.order_title }}
+          {% else %}
+            {{ object.title }}
+          {% endif %}
+          </a>{% endspaceless %}
+        </li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+
+  {% include 'inc/paginator.html' %}
+
 {% endblock main_content %}
 
 
