@@ -1,3 +1,4 @@
+import shlex
 import smartypants
 
 from django.contrib.postgres.search import SearchQuery, SearchRank
@@ -59,32 +60,82 @@ class GoogleSearchView(TemplateView):
 
 
 class SearchView(ListView):
+    """For searching different kinds of models.
+
+    Curently works for:
+    * Entry
+
+    GET arguments allowed:
+        * 'q': The search term(s)
+        * 'k': Kind; which model to search. Valid values are:
+            * 'd': Diary Entry (default)
+        * 'o': Order; how to order results. Valid values are:
+            * 'r': Relevancy (default)
+            * 'da': Date ascending
+            * 'dd': Date descending
+    """
     template_name = 'search.html'
     paginate_by = 20
 
+    def dispatch(self, request, *args, **kwargs):
+        """Before the parent's dispatch() method, set self.model based on
+        supplied GET args.
+        """
+        self.set_model()
+        return super().dispatch(request, *args, **kwargs)
+
     def get_queryset(self):
-        qs = None
-        args = self.get_search_args()
+        query_string = self.get_search_query_string()
 
-        if args is not None:
-            query = SearchQuery(args)
-
-            rank_annotation = SearchRank(F('search_document'), query)
-
-            qs = Entry.objects \
-                    .annotate(rank=rank_annotation) \
-                    .filter(search_document=query) \
-                    .order_by('-rank')
-
-        return qs
-
-
-    def get_search_args(self):
-        args = self.request.GET.get('q', None)
-        if args is None:
-            return None
+        if query_string == '':
+            queryset = self.model.objects.none()
         else:
-            return args
+            query = SearchQuery(query_string)
+
+            queryset = self.model.objects.filter(search_document=query)
+
+            ordering = self.get_ordering()
+            if ordering:
+                if ordering == '-rank' or ordering == 'rank':
+                    # Need to annotate the queryset to display in rank order.
+                    # Assumes that all our searchable models have a search_document
+                    # attribute that's a SearchVectorField().
+                    rank_annotation = SearchRank(
+                                               F('search_document'), query)
+                    queryset = queryset.annotate(rank=rank_annotation)
+                queryset = queryset.order_by(ordering)
+
+        return queryset
+
+    def set_model(self):
+        """Work out what model we're searching, based on the 'k' GET arg.
+        """
+        kind = self.request.GET.get('k', '').strip()
+
+        if kind == 'diary':
+            self.model = Entry
+        else:
+            self.model = Entry
+
+    def get_search_query_string(self):
+        return self.request.GET.get('q', '').strip()
+
+    def get_ordering(self):
+        """Get the order for the queryset, based on the 'o' GET arg.
+        Assumes we've set self.model already, as orders are model-specific.
+        """
+        order_string = self.request.GET.get('o', '').strip()
+
+        # Default, order by most-relevant first:
+        order = '-rank'
+
+        if self.model == Entry:
+            if order_string == 'da':
+                order = 'diary_date'
+            elif order_string == 'dd':
+                order = '-diary_date'
+
+        return order
 
 
 class RecentView(CacheMixin, TemplateView):
