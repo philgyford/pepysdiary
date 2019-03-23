@@ -14,6 +14,7 @@ from django.views.generic.base import TemplateView
 
 from pepysdiary.common.utilities import ExtendedRSSFeed
 from pepysdiary.diary.models import Entry
+from pepysdiary.letters.models import Letter
 from pepysdiary.news.models import Post
 
 
@@ -69,6 +70,7 @@ class SearchView(ListView):
         * 'q': The search term(s)
         * 'k': Kind; which model to search. Valid values are:
             * 'd': Diary Entry (default)
+            * 'l': Letter
         * 'o': Order; how to order results. Valid values are:
             * 'r': Relevancy (default)
             * 'da': Date ascending
@@ -112,8 +114,10 @@ class SearchView(ListView):
         """
         kind = self.request.GET.get('k', '').strip()
 
-        if kind == 'diary':
+        if kind == 'd':
             self.model = Entry
+        elif kind == 'l':
+            self.model = Letter
         else:
             self.model = Entry
 
@@ -134,6 +138,11 @@ class SearchView(ListView):
                 order = 'diary_date'
             elif order_string == 'dd':
                 order = '-diary_date'
+        elif self.model == Letter:
+            if order_string == 'da':
+                order = 'letter_date'
+            elif order_string == 'dd':
+                order = '-letter_date'
 
         return order
 

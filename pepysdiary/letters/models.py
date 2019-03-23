@@ -1,8 +1,10 @@
 # coding: utf-8
 import re
 
-from django.urls import reverse
+from django.contrib.postgres.search import SearchVectorField
+from django.contrib.postgres.indexes import GinIndex
 from django.db import models
+from django.urls import reverse
 
 from django_comments.moderation import CommentModerator, moderator
 from pepysdiary.common.models import OldDateMixin, PepysModel,\
@@ -50,12 +52,18 @@ class Letter(PepysModel, OldDateMixin):
     old_date_field = 'letter_date'
     comment_name = 'annotation'
 
+    # Also see index_components() method.
+    search_document = SearchVectorField(null=True)
+
     # Will also have a 'topics' ManyToMany field, from Topic.
 
     objects = LetterManager()
 
     class Meta:
         ordering = ['letter_date', 'order',]
+        indexes = [
+            GinIndex(fields=['search_document'])
+        ]
 
     def __str__(self):
         return '%s: %s' % (self.letter_date, self.title)
@@ -71,6 +79,16 @@ class Letter(PepysModel, OldDateMixin):
                 'day': self.day,
                 'slug': self.slug,
             })
+
+    def index_components(self):
+        """Used by common.signals.on_save() to update the SearchVector on
+        self.search_document.
+        """
+        return {
+            'A': self.title,
+            'B': self.text,
+            'C': self.footnotes,
+        }
 
     def make_references(self):
         """
