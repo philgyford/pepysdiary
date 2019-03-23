@@ -1,12 +1,14 @@
 import smartypants
 
+from django.contrib.postgres.search import SearchQuery, SearchRank
 from django.contrib.sites.models import Site
 from django.contrib.syndication.views import add_domain, Feed
+from django.db.models import F
 from django.urls import reverse
 from django.utils.encoding import force_text
 from django.utils.html import strip_tags
 from django.views.decorators.cache import cache_page
-from django.views.generic import RedirectView
+from django.views.generic import ListView, RedirectView
 from django.views.generic.base import TemplateView
 
 from pepysdiary.common.utilities import ExtendedRSSFeed
@@ -50,11 +52,39 @@ class HomeView(TemplateView):
 
 
 class GoogleSearchView(TemplateView):
+    """Legacy view/template that uses Google's site search to provide search
+    results via JavaScript.
+    """
     template_name = 'search_google.html'
 
 
-class SearchView(TemplateView):
+class SearchView(ListView):
     template_name = 'search.html'
+    paginate_by = 20
+
+    def get_queryset(self):
+        qs = None
+        args = self.get_search_args()
+
+        if args is not None:
+            query = SearchQuery(args)
+
+            rank_annotation = SearchRank(F('search_document'), query)
+
+            qs = Entry.objects \
+                    .annotate(rank=rank_annotation) \
+                    .filter(search_document=query) \
+                    .order_by('-rank')
+
+        return qs
+
+
+    def get_search_args(self):
+        args = self.request.GET.get('q', None)
+        if args is None:
+            return None
+        else:
+            return args
 
 
 class RecentView(CacheMixin, TemplateView):

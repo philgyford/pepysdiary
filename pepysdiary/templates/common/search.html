@@ -6,7 +6,12 @@
 
 {% block main_content %}
 
-<p>Hi</p>
+
+  {% for object in object_list %}
+
+    <p>{{ object.rank }}: {{ object }}</p>
+
+  {% endfor %}
 {% endblock main_content %}
 
 

@@ -4,6 +4,8 @@ import pytz
 import re
 
 from django.conf import settings
+from django.contrib.postgres.search import SearchVectorField
+from django.contrib.postgres.indexes import GinIndex
 from django.urls import reverse
 from django.db import models
 
@@ -98,6 +100,9 @@ class Entry(PepysModel, OldDateMixin):
     last_comment_time = models.DateTimeField(blank=True, null=True)
     allow_comments = models.BooleanField(blank=False, null=False, default=True)
 
+    # Also see index_components() method.
+    search_document = SearchVectorField(null=True)
+
     # Will also have a 'topics' ManyToMany field, from Topic.
 
     comment_name = 'annotation'
@@ -108,6 +113,9 @@ class Entry(PepysModel, OldDateMixin):
     class Meta:
         ordering = ['diary_date', ]
         verbose_name_plural = 'Entries'
+        indexes = [
+            GinIndex(fields=['search_document'])
+        ]
 
     def __str__(self):
         return self.title
@@ -122,6 +130,16 @@ class Entry(PepysModel, OldDateMixin):
                 'month': self.month,
                 'day': self.day,
             })
+
+    def index_components(self):
+        """Used by common.signals.on_save() to update the SearchVector on
+        self.search_document.
+        """
+        return {
+            'A': self.title,
+            'B': self.text,
+            'C': self.footnotes,
+        }
 
     @property
     def date_published(self):
