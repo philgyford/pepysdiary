@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block title %}Google search{% endblock %}}
+{% block header_title %}Google search{% endblock %}}
+
+
+{% block main_content %}
+	<script>
+	  (function() {
+		var cx = '005189971637124241519:bkgpg20sa4c';
+		var gcse = document.createElement('script');
+		gcse.type = 'text/javascript';
+		gcse.async = true;
+		gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+			'//www.google.com/cse/cse.js?cx=' + cx;
+		var s = document.getElementsByTagName('script')[0];
+		s.parentNode.insertBefore(gcse, s);
+	  })();
+	</script>
+	<gcse:search></gcse:search>
+{% endblock main_content %}
+
+
+{% block sidebar_content %}
+	{% load widget_tags %}
+	
+	{% latest_posts quantity=5 %}
+
+	{% latest_articles quantity=5 %}
+
+	{% latest_topics quantity=5 %}
+
+{% endblock sidebar_content %}
+

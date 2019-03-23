@@ -48,6 +48,11 @@ class HomeView(TemplateView):
         context['post_list'] = Post.published_posts.all()[:2]
         return context
 
+
+class GoogleSearchView(TemplateView):
+    template_name = 'search_google.html'
+
+
 class SearchView(TemplateView):
     template_name = 'search.html'
 
