@@ -102,6 +102,7 @@ class SearchView(PaginatedListView):
             * 'az': Title ascending
     """
     template_name = 'search.html'
+    allow_empty = True
 
     def dispatch(self, request, *args, **kwargs):
         """Before the parent's dispatch() method, set self.model based on

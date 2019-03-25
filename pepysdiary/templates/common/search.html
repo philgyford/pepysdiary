@@ -69,9 +69,13 @@
       {% if paginator.count > 0 %}
         {{ paginator.count|intcomma }} found.
       {% else %}
-        None were found.
+        Nothing was found.
       {% endif %}
     </p>
+  {% endif %}
+
+  {% if page_obj.number > 1 %}
+    {% include 'inc/paginator.html' with page_obj=page_obj %}
   {% endif %}
 
   {% if model_name == 'Letter' %}
