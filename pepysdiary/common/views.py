@@ -12,6 +12,7 @@ from django.views.decorators.cache import cache_page
 from django.views.generic import ListView, RedirectView
 from django.views.generic.base import TemplateView
 
+from pepysdiary.common.paginator import DiggPaginator
 from pepysdiary.common.utilities import ExtendedRSSFeed
 from pepysdiary.diary.models import Entry
 from pepysdiary.encyclopedia.models import Topic
@@ -31,6 +32,27 @@ class CacheMixin(object):
 
     def dispatch(self, *args, **kwargs):
         return cache_page(self.get_cache_timeout())(super().dispatch)(*args, **kwargs)
+
+
+class PaginatedListView(ListView):
+    """Replacement for ListView that uses our DiggPaginator."""
+    paginator_class = DiggPaginator
+    paginate_by = 30
+    page_kwarg = 'page'
+    allow_empty = False
+
+    # See pepysdiary.common.paginator for what these mean:
+    paginator_body = 5
+    paginator_margin = 2
+    paginator_padding = 2
+    paginator_tail = 1
+
+    def get_paginator(self, queryset, per_page, orphans=0,
+                    allow_empty_first_page=True, **kwargs):
+        """Return an instance of the paginator for this view."""
+        return self.paginator_class(
+            queryset, per_page, orphans=orphans,
+            allow_empty_first_page=allow_empty_first_page, body=self.paginator_body, margin=self.paginator_margin, padding=self.paginator_padding, tail=self.paginator_tail, **kwargs)
 
 
 class HomeView(TemplateView):
@@ -61,7 +83,7 @@ class GoogleSearchView(TemplateView):
     template_name = 'search_google.html'
 
 
-class SearchView(ListView):
+class SearchView(PaginatedListView):
     """For searching different kinds of models.
 
     Curently works for:
@@ -80,7 +102,6 @@ class SearchView(ListView):
             * 'az': Title ascending (Topic)
     """
     template_name = 'search.html'
-    paginate_by = 20
 
     def dispatch(self, request, *args, **kwargs):
         """Before the parent's dispatch() method, set self.model based on

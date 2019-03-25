@@ -47,7 +47,7 @@
     </ul>
   {% endif %}
 
-  {% include 'inc/paginator.html' %}
+  {% include 'inc/paginator.html' with page_obj=page_obj %}
 
 {% endblock main_content %}
 
