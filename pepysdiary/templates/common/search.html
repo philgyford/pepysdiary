@@ -1,9 +1,8 @@
 {% extends "base.html" %}
 {% load humanize %}
 
-{% block title %}Search{% endblock %}}
+{% block title %}Search{% if search_string %}: {{ search_string }}{% if page_obj.number > 1 %} (p.{{ page_obj.number }}){% endif %}{% endif %}{% endblock %}}
 {% block header_title %}Search{% endblock %}}
-
 
 {% block main_content %}
 
