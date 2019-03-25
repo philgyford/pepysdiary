@@ -14,6 +14,7 @@ from django.views.generic.base import TemplateView
 
 from pepysdiary.common.paginator import DiggPaginator
 from pepysdiary.common.utilities import ExtendedRSSFeed
+from pepysdiary.annotations.models import Annotation
 from pepysdiary.diary.models import Entry
 from pepysdiary.encyclopedia.models import Topic
 from pepysdiary.letters.models import Letter
@@ -92,6 +93,7 @@ class SearchView(PaginatedListView):
     GET arguments allowed:
         * 'q': The search term(s)
         * 'k': Kind; which model to search. Valid values are:
+            * 'a': Annotation
             * 'd': Diary Entry (default)
             * 'l': Letter
             * 't': Topic
@@ -117,8 +119,11 @@ class SearchView(PaginatedListView):
         if query_string == '':
             queryset = self.model.objects.none()
         else:
-            query = SearchQuery(query_string)
 
+            # if self.model == Annotation:
+            #     queryset = self.model.objects.filter(comment__search=query_string)
+            # else:
+            query = SearchQuery(query_string)
             queryset = self.model.objects.filter(search_document=query)
 
             ordering = self.get_ordering()
@@ -187,13 +192,14 @@ class SearchView(PaginatedListView):
         """
         kind = self.request.GET.get('k', '').strip()
 
-        if kind == 'd':
-            self.model = Entry
-        elif kind == 'l':
+        # if kind == 'a':
+        #     self.model = Annotation
+        if kind == 'l':
             self.model = Letter
         elif kind == 't':
             self.model = Topic
         else:
+            # 'd' and default
             self.model = Entry
 
 
