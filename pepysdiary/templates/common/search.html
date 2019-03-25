@@ -102,13 +102,25 @@
 
 
 {% block sidebar_content %}
-	{% load widget_tags %}
-	
-	{% latest_posts quantity=5 %}
 
-	{% latest_articles quantity=5 %}
+  <aside class="aside-block">
+    <header class="aside-header"><h1 class="aside-title">Alternative searches</h1></header>
+    <div class="aside-body">
+      <p>Or, search the site using:</p>
 
-	{% latest_topics quantity=5 %}
+      <ul>
+        <li>
+          <a href="https://duckduckgo.com/?q=site%3Apepysdiary.com{% if search_string %}+{{ search_string|urlencode }}{% endif %}">DuckDuckGo</a>
+        </li>
+        <li>
+          <a href="https://www.google.com/search?q=site%3Apepysdiary.com{% if search_string %}+{{ search_string|urlencode }}{% endif %}">Google</a>
+        </li>
+        <li>
+          <a href="https://www.bing.com/search?q=site%3Apepysdiary.com{% if search_string %}+{{ search_string|urlencode }}{% endif %}">Bing</a>
+        </li>
+      </ul>
+    </div>
+  </aside>
 
 {% endblock sidebar_content %}
 
