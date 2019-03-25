@@ -97,9 +97,9 @@ class SearchView(PaginatedListView):
             * 't': Topic
         * 'o': Order; how to order results. Valid values are:
             * 'r': Relevancy (default)
-            * 'da': Date ascending (Entry, Letter)
-            * 'dd': Date descending (Entry, Letter)
-            * 'az': Title ascending (Topic)
+            * 'da': Date ascending
+            * 'dd': Date descending
+            * 'az': Title ascending
     """
     template_name = 'search.html'
 
@@ -137,7 +137,7 @@ class SearchView(PaginatedListView):
         context = super().get_context_data(*args, **kwargs)
 
         context['model_name'] = self.model.__name__
-        context['order'] = self.get_ordering()
+        context['order_string'] = self.get_order_string()
         context['search_string'] = self.get_search_string()
 
         return context
@@ -145,11 +145,14 @@ class SearchView(PaginatedListView):
     def get_search_string(self):
         return self.request.GET.get('q', '').strip()
 
+    def get_order_string(self):
+        return self.request.GET.get('o', '').strip()
+
     def get_ordering(self):
         """Get the order for the queryset, based on the 'o' GET arg.
         Assumes we've set self.model already, as orders are model-specific.
         """
-        order_string = self.request.GET.get('o', '').strip()
+        order_string = self.get_order_string()
 
         # Default, order by most-relevant first:
         order = '-rank'
@@ -159,13 +162,21 @@ class SearchView(PaginatedListView):
                 order = 'diary_date'
             elif order_string == 'dd':
                 order = '-diary_date'
+            elif order_string == 'az':
+                order = 'title'
         elif self.model == Letter:
             if order_string == 'da':
                 order = 'letter_date'
             elif order_string == 'dd':
                 order = '-letter_date'
+            elif order_string == 'az':
+                order = 'title'
         elif self.model == Topic:
-            if order_string == 'az':
+            if order_string == 'da':
+                order = 'date_created'
+            elif order_string == 'dd':
+                order = '-date_created'
+            elif order_string == 'az':
                 order = 'order_title'
 
         return order
