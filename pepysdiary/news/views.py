@@ -3,17 +3,17 @@ from django.http import Http404
 from django.views.generic.dates import DateDetailView
 from django.views.generic.list import ListView
 
-from pepysdiary.common.views import BaseRSSFeed
+from pepysdiary.common.views import BaseRSSFeed, PaginatedListView
 from pepysdiary.news.models import Post
 
 
-class PostArchiveView(ListView):
+class PostArchiveView(PaginatedListView):
     """
     The front page of the Site News section.
     """
     model = Post
     queryset = Post.published_posts.all()
-    paginate_by = 20
+    paginate_by = 10
 
     def get_context_data(self, **kwargs):
         context = super(PostArchiveView, self).get_context_data(**kwargs)
@@ -21,13 +21,13 @@ class PostArchiveView(ListView):
         return context
 
 
-class PostCategoryArchiveView(ListView):
+class PostCategoryArchiveView(PaginatedListView):
     """
     All the Posts in one Site News Category.
     """
     model = Post
     template_name_suffix = '_category_list'
-    paginate_by = 20
+    paginate_by = 10
     # Will be set in get():
     category = None
 
