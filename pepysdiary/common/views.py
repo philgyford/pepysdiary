@@ -17,6 +17,7 @@ from pepysdiary.common.utilities import ExtendedRSSFeed
 from pepysdiary.annotations.models import Annotation
 from pepysdiary.diary.models import Entry
 from pepysdiary.encyclopedia.models import Topic
+from pepysdiary.indepth.models import Article
 from pepysdiary.letters.models import Letter
 from pepysdiary.news.models import Post
 
@@ -95,6 +96,7 @@ class SearchView(PaginatedListView):
         * 'k': Kind; which model to search. Valid values are:
             * 'a': Annotation
             * 'd': Diary Entry (default)
+            * 'i': Indpeth Article 
             * 'l': Letter
             * 't': Topic
         * 'o': Order; how to order results. Valid values are:
@@ -105,6 +107,12 @@ class SearchView(PaginatedListView):
     """
     template_name = 'search.html'
     allow_empty = True
+
+    # Will be set when we set self.model.
+    # date_order_field is the model's field we use when ordering by date.
+    # az_order_field is the model's field we use when ordering alphabetically.
+    date_order_field = None
+    az_order_field = 'title'
 
     def dispatch(self, request, *args, **kwargs):
         """Before the parent's dispatch() method, set self.model based on
@@ -163,27 +171,12 @@ class SearchView(PaginatedListView):
         # Default, order by most-relevant first:
         order = '-rank'
 
-        if self.model == Entry:
-            if order_string == 'da':
-                order = 'diary_date'
-            elif order_string == 'dd':
-                order = '-diary_date'
-            elif order_string == 'az':
-                order = 'title'
-        elif self.model == Letter:
-            if order_string == 'da':
-                order = 'letter_date'
-            elif order_string == 'dd':
-                order = '-letter_date'
-            elif order_string == 'az':
-                order = 'title'
-        elif self.model == Topic:
-            if order_string == 'da':
-                order = 'date_created'
-            elif order_string == 'dd':
-                order = '-date_created'
-            elif order_string == 'az':
-                order = 'order_title'
+        if order_string == 'az':
+            order = self.az_order_field
+        elif order_string == 'da':
+            order = self.date_order_field
+        elif order_string == 'dd':
+            order = '-{}'.format(self.date_order_field)
 
         return order
 
@@ -194,13 +187,20 @@ class SearchView(PaginatedListView):
 
         # if kind == 'a':
         #     self.model = Annotation
-        if kind == 'l':
+        if kind == 'i':
+            self.model = Article
+            self.date_order_field = 'date_published'
+        elif kind == 'l':
             self.model = Letter
+            self.date_order_field = 'letter_date'
         elif kind == 't':
             self.model = Topic
+            self.date_order_field = 'date_created'
+            self.az_order_field = 'order_title'
         else:
             # 'd' and default
             self.model = Entry
+            self.date_order_field = 'diary_date'
 
 
 class RecentView(CacheMixin, TemplateView):
