@@ -91,6 +91,8 @@ class SearchView(PaginatedListView):
     Curently works for:
     * Entry
 
+    If adding a new Kind, add a clause for it in set_model().
+
     GET arguments allowed:
         * 'q': The search term(s)
         * 'k': Kind; which model to search. Valid values are:
@@ -98,6 +100,7 @@ class SearchView(PaginatedListView):
             * 'd': Diary Entry (default)
             * 'i': Indpeth Article 
             * 'l': Letter
+            * 'p': Site News Post
             * 't': Topic
         * 'o': Order; how to order results. Valid values are:
             * 'r': Relevancy (default)
@@ -193,6 +196,9 @@ class SearchView(PaginatedListView):
         elif kind == 'l':
             self.model = Letter
             self.date_order_field = 'letter_date'
+        elif kind == 'p':
+            self.model = Post
+            self.date_order_field = 'date_published'
         elif kind == 't':
             self.model = Topic
             self.date_order_field = 'date_created'
