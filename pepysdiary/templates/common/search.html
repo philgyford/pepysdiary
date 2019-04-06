@@ -92,15 +92,29 @@
     {% include 'letters/inc/letter_list.html' with letter_list=object_list show_intro=False show_years=False %}
 
   {% else %}
-    <ul>
+    <ul class="list-unstyled">
       {% for object in object_list %}
-        <li>{% spaceless %}<a href="{{ object.get_absolute_url }}">
-          {% if model_name == 'Topic' %}
-            {{ object.order_title }}
-          {% else %}
-            {{ object.title }}
-          {% endif %}
+        <li>
+          {% spaceless %}<a href="{{ object.get_absolute_url }}">
+            <strong>
+              {% if model_name == 'Topic' %}
+                {{ object.order_title }}
+              {% else %}
+                {{ object.title }}
+              {% endif %}
+            </strong>
           </a>{% endspaceless %}
+          {% if model_name != 'Entry' %}
+            <br>
+            <small>
+              {% if model_name == 'Topic' %}
+                Created: {{ object.date_created|date:date_format_long }}
+              {% elif model_name == 'Article' or model_name == 'Post'  %}
+                Published: {{ object.date_published|date:date_format_long }}
+              {% endif %}
+            </small>
+          {% endif %}
+
         </li>
       {% endfor %}
     </ul>
