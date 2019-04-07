@@ -67,6 +67,20 @@ def hilite_words(content, words):
 
 
 def trim_hilites(content, chars_before=20, chars_after=40):
+    """
+    Given some text that contains no HTML tags except <b> and </b>,
+    used to hilite words/phrases, this will return text that only includes
+    those hilites, plus chars_before and chars_after characters around
+    them. These excerpts are all joined by ellipses.
+
+    Designed to take the output from hilite_words().
+
+    content -- Text optionally containing <b>hilites</b> (and NO other HTML).
+    chars_before -- Number of characters to include before a <b>.
+    chars_after -- Number of characters to include after a </b>.
+
+    Returns a string.
+    """
     start_tag = '<b>'
     end_tag = '</b>'
     joiner = ' … '
