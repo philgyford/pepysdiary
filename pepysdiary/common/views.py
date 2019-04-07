@@ -98,9 +98,9 @@ class SearchView(PaginatedListView):
     GET arguments allowed:
         * 'q': The search term(s)
         * 'k': Kind; which model to search. Valid values are:
-            * 'a': Annotation
+            * 'c': Annotation
             * 'd': Diary Entry (default)
-            * 'i': Indpeth Article 
+            * 'a': Indepth Article 
             * 'l': Letter
             * 'p': Site News Post
             * 't': Topic
@@ -190,9 +190,9 @@ class SearchView(PaginatedListView):
         """
         kind = self.request.GET.get('k', '').strip()
 
-        # if kind == 'a':
+        # if kind == 'c':
         #     self.model = Annotation
-        if kind == 'i':
+        if kind == 'a':
             self.model = Article
             self.date_order_field = 'date_published'
         elif kind == 'l':
