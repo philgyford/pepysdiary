@@ -22,8 +22,8 @@ def hilite_words(content, words):
     them in <b></b> tags.
 
     content -- Some text or HTML. Any existing HTML tags will be stripped.
-    words -- Words to hilite. e.g. "cats dogs" would result in any
-             occurrences of "cats" or "dogs" being highlited.
+    words -- Words to hilite. e.g. "cat dog" would result in any
+             occurrences of "cat", "dog", "cats" or "dogs" being hilited.
              Ignores any punctuation characters in the words.
     
     Returns a string.
@@ -43,9 +43,11 @@ def hilite_words(content, words):
     regex = re.compile('[^\s0-9a-zA-Z]')
     words = regex.sub(' ', words)
 
-    # If words = 'cats dogs' then we look for '(\bcats\b)|(\bdogs\b)'
-    find = '\\b)|(\\b'.join(words.split())
-    regex = re.compile(r'(\b{}\b)'.format(find), re.IGNORECASE)
+    # If words = 'cat dog' then we look for '(\bcats?\b)|(\bdogs?\b)'
+    # Note the optional trailing 's', because the search sometimes returns
+    # matches for plurals, but we weren't hiliting them.
+    find = 's?\\b)|(\\b'.join(words.split())
+    regex = re.compile(r'(\b{}s?\b)'.format(find), re.IGNORECASE)
 
     output = ''
     i = 0

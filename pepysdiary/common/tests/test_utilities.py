@@ -60,6 +60,14 @@ class HiliteWordsTestCase(TestCase):
             "This <b>is</b> <b>my</b> test"
         )
         
+    def test_plurals(self):
+        "It should hilite matches with an extra s"
+        s = "I like cats a lot"
+        self.assertEqual(
+            hilite_words(s, "cat"),
+            "I like <b>cats</b> a lot"
+        )
+
 
 class TrimHilitesTestCase(TestCase):
 
