@@ -88,10 +88,12 @@ class GoogleSearchView(TemplateView):
 class SearchView(PaginatedListView):
     """For searching different kinds of models.
 
-    Curently works for:
-    * Entry
-
-    If adding a new Kind, add a clause for it in set_model().
+    If adding a new Kind:
+        * Add a clause for it in set_model().
+        * Add a radio button for it in search.html.
+        * Add a mention of it further down search.html ("Searching for [string] in [kind]").
+        * Maybe customise its search result display in search.html
+        * Add it to the search_summary() template tag.
 
     GET arguments allowed:
         * 'q': The search term(s)

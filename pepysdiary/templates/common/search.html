@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load humanize %}
+{% load humanize search_tags %}
 
 {% block title %}Search{% if search_string %}: {{ search_string }}{% if page_obj.number > 1 %} (p.{{ page_obj.number }}){% endif %}{% endif %}{% endblock %}}
 {% block header_title %}Search{% endblock %}}
@@ -15,7 +15,7 @@
     </div>
 
     <div class="form-group">
-      <div class="col-sm-3 control-label"><strong>search in…</strong></div>
+      <div class="col-sm-3 control-label"><strong>in…</strong></div>
       <div class="col-sm-9">
         <div class="radio">
           <label>
@@ -94,7 +94,7 @@
   {% else %}
     <ul class="list-unstyled">
       {% for object in object_list %}
-        <li>
+        <li><p>
           {% spaceless %}<a href="{{ object.get_absolute_url }}">
             <strong>
               {% if model_name == 'Topic' %}
@@ -104,18 +104,18 @@
               {% endif %}
             </strong>
           </a>{% endspaceless %}
+          <br>
           {% if model_name != 'Entry' %}
-            <br>
-            <small>
+            <small class="text-muted">
               {% if model_name == 'Topic' %}
-                Created: {{ object.date_created|date:date_format_long }}
+                {{ object.date_created|date:date_format_long }} -
               {% elif model_name == 'Article' or model_name == 'Post'  %}
-                Published: {{ object.date_published|date:date_format_long }}
+                {{ object.date_published|date:date_format_long }} -
               {% endif %}
             </small>
           {% endif %}
-
-        </li>
+          {% search_summary object search_string %}
+        </p></li>
       {% endfor %}
     </ul>
   {% endif %}
@@ -126,6 +126,14 @@
 
 
 {% block sidebar_content %}
+
+  <aside class="aside-block">
+    <header class="aside-header"><h1 class="aside-title">Search help</h1></header>
+    <div class="aside-body">
+      <p>Punctuation in search terms is ignored, so searching for <kbd>"W.&nbsp;Hewer"</kbd> is the same as <kbd>W&nbsp;Hewer</kbd>. </p>
+      <p>Both searches will return results that contain <kbd>W</kbd> and <kbd>Hewer</kbd> but, if results are ordered by relevancy, those containing “W&nbsp;Hewer” together will be nearer the top.</p>
+    </div>
+  </aside>
 
   <aside class="aside-block">
     <header class="aside-header"><h1 class="aside-title">Alternative searches</h1></header>
