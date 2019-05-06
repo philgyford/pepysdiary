@@ -21,7 +21,7 @@ smartypants = "*"
 whitenoise = "*"
 dj-database-url = "*"
 raven = "*"
-Django = "*"
+Django = "<2.2"
 Markdown = "*"
 Pillow = "*"
 "psycopg2-binary" = "*"
@@ -30,7 +30,6 @@ django-redis = "*"
 [dev-packages]
 django-debug-toolbar = "*"
 factory-boy = "*"
-mock = "*"
 
 [requires]
 python_version = "3.6"

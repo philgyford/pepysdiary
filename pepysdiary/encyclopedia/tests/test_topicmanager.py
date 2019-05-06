@@ -1,5 +1,5 @@
 # coding: utf-8
-from mock import call, patch
+from unittest.mock import call, patch
 
 from pepysdiary.common.tests.test_base import PepysdiaryTestCase
 from pepysdiary.encyclopedia.models import Topic
