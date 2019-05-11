@@ -9,24 +9,31 @@ from pepysdiary.annotations.models import Annotation
 class CommentFlagInline(admin.TabularInline):
     model = CommentFlag
     extra = 0
-    raw_id_fields = ('user', )
+    raw_id_fields = ("user",)
 
 
 class AnnotationsAdmin(CommentsAdmin):
-    inlines = [CommentFlagInline, ]
+    inlines = [CommentFlagInline]
 
     def flag(self, obj):
-        flag_name = ''
+        flag_name = ""
         try:
-            flag_name = list(obj.flags.values())[0]['flag']
+            flag_name = list(obj.flags.values())[0]["flag"]
         except IndexError:
             pass
         return flag_name
 
-    list_display = ('name', 'content_type', 'object_pk', 'ip_address',
-                    'submit_date', 'flag', 'is_public', 'is_removed')
-    list_filter = ('submit_date', 'site', 'is_public', 'is_removed',
-                    'flags__flag')
+    list_display = (
+        "name",
+        "content_type",
+        "object_pk",
+        "ip_address",
+        "submit_date",
+        "flag",
+        "is_public",
+        "is_removed",
+    )
+    list_filter = ("submit_date", "site", "is_public", "is_removed", "flags__flag")
 
 
 if get_model() is Annotation:
