@@ -103,11 +103,11 @@ class SearchView(PaginatedListView):
 
     If adding a new Kind:
         * Add a clause for it in set_model().
-        * Add a radio button for it in search.html.
+        * Add an option for it in search.html.
         * Add a mention of it further down search.html ("Searching for
           [string] in [kind]").
         * Maybe customise its search result display in search.html
-        * Add it to the search_summary() template tag.
+        * Add it to the search_tags.search_summary() template tag.
 
     GET arguments allowed:
         * 'q': The search term(s)
@@ -204,11 +204,14 @@ class SearchView(PaginatedListView):
         """
         kind = self.request.GET.get("k", "").strip()
 
-        # if kind == 'c':
-        #     self.model = Annotation
         if kind == "a":
             self.model = Article
             self.date_order_field = "date_published"
+        elif kind == 'c':
+            self.model = Annotation
+            self.date_order_field = "submit_date"
+            # We don't have a 'title' field on Annotations, so:
+            self.az_order_field = "comment"
         elif kind == "l":
             self.model = Letter
             self.date_order_field = "letter_date"

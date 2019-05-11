@@ -25,6 +25,7 @@
           <option value="t"{% if model_name == 'Topic' %} selected{% endif %}>Encyclopedia topics</option>
           <option value="a"{% if model_name == 'Article' %} selected{% endif %}>In-depth articles</option>
           <option value="p"{% if model_name == 'Post' %} selected{% endif %}>Site news posts</option>
+          <option value="c"{% if model_name == 'Annotation' %} selected{% endif %}>Annotations/comments</option>
         </select>
       </div>
     </div>
@@ -53,11 +54,9 @@
 
   {% if search_string %}
     <hr>
-    <p>Searching 
-      for <strong>{{ search_string }}</strong>,
-      in 
+    <p>Searching for <strong>{{ search_string }}</strong>, in 
       <strong>
-        {% if model_name == 'Entry' %}diary entries{% elif model_name == 'Topic' %}encyclopedia topics{% elif model_name == 'Letter' %}letters{% elif model_name == 'Article' %}in-depth articles{% elif model_name == 'Post' %}site news posts{% endif %}</strong>,
+        {% if model_name == 'Entry' %}diary entries{% elif model_name == 'Topic' %}encyclopedia topics{% elif model_name == 'Letter' %}letters{% elif model_name == 'Article' %}in-depth articles{% elif model_name == 'Post' %}site news posts{% elif model_name == 'Annotation' %}annotations/comments{% endif %}</strong>,
       ordered by <strong>{% if order_string == 'az' %}title{% elif order_string == 'da' %}date (earliest first){% elif order_string == 'dd' %}date (latest first){% else %}relevancy{% endif %}</strong>.
     </p>
 

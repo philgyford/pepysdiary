@@ -1,4 +1,6 @@
 from django.contrib.contenttypes.models import ContentType
+from django.contrib.postgres.search import SearchVectorField
+from django.contrib.postgres.indexes import GinIndex
 from django.contrib.sites.models import Site
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Max, signals
@@ -39,6 +41,9 @@ class VisibleAnnotationManager(AnnotationManager):
 
 class Annotation(CommentAbstractModel):
 
+    # Also see index_components() method.
+    search_document = SearchVectorField(null=True)
+
     objects = AnnotationManager()
     visible_objects = VisibleAnnotationManager()
 
@@ -47,6 +52,7 @@ class Annotation(CommentAbstractModel):
         permissions = [("can_moderate", "Can moderate comments")]
         verbose_name = "annotation"
         verbose_name_plural = "annotations"
+        indexes = [GinIndex(fields=["search_document"])]
 
     def save(self, *args, **kwargs):
         # We don't allow HTML at all:
@@ -55,6 +61,12 @@ class Annotation(CommentAbstractModel):
         super(Annotation, self).save(*args, **kwargs)
         self.set_parent_comment_data()
         self._set_user_first_comment_date()
+
+    def index_components(self):
+        """Used by common.signals.on_save() to update the SearchVector on
+        self.search_document.
+        """
+        return {"A": self.comment}
 
     def get_user_name(self):
         """

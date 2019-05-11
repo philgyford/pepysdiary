@@ -17,6 +17,8 @@ def search_summary(obj, search_string):
         contents = [obj.text, obj.footnotes]
     elif obj_name == 'Topic':
         contents = [obj.title, obj.summary_html, obj.wheatley_html]
+    elif obj_name == 'Annotation':
+        contents = [obj.comment]
     else:
         # Letter, Article, Post
         contents = [obj.title, obj.intro_html, obj.text_html]
