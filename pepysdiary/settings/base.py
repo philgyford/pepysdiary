@@ -268,6 +268,9 @@ DEFAULT_FROM_EMAIL = "do-not-reply@pepysdiary.com"
 # For error messages.
 SERVER_EMAIL = "do-not-reply@pepysdiary.com"
 
+# Where emails about flagged comments should be sent to.
+COMMENT_FLAG_EMAIL = "phil@gyford.com"
+
 # How many days do we give people to activate their account after registering?
 # If we run the cleanupactivation command, it will delete any dormant
 # activations older than this:

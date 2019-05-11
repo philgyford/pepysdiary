@@ -197,6 +197,7 @@ urlpatterns += [
     url(r'^indepth/', include('pepysdiary.indepth.urls')),
     url(r'^news/', include('pepysdiary.news.urls')),
     url(r'^annotations/', include('django_comments.urls')),
+    url(r'^annotations/flagging/', include('pepysdiary.annotations.urls')),
     url(r'^account/', include('pepysdiary.membership.urls')),
 
     url(r'^backstage/', admin.site.urls),
