@@ -7,4 +7,3 @@ def get_model():
 def get_form():
     from pepysdiary.annotations.forms import AnnotationForm
     return AnnotationForm
-

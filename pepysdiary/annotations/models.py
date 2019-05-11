@@ -5,8 +5,8 @@ from django.db.models import Max, signals
 from django.dispatch import receiver
 from django.utils.html import strip_tags
 
+from django_comments.abstracts import CommentAbstractModel
 from django_comments.managers import CommentManager
-from django_comments.models import Comment
 from django_comments.signals import comment_was_posted
 
 from pepysdiary.annotations.utils import test_comment_for_spam
@@ -37,14 +37,16 @@ class VisibleAnnotationManager(AnnotationManager):
         )
 
 
-class Annotation(Comment):
+class Annotation(CommentAbstractModel):
 
     objects = AnnotationManager()
     visible_objects = VisibleAnnotationManager()
 
     class Meta:
-        proxy = True
-        app_label = "annotations"
+        ordering = ('submit_date',)
+        permissions = [("can_moderate", "Can moderate comments")]
+        verbose_name = "annotation"
+        verbose_name_plural = "annotations"
 
     def save(self, *args, **kwargs):
         # We don't allow HTML at all:
