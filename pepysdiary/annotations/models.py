@@ -20,8 +20,7 @@ class AnnotationManager(CommentManager):
         comment while listing them.
         Suggested at http://stackoverflow.com/a/7992722/250962
         """
-        return super(AnnotationManager, self).get_queryset().select_related(
-                                                                        'user')
+        return super(AnnotationManager, self).get_queryset().select_related("user")
 
 
 class VisibleAnnotationManager(AnnotationManager):
@@ -29,11 +28,13 @@ class VisibleAnnotationManager(AnnotationManager):
     For just displaying the public, non-removed annotations, eg on a person's
     profile page.
     """
+
     def get_queryset(self):
-        return super(VisibleAnnotationManager, self).get_queryset().filter(
-                                               site=Site.objects.get_current(),
-                                               is_public=True,
-                                               is_removed=False)
+        return (
+            super(VisibleAnnotationManager, self)
+            .get_queryset()
+            .filter(site=Site.objects.get_current(), is_public=True, is_removed=False)
+        )
 
 
 class Annotation(Comment):
@@ -43,7 +44,7 @@ class Annotation(Comment):
 
     class Meta:
         proxy = True
-        app_label = 'annotations'
+        app_label = "annotations"
 
     def save(self, *args, **kwargs):
         # We don't allow HTML at all:
@@ -105,22 +106,26 @@ class Annotation(Comment):
             content_type = ContentType.objects.get(pk=self.content_type_id)
             if not content_type.model_class():
                 raise AttributeError(
-                    "Content type %(ct_id)s object has no associated model" %
-                                           {'ct_id': self.content_type_id})
+                    "Content type %(ct_id)s object has no associated model"
+                    % {"ct_id": self.content_type_id}
+                )
             obj = content_type.get_object_for_this_type(pk=self.object_pk)
         except (ObjectDoesNotExist, ValueError):
             raise AttributeError(
-                "Content type %(ct_id)s object %(obj_id)s doesn't exist" %
-                   {'ct_id': self.content_type_id, 'obj_id': self.object_pk})
+                "Content type %(ct_id)s object %(obj_id)s doesn't exist"
+                % {"ct_id": self.content_type_id, "obj_id": self.object_pk}
+            )
 
         # All good. So set the count of visible comments.
         # Note: We explicitly remove any ordering because we don't need it
         # and it should speed things up.
-        qs = Annotation.objects.filter(content_type__pk=self.content_type_id,
-                                        object_pk=self.object_pk,
-                                        site=self.site,
-                                        is_public=True,
-                                        is_removed=False).order_by()
+        qs = Annotation.objects.filter(
+            content_type__pk=self.content_type_id,
+            object_pk=self.object_pk,
+            site=self.site,
+            is_public=True,
+            is_removed=False,
+        ).order_by()
         obj.comment_count = qs.count()
 
         # We also need to set the last_comment_time on the object.
@@ -130,15 +135,21 @@ class Annotation(Comment):
             obj.last_comment_time = None
         else:
             # There are some comments on this object...
-            if self.is_public == True and self.is_removed == False and \
-                (obj.last_comment_time is None or \
-                    self.submit_date > obj.last_comment_time):
+            if (
+                self.is_public is True
+                and self.is_removed is False
+                and (
+                    obj.last_comment_time is None
+                    or self.submit_date > obj.last_comment_time
+                )
+            ):
                 # This is the most recent public comment, so:
                 obj.last_comment_time = self.submit_date
             else:
                 # This isn't the most recent public comment, so:
-                obj.last_comment_time = qs.aggregate(Max('submit_date'))[
-                                                            'submit_date__max']
+                obj.last_comment_time = qs.aggregate(Max("submit_date"))[
+                    "submit_date__max"
+                ]
 
         obj.save()
 
@@ -151,12 +162,17 @@ class Annotation(Comment):
         comments. So we test for that too.)
         """
         # So, if this annotation has a user, and is visible:
-        if self.user is not None and self.is_public == True \
-                                                and self.is_removed == False:
+        if (
+            self.user is not None
+            and self.is_public is True
+            and self.is_removed is False
+        ):
             # And if this annotation is earlier than the user's
             # first_comment_date:
-            if self.user.first_comment_date is None or \
-                            self.submit_date < self.user.first_comment_date:
+            if (
+                self.user.first_comment_date is None
+                or self.submit_date < self.user.first_comment_date
+            ):
                 self.user.first_comment_date = self.submit_date
                 self.user.save()
 
@@ -171,7 +187,5 @@ def post_annotation_delete_actions(sender, instance, using, **kwargs):
 
 
 comment_was_posted.connect(
-    test_comment_for_spam,
-    sender=Annotation,
-    dispatch_uid='comments.post_comment',
+    test_comment_for_spam, sender=Annotation, dispatch_uid="comments.post_comment"
 )
