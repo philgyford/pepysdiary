@@ -12,8 +12,7 @@ from django.db import models
 from django_comments.moderation import CommentModerator, moderator
 from markdown import markdown
 
-from pepysdiary.common.models import OldDateMixin, PepysModel,\
-                                                        ReferredManagerMixin
+from pepysdiary.common.models import OldDateMixin, PepysModel, ReferredManagerMixin
 from pepysdiary.common.utilities import is_leap_year
 from pepysdiary.encyclopedia.models import Topic
 
@@ -27,23 +26,22 @@ class EntryManager(models.Manager, ReferredManagerMixin):
         Except "today's" entry is only published at 23:00 UK time. Until then
         we see "yesterday's" entry.
         """
-        tz = pytz.timezone('Europe/London')
+        tz = pytz.timezone("Europe/London")
         time_now = datetime.datetime.now().replace(tzinfo=tz)
-        if int(time_now.strftime('%H')) < 23:
+        if int(time_now.strftime("%H")) < 23:
             # It's before 11pm, so we still show yesterday's entry.
             time_now = time_now - datetime.timedelta(days=1)
 
-        entry_year = int(time_now.strftime('%Y')) - settings.YEARS_OFFSET
-        entry_month = int(time_now.strftime('%m'))
-        entry_day = int(time_now.strftime('%d'))
+        entry_year = int(time_now.strftime("%Y")) - settings.YEARS_OFFSET
+        entry_month = int(time_now.strftime("%m"))
+        entry_day = int(time_now.strftime("%d"))
 
-        if time_now.strftime('%m-%d') == '02-29' and is_leap_year(entry_year) == False:
+        if time_now.strftime("%m-%d") == "02-29" and is_leap_year(entry_year) is False:
             entry_day = entry_day - 1
 
         return datetime.date(entry_year, entry_month, entry_day)
 
-
-    def all_years_months(self, month_format='b'):
+    def all_years_months(self, month_format="b"):
         """
         The years and months for which there are diary entries.
         By default, or with `month_format='b'` then months are like
@@ -52,25 +50,169 @@ class EntryManager(models.Manager, ReferredManagerMixin):
         With 'month_format='-m' then months are like '1', 2', '3', etc.
         """
         years_months = (
-            ('1660', ('Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec')),
-            ('1661', ('Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec')),
-            ('1662', ('Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec')),
-            ('1663', ('Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec')),
-            ('1664', ('Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec')),
-            ('1665', ('Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec')),
-            ('1666', ('Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec')),
-            ('1667', ('Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec')),
-            ('1668', ('Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec')),
-            ('1669', ('Jan', 'Feb', 'Mar', 'Apr', 'May')),
+            (
+                "1660",
+                (
+                    "Jan",
+                    "Feb",
+                    "Mar",
+                    "Apr",
+                    "May",
+                    "Jun",
+                    "Jul",
+                    "Aug",
+                    "Sep",
+                    "Oct",
+                    "Nov",
+                    "Dec",
+                ),
+            ),
+            (
+                "1661",
+                (
+                    "Jan",
+                    "Feb",
+                    "Mar",
+                    "Apr",
+                    "May",
+                    "Jun",
+                    "Jul",
+                    "Aug",
+                    "Sep",
+                    "Oct",
+                    "Nov",
+                    "Dec",
+                ),
+            ),
+            (
+                "1662",
+                (
+                    "Jan",
+                    "Feb",
+                    "Mar",
+                    "Apr",
+                    "May",
+                    "Jun",
+                    "Jul",
+                    "Aug",
+                    "Sep",
+                    "Oct",
+                    "Nov",
+                    "Dec",
+                ),
+            ),
+            (
+                "1663",
+                (
+                    "Jan",
+                    "Feb",
+                    "Mar",
+                    "Apr",
+                    "May",
+                    "Jun",
+                    "Jul",
+                    "Aug",
+                    "Sep",
+                    "Oct",
+                    "Nov",
+                    "Dec",
+                ),
+            ),
+            (
+                "1664",
+                (
+                    "Jan",
+                    "Feb",
+                    "Mar",
+                    "Apr",
+                    "May",
+                    "Jun",
+                    "Jul",
+                    "Aug",
+                    "Sep",
+                    "Oct",
+                    "Nov",
+                    "Dec",
+                ),
+            ),
+            (
+                "1665",
+                (
+                    "Jan",
+                    "Feb",
+                    "Mar",
+                    "Apr",
+                    "May",
+                    "Jun",
+                    "Jul",
+                    "Aug",
+                    "Sep",
+                    "Oct",
+                    "Nov",
+                    "Dec",
+                ),
+            ),
+            (
+                "1666",
+                (
+                    "Jan",
+                    "Feb",
+                    "Mar",
+                    "Apr",
+                    "May",
+                    "Jun",
+                    "Jul",
+                    "Aug",
+                    "Sep",
+                    "Oct",
+                    "Nov",
+                    "Dec",
+                ),
+            ),
+            (
+                "1667",
+                (
+                    "Jan",
+                    "Feb",
+                    "Mar",
+                    "Apr",
+                    "May",
+                    "Jun",
+                    "Jul",
+                    "Aug",
+                    "Sep",
+                    "Oct",
+                    "Nov",
+                    "Dec",
+                ),
+            ),
+            (
+                "1668",
+                (
+                    "Jan",
+                    "Feb",
+                    "Mar",
+                    "Apr",
+                    "May",
+                    "Jun",
+                    "Jul",
+                    "Aug",
+                    "Sep",
+                    "Oct",
+                    "Nov",
+                    "Dec",
+                ),
+            ),
+            ("1669", ("Jan", "Feb", "Mar", "Apr", "May")),
         )
-        if month_format == 'm' or month_format == '-m':
+        if month_format == "m" or month_format == "-m":
             years_months_m = []
             for year, months in years_months:
                 months_m = []
                 for count, month in enumerate(months):
-                    if month_format == 'm':
-                        months_m.append('%02d' % (count + 1))
-                    else: # '-m'
+                    if month_format == "m":
+                        months_m.append("%02d" % (count + 1))
+                    else:  # '-m'
                         months_m.append((count + 1))
                 years_months_m.append(tuple([year, tuple(months_m)]))
             return tuple(years_months_m)
@@ -92,10 +234,12 @@ class EntryManager(models.Manager, ReferredManagerMixin):
 class Entry(PepysModel, OldDateMixin):
     title = models.CharField(max_length=100, blank=False, null=False)
     diary_date = models.DateField(blank=False, null=False, unique=True)
-    text = models.TextField(blank=False, null=False,
-                                        help_text="HTML only, no Markdown.")
-    footnotes = models.TextField(blank=True, null=False,
-                                        help_text="HTML only, no Markdown.")
+    text = models.TextField(
+        blank=False, null=False, help_text="HTML only, no Markdown."
+    )
+    footnotes = models.TextField(
+        blank=True, null=False, help_text="HTML only, no Markdown."
+    )
     comment_count = models.IntegerField(default=0, blank=False, null=False)
     last_comment_time = models.DateTimeField(blank=True, null=True)
     allow_comments = models.BooleanField(blank=False, null=False, default=True)
@@ -105,17 +249,15 @@ class Entry(PepysModel, OldDateMixin):
 
     # Will also have a 'topics' ManyToMany field, from Topic.
 
-    comment_name = 'annotation'
-    old_date_field = 'diary_date'
+    comment_name = "annotation"
+    old_date_field = "diary_date"
 
     objects = EntryManager()
 
     class Meta:
-        ordering = ['diary_date', ]
-        verbose_name_plural = 'Entries'
-        indexes = [
-            GinIndex(fields=['search_document'])
-        ]
+        ordering = ["diary_date"]
+        verbose_name_plural = "Entries"
+        indexes = [GinIndex(fields=["search_document"])]
 
     def __str__(self):
         return self.title
@@ -125,26 +267,21 @@ class Entry(PepysModel, OldDateMixin):
         self.make_references()
 
     def get_absolute_url(self):
-        return reverse('entry_detail', kwargs={
-                'year': self.year,
-                'month': self.month,
-                'day': self.day,
-            })
+        return reverse(
+            "entry_detail",
+            kwargs={"year": self.year, "month": self.month, "day": self.day},
+        )
 
     def index_components(self):
         """Used by common.signals.on_save() to update the SearchVector on
         self.search_document.
         """
-        return {
-            'A': self.title,
-            'B': self.text,
-            'C': self.footnotes,
-        }
+        return {"A": self.title, "B": self.text, "C": self.footnotes}
 
     @property
     def date_published(self):
         """The modern-day datetime this item would be published."""
-        tz = pytz.timezone('Europe/London')
+        tz = pytz.timezone("Europe/London")
         year = int(self.year) + settings.YEARS_OFFSET
         month = int(self.month)
         day = int(self.day)
@@ -161,13 +298,27 @@ class Entry(PepysModel, OldDateMixin):
         If self.title is 'Monday 16 Septmber 1661' then self.short_title
         is 'Mon 16 Sep 1661'.
         """
-        replacements = {'Monday': 'Mon', 'Tuesday': 'Tue', 'Wednesday': 'Wed',
-                'Thursday': 'Thu', 'Friday': 'Fri', 'Saturday': 'Sat',
-                'Sunday': 'Sun',
-                'January': 'Jan', 'February': 'Feb', 'March': 'Mar',
-                'April': 'Apr', 'May': 'May', 'June': 'Jun', 'July': 'Jul',
-                'August': 'Aug', 'September': 'Sep', 'October': 'Oct',
-                'November': 'Nov', 'December': 'Dec'}
+        replacements = {
+            "Monday": "Mon",
+            "Tuesday": "Tue",
+            "Wednesday": "Wed",
+            "Thursday": "Thu",
+            "Friday": "Fri",
+            "Saturday": "Sat",
+            "Sunday": "Sun",
+            "January": "Jan",
+            "February": "Feb",
+            "March": "Mar",
+            "April": "Apr",
+            "May": "May",
+            "June": "Jun",
+            "July": "Jul",
+            "August": "Aug",
+            "September": "Sep",
+            "October": "Oct",
+            "November": "Nov",
+            "December": "Dec",
+        }
 
         short_title = self.title
         for k, v in replacements.items():
@@ -182,8 +333,10 @@ class Entry(PepysModel, OldDateMixin):
         """
         self.topics.clear()
         # Get a list of all the Topic IDs mentioned in text and footnotes:
-        ids = re.findall(r'pepysdiary.com\/encyclopedia\/(\d+)\/', '%s %s' % (
-                                                    self.text, self.footnotes))
+        ids = re.findall(
+            r"pepysdiary.com\/encyclopedia\/(\d+)\/",
+            "%s %s" % (self.text, self.footnotes),
+        )
         # Make sure list of Topic IDs is unique:
         # From http://stackoverflow.com/a/480227/250962
         seen = set()
@@ -197,7 +350,8 @@ class Entry(PepysModel, OldDateMixin):
 
 class EntryModerator(CommentModerator):
     email_notification = False
-    enable_field = 'allow_comments'
+    enable_field = "allow_comments"
+
 
 moderator.register(Entry, EntryModerator)
 
@@ -206,19 +360,23 @@ class Summary(PepysModel, OldDateMixin):
     """
     The monthly summaries of diary events.
     """
-    title = models.CharField(max_length=100, blank=False, null=False)
-    text = models.TextField(blank=False, null=False,
-                                        help_text="Can use Markdown.")
-    text_html = models.TextField(blank=False, null=False,
-            help_text="The text field, with Markdown etc, turned into HTML.")
-    summary_date = models.DateField(blank=False, null=False,
-                            help_text="Only the month and year are relevant.")
 
-    old_date_field = 'summary_date'
+    title = models.CharField(max_length=100, blank=False, null=False)
+    text = models.TextField(blank=False, null=False, help_text="Can use Markdown.")
+    text_html = models.TextField(
+        blank=False,
+        null=False,
+        help_text="The text field, with Markdown etc, turned into HTML.",
+    )
+    summary_date = models.DateField(
+        blank=False, null=False, help_text="Only the month and year are relevant."
+    )
+
+    old_date_field = "summary_date"
 
     class Meta:
-        ordering = ['summary_date', ]
-        verbose_name_plural = 'Summaries'
+        ordering = ["summary_date"]
+        verbose_name_plural = "Summaries"
 
     def __str__(self):
         return self.title
