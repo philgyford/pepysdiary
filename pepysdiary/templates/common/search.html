@@ -62,11 +62,12 @@
 
     <p>
       {% if paginator.count > 0 %}
-        {{ paginator.count|intcomma|apnumber|title }} found.
+        <strong>{{ paginator.count|intcomma|apnumber|title }} found.</strong>
       {% else %}
         Nothing was found.
       {% endif %}
     </p>
+    <hr>
   {% endif %}
 
   {% if page_obj.number > 1 %}
