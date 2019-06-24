@@ -19,8 +19,10 @@ def search_summary(obj, search_string):
         contents = [obj.title, obj.summary_html, obj.wheatley_html]
     elif obj_name == "Annotation":
         contents = [obj.comment]
+    elif obj_name == "Letter":
+        contents = [obj.title, obj.text, obj.footnotes]
     else:
-        # Letter, Article, Post
+        # Article, Post
         contents = [obj.title, obj.intro_html, obj.text_html]
 
     content = " ".join(contents)

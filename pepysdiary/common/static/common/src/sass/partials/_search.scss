@@ -1,130 +1,19 @@
-/**
- * Styles to override those on the Google search form and results.
- */
 
-.gsc-input-box {
-	height: 38px !important;
-}
-/* Some of this from Bootstrap's .form_contro:focus styles. */
-.gsc-input-box-focus {
-	border-color: #66afe9 !important;
-	outline: 0 !important;
-	-webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075),0 0 8px rgba(102,175,233,0.6) !important;
-	box-shadow: inset 0 1px 1px rgba(0,0,0,0.075),0 0 8px rgba(102,175,233,0.6) !important;
-}
-/* Table in search box */
-.gstl_50 {
-	margin-top: 3px !important;
-}
-/* Input field itself */
-.gsc-input {
-	background-position: 0% 100% !important;
-}
-/* The 'x' in the input box. */
-.gscb_a {
-	vertical-align: middle;
-}
-td.gsc-search-button {
-	padding-top: 2px !important;
-}
-input.gsc-search-button {
-	-webkit-border-radius: 0px !important;
-	-moz-border-radius: 0px !important;
-	border-radius: 0px !important;
-	padding-top: 10px !important;
-	padding-bottom: 12px !important;
-
-	/* Fix icon not appearing. */
-	background-image: inherit;
-    box-sizing: content-box;
-    -moz-box-sizing: content-box;
-
-	&:hover {
-		background-color: #417342 !important;
-		border-color: #345c35 !important;
-	}
-}
-.cse input.gsc-search-button:focus,
-input.gsc-search-button:focus {
-	-webkit-box-shadow: none !important;
-	-moz-box-shadow: none !important;
-	box-shadow: none !important;
+.search-result {
+  margin-bottom: 1.5em;
 }
 
-/* Title of search result. */
-.gsc-thumbnail-inside {
-	margin-bottom: 0.3em !important;
-}
-/* The URL in a search result. */
-.gs-visibleUrl {
-	font-size: $font-size-small !important;
-}
-/* Some kind of box around the snippet. */
-.gsc-table-cell-snippet-close,
-.gsc-table-cell-snippet-open {
-	padding-left: 8px !important;
-	padding-right: 8px !important;
-}
-/* The snippet of text in a search result. */
-.gs-snippet {
-	font-size: $font-size-base !important;
-	line-height: $line-height-base !important;
-}
-/* A thumbnail to the left of snippet. */
-.gs-result img.gs-image,
-.gs-result img.gs-promotion-image {
-	margin-left: 8px !important;
-}
-/* Holder for the search result thumbnail */
-gsc-table-cell-thumbnail {
-	padding-top: 2px;
+.search-result-title {
+  margin-bottom: 0;
+  line-height: $line-height-base;
+
+  small {
+    font-size: $font-size-small;
+    color: $text-muted;
+  }
 }
 
-/**
- * Pagination
- * Most of these styles copies from bootstrap_pagination.scss so we can apply
- * !important.
- */
-.gsc-cursor-box {
-	text-align: center !important;
-}
-.gsc-cursor {
-	display: inline-block !important;
-	padding-left: 0 !important;
-	margin: $line-height-computed 0 !important;
-	border-radius: $border-radius-base !important;
-}
-.gsc-cursor-page {
-	position: relative !important;
-	float: left !important; // Collapse white-space
-	padding: $padding-base-vertical $padding-base-horizontal !important;
-	line-height: $line-height-base !important;
-	text-decoration: none !important;
-	color: $pagination-color !important;
-	background-color: $pagination-bg !important;
-	border: 1px solid $pagination-border !important;
-	margin-left: -1px !important;
-
-	// Override Google's styles:
-	margin-right: 0 !important;
-	font-size: $font-size-base !important;
-
-	&:first-child {
-        margin-left: 0 !important;
-        @include border-left-radius($border-radius-base);
-	}
-	&:last-child {
-        @include border-right-radius($border-radius-base);
-	}
-	&:hover {
-      color: $pagination-hover-color !important;
-      background-color: $pagination-hover-bg !important;
-      border-color: $pagination-hover-border !important;
-	}
-	&.gsc-cursor-current-page {
-      color: $pagination-disabled-color !important;
-      background-color: $pagination-disabled-bg !important;
-      border-color: $pagination-disabled-border !important;
-      cursor: $cursor-disabled !important;
-	}
+.search-result-date,
+.search-result-body {
+  margin-bottom: 0;
 }

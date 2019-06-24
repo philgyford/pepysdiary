@@ -73,37 +73,42 @@
     {% include 'inc/paginator.html' with page_obj=page_obj %}
   {% endif %}
 
-  {% if model_name == 'Letter' %}
-    {% include 'letters/inc/letter_list.html' with letter_list=object_list show_intro=False show_years=False %}
+  {% for object in object_list %}
+    <article class="search-result">
+      <h1 class="h4 search-result-title">
+        {% if model_name == "Annotation" %}
+          <a href="{{ object.get_absolute_url }}"><strong>{{ object.content_object.title }}</strong></a>
+          by <span>{{ object.get_user_name }}</span>
+          <small>
+            <time datetime="{{ object.submit_date|date:'c' }}">on {{ object.submit_date|date:date_format_mid }}</time>
+          </small>
 
-  {% else %}
-    <ul class="list-unstyled">
-      {% for object in object_list %}
-        <li><p>
-          {% spaceless %}<a href="{{ object.get_absolute_url }}">
-            <strong>
-              {% if model_name == 'Topic' %}
-                {{ object.order_title }}
-              {% else %}
-                {{ object.title }}
-              {% endif %}
-            </strong>
-          </a>{% endspaceless %}
-          <br>
-          {% if model_name != 'Entry' %}
-            <small class="text-muted">
-              {% if model_name == 'Topic' %}
-                {{ object.date_created|date:date_format_long }} -
-              {% elif model_name == 'Article' or model_name == 'Post'  %}
-                {{ object.date_published|date:date_format_long }} -
-              {% endif %}
-            </small>
-          {% endif %}
-          {% search_summary object search_string %}
-        </p></li>
-      {% endfor %}
-    </ul>
-  {% endif %}
+        {% else %}
+          {% spaceless %}
+            <a href="{{ object.get_absolute_url }}">
+              <strong>
+                {% if model_name == 'Topic' %}
+                  {{ object.order_title }}
+                {% elif model_name == "Letter" %}
+                  {{ object.full_title }}
+                {% else %}
+                  {{ object.title }}
+                {% endif %}
+              </strong>
+            </a>
+          {% endspaceless %}
+        {% endif %}
+      </h1>
+      {% if model_name == 'Article' or model_name == 'Post' %}
+        <p class="search-result-date">
+          <small class="text-muted">
+            {{ object.date_published|date:date_format_long }}
+          </small>
+        </p>
+      {% endif %}
+      <p class="search-result-body">{% search_summary object search_string %}</p>
+    </article>
+  {% endfor %}
 
   {% include 'inc/paginator.html' with page_obj=page_obj %}
 
