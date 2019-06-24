@@ -84,8 +84,12 @@ def trim_hilites(content, chars_before=20, chars_after=40):
     end_tag = "</b>"
     joiner = " … "
 
-    regex = re.compile(r"{}[^<]*?{}".format(start_tag, end_tag))
-    iters = regex.finditer(content)
+    # Replace multiple spaces and linebreaks with one, otherwise they
+    # throw off some of the counting.
+    content = re.sub(r"\s+", " ", content).strip()
+
+    tag_re = re.compile(r"{}[^<]*?{}".format(start_tag, end_tag))
+    iters = tag_re.finditer(content)
     # Get list of start and end positions of all '<b>blah</b>' substrings:
     positions = [(m.start(0), m.end(0)) for m in iters]
 
