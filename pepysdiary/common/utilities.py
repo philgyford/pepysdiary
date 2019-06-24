@@ -53,14 +53,14 @@ def hilite_words(content, words):
     i = 0
     for m in regex.finditer(content):
         output += "".join(
-            [content[i: m.start()], start_tag, content[m.start(): m.end()], end_tag]
+            [content[i : m.start()], start_tag, content[m.start() : m.end()], end_tag]
         )
         i = m.end()
 
     if i == 0:
         html = content
     else:
-        html = "".join([output, content[m.end():]])
+        html = "".join([output, content[m.end() :]])
 
     return html
 
@@ -115,11 +115,14 @@ def trim_hilites(content, chars_before=20, chars_after=40):
             # close enough to this one to keep them together.
             # What would be the cut-off point for the string sorrounding this position:
             trunc_point = end + chars_after
-            if (trunc_point >= positions[t][0] and trunc_point <= positions[t][1]) or (
-                trunc_point >= positions[t][1]
-            ):
-                # The cut-off point would be either within the next hilited
-                # word OR after the next hilited-word.
+            if (
+                trunc_point >= (positions[t][0] - chars_before)
+                and trunc_point <= (positions[t][1] + chars_after)
+            ) or (trunc_point >= (positions[t][1] + chars_after)):
+                # The cut-off point would be either within the text
+                # surrounding the next hilited word
+                # OR
+                # after the next hilited-word.
                 # So, we know we don't want to treat the next position separately:
                 positions_to_discard.append(positions[t])
                 # And we move the end point of this fragment ahead to
@@ -138,7 +141,7 @@ def trim_hilites(content, chars_before=20, chars_after=40):
     excerpts = []
     for pos in positions_to_use:
         if pos[0] > chars_before:
-            fragment = "{}".format(content[pos[0] - chars_before:])
+            fragment = "{}".format(content[pos[0] - chars_before :])
         else:
             fragment = content
 
