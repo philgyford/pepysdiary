@@ -6,7 +6,7 @@
 
 {% block main_content %}
 
-  <form class="form-horizontal">
+  <form class="form-horizontal js-search-form">
     <div class="form-group">
       <label for="search-text" class="col-sm-3 control-label">Search for…</label>
       <div class="col-sm-9 col-md-7 col-lg-6">
@@ -19,7 +19,7 @@
         <span class="sr-only">search </span>in…
       </label>
       <div class="col-sm-9 col-md-7 col-lg-6">
-        <select class="form-control" name="k" id="search-kind">
+        <select class="form-control js-search-kind" name="k" id="search-kind">
           <option value="d"{% if model_name == 'Entry' %} selected{% endif %}>Diary entries</option>
           <option value="l"{% if model_name == 'Letter' %} selected{% endif %}>Letters</option>
           <option value="t"{% if model_name == 'Topic' %} selected{% endif %}>Encyclopedia topics</option>
@@ -35,9 +35,9 @@
         order by…
       </label>
       <div class="col-sm-9 col-md-7 col-lg-6">
-        <select class="form-control" name="o" id="search-order">
+        <select class="form-control js-search-order" name="o" id="search-order">
           <option value="r"{% if order_string == 'r' or order_string == '' %}selected{% endif %}>Relevancy</option>
-          <option value="az"{% if order_string == 'az' %}selected{% endif %}>Title</option>
+          <option class="js-search-order-title" value="az"{% if order_string == 'az' %}selected{% endif %}>Title</option>
           <option value="da"{% if order_string == 'da' %}selected{% endif %}>Date (earliest first)</option>
           <option value="dd"{% if order_string == 'dd' %}selected{% endif %}>Date (latest first)</option>
         </select>

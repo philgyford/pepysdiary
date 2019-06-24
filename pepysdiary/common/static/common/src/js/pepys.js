@@ -27,6 +27,8 @@ window.pepys.controller = {
             pepys.tooltips.init(spec.tooltips);
         };
 
+        pepys.search.init();
+
         pepys.comments.init();
 
         pepys.topic.init();
@@ -62,6 +64,55 @@ window.pepys.utilities = {
     }
 };
 
+
+/**
+ * For the site search page, to make the form slightly nicer.
+ *
+ * If ordering by Annotation/Comment we remove the option to order by title.
+ * If changing the kind to anything BUT Annotation/Comment, we ensure the
+ * order-by-title option is present.
+ */
+window.pepys.search = {
+  init: function() {
+    if ($(".js-search-form").length === 0) {
+      return;
+    };
+
+    // What kind of thing are we listing?
+    var kind = getUrlParameter("k");
+
+    if (kind == "c") {
+      // It's an Annotation/Comment.
+      this.hideTitleOption();
+    };
+
+    // When the kind select changes, check whether the order-by-title option
+    // should be present or not.
+    var that = this;
+    $(".js-search-kind").on("change", function(ev) {
+      
+      if ($(this).val() == "c") {
+        // Chosen the Annotation/Comment kind, so hide order-by-title option.
+        that.hideTitleOption();
+      } else {
+        // Ordering by anything but Annotations/Comments, so ensure
+        // order-by-title is there.
+        if ($(".js-search-order-title").length === 0) {
+          // We'll insert it after this:
+          var $firstOption = $(".js-search-order option")[0];
+
+          var newOption = '<option class="js-search-order-title" value="az">Title</option>';
+
+          $(newOption).insertAfter($firstOption);
+        };
+      };
+    });
+  },
+
+  hideTitleOption: function() {
+    $(".js-search-order-title").remove();
+  }
+};
 
 /**
  * For displaying the hover tooltips over links in Diary Entries and Letters.
@@ -947,6 +998,26 @@ window.pepys.maps = {
         });
         return arr;
     }
+};
+
+
+/**
+ * Provides a getUrlParameter() function.
+ * e.g. search_string = getUrlParameter("q")
+ */
+var getUrlParameter = function getUrlParameter(sParam) {
+  var sPageURL = window.location.search.substring(1);
+  var sURLVariables = sPageURL.split('&');
+  var sParameterName;
+  var i;
+
+  for (i = 0; i < sURLVariables.length; i++) {
+    sParameterName = sURLVariables[i].split('=');
+
+    if (sParameterName[0] === sParam) {
+      return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
+    }
+  }
 };
 
 
