@@ -6,6 +6,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.utils.html import mark_safe, strip_tags
 
 from pepysdiary.annotations.models import Annotation
+from pepysdiary.common.utilities import smart_truncate
 from pepysdiary.diary.models import Entry
 from pepysdiary.encyclopedia.models import Topic
 from pepysdiary.indepth.models import Article
@@ -13,14 +14,6 @@ from pepysdiary.letters.models import Letter
 from pepysdiary.news.models import Post
 
 register = template.Library()
-
-
-def smart_truncate(content, length=80, suffix='…'):
-    """Truncate a string at word boundaries."""
-    if len(content) <= length:
-        return content
-    else:
-        return content[:length].rsplit(' ', 1)[0] + suffix
 
 
 def commented_objects_list(model_class, context, title, quantity):

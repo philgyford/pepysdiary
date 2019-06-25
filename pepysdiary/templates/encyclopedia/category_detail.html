@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load humanize %}
 
 {% block encyclopedia_nav_active %}active{% endblock %}
 {% block encyclopedia_index_nav_active %}active{% endblock %}
@@ -11,7 +12,6 @@
 {% endblock breadcrumbs %}
 
 {% block main_content %}
-	{% load humanize %}
 
 	{% if category.get_children_count %}
 		<div class="subcategories clearfix">

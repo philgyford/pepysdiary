@@ -25,7 +25,7 @@
 	    </article>
 	</section>
 
-	<form action="" method="post" role="form">
+  <form action="{% url "annotations-flag" comment.id %}" method="post" role="form">
 		<div class="form-group">
 		    {% csrf_token %}
 			<div class="pull-right">

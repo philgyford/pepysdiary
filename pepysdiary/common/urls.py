@@ -185,6 +185,8 @@ urlpatterns += [
     url(r'^robots\.txt$', TemplateView.as_view(
                     template_name='robots.txt', content_type='text/plain')),
 
+    url(r'^google-search/$', GoogleSearchView.as_view(), name='google-search'),
+
     url(r'^search/$', SearchView.as_view(), name='search'),
 
     url(r'^recent/$', RecentView.as_view(), name='recent'),
@@ -195,6 +197,7 @@ urlpatterns += [
     url(r'^indepth/', include('pepysdiary.indepth.urls')),
     url(r'^news/', include('pepysdiary.news.urls')),
     url(r'^annotations/', include('django_comments.urls')),
+    url(r'^annotations/flagging/', include('pepysdiary.annotations.urls')),
     url(r'^account/', include('pepysdiary.membership.urls')),
 
     url(r'^backstage/', admin.site.urls),

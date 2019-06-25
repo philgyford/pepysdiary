@@ -1,5 +1,7 @@
-from django.urls import reverse
 from django.db import models
+from django.contrib.postgres.search import SearchVectorField
+from django.contrib.postgres.indexes import GinIndex
+from django.urls import reverse
 from django.utils import timezone
 
 from django_comments.moderation import CommentModerator, moderator
@@ -85,6 +87,9 @@ class Post(PepysModel):
     category = models.CharField(max_length=25, blank=False, null=False,
                                     db_index=True, choices=CATEGORY_CHOICES)
 
+    # Also see index_components() method.
+    search_document = SearchVectorField(null=True)
+
     objects = models.Manager()
     published_posts = PublishedPostManager()
 
@@ -112,6 +117,16 @@ class Post(PepysModel):
                 'day': self.date_published.strftime('%d'),
                 'pk': self.pk,
             })
+
+    def index_components(self):
+        """Used by common.signals.on_save() to update the SearchVector on
+        self.search_document.
+        """
+        return {
+            'A': self.title,
+            'B': self.intro,
+            'B': self.text,
+        }
 
     @property
     def category_title(self):

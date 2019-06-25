@@ -1,5 +1,7 @@
-from django.urls import reverse
+from django.contrib.postgres.search import SearchVectorField
+from django.contrib.postgres.indexes import GinIndex
 from django.db import models
+from django.urls import reverse
 from django.utils import timezone
 
 from django_comments.moderation import CommentModerator, moderator
@@ -49,6 +51,9 @@ class Article(PepysModel):
     status = models.IntegerField(blank=False, null=False,
                                 choices=STATUS_CHOICES, default=STATUS_DRAFT)
 
+    # Also see index_components() method.
+    search_document = SearchVectorField(null=True)
+
     objects = models.Manager()
     published_articles = PublishedArticleManager()
 
@@ -76,6 +81,15 @@ class Article(PepysModel):
                 'slug': self.slug,
             })
 
+    def index_components(self):
+        """Used by common.signals.on_save() to update the SearchVector on
+        self.search_document.
+        """
+        return {
+            'A': self.title,
+            'B': self.intro,
+            'B': self.text,
+        }
 
 class ArticleModerator(CommentModerator):
     email_notification = False

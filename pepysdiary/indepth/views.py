@@ -1,14 +1,14 @@
 from django.views.generic.dates import DateDetailView
 from django.views.generic.list import ListView
 
-from pepysdiary.common.views import BaseRSSFeed
+from pepysdiary.common.views import BaseRSSFeed, PaginatedListView
 from pepysdiary.indepth.models import Article
 
 
-class ArticleArchiveView(ListView):
+class ArticleArchiveView(PaginatedListView):
     model = Article
     queryset = Article.published_articles.all()
-    paginate_by = 15
+    paginate_by = 10
 
 
 class ArticleDetailView(DateDetailView):

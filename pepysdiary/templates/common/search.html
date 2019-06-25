@@ -1,34 +1,149 @@
 {% extends "base.html" %}
+{% load humanize search_tags %}
 
-{% block title %}Search{% endblock %}}
+{% block title %}Search{% if search_string %}: {{ search_string }}{% if page_obj.number > 1 %} (p.{{ page_obj.number }}){% endif %}{% endif %}{% endblock %}}
 {% block header_title %}Search{% endblock %}}
 
-
 {% block main_content %}
-	<script>
-	  (function() {
-		var cx = '005189971637124241519:bkgpg20sa4c';
-		var gcse = document.createElement('script');
-		gcse.type = 'text/javascript';
-		gcse.async = true;
-		gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
-			'//www.google.com/cse/cse.js?cx=' + cx;
-		var s = document.getElementsByTagName('script')[0];
-		s.parentNode.insertBefore(gcse, s);
-	  })();
-	</script>
-	<gcse:search></gcse:search>
+
+  <form class="form-horizontal js-search-form">
+    <div class="form-group">
+      <label for="search-text" class="col-sm-3 control-label">Search for…</label>
+      <div class="col-sm-9 col-md-7 col-lg-6">
+        <input type="text" class="form-control" id="search-text" name="q" value="{% if search_string %}{{ search_string }}{% endif %}">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="search-kind" class="col-sm-3 control-label">
+        <span class="sr-only">search </span>in…
+      </label>
+      <div class="col-sm-9 col-md-7 col-lg-6">
+        <select class="form-control js-search-kind" name="k" id="search-kind">
+          <option value="d"{% if model_name == 'Entry' %} selected{% endif %}>Diary entries</option>
+          <option value="l"{% if model_name == 'Letter' %} selected{% endif %}>Letters</option>
+          <option value="t"{% if model_name == 'Topic' %} selected{% endif %}>Encyclopedia topics</option>
+          <option value="a"{% if model_name == 'Article' %} selected{% endif %}>In-depth articles</option>
+          <option value="p"{% if model_name == 'Post' %} selected{% endif %}>Site news posts</option>
+          <option value="c"{% if model_name == 'Annotation' %} selected{% endif %}>Annotations/comments</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="search-order" class="col-sm-3 control-label">
+        order by…
+      </label>
+      <div class="col-sm-9 col-md-7 col-lg-6">
+        <select class="form-control js-search-order" name="o" id="search-order">
+          <option value="r"{% if order_string == 'r' or order_string == '' %}selected{% endif %}>Relevancy</option>
+          <option class="js-search-order-title" value="az"{% if order_string == 'az' %}selected{% endif %}>Title</option>
+          <option value="da"{% if order_string == 'da' %}selected{% endif %}>Date (earliest first)</option>
+          <option value="dd"{% if order_string == 'dd' %}selected{% endif %}>Date (latest first)</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="col-sm-offset-3 col-sm-9">
+        <button type="submit" class="btn btn-primary">Search</button>
+      </div>
+    </div>
+  </form>
+
+
+  {% if search_string %}
+    <hr>
+    <p>Searching for <strong>{{ search_string }}</strong>, in 
+      <strong>
+        {% if model_name == 'Entry' %}diary entries{% elif model_name == 'Topic' %}encyclopedia topics{% elif model_name == 'Letter' %}letters{% elif model_name == 'Article' %}in-depth articles{% elif model_name == 'Post' %}site news posts{% elif model_name == 'Annotation' %}annotations/comments{% endif %}</strong>,
+      ordered by <strong>{% if order_string == 'az' %}title{% elif order_string == 'da' %}date (earliest first){% elif order_string == 'dd' %}date (latest first){% else %}relevancy{% endif %}</strong>.
+    </p>
+
+    <p>
+      {% if paginator.count > 0 %}
+        <strong>{{ paginator.count|intcomma|apnumber|title }} found.</strong>
+      {% else %}
+        Nothing was found.
+      {% endif %}
+    </p>
+    <hr>
+  {% endif %}
+
+  {% if page_obj.number > 1 %}
+    {% include 'inc/paginator.html' with page_obj=page_obj %}
+  {% endif %}
+
+  {% for object in object_list %}
+    <article class="search-result">
+      <h1 class="h4 search-result-title">
+        {% if model_name == "Annotation" %}
+          <a href="{{ object.get_absolute_url }}"><strong>{{ object.content_object.title }}</strong></a>
+          by <span>{{ object.get_user_name }}</span>
+          <small>
+            <time datetime="{{ object.submit_date|date:'c' }}">on {{ object.submit_date|date:date_format_mid }}</time>
+          </small>
+
+        {% else %}
+          {% spaceless %}
+            <a href="{{ object.get_absolute_url }}">
+              <strong>
+                {% if model_name == 'Topic' %}
+                  {{ object.order_title }}
+                {% elif model_name == "Letter" %}
+                  {{ object.full_title }}
+                {% else %}
+                  {{ object.title }}
+                {% endif %}
+              </strong>
+            </a>
+          {% endspaceless %}
+        {% endif %}
+      </h1>
+      {% if model_name == 'Article' or model_name == 'Post' %}
+        <p class="search-result-date">
+          <small class="text-muted">
+            {{ object.date_published|date:date_format_long }}
+          </small>
+        </p>
+      {% endif %}
+      <p class="search-result-body">{% search_summary object search_string %}</p>
+    </article>
+  {% endfor %}
+
+  {% include 'inc/paginator.html' with page_obj=page_obj %}
+
 {% endblock main_content %}
 
 
 {% block sidebar_content %}
-	{% load widget_tags %}
-	
-	{% latest_posts quantity=5 %}
 
-	{% latest_articles quantity=5 %}
+  <aside class="aside-block">
+    <header class="aside-header"><h1 class="aside-title">Search help</h1></header>
+    <div class="aside-body">
+      <p>Punctuation in search terms is ignored, so searching for <kbd>"W.&nbsp;Hewer"</kbd> is the same as <kbd>W&nbsp;Hewer</kbd>. </p>
+      <p>Both searches will return results that contain <kbd>W</kbd> and <kbd>Hewer</kbd> but, if results are ordered by relevancy, those containing “W&nbsp;Hewer” together will be nearer the top.</p>
+    </div>
+  </aside>
 
-	{% latest_topics quantity=5 %}
+  <aside class="aside-block">
+    <header class="aside-header"><h1 class="aside-title">Alternative searches</h1></header>
+    <div class="aside-body">
+      <p>Or, search the site using:</p>
+
+      <ul>
+        <li>
+          <a href="https://www.bing.com/search?q=site%3Apepysdiary.com{% if search_string %}+{{ search_string|urlencode }}{% endif %}">Bing</a>
+        </li>
+        <li>
+          <a href="https://duckduckgo.com/?q=site%3Apepysdiary.com{% if search_string %}+{{ search_string|urlencode }}{% endif %}">DuckDuckGo</a>
+        </li>
+        <li>
+          <a href="https://www.google.com/search?q=site%3Apepysdiary.com{% if search_string %}+{{ search_string|urlencode }}{% endif %}">Google</a>
+        </li>
+      </ul>
+    </div>
+  </aside>
 
 {% endblock sidebar_content %}
 

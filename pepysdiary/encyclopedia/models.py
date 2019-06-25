@@ -1,8 +1,10 @@
 #! -*- coding: utf-8 -*-
 from django.conf import settings
-from django.urls import reverse
+from django.contrib.postgres.search import SearchVectorField
+from django.contrib.postgres.indexes import GinIndex
 from django.db import models
 from django.db.models.signals import m2m_changed, post_delete, pre_delete
+from django.urls import reverse
 
 from django_comments.moderation import CommentModerator, moderator
 from markdown import markdown
@@ -76,6 +78,9 @@ class Topic(PepysModel):
 
     diary_references = models.ManyToManyField('diary.Entry', related_name='topics')
     letter_references = models.ManyToManyField('letters.Letter', related_name='topics')
+
+    # Also see index_components() method.
+    search_document = SearchVectorField(null=True)
 
     comment_name = 'annotation'
 
@@ -170,6 +175,16 @@ class Topic(PepysModel):
 
     def get_absolute_url(self):
         return reverse('topic_detail', kwargs={'pk': self.pk, })
+
+    def index_components(self):
+        """Used by common.signals.on_save() to update the SearchVector on
+        self.search_document.
+        """
+        return {
+            'A': self.title,
+            'B': self.summary,
+            'B': self.wheatley,
+        }
 
     def get_annotated_diary_references(self):
         """
