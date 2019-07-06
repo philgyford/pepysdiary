@@ -2,7 +2,7 @@
 from django.core import paginator as django_paginator
 from django.test import TestCase
 
-from pepysdiary.common.tests.paginator import DiggPaginator
+from pepysdiary.common.paginator import DiggPaginator
 
 
 class PaginatorTestCase(TestCase):
