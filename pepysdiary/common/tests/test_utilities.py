@@ -73,6 +73,14 @@ class TrimHilitesTestCase(TestCase):
             "This <b>is</b> my <b>test</b> <b>and</b> it goes on a bit li …",
         )
 
-    def test_no_hilites(self):
+    def test_no_hilites_default(self):
         "It should return nothing if there are no hilites."
         self.assertEqual(trim_hilites("Hello"), "")
+
+    def test_no_hilites_allow_empty_false(self):
+        "It should return the start of the text if there are no hilites"
+        s = "This is my text that has no hilites in it at all"
+        self.assertEqual(
+            trim_hilites(s, chars_before=5, chars_after=8, allow_empty=False),
+            "This is my te … ",
+        )

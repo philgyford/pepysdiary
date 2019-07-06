@@ -40,7 +40,8 @@ def hilite_words(content, words):
     # the user has searched for <"my wife"> (including quotes), we'll have
     # results containing <my> and <wife> and <my wife>. And if we don't
     # strip non-word chars we're trying to hilite the strings <"my> and <wife">
-    regex = re.compile(r"[^\s0-9a-zA-Z]")
+    # But leave apostrophes.
+    regex = re.compile(r"[^\s'0-9a-zA-Z]")
     words = regex.sub(" ", words)
 
     # If words = 'cat dog' then we look for '(\bcats?\b)|(\bdogs?\b)'
@@ -65,7 +66,7 @@ def hilite_words(content, words):
     return html
 
 
-def trim_hilites(content, chars_before=20, chars_after=40):
+def trim_hilites(content, chars_before=20, chars_after=40, allow_empty=True):
     """
     Given some text that contains no HTML tags except <b> and </b>,
     used to hilite words/phrases, this will return text that only includes
@@ -77,6 +78,9 @@ def trim_hilites(content, chars_before=20, chars_after=40):
     content -- Text optionally containing <b>hilites</b> (and NO other HTML).
     chars_before -- Number of characters to include before a <b>.
     chars_after -- Number of characters to include after a </b>.
+    allow_empty -- Boolean. If True and there are no hilites, an empty
+                   string will be returned. If False, and no hilites,
+                   the start of `content` will be returned.
 
     Returns a string.
     """
@@ -153,7 +157,11 @@ def trim_hilites(content, chars_before=20, chars_after=40):
 
     text = joiner.join(excerpts)
 
-    if len(positions) > 0:
+    if len(positions) == 0:
+        if allow_empty is False:
+            excerpt = content[:(chars_before + chars_after)]
+            text = "{}{}".format(excerpt, joiner)
+    else:
         if (positions[0][0] - chars_before) > 0:
             text = joiner.lstrip() + text
 

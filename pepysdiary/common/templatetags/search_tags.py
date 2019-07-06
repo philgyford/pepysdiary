@@ -29,6 +29,6 @@ def search_summary(obj, search_string):
 
     content = hilite_words(content, search_string)
 
-    content = trim_hilites(content)
+    content = trim_hilites(content, allow_empty=False)
 
     return mark_safe(content)
