@@ -26,6 +26,7 @@ Markdown = "*"
 Pillow = "*"
 "psycopg2-binary" = "*"
 django-redis = "*"
+lxml = "*"
 
 [dev-packages]
 django-debug-toolbar = "*"
