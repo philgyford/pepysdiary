@@ -15,9 +15,9 @@
 
 	{% latest_commented_entries title="Most recently annotated Diary Entries" quantity=10 %}
 
-	{% latest_commented_letters title="Most recently annotated Letters" quantity=5 %}
-
 	{% latest_commented_topics title="Most recently annotated Encyclopedia Topics" quantity=5 %}
+
+	{% latest_commented_letters title="Most recently annotated Letters" quantity=5 %}
 
 	{% latest_commented_articles title="Most recently commented-on In-Depth Articles" quantity=5 %}
 
@@ -28,7 +28,7 @@
 
 {% block sidebar_content %}
 	{% load widget_tags %}
-	
+
 	{% latest_posts quantity=5 %}
 
 	{% latest_articles quantity=5 %}
