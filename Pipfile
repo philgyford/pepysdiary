@@ -33,4 +33,4 @@ django-debug-toolbar = "*"
 factory-boy = "*"
 
 [requires]
-python_version = "3.6"
+python_version = "3.7"
