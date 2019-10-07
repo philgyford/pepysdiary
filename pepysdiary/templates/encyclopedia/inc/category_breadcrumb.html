@@ -4,30 +4,33 @@ Might have this passed in:
 {% endcomment %}
 <ol itemscope itemtype="http://schema.org/BreadcrumbList" class="breadcrumb">
 	<li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
-		<a itemscope itemtype="http://schema.org/Thing" itemprop="item" href="{% url 'encyclopedia' %}">
+		<a itemprop="item" href="{% url 'encyclopedia' %}">
 			<span itemprop="name">Encyclopedia</span>
 		</a>
 		<meta itemprop="position" content="1" />
 	</li>
-	{% for a in category.get_ancestors %}
-		<li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
-			<a itemscope itemtype="http://schema.org/Thing" itemprop="item" href="{{ a.get_absolute_url }}">
-				<span itemprop="name">{{ a.title }}</span>
-			</a>
-			<meta itemprop="position" content="2" />
-		</li>
-	{% endfor %}
-	{% if link_final_item == 'true' %}
-		<li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
-			<a itemscope itemtype="http://schema.org/Thing" itemprop="item" href="{{ category.get_absolute_url }}">
-				<span itemprop="name">{{ category.title }}</span>
-			</a>
-			<meta itemprop="position" content="3" />
-		</li>
-	{% else %}
-		<li class="active">
-			{{ category.title }}
-		</li>
-	{% endif %}
+  {% with ancestors=category.get_ancestors %}
+    {% for a in ancestors %}
+      <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+        <a itemprop="item" href="{{ a.get_absolute_url }}">
+          <span itemprop="name">{{ a.title }}</span>
+        </a>
+        <meta itemprop="position" content="{{ forloop.counter|add:"1" }}" />
+      </li>
+    {% endfor %}
+    {% if link_final_item == 'true' %}
+      <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+        <a itemprop="item" href="{{ category.get_absolute_url }}">
+          <span itemprop="name">{{ category.title }}</span>
+        </a>
+        <meta itemprop="position" content="{{ ancestors|length|add:"2" }}" />
+      </li>
+    {% else %}
+      <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" class="active">
+        <span itemprop="name">{{ category.title }}</span>
+        <meta itemprop="position" content="{{ ancestors|length|add:"2" }}" />
+      </li>
+    {% endif %}
+  {% endwith %}
 </ol>
 
