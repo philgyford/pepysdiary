@@ -196,7 +196,7 @@ INSTALLED_APPS = [
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"
+        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"  # noqa: E501
     },
     {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator"},
     {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator"},
@@ -232,7 +232,7 @@ AWS_STORAGE_BUCKET_NAME = get_env_variable("AWS_STORAGE_BUCKET_NAME")
 
 AWS_QUERYSTRING_AUTH = False
 
-WS_DEFAULT_ACL = None
+AWS_DEFAULT_ACL = "public-read"
 
 S3_URL = "https://%s.s3.amazonaws.com" % AWS_STORAGE_BUCKET_NAME
 # Store static and media files in separate directories:
