@@ -1,0 +1,11 @@
+{% extends "widgets/base_block.html" %}
+{% load static %}
+
+{% block widget_title %}Family tree{% endblock %}
+
+{% block widget_body %}
+  <p>
+    <a href="{% url "encyclopedia_familytree" %}"><img class="img-responsive" src="{% static "common/img/sidebar_family_tree.png" %}" width="330" height="110" alt="Family tree thumbnail" />
+  </p>
+  <p><a href="{% url "encyclopedia_familytree" %}">{{ link_text }}</a></p>
+{% endblock %}

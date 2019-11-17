@@ -1,0 +1,18 @@
+{% extends "widgets/base_block.html" %}
+
+{% block widget_title %}{{ title }}{% endblock %}
+
+{% block widget_body %}
+  <dl class="dated">
+    {% for object in object_list %}
+      <dt><a href="{{ object.get_absolute_url }}">{{ object.title }}</a></dt>
+      <dd class="text-muted">
+        {% if object.date_published %}
+          {{ object.date_published|date:date_format_long }}
+        {% else %}
+          {{ object.date_created|date:date_format_long }}
+        {% endif %}
+      </dd>
+    {% endfor %}
+  </dl>
+{% endblock %}

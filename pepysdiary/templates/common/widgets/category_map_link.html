@@ -1,0 +1,11 @@
+{% extends "widgets/base_block.html" %}
+{% load static %}
+
+{% block widget_title %}Maps{% endblock %}
+
+{% block widget_body %}
+  <p class="clearfix">
+    <a href="{{ link_url }}"><img class="pull-right" src="{% static "common/img/sidebar_category_map.png" %}" width="110" height="62" alt="Map thumbnail" />
+    <a href="{{ link_url }}">{{ link_text }}</a>
+  </p>
+{% endblock %}

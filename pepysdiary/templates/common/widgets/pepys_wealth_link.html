@@ -1,0 +1,12 @@
+{% extends "widgets/base_block.html" %}
+{% load static %}
+
+{% block widget_title %}Family tree{% endblock %}
+
+{% block widget_body %}
+  <p>
+    <a href="{{ link_url }}"><img class="img-responsive" src="{% static "common/img/sidebar_wealth_chart.png" %}" width="330" height="110" alt="Wealth chart thumbnail" />
+  </p>
+  <p><a href="{{ link_url }}">{{ link_text }}</a></p>
+{% endblock %}
+

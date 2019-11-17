@@ -1,0 +1,15 @@
+{% extends "widgets/base_block.html" %}
+{% load static %}
+
+{% block widget_title %}Detailed topics{% endblock %}
+
+{% block widget_body %}
+  <ul>
+    {% for topic in topics %}
+      <li>
+        <a href="{% url "topic_detail" pk=topic.0 %}">{{ topic.1 }}</a>
+      </li>
+    {% endfor %}
+  </ul>
+  <p>Written by readers of this site</p>
+{% endblock %}

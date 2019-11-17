@@ -1,0 +1,12 @@
+<aside class="aside-block">
+  {% block widget_header%}
+    <header class="aside-header">
+      <h1 class="aside-title">
+        {% block widget_title %}{% endblock %}
+      </h1>
+    </header>
+  {% endblock widget_header %}
+  <div class="aside-body">
+    {% block widget_body %}{% endblock %}
+  </div>
+</aside>

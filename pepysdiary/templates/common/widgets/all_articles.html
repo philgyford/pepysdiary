@@ -1,0 +1,19 @@
+{% extends "widgets/base_block.html" %}
+
+{% block widget_title %}All In-Depth Articles{% endblock %}
+
+{% block widget_body %}
+  <ul class="list-spaced list-small list-unstyled">
+    {% for article in article_list %}
+      <li>
+        {% if article.id == exclude_id %}
+          {{ article.title }}
+        {% else %}
+          <a href="{{ article.get_absolute_url }}">{{ article.title }}</a>
+        {% endif %}
+        <br>
+        {{ article.date_published|date:date_format_long }}
+      </li>
+    {% endfor %}
+  </ul>
+{% endblock %}
