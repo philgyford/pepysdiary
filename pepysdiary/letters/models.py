@@ -115,11 +115,11 @@ class Letter(PepysModel, OldDateMixin):
         """Used by common.signals.on_save() to update the SearchVector on
         self.search_document.
         """
-        return {
-            "A": self.title,
-            "B": self.text,
-            "C": self.footnotes,
-        }
+        return (
+            (self.title, "A"),
+            (self.text, "B"),
+            (self.footnotes, "C"),
+        )
 
     def make_references(self):
         """

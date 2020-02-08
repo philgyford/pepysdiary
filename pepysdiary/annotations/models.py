@@ -66,7 +66,7 @@ class Annotation(CommentAbstractModel):
         """Used by common.signals.on_save() to update the SearchVector on
         self.search_document.
         """
-        return {"A": self.comment}
+        return ((self.comment, "A"),)
 
     def get_user_name(self):
         """

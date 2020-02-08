@@ -35,17 +35,14 @@ def make_updater(instance):
     method. The latter should be something like:
 
     def index_components(self):
-        return {
-            'A': self.title,
-            'B': self.body,
-        }
+        return ((self.title, "A"), (self.body, "B"))
     """
     components = instance.index_components()
     pk = instance.pk
 
     def on_commit():
         search_vectors = []
-        for weight, text in components.items():
+        for text, weight in components:
             search_vectors.append(
                 SearchVector(Value(text, output_field=TextField()), weight=weight)
             )
