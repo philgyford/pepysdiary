@@ -221,7 +221,7 @@ def category_map_link(category_id=None):
     """
     if category_id is None:
         link_url = reverse("category_map")
-        link_text = "See places from the Diary on a&nbsp;map"
+        link_text = mark_safe("See places from the Diary on a&nbsp;map")
     else:
         link_url = reverse("category_map", kwargs={"category_id": category_id})
         link_text = mark_safe("See all places in this category on one&nbsp;map")
