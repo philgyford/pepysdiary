@@ -104,11 +104,7 @@ class Article(PepysModel):
         """Used by common.signals.on_save() to update the SearchVector on
         self.search_document.
         """
-        return {
-            "A": self.title,
-            "B": self.intro,
-            "B": self.text,
-        }
+        return ((self.title, "B"), (self.intro, "B"), (self.text, "B"))
 
 
 class ArticleModerator(CommentModerator):
