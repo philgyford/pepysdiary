@@ -1,11 +1,9 @@
-#! -*- coding: utf-8 -*-
 from bs4 import BeautifulSoup
 import bleach
 import requests
 
 
 class WikipediaFetcher(object):
-
     def fetch(self, page_name):
         """
         Passed a Wikipedia page's URL fragment, like
@@ -19,8 +17,8 @@ class WikipediaFetcher(object):
         """
         result = self._get_html(page_name)
 
-        if result['success']:
-            result['content'] = self._tidy_html(result['content'])
+        if result["success"]:
+            result["content"] = self._tidy_html(result["content"])
 
         return result
 
@@ -33,13 +31,12 @@ class WikipediaFetcher(object):
             'success' is either True or, if we couldn't fetch the page, False.
             'content' is the HTML if success==True, or else an error message.
         """
-        error_message = ''
+        error_message = ""
 
-        url = 'https://en.wikipedia.org/wiki/%s' % page_name
+        url = "https://en.wikipedia.org/wiki/%s" % page_name
 
         try:
-            response = requests.get(url,
-                                    params={'action': 'render'}, timeout=5)
+            response = requests.get(url, params={"action": "render"}, timeout=5)
         except requests.exceptions.ConnectionError:
             error_message = "Can't connect to domain."
         except requests.exceptions.Timeout:
@@ -53,13 +50,13 @@ class WikipediaFetcher(object):
             # 4xx or 5xx errors:
             error_message = "HTTP Error: %s" % response.status_code
         except NameError:
-            if error_message == '':
+            if error_message == "":
                 error_message = "Something unusual went wrong."
 
         if error_message:
-            return {'success': False, 'content': error_message}
+            return {"success": False, "content": error_message}
         else:
-            return {'success': True, 'content': response.text}
+            return {"success": True, "content": response.text}
 
     def _tidy_html(self, html):
         """
@@ -81,46 +78,90 @@ class WikipediaFetcher(object):
 
         # Pretty much most elements, but no forms or audio/video.
         allowed_tags = [
-            'a', 'abbr', 'acronym', 'address', 'area', 'article',
-            'b', 'blockquote', 'br',
-            'caption', 'cite', 'code', 'col', 'colgroup',
-            'dd', 'del', 'dfn', 'div', 'dl', 'dt',
-            'em',
-            'figcaption', 'figure', 'footer',
-            'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'header', 'hgroup', 'hr',
-            'i', 'img', 'ins',
-            'kbd',
-            'li',
-            'map',
-            'nav',
-            'ol',
-            'p', 'pre',
-            'q',
-            's', 'samp', 'section', 'small', 'span', 'strong', 'sub', 'sup',
-            'table', 'tbody', 'td', 'tfoot', 'th', 'thead', 'time', 'tr',
-            'ul',
-            'var',
+            "a",
+            "abbr",
+            "acronym",
+            "address",
+            "area",
+            "article",
+            "b",
+            "blockquote",
+            "br",
+            "caption",
+            "cite",
+            "code",
+            "col",
+            "colgroup",
+            "dd",
+            "del",
+            "dfn",
+            "div",
+            "dl",
+            "dt",
+            "em",
+            "figcaption",
+            "figure",
+            "footer",
+            "h1",
+            "h2",
+            "h3",
+            "h4",
+            "h5",
+            "h6",
+            "header",
+            "hgroup",
+            "hr",
+            "i",
+            "img",
+            "ins",
+            "kbd",
+            "li",
+            "map",
+            "nav",
+            "ol",
+            "p",
+            "pre",
+            "q",
+            "s",
+            "samp",
+            "section",
+            "small",
+            "span",
+            "strong",
+            "sub",
+            "sup",
+            "table",
+            "tbody",
+            "td",
+            "tfoot",
+            "th",
+            "thead",
+            "time",
+            "tr",
+            "ul",
+            "var",
             # We allow script here, so we can close/un-mis-nest its tags,
             # but then it's removed completely in _strip_html():
-            'script',
+            "script",
         ]
 
         # These attributes will be removed from any of the allowed tags.
         allowed_attributes = {
-            '*':        ['class', 'id'],
-            'a':        ['href', 'title'],
-            'abbr':     ['title'],
-            'acronym':  ['title'],
-            'img':      ['alt', 'src', 'srcset'],
+            "*": ["class", "id"],
+            "a": ["href", "title"],
+            "abbr": ["title"],
+            "acronym": ["title"],
+            "img": ["alt", "src", "srcset"],
             # Ugh. Don't know why this page doesn't use .tright like others
             # http://127.0.0.1:8000/encyclopedia/5040/
-            'table':    ['align'],
-            'td':       ['colspan', 'rowspan'],
-            'th':       ['colspan', 'rowspan', 'scope'],
+            "table": ["align"],
+            "td": ["colspan", "rowspan"],
+            "th": ["colspan", "rowspan", "scope"],
         }
 
-        return bleach.clean(html, tags=allowed_tags,
-                            attributes=allowed_attributes, strip=True)
+        return bleach.clean(
+            html, tags=allowed_tags, attributes=allowed_attributes, strip=True
+        )
 
     def _strip_html(self, html):
         """
@@ -133,46 +174,46 @@ class WikipediaFetcher(object):
 
         # CSS selectors. Strip these and their contents.
         selectors = [
-            'div.hatnote',
-            'div.navbar.mini',  # Will also match div.mini.navbar
+            "div.hatnote",
+            "div.navbar.mini",  # Will also match div.mini.navbar
             # Bottom of https://en.wikipedia.org/wiki/Charles_II_of_England :
-            'div.topicon',
-            'a.mw-headline-anchor',
-            'script',
+            "div.topicon",
+            "a.mw-headline-anchor",
+            "script",
         ]
 
         # Strip any element that has one of these classes.
         classes = [
             # "This article may be expanded with text translated from..."
             # https://en.wikipedia.org/wiki/Afonso_VI_of_Portugal
-            'ambox-notice',
-            'magnify',
+            "ambox-notice",
+            "magnify",
             # eg audio on https://en.wikipedia.org/wiki/Bagpipes
-            'mediaContainer',
-            'navbox',
-            'noprint',
+            "mediaContainer",
+            "navbox",
+            "noprint",
         ]
 
         # Any element has a class matching a key, it will have the classes
         # in the value added.
         add_classes = {
             # Give these tables standard Bootstrap styles.
-            'infobox':   ['table', 'table-bordered'],
-            'ambox':     ['table', 'table-bordered'],
-            'wikitable': ['table', 'table-bordered'],
+            "infobox": ["table", "table-bordered"],
+            "ambox": ["table", "table-bordered"],
+            "wikitable": ["table", "table-bordered"],
         }
 
-        soup = BeautifulSoup(html, 'lxml')
+        soup = BeautifulSoup(html, "lxml")
 
         for selector in selectors:
             [tag.decompose() for tag in soup.select(selector)]
 
         for clss in classes:
-            [tag.decompose() for tag in soup.find_all(attrs={'class': clss})]
+            [tag.decompose() for tag in soup.find_all(attrs={"class": clss})]
 
         for clss, new_classes in add_classes.items():
-            for tag in soup.find_all(attrs={'class': clss}):
-                tag['class'] = tag.get('class', []) + new_classes
+            for tag in soup.find_all(attrs={"class": clss}):
+                tag["class"] = tag.get("class", []) + new_classes
 
         # Depending on the HTML parser BeautifulSoup used, soup may have
         # surrounding <html><body></body></html> or just <body></body> tags.
@@ -182,6 +223,6 @@ class WikipediaFetcher(object):
             soup = soup.html.body
 
         # Put the content back into a string.
-        html = ''.join(str(tag) for tag in soup.contents)
+        html = "".join(str(tag) for tag in soup.contents)
 
         return html
