@@ -17,13 +17,9 @@ class LetterManager(models.Manager, ReferredManagerMixin):
 
 
 class Letter(PepysModel, OldDateMixin):
-
-    GUY_DE_LA_BEDOYERE_SOURCE = 10
-    HELEN_TRUESDELL_HEATH_SOURCE = 20
-    SOURCE_CHOICES = (
-        (GUY_DE_LA_BEDOYERE_SOURCE, "Guy de la Bédoyère"),
-        (HELEN_TRUESDELL_HEATH_SOURCE, "Helen Truesdell Heath"),
-    )
+    class Source(models.IntegerChoices):
+        GUY_DE_LA_BEDOYERE = 10, "Guy de la Bédoyère"
+        HELEN_TRUESDELL_HEATH = 20, "Helen Truesdell Heath"
 
     title = models.CharField(
         max_length=100,
@@ -61,7 +57,7 @@ class Letter(PepysModel, OldDateMixin):
         null=True,
         related_name="letter_recipients",
     )
-    source = models.IntegerField(blank=True, null=True, choices=SOURCE_CHOICES)
+    source = models.IntegerField(blank=True, null=True, choices=Source.choices)
     slug = models.SlugField(
         max_length=50, blank=False, null=False, unique_for_date="letter_date"
     )

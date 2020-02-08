@@ -4,20 +4,15 @@ from pepysdiary.common.models import OldDateMixin, PepysModel
 
 
 class DayEvent(PepysModel, OldDateMixin):
-
-    GADBURY_CHOICE = 10
-    PARLIAMENT_CHOICE = 20
-    JOSSELIN_CHOICE = 30
-    SOURCE_CHOICES = (
-        (GADBURY_CHOICE, "John Gadbury’s London Diary"),
-        (PARLIAMENT_CHOICE, "In Parliament"),
-        (JOSSELIN_CHOICE, "In Earl’s Colne, Essex"),
-    )
+    class Source(models.IntegerChoices):
+        GADBURY = 10, "John Gadbury’s London Diary"
+        PARLIAMENT = 20, "In Parliament"
+        JOSSELIN = 30, "In Earl’s Colne, Essex"
 
     title = models.CharField(max_length=255, blank=False, null=False)
     event_date = models.DateField(blank=False, null=False, db_index=True)
     url = models.URLField(max_length=255, blank=True, null=False)
-    source = models.IntegerField(blank=True, null=True, choices=SOURCE_CHOICES)
+    source = models.IntegerField(blank=True, null=True, choices=Source.choices)
 
     class Meta:
         ordering = [

@@ -18,7 +18,7 @@ class PublishedArticleManager(models.Manager):
         return (
             super(PublishedArticleManager, self)
             .get_queryset()
-            .filter(status=Article.STATUS_PUBLISHED)
+            .filter(status=Article.Status.PUBLISHED)
         )
 
 
@@ -27,12 +27,9 @@ class Article(PepysModel):
     An In-Depth Article.
     """
 
-    STATUS_DRAFT = 10
-    STATUS_PUBLISHED = 20
-    STATUS_CHOICES = (
-        (STATUS_DRAFT, "Draft"),
-        (STATUS_PUBLISHED, "Published"),
-    )
+    class Status(models.IntegerChoices):
+        DRAFT = 10, "Draft"
+        PUBLISHED = 20, "Published"
 
     title = models.CharField(max_length=255, blank=False, null=False)
     intro = models.TextField(blank=False, null=False, help_text="Can use Markdown.")
@@ -62,7 +59,7 @@ class Article(PepysModel):
     allow_comments = models.BooleanField(blank=False, null=False, default=True)
 
     status = models.IntegerField(
-        blank=False, null=False, choices=STATUS_CHOICES, default=STATUS_DRAFT
+        blank=False, null=False, choices=Status.choices, default=Status.DRAFT
     )
 
     # Also see index_components() method.
@@ -82,7 +79,7 @@ class Article(PepysModel):
     def save(self, *args, **kwargs):
         self.intro_html = markdown(self.intro)
         self.text_html = markdown(self.text)
-        if self.date_published is None and self.status == self.STATUS_PUBLISHED:
+        if self.date_published is None and self.status == Status.PUBLISHED:
             # If we're published, and the date_published hasn't been set,
             # then set it.
             self.date_published = timezone.now()

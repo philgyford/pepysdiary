@@ -46,7 +46,7 @@ class Command(BaseCommand):
 
         # 1) SET UP INITIAL STUFF.
 
-        valid_map_categories = [k for (k, v) in Topic.MAP_CATEGORY_CHOICES]
+        valid_map_categories = [k for (k, v) in Topic.MapCategory.choices]
 
         # Used to match things like:
         # 'Alchemist, The (Ben Jonson)' or 'Royal Prince, The'

@@ -15,25 +15,16 @@ from pepysdiary.encyclopedia import topic_lookups
 
 
 class Topic(PepysModel):
-
-    #  These are inherited from Movable Type data, but I'm not sure we
-    # actually use them...
-    MAP_CATEGORY_AREA = "area"
-    MAP_CATEGORY_GATE = "gate"
-    MAP_CATEGORY_HOME = "home"
-    MAP_CATEGORY_MISC = "misc"
-    MAP_CATEGORY_ROAD = "road"
-    MAP_CATEGORY_STAIR = "stair"
-    MAP_CATEGORY_TOWN = "town"
-    MAP_CATEGORY_CHOICES = (
-        (MAP_CATEGORY_AREA, "Area"),
-        (MAP_CATEGORY_GATE, "Gate"),
-        (MAP_CATEGORY_HOME, "Pepys' home(s)"),
-        (MAP_CATEGORY_MISC, "Misc"),
-        (MAP_CATEGORY_ROAD, "Road/Street"),
-        (MAP_CATEGORY_STAIR, "Stair/Pier"),
-        (MAP_CATEGORY_TOWN, "Town/Village"),
-    )
+    class MapCategory(models.TextChoices):
+        #  These are inherited from Movable Type data, but I'm not sure we
+        # actually use them...
+        AREA = "area", "Area"
+        GATE = "gate", "Gate"
+        HOME = "home", "Pepys' home(s)"
+        MISC = "misc", "Miscellaneous"
+        ROAD = "road", "Road or Street"
+        STAIR = "stair", "Stair or Pier"
+        TOWN = "town", "Town or Village"
 
     title = models.CharField(max_length=255, blank=False, null=False)
     order_title = models.CharField(max_length=255, blank=True, null=False)
@@ -87,7 +78,7 @@ class Topic(PepysModel):
         max_length=20,
         blank=True,
         null=False,
-        choices=MAP_CATEGORY_CHOICES,
+        choices=MapCategory.choices,
         db_index=True,
         help_text="(UNUSED?) The type of object this is on maps",
     )
@@ -364,7 +355,7 @@ class CategoryManager(MP_NodeManager):
     def map_category_choices(self):
         """
         The categories we DO use on the maps page.
-        As opposed to the Topic.map_category, which appears to be unused.
+        As opposed to the Topic.MapCategory, which appears to be unused.
         This structure is used to generate the SELECT field on the
         /encyclopedia/map/ page.
         The numbers are the IDs of the relevant Categories.

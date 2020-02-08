@@ -18,18 +18,12 @@ class PublishedPostManager(models.Manager):
         return (
             super(PublishedPostManager, self)
             .get_queryset()
-            .filter(status=Post.STATUS_PUBLISHED)
+            .filter(status=Post.Status.PUBLISHED)
         )
 
     def is_valid_category_slug(self, slug):
-        """
-        Is `slug` a valid Post category?
-        """
-        valid_slugs = [k for k, v in Post.CATEGORY_CHOICES]
-        if slug in valid_slugs:
-            return True
-        else:
-            return False
+        "Is `slug` a valid Post category?"
+        return slug in Post.Category.values
 
     def category_slug_to_name(self, slug):
         """
@@ -37,7 +31,7 @@ class PublishedPostManager(models.Manager):
         Else, ''.
         """
         name = ""
-        for k, v in Post.CATEGORY_CHOICES:
+        for k, v in Post.Category.choices:
             if k == slug:
                 name = v
         return name
@@ -48,28 +42,18 @@ class Post(PepysModel):
     A Site News Post.
     """
 
-    # These are used as slugs in URLs.
-    CATEGORY_EVENTS = "events"
-    CATEGORY_HOUSEKEEPING = "housekeeping"
-    CATEGORY_FEATURES = "new-features"
-    CATEGORY_MEDIA = "pepys-in-the-media"
-    CATEGORY_PRESS = "press"
-    CATEGORY_STATISTICS = "statistics"
-    CATEGORY_CHOICES = (
-        (CATEGORY_EVENTS, "Events"),
-        (CATEGORY_HOUSEKEEPING, "Housekeeping"),
-        (CATEGORY_FEATURES, "New features"),
-        (CATEGORY_MEDIA, "Pepys in the media"),
-        (CATEGORY_PRESS, "Press for this site"),
-        (CATEGORY_STATISTICS, "Site statistics"),
-    )
+    class Category(models.TextChoices):
+        # These are used as slugs in URLs.
+        EVENTS = "events", "Events"
+        HOUSEKEEPING = "housekeeping", "Housekeeping"
+        FEATURES = "new-features", "New features"
+        MEDIA = "pepys-in-the-media", "Pepys in the media"
+        PRESS = "press", "Press for this site"
+        STATISTICS = "statistics", "Site statistics"
 
-    STATUS_DRAFT = 10
-    STATUS_PUBLISHED = 20
-    STATUS_CHOICES = (
-        (STATUS_DRAFT, "Draft"),
-        (STATUS_PUBLISHED, "Published"),
-    )
+    class Status(models.IntegerChoices):
+        DRAFT = 10, "Draft"
+        PUBLISHED = 20, "Published"
 
     title = models.CharField(max_length=255, blank=False, null=False)
     intro = models.TextField(blank=False, null=False, help_text="Can use Markdown.")
@@ -96,10 +80,10 @@ class Post(PepysModel):
     allow_comments = models.BooleanField(blank=False, null=False, default=True)
 
     status = models.IntegerField(
-        blank=False, null=False, choices=STATUS_CHOICES, default=STATUS_DRAFT
+        blank=False, null=False, choices=Status.choices, default=Status.DRAFT
     )
     category = models.CharField(
-        max_length=25, blank=False, null=False, db_index=True, choices=CATEGORY_CHOICES
+        max_length=25, blank=False, null=False, db_index=True, choices=Category.choices
     )
 
     # Also see index_components() method.
@@ -119,7 +103,7 @@ class Post(PepysModel):
     def save(self, *args, **kwargs):
         self.intro_html = markdown(self.intro)
         self.text_html = markdown(self.text)
-        if self.date_published is None and self.status == self.STATUS_PUBLISHED:
+        if self.date_published is None and self.status == self.Status.PUBLISHED:
             # If we're published, and the date_published hasn't been set,
             # then set it.
             self.date_published = timezone.now()
@@ -149,7 +133,7 @@ class Post(PepysModel):
         Return the title of this Post's category.
         e.g. "New features".
         """
-        categories = {c[0]: c[1] for c in self.CATEGORY_CHOICES}
+        categories = {c[0]: c[1] for c in self.Category.choices}
         if self.category in categories:
             return categories[self.category]
 

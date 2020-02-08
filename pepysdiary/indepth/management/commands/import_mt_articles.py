@@ -76,7 +76,7 @@ class Command(BaseCommand):
                         slug=slug,
                         date_published=row['entry_authored_on'].replace(
                                                             tzinfo=pytz.utc),
-                        status=Article.STATUS_PUBLISHED,
+                        status=Article.Status.PUBLISHED,
                     )
             article.save()
 

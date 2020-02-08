@@ -1,7 +1,6 @@
 from django.core.exceptions import ImproperlyConfigured
 from django.http import Http404
 from django.views.generic.dates import DateDetailView
-from django.views.generic.list import ListView
 
 from pepysdiary.common.views import BaseRSSFeed, PaginatedListView
 from pepysdiary.news.models import Post
@@ -17,7 +16,7 @@ class PostArchiveView(PaginatedListView):
 
     def get_context_data(self, **kwargs):
         context = super(PostArchiveView, self).get_context_data(**kwargs)
-        context['categories'] = Post.CATEGORY_CHOICES
+        context['categories'] = Post.Category.choices
         return context
 
 
@@ -61,7 +60,7 @@ class PostCategoryArchiveView(PaginatedListView):
         context['category_slug'] = self.category
         context['category_name'] = Post.published_posts.category_slug_to_name(
                                                                 self.category)
-        context['categories'] = Post.CATEGORY_CHOICES
+        context['categories'] = Post.Category.choices
         return context
 
 
@@ -82,7 +81,7 @@ class PostDetailView(DateDetailView):
 
     def get_context_data(self, **kwargs):
         context = super(PostDetailView, self).get_context_data(**kwargs)
-        context['categories'] = Post.CATEGORY_CHOICES
+        context['categories'] = Post.Category.choices
         extra_context = self.get_next_previous()
         context.update(extra_context)
         return context

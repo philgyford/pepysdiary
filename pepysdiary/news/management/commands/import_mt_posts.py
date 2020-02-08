@@ -91,7 +91,7 @@ class Command(BaseCommand):
                         text=text,
                         date_published=row['entry_authored_on'].replace(
                                                             tzinfo=pytz.utc),
-                        status=Post.STATUS_PUBLISHED,
+                        status=Post.Status.PUBLISHED,
                         category=category,
                     )
             post.save()

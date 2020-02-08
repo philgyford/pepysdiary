@@ -125,11 +125,12 @@ class CategoryMapView(CacheMixin, FormView):
 
     def get(self, request, *args, **kwargs):
         # Set the Category ID of Topics we're displaying.
-        if self.kwargs['category_id'] is not None:
-            if int(self.kwargs['category_id']) not in Category.objects.valid_map_category_ids():
+        cat_id = self.kwargs.get("category_id", None)
+        if cat_id is not None:
+            if int(cat_id) not in Category.objects.valid_map_category_ids():
                 return redirect('category_map')
             else:
-                self.category_id = int(self.kwargs['category_id'])
+                self.category_id = int(cat_id)
 
         # Set the Category of Topics we're displaying.
         try:

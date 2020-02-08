@@ -65,11 +65,11 @@ def dayevents_for_day(date):
     """
     html = ''
 
-    sources = {key: label for (key, label) in DayEvent.SOURCE_CHOICES}
+    sources = {key: label for (key, label) in DayEvent.Source.choices}
 
     # Makes a dict like:
     # {10: {}, 20: {}, 30: {}}
-    events_by_source = {key: {} for (key, label) in DayEvent.SOURCE_CHOICES}
+    events_by_source = {key: {} for (key, label) in DayEvent.Source.choices}
 
     for ev in DayEvent.objects.filter(event_date=date).order_by('source'):
         # For each source, there *might* be several events with the same title

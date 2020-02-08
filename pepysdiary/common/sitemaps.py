@@ -163,7 +163,7 @@ class ArchiveSitemap(Sitemap):
 
     def _news_categories_sitemaps(self):
         sitemaps = []
-        for slug, label in Post.CATEGORY_CHOICES:
+        for slug, label in Post.Category.choices:
             sitemap_class = AbstractSitemapClass()
             sitemap_class.url = reverse_lazy('post_category_archive',
                                              kwargs={'category_slug': slug})
