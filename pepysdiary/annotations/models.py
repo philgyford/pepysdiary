@@ -48,7 +48,7 @@ class Annotation(CommentAbstractModel):
     visible_objects = VisibleAnnotationManager()
 
     class Meta:
-        ordering = ('submit_date',)
+        ordering = ("submit_date",)
         permissions = [("can_moderate", "Can moderate comments")]
         verbose_name = "annotation"
         verbose_name_plural = "annotations"

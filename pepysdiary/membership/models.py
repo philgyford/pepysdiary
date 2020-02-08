@@ -1,13 +1,15 @@
 import datetime
 import hashlib
 import pytz
-import random
 import re
 
 from django.conf import settings
 from django.contrib import messages
-from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin,\
-                                                            BaseUserManager
+from django.contrib.auth.models import (
+    AbstractBaseUser,
+    PermissionsMixin,
+    BaseUserManager,
+)
 from django.contrib.auth.signals import user_logged_in
 from django.urls import reverse
 from django.utils.crypto import get_random_string
@@ -19,7 +21,7 @@ from django.utils import timezone
 from pepysdiary.membership.utilities import email_user, validate_person_name
 
 
-SHA1_RE = re.compile('^[a-f0-9]{40}$')
+SHA1_RE = re.compile("^[a-f0-9]{40}$")
 
 
 class PersonManager(BaseUserManager):
@@ -34,13 +36,19 @@ class PersonManager(BaseUserManager):
         """
         now = timezone.now()
         if not email:
-            raise ValueError('Users must have an email address')
+            raise ValueError("Users must have an email address")
         if not name:
-            raise ValueError('Users must have a name')
+            raise ValueError("Users must have a name")
         email = PersonManager.normalize_email(email)
-        user = self.model(name=name, email=email,
-                          is_staff=False, is_active=True, is_superuser=False,
-                          last_login=now, **extra_fields)
+        user = self.model(
+            name=name,
+            email=email,
+            is_staff=False,
+            is_active=True,
+            is_superuser=False,
+            last_login=now,
+            **extra_fields
+        )
 
         user.set_password(password)
         user.save(using=self._db)
@@ -54,8 +62,9 @@ class PersonManager(BaseUserManager):
         u.save(using=self._db)
         return u
 
-    def create_inactive_user(self, name, email, password, site,
-                                            send_email=True, **extra_fields):
+    def create_inactive_user(
+        self, name, email, password, site, send_email=True, **extra_fields
+    ):
         """
         Create a new, inactive ``User`` and email its activation key to the
         ``User``, returning the new ``User``.
@@ -65,8 +74,7 @@ class PersonManager(BaseUserManager):
 
         """
         with transaction.atomic():
-            person = Person.objects.create_user(
-                                            name, email, password, **extra_fields)
+            person = Person.objects.create_user(name, email, password, **extra_fields)
             person.is_active = False
             person.save()
 
@@ -79,7 +87,7 @@ class PersonManager(BaseUserManager):
 
     def set_activation_key(self, person):
         username = smart_str(person.name)
-        hash_input = (get_random_string(5) + username).encode('utf-8')
+        hash_input = (get_random_string(5) + username).encode("utf-8")
         person.activation_key = hashlib.sha1(hash_input).hexdigest()
         person.save()
         return person
@@ -171,23 +179,36 @@ class Person(AbstractBaseUser, PermissionsMixin):
 
     I ran this to translate my one User to a Person:
 
-        INSERT INTO membership_person(id, name, email, password, last_login, is_superuser, is_staff, is_active, date_created, date_modified) SELECT id, username, email, password, last_login, is_superuser, is_staff, is_active, date_joined, date_joined FROM auth_user;
+        INSERT INTO membership_person(id, name, email, password,
+        last_login, is_superuser, is_staff, is_active, date_created,
+        date_modified) SELECT id, username, email, password,
+        last_login, is_superuser, is_staff, is_active, date_joined,
+        date_joined FROM auth_user;
 
     And to make the Django 1.4 comments and flags work with the new Person
     model I did this:
 
-        ALTER TABLE django_comments DROP CONSTRAINT django_comments_user_id_fkey;
-        ALTER TABLE django_comments ADD CONSTRAINT django_comments_user_id_fkey FOREIGN KEY (user_id) REFERENCES membership_person(id) DEFERRABLE INITIALLY DEFERRED;
+        ALTER TABLE django_comments
+            DROP CONSTRAINT django_comments_user_id_fkey;
+        ALTER TABLE django_comments
+            ADD CONSTRAINT django_comments_user_id_fkey
+            FOREIGN KEY (user_id) REFERENCES membership_person(id)
+            DEFERRABLE INITIALLY DEFERRED;
 
-        ALTER TABLE django_comment_flags DROP CONSTRAINT django_comment_flags_user_id_fkey;
-        ALTER TABLE django_comment_flags ADD CONSTRAINT django_comment_flags_user_id_fkey FOREIGN KEY (user_id) REFERENCES membership_person(id) DEFERRABLE INITIALLY DEFERRED;
+        ALTER TABLE django_comment_flags
+            DROP CONSTRAINT django_comment_flags_user_id_fkey;
+        ALTER TABLE django_comment_flags
+            ADD CONSTRAINT django_comment_flags_user_id_fkey
+            FOREIGN KEY (user_id) REFERENCES membership_person(id)
+            DEFERRABLE INITIALLY DEFERRED;
 
     Note: I didn't have any existing comments/flags that were related to old
     User objects. If I did, that might all not have worked.
     """
+
     # The value that `activation_key` will be set to after the user has
     # activated their account.
-    ACTIVATED = 'ALREADY_ACTIVATED'
+    ACTIVATED = "ALREADY_ACTIVATED"
 
     # ALSO HAS:
     # password
@@ -196,36 +217,52 @@ class Person(AbstractBaseUser, PermissionsMixin):
     # user_permissions
     # groups
 
-    email = models.EmailField(verbose_name='Email address', max_length=255,
-                                                unique=True, db_index=True, )
-    name = models.CharField(max_length=50, unique=True,
-                        help_text="Publically visible name, spaces allowed",
-                        validators=[validate_person_name])
-    url = models.URLField(verbose_name='URL', max_length=255, blank=True,
-                                                                    null=True)
-    is_staff = models.BooleanField(verbose_name='Is staff?', default=False,
-        help_text='Designates whether the user can log into this admin site.')
-    is_active = models.BooleanField(verbose_name='Is active?', default=False,
-        help_text='Designates whether this user should be treated as '
-                        'active. Unselect this instead of deleting accounts.')
+    email = models.EmailField(
+        verbose_name="Email address", max_length=255, unique=True, db_index=True,
+    )
+    name = models.CharField(
+        max_length=50,
+        unique=True,
+        help_text="Publically visible name, spaces allowed",
+        validators=[validate_person_name],
+    )
+    url = models.URLField(verbose_name="URL", max_length=255, blank=True, null=True)
+    is_staff = models.BooleanField(
+        verbose_name="Is staff?",
+        default=False,
+        help_text="Designates whether the user can log into this admin site.",
+    )
+    is_active = models.BooleanField(
+        verbose_name="Is active?",
+        default=False,
+        help_text="Designates whether this user should be treated as "
+        "active. Unselect this instead of deleting accounts.",
+    )
     is_trusted_commenter = models.BooleanField(
-            verbose_name='Is trusted commenter?', default=False,
-            help_text="Allows them to post comments without spam-filtering")
-    activation_key = models.CharField(max_length=40,
-            help_text="Will be 'ALREADY_ACTIVATED' when 'Is active?' is true.")
-    first_comment_date = models.DateTimeField(blank=True, null=True,
-        help_text="First time they commented. Might be before the date they joined...")
+        verbose_name="Is trusted commenter?",
+        default=False,
+        help_text="Allows them to post comments without spam-filtering",
+    )
+    activation_key = models.CharField(
+        max_length=40,
+        help_text="Will be 'ALREADY_ACTIVATED' when 'Is active?' is true.",
+    )
+    first_comment_date = models.DateTimeField(
+        blank=True,
+        null=True,
+        help_text="First time they commented. Might be before the date they joined...",
+    )
     date_activated = models.DateTimeField(blank=True, null=True)
     date_created = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
 
-    USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['name']
+    USERNAME_FIELD = "email"
+    REQUIRED_FIELDS = ["name"]
 
     objects = PersonManager()
 
     class Meta:
-        verbose_name_plural = 'People'
+        verbose_name_plural = "People"
 
     def get_full_name(self):
         return self.name
@@ -234,7 +271,7 @@ class Person(AbstractBaseUser, PermissionsMixin):
         return self.name
 
     def get_absolute_url(self):
-        return reverse('profile', kwargs={'pk': self.pk, })
+        return reverse("profile", kwargs={"pk": self.pk})
 
     def __str__(self):
         return self.name
@@ -261,11 +298,11 @@ class Person(AbstractBaseUser, PermissionsMixin):
            method returns ``True``.
 
         """
-        expiration_date = datetime.timedelta(
-                                        days=settings.ACCOUNT_ACTIVATION_DAYS)
-        return self.activation_key == self.ACTIVATED or \
-           (self.date_created + expiration_date <= datetime.datetime.now(
-                                                                    pytz.utc))
+        expiration_date = datetime.timedelta(days=settings.ACCOUNT_ACTIVATION_DAYS)
+        return self.activation_key == self.ACTIVATED or (
+            self.date_created + expiration_date <= datetime.datetime.now(pytz.utc)
+        )
+
     activation_key_expired.boolean = True
 
     def send_activation_email(self, site):
@@ -291,20 +328,19 @@ class Person(AbstractBaseUser, PermissionsMixin):
             framework for details regarding these objects' interfaces.
 
         """
-        ctx_dict = {'activation_key': self.activation_key, 'site': site}
+        ctx_dict = {"activation_key": self.activation_key, "site": site}
 
-        email_user(self, 'emails/activation.txt',
-                                        settings.DEFAULT_FROM_EMAIL, ctx_dict)
+        email_user(self, "emails/activation.txt", settings.DEFAULT_FROM_EMAIL, ctx_dict)
 
 
 def post_login_actions(sender, user, request, **kwargs):
     """ After logging in, we want to show the user a message. """
     # We need to do this to make this work successfully in tests.
     # http://stackoverflow.com/questions/8930090/
-    if not hasattr(request, 'user'):
-        setattr(request, 'user', user)
-    messages.success(request,
-                        "You're now logged in as %s." % user.get_full_name())
+    if not hasattr(request, "user"):
+        setattr(request, "user", user)
+    messages.success(request, "You're now logged in as %s." % user.get_full_name())
+
 
 # Register a post-login action for thing we want to do...
 user_logged_in.connect(post_login_actions, dispatch_uid="user_logged_in")

@@ -1,4 +1,3 @@
-# coding: utf-8
 from django.db import models
 
 from pepysdiary.common.models import OldDateMixin, PepysModel
@@ -11,7 +10,7 @@ class DayEvent(PepysModel, OldDateMixin):
     JOSSELIN_CHOICE = 30
     SOURCE_CHOICES = (
         (GADBURY_CHOICE, "John Gadbury’s London Diary"),
-        (PARLIAMENT_CHOICE, 'In Parliament'),
+        (PARLIAMENT_CHOICE, "In Parliament"),
         (JOSSELIN_CHOICE, "In Earl’s Colne, Essex"),
     )
 
@@ -21,8 +20,10 @@ class DayEvent(PepysModel, OldDateMixin):
     source = models.IntegerField(blank=True, null=True, choices=SOURCE_CHOICES)
 
     class Meta:
-        ordering = ['event_date', ]
-        verbose_name = 'Day Event'
+        ordering = [
+            "event_date",
+        ]
+        verbose_name = "Day Event"
 
     def __str__(self):
         return self.title

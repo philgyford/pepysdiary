@@ -1,6 +1,5 @@
 from django.db import models
 from django.contrib.postgres.search import SearchVectorField
-from django.contrib.postgres.indexes import GinIndex
 from django.urls import reverse
 from django.utils import timezone
 
@@ -14,9 +13,13 @@ class PublishedPostManager(models.Manager):
     """
     All Posts that have been Published.
     """
+
     def get_queryset(self):
-        return super(PublishedPostManager, self).get_queryset().filter(
-                                               status=Post.STATUS_PUBLISHED)
+        return (
+            super(PublishedPostManager, self)
+            .get_queryset()
+            .filter(status=Post.STATUS_PUBLISHED)
+        )
 
     def is_valid_category_slug(self, slug):
         """
@@ -33,7 +36,7 @@ class PublishedPostManager(models.Manager):
         Assuming slug is a valid category slug, return the name.
         Else, ''.
         """
-        name = ''
+        name = ""
         for k, v in Post.CATEGORY_CHOICES:
             if k == slug:
                 name = v
@@ -46,46 +49,58 @@ class Post(PepysModel):
     """
 
     # These are used as slugs in URLs.
-    CATEGORY_EVENTS = 'events'
-    CATEGORY_HOUSEKEEPING = 'housekeeping'
-    CATEGORY_FEATURES = 'new-features'
-    CATEGORY_MEDIA = 'pepys-in-the-media'
-    CATEGORY_PRESS = 'press'
-    CATEGORY_STATISTICS = 'statistics'
+    CATEGORY_EVENTS = "events"
+    CATEGORY_HOUSEKEEPING = "housekeeping"
+    CATEGORY_FEATURES = "new-features"
+    CATEGORY_MEDIA = "pepys-in-the-media"
+    CATEGORY_PRESS = "press"
+    CATEGORY_STATISTICS = "statistics"
     CATEGORY_CHOICES = (
-        (CATEGORY_EVENTS, 'Events'),
-        (CATEGORY_HOUSEKEEPING, 'Housekeeping'),
-        (CATEGORY_FEATURES, 'New features'),
-        (CATEGORY_MEDIA, 'Pepys in the media'),
-        (CATEGORY_PRESS, 'Press for this site'),
-        (CATEGORY_STATISTICS, 'Site statistics'),
+        (CATEGORY_EVENTS, "Events"),
+        (CATEGORY_HOUSEKEEPING, "Housekeeping"),
+        (CATEGORY_FEATURES, "New features"),
+        (CATEGORY_MEDIA, "Pepys in the media"),
+        (CATEGORY_PRESS, "Press for this site"),
+        (CATEGORY_STATISTICS, "Site statistics"),
     )
 
     STATUS_DRAFT = 10
     STATUS_PUBLISHED = 20
     STATUS_CHOICES = (
-        (STATUS_DRAFT, 'Draft'),
-        (STATUS_PUBLISHED, 'Published'),
+        (STATUS_DRAFT, "Draft"),
+        (STATUS_PUBLISHED, "Published"),
     )
 
     title = models.CharField(max_length=255, blank=False, null=False)
-    intro = models.TextField(blank=False, null=False,
-                                                help_text="Can use Markdown.")
-    intro_html = models.TextField(blank=True, null=False,
-            help_text="The intro field, with Markdown etc, turned into HTML.")
-    text = models.TextField(blank=True, null=False,
-        help_text="Can use Markdown. Images go in `pepysdiary/news/static/img/news/`. Files go in `pepysdiary/news/static/files/news/`")
-    text_html = models.TextField(blank=True, null=False,
-            help_text="The text field, with Markdown etc, turned into HTML.")
+    intro = models.TextField(blank=False, null=False, help_text="Can use Markdown.")
+    intro_html = models.TextField(
+        blank=True,
+        null=False,
+        help_text="The intro field, with Markdown etc, turned into HTML.",
+    )
+    text = models.TextField(
+        blank=True,
+        null=False,
+        help_text="Can use Markdown. Images go in "
+        "`pepysdiary/news/static/img/news/`. Files go in "
+        "`pepysdiary/news/static/files/news/`",
+    )
+    text_html = models.TextField(
+        blank=True,
+        null=False,
+        help_text="The text field, with Markdown etc, turned into HTML.",
+    )
     date_published = models.DateTimeField(blank=True, null=True)
     comment_count = models.IntegerField(default=0, blank=False, null=False)
     last_comment_time = models.DateTimeField(blank=True, null=True)
     allow_comments = models.BooleanField(blank=False, null=False, default=True)
 
-    status = models.IntegerField(blank=False, null=False,
-                                choices=STATUS_CHOICES, default=STATUS_DRAFT)
-    category = models.CharField(max_length=25, blank=False, null=False,
-                                    db_index=True, choices=CATEGORY_CHOICES)
+    status = models.IntegerField(
+        blank=False, null=False, choices=STATUS_CHOICES, default=STATUS_DRAFT
+    )
+    category = models.CharField(
+        max_length=25, blank=False, null=False, db_index=True, choices=CATEGORY_CHOICES
+    )
 
     # Also see index_components() method.
     search_document = SearchVectorField(null=True)
@@ -94,16 +109,17 @@ class Post(PepysModel):
     published_posts = PublishedPostManager()
 
     class Meta:
-        ordering = ['-date_published', ]
+        ordering = [
+            "-date_published",
+        ]
 
     def __str__(self):
-        return '%s' % (self.title)
+        return "%s" % (self.title)
 
     def save(self, *args, **kwargs):
         self.intro_html = markdown(self.intro)
         self.text_html = markdown(self.text)
-        if self.date_published is None and \
-                                        self.status == self.STATUS_PUBLISHED:
+        if self.date_published is None and self.status == self.STATUS_PUBLISHED:
             # If we're published, and the date_published hasn't been set,
             # then set it.
             self.date_published = timezone.now()
@@ -111,21 +127,24 @@ class Post(PepysModel):
         super(Post, self).save(*args, **kwargs)
 
     def get_absolute_url(self):
-        return reverse('post_detail', kwargs={
-                'year': self.date_published.strftime('%Y'),
-                'month': self.date_published.strftime('%m'),
-                'day': self.date_published.strftime('%d'),
-                'pk': self.pk,
-            })
+        return reverse(
+            "post_detail",
+            kwargs={
+                "year": self.date_published.strftime("%Y"),
+                "month": self.date_published.strftime("%m"),
+                "day": self.date_published.strftime("%d"),
+                "pk": self.pk,
+            },
+        )
 
     def index_components(self):
         """Used by common.signals.on_save() to update the SearchVector on
         self.search_document.
         """
         return {
-            'A': self.title,
-            'B': self.intro,
-            'B': self.text,
+            "A": self.title,
+            "B": self.intro,
+            "B": self.text,
         }
 
     @property
@@ -134,13 +153,14 @@ class Post(PepysModel):
         Return the title of this Post's category.
         e.g. "New features".
         """
-        categories = {c[0]:c[1] for c in self.CATEGORY_CHOICES}
+        categories = {c[0]: c[1] for c in self.CATEGORY_CHOICES}
         if self.category in categories:
             return categories[self.category]
 
 
 class PostModerator(CommentModerator):
     email_notification = False
-    enable_field = 'allow_comments'
+    enable_field = "allow_comments"
+
 
 moderator.register(Post, PostModerator)

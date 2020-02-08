@@ -1,18 +1,25 @@
 from django.contrib.sites.models import Site
 from django.db import models
 
-from pepysdiary.common.utilities import *
+from pepysdiary.common.utilities import (
+    get_year,
+    get_month,
+    get_month_b,
+    get_day,
+    get_day_e,
+)
 
 
 class PepysModel(models.Model):
     """
     All other Models should inherit this.
     """
+
     date_created = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
 
     # Does this item have 'comment's or 'annotation's?
-    comment_name = 'comment'
+    comment_name = "comment"
 
     class Meta:
         abstract = True
@@ -21,22 +28,29 @@ class PepysModel(models.Model):
     def short_title(self):
         """
         Child models (eg, Diary Entries) might override this with a more
-        bespoke way of generating a short version of its title. 
+        bespoke way of generating a short version of its title.
         """
-        if hasattr(self, 'title'):
+        if hasattr(self, "title"):
             return self.title
         else:
-            return ''
+            return ""
 
     def get_a_comment_name(self):
         """
         If we want to print something like "an annotation" or "a comment",
         then call this.
         """
-        if self.comment_name[:1] in ['a', 'e', 'h', 'i', 'o', 'u', ]:
-            return 'an %s' % self.comment_name
+        if self.comment_name[:1] in [
+            "a",
+            "e",
+            "h",
+            "i",
+            "o",
+            "u",
+        ]:
+            return "an %s" % self.comment_name
         else:
-            return 'a %s' % self.comment_name
+            return "a %s" % self.comment_name
 
 
 class ConfigManager(models.Manager):
@@ -57,24 +71,35 @@ class Config(PepysModel):
     """
     Site-wide configuration settings.
     """
-    site = models.OneToOneField(Site, on_delete=models.SET_NULL, blank=False,
-                                                                    null=True)
-    allow_registration = models.BooleanField(default=True, blank=False,
-                                                                    null=False)
+
+    site = models.OneToOneField(Site, on_delete=models.SET_NULL, blank=False, null=True)
+    allow_registration = models.BooleanField(default=True, blank=False, null=False)
     allow_login = models.BooleanField(default=True, blank=False, null=False)
     allow_comments = models.BooleanField(default=True, blank=False, null=False)
 
     use_registration_captcha = models.BooleanField(
-        default=False, blank=False, null=False,
-        help_text="If checked, people must complete a Captcha field when registering.")
+        default=False,
+        blank=False,
+        null=False,
+        help_text="If checked, people must complete a Captcha field when registering.",
+    )
     use_registration_question = models.BooleanField(
-        default=False, blank=False, null=False,
-        help_text="If checked, people must successfully answer the question below when registering.")
+        default=False,
+        blank=False,
+        null=False,
+        help_text="If checked, people must successfully answer the question "
+        "below when registering.",
+    )
     registration_question = models.CharField(
-        max_length=255, blank=True, null=False, default='')
+        max_length=255, blank=True, null=False, default=""
+    )
     registration_answer = models.CharField(
-        max_length=255, blank=True, null=False, default='',
-        help_text="Not case-sensitive.")
+        max_length=255,
+        blank=True,
+        null=False,
+        default="",
+        help_text="Not case-sensitive.",
+    )
 
     objects = ConfigManager()
 
@@ -90,13 +115,14 @@ class OldDateMixin(object):
     the DateTimeField or DateField which we use to return dates. eg:
         old_date_field = 'diary_date'
     """
+
     old_date_field = None
 
     def get_old_date(self):
-        if (not hasattr(self, self.old_date_field)) or \
-                                                (self.old_date_field is None):
-            raise AttributeError("Objects using OldDateMixin should define"
-                                                        "`old_date_field`.")
+        if (not hasattr(self, self.old_date_field)) or (self.old_date_field is None):
+            raise AttributeError(
+                "Objects using OldDateMixin should define" "`old_date_field`."
+            )
         return getattr(self, self.old_date_field)
 
     @property
@@ -153,15 +179,14 @@ class ReferredManagerMixin(object):
         topic_data = {}
 
         for obj in objects:
-            for topic in obj.topics.only(
-                                'pk', 'title', 'tooltip_text', 'thumbnail'):
+            for topic in obj.topics.only("pk", "title", "tooltip_text", "thumbnail"):
                 if str(topic.pk) not in topic_data:
-                    thumbnail_url = ''
+                    thumbnail_url = ""
                     if topic.thumbnail:
                         thumbnail_url = topic.thumbnail.url
                     topic_data[str(topic.pk)] = {
-                        'title': topic.title,
-                        'text': topic.tooltip_text,
-                        'thumbnail_url': thumbnail_url,
+                        "title": topic.title,
+                        "text": topic.tooltip_text,
+                        "thumbnail_url": thumbnail_url,
                     }
         return topic_data

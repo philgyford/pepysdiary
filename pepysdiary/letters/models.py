@@ -1,4 +1,3 @@
-# coding: utf-8
 import re
 
 from django.contrib.postgres.search import SearchVectorField
@@ -7,9 +6,9 @@ from django.db import models
 from django.urls import reverse
 
 from django_comments.moderation import CommentModerator, moderator
-from pepysdiary.common.models import OldDateMixin, PepysModel,\
-                                                        ReferredManagerMixin
-from pepysdiary.common.utilities import *
+from pepysdiary.common.models import OldDateMixin, PepysModel, ReferredManagerMixin
+
+# from pepysdiary.common.utilities import *
 from pepysdiary.encyclopedia.models import Topic
 
 
@@ -22,35 +21,63 @@ class Letter(PepysModel, OldDateMixin):
     GUY_DE_LA_BEDOYERE_SOURCE = 10
     HELEN_TRUESDELL_HEATH_SOURCE = 20
     SOURCE_CHOICES = (
-        (GUY_DE_LA_BEDOYERE_SOURCE, 'Guy de la Bédoyère'),
-        (HELEN_TRUESDELL_HEATH_SOURCE, 'Helen Truesdell Heath'),
+        (GUY_DE_LA_BEDOYERE_SOURCE, "Guy de la Bédoyère"),
+        (HELEN_TRUESDELL_HEATH_SOURCE, "Helen Truesdell Heath"),
     )
 
-    title = models.CharField(max_length=100, blank=False, null=False,
-        help_text='eg, "Thomas Hill to Samuel Pepys".')
+    title = models.CharField(
+        max_length=100,
+        blank=False,
+        null=False,
+        help_text='eg, "Thomas Hill to Samuel Pepys".',
+    )
     letter_date = models.DateField(blank=False, null=False)
-    display_date = models.CharField(max_length=50, blank=False, null=False,
-        help_text='eg "Thursday 27 April 1665". Because days of the week are calculated wrong for old dates.')
+    display_date = models.CharField(
+        max_length=50,
+        blank=False,
+        null=False,
+        help_text='eg "Thursday 27 April 1665". Because days of the week '
+        "are calculated wrong for old dates.",
+    )
     text = models.TextField(blank=False, null=False)
     footnotes = models.TextField(blank=True, null=False)
-    excerpt = models.TextField(blank=False, null=False,
-        help_text="200 or so characters from the start of the letter, after salutations.")
-    sender = models.ForeignKey('encyclopedia.Topic', on_delete=models.SET_NULL,
-                        blank=False, null=True, related_name='leter_senders')
-    recipient = models.ForeignKey('encyclopedia.Topic',
-                            on_delete=models.SET_NULL, blank=False, null=True,
-                            related_name='letter_recipients')
+    excerpt = models.TextField(
+        blank=False,
+        null=False,
+        help_text="200 or so characters from the start of the letter, after "
+        "salutations.",
+    )
+    sender = models.ForeignKey(
+        "encyclopedia.Topic",
+        on_delete=models.SET_NULL,
+        blank=False,
+        null=True,
+        related_name="leter_senders",
+    )
+    recipient = models.ForeignKey(
+        "encyclopedia.Topic",
+        on_delete=models.SET_NULL,
+        blank=False,
+        null=True,
+        related_name="letter_recipients",
+    )
     source = models.IntegerField(blank=True, null=True, choices=SOURCE_CHOICES)
-    slug = models.SlugField(max_length=50, blank=False, null=False,
-                                                unique_for_date='letter_date')
+    slug = models.SlugField(
+        max_length=50, blank=False, null=False, unique_for_date="letter_date"
+    )
     comment_count = models.IntegerField(default=0, blank=False, null=False)
     last_comment_time = models.DateTimeField(blank=True, null=True)
     allow_comments = models.BooleanField(blank=False, null=False, default=True)
-    order = models.PositiveSmallIntegerField(blank=False, null=False, default=0,
-        help_text="If letters are from the same day, this is used to order them, lowest number first.")
+    order = models.PositiveSmallIntegerField(
+        blank=False,
+        null=False,
+        default=0,
+        help_text="If letters are from the same day, this is used to order them, "
+        "lowest number first.",
+    )
 
-    old_date_field = 'letter_date'
-    comment_name = 'annotation'
+    old_date_field = "letter_date"
+    comment_name = "annotation"
 
     # Also see index_components() method.
     search_document = SearchVectorField(null=True)
@@ -60,34 +87,38 @@ class Letter(PepysModel, OldDateMixin):
     objects = LetterManager()
 
     class Meta:
-        ordering = ['letter_date', 'order',]
-        indexes = [
-            GinIndex(fields=['search_document'])
+        ordering = [
+            "letter_date",
+            "order",
         ]
+        indexes = [GinIndex(fields=["search_document"])]
 
     def __str__(self):
-        return '%s: %s' % (self.letter_date, self.title)
+        return "%s: %s" % (self.letter_date, self.title)
 
     def save(self, *args, **kwargs):
         super(Letter, self).save(*args, **kwargs)
         self.make_references()
 
     def get_absolute_url(self):
-        return reverse('letter_detail', kwargs={
-                'year': self.year,
-                'month': self.month,
-                'day': self.day,
-                'slug': self.slug,
-            })
+        return reverse(
+            "letter_detail",
+            kwargs={
+                "year": self.year,
+                "month": self.month,
+                "day": self.day,
+                "slug": self.slug,
+            },
+        )
 
     def index_components(self):
         """Used by common.signals.on_save() to update the SearchVector on
         self.search_document.
         """
         return {
-            'A': self.title,
-            'B': self.text,
-            'C': self.footnotes,
+            "A": self.title,
+            "B": self.text,
+            "C": self.footnotes,
         }
 
     def make_references(self):
@@ -97,8 +128,10 @@ class Letter(PepysModel, OldDateMixin):
         """
         self.topics.clear()
         # Get a list of all the Topic IDs mentioned in text and footnotes:
-        ids = re.findall(r'pepysdiary.com\/encyclopedia\/(\d+)\/', '%s %s' % (
-                                                    self.text, self.footnotes))
+        ids = re.findall(
+            r"pepysdiary.com\/encyclopedia\/(\d+)\/",
+            "%s %s" % (self.text, self.footnotes),
+        )
         # Make sure list of Topic IDs is unique:
         # From http://stackoverflow.com/a/480227/250962
         seen = set()
@@ -114,7 +147,7 @@ class Letter(PepysModel, OldDateMixin):
         """
         Shorter than self.display_date, like '27 April 1665'.
         """
-        return '%s %s %s' % (self.day_e, self.month_b, self.year)
+        return "%s %s %s" % (self.day_e, self.month_b, self.year)
 
     @property
     def full_title(self):
@@ -122,11 +155,12 @@ class Letter(PepysModel, OldDateMixin):
         Uniquish title including correspondents and date, like
         '27 April 1665, Samuel Pepys to John Evelyn'.
         """
-        return '%s, %s' % (self.short_date, self.title)
+        return "%s, %s" % (self.short_date, self.title)
 
 
 class LetterModerator(CommentModerator):
     email_notification = False
-    enable_field = 'allow_comments'
+    enable_field = "allow_comments"
+
 
 moderator.register(Letter, LetterModerator)

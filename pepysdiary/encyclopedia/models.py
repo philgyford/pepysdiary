@@ -1,7 +1,5 @@
-#! -*- coding: utf-8 -*-
 from django.conf import settings
 from django.contrib.postgres.search import SearchVectorField
-from django.contrib.postgres.indexes import GinIndex
 from django.db import models
 from django.db.models.signals import m2m_changed, post_delete, pre_delete
 from django.urls import reverse
@@ -18,71 +16,106 @@ from pepysdiary.encyclopedia import topic_lookups
 
 class Topic(PepysModel):
 
-    # These are inherited from Movable Type data, but I'm not sure we
+    #  These are inherited from Movable Type data, but I'm not sure we
     # actually use them...
-    MAP_CATEGORY_AREA = 'area'
-    MAP_CATEGORY_GATE = 'gate'
-    MAP_CATEGORY_HOME = 'home'
-    MAP_CATEGORY_MISC = 'misc'
-    MAP_CATEGORY_ROAD = 'road'
-    MAP_CATEGORY_STAIR = 'stair'
-    MAP_CATEGORY_TOWN = 'town'
+    MAP_CATEGORY_AREA = "area"
+    MAP_CATEGORY_GATE = "gate"
+    MAP_CATEGORY_HOME = "home"
+    MAP_CATEGORY_MISC = "misc"
+    MAP_CATEGORY_ROAD = "road"
+    MAP_CATEGORY_STAIR = "stair"
+    MAP_CATEGORY_TOWN = "town"
     MAP_CATEGORY_CHOICES = (
-        (MAP_CATEGORY_AREA, 'Area'),
-        (MAP_CATEGORY_GATE, 'Gate'),
+        (MAP_CATEGORY_AREA, "Area"),
+        (MAP_CATEGORY_GATE, "Gate"),
         (MAP_CATEGORY_HOME, "Pepys' home(s)"),
-        (MAP_CATEGORY_MISC, 'Misc'),
-        (MAP_CATEGORY_ROAD, 'Road/Street'),
-        (MAP_CATEGORY_STAIR, 'Stair/Pier'),
-        (MAP_CATEGORY_TOWN, 'Town/Village'),
+        (MAP_CATEGORY_MISC, "Misc"),
+        (MAP_CATEGORY_ROAD, "Road/Street"),
+        (MAP_CATEGORY_STAIR, "Stair/Pier"),
+        (MAP_CATEGORY_TOWN, "Town/Village"),
     )
 
     title = models.CharField(max_length=255, blank=False, null=False)
     order_title = models.CharField(max_length=255, blank=True, null=False)
-    summary = models.TextField(blank=True, null=False,
-                                                help_text="Can use Markdown.")
-    summary_html = models.TextField(blank=True, null=False,
-        help_text="The summary field, with Markdown etc, turned into HTML.")
-    wheatley = models.TextField(blank=True, null=False,
-        help_text="Can use Markdown. Taken from footnotes in the 1893 Wheatley edition of the diary.")
-    wheatley_html = models.TextField(blank=True, null=False,
-        help_text="The wheatley field, with Markdown etc, turned into HTML.")
-    tooltip_text = models.TextField(blank=True, null=False,
-                        help_text="For hovering over links in diary entries.")
+    summary = models.TextField(blank=True, null=False, help_text="Can use Markdown.")
+    summary_html = models.TextField(
+        blank=True,
+        null=False,
+        help_text="The summary field, with Markdown etc, turned into HTML.",
+    )
+    wheatley = models.TextField(
+        blank=True,
+        null=False,
+        help_text="Can use Markdown. Taken from footnotes in the 1893 Wheatley "
+        "edition of the diary.",
+    )
+    wheatley_html = models.TextField(
+        blank=True,
+        null=False,
+        help_text="The wheatley field, with Markdown etc, turned into HTML.",
+    )
+    tooltip_text = models.TextField(
+        blank=True, null=False, help_text="For hovering over links in diary entries."
+    )
     wikipedia_fragment = models.CharField(
-        max_length=255, blank=True, null=False,
-        help_text="From the Wikipedia page URL, if any, eg, 'Samuel_Pepys'.")
-    wikipedia_html = models.TextField(blank=True, null=False,
-        help_text="Will be populated automatically.")
+        max_length=255,
+        blank=True,
+        null=False,
+        help_text="From the Wikipedia page URL, if any, eg, 'Samuel_Pepys'.",
+    )
+    wikipedia_html = models.TextField(
+        blank=True, null=False, help_text="Will be populated automatically."
+    )
     wikipedia_last_fetch = models.DateTimeField(blank=True, null=True)
-    thumbnail = models.ImageField(upload_to='encyclopedia/thumbnails',
-        blank=True, null=True, help_text="100 x 120 pixels")
-    on_pepys_family_tree = models.BooleanField(blank=False, null=False,
-        verbose_name='Is on the Pepys family tree?', default=False)
+    thumbnail = models.ImageField(
+        upload_to="encyclopedia/thumbnails",
+        blank=True,
+        null=True,
+        help_text="100 x 120 pixels",
+    )
+    on_pepys_family_tree = models.BooleanField(
+        blank=False,
+        null=False,
+        verbose_name="Is on the Pepys family tree?",
+        default=False,
+    )
     comment_count = models.IntegerField(default=0, blank=False, null=False)
     last_comment_time = models.DateTimeField(blank=True, null=True)
     allow_comments = models.BooleanField(blank=False, null=False, default=True)
 
-    map_category = models.CharField(max_length=20, blank=True, null=False,
-                                choices=MAP_CATEGORY_CHOICES, db_index=True,
-                                help_text="(UNUSED?) The type of object this is on maps")
-    latitude = models.DecimalField(max_digits=11, decimal_places=6,
-                                                        blank=True, null=True)
-    longitude = models.DecimalField(max_digits=11, decimal_places=6,
-                                                        blank=True, null=True)
+    map_category = models.CharField(
+        max_length=20,
+        blank=True,
+        null=False,
+        choices=MAP_CATEGORY_CHOICES,
+        db_index=True,
+        help_text="(UNUSED?) The type of object this is on maps",
+    )
+    latitude = models.DecimalField(
+        max_digits=11, decimal_places=6, blank=True, null=True
+    )
+    longitude = models.DecimalField(
+        max_digits=11, decimal_places=6, blank=True, null=True
+    )
     zoom = models.SmallIntegerField(blank=True, null=True)
-    shape = models.TextField(blank=True, null=False,
-        help_text="Lat/long coordinate pairs, separated by semicolons, eg '51.513558,-0.104268;51.513552,-0.104518;...', from http://www.birdtheme.org/useful/v3largemap.html (formatted slightly differently).")
+    shape = models.TextField(
+        blank=True,
+        null=False,
+        help_text="Lat/long coordinate pairs, separated by semicolons, "
+        "eg '51.513558,-0.104268;51.513552,-0.104518;...', "
+        "from http://www.birdtheme.org/useful/v3largemap.html "
+        "(formatted slightly differently).",
+    )
 
-    categories = models.ManyToManyField('Category', related_name='topics')
+    categories = models.ManyToManyField("Category", related_name="topics")
 
-    diary_references = models.ManyToManyField('diary.Entry', related_name='topics')
-    letter_references = models.ManyToManyField('letters.Letter', related_name='topics')
+    diary_references = models.ManyToManyField("diary.Entry", related_name="topics")
+    letter_references = models.ManyToManyField("letters.Letter", related_name="topics")
 
     # Also see index_components() method.
     search_document = SearchVectorField(null=True)
 
-    comment_name = 'annotation'
+    comment_name = "annotation"
 
     # Keeps track of whether we've made the order_title for this model yet.
     _order_title_made = False
@@ -91,7 +124,9 @@ class Topic(PepysModel):
     objects = TopicManager()
 
     class Meta:
-        ordering = ['order_title', ]
+        ordering = [
+            "order_title",
+        ]
 
     def __str__(self):
         return self.title
@@ -101,7 +136,7 @@ class Topic(PepysModel):
         self.wheatley_html = markdown(self.wheatley)
         super(Topic, self).save(*args, **kwargs)
 
-        if self._order_title_made == False:
+        if self._order_title_made is False:
             # When importing data we need to do the make_order_title() after
             # we've saved the model, and its category ManyToMany field, but
             # we don't want to get into an infinite loop. So this makes sure
@@ -124,10 +159,10 @@ class Topic(PepysModel):
     @property
     def has_polygon(self):
         """Do we have shape data, and does it describe a complete polygon?"""
-        if self.shape == '':
+        if self.shape == "":
             return False
         else:
-            points = self.shape.split(';')
+            points = self.shape.split(";")
             if points[0] == points[-1]:
                 return True
             else:
@@ -136,10 +171,10 @@ class Topic(PepysModel):
     @property
     def has_path(self):
         """Do we have shape data, and does it describe a path (eg, a road)?"""
-        if self.shape == '':
+        if self.shape == "":
             return False
         else:
-            points = self.shape.split(';')
+            points = self.shape.split(";")
             if points[0] == points[-1]:
                 return False
             else:
@@ -168,22 +203,24 @@ class Topic(PepysModel):
             people_category = None
         if people_category is not None and people_category in self.categories.all():
             self.order_title = Topic.objects.make_order_title(
-                                                self.title, is_person=True)
+                self.title, is_person=True
+            )
         else:
             self.order_title = Topic.objects.make_order_title(
-                                            self.title, is_person=False)
+                self.title, is_person=False
+            )
 
     def get_absolute_url(self):
-        return reverse('topic_detail', kwargs={'pk': self.pk, })
+        return reverse("topic_detail", kwargs={"pk": self.pk})
 
     def index_components(self):
         """Used by common.signals.on_save() to update the SearchVector on
         self.search_document.
         """
         return {
-            'A': self.title,
-            'B': self.summary,
-            'B': self.wheatley,
+            "A": self.title,
+            "B": self.summary,
+            "B": self.wheatley,
         }
 
     def get_annotated_diary_references(self):
@@ -206,7 +243,7 @@ class Topic(PepysModel):
         month_refs = []
         prev_year = None
         prev_yearmonth = None
-        for ref in self.diary_references.order_by('diary_date'):
+        for ref in self.diary_references.order_by("diary_date"):
             if ref.year + ref.month_b != prev_yearmonth:
                 if prev_yearmonth is not None:
                     year_refs[1].append(month_refs)
@@ -228,9 +265,9 @@ class Topic(PepysModel):
     @property
     def wikipedia_url(self):
         if self.wikipedia_fragment:
-            return 'https://en.wikipedia.org/wiki/{}'.format(self.wikipedia_fragment)
+            return "https://en.wikipedia.org/wiki/{}".format(self.wikipedia_fragment)
         else:
-            return ''
+            return ""
 
     @property
     def is_family_tree(self):
@@ -261,7 +298,8 @@ class Topic(PepysModel):
 
 class TopicModerator(CommentModerator):
     email_notification = False
-    enable_field = 'allow_comments'
+    enable_field = "allow_comments"
+
 
 moderator.register(Topic, TopicModerator)
 
@@ -271,30 +309,33 @@ def topic_categories_changed(sender, **kwargs):
     When we add or remove categories on this topic, we need to re-set those
     categories' topic counts.
     """
-    if kwargs['reverse'] == False:
+    if kwargs["reverse"] is False:
         # We're changing the categories on a topic.
-        if kwargs['action'] == 'pre_clear':
+        if kwargs["action"] == "pre_clear":
             # Before we do anything,
             # store the PKs of the current categories on this topic.
-            kwargs['instance']._original_categories_pks = [
-                            c.pk for c in kwargs['instance'].categories.all()]
+            kwargs["instance"]._original_categories_pks = [
+                c.pk for c in kwargs["instance"].categories.all()
+            ]
 
-        elif kwargs['action'] in ['post_add', 'post_remove']:
+        elif kwargs["action"] in ["post_add", "post_remove"]:
             # Finished the action, so now change the old and new categories'
             # topic counts.
             # The PKs of the categories the topic has now:
-            new_pks = kwargs.get('pk_set', [])
+            new_pks = kwargs.get("pk_set", [])
             # Make a list of both the new and old categories' PKs:
-            pks = kwargs['instance']._original_categories_pks + list(
-                set(new_pks) - set(kwargs['instance']._original_categories_pks))
+            pks = kwargs["instance"]._original_categories_pks + list(
+                set(new_pks) - set(kwargs["instance"]._original_categories_pks)
+            )
             # For all the old and new categories, set the counts:
             for pk in pks:
                 cat = Category.objects.get(pk=pk)
                 cat.set_topic_count()
     else:
         # We're changing a Category's topics, so set that Category's count.
-        if kwargs['instance'] is not None:
-            kwargs['instance'].set_topic_count()
+        if kwargs["instance"] is not None:
+            kwargs["instance"].set_topic_count()
+
 
 m2m_changed.connect(topic_categories_changed, sender=Topic.categories.through)
 
@@ -303,8 +344,10 @@ def topic_pre_delete(sender, **kwargs):
     """
     Before deleting the topic, store the categories it has so that...
     """
-    kwargs['instance']._original_categories_pks = [
-                            c.pk for c in kwargs['instance'].categories.all()]
+    kwargs["instance"]._original_categories_pks = [
+        c.pk for c in kwargs["instance"].categories.all()
+    ]
+
 
 pre_delete.connect(topic_pre_delete, sender=Topic)
 
@@ -313,9 +356,10 @@ def topic_post_delete(sender, **kwargs):
     """
     ...after deleting the topic, we re-set its categories' topic counts.
     """
-    for pk in kwargs['instance']._original_categories_pks:
+    for pk in kwargs["instance"]._original_categories_pks:
         cat = Category.objects.get(pk=pk)
         cat.set_topic_count()
+
 
 post_delete.connect(topic_post_delete, sender=Topic)
 
@@ -335,22 +379,31 @@ class CategoryManager(MP_NodeManager):
         should be focused on something other than central London.
         """
         return (
-            ('London', (
-                (category_lookups.PLACES_LONDON_AREAS,          'Areas of London'),
-                (category_lookups.PLACES_LONDON_CHURCHES,       'Churches and cathedrals in London'),
-                (category_lookups.PLACES_LONDON_GOVERNMENT,     'Government buildings'),
-                (category_lookups.PLACES_LONDON_LIVERY_HALLS,   'Livery halls'),
-                (category_lookups.PLACES_LONDON_STREETS,        'Streets, gates, squares, piers, etc'),
-                (category_lookups.PLACES_LONDON_TAVERNS,        'Taverns in London'),
-                (category_lookups.PLACES_LONDON_THEATRES,       'Theatres in London'),
-                (category_lookups.PLACES_LONDON_WHITEHALL,      'Whitehall Palace'),
-                (category_lookups.PLACES_LONDON_ROYAL,          'Other royal buildings'),
-                (category_lookups.PLACES_LONDON_OTHER,          'Other London buildings'),
-            ), ),
-            (category_lookups.PLACES_LONDON_ENVIRONS,       'London environs'),
-            (category_lookups.PLACES_BRITAIN_WATERWAYS,     'Waterways in Britain'),
-            (category_lookups.PLACES_BRITAIN_REST,          'Rest of Britain'),
-            (category_lookups.PLACES_WORLD_REST,            'Rest of the world'),
+            (
+                "London",
+                (
+                    (category_lookups.PLACES_LONDON_AREAS, "Areas of London"),
+                    (
+                        category_lookups.PLACES_LONDON_CHURCHES,
+                        "Churches and cathedrals in London",
+                    ),
+                    (category_lookups.PLACES_LONDON_GOVERNMENT, "Government buildings"),
+                    (category_lookups.PLACES_LONDON_LIVERY_HALLS, "Livery halls"),
+                    (
+                        category_lookups.PLACES_LONDON_STREETS,
+                        "Streets, gates, squares, piers, etc",
+                    ),
+                    (category_lookups.PLACES_LONDON_TAVERNS, "Taverns in London"),
+                    (category_lookups.PLACES_LONDON_THEATRES, "Theatres in London"),
+                    (category_lookups.PLACES_LONDON_WHITEHALL, "Whitehall Palace"),
+                    (category_lookups.PLACES_LONDON_ROYAL, "Other royal buildings"),
+                    (category_lookups.PLACES_LONDON_OTHER, "Other London buildings"),
+                ),
+            ),
+            (category_lookups.PLACES_LONDON_ENVIRONS, "London environs"),
+            (category_lookups.PLACES_BRITAIN_WATERWAYS, "Waterways in Britain"),
+            (category_lookups.PLACES_BRITAIN_REST, "Rest of Britain"),
+            (category_lookups.PLACES_WORLD_REST, "Rest of the world"),
         )
 
     def valid_map_category_ids(self):
@@ -379,24 +432,26 @@ class Category(MP_Node):
 
     objects = CategoryManager()
 
-    node_order_by = ['title', ]
+    node_order_by = [
+        "title",
+    ]
 
     class Meta:
-        verbose_name_plural = 'Categories'
+        verbose_name_plural = "Categories"
 
     def __str__(self):
-        return '%s' % self.title
+        return "%s" % self.title
 
     def get_absolute_url(self):
         # Join all the parent categories' slugs, eg:
         # 'fooddrink/drink/alcdrinks'.
-        parent_slugs = '/'.join([c.slug for c in self.get_ancestors()])
+        parent_slugs = "/".join([c.slug for c in self.get_ancestors()])
         if parent_slugs:
-            path = '%s/%s' % (parent_slugs, self.slug)
+            path = "%s/%s" % (parent_slugs, self.slug)
         else:
             # Top level category.
-            path = '%s' % self.slug
-        return reverse('category_detail', kwargs={'slugs': path, })
+            path = "%s" % self.slug
+        return reverse("category_detail", kwargs={"slugs": path})
 
     def set_topic_count(self):
         """

@@ -1,5 +1,4 @@
 from django.contrib.postgres.search import SearchVectorField
-from django.contrib.postgres.indexes import GinIndex
 from django.db import models
 from django.urls import reverse
 from django.utils import timezone
@@ -14,9 +13,13 @@ class PublishedArticleManager(models.Manager):
     """
     All Articles that have been Published.
     """
+
     def get_queryset(self):
-        return super(PublishedArticleManager, self).get_queryset().filter(
-                                               status=Article.STATUS_PUBLISHED)
+        return (
+            super(PublishedArticleManager, self)
+            .get_queryset()
+            .filter(status=Article.STATUS_PUBLISHED)
+        )
 
 
 class Article(PepysModel):
@@ -27,29 +30,40 @@ class Article(PepysModel):
     STATUS_DRAFT = 10
     STATUS_PUBLISHED = 20
     STATUS_CHOICES = (
-        (STATUS_DRAFT, 'Draft'),
-        (STATUS_PUBLISHED, 'Published'),
+        (STATUS_DRAFT, "Draft"),
+        (STATUS_PUBLISHED, "Published"),
     )
 
     title = models.CharField(max_length=255, blank=False, null=False)
-    intro = models.TextField(blank=False, null=False,
-                                                help_text="Can use Markdown.")
-    intro_html = models.TextField(blank=True, null=False,
-            help_text="The intro field, with Markdown etc, turned into HTML.")
-    text = models.TextField(blank=True, null=False,
-        help_text="Can use Markdown. Any images should be put in `pepysdiary/indepth/static/img/indepth/`.")
-    text_html = models.TextField(blank=True, null=False,
-            help_text="The text field, with Markdown etc, turned into HTML.")
+    intro = models.TextField(blank=False, null=False, help_text="Can use Markdown.")
+    intro_html = models.TextField(
+        blank=True,
+        null=False,
+        help_text="The intro field, with Markdown etc, turned into HTML.",
+    )
+    text = models.TextField(
+        blank=True,
+        null=False,
+        help_text="Can use Markdown. Any images should be put in "
+        "`pepysdiary/indepth/static/img/indepth/`.",
+    )
+    text_html = models.TextField(
+        blank=True,
+        null=False,
+        help_text="The text field, with Markdown etc, turned into HTML.",
+    )
     excerpt = models.TextField(blank=True, null=False)
     date_published = models.DateTimeField(blank=True, null=True)
-    slug = models.SlugField(max_length=50, blank=False, null=False,
-                                            unique_for_date='date_published')
+    slug = models.SlugField(
+        max_length=50, blank=False, null=False, unique_for_date="date_published"
+    )
     comment_count = models.IntegerField(default=0, blank=False, null=False)
     last_comment_time = models.DateTimeField(blank=True, null=True)
     allow_comments = models.BooleanField(blank=False, null=False, default=True)
 
-    status = models.IntegerField(blank=False, null=False,
-                                choices=STATUS_CHOICES, default=STATUS_DRAFT)
+    status = models.IntegerField(
+        blank=False, null=False, choices=STATUS_CHOICES, default=STATUS_DRAFT
+    )
 
     # Also see index_components() method.
     search_document = SearchVectorField(null=True)
@@ -58,10 +72,12 @@ class Article(PepysModel):
     published_articles = PublishedArticleManager()
 
     class Meta:
-        ordering = ['-date_published', ]
+        ordering = [
+            "-date_published",
+        ]
 
     def __str__(self):
-        return '%s' % (self.title)
+        return "%s" % (self.title)
 
     def save(self, *args, **kwargs):
         self.intro_html = markdown(self.intro)
@@ -74,25 +90,30 @@ class Article(PepysModel):
         super(Article, self).save(*args, **kwargs)
 
     def get_absolute_url(self):
-        return reverse('article_detail', kwargs={
-                'year': self.date_published.strftime('%Y'),
-                'month': self.date_published.strftime('%m'),
-                'day': self.date_published.strftime('%d'),
-                'slug': self.slug,
-            })
+        return reverse(
+            "article_detail",
+            kwargs={
+                "year": self.date_published.strftime("%Y"),
+                "month": self.date_published.strftime("%m"),
+                "day": self.date_published.strftime("%d"),
+                "slug": self.slug,
+            },
+        )
 
     def index_components(self):
         """Used by common.signals.on_save() to update the SearchVector on
         self.search_document.
         """
         return {
-            'A': self.title,
-            'B': self.intro,
-            'B': self.text,
+            "A": self.title,
+            "B": self.intro,
+            "B": self.text,
         }
+
 
 class ArticleModerator(CommentModerator):
     email_notification = False
-    enable_field = 'allow_comments'
+    enable_field = "allow_comments"
+
 
 moderator.register(Article, ArticleModerator)
