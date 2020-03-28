@@ -10,20 +10,25 @@ from pepysdiary.membership.utilities import validate_person_name
 class PersonCreationForm(forms.ModelForm):
     """A form for creating new users. Includes all the required
     fields, plus a repeated password."""
-    name = forms.CharField(max_length=50, validators=[validate_person_name],
-        help_text="Required. 50 characters or fewer. Spaces allowed.")
-    password1 = forms.CharField(label='Password', widget=forms.PasswordInput)
-    password2 = forms.CharField(label='Password confirmation',
-                                                widget=forms.PasswordInput)
+
+    name = forms.CharField(
+        max_length=50,
+        validators=[validate_person_name],
+        help_text="Required. 50 characters or fewer. Spaces allowed.",
+    )
+    password1 = forms.CharField(label="Password", widget=forms.PasswordInput)
+    password2 = forms.CharField(
+        label="Password confirmation", widget=forms.PasswordInput
+    )
 
     class Meta:
         model = Person
-        fields = ('email', 'name')
+        fields = ("email", "name")
 
     def clean_name(self):
         # Since Person.name is unique, this check is redundant,
         # but it sets a nicer error message than the ORM. See #13147.
-        name = self.cleaned_data['name']
+        name = self.cleaned_data["name"]
         try:
             Person.objects.get(name=name)
         except Person.DoesNotExist:
@@ -52,6 +57,7 @@ class PersonChangeForm(forms.ModelForm):
     the user, but replaces the password field with admin's
     password hash display field.
     """
+
     password = ReadOnlyPasswordHashField()
 
     class Meta:
@@ -60,9 +66,9 @@ class PersonChangeForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(PersonChangeForm, self).__init__(*args, **kwargs)
-        f = self.fields.get('user_permissions', None)
+        f = self.fields.get("user_permissions", None)
         if f is not None:
-            f.queryset = f.queryset.select_related('content_type')
+            f.queryset = f.queryset.select_related("content_type")
 
     def clean_password(self):
         # Regardless of what the user provides, return the initial value.
@@ -79,31 +85,60 @@ class PersonAdmin(UserAdmin):
     # The fields to be used in displaying the User model.
     # These override the definitions on the base UserAdmin
     # that reference specific fields on auth.User.
-    list_display = ('name', 'email', 'url', 'is_trusted_commenter', 
-                                'is_active', 'date_created', 'last_login')
-    list_filter = ('is_staff', 'is_superuser', 'is_active', 'groups')
-    readonly_fields = ('date_created', 'date_modified', 'last_login', )
-    fieldsets = (
-        (None, {
-            'fields': ('name', 'email', 'url', 'password', 'activation_key', )
-        }),
-        ('Dates', {
-            'fields': ('date_created', 'date_activated', 'date_modified',
-                                        'first_comment_date', 'last_login', )
-        }),
-        ('Permissions', {
-            'fields': ('is_active', 'is_trusted_commenter', 'is_staff',
-                                'is_superuser', 'groups', 'user_permissions')
-        }),
+    list_display = (
+        "name",
+        "email",
+        "url",
+        "is_trusted_commenter",
+        "is_active",
+        "date_created",
+        "last_login",
     )
-    add_fieldsets = (
-        (None, {
-            'classes': ('wide',),
-            'fields': ('name', 'email', 'url', 'password1', 'password2')}
+    list_filter = ("is_staff", "is_superuser", "is_active", "groups")
+    readonly_fields = (
+        "date_created",
+        "date_modified",
+        "last_login",
+    )
+    fieldsets = (
+        (None, {"fields": ("name", "email", "url", "password", "activation_key",)}),
+        (
+            "Dates",
+            {
+                "fields": (
+                    "date_created",
+                    "date_activated",
+                    "date_modified",
+                    "first_comment_date",
+                    "last_login",
+                )
+            },
+        ),
+        (
+            "Permissions",
+            {
+                "fields": (
+                    "is_active",
+                    "is_trusted_commenter",
+                    "is_staff",
+                    "is_superuser",
+                    "groups",
+                    "user_permissions",
+                )
+            },
         ),
     )
-    search_fields = ('name', 'email', 'url')
-    ordering = ('-date_created',)
+    add_fieldsets = (
+        (
+            None,
+            {
+                "classes": ("wide",),
+                "fields": ("name", "email", "url", "password1", "password2"),
+            },
+        ),
+    )
+    search_fields = ("name", "email", "url")
+    ordering = ("-date_created",)
 
 
 admin.site.register(Person, PersonAdmin)
