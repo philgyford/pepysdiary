@@ -435,7 +435,7 @@ window.pepys.topic = {
         };
 
         // When a tab is clicked, change the URL's hash.
-        $('.nav-tabs a').on('shown', function (e) {
+        $('.nav-tabs a').on('shown.bs.tab', function (e) {
             var hash = e.target.hash.substring(1);
             // We don't want to jump to the tab's content, so we change its
             // ID, then change the URL hash, then put the ID back.
