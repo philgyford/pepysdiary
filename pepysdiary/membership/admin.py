@@ -94,7 +94,7 @@ class PersonKindsFilter(admin.SimpleListFilter):
 
     def lookups(self, request, model_admin):
         return (
-            ("spammers", "Possible spammers"),
+            ("spammers", "Possible active spammers"),
             ("trusted", "Trusted commenters"),
         )
 
@@ -107,10 +107,18 @@ class PersonKindsFilter(admin.SimpleListFilter):
             return queryset.filter(is_trusted_commenter=True)
 
 
+def deactivate(modeladmin, request, queryset):
+    "For bulk changing of Person.is_active to False; for spammers"
+    queryset.update(is_active=False)
+deactivate.short_description = "Deactivate selected People"  # noqa: E305
+
+
 class PersonAdmin(UserAdmin):
     # The forms to add and change user instances
     form = PersonChangeForm
     add_form = PersonCreationForm
+
+    actions = [deactivate]
 
     # The fields to be used in displaying the User model.
     # These override the definitions on the base UserAdmin
@@ -173,8 +181,8 @@ class PersonAdmin(UserAdmin):
     def has_commented(self, obj):
         return obj.first_comment_date is not None
 
-    has_commented.boolean = True  # noqa: E305
-    has_commented.short_description = "Commented?"  # noqa: E305
+    has_commented.boolean = True
+    has_commented.short_description = "Commented?"
 
 
 admin.site.register(Person, PersonAdmin)
