@@ -1,7 +1,10 @@
+from datetime import timedelta
+
 from django import forms
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
+from django.db.models import F
 
 from pepysdiary.membership.models import Person
 from pepysdiary.membership.utilities import validate_person_name
@@ -77,6 +80,33 @@ class PersonChangeForm(forms.ModelForm):
         return self.initial["password"]
 
 
+class PersonKindsFilter(admin.SimpleListFilter):
+    """
+    Filter Persons based on different criteria.
+
+    spammers - Has a URL, Is Active, haven't logged in since the day
+               they were created. Possible spammer.
+    """
+
+    title = "Kinds"
+
+    parameter_name = "kinds"
+
+    def lookups(self, request, model_admin):
+        return (
+            ("spammers", "Possible spammers"),
+            ("trusted", "Trusted commenters"),
+        )
+
+    def queryset(self, request, queryset):
+        if self.value() == "spammers":
+            return queryset.exclude(url="").filter(
+                is_active=True, last_login__lte=F("date_created") + timedelta(days=1),
+            )
+        elif self.value() == "trusted":
+            return queryset.filter(is_trusted_commenter=True)
+
+
 class PersonAdmin(UserAdmin):
     # The forms to add and change user instances
     form = PersonChangeForm
@@ -89,12 +119,12 @@ class PersonAdmin(UserAdmin):
         "name",
         "email",
         "url",
-        "is_trusted_commenter",
+        "has_commented",
         "is_active",
         "date_created",
         "last_login",
     )
-    list_filter = ("is_staff", "is_superuser", "is_active", "groups")
+    list_filter = (PersonKindsFilter, "is_staff", "is_superuser", "is_active", "groups")
     readonly_fields = (
         "date_created",
         "date_modified",
@@ -139,6 +169,12 @@ class PersonAdmin(UserAdmin):
     )
     search_fields = ("name", "email", "url")
     ordering = ("-date_created",)
+
+    def has_commented(self, obj):
+        return obj.first_comment_date is not None
+
+    has_commented.boolean = True  # noqa: E305
+    has_commented.short_description = "Commented?"  # noqa: E305
 
 
 admin.site.register(Person, PersonAdmin)
