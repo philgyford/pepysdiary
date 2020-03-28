@@ -427,6 +427,8 @@ window.pepys.topic = {
             } else if ($.inArray(hash, this.valid_tabs) >= 0) {
                 // It's a valid tab ID.
                 $('#tab-'+hash+' a').tab('show');
+                // Don't scroll down to the tab content.
+                $('html, body').animate({scrollTop: 0}, 1);
 
             } else if ($('#row-wikipedia').exists() && $('#wikipedia').exists()) {
                 // We might be linking to a section under the Wikipedia tab.
@@ -437,11 +439,12 @@ window.pepys.topic = {
         // When a tab is clicked, change the URL's hash.
         $('.nav-tabs a').on('shown.bs.tab', function (e) {
             var hash = e.target.hash.substring(1);
-            // We don't want to jump to the tab's content, so we change its
-            // ID, then change the URL hash, then put the ID back.
-            $(hash).attr('id', hash+'temp');
-            window.location.hash = '#' + hash;
-            $(hash+'temp').attr('id', hash);
+            if(history.pushState) {
+              // Use pushState if it exists, to prevent the page jumping.
+              history.pushState(null, null, '#'+hash);
+            } else {
+              window.location.hash = '#'+hash;
+            };
         });
     },
 
