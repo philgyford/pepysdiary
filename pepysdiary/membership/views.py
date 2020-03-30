@@ -9,11 +9,12 @@ from django.views.decorators.cache import never_cache
 from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.debug import sensitive_post_parameters
 from django.views.generic import TemplateView
-from django.views.generic.detail import DetailView
+from django.views.generic.detail import SingleObjectMixin
 from django.views.generic.edit import FormView, UpdateView
 
 from pepysdiary.annotations.models import Annotation
 from pepysdiary.common.models import Config
+from pepysdiary.common.views import PaginatedListView
 from pepysdiary.membership import forms
 from pepysdiary.membership.models import Person
 
@@ -48,24 +49,34 @@ class RegisterView(FormView):
         return super(RegisterView, self).form_valid(form)
 
 
-class ProfileView(DetailView):
+class ProfileView(SingleObjectMixin, PaginatedListView):
     """
     A general, public view of a user's details.
     PrivateProfileView inherits this for the logged-in user's private view.
-    """
 
-    model = Person
-    queryset = Person.objects.filter(is_active=True)
+    SingleObjectMixin handles the Person object.
+    PaginatedListView handles the Annotations (comment_list).
+    """
     private_profile = False
+    template_name = "membership/person_detail.html"
+    paginate_by = 20
+
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object(
+            queryset=Person.objects.filter(is_active=True).all()
+        )
+        return super().get(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
         context = super(ProfileView, self).get_context_data(**kwargs)
         context["private_profile"] = self.private_profile
-        if self.object:
-            comments_qs = Annotation.visible_objects.filter(user=self.object)
-            context["comment_count"] = comments_qs.count()
-            context["comment_list"] = comments_qs.order_by("-submit_date")[:10]
+        context["comment_list"] = context["object_list"]
         return context
+
+    def get_queryset(self):
+        return Annotation.visible_objects.filter(user=self.object).order_by(
+            "-submit_date"
+        )
 
 
 @method_decorator([never_cache], name="dispatch")

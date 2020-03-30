@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 
+{% load humanize %}
+
 {% block title %}{% if private_profile %}Your profile{% else %}{{ person.get_full_name }}{% endif %}{% endblock %}
 {% block header_title %}{% if private_profile %}Your profile{% else %}{{ person.get_full_name }}{% endif %}{% endblock %}
 
@@ -48,12 +50,19 @@
 
 	<h2>Annotations and comments</h2>
 
-	<p>{% if private_profile %}You have{% else %}{{ person.get_short_name }} has{% endif %} posted <strong>{{ comment_count }}</strong> annotation{{ comment_count|pluralize }}/comment{{ comment_count|pluralize }}{% if person.first_comment_date %} since {{ person.first_comment_date|date:date_format_long }}{% endif %}.</p>
+	<p>{% if private_profile %}You have{% else %}{{ person.get_short_name }} has{% endif %} posted <strong>{{ page_obj.paginator.count|intcomma }}</strong> annotation{{ page_obj.paginator.count|pluralize }}/comment{{ page_obj.paginator.count|pluralize }}{% if person.first_comment_date %} since {{ person.first_comment_date|date:date_format_long }}{% endif %}.</p>
 
 	{% if comment_list %}
-		<p>The most recent…</p>
-        <hr>
+    {% if page_obj.number == 1 %}
+      <p><strong>The most recent…</strong></p>
+    {% else %}
+      {% include 'inc/paginator.html' %}
+    {% endif %}
+
+    <hr>
 		{% include "comments/list.html" with show_object_titles=True only_comments=True show_section_title=False %}
+
+	  {% include 'inc/paginator.html' %}
 	{% endif %}
 
 {% endblock main_content %}
