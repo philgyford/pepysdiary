@@ -18,7 +18,7 @@ class PublishedArticleManager(models.Manager):
         return (
             super(PublishedArticleManager, self)
             .get_queryset()
-            .filter(status=Article.Status.PUBLISHED)
+            .filter(status=Article.elUBLISHED)
         )
 
 
@@ -79,7 +79,7 @@ class Article(PepysModel):
     def save(self, *args, **kwargs):
         self.intro_html = markdown(self.intro)
         self.text_html = markdown(self.text)
-        if self.date_published is None and self.status == Status.PUBLISHED:
+        if self.date_published is None and self.status == self.Status.PUBLISHED:
             # If we're published, and the date_published hasn't been set,
             # then set it.
             self.date_published = timezone.now()
