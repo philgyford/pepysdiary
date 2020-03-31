@@ -22,6 +22,7 @@ class TopicAdmin(admin.ModelAdmin):
         "order_title",
         "last_comment_time",
     )
+    raw_id_fields = ("summary_author",)
     fieldsets = (
         (
             None,
@@ -49,6 +50,8 @@ class TopicAdmin(admin.ModelAdmin):
                 "fields": (
                     "date_created",
                     "date_modified",
+                    "summary_author",
+                    "summary_publication_date",
                     "comment_count",
                     "last_comment_time",
                 ),

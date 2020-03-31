@@ -34,6 +34,18 @@ class Topic(PepysModel):
         null=False,
         help_text="The summary field, with Markdown etc, turned into HTML.",
     )
+    summary_author = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        blank=True,
+        null=True,
+        default=None,
+        on_delete=models.SET_DEFAULT,
+        related_name="topic_summaries",
+        help_text="Optional. Used if Summary Publication Date is set."
+    )
+    summary_publication_date = models.DateField(
+        blank=True, null=True, help_text="Optional. Used if Summary Author is set."
+    )
     wheatley = models.TextField(
         blank=True,
         null=False,

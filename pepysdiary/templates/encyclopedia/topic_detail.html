@@ -125,16 +125,26 @@
 					{% load encyclopedia_tags %}
 					{% map_key %}
 
-                    <div itemprop="geo" itemscope="" itemtype="http://schema.org/GeoCoordinates">
-                        <p>Open location in Google Maps: <a href="https://www.google.com/maps/search/?api=1&query={{ topic.latitude}},{{ topic.longitude }}"><span itemprop="latitude">{{ topic.latitude }}</span>, <span itemprop="longitude">{{ topic.longitude }}</span></a></p>
-                    </div>
+          <div itemprop="geo" itemscope="" itemtype="http://schema.org/GeoCoordinates">
+              <p>Open location in Google Maps: <a href="https://www.google.com/maps/search/?api=1&query={{ topic.latitude}},{{ topic.longitude }}"><span itemprop="latitude">{{ topic.latitude }}</span>, <span itemprop="longitude">{{ topic.longitude }}</span></a></p>
+          </div>
 				</section>
 			{% endif %}
 
 			{% if topic.summary_html %}
-				<article class="tab-pane{% if not topic.latitude %} active{% endif %}" id="summary">
+				<article class="tab-pane{% if not topic.latitude %} active{% endif %}" id="summary" itemscope itemtype="http://schema.org/Article">
 					<h1 class="sr-only">Summary</h1>
-					{{ topic.summary_html|smartypants|safe }}
+          <span  class="hidden" itemprop="name">{{ topic.title }}: Summary</span>
+          {% if topic.summary_author %}
+            <p>
+              <strong>
+                By <a href="{{ topic.summary_author.get_absolute_url }}" itemprop="author">{{ topic.summary_author.name }}</a>{% if topic.summary_publication_date %}, <time datetime="{{ topic.summary_publication_date|date:"Y-m-d" }}" itemprop="datePublished">{{ topic.summary_publication_date|date:"F Y" }}</time>{% endif %}.
+              </strong>
+            </p>
+          {% endif %}
+          <div itemprop="articleBody">
+            {{ topic.summary_html|smartypants|safe }}
+          </div>
 				</article>
 			{% endif %}
 
@@ -142,15 +152,15 @@
 				<article class="tab-pane{% if not topic.latitude and not topic.summary_html %} active{% endif %}" id="wikipedia">
 					<h1 class="sr-only">Wikipedia</h1>
 
-                    {% if topic.wikipedia_last_fetch %}
-                        <p class="text-muted">This text was copied <a href="http://en.wikipedia.org/wiki/{{ topic.wikipedia_fragment }}">from Wikipedia</a> on {{ topic.wikipedia_last_fetch|date:date_format_long }} at {{ topic.wikipedia_last_fetch|date:time_format }}.</p>
+          {% if topic.wikipedia_last_fetch %}
+              <p class="text-muted">This text was copied <a href="http://en.wikipedia.org/wiki/{{ topic.wikipedia_fragment }}">from Wikipedia</a> on {{ topic.wikipedia_last_fetch|date:date_format_long }} at {{ topic.wikipedia_last_fetch|date:time_format }}.</p>
 
-                        <div class="wikipedia">
-                            {{ topic.wikipedia_html|safe }}
-                        </div>
-                    {% else %}
-                        <p><a class="link-more" href="http://en.wikipedia.org/wiki/{{ topic.wikipedia_fragment }}">Read more about this topic on Wikipedia</a></p>
-                    {% endif %}
+              <div class="wikipedia">
+                  {{ topic.wikipedia_html|safe }}
+              </div>
+          {% else %}
+              <p><a class="link-more" href="http://en.wikipedia.org/wiki/{{ topic.wikipedia_fragment }}">Read more about this topic on Wikipedia</a></p>
+          {% endif %}
 
 				</article>
 			{% endif %}
