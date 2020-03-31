@@ -274,12 +274,22 @@ class Person(AbstractBaseUser, PermissionsMixin):
         return reverse("profile", kwargs={"pk": self.pk})
 
     def get_summarised_topics(self):
+        "A queryset of all the Topics the user has written summaries for"
         from pepysdiary.encyclopedia.models import Topic
 
         if self.topic_summaries.count() > 0:
             return self.topic_summaries.all().order_by("order_title")
         else:
             return Topic.objects.none()
+
+    def get_indepth_articles(self):
+        "A queryset of all the Articles the user has written"
+        from pepysdiary.indepth.models import Article
+
+        if self.indepth_articles.count() > 0:
+            return self.indepth_articles.all().order_by("date_published")
+        else:
+            return Article.objects.none()
 
     def __str__(self):
         return self.name

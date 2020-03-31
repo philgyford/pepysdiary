@@ -76,7 +76,7 @@
 		// For the References Chart.
 		// We'll map {'Feb 1663': 7, ...}
 		// ie, the number of references in a particular month.
-	  	var references = {}; 
+	  	var references = {};
 	  	{% for y, months in diary_references %}
 	  		{% for m, refs in months %}
 		  		references['{{ m }} {{ y }}'] = {{ refs|length }};
@@ -134,7 +134,7 @@
 			{% if topic.summary_html %}
 				<article class="tab-pane{% if not topic.latitude %} active{% endif %}" id="summary" itemscope itemtype="http://schema.org/Article">
 					<h1 class="sr-only">Summary</h1>
-          <span  class="hidden" itemprop="name">{{ topic.title }}: Summary</span>
+          <span  class="hidden" itemprop="name">{{ topic.title|smartypants }}: Summary</span>
           {% if topic.summary_author %}
             <p>
               <strong>

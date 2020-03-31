@@ -7,7 +7,7 @@
 			<h1 class="h2"><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h1>
 		</header>
 
-		<p class="article-date">{{ post.date_published|date:date_format_long }}</p>
+		<p class="article-byline">{{ post.date_published|date:date_format_long }}</p>
 
 		{{ post.intro_html|smartypants|safe }}
 

@@ -48,6 +48,21 @@
         <hr class="decoration decoration-small">
     {% endif %}
 
+  {% with person.get_indepth_articles as articles %}
+    {% if articles %}
+      <h2>In-depth articles</h2>
+
+      <p>{% if private_profile %}You have{% else %}{{ person.get_short_name }} has{% endif %} written {% if topics|length == 1 %}this in-depth article{% else %}these in-depth articles{% endif %}:</p>
+
+      <ul>
+        {% for article in articles %}
+          <li><a href="{{ article.get_absolute_url }}">{{ article.title }}</a> <span class="text-nowrap">({{ article.date_published|date:date_format_long }})</span></li>
+        {% endfor %}
+      </ul>
+      <hr>
+    {% endif %}
+  {% endwith %}
+
   {% with person.get_summarised_topics as topics %}
     {% if topics %}
       <h2>Encyclopedia topics</h2>

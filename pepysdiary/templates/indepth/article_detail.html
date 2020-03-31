@@ -9,14 +9,21 @@
 
 {% block main_content %}
 
-	<article>
+	<article itemscope itemtype="http://schema.org/Article">
 		{% if perms.article.can_edit %}
 			{% load widget_tags %}
 			{% url 'admin:indepth_article_change' article.id as change_url %}
 			{% admin_link_change change_url %}
 		{% endif %}
 
-		<p class="article-date">{{ article.date_published|date:date_format_longest }}</p>
+    <span class="hidden" itemprop="name">{{ article.title|smartypants }}</span>
+
+    <p class="article-byline">
+      {% if article.author %}
+        By <a href="{{ article.author.get_absolute_url }}" itemprop="author">{{ article.author.name }}</a>,
+      {% endif %}
+      <time class="text-nowrap" datetime="{{ article.date_published|date:"Y-m-d" }}" itemprop="datePublished">{{ article.date_published|date:date_format_long }}</time>
+    </p>
 
 		{{ article.intro_html|smartypants|safe }}
 

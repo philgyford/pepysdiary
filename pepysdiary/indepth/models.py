@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.contrib.postgres.search import SearchVectorField
 from django.db import models
 from django.urls import reverse
@@ -18,7 +19,7 @@ class PublishedArticleManager(models.Manager):
         return (
             super(PublishedArticleManager, self)
             .get_queryset()
-            .filter(status=Article.elUBLISHED)
+            .filter(status=Article.Status.PUBLISHED)
         )
 
 
@@ -32,6 +33,15 @@ class Article(PepysModel):
         PUBLISHED = 20, "Published"
 
     title = models.CharField(max_length=255, blank=False, null=False)
+    author = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        blank=True,
+        null=True,
+        default=None,
+        on_delete=models.SET_DEFAULT,
+        related_name="indepth_articles",
+        help_text="Optional."
+    )
     intro = models.TextField(blank=False, null=False, help_text="Can use Markdown.")
     intro_html = models.TextField(
         blank=True,

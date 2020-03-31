@@ -20,6 +20,7 @@ class ArticleAdmin(admin.ModelAdmin):
         "date_modified",
         "last_comment_time",
     )
+    raw_id_fields = ("author",)
     fieldsets = (
         (
             None,
@@ -29,6 +30,7 @@ class ArticleAdmin(admin.ModelAdmin):
                     "slug",
                     "status",
                     "date_published",
+                    "author",
                     "allow_comments",
                 )
             },

@@ -15,12 +15,17 @@
 	<hr />
 
     {% for article in article_list %}
-        <article>
+        <article class="clearfix">
             <header>
                 <h1 class="h2"><a href="{{ article.get_absolute_url }}">{{ article.title }}</a></h1>
             </header>
 
-            <p class="article-date">{{ article.date_published|date:date_format_long }}</p>
+            <p class="article-byline">
+              {% if article.author %}
+                By <a href="{{ article.author.get_absolute_url }}" itemprop="author">{{ article.author.name }}</a>,
+              {% endif %}
+              <time class="text-nowrap" datetime="{{ article.date_published|date:"Y-m-d" }}" itemprop="datePublished">{{ article.date_published|date:date_format_long }}</time>
+            </p>
 
             {{ article.intro_html|smartypants|safe }}
 
@@ -31,7 +36,7 @@
 
         <hr />
     {% endfor %}
-	
+
 	{% include 'inc/paginator.html' %}
 
 {% endblock main_content %}

@@ -15,7 +15,7 @@
 			{% admin_link_change change_url %}
 		{% endif %}
 
-		<p class="article-date">{{ post.date_published|date:date_format_longest }}</p>
+		<p class="article-byline">{{ post.date_published|date:date_format_long }}</p>
 
 		{{ post.intro_html|smartypants|safe }}
 

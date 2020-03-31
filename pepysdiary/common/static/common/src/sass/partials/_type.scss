@@ -39,3 +39,7 @@ sup {
 blockquote {
 	margin-bottom: ceil($line-height-computed / 2);
 }
+
+.text-nowrap {
+  white-space: nowrap;
+}
