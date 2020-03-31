@@ -134,7 +134,7 @@
 			{% if topic.summary_html %}
 				<article class="tab-pane{% if not topic.latitude %} active{% endif %}" id="summary" itemscope itemtype="http://schema.org/Article">
 					<h1 class="sr-only">Summary</h1>
-          <span  class="hidden" itemprop="name">{{ topic.title|smartypants }}: Summary</span>
+          <span class="hidden" itemprop="name">{{ topic.title|smartypants }}: Summary</span>
           {% if topic.summary_author %}
             <p>
               <strong>
