@@ -273,6 +273,14 @@ class Person(AbstractBaseUser, PermissionsMixin):
     def get_absolute_url(self):
         return reverse("profile", kwargs={"pk": self.pk})
 
+    def get_summarised_topics(self):
+        from pepysdiary.encyclopedia.models import Topic
+
+        if self.topic_summaries.count() > 0:
+            return self.topic_summaries.all().order_by("order_title")
+        else:
+            return Topic.objects.none()
+
     def __str__(self):
         return self.name
 

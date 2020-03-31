@@ -48,18 +48,34 @@
         <hr class="decoration decoration-small">
     {% endif %}
 
+  {% with person.get_summarised_topics as topics %}
+    {% if topics %}
+      <h2>Encyclopedia topics</h2>
+
+      <p>{% if private_profile %}You have{% else %}{{ person.get_short_name }} has{% endif %} written {% if topics|length == 1 %}a summary for this topic{% else %}summaries for these topics{% endif %}:</p>
+
+      <ul>
+        {% for topic in topics %}
+          <li><a href="{{ topic.get_absolute_url }}">{{ topic.title }}</a></li>
+        {% endfor %}
+      </ul>
+      <hr>
+    {% endif %}
+  {% endwith %}
+
 	<h2>Annotations and comments</h2>
 
 	<p>{% if private_profile %}You have{% else %}{{ person.get_short_name }} has{% endif %} posted <strong>{{ page_obj.paginator.count|intcomma }}</strong> annotation{{ page_obj.paginator.count|pluralize }}/comment{{ page_obj.paginator.count|pluralize }}{% if person.first_comment_date %} since {{ person.first_comment_date|date:date_format_long }}{% endif %}.</p>
 
 	{% if comment_list %}
     {% if page_obj.number == 1 %}
-      <p><strong>The most recent…</strong></p>
+      {% if page_obj.paginator.count > 1 %}
+        <p><strong>The most recent first…</strong></p>
+      {% endif %}
     {% else %}
       {% include 'inc/paginator.html' %}
     {% endif %}
 
-    <hr>
 		{% include "comments/list.html" with show_object_titles=True only_comments=True show_section_title=False %}
 
 	  {% include 'inc/paginator.html' %}
