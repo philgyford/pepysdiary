@@ -35,8 +35,6 @@ def date_formats(request):
 
 def api_keys(request):
     return {
-        'MAPBOX_MAP_ID': settings.MAPBOX_MAP_ID,
-        'MAPBOX_ACCESS_TOKEN': settings.MAPBOX_ACCESS_TOKEN,
         'GOOGLE_ANALYTICS_ID': settings.GOOGLE_ANALYTICS_ID,
     }
 
@@ -53,4 +51,3 @@ def url_name(request):
     if request.resolver_match:
         url_name = request.resolver_match.url_name
     return {'url_name': url_name}
-

@@ -8,10 +8,9 @@
 
 	{% block extra_css %}
 	{% endblock extra_css %}
-	{# Mapbox CSS needs to go in before our own CSS. #}
 
 	<!-- inject:css -->
-	<link rel="stylesheet" href="/static/common/css/site-b9beacf707.css">
+	<link rel="stylesheet" href="/static/common/css/site-9fc32f9696.css">
 	<!-- endinject -->
 
     <link rel="apple-touch-icon" sizes="57x57" href="{% static 'common/img/favicons/apple-touch-icon-57x57.png' %}">
@@ -266,7 +265,7 @@
 	{% endblock %}
 
 	<!-- inject:js -->
-	<script src="/static/common/js/site-6491bfbf49.min.js"></script>
+	<script src="/static/common/js/site-faf97bb2c9.min.js"></script>
 	<!-- endinject -->
 
 	<script>
@@ -284,8 +283,6 @@
 					},
 				{% endif %}
 				'config': {
-					mapbox_map_id: '{{ MAPBOX_MAP_ID }}',
-					mapbox_access_token: '{{ MAPBOX_ACCESS_TOKEN }}',
 					static_prefix: '{% static "common/" %}'
 				}
 			});

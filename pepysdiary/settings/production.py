@@ -129,7 +129,3 @@ USE_SPAM_CHECK = get_env_variable('USE_SPAM_CHECK')
 
 # From http://akismet.com/
 AKISMET_API_KEY = get_env_variable('AKISMET_API_KEY')
-
-# From http://mapbox.com/
-MAPBOX_MAP_ID = get_env_variable('MAPBOX_MAP_ID')
-MAPBOX_ACCESS_TOKEN = get_env_variable('MAPBOX_ACCESS_TOKEN')

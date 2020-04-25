@@ -1,4 +1,5 @@
 from django import template
+from django.templatetags.static import static
 from django.utils.html import mark_safe
 
 register = template.Library()
@@ -9,24 +10,28 @@ register = template.Library()
 @register.simple_tag
 def include_d3_js(*args):
     "All the JS needed to use d3."
-    return mark_safe("""
+    return mark_safe(
+        """
         <script src="https://d3js.org/d3.v3.min.js"></script>
-    """)
+    """
+    )
 
 
 @register.simple_tag
 def include_maps_css(*args):
-    "All the CSS needed to use Mapbox maps."
-    return mark_safe("""
-        <link rel="stylesheet" href="https://api.tiles.mapbox.com/mapbox.js/v2.1.2/mapbox.css" />
-    """)
+    "All the CSS needed to use Leaflet maps."
+    css_url = static("common/vendor/leaflet/leaflet_1.6.0.css")
+    return mark_safe(f'<link rel="stylesheet" href="{css_url}">')
 
 
 @register.simple_tag
 def include_maps_js(*args, **kwargs):
     """"
-    All the JS needed to use Mapbox maps.
+    All the JS needed to use Leaflet maps.
     """
-    return mark_safe("""
-        <script src="https://api.tiles.mapbox.com/mapbox.js/v2.1.2/mapbox.js"></script>
-    """)
+    leaflet_url = static("common/vendor/leaflet/leaflet_1.6.0.js")
+    providers_url = static("common/vendor/leaflet/leaflet_1.6.0.js")
+    return mark_safe(
+        f'<script src="{leaflet_url}"></script>'
+        f'<script src="{providers_url}"></script>'
+    )

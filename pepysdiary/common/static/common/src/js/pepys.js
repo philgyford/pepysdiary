@@ -14,7 +14,6 @@ window.pepys.controller = {
 
     // Defaults. Override by passing values in {'config':{}} to init().
     config: {
-        'mapbox_map_id': '',
         'static_prefix': ''
     },
 
@@ -831,7 +830,7 @@ window.pepys.topic = {
 
 /**
  * All the general map-related stuff.
- * Currently uses Mapbox, whose JS we assume is already loaded.
+ * Currently uses Leaflet, whose JS we assume is already loaded.
  * Currently we assume there is a #map-frame div to draw the map in.
  */
 window.pepys.maps = {
@@ -848,8 +847,11 @@ window.pepys.maps = {
         this.map = L.map('map-frame').setView(
                     [map_data.latitude, map_data.longitude], map_data.zoom);
 
-        L.mapbox.accessToken = pepys.controller.config.mapbox_access_token;
-        L.mapbox.tileLayer(pepys.controller.config.mapbox_map_id).addTo(this.map);
+
+        L.tileLayer('https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}{r}.png', {
+          attribution: '<a href="https://wikimediafoundation.org/wiki/Maps_Terms_of_Use">Wikimedia</a>',
+          maxZoom: 18,
+        }).addTo(this.map);
 
         this.map.scrollWheelZoom.disable();
 
@@ -905,7 +907,7 @@ window.pepys.maps = {
             {}, // For different map styles.
             {
                 'City of London wall': london_wall_overlay,
-                'Built-up London (rough)': built_area_overlay,
+                'Built-up London (approx.)': built_area_overlay,
                 'Great Fire damage': great_fire_overlay
             }
         ).addTo(this.map);
@@ -928,24 +930,9 @@ window.pepys.maps = {
             options = {};
         };
 
-        // Set up the markers that we'll use.
-        var DefaultIcon = L.Icon.Default.extend({
-            options: {
-                iconUrl: pepys.controller.config.static_prefix + 'img/marker-icon.png',
-                iconRetinaUrl: pepys.controller.config.static_prefix + 'img/marker-icon@2x.png'
-            }
-        });
-        var PepysIcon = L.Icon.Default.extend({
-            options: {
-                iconUrl: pepys.controller.config.static_prefix + 'img/marker-icon-b.png',
-                iconRetinaUrl: pepys.controller.config.static_prefix + 'img/marker-icon-b@2x.png'
-            }
-        });
-        var default_marker_icon = new DefaultIcon();
-        var pepys_marker_icon = new PepysIcon();
-
         // Will be a Marker, Polygon, or Polyline.
         var place;
+        var static_prefix = pepys.controller.config.static_prefix;
         if ('polygon' in place_data) {
             place = L.polygon(
                 this.string_to_coords(place_data['polygon']), {color: '#a02b2d', opacity: 0.75, fill: '#a02b2d', fillOpacity: 0.4, weight: 2}
@@ -957,16 +944,27 @@ window.pepys.maps = {
             );
 
         } else {
-            var marker_options = {
-                icon: default_marker_icon
-            };
-            if ('pepys_home' in place_data && place_data.pepys_home === true) {
-                marker_options.icon = pepys_marker_icon;
-            };
-            place = L.marker(
-                [place_data.latitude, place_data.longitude],
-                marker_options
-            );
+          var icon_options = {
+            iconUrl: static_prefix + 'img/marker-icon.png',
+            iconRetinaUrl: static_prefix + 'img/marker-icon-2x.png',
+            iconAnchor: [12.5, 41],
+            iconSize: [25, 41],
+            popupAnchor: [0, -35],
+            shadowUrl: static_prefix + 'img/marker-shadow.png',
+            shadowAnchor: [12.5, 41]
+          };
+
+          if ('pepys_home' in place_data && place_data.pepys_home === true) {
+            icon_options.iconUrl = static_prefix + 'img/marker-icon-b.png'
+            icon_options.iconRetinaUrl = static_prefix + 'img/marker-icon-b-2x.png'
+          };
+
+          var icon = L.icon(icon_options);
+
+          place = L.marker(
+            [place_data.latitude, place_data.longitude],
+            {icon: icon}
+          );
         };
 
         place.addTo(this.map);

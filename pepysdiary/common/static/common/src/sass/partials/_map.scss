@@ -28,6 +28,11 @@
 	}
 }
 
+.leaflet-bar,
+.leaflet-control-layers {
+  border-radius: 2px;
+}
+
 /* Remove icon, add text. */
 a.leaflet-control-layers-toggle {
     background-image: none;
@@ -39,8 +44,11 @@ a.leaflet-control-layers-toggle {
     opacity: 1;
 
     &::before {
-        content: "Add layers";
+        content: "Add overlays in London";
     }
+}
+.leaflet-retina a.leaflet-control-layers-toggle {
+  background-image: none;
 }
 
 /* Based on stuff from https://github.com/Leaflet/Leaflet.label */
