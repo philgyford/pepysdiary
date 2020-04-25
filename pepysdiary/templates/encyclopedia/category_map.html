@@ -61,9 +61,6 @@
 
 {% block main_content %}
 
-	<div id="map-frame" class="map-frame-big"></div>
-
-	{% load encyclopedia_tags %}
-	{% map_key %}
+  {% include "encyclopedia/inc/map.html" with size="big" only %}
 
 {% endblock main_content %}

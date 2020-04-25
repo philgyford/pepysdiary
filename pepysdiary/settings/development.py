@@ -90,7 +90,3 @@ USE_SPAM_CHECK = True
 
 # From http://akismet.com/
 AKISMET_API_KEY = get_env_variable('AKISMET_API_KEY')
-
-# From http://mapbox.com/
-MAPBOX_MAP_ID = 'philgyford.hnhb28lo'
-MAPBOX_ACCESS_TOKEN = 'pk.eyJ1IjoicGhpbGd5Zm9yZCIsImEiOiJUUGpZME9zIn0.O3bxMZ-0-Fq-e0HwR6-xcA';

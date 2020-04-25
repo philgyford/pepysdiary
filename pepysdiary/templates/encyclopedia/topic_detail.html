@@ -120,10 +120,8 @@
 			{% if topic.has_location %}
 				<section class="tab-pane active" id="map">
 					<h1 class="sr-only">Map</h1>
-					<div id="map-frame">
-					</div> <!-- #map-frame -->
-					{% load encyclopedia_tags %}
-					{% map_key %}
+
+          {% include "encyclopedia/inc/map.html" %}
 
           <div itemprop="geo" itemscope="" itemtype="http://schema.org/GeoCoordinates">
               <p>Open location in Google Maps: <a href="https://www.google.com/maps/search/?api=1&query={{ topic.latitude}},{{ topic.longitude }}"><span itemprop="latitude">{{ topic.latitude }}</span>, <span itemprop="longitude">{{ topic.longitude }}</span></a></p>
