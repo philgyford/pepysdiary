@@ -19,7 +19,6 @@
 'use strict';
 
 var gulp        = require('gulp');
-var gutil       = require('gulp-util');
 var concat      = require('gulp-concat');
 var del         = require('del');
 var inject      = require('gulp-inject');
@@ -189,4 +188,3 @@ gulp.task('default', gulp.series(
   gulp.parallel('js', 'sass'),
   'inject'
 ));
-

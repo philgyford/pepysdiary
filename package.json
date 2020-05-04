@@ -16,19 +16,16 @@
     "url": "https://github.com/philgyford/pepysdiary/issues"
   },
   "homepage": "https://github.com/philgyford/pepysdiary",
-  "dependencies": {
-    "node-sass": "^4.13.1"
-  },
+  "dependencies": {},
   "devDependencies": {
-    "del": "^3.0.0",
+    "del": "^5.1.0",
     "gulp": "^4.0.2",
     "gulp-concat": "^2.6.1",
-    "gulp-inject": "^4.2.0",
-    "gulp-rev": "^8.0.0",
-    "gulp-sass": "^3.1.0",
+    "gulp-inject": "^5.0.5",
+    "gulp-rev": "^9.0.0",
+    "gulp-sass": "^4.1.0",
     "gulp-sourcemaps": "^2.6.5",
     "gulp-uglify": "^3.0.2",
-    "gulp-util": "^3.0.8",
     "stream-series": "^0.1.1",
     "watch": "^1.0.2"
   },
