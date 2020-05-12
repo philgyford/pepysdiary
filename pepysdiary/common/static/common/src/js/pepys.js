@@ -1024,9 +1024,12 @@ window.pepys.maps = {
       map_data.zoom
     );
 
-    L.tileLayer("https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}{r}.png", {
-      attribution:
-        '<a href="https://wikimediafoundation.org/wiki/Maps_Terms_of_Use">Wikimedia</a>',
+    L.tileLayer(
+      "https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png", {
+      attribution: '&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors',
+      // "https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}{r}.png", {
+      // attribution:
+      //   '<a href="https://wikimediafoundation.org/wiki/Maps_Terms_of_Use">Wikimedia</a>',
       maxZoom: 18
     }).addTo(this.map);
 
