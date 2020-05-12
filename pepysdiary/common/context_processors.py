@@ -35,6 +35,8 @@ def date_formats(request):
 
 def api_keys(request):
     return {
+        'MAPBOX_MAP_ID': settings.MAPBOX_MAP_ID,
+        'MAPBOX_ACCESS_TOKEN': settings.MAPBOX_ACCESS_TOKEN,
         'GOOGLE_ANALYTICS_ID': settings.GOOGLE_ANALYTICS_ID,
     }
 

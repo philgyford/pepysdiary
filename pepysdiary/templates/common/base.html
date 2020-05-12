@@ -265,7 +265,7 @@
 	{% endblock %}
 
 	<!-- inject:js -->
-	<script src="/static/common/js/site-160d860784.min.js"></script>
+	<script src="/static/common/js/site-7ea516e71d.min.js"></script>
 	<!-- endinject -->
 
 	<script>
@@ -283,6 +283,8 @@
 					},
 				{% endif %}
 				'config': {
+          mapbox_map_id: '{{ MAPBOX_MAP_ID }}',
+ 					mapbox_access_token: '{{ MAPBOX_ACCESS_TOKEN }}',
 					static_prefix: '{% static "common/" %}'
 				}
 			});
