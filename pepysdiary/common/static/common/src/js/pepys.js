@@ -1005,7 +1005,7 @@ window.pepys.maps = {
    */
   init: function (map_data) {
     this.map = L.map("map-frame").setView(
-      [map_data.latitude, map_data.longitude],
+      L.latLng(map_data.latitude, map_data.longitude),
       map_data.zoom
     );
 
@@ -1345,7 +1345,7 @@ window.pepys.maps = {
 
       var icon = L.icon(icon_options);
 
-      place = L.marker([place_data.latitude, place_data.longitude], {
+      place = L.marker(L.latLng(place_data.latitude, place_data.longitude), {
         icon: icon,
       });
     }
