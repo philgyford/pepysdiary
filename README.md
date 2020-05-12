@@ -72,7 +72,7 @@ Or, for a one-off run:
 
 There are only a handful of tests, but run them with:
 
-	$ ./manage.py test
+	$ ./scripts/run_tests.sh
 
 
 ## Heroku set-up
@@ -98,10 +98,7 @@ these are environment settings.
 
 	AKISMET_API_KEY
 	ALLOWED_HOSTS
-	DB_NAME
-	DB_USERNAME
-	DB_HOST
-	DB_PASSWORD
+    DATABASE_URL
 	DJANGO_SETTINGS_MODULE
     MAPBOX_ACCESS_TOKEN
     MAPBOX_MAP_ID

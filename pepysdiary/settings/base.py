@@ -2,6 +2,8 @@
 from datetime import date, timedelta
 import os
 
+import dj_database_url
+
 from django.core.exceptions import ImproperlyConfigured
 
 
@@ -123,6 +125,10 @@ ALLOWED_HOSTS = get_env_variable("ALLOWED_HOSTS").split(",")
 
 # Python dotted path to the WSGI application used by Django's runserver.
 WSGI_APPLICATION = "pepysdiary.wsgi.application"
+
+# Uses DATABASE_URL environment variable:
+DATABASES = {"default": dj_database_url.config()}
+DATABASES["default"]["CONN_MAX_AGE"] = 500
 
 TEMPLATES = [
     {
