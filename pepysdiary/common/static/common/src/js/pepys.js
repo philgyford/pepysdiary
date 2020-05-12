@@ -1024,14 +1024,19 @@ window.pepys.maps = {
       map_data.zoom
     );
 
-    L.tileLayer(
-      "https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png", {
-      attribution: '&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors',
-      // "https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}{r}.png", {
-      // attribution:
-      //   '<a href="https://wikimediafoundation.org/wiki/Maps_Terms_of_Use">Wikimedia</a>',
-      maxZoom: 18
+    L.tileLayer.provider("MapBox", {
+      id: "mapbox.light",
+      accessToken: "pk.eyJ1IjoicGhpbGd5Zm9yZCIsImEiOiJja2EzbzJhM3IwbTd6M2hwbjJmYWhqaW1qIn0.Pm1QM6MM5hu4YmtNECS0wA",
     }).addTo(this.map);
+
+    // L.tileLayer(
+    //   "https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png", {
+    //   attribution: '&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors',
+    //   // "https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}{r}.png", {
+    //   // attribution:
+    //   //   '<a href="https://wikimediafoundation.org/wiki/Maps_Terms_of_Use">Wikimedia</a>',
+    //   maxZoom: 18
+    // }).addTo(this.map);
 
     this.map.scrollWheelZoom.disable();
 
