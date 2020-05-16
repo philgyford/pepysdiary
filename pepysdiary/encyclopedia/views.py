@@ -112,8 +112,11 @@ class LatestTopicsFeed(BaseRSSFeed):
 
 
 @method_decorator([csrf_protect], name='dispatch')
-class CategoryMapView(CacheMixin, FormView):
-    cache_timeout = (60 * 60)
+class CategoryMapView(FormView):
+    """
+    Turned off caching on this because *maybe* it was the cause of
+    403 errors about the page's CSRF token.
+    """
     form_class = CategoryMapForm
     template_name = 'category_map.html'
 
