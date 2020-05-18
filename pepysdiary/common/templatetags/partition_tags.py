@@ -67,13 +67,13 @@ def make_rows(thelist, num_rows, threshold=None):
     if threshold is not None and list_len <= threshold:
         # Not enough elements to split it up.
         # Return something like [thelist, [], [],] .
-        return [thelist] + [[] for i in range(num_rows-1)]
+        return [thelist] + [[] for i in range(num_rows - 1)]
     else:
         split = list_len // num_rows
 
         if list_len % num_rows != 0:
             split += 1
-        return [thelist[split*i:split*(i+1)] for i in range(num_rows)]
+        return [thelist[split * i : split * (i + 1)] for i in range(num_rows)]
 
 
 @register.simple_tag
@@ -118,9 +118,9 @@ def make_rows_distributed(thelist, num_rows):
     rows = []
     for i in range(num_rows):
         if remainder:
-            start, end = (split+1)*i, (split+1)*(i+1)
+            start, end = (split + 1) * i, (split + 1) * (i + 1)
         else:
-            start, end = split*i+offset, split*(i+1)+offset
+            start, end = split * i + offset, split * (i + 1) + offset
         rows.append(thelist[start:end])
         if remainder:
             remainder -= 1

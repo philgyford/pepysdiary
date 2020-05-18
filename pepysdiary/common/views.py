@@ -207,7 +207,7 @@ class SearchView(PaginatedListView):
         if kind == "a":
             self.model = Article
             self.date_order_field = "date_published"
-        elif kind == 'c':
+        elif kind == "c":
             self.model = Annotation
             self.date_order_field = "submit_date"
             # We don't have a 'title' field on Annotations, so:

@@ -1,4 +1,6 @@
 from storages.backends.s3boto3 import S3Boto3Storage
 
-# StaticS3Boto3Storage = lambda: S3Boto3Storage(location='static')
-MediaS3Boto3Storage = lambda: S3Boto3Storage(location='media')
+
+class MediaS3Boto3Storage(S3Boto3Storage):
+    # Store files under "media/" directory in the bucket:
+    location = "media"

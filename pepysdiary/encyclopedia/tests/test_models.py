@@ -1,14 +1,16 @@
 # coding: utf-8
 from pepysdiary.common.tests.test_base import PepysdiaryTestCase
 
-from pepysdiary.encyclopedia.factories import CategoryFactory,\
-        PersonTopicFactory, PlaceTopicFactory, TopicFactory 
+from pepysdiary.encyclopedia.factories import (
+    PersonTopicFactory,
+    PlaceTopicFactory,
+    TopicFactory,
+)
 
 # Only testing a handful of things at the moment.
 
 
 class TopicTestCase(PepysdiaryTestCase):
-
     def test_is_family_tree_true(self):
         topic = TopicFactory(id=7390)
         self.assertTrue(topic.is_family_tree)
@@ -32,5 +34,3 @@ class TopicTestCase(PepysdiaryTestCase):
     def test_is_place_false(self):
         topic = TopicFactory()
         self.assertFalse(topic.is_person)
-
-

@@ -1,1 +1,1 @@
-default_app_config = 'pepysdiary.diary.apps.DiaryConfig'
+default_app_config = "pepysdiary.diary.apps.DiaryConfig"

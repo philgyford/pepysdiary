@@ -13,21 +13,20 @@ class CategoryFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = models.Category
 
-    title = factory.Faker('sentence', nb_words=2)
-    slug = factory.Faker('slug')
+    title = factory.Faker("sentence", nb_words=2)
+    slug = factory.Faker("slug")
     depth = 1
 
-    
 
 class TopicFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = models.Topic
 
-    title = factory.Faker('sentence', nb_words=4)
+    title = factory.Faker("sentence", nb_words=4)
 
-    summary = factory.Faker('paragraph', nb_sentences=2)
-    wheatley = factory.Faker('sentence', nb_words=20)
-    tooltip_text = factory.Faker('sentence', nb_words=20)
+    summary = factory.Faker("paragraph", nb_sentences=2)
+    wheatley = factory.Faker("sentence", nb_words=20)
+    tooltip_text = factory.Faker("sentence", nb_words=20)
 
     @factory.post_generation
     def categories(self, create, extracted, **kwargs):
@@ -43,8 +42,7 @@ class TopicFactory(factory.django.DjangoModelFactory):
 
 class PersonTopicFactory(TopicFactory):
 
-    title = factory.LazyAttribute(
-                        lambda p: '{} {}'.format(fake.prefix(), fake.name()))
+    title = factory.LazyAttribute(lambda p: "{} {}".format(fake.prefix(), fake.name()))
 
     @factory.post_generation
     def categories(self, create, extracted, **kwargs):
@@ -65,7 +63,6 @@ class PersonTopicFactory(TopicFactory):
 
 
 class PlaceTopicFactory(TopicFactory):
-
     @factory.post_generation
     def categories(self, create, extracted, **kwargs):
         if not create:
@@ -82,4 +79,3 @@ class PlaceTopicFactory(TopicFactory):
                 self.categories.add(CategoryFactory(id=category_lookups.PLACES))
             except IntegrityError:
                 pass
-    

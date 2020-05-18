@@ -31,6 +31,8 @@ lxml = "*"
 [dev-packages]
 django-debug-toolbar = "*"
 factory-boy = "*"
+flake8 = "*"
+black = "==19.10b0"
 
 [requires]
 python_version = "3.8"

@@ -1,10 +1,8 @@
 from django.apps import AppConfig
-from django.db.models import signals
 
 
 class AnnotationsConfig(AppConfig):
-    name = 'pepysdiary.annotations'
+    name = "pepysdiary.annotations"
 
     def ready(self):
-        from pepysdiary.common import signals
-
+        from pepysdiary.common import signals  # noqa: F401

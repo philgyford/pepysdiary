@@ -50,28 +50,27 @@ class VisitTimeMiddleware(MiddlewareMixin):
     def _set_vars_from_cookies(self, request):
         """Reads in any existing cookie values."""
 
-        last_view_cookie = request.COOKIES.get('last_view', '')
-        if last_view_cookie != '':
+        last_view_cookie = request.COOKIES.get("last_view", "")
+        if last_view_cookie != "":
             try:
-                self.last_view = self.cookie_value_to_datetime(
-                                                            last_view_cookie)
-            except:
+                self.last_view = self.cookie_value_to_datetime(last_view_cookie)
+            except Exception:
                 pass
 
-        visit_start_cookie = request.COOKIES.get('visit_start', '')
-        if visit_start_cookie != '':
+        visit_start_cookie = request.COOKIES.get("visit_start", "")
+        if visit_start_cookie != "":
             try:
-                self.visit_start = self.cookie_value_to_datetime(
-                                                            visit_start_cookie)
-            except:
+                self.visit_start = self.cookie_value_to_datetime(visit_start_cookie)
+            except Exception:
                 pass
 
-        prev_visit_end_cookie = request.COOKIES.get('prev_visit_end', '')
-        if prev_visit_end_cookie != '':
+        prev_visit_end_cookie = request.COOKIES.get("prev_visit_end", "")
+        if prev_visit_end_cookie != "":
             try:
                 self.prev_visit_end = self.cookie_value_to_datetime(
-                                                        prev_visit_end_cookie)
-            except:
+                    prev_visit_end_cookie
+                )
+            except Exception:
                 pass
         return request
 
@@ -85,27 +84,33 @@ class VisitTimeMiddleware(MiddlewareMixin):
 
         if self.last_view is None or self.visit_start is None:
             # User hasn't been here before.
-            response.set_cookie('visit_start',
-                                value=self.datetime_to_cookie_value(time_now),
-                                expires=cookie_expire)
+            response.set_cookie(
+                "visit_start",
+                value=self.datetime_to_cookie_value(time_now),
+                expires=cookie_expire,
+            )
 
         elif self.visit_start is not None:
-            # User has viewed a page before.
+            #  User has viewed a page before.
             current_visit_duration = time_now - self.visit_start
             if current_visit_duration.total_seconds() > self.visit_length:
                 # This is a new visit for the user.
                 response.set_cookie(
-                        'prev_visit_end',
-                        value=self.datetime_to_cookie_value(self.last_view),
-                        expires=cookie_expire)
+                    "prev_visit_end",
+                    value=self.datetime_to_cookie_value(self.last_view),
+                    expires=cookie_expire,
+                )
                 response.set_cookie(
-                            'visit_start',
-                            value=self.datetime_to_cookie_value(time_now),
-                            expires=cookie_expire)
+                    "visit_start",
+                    value=self.datetime_to_cookie_value(time_now),
+                    expires=cookie_expire,
+                )
 
-        response.set_cookie('last_view',
-                            value=self.datetime_to_cookie_value(time_now),
-                            expires=cookie_expire)
+        response.set_cookie(
+            "last_view",
+            value=self.datetime_to_cookie_value(time_now),
+            expires=cookie_expire,
+        )
 
         return response
 

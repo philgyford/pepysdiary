@@ -6,63 +6,104 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('encyclopedia', '0004_auto_20150308_1324'),
+        ("encyclopedia", "0004_auto_20150308_1324"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='topic',
-            name='map_category',
-            field=models.CharField(blank=True, choices=[('area', 'Area'), ('gate', 'Gate'), ('home', "Pepys' home(s)"), ('misc', 'Misc'), ('road', 'Road/Street'), ('stair', 'Stair/Pier'), ('town', 'Town/Village')], db_index=True, help_text='(UNUSED?) The type of object this is on maps', max_length=20),
+            model_name="topic",
+            name="map_category",
+            field=models.CharField(
+                blank=True,
+                choices=[
+                    ("area", "Area"),
+                    ("gate", "Gate"),
+                    ("home", "Pepys' home(s)"),
+                    ("misc", "Misc"),
+                    ("road", "Road/Street"),
+                    ("stair", "Stair/Pier"),
+                    ("town", "Town/Village"),
+                ],
+                db_index=True,
+                help_text="(UNUSED?) The type of object this is on maps",
+                max_length=20,
+            ),
         ),
         migrations.AlterField(
-            model_name='topic',
-            name='on_pepys_family_tree',
-            field=models.BooleanField(default=False, verbose_name='Is on the Pepys family tree?'),
+            model_name="topic",
+            name="on_pepys_family_tree",
+            field=models.BooleanField(
+                default=False, verbose_name="Is on the Pepys family tree?"
+            ),
         ),
         migrations.AlterField(
-            model_name='topic',
-            name='shape',
-            field=models.TextField(blank=True, help_text="Lat/long coordinate pairs, separated by semicolons, eg '51.513558,-0.104268;51.513552,-0.104518;...', from http://www.birdtheme.org/useful/v3largemap.html (formatted slightly differently)."),
+            model_name="topic",
+            name="shape",
+            field=models.TextField(
+                blank=True,
+                help_text="Lat/long coordinate pairs, separated by semicolons, eg '51.513558,-0.104268;51.513552,-0.104518;...', from http://www.birdtheme.org/useful/v3largemap.html (formatted slightly differently).",  # noqa: E501
+            ),
         ),
         migrations.AlterField(
-            model_name='topic',
-            name='summary',
-            field=models.TextField(blank=True, help_text='Can use Markdown.'),
+            model_name="topic",
+            name="summary",
+            field=models.TextField(blank=True, help_text="Can use Markdown."),
         ),
         migrations.AlterField(
-            model_name='topic',
-            name='summary_html',
-            field=models.TextField(blank=True, help_text='The summary field, with Markdown etc, turned into HTML.'),
+            model_name="topic",
+            name="summary_html",
+            field=models.TextField(
+                blank=True,
+                help_text="The summary field, with Markdown etc, turned into HTML.",
+            ),
         ),
         migrations.AlterField(
-            model_name='topic',
-            name='thumbnail',
-            field=models.ImageField(blank=True, help_text='100 x 120 pixels', null=True, upload_to='encyclopedia/thumbnails'),
+            model_name="topic",
+            name="thumbnail",
+            field=models.ImageField(
+                blank=True,
+                help_text="100 x 120 pixels",
+                null=True,
+                upload_to="encyclopedia/thumbnails",
+            ),
         ),
         migrations.AlterField(
-            model_name='topic',
-            name='tooltip_text',
-            field=models.TextField(blank=True, help_text='For hovering over links in diary entries.'),
+            model_name="topic",
+            name="tooltip_text",
+            field=models.TextField(
+                blank=True, help_text="For hovering over links in diary entries."
+            ),
         ),
         migrations.AlterField(
-            model_name='topic',
-            name='wheatley',
-            field=models.TextField(blank=True, help_text='Can use Markdown. Taken from footnotes in the 1893 Wheatley edition of the diary.'),
+            model_name="topic",
+            name="wheatley",
+            field=models.TextField(
+                blank=True,
+                help_text="Can use Markdown. Taken from footnotes in the 1893 Wheatley edition of the diary.",  # noqa: E501
+            ),
         ),
         migrations.AlterField(
-            model_name='topic',
-            name='wheatley_html',
-            field=models.TextField(blank=True, help_text='The wheatley field, with Markdown etc, turned into HTML.'),
+            model_name="topic",
+            name="wheatley_html",
+            field=models.TextField(
+                blank=True,
+                help_text="The wheatley field, with Markdown etc, turned into HTML.",
+            ),
         ),
         migrations.AlterField(
-            model_name='topic',
-            name='wikipedia_fragment',
-            field=models.CharField(blank=True, help_text="From the Wikipedia page URL, if any, eg, 'Samuel_Pepys'.", max_length=255),
+            model_name="topic",
+            name="wikipedia_fragment",
+            field=models.CharField(
+                blank=True,
+                help_text="From the Wikipedia page URL, if any, eg, 'Samuel_Pepys'.",
+                max_length=255,
+            ),
         ),
         migrations.AlterField(
-            model_name='topic',
-            name='wikipedia_html',
-            field=models.TextField(blank=True, help_text='Will be populated automatically.'),
+            model_name="topic",
+            name="wikipedia_html",
+            field=models.TextField(
+                blank=True, help_text="Will be populated automatically."
+            ),
         ),
     ]

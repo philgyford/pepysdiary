@@ -7,48 +7,76 @@ import pepysdiary.membership.utilities
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('membership', '0002_auto_20160324_1541'),
+        ("membership", "0002_auto_20160324_1541"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='person',
-            name='activation_key',
-            field=models.CharField(help_text="Will be 'ALREADY_ACTIVATED' when 'Is active?' is true.", max_length=40),
+            model_name="person",
+            name="activation_key",
+            field=models.CharField(
+                help_text="Will be 'ALREADY_ACTIVATED' when 'Is active?' is true.",
+                max_length=40,
+            ),
         ),
         migrations.AlterField(
-            model_name='person',
-            name='email',
-            field=models.EmailField(db_index=True, max_length=255, unique=True, verbose_name='Email address'),
+            model_name="person",
+            name="email",
+            field=models.EmailField(
+                db_index=True, max_length=255, unique=True, verbose_name="Email address"
+            ),
         ),
         migrations.AlterField(
-            model_name='person',
-            name='first_comment_date',
-            field=models.DateTimeField(blank=True, help_text='First time they commented. Might be before the date they joined...', null=True),
+            model_name="person",
+            name="first_comment_date",
+            field=models.DateTimeField(
+                blank=True,
+                help_text="First time they commented. Might be before the date they joined...",  # noqa: E501
+                null=True,
+            ),
         ),
         migrations.AlterField(
-            model_name='person',
-            name='is_active',
-            field=models.BooleanField(default=False, help_text='Designates whether this user should be treated as active. Unselect this instead of deleting accounts.', verbose_name='Is active?'),
+            model_name="person",
+            name="is_active",
+            field=models.BooleanField(
+                default=False,
+                help_text="Designates whether this user should be treated as active. Unselect this instead of deleting accounts.",  # noqa: E501
+                verbose_name="Is active?",
+            ),
         ),
         migrations.AlterField(
-            model_name='person',
-            name='is_staff',
-            field=models.BooleanField(default=False, help_text='Designates whether the user can log into this admin site.', verbose_name='Is staff?'),
+            model_name="person",
+            name="is_staff",
+            field=models.BooleanField(
+                default=False,
+                help_text="Designates whether the user can log into this admin site.",
+                verbose_name="Is staff?",
+            ),
         ),
         migrations.AlterField(
-            model_name='person',
-            name='is_trusted_commenter',
-            field=models.BooleanField(default=False, help_text='Allows them to post comments without spam-filtering', verbose_name='Is trusted commenter?'),
+            model_name="person",
+            name="is_trusted_commenter",
+            field=models.BooleanField(
+                default=False,
+                help_text="Allows them to post comments without spam-filtering",
+                verbose_name="Is trusted commenter?",
+            ),
         ),
         migrations.AlterField(
-            model_name='person',
-            name='name',
-            field=models.CharField(help_text='Publically visible name, spaces allowed', max_length=50, unique=True, validators=[pepysdiary.membership.utilities.validate_person_name]),
+            model_name="person",
+            name="name",
+            field=models.CharField(
+                help_text="Publically visible name, spaces allowed",
+                max_length=50,
+                unique=True,
+                validators=[pepysdiary.membership.utilities.validate_person_name],
+            ),
         ),
         migrations.AlterField(
-            model_name='person',
-            name='url',
-            field=models.URLField(blank=True, max_length=255, null=True, verbose_name='URL'),
+            model_name="person",
+            name="url",
+            field=models.URLField(
+                blank=True, max_length=255, null=True, verbose_name="URL"
+            ),
         ),
     ]

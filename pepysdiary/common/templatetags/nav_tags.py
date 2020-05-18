@@ -2,6 +2,7 @@ from django import template
 
 register = template.Library()
 
+
 @register.simple_tag
 def get_subnav(url_name):
     """
@@ -18,43 +19,46 @@ def get_subnav(url_name):
     is no subnav specified for this URL name.
     """
     subnavs = (
-        ('diary', ('home',
-                    'entry_archive',
-                    'entry_month_archive',
-                    'entry_detail',
-                    'diary_summary',
-                    'summary_year_archive',
-                    '1893_introduction',
-                    '1893_introduction_preface',
-                    '1893_introduction_previous',
-                    '1893_introduction_pepys',
-        )),
-        ('letters', ('letters',
-                    'letter_detail',
-                    'letter_person',
-        )),
-        ('encyclopedia', ('encyclopedia',
-                    'topic_detail',
-                    'category_map',
-                    'category_detail',
-                    'encyclopedia_familytree',
-        )),
-        ('indepth', ('indepth',
-                    'article_detail',
-        )),
-        ('news', ('news',
-                    'post_category_archive',
-                    'post_detail',
-        )),
-        ('recent', ('recent',
-        )),
-        ('about', ('about',
-                    'about_text',
-                    'about_faq',
-                    'about_annotations',
-                    'about_formats',
-                    'about_support',
-        )),
+        (
+            "diary",
+            (
+                "home",
+                "entry_archive",
+                "entry_month_archive",
+                "entry_detail",
+                "diary_summary",
+                "summary_year_archive",
+                "1893_introduction",
+                "1893_introduction_preface",
+                "1893_introduction_previous",
+                "1893_introduction_pepys",
+            ),
+        ),
+        ("letters", ("letters", "letter_detail", "letter_person",)),
+        (
+            "encyclopedia",
+            (
+                "encyclopedia",
+                "topic_detail",
+                "category_map",
+                "category_detail",
+                "encyclopedia_familytree",
+            ),
+        ),
+        ("indepth", ("indepth", "article_detail",)),
+        ("news", ("news", "post_category_archive", "post_detail",)),
+        ("recent", ("recent",)),
+        (
+            "about",
+            (
+                "about",
+                "about_text",
+                "about_faq",
+                "about_annotations",
+                "about_formats",
+                "about_support",
+            ),
+        ),
     )
     for subnav, names in subnavs:
         if url_name in names:

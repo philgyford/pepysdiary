@@ -9,13 +9,15 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('common', '0001_initial'),
+        ("common", "0001_initial"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='config',
-            name='site',
-            field=models.OneToOneField(null=True, on_delete=django.db.models.deletion.SET_NULL, to='sites.Site'),
+            model_name="config",
+            name="site",
+            field=models.OneToOneField(
+                null=True, on_delete=django.db.models.deletion.SET_NULL, to="sites.Site"
+            ),
         ),
     ]

@@ -14,15 +14,17 @@ def allow(action):
         @allow('registration')
     on a view means the view can only be used if `allow_registration` is True.
     """
+
     def decorator(func):
         def inner_decorator(request, *args, **kwargs):
             config = Config.objects.get_site_config()
             # eg, 'allow_registration':
-            attr = 'allow_%s' % action
-            if config and hasattr(config, attr) and \
-                                                getattr(config, attr) == True:
+            attr = "allow_%s" % action
+            if config and hasattr(config, attr) and getattr(config, attr) is True:
                 return func(request, *args, **kwargs)
             else:
-                return redirect('home')
+                return redirect("home")
+
         return wraps(func)(inner_decorator)
+
     return decorator

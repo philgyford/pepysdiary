@@ -3,7 +3,7 @@ import calendar
 
 from django import template
 from django.contrib.contenttypes.models import ContentType
-from django.utils.html import mark_safe, strip_tags
+from django.utils.html import strip_tags
 
 from pepysdiary.annotations.models import Annotation
 from pepysdiary.common.utilities import smart_truncate
@@ -16,100 +16,80 @@ from pepysdiary.news.models import Post
 register = template.Library()
 
 
-def commented_objects_list(model_class, context, title, quantity):
+def commented_objects_list(context, title, quantity, model_class):
     """
-    Passed a queryset of Entries, Topics, Articles, etc, it displays a <dl> of
-    them, along with part of the most recent comment on each of them.
+    Passed a queryset of Entries, Topics, Articles, etc, it returns the context
+    data for use with the common/inc/commented_objects_list.html template.
     """
-    html = ''
-    queryset = model_class.objects.filter(last_comment_time__isnull=False
-                                    ).order_by('-last_comment_time')[:quantity]
+    queryset = model_class.objects.filter(last_comment_time__isnull=False).order_by(
+        "-last_comment_time"
+    )[:quantity]
     if queryset:
+        template_context = {"comments": [], "title": title}
         ct = ContentType.objects.get_for_model(queryset[0])
         for obj in queryset:
-            comment = Annotation.visible_objects.filter(object_pk=obj.pk,
-                                                        content_type_id=ct.id
-                                                    ).latest('submit_date')
-            html += """
-<article class="media newable media-small" data-time="%(data_time)s">
-    <span class="newflag pull-left" aria-hidden="true" title="New since your last visit">✹</span>
-    <span class="sr-only">New since your last visit</span>
-    <div class="media-body">
-        <h2 class="media-heading">
-            <span class="comment-title">
-                <a href="%(url)s">%(obj_title)s</a>
-            </span>
-            by
-            <span class="comment-name">
-                %(user_name)s
-            </span>
-            <small>
-                <time class="timeago" datetime="%(iso_datetime)s">on %(date)s</time>
-            </small>
-        </h2>
-        <p class="text-muted">%(comment)s</p>
-    </div>
-</article>
-""" % {
-        'data_time': calendar.timegm(comment.submit_date.timetuple()),
-        'url': comment.get_absolute_url(),
-        'obj_title': obj.title,
-        'user_name': strip_tags(comment.get_user_name()),
-        'iso_datetime': comment.submit_date.strftime('%Y-%m-%dT%H:%M:%S%z'),
-        'date': comment.submit_date.strftime(
-                                        context['date_format_mid_strftime']),
-        'time': comment.submit_date.strftime(
-                        context['time_format_strftime']).lstrip('0').lower(),
-        'comment': strip_tags(smart_truncate(comment.comment, 70)),
-            }
+            comment = Annotation.visible_objects.filter(
+                object_pk=obj.pk, content_type_id=ct.id
+            ).latest("submit_date")
 
-        html = """<section class="recently-commented">
-<header>
-    <h1 class="h2">%s</h1>
-</header>
-%s
-</section>
-<hr>
-""" % (title, html)
-    return html
+            template_context["comments"].append(
+                {
+                    "data_time": calendar.timegm(comment.submit_date.timetuple()),
+                    "url": comment.get_absolute_url(),
+                    "obj_title": obj.title,
+                    "user_name": strip_tags(comment.get_user_name()),
+                    "iso_datetime": comment.submit_date.strftime("%Y-%m-%dT%H:%M:%S%z"),
+                    "date": comment.submit_date.strftime(
+                        context["date_format_mid_strftime"]
+                    ),
+                    "time": comment.submit_date.strftime(
+                        context["time_format_strftime"]
+                    )
+                    .lstrip("0")
+                    .lower(),
+                    "text": strip_tags(smart_truncate(comment.comment, 70)),
+                }
+            )
+        return template_context
+    else:
+        return None
 
 
-@register.simple_tag(takes_context=True)
+@register.inclusion_tag("common/inc/commented_objects_list.html", takes_context=True)
 def latest_commented_entries(context, title, quantity=5):
     """
-    Displays a <dl> of Diary Entries ordered by most recently-commented-on.
+    Displays a list of Diary Entries ordered by most recently-commented-on.
     """
-    return mark_safe(commented_objects_list(Entry, context, title, quantity))
+    return commented_objects_list(context, title, quantity, Entry)
 
 
-@register.simple_tag(takes_context=True)
+@register.inclusion_tag("common/inc/commented_objects_list.html", takes_context=True)
 def latest_commented_letters(context, title, quantity=5):
     """
-    Displays a <dl> of Letters ordered by most recently-commented-on.
+    Displays a list of Letters ordered by most recently-commented-on.
     """
-    return mark_safe(commented_objects_list(Letter, context, title, quantity))
+    return commented_objects_list(context, title, quantity, Letter)
 
 
-@register.simple_tag(takes_context=True)
+@register.inclusion_tag("common/inc/commented_objects_list.html", takes_context=True)
 def latest_commented_topics(context, title, quantity=5):
     """
-    Displays a <dl> of Topics ordered by most recently-commented-on.
+    Displays a list of Topics ordered by most recently-commented-on.
     """
-    return mark_safe(commented_objects_list(Topic, context, title, quantity))
+    return commented_objects_list(context, title, quantity, Topic)
 
 
-@register.simple_tag(takes_context=True)
+@register.inclusion_tag("common/inc/commented_objects_list.html", takes_context=True)
 def latest_commented_articles(context, title, quantity=5):
     """
-    Displays a <dl> of In-Depth Articles ordered by most recently-commented-on.
+    Displays a list of In-Depth Articles ordered by most recently-commented-on.
     """
-    return mark_safe(commented_objects_list(Article, context, title, quantity))
+    return commented_objects_list(context, title, quantity, Article)
 
 
-@register.simple_tag(takes_context=True)
+@register.inclusion_tag("common/inc/commented_objects_list.html", takes_context=True)
 def latest_commented_posts(context, title, quantity=5):
     """
-    Displays a <dl> of Site News Posts ordered by most recently-commented-on.
+    Displays a list of Site News Posts ordered by most recently-commented-on.
     """
-    return mark_safe(commented_objects_list(Post, context, title, quantity))
-
+    return commented_objects_list(context, title, quantity, Post)

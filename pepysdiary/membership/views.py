@@ -57,6 +57,7 @@ class ProfileView(SingleObjectMixin, PaginatedListView):
     SingleObjectMixin handles the Person object.
     PaginatedListView handles the Annotations (comment_list).
     """
+
     private_profile = False
     template_name = "membership/person_detail.html"
     paginate_by = 20
@@ -140,10 +141,10 @@ class PasswordResetDoneView(auth_views.PasswordResetDoneView):
     def get_context_data(self, **kwargs):
         context = super(PasswordResetDoneView, self).get_context_data(**kwargs)
         context["title"] = "Reset instructions sent"
-        context[
-            "message"
-        ] = "We’ve sent instructions for resetting your password to the "
-        "email address you submitted."
+        context["message"] = (
+            "We’ve sent instructions for resetting your password to the "
+            "email address you submitted."
+        )
         return context
 
 

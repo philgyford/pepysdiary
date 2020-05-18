@@ -4,8 +4,13 @@ import datetime
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import Http404
 from django.utils.translation import ugettext as _
-from django.views.generic.dates import _date_from_string,\
-            ArchiveIndexView, DateDetailView, MonthArchiveView, YearArchiveView
+from django.views.generic.dates import (
+    _date_from_string,
+    ArchiveIndexView,
+    DateDetailView,
+    MonthArchiveView,
+    YearArchiveView,
+)
 
 from pepysdiary.common.views import BaseRSSFeed
 from pepysdiary.diary.models import Entry, Summary
@@ -15,11 +20,12 @@ class EntryMixin(object):
     """
     All Entry-based views should probably inherit this.
     """
+
     model = Entry
-    date_field = 'diary_date'
-    year_format = '%Y'
-    month_format = '%m'
-    day_format = '%d'
+    date_field = "diary_date"
+    year_format = "%Y"
+    month_format = "%m"
+    day_format = "%d"
 
 
 class EntryDetailView(EntryMixin, DateDetailView):
@@ -38,18 +44,29 @@ class EntryDetailView(EntryMixin, DateDetailView):
         year = self.get_year()
         month = self.get_month()
         day = self.get_day()
-        date = _date_from_string(year, self.get_year_format(),
-                                 month, self.get_month_format(),
-                                 day, self.get_day_format())
+        date = _date_from_string(
+            year,
+            self.get_year_format(),
+            month,
+            self.get_month_format(),
+            day,
+            self.get_day_format(),
+        )
 
         # Use a custom queryset if provided
         qs = queryset or self.get_queryset()
 
         if not self.get_allow_future() and date > datetime.date.today():
-            raise Http404(_("Future %(verbose_name_plural)s not available because %(class_name)s.allow_future is False.") % {
-                'verbose_name_plural': qs.model._meta.verbose_name_plural,
-                'class_name': self.__class__.__name__,
-            })
+            raise Http404(
+                _(
+                    "Future %(verbose_name_plural)s not available because "
+                    "%(class_name)s.allow_future is False."
+                )
+                % {
+                    "verbose_name_plural": qs.model._meta.verbose_name_plural,
+                    "class_name": self.__class__.__name__,
+                }
+            )
 
         # Filter down a queryset from self.queryset using the date from the
         # URL. This'll get passed as the queryset to DetailView.get_object,
@@ -66,14 +83,17 @@ class EntryDetailView(EntryMixin, DateDetailView):
         try:
             obj = qs.get()
         except ObjectDoesNotExist:
-            raise Http404(_("No %(verbose_name)s found matching the query") %
-                              {'verbose_name': qs.model._meta.verbose_name})
+            raise Http404(
+                _("No %(verbose_name)s found matching the query")
+                % {"verbose_name": qs.model._meta.verbose_name}
+            )
         return obj
 
     def get_context_data(self, **kwargs):
         context = super(EntryDetailView, self).get_context_data(**kwargs)
-        context['tooltip_references'] = Entry.objects.get_brief_references(
-                                                        objects=[self.object])
+        context["tooltip_references"] = Entry.objects.get_brief_references(
+            objects=[self.object]
+        )
         extra_context = self.get_next_previous()
         context.update(extra_context)
         return context
@@ -86,37 +106,49 @@ class EntryDetailView(EntryMixin, DateDetailView):
         month = self.get_month()
         day = self.get_day()
 
-        date = _date_from_string(year, self.get_year_format(),
-                                 month, self.get_month_format(),
-                                 day, self.get_day_format())
+        date = _date_from_string(
+            year,
+            self.get_year_format(),
+            month,
+            self.get_month_format(),
+            day,
+            self.get_day_format(),
+        )
 
         try:
-            previous_entry = self.model.objects.filter(
-                        diary_date__lt=date).order_by('-diary_date')[:1].get()
+            previous_entry = (
+                self.model.objects.filter(diary_date__lt=date)
+                .order_by("-diary_date")[:1]
+                .get()
+            )
         except self.model.DoesNotExist:
             previous_entry = None
 
         try:
-            next_entry = self.model.objects.filter(
-                        diary_date__gt=date).order_by('diary_date')[:1].get()
+            next_entry = (
+                self.model.objects.filter(diary_date__gt=date)
+                .order_by("diary_date")[:1]
+                .get()
+            )
         except self.model.DoesNotExist:
             next_entry = None
 
         return {
-            'previous_entry': previous_entry,
-            'next_entry': next_entry,
+            "previous_entry": previous_entry,
+            "next_entry": next_entry,
         }
 
 
 class EntryMonthArchiveView(EntryMixin, MonthArchiveView):
     """Show all the Entries from one month."""
 
-    ordering = 'diary_date'
+    ordering = "diary_date"
 
     def get_context_data(self, **kwargs):
         context = super(EntryMonthArchiveView, self).get_context_data(**kwargs)
-        context['tooltip_references'] = Entry.objects.get_brief_references(
-                                                objects=kwargs['object_list'])
+        context["tooltip_references"] = Entry.objects.get_brief_references(
+            objects=kwargs["object_list"]
+        )
         return context
 
     def get_ordering(self):
@@ -134,10 +166,10 @@ class EntryArchiveView(EntryMixin, ArchiveIndexView):
         that we're asking for 'month' rather than 'year' with get_date_list().
         """
         qs = self.get_dated_queryset()
-        date_list = self.get_date_list(qs, 'month')
+        date_list = self.get_date_list(qs, "month")
 
         if date_list:
-            object_list = qs.order_by('-' + self.get_date_field())
+            object_list = qs.order_by("-" + self.get_date_field())
         else:
             object_list = qs.none()
 
@@ -146,33 +178,34 @@ class EntryArchiveView(EntryMixin, ArchiveIndexView):
 
 class SummaryYearArchiveView(YearArchiveView):
     """Show all the Summaries from one year."""
+
     model = Summary
-    date_field = 'summary_date'
+    date_field = "summary_date"
     make_object_list = True
 
 
 class LatestEntriesFeed(BaseRSSFeed):
     title = "The Diary of Samuel Pepys"
-    description = 'Daily entries from the 17th century London diary'
+    description = "Daily entries from the 17th century London diary"
 
     def items(self):
         return Entry.objects.filter(
-                diary_date__lte=Entry.objects.most_recent_entry_date()
-            ).order_by('-diary_date')[:5]
+            diary_date__lte=Entry.objects.most_recent_entry_date()
+        ).order_by("-diary_date")[:5]
 
     def item_description(self, item):
         return self.make_item_description(item.text)
 
     def item_author_name(self, item):
-        return 'Samuel Pepys'
+        return "Samuel Pepys"
 
     def item_content_encoded(self, item):
-        footnotes = ''
+        footnotes = ""
         if item.footnotes:
-            footnotes = '<p><strong>Footnotes</strong></p>%s' % item.footnotes
+            footnotes = "<p><strong>Footnotes</strong></p>%s" % item.footnotes
         return self.make_item_content_encoded(
             text1=item.text,
             text2=footnotes,
             url=item.get_absolute_url(),
-            comment_name=item.comment_name
+            comment_name=item.comment_name,
         )

@@ -10,10 +10,10 @@ from pepysdiary.diary.models import Entry, Summary
 class YearmonthListFilter(admin.SimpleListFilter):
     # Human-readable title which will be displayed in the
     # right admin sidebar just above the filter options.
-    title = 'Month'
+    title = "Month"
 
     # Parameter for the filter that will be used in the URL query.
-    parameter_name = 'yearmonth'
+    parameter_name = "yearmonth"
 
     def lookups(self, request, model_admin):
         """
@@ -28,11 +28,13 @@ class YearmonthListFilter(admin.SimpleListFilter):
         choices = []
         for (y, months) in years_months:
             for (m_count, m) in enumerate(months):
-                choices.append((
-                    # Will be like ('1660-03', 'Mar 1660'):
-                    '%s-%02d' % (y, (m_count + 1)),
-                    '%s %s' % (y, m),
-                ))
+                choices.append(
+                    (
+                        # Will be like ('1660-03', 'Mar 1660'):
+                        "%s-%02d" % (y, (m_count + 1)),
+                        "%s %s" % (y, m),
+                    )
+                )
 
         return choices
 
@@ -43,46 +45,81 @@ class YearmonthListFilter(admin.SimpleListFilter):
         `self.value()`.
         """
         # self.value() should be of the form '1660-01'.
-        if self.value() is not None and \
-            re.match(r'^\d{,4}-\d{,2}$', self.value()) is not None:
+        if (
+            self.value() is not None
+            and re.match(r"^\d{,4}-\d{,2}$", self.value()) is not None
+        ):
 
-            [year, month] = [int(n) for n in self.value().split('-')]
+            [year, month] = [int(n) for n in self.value().split("-")]
             last_day = calendar.monthrange(year, month)[1]
 
-            return queryset.filter(diary_date__gte=date(year, month, 1),
-                                diary_date__lte=date(year, month, last_day))
+            return queryset.filter(
+                diary_date__gte=date(year, month, 1),
+                diary_date__lte=date(year, month, last_day),
+            )
 
 
 class EntryAdmin(admin.ModelAdmin):
-    list_display = ('title', 'diary_date', 'comment_count', )
-    list_filter = (YearmonthListFilter, )
-    search_fields = ['title', 'text', 'footnotes', ]
-    readonly_fields = ('date_created', 'date_modified', 'last_comment_time', )
-    fieldsets = (
-        (None, {
-            'fields': ('title', 'diary_date', 'text', 'footnotes',
-                                                        'allow_comments', ),
-        }),
-        (None, {
-            'fields': ('date_created', 'date_modified', 'comment_count',
-                                                        'last_comment_time', ),
-        }),
+    list_display = (
+        "title",
+        "diary_date",
+        "comment_count",
     )
+    list_filter = (YearmonthListFilter,)
+    search_fields = [
+        "title",
+        "text",
+        "footnotes",
+    ]
+    readonly_fields = (
+        "date_created",
+        "date_modified",
+        "last_comment_time",
+    )
+    fieldsets = (
+        (
+            None,
+            {
+                "fields": (
+                    "title",
+                    "diary_date",
+                    "text",
+                    "footnotes",
+                    "allow_comments",
+                ),
+            },
+        ),
+        (
+            None,
+            {
+                "fields": (
+                    "date_created",
+                    "date_modified",
+                    "comment_count",
+                    "last_comment_time",
+                ),
+            },
+        ),
+    )
+
 
 admin.site.register(Entry, EntryAdmin)
 
 
 class SummaryAdmin(admin.ModelAdmin):
-    list_display = ('title', )
-    search_fields = ['title', 'text', ]
-    readonly_fields = ('date_created', 'date_modified', )
-    fieldsets = (
-        (None, {
-            'fields': ('title', 'summary_date', 'text', ),
-        }),
-        (None, {
-            'fields': ('date_created', 'date_modified', ),
-        }),
+    list_display = ("title",)
+    search_fields = [
+        "title",
+        "text",
+    ]
+    readonly_fields = (
+        "date_created",
+        "date_modified",
     )
+    fieldsets = (
+        (None, {"fields": ("title", "summary_date", "text",)}),
+        (None, {"fields": ("date_created", "date_modified",)}),
+    )
+
 
 admin.site.register(Summary, SummaryAdmin)
