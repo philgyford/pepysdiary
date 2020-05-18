@@ -17,7 +17,7 @@
             {{ comment.user_name }}
           </span>
           <small>
-            <time class="timeago" datetime="%(iso_datetime)s">on {{ comment.date }}</time>
+            <time class="timeago" datetime="{{ comment.iso_datetime }}">on {{ comment.date }}</time>
           </small>
         </h2>
         <p class="text-muted">{{ comment.text }}</p>
