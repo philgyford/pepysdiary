@@ -7,3 +7,4 @@ set -e
 TESTS_TO_RUN=${1:tests}
 
 ./manage.py test --settings=pepysdiary.settings.tests $TESTS_TO_RUN
+flake8
