@@ -14,16 +14,18 @@ framework.
 
 """
 
+from django.core.cache.backends.memcached import BaseMemcachedCache
+from django.core.wsgi import get_wsgi_application
+
+
 # This application object is used by any WSGI server configured to use this
 # file. This includes Django's development server, if the WSGI_APPLICATION
 # setting points here.
-from django.core.wsgi import get_wsgi_application
 application = get_wsgi_application()
 
 
 # Fix django closing connection to MemCachier after every request (#11331)
 # From https://devcenter.heroku.com/articles/memcachier#django
-from django.core.cache.backends.memcached import BaseMemcachedCache
 BaseMemcachedCache.close = lambda self, **kwargs: None
 
 

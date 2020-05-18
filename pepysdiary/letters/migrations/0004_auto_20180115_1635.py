@@ -6,38 +6,52 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('letters', '0003_auto_20170908_1502'),
+        ("letters", "0003_auto_20170908_1502"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='letter',
-            name='display_date',
-            field=models.CharField(help_text='eg "Thursday 27 April 1665". Because days of the week are calculated wrong for old dates.', max_length=50),
+            model_name="letter",
+            name="display_date",
+            field=models.CharField(
+                help_text='eg "Thursday 27 April 1665". Because days of the week are calculated wrong for old dates.',  # noqa: E501
+                max_length=50,
+            ),
         ),
         migrations.AlterField(
-            model_name='letter',
-            name='excerpt',
-            field=models.TextField(help_text='200 or so characters from the start of the letter, after salutations.'),
+            model_name="letter",
+            name="excerpt",
+            field=models.TextField(
+                help_text="200 or so characters from the start of the letter, after salutations."  # noqa: E501
+            ),
         ),
         migrations.AlterField(
-            model_name='letter',
-            name='order',
-            field=models.PositiveSmallIntegerField(default=0, help_text='If letters are from the same day, this is used to order them, lowest number first.'),
+            model_name="letter",
+            name="order",
+            field=models.PositiveSmallIntegerField(
+                default=0,
+                help_text="If letters are from the same day, this is used to order them, lowest number first.",  # noqa: E501
+            ),
         ),
         migrations.AlterField(
-            model_name='letter',
-            name='slug',
-            field=models.SlugField(unique_for_date='letter_date'),
+            model_name="letter",
+            name="slug",
+            field=models.SlugField(unique_for_date="letter_date"),
         ),
         migrations.AlterField(
-            model_name='letter',
-            name='source',
-            field=models.IntegerField(blank=True, choices=[(10, 'Guy de la Bédoyère'), (20, 'Helen Truesdell Heath')], null=True),
+            model_name="letter",
+            name="source",
+            field=models.IntegerField(
+                blank=True,
+                choices=[(10, "Guy de la Bédoyère"), (20, "Helen Truesdell Heath")],
+                null=True,
+            ),
         ),
         migrations.AlterField(
-            model_name='letter',
-            name='title',
-            field=models.CharField(help_text='eg, "Thomas Hill to Samuel Pepys".', max_length=100),
+            model_name="letter",
+            name="title",
+            field=models.CharField(
+                help_text='eg, "Thomas Hill to Samuel Pepys".', max_length=100
+            ),
         ),
     ]

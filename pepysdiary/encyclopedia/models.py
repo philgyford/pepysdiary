@@ -41,7 +41,7 @@ class Topic(PepysModel):
         default=None,
         on_delete=models.SET_DEFAULT,
         related_name="topic_summaries",
-        help_text="Optional. Used if Summary Publication Date is set."
+        help_text="Optional. Used if Summary Publication Date is set.",
     )
     summary_publication_date = models.DateField(
         blank=True, null=True, help_text="Optional. Used if Summary Author is set."

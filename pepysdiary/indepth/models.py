@@ -40,7 +40,7 @@ class Article(PepysModel):
         default=None,
         on_delete=models.SET_DEFAULT,
         related_name="indepth_articles",
-        help_text="Optional."
+        help_text="Optional.",
     )
     intro = models.TextField(blank=False, null=False, help_text="Can use Markdown.")
     intro_html = models.TextField(

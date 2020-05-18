@@ -19,6 +19,6 @@ class Migration(migrations.Migration):
         ),
         migrations.AddIndex(
             model_name='entry',
-            index=django.contrib.postgres.indexes.GinIndex(fields=['search_document'], name='diary_entry_search__7a3c43_gin'),
+            index=django.contrib.postgres.indexes.GinIndex(fields=['search_document'], name='diary_entry_search__7a3c43_gin'),  # noqa: E501
         ),
     ]

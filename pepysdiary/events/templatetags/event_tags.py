@@ -18,14 +18,13 @@ def events_html(title, event_list):
     optional `url`.
     """
     if len(event_list) == 0:
-        return ''
+        return ""
     html = "<h2>%s</h2>\n<ul>\n" % title
     for li in event_list:
-        if 'url' in li and li['url'] != '':
-            html += "<li><a href=\"%s\">%s</a></li>\n" % (
-                                                        li['url'], li['text'])
+        if "url" in li and li["url"] != "":
+            html += '<li><a href="%s">%s</a></li>\n' % (li["url"], li["text"])
         else:
-            html += "<li>%s</li>\n" % li['text']
+            html += "<li>%s</li>\n" % li["text"]
     html += "</ul>\n"
     return html
 
@@ -39,9 +38,8 @@ def entries_for_day(date):
     entries = Entry.objects.filter(diary_date=date)
     if len(entries) > 0:
         for entry in entries:
-            event_list.append({'url': entry.get_absolute_url(),
-                                'text': entry.title})
-    return mark_safe(events_html('In the Diary', event_list))
+            event_list.append({"url": entry.get_absolute_url(), "text": entry.title})
+    return mark_safe(events_html("In the Diary", event_list))
 
 
 def letters_for_day(date):
@@ -53,9 +51,8 @@ def letters_for_day(date):
     letters = Letter.objects.filter(letter_date=date)
     if len(letters) > 0:
         for letter in letters:
-            event_list.append({'url': letter.get_absolute_url(),
-                                'text': letter.title})
-    return mark_safe(events_html('Letters', event_list))
+            event_list.append({"url": letter.get_absolute_url(), "text": letter.title})
+    return mark_safe(events_html("Letters", event_list))
 
 
 def dayevents_for_day(date):
@@ -63,7 +60,7 @@ def dayevents_for_day(date):
     Returns HTML for displaying any DayEvents that happen on `date`.
     Or an empty string if there aren't any.
     """
-    html = ''
+    html = ""
 
     sources = {key: label for (key, label) in DayEvent.Source.choices}
 
@@ -71,7 +68,7 @@ def dayevents_for_day(date):
     # {10: {}, 20: {}, 30: {}}
     events_by_source = {key: {} for (key, label) in DayEvent.Source.choices}
 
-    for ev in DayEvent.objects.filter(event_date=date).order_by('source'):
+    for ev in DayEvent.objects.filter(event_date=date).order_by("source"):
         # For each source, there *might* be several events with the same title
         # so we create a list of events for each title, within each source.
         if ev.title not in events_by_source[ev.source]:
@@ -86,31 +83,33 @@ def dayevents_for_day(date):
                 # events is now a list of DayEvent objects.
                 if len(events) == 1:
                     # Only one event, so just list it.
-                    event_list.append({'url': events[0].url,
-                                        'text': events[0].title})
+                    event_list.append({"url": events[0].url, "text": events[0].title})
                 else:
-                    # Many events with the same title. So show numbered links.
-                    event_html = '%s: ' % title
+                    #  Many events with the same title. So show numbered links.
+                    event_html = "%s: " % title
                     for n, event in enumerate(events):
-                        event_html += '<a href="%s">%s</a> ' % (
-                                                            event.url, (n + 1))
-                    event_list.append({'text': event_html})
+                        event_html += '<a href="%s">%s</a> ' % (event.url, (n + 1))
+                    event_list.append({"text": event_html})
 
             # Make the HTML. sources[source_key] is like 'In Parliament'.
             html += events_html(sources[source_key], event_list)
 
-    if html != '':
-        html += '<p class="text-right"><small><a href="%s#on-this-day">About these events</a></small></p>' % ( reverse('about_text') )
+    if html != "":
+        html += (
+            '<p class="text-right"><small>'
+            '<a href="%s#on-this-day">About these events</a></small></p>'
+            % (reverse("about_text"))
+        )
 
     return html
 
 
 @register.simple_tag
 def events_for_day(date, exclude=None):
-    html = ''
-    if exclude != 'entries':
+    html = ""
+    if exclude != "entries":
         html += entries_for_day(date)
-    if exclude != 'letters':
+    if exclude != "letters":
         html += letters_for_day(date)
     html += dayevents_for_day(date)
     return mark_safe(html)
@@ -119,8 +118,9 @@ def events_for_day(date, exclude=None):
 @register.simple_tag
 def events_for_day_in_sidebar(date, exclude=None):
     html = events_for_day(date, exclude)
-    if html != '':
-        html = """<aside class="aside-block">
+    if html != "":
+        html = (
+            """<aside class="aside-block">
     <header class="aside-header">
         <h1 class="aside-title">Also on this day</h1>
     </header>
@@ -128,5 +128,7 @@ def events_for_day_in_sidebar(date, exclude=None):
 %s
     </div>
 </aside>
-""" % html
+"""
+            % html
+        )
     return mark_safe(html)

@@ -110,6 +110,8 @@ class PersonKindsFilter(admin.SimpleListFilter):
 def deactivate(modeladmin, request, queryset):
     "For bulk changing of Person.is_active to False; for spammers"
     queryset.update(is_active=False)
+
+
 deactivate.short_description = "Deactivate selected People"  # noqa: E305
 
 

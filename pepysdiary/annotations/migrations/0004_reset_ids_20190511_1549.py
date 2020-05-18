@@ -12,7 +12,7 @@ def reset_counter(apps, schema_editor):
 
     with connection.cursor() as cursor:
         cursor.execute(
-            """SELECT setval(pg_get_serial_sequence('"annotations_annotation"','id'), coalesce(max("id"), 1), max("id") IS NOT null) FROM "annotations_annotation";"""
+            """SELECT setval(pg_get_serial_sequence('"annotations_annotation"','id'), coalesce(max("id"), 1), max("id") IS NOT null) FROM "annotations_annotation";"""  # noqa: E501
         )
 
 

@@ -7,13 +7,13 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('indepth', '0002_auto_20180115_1635'),
+        ("indepth", "0002_auto_20180115_1635"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='article',
-            name='search_document',
+            model_name="article",
+            name="search_document",
             field=django.contrib.postgres.search.SearchVectorField(null=True),
         ),
     ]

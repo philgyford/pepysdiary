@@ -13,14 +13,17 @@ class Command(BaseCommand):
     Usage:
     $ ./manage.py set_topic_order_titles
     """
+
     option_list = BaseCommand.option_list + (
-        make_option('--all',
-            action='store_true',
-            dest='all',
+        make_option(
+            "--all",
+            action="store_true",
+            dest="all",
             default=True,
-            help="Re-set all the order_titles for all Topics"),
+            help="Re-set all the order_titles for all Topics",
+        ),
     )
-    args = ''
+    args = ""
     help = "Re-set all the order_titles for all Topics"
 
     def handle(self, *args, **options):

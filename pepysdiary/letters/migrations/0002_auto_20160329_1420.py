@@ -9,18 +9,28 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('letters', '0001_initial'),
+        ("letters", "0001_initial"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='letter',
-            name='recipient',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='letter_recipients', to='encyclopedia.Topic'),
+            model_name="letter",
+            name="recipient",
+            field=models.ForeignKey(
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                related_name="letter_recipients",
+                to="encyclopedia.Topic",
+            ),
         ),
         migrations.AlterField(
-            model_name='letter',
-            name='sender',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='leter_senders', to='encyclopedia.Topic'),
+            model_name="letter",
+            name="sender",
+            field=models.ForeignKey(
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                related_name="leter_senders",
+                to="encyclopedia.Topic",
+            ),
         ),
     ]

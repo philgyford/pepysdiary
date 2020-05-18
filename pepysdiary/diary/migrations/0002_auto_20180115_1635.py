@@ -6,33 +6,35 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('diary', '0001_initial'),
+        ("diary", "0001_initial"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='entry',
-            name='footnotes',
-            field=models.TextField(blank=True, help_text='HTML only, no Markdown.'),
+            model_name="entry",
+            name="footnotes",
+            field=models.TextField(blank=True, help_text="HTML only, no Markdown."),
         ),
         migrations.AlterField(
-            model_name='entry',
-            name='text',
-            field=models.TextField(help_text='HTML only, no Markdown.'),
+            model_name="entry",
+            name="text",
+            field=models.TextField(help_text="HTML only, no Markdown."),
         ),
         migrations.AlterField(
-            model_name='summary',
-            name='summary_date',
-            field=models.DateField(help_text='Only the month and year are relevant.'),
+            model_name="summary",
+            name="summary_date",
+            field=models.DateField(help_text="Only the month and year are relevant."),
         ),
         migrations.AlterField(
-            model_name='summary',
-            name='text',
-            field=models.TextField(help_text='Can use Markdown.'),
+            model_name="summary",
+            name="text",
+            field=models.TextField(help_text="Can use Markdown."),
         ),
         migrations.AlterField(
-            model_name='summary',
-            name='text_html',
-            field=models.TextField(help_text='The text field, with Markdown etc, turned into HTML.'),
+            model_name="summary",
+            name="text_html",
+            field=models.TextField(
+                help_text="The text field, with Markdown etc, turned into HTML."
+            ),
         ),
     ]

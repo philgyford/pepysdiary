@@ -159,7 +159,7 @@ def trim_hilites(content, chars_before=20, chars_after=40, allow_empty=True):
 
     if len(positions) == 0:
         if allow_empty is False:
-            excerpt = content[:(chars_before + chars_after)]
+            excerpt = content[: (chars_before + chars_after)]
             text = "{}{}".format(excerpt, joiner)
     else:
         if (positions[0][0] - chars_before) > 0:

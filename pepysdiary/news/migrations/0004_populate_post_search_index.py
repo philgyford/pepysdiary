@@ -5,13 +5,13 @@ from django.contrib.postgres.search import SearchVector
 
 
 def populate_search_index(apps, schema_editor):
-    Post = apps.get_model('news', 'Post')
+    Post = apps.get_model("news", "Post")
 
     Post.objects.update(
         search_document=(
-            SearchVector('title', weight='A') \
-            + SearchVector('intro', weight='B') \
-            + SearchVector('text', weight='B')
+            SearchVector("title", weight="A")
+            + SearchVector("intro", weight="B")
+            + SearchVector("text", weight="B")
         )
     )
 
@@ -19,9 +19,11 @@ def populate_search_index(apps, schema_editor):
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('news', '0003_post_search_document'),
+        ("news", "0003_post_search_document"),
     ]
 
     operations = [
-        migrations.RunPython(populate_search_index, reverse_code=migrations.RunPython.noop),
+        migrations.RunPython(
+            populate_search_index, reverse_code=migrations.RunPython.noop
+        ),
     ]

@@ -1,6 +1,10 @@
 # coding: utf-8
 from django import forms
-from django.contrib.auth.forms import AuthenticationForm, PasswordResetForm, SetPasswordForm
+from django.contrib.auth.forms import (
+    AuthenticationForm,
+    PasswordResetForm,
+    SetPasswordForm,
+)
 from django.contrib.auth import password_validation
 from django.utils.translation import ugettext_lazy as _
 
@@ -12,10 +16,10 @@ from pepysdiary.membership.models import Person
 from pepysdiary.membership.utilities import validate_person_name
 
 
-# Much of this based on django-registration.
+#  Much of this based on django-registration.
 
 
-attrs_dict = {'class': 'required form-control'}
+attrs_dict = {"class": "required form-control"}
 
 
 class RegistrationForm(forms.Form):
@@ -31,29 +35,49 @@ class RegistrationForm(forms.Form):
     registration backend.
 
     """
-    name = forms.CharField(
-            widget=forms.TextInput(attrs=attrs_dict), max_length=50,
-            validators=[validate_person_name], required=True,
-            label=_("Your name"),
-            help_text='How people will know you. Can use spaces, eg “Samuel Pepys”.')
-    email = forms.EmailField(required=True, label=_("Email address"),
-                max_length=254, widget=forms.EmailInput(attrs=attrs_dict),
-                help_text='This will not be visible to others.')
-    password1 = forms.CharField(widget=forms.PasswordInput(
-                                        attrs=attrs_dict, render_value=False),
-                                        required=True, label=_("Password"),
-                                        help_text='At least 8 characters.')
-    password2 = forms.CharField(widget=forms.PasswordInput(
-                                        attrs=attrs_dict, render_value=False),
-                                    required=True, label=_("Repeat password"))
-    url = forms.URLField(
-            widget=forms.URLInput(attrs=attrs_dict),
-            label=_("Personal URL"), max_length=255, required=False,
-            help_text='Optional. eg, the web address of your blog, Facebook page, Twitter page, etc.')
 
-    honeypot = forms.CharField(required=False,
-                            label=_('If you enter anything in this field '\
-                                'your registration will be treated as spam'))
+    name = forms.CharField(
+        widget=forms.TextInput(attrs=attrs_dict),
+        max_length=50,
+        validators=[validate_person_name],
+        required=True,
+        label=_("Your name"),
+        help_text="How people will know you. Can use spaces, eg “Samuel Pepys”.",
+    )
+    email = forms.EmailField(
+        required=True,
+        label=_("Email address"),
+        max_length=254,
+        widget=forms.EmailInput(attrs=attrs_dict),
+        help_text="This will not be visible to others.",
+    )
+    password1 = forms.CharField(
+        widget=forms.PasswordInput(attrs=attrs_dict, render_value=False),
+        required=True,
+        label=_("Password"),
+        help_text="At least 8 characters.",
+    )
+    password2 = forms.CharField(
+        widget=forms.PasswordInput(attrs=attrs_dict, render_value=False),
+        required=True,
+        label=_("Repeat password"),
+    )
+    url = forms.URLField(
+        widget=forms.URLInput(attrs=attrs_dict),
+        label=_("Personal URL"),
+        max_length=255,
+        required=False,
+        help_text="Optional. eg, the web address of your blog, Facebook page, "
+        "Twitter page, etc.",
+    )
+
+    honeypot = forms.CharField(
+        required=False,
+        label=_(
+            "If you enter anything in this field "
+            "your registration will be treated as spam"
+        ),
+    )
 
     def __init__(self, *args, **kwargs):
         """
@@ -63,43 +87,44 @@ class RegistrationForm(forms.Form):
         super(RegistrationForm, self).__init__(*args, **kwargs)
         config = Config.objects.get_site_config()
         if config is not None:
-            if config.use_registration_captcha == True:
-                self.fields['captcha'] = ReCaptchaField(
-                                    widget=ReCaptchaV2Checkbox(
-                                        attrs={'data-theme': 'light',
-                                                'data-tabindex': 6,}
-                                    ),
-                                    label=_("Anti-spam test"))
-            if config.use_registration_question == True and \
-                config.registration_question != '' and \
-                config.registration_answer != '':
-                self.fields['answer'] = forms.CharField(
-                                    widget=forms.TextInput(attrs=attrs_dict),
-                                    max_length=255, required=True,
-                                    label=_(config.registration_question))
+            if config.use_registration_captcha is True:
+                self.fields["captcha"] = ReCaptchaField(
+                    widget=ReCaptchaV2Checkbox(
+                        attrs={"data-theme": "light", "data-tabindex": 6}
+                    ),
+                    label=_("Anti-spam test"),
+                )
+            if (
+                config.use_registration_question is True
+                and config.registration_question != ""
+                and config.registration_answer != ""
+            ):
+                self.fields["answer"] = forms.CharField(
+                    widget=forms.TextInput(attrs=attrs_dict),
+                    max_length=255,
+                    required=True,
+                    label=_(config.registration_question),
+                )
 
     def clean_name(self):
         """
         Validate that the name is alphanumeric and is not already in use.
         """
-        existing = Person.objects.filter(
-                                        name__iexact=self.cleaned_data['name'])
+        existing = Person.objects.filter(name__iexact=self.cleaned_data["name"])
         if existing.exists():
             raise forms.ValidationError(_("That name has already been used."))
         else:
-            return self.cleaned_data['name']
+            return self.cleaned_data["name"]
 
     def clean_email(self):
         """
         Validate that the email is not already in use.
         """
-        existing = Person.objects.filter(
-                                    email__iexact=self.cleaned_data['email'])
+        existing = Person.objects.filter(email__iexact=self.cleaned_data["email"])
         if existing.exists():
-            raise forms.ValidationError(
-                                _("That email address has already been used."))
+            raise forms.ValidationError(_("That email address has already been used."))
         else:
-            return self.cleaned_data['email']
+            return self.cleaned_data["email"]
 
     def clean_honeypot(self):
         """Check that nothing's been entered into the honeypot."""
@@ -114,14 +139,17 @@ class RegistrationForm(forms.Form):
         """
         config = Config.objects.get_site_config()
         if config is not None:
-            if self.cleaned_data['answer'].lower() == config.registration_answer.lower():
-                return self.cleaned_data['answer']
+            if (
+                self.cleaned_data["answer"].lower()
+                == config.registration_answer.lower()
+            ):
+                return self.cleaned_data["answer"]
             else:
                 raise forms.ValidationError(_("Please try again."))
 
     def clean_password1(self):
         """Check the password is OK by Django >=1.9's validators."""
-        password1 = self.cleaned_data['password1']
+        password1 = self.cleaned_data["password1"]
         password_validation.validate_password(password1)
         return password1
 
@@ -134,56 +162,61 @@ class RegistrationForm(forms.Form):
         """
         config = Config.objects.get_site_config()
         if config is not None:
-            if config.allow_registration == False:
+            if config.allow_registration is False:
                 raise forms.ValidationError(
-                    "Sorry, new registrations aren't allowed at the moment.")
+                    "Sorry, new registrations aren't allowed at the moment."
+                )
 
-        if 'password1' in self.cleaned_data and \
-                                            'password2' in self.cleaned_data:
-            if self.cleaned_data['password1'] != \
-                                                self.cleaned_data['password2']:
-                raise forms.ValidationError(_(
-                                    "The two password fields didn't match."))
+        if "password1" in self.cleaned_data and "password2" in self.cleaned_data:
+            if self.cleaned_data["password1"] != self.cleaned_data["password2"]:
+                raise forms.ValidationError(_("The two password fields didn't match."))
         return self.cleaned_data
 
 
 class LoginForm(AuthenticationForm):
     username = forms.EmailField(
         widget=forms.EmailInput(attrs=attrs_dict),
-        max_length=254, label="Email address",
-        error_messages={'invalid': 'Please enter a valid email address.'})
+        max_length=254,
+        label="Email address",
+        error_messages={"invalid": "Please enter a valid email address."},
+    )
     password = forms.CharField(widget=forms.PasswordInput(attrs=attrs_dict))
 
     def clean(self):
         config = Config.objects.get_site_config()
         if config is not None:
-            if config.allow_login == False:
-                raise forms.ValidationError(
-                                    "Sorry, logging in is currently disabled.")
+            if config.allow_login is False:
+                raise forms.ValidationError("Sorry, logging in is currently disabled.")
         return super(LoginForm, self).clean()
 
 
 class PersonEditForm(forms.ModelForm):
     class Meta:
         model = Person
-        fields = ('email', 'url', )
+        fields = (
+            "email",
+            "url",
+        )
 
     def __init__(self, *args, **kwargs):
         super(PersonEditForm, self).__init__(*args, **kwargs)
-        self.fields['email'].widget=forms.TextInput(attrs=attrs_dict)
-        self.fields['url'].widget=forms.TextInput(attrs=attrs_dict)
+        self.fields["email"].widget = forms.TextInput(attrs=attrs_dict)
+        self.fields["url"].widget = forms.TextInput(attrs=attrs_dict)
+
 
 class PasswordResetForm(PasswordResetForm):
     email = forms.EmailField(
         widget=forms.EmailInput(attrs=attrs_dict),
-        max_length=254, label="Email address",
-        error_messages={'invalid': 'Please enter a valid email address.'})
+        max_length=254,
+        label="Email address",
+        error_messages={"invalid": "Please enter a valid email address."},
+    )
 
 
 class SetPasswordForm(SetPasswordForm):
     new_password1 = forms.CharField(
-                            label="New password",
-                            widget=forms.PasswordInput(attrs=attrs_dict))
+        label="New password", widget=forms.PasswordInput(attrs=attrs_dict)
+    )
     new_password2 = forms.CharField(
-                            label="Repeat password",
-                            widget=forms.PasswordInput(attrs=attrs_dict))
+        label="Repeat password", widget=forms.PasswordInput(attrs=attrs_dict)
+    )

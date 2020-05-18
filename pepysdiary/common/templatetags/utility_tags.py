@@ -1,4 +1,5 @@
 from django import template
+from django.http import QueryDict
 
 
 register = template.Library()
@@ -19,9 +20,9 @@ def query_string(context, key, value):
     just return a query string with the supplied key=value pair.
     """
     try:
-        request = context['request']
+        request = context["request"]
         args = request.GET.copy()
     except KeyError:
-        args = QueryDict('').copy()
+        args = QueryDict("").copy()
     args[key] = value
     return args.urlencode()

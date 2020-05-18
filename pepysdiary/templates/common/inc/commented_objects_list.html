@@ -1,0 +1,28 @@
+
+<section class="recently-commented">
+  <header>
+      <h1 class="h2">{{ title }}</h1>
+  </header>
+  {% for comment in comments %}
+    <article class="media newable media-small" data-time="{{ comment.data_time }}">
+      <span class="newflag pull-left" aria-hidden="true" title="New since your last visit">✹</span>
+      <span class="sr-only">New since your last visit</span>
+      <div class="media-body">
+        <h2 class="media-heading">
+          <span class="comment-title">
+            <a href="%(url)s">{{ comment.obj_title }}</a>
+          </span>
+          by
+          <span class="comment-name">
+            {{ comment.user_name }}
+          </span>
+          <small>
+            <time class="timeago" datetime="%(iso_datetime)s">on {{ comment.date }}</time>
+          </small>
+        </h2>
+        <p class="text-muted">{{ comment.text }}</p>
+      </div>
+    </article>
+  {% endfor %}
+</section>
+<hr>
