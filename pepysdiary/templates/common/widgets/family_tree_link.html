@@ -5,7 +5,7 @@
 
 {% block widget_body %}
   <p>
-    <a href="{% url "encyclopedia_familytree" %}"><img class="img-responsive" src="{% static "common/img/sidebar_family_tree.png" %}" width="330" height="110" alt="Family tree thumbnail" />
+    <a href="{% url "encyclopedia_familytree" %}"><img class="img-responsive" src="{% static "common/img/sidebar_family_tree.png" %}" srcset="{% static "common/img/sidebar_family_tree_2x.png" %} 2x" width="360" height="150" alt="">
   </p>
   <p><a href="{% url "encyclopedia_familytree" %}">{{ link_text }}</a></p>
 {% endblock %}

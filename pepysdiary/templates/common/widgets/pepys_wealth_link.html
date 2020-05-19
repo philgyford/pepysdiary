@@ -5,8 +5,7 @@
 
 {% block widget_body %}
   <p>
-    <a href="{{ link_url }}"><img class="img-responsive" src="{% static "common/img/sidebar_wealth_chart.png" %}" width="330" height="110" alt="Wealth chart thumbnail" />
+    <a href="{{ link_url }}"><img class="img-responsive" src="{% static "common/img/sidebar_wealth_chart.png" %}" srcset="{% static "common/img/sidebar_wealth_chart_2x.png" %} 2x" width="360" height="122" alt="">
   </p>
   <p><a href="{{ link_url }}">{{ link_text }}</a></p>
 {% endblock %}
-

@@ -4,8 +4,10 @@
 {% block widget_title %}Maps{% endblock %}
 
 {% block widget_body %}
-  <p class="clearfix">
-    <a href="{{ link_url }}"><img class="pull-right" src="{% static "common/img/sidebar_category_map.png" %}" width="110" height="62" alt="Map thumbnail" />
+  <p>
+    <a href="{{ link_url }}"><img class="img-responsive" src="{% static "common/img/sidebar_category_map.png" %}" srcset="{% static "common/img/sidebar_category_map_2x.png" %} 2x" width="360" height="150" alt="">
+  </p>
+  <p>
     <a href="{{ link_url }}">{{ link_text }}</a>
   </p>
 {% endblock %}
