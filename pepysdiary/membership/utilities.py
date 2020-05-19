@@ -71,7 +71,7 @@ def email_list(to_list, template_path, from_address, context_dict):
     context = Context(context_dict)
 
     def render_node(node, con):
-        return nodes[node].render[con]
+        return nodes[node].render(con)
 
     for address in to_list:
         send_mail(
