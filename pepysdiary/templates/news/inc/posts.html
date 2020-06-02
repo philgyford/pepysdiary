@@ -2,7 +2,7 @@
 {% load text_formatting_filters %}
 
 {% for post in post_list %}
-	<article>
+	<article class="clearfix">
 		<header>
 			<h1 class="h2"><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h1>
 		</header>
@@ -17,4 +17,3 @@
 	</article>
 	<hr />
 {% endfor %}
-
