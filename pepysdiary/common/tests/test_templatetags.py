@@ -18,6 +18,7 @@ class SmartypantsTestCase(PepysdiaryTestCase):
             ("the 'Change was", "the &#8217;Change was"),
             ("the 'Chequer,", "the &#8217;Chequer,"),
             ("a 'light which", "a &#8217;light which"),
+            ("not 'lighting, and", "not &#8217;lighting, and"),
             ("a 'prentice was", "a &#8217;prentice was"),
             ("the 'prentices were", "the &#8217;prentices were"),
         )

@@ -23,6 +23,7 @@ def smartypants(value):
             ("'Change", "&#8217;Change"),
             ("'Chequer", "&#8217;Chequer"),
             ("'light", "&#8217;light"),
+            ("'lighting", "&#8217;lighting"),
             ("'prentice", "&#8217;prentice"),
             ("'prentices", "&#8217;prentices"),
         )
