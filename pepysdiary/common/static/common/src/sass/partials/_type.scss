@@ -37,7 +37,13 @@ sup {
 }
 
 blockquote {
-	margin-bottom: ceil($line-height-computed / 2);
+  margin-bottom: ceil($line-height-computed / 2);
+  
+  footer,
+  small,
+  .small {
+    font-size: $font-size-small;
+  }
 }
 
 .text-nowrap {
