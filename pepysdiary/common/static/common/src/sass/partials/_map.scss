@@ -48,8 +48,11 @@ a.leaflet-control-layers-toggle {
     }
 }
 .leaflet-touch .leaflet-control-layers-toggle {
-  /* Otherwise gets set to 44px. */
+  /* Stop the default's 44x44px size, but still make it biggish */
   width: auto;
+  height: auto;
+  padding-top: 8px;
+  padding-bottom: 8px;
 }
 .leaflet-retina a.leaflet-control-layers-toggle {
   background-image: none;
