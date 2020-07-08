@@ -1,6 +1,8 @@
 import os
+import sentry_sdk
+from sentry_sdk.integrations.django import DjangoIntegration
 
-from .base import *  # noqa: F403
+from .base import *  # noqa: F401, F403
 from .base import get_env_variable
 
 
@@ -50,54 +52,15 @@ SECURE_HSTS_PRELOAD = True
 
 # Sentry
 # https://devcenter.heroku.com/articles/sentry#integrating-with-python-or-django
-# via https://simonwillison.net/2017/Oct/17/free-continuous-deployment/
 
-SENTRY_DSN = os.environ.get("SENTRY_DSN")
+SENTRY_DSN = os.environ.get("SENTRY_DSN")  # noqa: F405
 
 if SENTRY_DSN:
-    INSTALLED_APPS += ("raven.contrib.django.raven_compat",)  # noqa: F405
-    RAVEN_CONFIG = {
-        "dsn": SENTRY_DSN,
-        "release": os.environ.get("HEROKU_SLUG_COMMIT", ""),
-    }
-
-    # From https://docs.sentry.io/clients/python/integrations/django/
-    LOGGING = {
-        "version": 1,
-        "disable_existing_loggers": True,
-        "root": {"level": "WARNING", "handlers": ["sentry"]},
-        "formatters": {
-            "verbose": {
-                "format": "%(levelname)s %(asctime)s %(module)s "
-                "%(process)d %(thread)d %(message)s"
-            },
-        },
-        "handlers": {
-            "sentry": {
-                "level": "ERROR",  # To capture more than ERROR, change to WARNING, etc.
-                "class": "raven.contrib.django.raven_compat.handlers.SentryHandler",
-                # 'tags': {'custom-tag': 'x'},
-            },
-            "console": {
-                "level": "DEBUG",
-                "class": "logging.StreamHandler",
-                "formatter": "verbose",
-            },
-        },
-        "loggers": {
-            "django.db.backends": {
-                "level": "ERROR",
-                "handlers": ["console"],
-                "propagate": False,
-            },
-            "raven": {"level": "DEBUG", "handlers": ["console"], "propagate": False},
-            "sentry.errors": {
-                "level": "DEBUG",
-                "handlers": ["console"],
-                "propagate": False,
-            },
-        },
-    }
+    sentry_sdk.init(
+        dsn=os.environ["SENTRY_DSN"],  # noqa: F40
+        integrations=[DjangoIntegration()],
+        release=os.environ.get("HEROKU_SLUG_COMMIT", ""),  # noqa: F40
+    )
 
 
 #############################################################################
