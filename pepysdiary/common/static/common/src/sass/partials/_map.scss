@@ -47,6 +47,10 @@ a.leaflet-control-layers-toggle {
         content: "Add overlays in London";
     }
 }
+.leaflet-touch .leaflet-control-layers-toggle {
+  /* Otherwise gets set to 44px. */
+  width: auto;
+}
 .leaflet-retina a.leaflet-control-layers-toggle {
   background-image: none;
 }
