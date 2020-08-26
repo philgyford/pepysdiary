@@ -1,4 +1,4 @@
-from django.conf.urls import url
+from django.urls import path, re_path
 
 from pepysdiary.membership.views import (
     LoginView,
@@ -18,42 +18,40 @@ from pepysdiary.membership.views import (
 
 
 urlpatterns = [
-    url(r"^login/$", LoginView.as_view(), name="login"),
-    url(r"^logout/$", LogoutView.as_view(), name="logout"),
-    url(r"^register/$", RegisterView.as_view(), name="register"),
-    url(
-        r"^register/complete/$",
-        RegisterCompleteView.as_view(),
-        name="register_complete",
+    path("login/", LoginView.as_view(), name="login"),
+    path("logout/", LogoutView.as_view(), name="logout"),
+    path("register/", RegisterView.as_view(), name="register"),
+    path(
+        "register/complete/", RegisterCompleteView.as_view(), name="register_complete",
     ),
-    url(
-        r"^activate/complete/$",
+    path(
+        "activate/complete/",
         ActivationCompleteView.as_view(),
         name="activate_complete",
     ),
-    url(
+    re_path(
         r"^activate/(?P<activation_key>[\w]+)/$",
         ActivateView.as_view(),
         name="activate",
     ),
-    url(r"^edit/$", EditProfileView.as_view(), name="edit_profile"),
+    path("edit/", EditProfileView.as_view(), name="edit_profile"),
     # A user viewing themselves:
-    url(r"^profile/$", PrivateProfileView.as_view(), name="private_profile"),
+    path("profile/", PrivateProfileView.as_view(), name="private_profile"),
     # A public user profile page:
-    url(r"^profile/(?P<pk>[\d]+)/$", ProfileView.as_view(), name="profile"),
-    url(r"^password/reset/$", PasswordResetView.as_view(), name="password_reset"),
-    url(
-        r"^password/reset/done/$",
+    re_path(r"^profile/(?P<pk>[\d]+)/$", ProfileView.as_view(), name="profile"),
+    path("password/reset/", PasswordResetView.as_view(), name="password_reset"),
+    path(
+        "password/reset/done/",
         PasswordResetDoneView.as_view(),
         name="password_reset_done",
     ),
-    url(
-        r"^reset/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$",  # noqa: E501
+    path(
+        "reset/<uidb64>/<token>/",
         PasswordResetConfirmView.as_view(),
         name="password_reset_confirm",
     ),
-    url(
-        r"^password/reset/complete/$",
+    path(
+        "password/reset/complete/",
         PasswordResetCompleteView.as_view(),
         name="password_reset_complete",
     ),
