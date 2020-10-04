@@ -21,6 +21,7 @@ class SmartypantsTestCase(PepysdiaryTestCase):
             ("not 'lighting, and", "not &#8217;lighting, and"),
             ("a 'prentice was", "a &#8217;prentice was"),
             ("the 'prentices were", "the &#8217;prentices were"),
+            ("a 'guinny, which", "a &#8217;guinny, which"),
         )
 
         for case in cases:

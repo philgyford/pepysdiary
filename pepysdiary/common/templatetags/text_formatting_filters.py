@@ -26,6 +26,7 @@ def smartypants(value):
             ("'lighting", "&#8217;lighting"),
             ("'prentice", "&#8217;prentice"),
             ("'prentices", "&#8217;prentices"),
+            ("'guinny", "&#8217;guinny"),
         )
         for rep in replacements:
             value = re.sub(rf"(\W){rep[0]}(\W)", rf"\1{rep[1]}\2", value)
