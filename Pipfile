@@ -32,7 +32,7 @@ sentry-sdk = "*"
 django-debug-toolbar = "*"
 factory-boy = "*"
 flake8 = "*"
-black = "==19.10b0"
+black = "==20.8b1"
 
 [requires]
 python_version = "3.8"
