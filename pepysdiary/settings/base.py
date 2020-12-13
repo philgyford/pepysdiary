@@ -163,6 +163,8 @@ TEMPLATES = [
 
 
 INSTALLED_APPS = [
+    # To use Whitenoise to serve static files in development:
+    "whitenoise.runserver_nostatic",
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.humanize",
@@ -268,6 +270,10 @@ SWAGGER_SETTINGS = {
 
 MAPBOX_MAP_ID = get_env_variable("MAPBOX_MAP_ID")
 MAPBOX_ACCESS_TOKEN = get_env_variable("MAPBOX_ACCESS_TOKEN")
+
+# A directory of static files to be served in the root directory.
+# e.g. 'robots.txt'.
+WHITENOISE_ROOT = os.path.join(PROJECT_ROOT, "static_html/")
 
 
 ####################################################################

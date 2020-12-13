@@ -50,16 +50,6 @@ if DEBUG:
     INTERNAL_IPS = ["127.0.0.1", "192.168.33.1", "0.0.0.0"]
     RESULTS_CACHE_SIZE = 100
 
-    # Stop Django handling static files in favour of Whitenoise.
-    # (When DEBUG = False)
-    # Need to add the app just before staticfiles, so:
-    new_apps = []
-    for app in INSTALLED_APPS:
-        if app == "django.contrib.staticfiles":
-            new_apps.append("whitenoise.runserver_nostatic")
-        new_apps.append(app)
-    INSTALLED_APPS[:] = new_apps
-
     def true(request):
         return True
 
