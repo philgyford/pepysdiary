@@ -1,0 +1,449 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
+   "http://www.w3.org/TR/html4/strict.dtd">
+
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Pepys' Diary: Exported Data README</title>
+    <style type="text/css">
+        body {
+            background: #fff;
+            color: #333;
+            font-family: Cambria, Georgia, serif;
+        }
+        #container {
+            width: 650px;
+            margin: 0 30px 4em 30px;
+        }
+        h1 {
+            font-size: 2em;
+            margin-bottom: 1em;
+        }
+        h2 {
+            font-size: 1.5em;
+            margin-top: 2em;
+        }
+        h3 {
+            font-size: 1.2em;
+            margin-top: 2em;
+        }
+
+        span.file,
+        var,
+        code {
+            font-family:  “Courier New”, Courier, monospace;
+            font-size: 90%;
+            font-style: normal;
+        }
+        span.file {
+            color: #696;
+        }
+        var {
+            font-weight: bold;   
+        }
+        code {
+            color: #966;
+        }
+        pre {
+            overflow: auto;
+            padding: 0.2em 5px;
+            background: #f6f6f6;
+            border: 1px solid #eee;
+            margin-bottom: 1em;
+        }
+        pre code {
+            color: #000;
+        }
+        p,li,dt,dd {
+            line-height: 1.5em;
+        }
+        p {
+            margin: 0 0 1em 0;
+        }
+        dl {
+            margin-left: 1.5em;
+        }
+        dt {
+            font-weight: bold;
+            margin: 1em 0 0 0;
+        }
+        dd {
+            margin: 0 0 1em 0;
+        }
+
+
+    </style>
+</head>
+<body>
+    <div id="container">
+    <h1>Pepys’ Diary: Exported Data README</h1>
+
+    <p><em>v1.1, 2012-05-29.</em></p>
+
+    <p><a href="http://www.pepysdiary.com/">The Diary of Samuel Pepys</a> features all the entries written by the 17th century London diarist, with accompanying background information and annotations by readers.</p>
+	<p>A zip file of much of the data in <a href="http://en.wikipedia.org/wiki/JSON">JSON format</a>, including <a href="http://www.pepysdiary.com/export/json/README.html">this README</a>, can always be found at: <a href="http://www.pepysdiary.com/export/json/pepysdiary_json.zip">http://www.pepysdiary.com/export/json/pepysdiary_json.zip</a> (around 20MB). The files include 3,434 Diary Entries, nearly 4,800 Encyclopedia Topics, over 60,000 Annotations, and more than 350 thumbnail portraits of people mentioned:</p>
+
+    <ul>
+        <li><span class="file">diary/1660_entries.json</span>: A file for every year of the Diary (1660-1669), containing each day's diary entry and associated data.</li>
+        <li><span class="file">diary/1660_annotations.json</span>: A file for every year of the Diary (1660-1669), containing the Annotations posted by readers about that day. Across the entire Diary there are more than 53,000 Annotations.</li>
+        <li><span class="file">encyclopedia/categories.json</span>: A description of all the Categories used in the <a href="http://www.pepysdiary.com/background/">Encyclopedia</a> section of the site. Using this it's possible to reconstruct the Category hierarchy.</li>
+        <li><span class="file">encyclopedia/topics.json</span>: All the Topics contained in the Encyclopedia, including (where appropriate) latitude and longitude for locations, and links to relevant Wikipedia pages. Again, this only includes Topics available on the site, more than 4,800.</li>
+        <li><span class="file">encyclopedia/annotations.json</span>: All the Annotations posted on Encyclopedia Topics by readers of the site (over 7,700 of them).</li>
+        <li><span class="file">encyclopedia/thumbnails/</span>: Many of the people with their own Topics in the Encyclopedia have portraits at Wikipedia. This directory contains 100&nbsp;x&nbsp;120 pixel thumbnails for more than 350 of them.</li>
+    </ul>
+
+    <p>If you have any suggestions for improvements or additions, please do drop me, <a href="http://www.gyford.com/">Phil&nbsp;Gyford</a>, a line: <a href="mailto:phil@gyford.com">phil@gyford.com</a>.</p>
+
+    <h2>The Data</h2>
+
+    <p>Each of the JSON files contains two top-level elements, <var>meta</var> and <var>data</var>. So each file's basic structure is like this:</p>
+
+    <pre><code>{
+    "meta":
+    {
+        "generated":"2011-01-16T15:33:32+00:00",
+        "type":"..."
+    },
+    "data":
+    [
+        {
+            ...
+        },
+        {
+            ...
+        }
+    ]
+}</code></pre>
+
+    <p>The <var>generated</var> field is the time at which this file was generated, in ISO 8601 format.</p>
+
+    <p>The <var>type</var> field is one of <var>diary</var>, <var>topics</var>, <var>categories</var> or <var>annotations</var>.</p>
+
+    <p>The yearly Diary files also contain a <var>year</var> field which contains the year this file is for (ie, the file <span class="file">diary/1660_entries.json</span> has a <var>year</var> field with a value of <var>1660</var>).</p>
+
+    <p>The <var>data</var> element contains an array of objects. Each object is a single entity of a particular type, ie, a single Diary entry, a single Category or a single Topic. We'll look at the data contained in each of these objects.</p>
+
+    <p>All fields are present for all data items, even if they are marked "optional". In this case the value will be an empty string (if the field is a string) or <var>null</var> (if the field is a number).</p>
+
+
+    <h3>Diary</h3>
+
+    <p>An example of one of the objects from the Diary JSON files's <var>data</var> element:</p>
+
+    <pre><code>{
+    "id": 87,
+    "title": "Sunday 1 January 1659\/60",
+    "date": "1660-01-01",
+    "permalink": "http:\/\/www.pepysdiary.com\/archive\/1660\/01\/01\/",
+    "comment_count": 52,
+    "text": "&lt;p>Blessed be God, at the end of the last year I was in very good health, without any sense of my old pain, but upon taking of cold.&lt;sup>1&lt;\/sup> I lived in &lt;a href=\"http:\/\/www.pepysdiary.com\/p\/6919.php\">Axe Yard&lt;\/a> having ... to our own home.&lt;\/p>",
+    "footnotes": "&lt;p>The year did not legally begin ... Own TIme, book i.&lt;\/li>\n&lt;\/ol>"
+}</code></pre>
+
+    <p>Here's a description of each field:</p>
+
+    <dl>
+        <dt><var>id</var></dt>
+        <dd><em>(number)</em> A unique identifier for this Diary entry. Non-consecutive, but unique among both Diary entries and Encyclopedia Topics.</dd>
+        <dt><var>title</var></dt>
+        <dd><em>(string)</em> The title of the Diary entry, ie, the date in text format. Note that dates early in the year have a year of the form "1659/60" because the year didn't officially start until 25th March in England at the time. A date marked "1659/60" will be known as being in 1660 for the purposes of other fields, such as...</dd>
+
+        <dt><var>date</var></dt>
+        <dd><em>(string)</em> The date of this Diary entry, in year-month-day format.</dd>
+
+        <dt><var>permalink</var></dt>
+        <dd><em>(string)</em> The URL of this day's entry at <a href="http://www.pepysdiary.com/">pepysdiary.com</a>.</dd>
+
+        <dt><var>comment_count</var></dt>
+        <dd><em>(number)</em> The number of comments/annotations posted by users on this Diary entry on the website.</dd>
+
+        <dt><var>text</var></dt>
+        <dd><em>(string)</em> The text of the Diary entry in HTML. Paragraphs are included. Each entry contains links to relevant pages in the Encyclopedia of the form <var>http://www.pepysdiary.com/p/6919.php</var> where the <var>6919</var> is the <var>id</var> of the Encyclopedia Topic (see below). Note that occasionally there are also links to other pages in the diary, of the same form as the <var>permalink</var> field. The only other HTML included is:
+            <ul>
+                <li><code>&lt;sup&gt;1&lt/sup&gt;</code> or (in later entries) <code>&lt;sup id="fnr-1665-01-16"&gt;&lt;a href="#fn1-1665-01-16"&gt;1&lt;/a&gt;&lt/sup&gt;</code> which point/link to footnotes (see the next field).</li>
+                <li><code>&lt;i&gt;l.&lt;/i&gt;</code>, italic tags around occurrences of l. s. d. (markers for pounds, shillings and pence).</li>
+            </ul>
+        </dd>
+
+        <dt><var>foonotes</var></dt>
+        <dd><em>(string, optional)</em> Footnotes, for this entry, if any. Usually these are an ordered list (<code>&lt;ol&gt;</code>) of footnotes, but occasionally have paragraphs as well or instead. Many have <code>&lt;a&gt;</code> links within them, often to Encyclopedia Topics. Some footnotes include <code>&lt;p&gt;</code>, and maybe <code>&lt;blockquote&gt;</code>, tags within the <code>&lt;li&gt;</code> tags.</dd>
+        <dd>Later entries may have footnotes with HTML <var>id</var>s and links back to the text, eg:<br />
+        <pre><code>&lt;li id="fn1-1665-01-16"&gt;Among the State Papers ...  1664-65, p. 122) &lt;a href="#fnr1-1665-01-16"&gt;&amp;#8617;&lt;/a&gt;&lt;/li&gt;</code></pre>
+    </dl>
+
+
+    <h3>Encyclopedia Categories</h3>
+
+    <p>An example of one of the Categories from the <span class="file">encyclopedia/categories.json</span> file's <var>data</var> element:</p>
+
+    <pre><code>{
+    "id": 10,
+    "title": "Food",
+    "parent_id": 173
+}</code></pre>
+
+    <dl>
+        <dt><var>id</var></dt>
+        <dd><em>(number)</em> The unique identifer for this Category. Non-consecutive and only unique with Categories.</dd>
+
+        <dt><var>title</var></dt>
+        <dd><em>(string)</em> The name of the Category.</dd>
+
+        <dt><var>parent_id</var></dt>
+        <dd><em>(number)</em> The unique id of the parent of this Category. If the <var>parent_id</var> is <var>0</var> this is a top-level Category with no parent. Using this it should be possible to reconstruct the hierarchy of the Encyclopedia.</dd>
+    </dl>
+
+
+    <h3>Encyclopedia Topics</h3>
+
+    <p>Two examples of Topics from the <span class="file">encyclopedia/topics.json</span> file's <var>data</var> element. Some of the fields only apply to certain kinds of Topic (although they are all always present). First, a person:</p>
+
+    <pre><code>{
+    "id": 114,
+    "title": "Jemima Carteret (b. Mountagu, \"Mrs\/Lady Jem\")",
+    "title_sort": "Carteret, Jemima (b. Mountagu, \"Mrs\/Lady Jem\")",
+    "excerpt": "Daughter of Lord Sandwich, married Philip Carteret in 1665.",
+    "text": "&lt;p>Daughter of &lt;a href=\"http:\/\/www.pepysdiary.com\/p\/112.php\">Lord Sandwich&lt;\/a> ... &lt;\/p>\n",
+    "text_wheatley": "&lt;p>Mrs. Jemimah, or Mrs. Jem, ... &lt;\/p>\n",
+    "published_date": "2002-12-27",
+    "ping_count": 113,
+    "comment_count": 5,
+    "categories": [
+        {
+            "id": 2,
+            "primary": true
+        }
+    ],
+    "text_author": "Phil Gyford",
+    "latitude": null,
+    "longitude": null,
+    "zoom": null,
+    "shape": "",
+    "map_category": "",
+    "thumbnail_image": false,
+    "wikipedia_page": ""
+}</code></pre>
+
+    <p>The second example is of a location:</p>
+
+    <pre><code>{
+    "id": 230,
+    "title": "New Palace Yard",
+    "title_sort": "New Palace Yard",
+    "excerpt": "To the northwest of the Houses of Parliament ... ",
+    "text": "",
+    "text_wheatley": "",
+    "published date": "2003-01-28",
+    "ping_count": 11,
+    "comment_count": 5,
+    "categories": [
+        {
+            "id": 28,
+            "primary": true
+        }
+    ],
+    "text_author": "Phil Gyford",
+    "latitude": 51.500585069288,
+    "longitude": -0.125532746315,
+    "zoom": 15,
+    "shape": "51.500856,-0.126257;51.500819,-0.124782;51.500188,-0.124916;51.500214,-0.12513;51.500234,-0.125157;51.500248,-0.125281;51.500441,-0.126064;51.500538,-0.126294;51.500638,-0.126498;51.500859,-0.126665;51.500856,-0.126257",
+    "map_category": "road",
+    "thumbnail_image": false,
+    "wikipedia_page": "New_Palace_Yard"
+}</code></pre>
+
+    <dl>
+        <dt><var>id</var></dt>
+        <dd><em>(number)</em> The unique id of this Topic, as used in links from the Diary entries. These are non-consecutive but each is unique within both Encyclopedia Topics and Diary entries.</dd>
+
+        <dt><var>title</var></dt>
+        <dd><em>(string)</em> The name of this Topic.</dd>
+
+        <dt><var>title_sort</var></dt>
+        <dd><em>(string)</em> The name of the Topic but more suitable if sorting a list of Topics alphabetically. For many Topics <var>title_sort</var> will be the same as <var>title</var>. But for the names of people, <var>title_sort</var> will have their surname listed first, as in the example above: <var>Carteret, Jemima (b. Mountagu, "Mrs Lady Jem")</var>.
+
+        <dt><var>excerpt</var></dt>
+        <dd><em>(string, optional)</em> A brief piece of plain text (no HTML) summarising the Topic. These are the texts in the pop-up boxes you see if you visit the website and mouse over a hyperlink within one of the Diary entries.</dd>
+
+        <dt><var>text</var></dt>
+        <dd><em>(string, optional)</em> Some HTML text describing the Topic. If present, this can vary from a few words to a long essay.</dd>
+
+        <dt><var>text_wheatley</var></dt>
+        <dd><em>(string, optional)</em> Some HTML text describing the Topic, taken from the footnotes of the 1893 edition of the Diary, written by Henry Wheatley.</dd>
+
+        <dt><var>published_date</var></dt>
+        <dd><em>(string)</em> The date on which this Topic was first published on the website. As with Topic <var>id</var>s, these are broadly in the order in which the Topics appear in the diary, but shouldn't be relied on to be so.</dd>
+
+        <dt><var>ping_count</var></dt>
+        <dd><em>(number)</em> The number of times this Topic has been linked to from the Diary. I'm not 100% sure of the accuracy of this, but it should be broadly correct.</dd>
+
+        <dt><var>comment_count</var></dt>
+        <dd><em>(number)</em> The number of comments/annotations written by users about this Topic on the website.</dd>
+
+        <dt><var>categories</var></dt>
+        <dd><em>(array of objects)</em> Each <var>categories</var> object has <var>id</var> <em>(number)</em> and <var>primary</var> <em>(boolean)</em> fields. The <var>id</var> field corresponds to the <var>id</var>s of Categories in the <span class="file">encyclopedia/categories.json</span> file. The <var>primary</var> field indicates whether this is the primary Category for this Topic (although this has little real meaning/use). Each Topic should have at least one Category. I don't think any have more than two.</dd>
+
+        <dt><var>text_author</var></dt>
+        <dd><em>(string, optional)</em> If there is anything written in the <var>text</var> field, this the is the name of its author. If you display the <var>text</var> anywhere, please also display the name of its author.</dd>
+
+        <dt><var>latitude</var></dt>
+        <dd><em>(number, optional)</em> Some of the Topics which are locations have latitude and longitude positions. If the location also has a <var>shape</var> (see below), the latitude and longitude indicate a roughly central point which you could, for example, center a map of the shape on.</dd>
+
+        <dt><var>longitude</var></dt>
+        <dd><em>(number, optional)</em> See <var>latitude</var>, above.</dd>
+
+        <dt><var>zoom</var></dt>
+        <dd><em>(number, optional)</em> If the Topic has <var>latitude</var> and <var>longitude</var> then the <var>zoom</var> field is set to a suitable value to use with Google Maps as an initial zoom level. eg, a map of a building in London will be zoomed in further than one of a city in another country.</dd>
+
+        <dt><var>shape</var></dt>
+        <dd><em>(string, optional)</em> Some Topics which are locations describe an area or road. Some of these have shape data, which consist of a series of latitude and longitude points describing either a shape outline or a line on a map. Lat/lon are separated with commas, and each pair of points is separated by a semicolon. If the first and last pairs of points are identical, this is a closed outline (eg, a town square or area of a city); otherwise it is a line (eg, a road).</dd>
+
+        <dt><var>map_category</var></dt>
+        <dd><em>(string, optional)</em> Some Topics which are locations, have been assigned a <var>map_category</var>, which is no relation to the overall Category hierarchy. This describes a small set of categories which locations can be divided into, for displaying separately on maps. The current possible values are:
+            <dl>
+                <dt>area</dt>
+                <dd>A broad area within London, eg Covent Garden or St James's Park.</dd>
+                
+                <dt>gate</dt>
+                <dd>One of the gates into and out of the old City of London, eg Temple Bar or Newgate.</dd>
+
+                <dt>home</dt>
+                <dd>One of the buildings in which Pepys lived.</dd>
+
+                <dt>misc</dt>
+                <dd>Something that doesn't fit into one of the other categories.</dd>
+
+                <dt>road</dt>
+                <dd>A road, street or square in London, eg Leadenhall Street or Spital Square.</dd>
+
+                <dt>stair</dt>
+                <dd>One of the landing stairs or docks on the banks of the River Thames, eg Tower Dock or Whitefriars Stairs.</dd>
+                
+                <dt>town/village</dt>
+                <dd>A settlement outside of London, eg Marylebone. Note that what counted as "London" was a lot smaller in the 17th century.</dd>
+            </dl>
+            Note that locations, shapes and these categories are a work in progress and are far from complete.
+        </dd>
+
+        <dt><var>thumbnail_image</var></dt>
+        <dd><em>(boolean)</em> Does this Topic have a thumbnail image included (see below)? This is only ever true for (some) people, not for Topics in any other category.</dd>
+
+        <dt><var>wikipedia_page</var></dt>
+        <dd><em>(string, optional)</em> If this Topic has a relevant page on the English-language version of Wikipedia, the unique part of the page's URL is included here. eg, if the value of <var>wikipedia_page</var> is <var>Church_of_St._Margaret%2C_Westminster</var> the Wikipedia page is at <a href="http://en.wikipedia.org/wiki/Church_of_St._Margaret%2C_Westminster">http://en.wikipedia.org/wiki/Church_of_St._Margaret%2C_Westminster</a>.</dd>
+    </dl>
+
+
+    <h3>Encyclopedia Thumbnails</h3>
+
+    <p>Also included is a directory of several hundred JPEG images, each one a small portrait of a person who has a Topic in the Encyclopedia. Each image is named like <span class="file">112.jpg</span>, where <var>112</var> correspondes to the <var>id</var> of the Topic. Every Topic that has a <var>thumbnail_image</var> value of <var>true</var> should have a corresponding thumbnail file. All the images are 100 x 120 pixels in size, and are taken from images on Wikipedia.</p>
+
+
+    <h3>Annotations</h3>
+
+    <p>Annotations (comments) are included for every Diary entry and every Encyclopedia Topic (if any). The <var>meta</var> element in each Annotation JSON file is either like this:</p>
+
+    <pre><code>"meta":
+{
+    "generated": "2011-01-16T15:33:32+00:00",
+    "type": "annotations",
+    "source": 1661
+}</code></pre>
+
+    <p>Which shows these Annotations are for all the Diary entries in 1661, or like this:</p>
+
+    <pre><code>"meta":
+{
+    "generated": "2011-01-16T15:33:32+00:00",
+    "type": "annotations",
+    "source": "encyclopedia"
+}</code></pre>
+
+    <p>Which shows these Annotations are from all the Encyclopedia Topics.</p>
+
+    <p>The Diary Annotations are split into a different file per year simply because there are so many of them that processing the whole lot in one JSON file can cause problems.</p>
+
+    <p>Here's an example of an Annotation from the <span class="file">encyclopedia/annotations.json</span> file's <var>data</var> element:</p>
+
+    <pre><code>{
+    "id": 227,
+    "author_id": 11,
+    "author_name": "language hat",
+    "author_url": "http:\/\/www.languagehat.blogspot.com\/",
+    "text": "Axe Yard was actually on the site of the later Fludyer St.,
+ just south of Downing St.; see the annotations to:\r\n&lt;a href=\"http:\/\/www.pepysdiary.com\/p\/102.php\">http:\/\/www.pepysdiary.com\/p\/102.php&lt;\/a>",
+    "created_on": "2003-01-08T03:41:14+00:00",
+    "topic_id": 106
+}</code></pre>
+
+    <p>The only difference for an Annotation in one of the Diary years is that the <var>topic_id</var> is replaced with an <var>entry_id</var>.</p>
+    
+    <p>A description of each field:</p>
+
+    <dl>
+        <dt><var>id</var></dt>
+        <dd><em>(number)</em> A unique ID for this Annotation. This is non-consecutive and is unique across all Annotations, whether on Diary entries or Encyclopedia Topics.</dd>
+
+        <dt><var>author_id</var></dt>
+        <dd><em>(number)</em> A unique ID for the author of this Annotation. This ID is unique across all Annotations -- Diary and Encyclopedia.</dd>
+        <dd>When posting an Annotation, each author was required to supply an email address. When generating these JSON files, each different email address was assumed to indicate a different person, and unique IDs were created for each one. This is not foolproof &#8212; authors may have used different email addresses across the life of the site &#8212; but it's as good as we'll get. The purpose of the ID is also to avoid distributing the authors' email addresses.</dd>
+        <dd>Also note that this ID is not guaranteed to be consistent across subsequent dumps of this data.</dd>
+
+        <dt><var>author_name</var></dt>
+        <dd><em>(string)</em> The Annotation author's name.</dd>
+
+        <dt><var>author_url</var></dt>
+        <dd><em>(string)</em> This field is always present but is often an empty string. If present it (probably) indicates the author's homepage etc. Even if present, don't assume it is a valid URL.</dd>
+
+        <dt><var>text</var></dt>
+        <dd><em>(string)</em> The text of the Annotation, written by its author. May contain HTML <code>&lt;a&nbsp;href...&gt;</code> tags, but no other HTML.</dd>
+
+        <dt><var>created_on</var></dt>
+        <dd><em>(string)</em> The date and time this Annotation was posted on, in ISO 8601 format.</dd>
+
+        <dt><var>topic_id</var> or <var>entry_id</var></dt>
+        <dd><em>(string)</em> Only one of these is present. The <var>topic_id</var> maps to the <var>id</var> of items in the Encyclopedia Topics JSON file. The <var>entry_id</var> maps to the <var>id</var> of entries in the Diary JSON files.</dd>
+    </dl>
+
+
+    <h2>Licence</h2>
+
+    <p><strong>Very, very broadly, you're free to do what you like with this data, so long as you credit <a href="http://www.gyford.com/">Phil&nbsp;Gyford</a> (and the authors of Annotations) and your work is non-commercial. More detail:</strong></p>
+
+    <p>The text of the Diary itself (but not the links within the text) comes from <a href="http://www.gutenberg.org/">Project Gutenberg</a> and is in the public domain. Minor typos have occasionally been fixed.</p>
+
+    <p>The thumbnail images all come from Wikipedia and are also considered public domain.</p>
+
+    <p>In both the above cases you're expected to check your own country's copyright laws to ensure this applies...</p>
+
+    <p>Annotations have been written by many individuals and are licensed under a <a href="http://creativecommons.org/licenses/by-nc-sa/1.0/">Creative Commons Attribution-NonCommercial-ShareAlike 1.0 Generic (CC BY-NC-SA 1.0)</a> licence.</p>
+
+    <p>Everything else is licensed under a <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Commons Attribution-NonCommercial-ShareAlike (CC BY-NC-SA 3.0)</a> licence.</p>
+
+    <p>All non-public-domain elements are copyright <a href="http://www.gyford.com/">Phil&nbsp;Gyford</a>, 2002-2012, except Encyclopedia <var>text</var>s which remain the copyright of their respective authors.</p>
+
+    <p>If you pass any of the accompanying data files on, please be sure to include this README document.</p>
+
+
+    <h2>Versions</h2>
+
+    <dl>
+        <dt>v1.0, 2011-01-22</dt>
+        <dd>First release.</dd>
+        <dt>v1.01, 2011-01-24</dt>
+        <dd>Corrected typo in 'New Palace Yard' example in README.</dd>
+        <dt>v1.1, 2012-05-29</dt>
+        <dd>Changes:
+            <ul>
+            <li>Added 1669 Diary entries</li>
+            <li>Added Annotations</li>
+            <li>Added <var>type</var> to very JSON file</li>
+            <li>Added unique ID to every Diary entry</li>
+            </ul>
+        </dd>
+    </dl>
+
+
+</div>
+</body>
+</html>
+
