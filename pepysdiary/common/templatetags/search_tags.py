@@ -1,4 +1,5 @@
 from django import template
+from django.utils.html import format_html
 from django.utils.safestring import mark_safe
 
 from pepysdiary.common.utilities import hilite_words, trim_hilites
@@ -29,6 +30,12 @@ def search_summary(obj, search_string):
 
     content = hilite_words(content, search_string)
 
-    content = trim_hilites(content, allow_empty=False)
+    hilites = trim_hilites(content, allow_empty=False, max_hilites_to_show=10)
 
-    return mark_safe(content)
+    if hilites["hilites_shown"] < hilites["total_hilites"]:
+        difference = hilites["total_hilites"] - hilites["hilites_shown"]
+        extra = f" <em>and {difference} more.</em>"
+    else:
+        extra = ""
+
+    return format_html("{} {}", mark_safe(hilites["html"]), mark_safe(extra))

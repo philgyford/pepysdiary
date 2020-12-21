@@ -66,7 +66,9 @@ def hilite_words(content, words):
     return html
 
 
-def trim_hilites(content, chars_before=20, chars_after=40, allow_empty=True):
+def trim_hilites(
+    content, chars_before=20, chars_after=40, allow_empty=True, max_hilites_to_show=None
+):
     """
     Given some text that contains no HTML tags except <b> and </b>,
     used to hilite words/phrases, this will return text that only includes
@@ -81,8 +83,15 @@ def trim_hilites(content, chars_before=20, chars_after=40, allow_empty=True):
     allow_empty -- Boolean. If True and there are no hilites, an empty
                    string will be returned. If False, and no hilites,
                    the start of `content` will be returned.
+    max_hilites_to_show -- The maximum number of the matches to return
+                   in the HTML.
 
-    Returns a string.
+    Returns a dict with three keys:
+
+    html - String. The HTML to display.
+    hilites_shown - Int. The number of matches displayed.
+    total_hilites - Int. The total number of hilites in content, whether
+        displayed in html or not.
     """
     start_tag = "<b>"
     end_tag = "</b>"
@@ -155,7 +164,14 @@ def trim_hilites(content, chars_before=20, chars_after=40, allow_empty=True):
         if truncated != "":
             excerpts.append(truncated.strip())
 
-    text = joiner.join(excerpts)
+    total_hilites = len(excerpts)
+
+    if max_hilites_to_show is None:
+        text = joiner.join(excerpts)
+        hilites_shown = total_hilites
+    else:
+        text = joiner.join(excerpts[:max_hilites_to_show])
+        hilites_shown = max_hilites_to_show
 
     if len(positions) == 0:
         if allow_empty is False:
@@ -168,7 +184,11 @@ def trim_hilites(content, chars_before=20, chars_after=40, allow_empty=True):
         if (positions[-1][1] + chars_after) < len(content):
             text += joiner.rstrip()
 
-    return text
+    return {
+        "html": text,
+        "hilites_shown": hilites_shown,
+        "total_hilites": total_hilites,
+    }
 
 
 # def hilite_words(content, words, chars_before=30, chars_after=50):
