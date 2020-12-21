@@ -220,7 +220,12 @@ class Topic(PepysModel):
         """Used by common.signals.on_save() to update the SearchVector on
         self.search_document.
         """
-        return ((self.title, "A"), (self.summary, "B"), (self.wheatley, "B"))
+        return (
+            (self.title, "A"),
+            (self.summary, "B"),
+            (self.wheatley, "B"),
+            (self.wikipedia_html, "C"),
+        )
 
     def get_annotated_diary_references(self):
         """
