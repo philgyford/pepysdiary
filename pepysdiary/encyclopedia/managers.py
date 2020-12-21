@@ -97,6 +97,7 @@ class TopicManager(models.Manager):
         "Michiel van Gogh (Dutch Ambassador, 1664-5)" to "Gogh, Michiel van (Dutch Ambassador, 1664-5)"
         "Mr Butler (Mons. L'impertinent)" to "Butler, Mr (Mons. L'impertinent)"
         'Abd Allah al-Ghailan ("Guiland")' to 'Ghailan, Abd Allah al- ("Guiland")'
+        "Sir Anthony Ashley Cooper (Baron Ashley)" to "Cooper, Sir Anthony Ashley (Baron Ashley)"
 
         Stay the same:
         "Mary (c, Pepys' chambermaid)"
@@ -228,6 +229,8 @@ class TopicManager(models.Manager):
                                 pre_surname = ""
                                 if surname_matches[0]:
                                     pre_surname = " %s" % surname_matches[0]
+                                if title != "":
+                                    title += " "
                                 order_title = "%s, %s%s%s%s" % (
                                     surname_matches[1],
                                     title,

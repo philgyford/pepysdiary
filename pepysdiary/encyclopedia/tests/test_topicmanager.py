@@ -298,3 +298,11 @@ class MakeOrderTitleTestCase(PepysdiaryTestCase):
             Topic.objects.make_order_title("Ivan the Terrible", is_person=True),
             "Ivan the Terrible",
         )
+
+    def test_name_sir(self):
+        self.assertEqual(
+            Topic.objects.make_order_title(
+                "Sir Anthony Ashley Cooper (Baron Ashley)", is_person=True
+            ),
+            "Cooper, Sir Anthony Ashley (Baron Ashley)",
+        )
