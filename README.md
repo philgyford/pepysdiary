@@ -22,7 +22,7 @@ more details about the variables):
     export AWS_SECRET_ACCESS_KEY='YOUR-SECRET-ACCESS-KEY'
     export AWS_STORAGE_BUCKET_NAME='your-bucket-name'
 
-    export SECRET_KEY='YOUR-SECRET-KEY'
+    export DJANGO_SECRET_KEY='YOUR-SECRET-KEY'
     export DJANGO_SETTINGS_MODULE='config.settings.development'
 
     # For use in Django:

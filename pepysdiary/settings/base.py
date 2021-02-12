@@ -119,7 +119,7 @@ ROOT_URLCONF = "pepysdiary.common.urls"
 
 # Make this unique, and don't share it with anybody.
 # http://www.miniwebtool.com/django-secret-key-generator/
-SECRET_KEY = get_env_variable("SECRET_KEY")
+SECRET_KEY = get_env_variable("DJANGO_SECRET_KEY")
 
 ALLOWED_HOSTS = get_env_variable("ALLOWED_HOSTS").split(",")
 
