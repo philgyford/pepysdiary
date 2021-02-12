@@ -1,6 +1,11 @@
-/config
+.github
+.vscode
+/docker
 /pepysdiary/media
 /graphics
-# Don't want Heroku to think this is a Ruby or Node app.
-/package.json
-fixtures
+docker-compose.yml
+
+# Only used for front-end build locally:
+gulpfile.js
+package-lock.json
+package.json

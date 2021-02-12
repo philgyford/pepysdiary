@@ -16,7 +16,6 @@ EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 # the environment entirely. Otherwise, set to 'True' (or anything tbh).
 # PREPEND_WWW = False
 
-
 CACHES = {
     "default": {
         # In-memory caching:
@@ -41,6 +40,7 @@ if DEBUG:
     ]
     INSTALLED_APPS += [  # noqa: F405
         "debug_toolbar",
+        "django_extensions",
     ]
     DEBUG_TOOLBAR_CONFIG = {
         "INTERCEPT_REDIRECTS": False,

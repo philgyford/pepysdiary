@@ -4,48 +4,164 @@ pepysdiary
 This code is used for [www.pepysdiary.com](http://www.pepysdiary.com/). This repository includes fixtures for all of the site's data (apart from user accounts and user-contributed comments) although it's often out of date compared to what's live.
 
 
-## Local development
+## Local development setup
 
-### Setup
+We use Docker for local development only, not for the live site.
 
-Install python requirements:
 
-	$ pipenv install --dev
+### 1. Create a .env file
 
-In the Django Admin set the Domain Name of the one Site.
+Create a `.env` file containing the below (see the Heroku Setup section for
+more details about the variables):
 
-Create a database user with the required privileges:
+    export AKISMET_API_KEY='YOUR-KEY'
 
-	$ psql
+    export ALLOWED_HOSTS='*'
+
+    export AWS_ACCESS_KEY_ID='YOUR-ACCESS-KEY'
+    export AWS_SECRET_ACCESS_KEY='YOUR-SECRET-ACCESS-KEY'
+    export AWS_STORAGE_BUCKET_NAME='your-bucket-name'
+
+    export SECRET_KEY='YOUR-SECRET-KEY'
+    export DJANGO_SETTINGS_MODULE='config.settings.development'
+
+    # For use in Django:
+    export DATABASE_URL='postgres://pepysdiary:pepysdiary@pepys_db:5432/pepysdiary'
+    # For use in Docker:
+    POSTGRES_USER=pepysdiary
+    POSTGRES_PASSWORD=pepysdiary
+    POSTGRES_DB=pepysdiary
+
+    export MAPBOX_ACCESS_TOKEN='YOUR-ACCESS-TOKEN'
+    export MAPBOX_MAP_ID='mapbox/light-v10'
+
+    export RECAPTCHA_PRIVATE_KEY='YOUR-PRIVATE-KEY'
+    export RECAPTCHA_PUBLIC_KEY='YOUR-PUBLIC-KEY'
+
+    export SENDGRID_USERNAME='apikey'
+    export SENDGRID_PASSWORD=''YOUR_PASSWORD'
+
+    # TBD what this should be when using Docker:
+    export REDIS_URL='redis://127.0.0.1:6379/1'
+
+
+### 2. Set up a local domain name
+
+Open your `/etc/hosts` file in a terminal window by doing:
+
+    $ sudo vim /etc/hosts
+
+Enter your computer's password. Then add this line somewhere in the file and save:
+
+    127.0.0.1 www.pepysdiary.test
+
+
+### 3. Build the Docker containers
+
+Download, install and run Docker Desktop.
+
+In same directory as this README, build the containers:
+
+    $ docker-compose build
+
+Then start up the web and database containers:
+
+    $ docker-compose up
+
+There are two containers, the webserver (`web`) and the postgres serer (`db`).
+All the repository's code is mirrored in the web container in the `/code/` directory.
+
+
+### 4. Set up the database
+
+Once that's running, showing its logs, open another terminal window/tab.
+
+There are two ways we can populate the database. First we'll create an empty one,
+and second we'll populate it with a dump of data from the live site.
+
+#### 4a. An empty database
+
+The `build` step will create the database and run the Django migrations.
+
+Then create a superuser:
+
+    $ ./scripts/manage.sh createsuperuser
+
+(NOTE: The `manage.sh` script is a shortcut for a longer command that runs
+Django's `manage.py` within the Docker web container.)
+
+#### 4b. Use a dump from the live site
+
+Log into postgres and drop the current (empty) database:
+
+    $ docker exec -it pepys_db psql --username=pepysdiary --dbname=postgres
+    # drop database pepysdiary with (FORCE);
 	# create database pepysdiary;
-	# create user pepysdiary with password 'pepysdiary';
-	# grant all privileges on database "django-hines" to hines;
-	# alter user pepysdiary createdb;
+	# grant all privileges on database "pepysdiary" to pepysdiary;
+    # \q
 
-I got an error ("permission denied for relation django_migrations") later:
+On Heroku, download a backup file of the live site's database and rename it to
+something simpler. We'll use "heroku_db_dump" below.
 
-	$ psql "pepysdiary" -c "GRANT ALL ON ALL TABLES IN SCHEMA public to pepysdiary;"
-	$ psql "pepysdiary" -c "GRANT ALL ON ALL SEQUENCES IN SCHEMA public to pepysdiary;"
-	$ psql "pepysdiary" -c "GRANT ALL ON ALL FUNCTIONS IN SCHEMA public to pepysdiary;"
+Put the file in the same directory as this README.
 
-Probably need to do this for a fresh install:
+Import the data into the database:
 
-	$ pipenv shell
-	$ ./manage.py migrate
-	$ ./manage.py collectstatic
-	$ ./manage.py createsuperuser
+    $ docker-compose exec -T db pg_restore --verbose --clean --no-acl --no-owner -h localhost -U pepysdiary -d pepysdiary < heroku_db_dump
 
-*OR*, download the database backup file from Heroku and do this:
 
-	$ pg_restore -d pepysdiary my_dump_file
+#### 5. Vist and set up the site
 
-Then run the webserver:
+Then go to http://www.pepysdiary.test:8000 and you should see the site.
 
-	$ pipenv run ./manage.py runserver
+Log in to the [Django Admin](http://www.pepysdiary.test:8000/backstage/), go to the "Sites"
+section and change the one Site's Domain Name to `www.pepysdiary.test:8000` and the
+Display Name to "The Diary of Samuel Pepys".
 
-Then visit http://localhost:8000 or http://127.0.0.1:8000.
 
-In the Django Admin set the Domain Name of the one Site.
+## Ongoing work
+
+Whenever you come back to start work you need to start the containers up again:
+
+    $ docker-compose up
+
+When you want to stop the server, in the terminal window/tab that's showing the logs, hit `Control` and `X` together.
+
+You can check if anything's running by doing this, which will list any Docker processes:
+
+    $ docker ps
+
+Do this in the project's directory to stop containers:
+
+    $ docker-compose stop
+
+You can also open the Docker Desktop app to see a prettier view of what containers you have.
+
+When the containers are running you can open a shell to the web server (exit with `Control` and `D` together):
+
+    $ docker exec -it pepys_web sh
+
+You could then run `.manage.py` commands within there:
+
+    $ ./manage.py help
+
+Or, use the shortcut command from *outside* of the Docker container:
+
+    $ ./scripts/manage.sh help
+
+Or you can log into the database:
+
+    $ docker exec -it pepys_db psql --username=pepysdiary --dbname=pepysdiary
+
+The development environment has [django-extensions](https://django-extensions.readthedocs.io/en/latest/index.html) installed so you can use its `shell_plus` and other commands. e.g.:
+
+    $ ./scripts/manage.sh shell_plus
+    $ ./scripts/manage.sh show_urls
+
+To install new python dependencies:
+
+    $ docker exec -it pepys_web sh
+    # pipenv install module-name
 
 
 ### Other local dev tasks
