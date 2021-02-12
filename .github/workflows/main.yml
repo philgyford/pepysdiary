@@ -66,6 +66,11 @@ jobs:
           DJANGO_SECRET_KEY: "fake-secret-key-for-tests"
           DJANGO_SETTINGS_MODULE: pepysdiary.settings.tests
           WORKON_HOME: ~/.pipenv/virtualenvs
+          AWS_ACCESS_KEY_ID: ""
+          AWS_SECRET_ACCESS_KEY: ""
+          AWS_STORAGE_BUCKET_NAME: ""
+          MAPBOX_MAP_ID: ""
+          MAPBOX_ACCESS_TOKEN: ""
 
       # - name: Generate lcov report
       #   # We need an lcov report for Coveralls

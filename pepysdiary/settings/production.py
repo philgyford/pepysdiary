@@ -40,23 +40,6 @@ CACHES = {
 }
 
 
-# Storing Media files on AWS.
-
-DEFAULT_FILE_STORAGE = "pepysdiary.common.s3utils.MediaS3Boto3Storage"
-
-AWS_ACCESS_KEY_ID = get_env_variable("AWS_ACCESS_KEY_ID")
-AWS_SECRET_ACCESS_KEY = get_env_variable("AWS_SECRET_ACCESS_KEY")
-AWS_STORAGE_BUCKET_NAME = get_env_variable("AWS_STORAGE_BUCKET_NAME")
-
-AWS_QUERYSTRING_AUTH = False
-
-AWS_DEFAULT_ACL = "public-read"
-
-S3_URL = "https://%s.s3.amazonaws.com" % AWS_STORAGE_BUCKET_NAME
-# Store static and media files in separate directories:
-MEDIA_URL = S3_URL + MEDIA_URL
-
-
 # https
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 SECURE_SSL_REDIRECT = True
