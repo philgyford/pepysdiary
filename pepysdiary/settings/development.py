@@ -59,11 +59,6 @@ if DEBUG:
 
 GOOGLE_ANALYTICS_ID = "UA-89135-2"
 
-# From https://www.google.com/recaptcha/
-RECAPTCHA_PUBLIC_KEY = get_env_variable("RECAPTCHA_PUBLIC_KEY")
-RECAPTCHA_PRIVATE_KEY = get_env_variable("RECAPTCHA_PRIVATE_KEY")
-RECAPTCHA_USE_SSL = True
-
 # Do we use Akismet/TypePad spam checking?
 # True/False. If false, no posted comments are checked.
 # If True, AKISMET_API_KEY must also be set.

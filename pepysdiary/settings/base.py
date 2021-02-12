@@ -299,6 +299,10 @@ PEOPLE_CATEGORY_ID = 2
 # treatment, so we store its ID here:
 PEPYS_TOPIC_ID = 29
 
+# From https://www.google.com/recaptcha/
+RECAPTCHA_PUBLIC_KEY = get_env_variable("RECAPTCHA_PUBLIC_KEY")
+RECAPTCHA_PRIVATE_KEY = get_env_variable("RECAPTCHA_PRIVATE_KEY")
+RECAPTCHA_USE_SSL = True
 
 # The IDs of the various Movable Type blogs that we do one-off imports of data
 # from:
