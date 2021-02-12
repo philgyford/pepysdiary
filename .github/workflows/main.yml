@@ -72,6 +72,7 @@ jobs:
           MAPBOX_MAP_ID: ""
           MAPBOX_ACCESS_TOKEN: ""
           RECAPTCHA_PUBLIC_KEY: ""
+          RECAPTCHA_PRIVATE_KEY: ""
 
       # - name: Generate lcov report
       #   # We need an lcov report for Coveralls
