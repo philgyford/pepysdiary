@@ -1,6 +1,8 @@
 pepysdiary
 ==========
 
+![Build Status](https://github.com/philgyford/pepysdiary/workflows/CI/badge.svg)
+
 This code is used for [www.pepysdiary.com](http://www.pepysdiary.com/). This repository includes fixtures for all of the site's data (apart from user accounts and user-contributed comments) although it's often out of date compared to what's live.
 
 
