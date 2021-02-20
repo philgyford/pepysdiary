@@ -96,7 +96,7 @@ Django's `manage.py` within the Docker web container.)
 
 Log into postgres and drop the current (empty) database:
 
-    $ docker exec -it pepys_db psql --username=pepysdiary --dbname=postgres
+    $ docker exec -it pepys_db psql -U pepysdiary -d pepysdiary
     # drop database pepysdiary with (FORCE);
 	# create database pepysdiary;
 	# grant all privileges on database "pepysdiary" to pepysdiary;
@@ -109,7 +109,7 @@ Put the file in the same directory as this README.
 
 Import the data into the database:
 
-    $ docker-compose exec -T db pg_restore --verbose --clean --no-acl --no-owner -h localhost -U pepysdiary -d pepysdiary < heroku_db_dump
+    $ docker exec -i db pepys_pg_restore --verbose --clean --no-acl --no-owner -U pepysdiary -d pepysdiary < heroku_db_dump
 
 
 #### 5. Vist and set up the site
@@ -153,7 +153,7 @@ Or, use the shortcut command from *outside* of the Docker container:
 
 Or you can log into the database:
 
-    $ docker exec -it pepys_db psql --username=pepysdiary --dbname=pepysdiary
+    $ docker exec -it pepys_db psql -U pepysdiary -d pepysdiary
 
 The development environment has [django-extensions](https://django-extensions.readthedocs.io/en/latest/index.html) installed so you can use its `shell_plus` and other commands. e.g.:
 
