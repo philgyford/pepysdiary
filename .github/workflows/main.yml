@@ -47,16 +47,28 @@ jobs:
       #     restore-keys: |
       #       ${{ runner.os }}-pipenv-
 
+      - name: Cache Pipenv virtualenv
+        uses: actions/cache@v1
+        id: pipenv-cache
+        with:
+          path: ~/.pipenv
+          key: ${{ runner.os }}-pipenv-v2-${{ hashFiles('**/Pipfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-pipenv-v2-
+
       - name: Install dependencies
-        # if: steps.pipenv-cache.outputs.cache-hit != 'true'
+        if: steps.pipenv-cache.outputs.cache-hit != 'true'
+        env:
+          WORKON_HOME: ~/.pipenv/virtualenvs
+          PIPENV_CACHE_DIR: ~/.pipenv/pipcache
         run: |
           pipenv install --deploy --dev
 
       - name: Run Tests
+        # Shouldn't need to manually migrate, but otherwise the tests that use AdminSite() fail:
         run: |
-          pipenv run ./manage.py collectstatic --verbosity=0 --noinput
-          # Shouldn't need to manually migrate, but otherwise the tests that use AdminSite() fail:
-          pipenv run ./manage.py migrate --verbosity=0 --noinput
+          pipenv run python manage.py collectstatic --verbosity=0 --noinput
+          pipenv run python manage.py migrate --verbosity=0 --noinput
           pipenv run coverage run ./manage.py test
           pipenv run coverage report -m
         env:
@@ -64,7 +76,9 @@ jobs:
           DATABASE_URL: "postgres://postgres:postgres@localhost:${{ job.services.postgres.ports[5432] }}/postgres"
           DJANGO_SECRET_KEY: "fake-secret-key-for-tests"
           DJANGO_SETTINGS_MODULE: pepysdiary.settings.tests
-          WORKON_HOME: ~/.local/share/virtualenvs/
+          # WORKON_HOME: ~/.local/share/virtualenvs/
+          WORKON_HOME: ~/.pipenv/virtualenvs
+          PYTHONPATH: '.'
           AWS_ACCESS_KEY_ID: ""
           AWS_SECRET_ACCESS_KEY: ""
           AWS_STORAGE_BUCKET_NAME: ""
