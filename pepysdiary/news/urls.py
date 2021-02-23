@@ -1,4 +1,4 @@
-from django.conf.urls import url
+from django.urls import re_path
 
 from pepysdiary.news.views import (
     LatestPostsFeed,
@@ -11,16 +11,16 @@ from pepysdiary.news.views import (
 # ALL REDIRECTS are in common/urls.py.
 
 urlpatterns = [
-    url(r"^rss/$", LatestPostsFeed(), name="post_rss"),
-    url(
+    re_path(r"^rss/$", LatestPostsFeed(), name="post_rss"),
+    re_path(
         r"^(?P<year>\d{4})/(?P<month>\d{2})/(?P<day>\d{2})/(?P<pk>\d+)/$",
         PostDetailView.as_view(),
         name="post_detail",
     ),
-    url(
+    re_path(
         r"^(?P<category_slug>[\w-]+)/$",
         PostCategoryArchiveView.as_view(),
         name="post_category_archive",
     ),
-    url(r"^$", PostArchiveView.as_view(), name="news"),
+    re_path(r"^$", PostArchiveView.as_view(), name="news"),
 ]

@@ -1,9 +1,9 @@
-from django.conf.urls import url
+from django.urls import re_path
 
 from .views import flag
 
 
 urlpatterns = [
     # Our replacement for the default.
-    url(r"^flag/(\d+)/$", flag, name="annotations-flag")
+    re_path(r"^flag/(\d+)/$", flag, name="annotations-flag")
 ]

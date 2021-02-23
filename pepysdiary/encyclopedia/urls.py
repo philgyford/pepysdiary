@@ -1,4 +1,4 @@
-from django.conf.urls import url
+from django.urls import re_path
 
 from pepysdiary.encyclopedia.views import (
     EncyclopediaView,
@@ -12,15 +12,15 @@ from pepysdiary.encyclopedia.views import (
 # ALL REDIRECTS are in common/urls.py.
 
 urlpatterns = [
-    url(r"^$", EncyclopediaView.as_view(), name="encyclopedia"),
-    url(r"^rss/$", LatestTopicsFeed(), name="topic_rss"),
-    url(r"^(?P<pk>\d+)/$", TopicDetailView.as_view(), name="topic_detail"),
-    url(
+    re_path(r"^$", EncyclopediaView.as_view(), name="encyclopedia"),
+    re_path(r"^rss/$", LatestTopicsFeed(), name="topic_rss"),
+    re_path(r"^(?P<pk>\d+)/$", TopicDetailView.as_view(), name="topic_detail"),
+    re_path(
         r"^map/(?:(?P<category_id>\d+)/)?$",
         CategoryMapView.as_view(),
         name="category_map",
     ),
-    url(
+    re_path(
         r"^(?P<slugs>[\w\/-]+)/$", CategoryDetailView.as_view(), name="category_detail"
     ),
 ]

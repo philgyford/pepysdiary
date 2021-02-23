@@ -1,4 +1,4 @@
-from django.conf.urls import url
+from django.urls import re_path
 
 from pepysdiary.letters.views import (
     LatestLettersFeed,
@@ -11,12 +11,14 @@ from pepysdiary.letters.views import (
 # ALL REDIRECTS are in common/urls.py.
 
 urlpatterns = [
-    url(r"^rss/$", LatestLettersFeed(), name="letter_rss"),
-    url(
+    re_path(r"^rss/$", LatestLettersFeed(), name="letter_rss"),
+    re_path(
         r"^(?P<year>\d{4})/(?P<month>\d{2})/(?P<day>\d{2})/(?P<slug>[\w-]+)/$",
         LetterDetailView.as_view(),
         name="letter_detail",
     ),
-    url(r"^person/(?P<pk>[\d]+)/$", LetterPersonView.as_view(), name="letter_person"),
-    url(r"^$", LetterArchiveView.as_view(), name="letters"),
+    re_path(
+        r"^person/(?P<pk>[\d]+)/$", LetterPersonView.as_view(), name="letter_person"
+    ),
+    re_path(r"^$", LetterArchiveView.as_view(), name="letters"),
 ]
