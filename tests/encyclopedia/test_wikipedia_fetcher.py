@@ -1,10 +1,9 @@
-# coding: utf-8
 from unittest.mock import patch
 import responses
 from requests.exceptions import ConnectionError, Timeout, TooManyRedirects
 
-from pepysdiary.common.tests.test_base import PepysdiaryTestCase
 from pepysdiary.encyclopedia.wikipedia_fetcher import WikipediaFetcher
+from ..common.test_base import PepysdiaryTestCase
 
 
 class FetchTest(PepysdiaryTestCase):

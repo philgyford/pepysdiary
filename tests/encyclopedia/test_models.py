@@ -1,11 +1,10 @@
-# coding: utf-8
-from pepysdiary.common.tests.test_base import PepysdiaryTestCase
-
 from pepysdiary.encyclopedia.factories import (
     PersonTopicFactory,
     PlaceTopicFactory,
     TopicFactory,
 )
+from ..common.test_base import PepysdiaryTestCase
+
 
 # Only testing a handful of things at the moment.
 

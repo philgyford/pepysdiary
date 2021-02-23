@@ -1,10 +1,8 @@
-# coding: utf-8
-from pepysdiary.common.tests.test_base import PepysdiaryTestCase
-
 from pepysdiary.common.templatetags.text_formatting_filters import (
     markup_tooltip,
     smartypants,
 )
+from .test_base import PepysdiaryTestCase
 
 
 class SmartypantsTestCase(PepysdiaryTestCase):

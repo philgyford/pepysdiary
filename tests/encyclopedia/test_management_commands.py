@@ -4,7 +4,7 @@ from django.core.management import call_command
 from django.core.management.base import CommandError
 from io import StringIO
 
-from pepysdiary.common.tests.test_base import PepysdiaryTestCase
+from ..common.test_base import PepysdiaryTestCase
 
 
 class FetchWikipediaTest(PepysdiaryTestCase):

@@ -1,8 +1,7 @@
-# coding: utf-8
 from unittest.mock import call, patch
 
-from pepysdiary.common.tests.test_base import PepysdiaryTestCase
 from pepysdiary.encyclopedia.models import Topic
+from ..common.test_base import PepysdiaryTestCase
 
 
 class FetchWikipediaTextsTest(PepysdiaryTestCase):
