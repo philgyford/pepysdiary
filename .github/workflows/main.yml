@@ -54,10 +54,10 @@ jobs:
 
       - name: Run Tests
         run: |
-          export "PATH=/home/runner/.local/bin:$PATH"
-          pipenv run ./manage.py collectstatic --verbosity=0 --noinput
+          # export "PATH=/home/runner/.local/bin:$PATH"
+          pipenv run python -m ./manage.py collectstatic --verbosity=0 --noinput
           # Shouldn't need to manually migrate, but otherwise the tests that use AdminSite() fail:
-          pipenv run ./manage.py migrate --verbosity=0 --noinput
+          pipenv run python -m ./manage.py migrate --verbosity=0 --noinput
           pipenv run coverage run ./manage.py test
           pipenv run coverage report -m
         env:
