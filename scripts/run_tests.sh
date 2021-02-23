@@ -10,4 +10,5 @@ set -e
 # ./run_tests.sh tests.appname.test_models.TestClass.test_a_thing
 TESTS_TO_RUN=${1:tests}
 
-docker exec pepys_web /bin/sh -c "pipenv run manage.py test --settings=pepysdiary.settings.tests $TESTS_TO_RUN ; pipenv run flake8"
+# Coverage config is in setup.cfg
+docker exec pepys_web /bin/sh -c "pipenv run coverage run manage.py test --settings=pepysdiary.settings.tests $TESTS_TO_RUN ; pipenv run flake8; pipenv run coverage html"

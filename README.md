@@ -196,6 +196,8 @@ There are only a handful of tests, but run them with:
 
 	$ ./scripts/run_tests.sh
 
+It will generate HTML coverage reports. View `htmlcov/index.html` in a browser.
+
 
 ## Heroku set-up
 
