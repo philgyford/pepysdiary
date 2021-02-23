@@ -110,7 +110,9 @@ urlpatterns += [
         r"^background/(?P<slugs>[\w_\/]+)\.php$",
         EncyclopediaCategoryRedirectView.as_view(permanent=True),
     ),
-    re_path(r"^p/(?P<pk>\d+)\.php$", EncyclopediaTopicRedirectView.as_view(permanent=True)),
+    re_path(
+        r"^p/(?P<pk>\d+)\.php$", EncyclopediaTopicRedirectView.as_view(permanent=True)
+    ),
     # The URL of the RSS feed that Feedburner fetches.
     re_path(
         r"^syndication/encyclopedia-fb\.rdf$",
