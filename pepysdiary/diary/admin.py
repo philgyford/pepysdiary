@@ -1,62 +1,11 @@
-import calendar
-from datetime import date
-import re
-
 from django.contrib import admin
 
+from pepysdiary.common.admin import YearmonthListFilter
 from pepysdiary.diary.models import Entry, Summary
 
 
-class YearmonthListFilter(admin.SimpleListFilter):
-    # Human-readable title which will be displayed in the
-    # right admin sidebar just above the filter options.
-    title = "Month"
-
-    # Parameter for the filter that will be used in the URL query.
-    parameter_name = "yearmonth"
-
-    def lookups(self, request, model_admin):
-        """
-        Returns a list of tuples. The first element in each
-        tuple is the coded value for the option that will
-        appear in the URL query. The second element is the
-        human-readable name for the option that will appear
-        in the right sidebar.
-        """
-        years_months = Entry.objects.all_years_months()
-
-        choices = []
-        for (y, months) in years_months:
-            for (m_count, m) in enumerate(months):
-                choices.append(
-                    (
-                        # Will be like ('1660-03', 'Mar 1660'):
-                        "%s-%02d" % (y, (m_count + 1)),
-                        "%s %s" % (y, m),
-                    )
-                )
-
-        return choices
-
-    def queryset(self, request, queryset):
-        """
-        Returns the filtered queryset based on the value
-        provided in the query string and retrievable via
-        `self.value()`.
-        """
-        # self.value() should be of the form '1660-01'.
-        if (
-            self.value() is not None
-            and re.match(r"^\d{,4}-\d{,2}$", self.value()) is not None
-        ):
-
-            [year, month] = [int(n) for n in self.value().split("-")]
-            last_day = calendar.monthrange(year, month)[1]
-
-            return queryset.filter(
-                diary_date__gte=date(year, month, 1),
-                diary_date__lte=date(year, month, last_day),
-            )
+class DiaryDateYearmonthListFilter(YearmonthListFilter):
+    filter_field = "diary_date"
 
 
 class EntryAdmin(admin.ModelAdmin):
@@ -65,7 +14,7 @@ class EntryAdmin(admin.ModelAdmin):
         "diary_date",
         "comment_count",
     )
-    list_filter = (YearmonthListFilter,)
+    list_filter = (DiaryDateYearmonthListFilter,)
     search_fields = [
         "title",
         "text",
@@ -117,8 +66,25 @@ class SummaryAdmin(admin.ModelAdmin):
         "date_modified",
     )
     fieldsets = (
-        (None, {"fields": ("title", "summary_date", "text",)}),
-        (None, {"fields": ("date_created", "date_modified",)}),
+        (
+            None,
+            {
+                "fields": (
+                    "title",
+                    "summary_date",
+                    "text",
+                )
+            },
+        ),
+        (
+            None,
+            {
+                "fields": (
+                    "date_created",
+                    "date_modified",
+                )
+            },
+        ),
     )
 
 
