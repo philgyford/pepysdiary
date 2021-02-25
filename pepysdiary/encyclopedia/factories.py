@@ -3,7 +3,7 @@ from faker import Faker
 
 from django.db import IntegrityError
 
-from pepysdiary.encyclopedia import models
+from pepysdiary.encyclopedia.models import Category, Topic
 from pepysdiary.encyclopedia import category_lookups
 
 fake = Faker()
@@ -11,7 +11,7 @@ fake = Faker()
 
 class CategoryFactory(factory.django.DjangoModelFactory):
     class Meta:
-        model = models.Category
+        model = Category
 
     title = factory.Faker("sentence", nb_words=2)
     slug = factory.Faker("slug")
@@ -20,7 +20,7 @@ class CategoryFactory(factory.django.DjangoModelFactory):
 
 class TopicFactory(factory.django.DjangoModelFactory):
     class Meta:
-        model = models.Topic
+        model = Topic
 
     title = factory.Faker("sentence", nb_words=4)
 

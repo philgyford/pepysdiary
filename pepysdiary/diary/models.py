@@ -281,7 +281,6 @@ class Entry(PepysModel, OldDateMixin):
     @property
     def date_published(self):
         """The modern-day datetime this item would be published."""
-        tz = pytz.timezone("Europe/London")
         year = int(self.year) + settings.YEARS_OFFSET
         month = int(self.month)
         day = int(self.day)
@@ -290,13 +289,13 @@ class Entry(PepysModel, OldDateMixin):
         if month == 2 and day == 29 and calendar.monthrange(year, month)[1] == 28:
             month = 3
             day = 1
-        return datetime.datetime(year, month, day, 23, 0, 0).replace(tzinfo=tz)
+        return datetime.datetime(year, month, day, 23, 0, 0).replace(tzinfo=pytz.utc)
 
     @property
     def short_title(self):
         """
-        If self.title is 'Monday 16 Septmber 1661' then self.short_title
-        is 'Mon 16 Sep 1661'.
+        If self.title is 'Monday 16 September 1661' then
+        self.short_title is 'Mon 16 Sep 1661'.
         """
         replacements = {
             "Monday": "Mon",

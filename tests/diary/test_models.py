@@ -1,0 +1,141 @@
+from django.test import override_settings, TestCase
+
+from pepysdiary.common.utilities import make_date, make_datetime
+from pepysdiary.diary.factories import EntryFactory, SummaryFactory
+from pepysdiary.diary.models import Entry, Summary
+from pepysdiary.encyclopedia.factories import TopicFactory
+
+
+class EntryTestCase(TestCase):
+    def test_ordering(self):
+        "The default manager should order objects by diary_date ascending"
+        entry_2 = EntryFactory(diary_date=make_date("1660-01-02"))
+        entry_3 = EntryFactory(diary_date=make_date("1660-01-03"))
+        entry_1 = EntryFactory(diary_date=make_date("1660-01-01"))
+
+        entries = Entry.objects.all()
+
+        self.assertEqual(len(entries), 3)
+        self.assertEqual(entries[0], entry_1)
+        self.assertEqual(entries[1], entry_2)
+        self.assertEqual(entries[2], entry_3)
+
+    def test_str(self):
+        "The string representation should be the title"
+        title = "Monday 24 February 1667/68"
+        entry = EntryFactory(title=title)
+        self.assertEqual(str(entry), title)
+
+    def test_makes_references_on_save(self):
+        "When an Entry is saved, any references should be updated."
+        topic_1 = TopicFactory(title="Cats")
+        topic_2 = TopicFactory(title="Dogs")
+        entry = EntryFactory(
+            text=(
+                "<p>Hello. "
+                f'<a href="http://www.pepysdiary.com/encyclopedia/{topic_1.id}/">cats'
+                "</a> and "
+                f'<a href="https://www.pepysdiary.com/encyclopedia/{topic_2.id}/">dogs'
+                "</a>.</p>"
+            )
+        )
+
+        topic_1_refs = topic_1.diary_references.all()
+        self.assertEqual(len(topic_1_refs), 1)
+        self.assertEqual(topic_1_refs[0], entry)
+
+        topic_2_refs = topic_2.diary_references.all()
+        self.assertEqual(len(topic_2_refs), 1)
+        self.assertEqual(topic_2_refs[0], entry)
+
+    def test_get_absolute_url(self):
+        "It should return the correct URL"
+        entry = EntryFactory(diary_date=make_date("1660-01-01"))
+        self.assertEqual(entry.get_absolute_url(), "/diary/1660/01/01/")
+
+    @override_settings(YEARS_OFFSET=350)
+    def test_date_published(self):
+        "It should return the correct modern datetime"
+        entry = EntryFactory(diary_date=make_date("1660-01-01"))
+        self.assertEqual(entry.date_published, make_datetime("2010-01-01 23:00:00"))
+
+    @override_settings(YEARS_OFFSET=350)
+    def test_date_published_29_feb(self):
+        "If 17th C date is 29 feb, but there's none in modern day, should be 1st March"
+        entry = EntryFactory(diary_date=make_date("1668-02-29"))
+        self.assertEqual(entry.date_published, make_datetime("2018-03-01 23:00:00"))
+
+    def test_short_title(self):
+        "It should return the correct short title"
+        # Just test a couple.
+
+        entry = EntryFactory(title="Monday 16 September 1661")
+        self.assertEqual(entry.short_title, "Mon 16 Sep 1661")
+
+        entry = EntryFactory(title="Saturday 29 February 1667/68")
+        self.assertEqual(entry.short_title, "Sat 29 Feb 1667/68")
+
+    def test_make_references(self):
+        topic_1 = TopicFactory(title="Cats")
+        topic_2 = TopicFactory(title="Dogs")
+        topic_3 = TopicFactory(title="Fish")
+
+        # This is what we did in test_makes_references_on_save()
+        # Just to set up an initial state.
+        entry = EntryFactory(
+            text=(
+                "<p>Hello. "
+                f'<a href="http://www.pepysdiary.com/encyclopedia/{topic_1.id}/">cats'
+                "</a> and "
+                f'<a href="https://www.pepysdiary.com/encyclopedia/{topic_2.id}/">dogs'
+                "</a>.</p>"
+            )
+        )
+        # Now we'll change the text and the references should be changed.
+        entry.text = (
+            "<p>Hello. "
+            f'<a href="http://www.pepysdiary.com/encyclopedia/{topic_1.id}/">cats'
+            "</a> and "
+            f'<a href="https://www.pepysdiary.com/encyclopedia/{topic_3.id}/">fish'
+            "</a>.</p>"
+        )
+        entry.save()
+
+        topic_1_refs = topic_1.diary_references.all()
+        self.assertEqual(len(topic_1_refs), 1)
+        self.assertEqual(topic_1_refs[0], entry)
+
+        topic_2_refs = topic_2.diary_references.all()
+        self.assertEqual(len(topic_2_refs), 0)
+
+        topic_3_refs = topic_3.diary_references.all()
+        self.assertEqual(len(topic_3_refs), 1)
+        self.assertEqual(topic_3_refs[0], entry)
+
+
+class SummaryTestCase(TestCase):
+    def test_ordering(self):
+        "Summaries should be ordered by summary_date"
+        summary_2 = SummaryFactory(summary_date=make_date("1660-01-02"))
+        summary_3 = SummaryFactory(summary_date=make_date("1660-01-03"))
+        summary_1 = SummaryFactory(summary_date=make_date("1660-01-01"))
+
+        summaries = Summary.objects.all()
+
+        self.assertEqual(len(summaries), 3)
+        self.assertEqual(summaries[0], summary_1)
+        self.assertEqual(summaries[1], summary_2)
+        self.assertEqual(summaries[2], summary_3)
+
+    def test_str(self):
+        "The str representatino should use the title"
+        summary = SummaryFactory(title="January 1667/68")
+        self.assertEqual(str(summary), "January 1667/68")
+
+    def test_text_html_set_on_save(self):
+        "It should save a markdown version of text in text_html on save"
+        summary = SummaryFactory(text="This is **my** [test](http://example.org).")
+        self.assertEqual(
+            summary.text_html,
+            '<p>This is <strong>my</strong> <a href="http://example.org">test</a>.</p>',
+        )
