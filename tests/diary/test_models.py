@@ -30,23 +30,37 @@ class EntryTestCase(TestCase):
         "When an Entry is saved, any references should be updated."
         topic_1 = TopicFactory(title="Cats")
         topic_2 = TopicFactory(title="Dogs")
-        entry = EntryFactory(
-            text=(
-                "<p>Hello. "
-                f'<a href="http://www.pepysdiary.com/encyclopedia/{topic_1.id}/">cats'
-                "</a> and "
-                f'<a href="https://www.pepysdiary.com/encyclopedia/{topic_2.id}/">dogs'
-                "</a>.</p>"
-            )
-        )
+        topic_3 = TopicFactory(title="Fish")
+        entry = EntryFactory(text="")
 
+        # Manually add the entry as a reference only to topics 1 and 2:
+        topic_1.diary_references.add(entry)
+        topic_2.diary_references.add(entry)
+
+        # Now save the entry with text referencing only topics 1 and 3:
+        # This should update the references.
+        entry.text = (
+            "<p>Hello. "
+            f'<a href="http://www.pepysdiary.com/encyclopedia/{topic_1.id}/">cats'
+            "</a> and "
+            f'<a href="https://www.pepysdiary.com/encyclopedia/{topic_3.id}/">fish'
+            "</a>.</p>"
+        )
+        entry.save()
+
+        # Should still be there:
         topic_1_refs = topic_1.diary_references.all()
         self.assertEqual(len(topic_1_refs), 1)
         self.assertEqual(topic_1_refs[0], entry)
 
+        # Should no longer exist:
         topic_2_refs = topic_2.diary_references.all()
-        self.assertEqual(len(topic_2_refs), 1)
-        self.assertEqual(topic_2_refs[0], entry)
+        self.assertEqual(len(topic_2_refs), 0)
+
+        # Should have been added:
+        topic_3_refs = topic_3.diary_references.all()
+        self.assertEqual(len(topic_3_refs), 1)
+        self.assertEqual(topic_3_refs[0], entry)
 
     def test_get_absolute_url(self):
         "It should return the correct URL"
@@ -75,42 +89,42 @@ class EntryTestCase(TestCase):
         entry = EntryFactory(title="Saturday 29 February 1667/68")
         self.assertEqual(entry.short_title, "Sat 29 Feb 1667/68")
 
-    def test_make_references(self):
-        topic_1 = TopicFactory(title="Cats")
-        topic_2 = TopicFactory(title="Dogs")
-        topic_3 = TopicFactory(title="Fish")
+    # def test_make_references(self):
+    #     topic_1 = TopicFactory(title="Cats")
+    #     topic_2 = TopicFactory(title="Dogs")
+    #     topic_3 = TopicFactory(title="Fish")
 
-        # This is what we did in test_makes_references_on_save()
-        # Just to set up an initial state.
-        entry = EntryFactory(
-            text=(
-                "<p>Hello. "
-                f'<a href="http://www.pepysdiary.com/encyclopedia/{topic_1.id}/">cats'
-                "</a> and "
-                f'<a href="https://www.pepysdiary.com/encyclopedia/{topic_2.id}/">dogs'
-                "</a>.</p>"
-            )
-        )
-        # Now we'll change the text and the references should be changed.
-        entry.text = (
-            "<p>Hello. "
-            f'<a href="http://www.pepysdiary.com/encyclopedia/{topic_1.id}/">cats'
-            "</a> and "
-            f'<a href="https://www.pepysdiary.com/encyclopedia/{topic_3.id}/">fish'
-            "</a>.</p>"
-        )
-        entry.save()
+    #     # This is what we did in test_makes_references_on_save()
+    #     # Just to set up an initial state.
+    #     entry = EntryFactory(
+    #         text=(
+    #             "<p>Hello. "
+    #             f'<a href="http://www.pepysdiary.com/encyclopedia/{topic_1.id}/">cats'
+    #             "</a> and "
+    #             f'<a href="https://www.pepysdiary.com/encyclopedia/{topic_2.id}/">dogs'
+    #             "</a>.</p>"
+    #         )
+    #     )
+    #     # Now we'll change the text and the references should be changed.
+    #     entry.text = (
+    #         "<p>Hello. "
+    #         f'<a href="http://www.pepysdiary.com/encyclopedia/{topic_1.id}/">cats'
+    #         "</a> and "
+    #         f'<a href="https://www.pepysdiary.com/encyclopedia/{topic_3.id}/">fish'
+    #         "</a>.</p>"
+    #     )
+    #     entry.save()
 
-        topic_1_refs = topic_1.diary_references.all()
-        self.assertEqual(len(topic_1_refs), 1)
-        self.assertEqual(topic_1_refs[0], entry)
+    #     topic_1_refs = topic_1.diary_references.all()
+    #     self.assertEqual(len(topic_1_refs), 1)
+    #     self.assertEqual(topic_1_refs[0], entry)
 
-        topic_2_refs = topic_2.diary_references.all()
-        self.assertEqual(len(topic_2_refs), 0)
+    #     topic_2_refs = topic_2.diary_references.all()
+    #     self.assertEqual(len(topic_2_refs), 0)
 
-        topic_3_refs = topic_3.diary_references.all()
-        self.assertEqual(len(topic_3_refs), 1)
-        self.assertEqual(topic_3_refs[0], entry)
+    #     topic_3_refs = topic_3.diary_references.all()
+    #     self.assertEqual(len(topic_3_refs), 1)
+    #     self.assertEqual(topic_3_refs[0], entry)
 
 
 class SummaryTestCase(TestCase):

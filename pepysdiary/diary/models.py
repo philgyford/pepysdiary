@@ -264,7 +264,7 @@ class Entry(PepysModel, OldDateMixin):
 
     def save(self, *args, **kwargs):
         super(Entry, self).save(*args, **kwargs)
-        self.make_references()
+        self._make_references()
 
     def get_absolute_url(self):
         return reverse(
@@ -325,7 +325,7 @@ class Entry(PepysModel, OldDateMixin):
 
         return short_title
 
-    def make_references(self):
+    def _make_references(self):
         """
         Sets all the Encyclopedia Topics the text of this entry (and footnotes)
         refers to. Saves them to the database.
