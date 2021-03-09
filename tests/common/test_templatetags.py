@@ -15,11 +15,12 @@ class SmartypantsTestCase(PepysdiaryTestCase):
         cases = (
             ("the 'Change was", "the &#8217;Change was"),
             ("the 'Chequer,", "the &#8217;Chequer,"),
+            ("a 'guinny, which", "a &#8217;guinny, which"),
             ("a 'light which", "a &#8217;light which"),
             ("not 'lighting, and", "not &#8217;lighting, and"),
             ("a 'prentice was", "a &#8217;prentice was"),
             ("the 'prentices were", "the &#8217;prentices were"),
-            ("a 'guinny, which", "a &#8217;guinny, which"),
+            ("the 'sparagus garden,", "the &#8217;sparagus garden,")
         )
 
         for case in cases:

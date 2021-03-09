@@ -22,11 +22,12 @@ def smartypants(value):
         replacements = (
             ("'Change", "&#8217;Change"),
             ("'Chequer", "&#8217;Chequer"),
+            ("'guinny", "&#8217;guinny"),
             ("'light", "&#8217;light"),
             ("'lighting", "&#8217;lighting"),
             ("'prentice", "&#8217;prentice"),
             ("'prentices", "&#8217;prentices"),
-            ("'guinny", "&#8217;guinny"),
+            ("'sparagus", "&#8217;sparagus"),
         )
         for rep in replacements:
             value = re.sub(rf"(\W){rep[0]}(\W)", rf"\1{rep[1]}\2", value)
