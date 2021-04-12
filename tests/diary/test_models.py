@@ -101,7 +101,7 @@ class EntryTestCase(TestCase):
     #             "<p>Hello. "
     #             f'<a href="http://www.pepysdiary.com/encyclopedia/{topic_1.id}/">cats'
     #             "</a> and "
-    #             f'<a href="https://www.pepysdiary.com/encyclopedia/{topic_2.id}/">dogs'
+    #            f'<a href="https://www.pepysdiary.com/encyclopedia/{topic_2.id}/">dogs'
     #             "</a>.</p>"
     #         )
     #     )
