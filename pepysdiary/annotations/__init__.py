@@ -1,6 +1,3 @@
-default_app_config = "pepysdiary.annotations.apps.AnnotationsConfig"
-
-
 def get_model():
     from pepysdiary.annotations.models import Annotation
 
