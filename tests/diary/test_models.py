@@ -1,8 +1,10 @@
 from django.test import override_settings, TestCase
 
+from django_comments.moderation import CommentModerator
+
 from pepysdiary.common.utilities import make_date, make_datetime
 from pepysdiary.diary.factories import EntryFactory, SummaryFactory
-from pepysdiary.diary.models import Entry, Summary
+from pepysdiary.diary.models import Entry, EntryModerator, Summary
 from pepysdiary.encyclopedia.factories import TopicFactory
 
 
@@ -67,6 +69,14 @@ class EntryTestCase(TestCase):
         entry = EntryFactory(diary_date=make_date("1660-01-01"))
         self.assertEqual(entry.get_absolute_url(), "/diary/1660/01/01/")
 
+    def test_index_components(self):
+        "It should return the correct value"
+        entry = EntryFactory(title="Title", text="Text", footnotes="Footnotes")
+        self.assertEqual(
+            entry.index_components(),
+            (("Title", "A"), ("Text", "B"), ("Footnotes", "C")),
+        )
+
     @override_settings(YEARS_OFFSET=350)
     def test_date_published(self):
         "It should return the correct modern datetime"
@@ -89,42 +99,14 @@ class EntryTestCase(TestCase):
         entry = EntryFactory(title="Saturday 29 February 1667/68")
         self.assertEqual(entry.short_title, "Sat 29 Feb 1667/68")
 
-    # def test_make_references(self):
-    #     topic_1 = TopicFactory(title="Cats")
-    #     topic_2 = TopicFactory(title="Dogs")
-    #     topic_3 = TopicFactory(title="Fish")
 
-    #     # This is what we did in test_makes_references_on_save()
-    #     # Just to set up an initial state.
-    #     entry = EntryFactory(
-    #         text=(
-    #             "<p>Hello. "
-    #             f'<a href="http://www.pepysdiary.com/encyclopedia/{topic_1.id}/">cats'
-    #             "</a> and "
-    #            f'<a href="https://www.pepysdiary.com/encyclopedia/{topic_2.id}/">dogs'
-    #             "</a>.</p>"
-    #         )
-    #     )
-    #     # Now we'll change the text and the references should be changed.
-    #     entry.text = (
-    #         "<p>Hello. "
-    #         f'<a href="http://www.pepysdiary.com/encyclopedia/{topic_1.id}/">cats'
-    #         "</a> and "
-    #         f'<a href="https://www.pepysdiary.com/encyclopedia/{topic_3.id}/">fish'
-    #         "</a>.</p>"
-    #     )
-    #     entry.save()
-
-    #     topic_1_refs = topic_1.diary_references.all()
-    #     self.assertEqual(len(topic_1_refs), 1)
-    #     self.assertEqual(topic_1_refs[0], entry)
-
-    #     topic_2_refs = topic_2.diary_references.all()
-    #     self.assertEqual(len(topic_2_refs), 0)
-
-    #     topic_3_refs = topic_3.diary_references.all()
-    #     self.assertEqual(len(topic_3_refs), 1)
-    #     self.assertEqual(topic_3_refs[0], entry)
+def EntryModeratorTestCase(TestCase):
+    def test_properties(self):
+        "Just testing it exists I guess?"
+        em = EntryModerator()
+        self.assertTrue(issubclass(em, CommentModerator))
+        self.assertFalse(em.email_notifications)
+        self.essetEqual(em.enable_field, "allow_comments")
 
 
 class SummaryTestCase(TestCase):
