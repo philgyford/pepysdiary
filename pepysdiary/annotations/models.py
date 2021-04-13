@@ -40,6 +40,23 @@ class VisibleAnnotationManager(AnnotationManager):
 
 
 class Annotation(CommentAbstractModel):
+    """
+    Fields inherited from CommentAbstractModel:
+
+    content_type = ForeignKey to django.contrib.contenttypes.models.ContentType
+    object_pk = CharField
+    content_object = django.contrib.contenttypes.fields.GenericForeignKey
+    site = ForeignKey to django.contrib.sites.modelsSite
+    user - ForeignKey to membership.Person
+    user_name - CharField
+    user_email - EmailField
+    user_url - URLField
+    comment - TextField
+    submit_date - DateTimeField
+    ip_address - GenericIPAddressField
+    is_public - BooleanField (comment is effectively entirely deleted)
+    is_removed - BooleanField (comment is inappropriate; displays "has been removed")
+    """
 
     # Also see index_components() method.
     search_document = SearchVectorField(null=True)

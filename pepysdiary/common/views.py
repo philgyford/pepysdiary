@@ -86,7 +86,6 @@ class HomeView(TemplateView):
             objects=context["entry_list"]
         )
 
-        context["post_list"] = Post.published_posts.all()[:2]
         return context
 
 
@@ -145,14 +144,13 @@ class SearchView(PaginatedListView):
         query_string = self.get_search_string()
 
         if query_string == "":
-            queryset = self.model.objects.none()
+            queryset = self.queryset.none()
         else:
-
             # if self.model == Annotation:
-            #     queryset = self.model.objects.filter(comment__search=query_string)
+            #     queryset = self.queryset.filter(comment__search=query_string)
             # else:
             query = SearchQuery(query_string)
-            queryset = self.model.objects.filter(search_document=query)
+            queryset = self.queryset.filter(search_document=query)
 
             ordering = self.get_ordering()
             if ordering:
@@ -206,25 +204,31 @@ class SearchView(PaginatedListView):
 
         if kind == "a":
             self.model = Article
+            self.queryset = Article.published_articles
             self.date_order_field = "date_published"
         elif kind == "c":
             self.model = Annotation
+            self.queryset = Annotation.visible_objects
             self.date_order_field = "submit_date"
             # We don't have a 'title' field on Annotations, so:
             self.az_order_field = "comment"
         elif kind == "l":
             self.model = Letter
+            self.queryset = Letter.objects
             self.date_order_field = "letter_date"
         elif kind == "p":
             self.model = Post
+            self.queryset = Post.published_posts
             self.date_order_field = "date_published"
         elif kind == "t":
             self.model = Topic
+            self.queryset = Topic.objects
             self.date_order_field = "date_created"
             self.az_order_field = "order_title"
         else:
             # 'd' and default
             self.model = Entry
+            self.queryset = Entry.objects
             self.date_order_field = "diary_date"
 
 
