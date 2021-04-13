@@ -29,11 +29,18 @@ def date_formats(request):
 
 
 def api_keys(request):
-    return {
-        "MAPBOX_MAP_ID": settings.MAPBOX_MAP_ID,
-        "MAPBOX_ACCESS_TOKEN": settings.MAPBOX_ACCESS_TOKEN,
-        "GOOGLE_ANALYTICS_ID": settings.GOOGLE_ANALYTICS_ID,
-    }
+    ctx = {}
+
+    if getattr(settings, "MAPBOX_MAP_ID", False):
+        ctx["MAPBOX_MAP_ID"] = settings.MAPBOX_MAP_ID
+
+    if getattr(settings, "MAPBOX_ACCESS_TOKEN", False):
+        ctx["MAPBOX_ACCESS_TOKEN"] = settings.MAPBOX_ACCESS_TOKEN
+
+    if getattr(settings, "GOOGLE_ANALYTICS_ID", False):
+        ctx["GOOGLE_ANALYTICS_ID"] = settings.GOOGLE_ANALYTICS_ID
+
+    return ctx
 
 
 def config(request):

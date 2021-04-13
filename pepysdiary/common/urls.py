@@ -1,5 +1,5 @@
 from django.conf import settings
-from django.urls import include, re_path
+from django.urls import include, path, re_path
 from django.contrib import admin
 from django.contrib.flatpages import views as flatpages_views
 from django.contrib.flatpages.sitemaps import FlatPageSitemap
@@ -35,8 +35,8 @@ urlpatterns = []
 
 # Redirects from old Movable Type URLs to new ones.
 urlpatterns += [
-    re_path(
-        r"^favicon\.ico$",
+    path(
+        "favicon.ico",
         RedirectView.as_view(
             url="%scommon/img/favicons/favicon.ico" % settings.STATIC_URL,
             permanent=True,
@@ -50,11 +50,11 @@ urlpatterns += [
         kwargs={"site_url": reverse_lazy("home")},
     ),
     # For testing the 500 template:
-    re_path(r"^errors/500/$", TemplateView.as_view(template_name="500.html")),
+    path("errors/500/", TemplateView.as_view(template_name="500.html")),
     # DIARY.
     # From main /archive/ page.
-    re_path(
-        r"^archive/$",
+    path(
+        "archive/",
         RedirectView.as_view(url=reverse_lazy("entry_archive"), permanent=True),
     ),
     # From /archive/1660/01/ URLs:
@@ -68,21 +68,21 @@ urlpatterns += [
         DiaryEntryRedirectView.as_view(permanent=True),
     ),
     # The URL of the RSS feed that Feedburner fetches.
-    re_path(
-        r"^syndication/full-fb\.rdf$",
+    path(
+        "syndication/full-fb.rdf",
         RedirectView.as_view(url=reverse_lazy("entry_rss"), permanent=True),
     ),
     # Used on LiveJournal.
-    re_path(
-        r"^syndication/rdf\.php$",
+    path(
+        "syndication/rdf.php",
         RedirectView.as_view(
-            url="http://feeds.feedburner.com/PepysDiary", permanent=True
+            url="https://feeds.feedburner.com/PepysDiary", permanent=True
         ),
     ),
-    re_path(
-        r"^syndication/full\.rdf$",
+    path(
+        "syndication/full.rdf",
         RedirectView.as_view(
-            url="http://feeds.feedburner.com/PepysDiary", permanent=True
+            url="https://feeds.feedburner.com/PepysDiary", permanent=True
         ),
     ),
     # LETTERS.
@@ -92,30 +92,28 @@ urlpatterns += [
         LetterRedirectView.as_view(permanent=True),
     ),
     # ENCYCLOPEDIA.
-    re_path(
-        r"^background/$",
+    path(
+        "background/",
         RedirectView.as_view(url=reverse_lazy("encyclopedia"), permanent=True),
     ),
-    re_path(
-        r"^background/familytree/$",
+    path(
+        "background/familytree/",
         RedirectView.as_view(
             url=reverse_lazy("encyclopedia_familytree"), permanent=True
         ),
     ),
-    re_path(
-        r"^background/maps/$",
+    path(
+        "background/maps/",
         RedirectView.as_view(url=reverse_lazy("category_map"), permanent=True),
     ),
     re_path(
         r"^background/(?P<slugs>[\w_\/]+)\.php$",
         EncyclopediaCategoryRedirectView.as_view(permanent=True),
     ),
-    re_path(
-        r"^p/(?P<pk>\d+)\.php$", EncyclopediaTopicRedirectView.as_view(permanent=True)
-    ),
+    path("p/<int:pk>.php", EncyclopediaTopicRedirectView.as_view(permanent=True)),
     # The URL of the RSS feed that Feedburner fetches.
-    re_path(
-        r"^syndication/encyclopedia-fb\.rdf$",
+    path(
+        "syndication/encyclopedia-fb.rdf",
         RedirectView.as_view(url=reverse_lazy("topic_rss"), permanent=True),
     ),
     # IN-DEPTH.
@@ -125,26 +123,24 @@ urlpatterns += [
         ArticleRedirectView.as_view(permanent=True),
     ),
     # The URL of the RSS feed that Feedburner fetches.
-    re_path(
-        r"^syndication/indepth-fb\.rdf$",
+    path(
+        "syndication/indepth-fb.rdf",
         RedirectView.as_view(url=reverse_lazy("article_rss"), permanent=True),
     ),
     # SITE NEWS.
     # From main Site News front page.
-    re_path(
-        r"^about/news/$", RedirectView.as_view(url=reverse_lazy("news"), permanent=True)
-    ),
+    path("about/news/", RedirectView.as_view(url=reverse_lazy("news"), permanent=True)),
     # From /about/archive/2012/05/31/3456.php URLs:
     re_path(
         r"^about/archive/(?P<year>\d{4})/(?P<month>\d{2})/(?P<day>\d{2})/(?P<pk>\d+)\.php$",  # noqa: E501
         PostRedirectView.as_view(permanent=True),
     ),
     # The URL of the RSS feed that Feedburner fetches.
-    re_path(
-        r"^syndication/recentnews-fb\.rdf$",
+    path(
+        "syndication/recentnews-fb.rdf",
         RedirectView.as_view(url=reverse_lazy("post_rss"), permanent=True),
     ),
-    # SUMMARYIES.
+    # SUMMARIES.
     re_path(
         r"^about/history/(?:index.php)?$",
         RedirectView.as_view(url=reverse_lazy("diary_summary"), permanent=True),
@@ -153,71 +149,71 @@ urlpatterns += [
         r"^about/history/(?P<year>\d{4})/$",
         SummaryYearRedirectView.as_view(permanent=True),
     ),
-    re_path(
-        r"^about/support/$",
+    path(
+        "about/support/",
         RedirectView.as_view(url=reverse_lazy("about"), permanent=True),
     ),
 ]
 
 # Flatpages URLs.
 urlpatterns += [
-    re_path(r"^about/$", flatpages_views.flatpage, {"url": "/about/"}, name="about"),
-    re_path(
-        r"^about/annotations/$",
+    path("about/", flatpages_views.flatpage, {"url": "/about/"}, name="about"),
+    path(
+        "about/annotations/",
         flatpages_views.flatpage,
         {"url": "/about/annotations/"},
         name="about_annotations",
     ),
-    re_path(
-        r"^about/faq/$",
+    path(
+        "about/faq/",
         flatpages_views.flatpage,
         {"url": "/about/faq/"},
         name="about_faq",
     ),
-    re_path(
-        r"^about/formats/$",
+    path(
+        "about/formats/",
         flatpages_views.flatpage,
         {"url": "/about/formats/"},
         name="about_formats",
     ),
-    re_path(
-        r"^about/text/$",
+    path(
+        "about/text/",
         flatpages_views.flatpage,
         {"url": "/about/text/"},
         name="about_text",
     ),
-    re_path(
-        r"^diary/1893-introduction/$",
+    path(
+        "diary/1893-introduction/",
         flatpages_views.flatpage,
         {"url": "/diary/1893-introduction/"},
         name="1893_introduction",
     ),
-    re_path(
-        r"^diary/1893-introduction/pepys/$",
+    path(
+        "diary/1893-introduction/pepys/",
         flatpages_views.flatpage,
         {"url": "/diary/1893-introduction/pepys/"},
         name="1893_introduction_pepys",
     ),
-    re_path(
-        r"^diary/1893-introduction/preface/$",
+    path(
+        "diary/1893-introduction/preface/",
         flatpages_views.flatpage,
         {"url": "/diary/1893-introduction/preface/"},
         name="1893_introduction_preface",
     ),
-    re_path(
-        r"^diary/1893-introduction/previous/$",
+    path(
+        "diary/1893-introduction/previous/",
         flatpages_views.flatpage,
         {"url": "/diary/1893-introduction/previous/"},
         name="1893_introduction_previous",
     ),
-    re_path(
-        r"^diary/summary/$",
+    path(
+        "diary/summary/",
         flatpages_views.flatpage,
         {"url": "/diary/summary/"},
         name="diary_summary",
     ),
-    re_path(
-        r"^encyclopedia/familytree/$",
+    path(
+        "encyclopedia/familytree/",
         flatpages_views.flatpage,
         {"url": "/encyclopedia/familytree/"},
         name="encyclopedia_familytree",
@@ -239,9 +235,9 @@ sitemaps = {
 
 # The main URL conf for actual pages, not redirects.
 urlpatterns += [
-    re_path(r"^$", HomeView.as_view(), name="home"),
-    re_path(
-        r"^sitemap\.xml$",
+    path("", HomeView.as_view(), name="home"),
+    path(
+        "sitemap.xml",
         cache_page(86400)(sitemaps_views.index),
         {"sitemaps": sitemaps, "sitemap_url_name": "sitemaps"},
         name="sitemap",
@@ -252,22 +248,23 @@ urlpatterns += [
         {"sitemaps": sitemaps},
         name="sitemaps",
     ),
-    re_path(
-        r"^robots\.txt$",
+    path(
+        "robots.txt",
         TemplateView.as_view(template_name="robots.txt", content_type="text/plain"),
+        name="robotstxt",
     ),
-    re_path(r"^google-search/$", GoogleSearchView.as_view(), name="google-search"),
-    re_path(r"^search/$", SearchView.as_view(), name="search"),
-    re_path(r"^recent/$", RecentView.as_view(), name="recent"),
-    re_path(r"^diary/", include("pepysdiary.diary.urls")),
-    re_path(r"^letters/", include("pepysdiary.letters.urls")),
-    re_path(r"^encyclopedia/", include("pepysdiary.encyclopedia.urls")),
-    re_path(r"^indepth/", include("pepysdiary.indepth.urls")),
-    re_path(r"^news/", include("pepysdiary.news.urls")),
-    re_path(r"^annotations/", include("django_comments.urls")),
-    re_path(r"^annotations/flagging/", include("pepysdiary.annotations.urls")),
-    re_path(r"^account/", include("pepysdiary.membership.urls")),
-    re_path(r"^backstage/", admin.site.urls),
+    path("google-search/", GoogleSearchView.as_view(), name="google-search"),
+    path("search/", SearchView.as_view(), name="search"),
+    path("recent/", RecentView.as_view(), name="recent"),
+    path("diary/", include("pepysdiary.diary.urls")),
+    path("letters/", include("pepysdiary.letters.urls")),
+    path("encyclopedia/", include("pepysdiary.encyclopedia.urls")),
+    path("indepth/", include("pepysdiary.indepth.urls")),
+    path("news/", include("pepysdiary.news.urls")),
+    path("annotations/", include("django_comments.urls")),
+    path("annotations/flagging/", include("pepysdiary.annotations.urls")),
+    path("account/", include("pepysdiary.membership.urls")),
+    path("backstage/", admin.site.urls),
 ]
 
 

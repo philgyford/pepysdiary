@@ -16,6 +16,10 @@ from pepysdiary.encyclopedia.forms import CategoryMapForm
 from pepysdiary.encyclopedia.models import Category, Topic
 
 
+# If no ID is supplied to the Map, it displays Topics from this Category:
+DEFAULT_MAP_CATEGORY_ID = 28
+
+
 class EncyclopediaView(CacheMixin, TemplateView):
     cache_timeout = 60 * 60
     template_name = "category_list.html"
@@ -128,7 +132,7 @@ class CategoryMapView(FormView):
     category = None
 
     # Default category:
-    category_id = 28
+    category_id = DEFAULT_MAP_CATEGORY_ID
 
     def get(self, request, *args, **kwargs):
         # Set the Category ID of Topics we're displaying.
