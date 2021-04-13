@@ -1,13 +1,12 @@
+from io import StringIO
 from unittest.mock import patch
 
 from django.core.management import call_command
 from django.core.management.base import CommandError
-from io import StringIO
-
-from ..common.test_base import PepysdiaryTestCase
+from django.test import TestCase
 
 
-class FetchWikipediaTest(PepysdiaryTestCase):
+class FetchWikipediaTest(TestCase):
     """
     Tests for the management command that calls the
     TopicManager.fetch_wikipedia_texts() method. That method isn't tested here.

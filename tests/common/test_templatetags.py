@@ -1,11 +1,12 @@
+from django.test import TestCase
+
 from pepysdiary.common.templatetags.text_formatting_filters import (
     markup_tooltip,
     smartypants,
 )
-from .test_base import PepysdiaryTestCase
 
 
-class SmartypantsTestCase(PepysdiaryTestCase):
+class SmartypantsTestCase(TestCase):
     def test_standard(self):
         val = smartypants("""'This is -- "a test"'""")
         self.assertEqual(val, "&#8216;This is &#8212; &#8220;a test&#8221;&#8217;")
@@ -27,7 +28,7 @@ class SmartypantsTestCase(PepysdiaryTestCase):
             self.assertEqual(smartypants(case[0]), case[1])
 
 
-class MarkupTooltipTestCase(PepysdiaryTestCase):
+class MarkupTooltipTestCase(TestCase):
     def test_does_nothing(self):
         val = markup_tooltip("12. Hello there.")
         self.assertEqual(val, "12. Hello there.")

@@ -1,15 +1,16 @@
+from django.test import TestCase
+
 from pepysdiary.encyclopedia.factories import (
     PersonTopicFactory,
     PlaceTopicFactory,
     TopicFactory,
 )
-from ..common.test_base import PepysdiaryTestCase
 
 
 # Only testing a handful of things at the moment.
 
 
-class TopicTestCase(PepysdiaryTestCase):
+class TopicTestCase(TestCase):
     def test_is_family_tree_true(self):
         topic = TopicFactory(id=7390)
         self.assertTrue(topic.is_family_tree)

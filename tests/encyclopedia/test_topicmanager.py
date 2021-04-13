@@ -1,10 +1,11 @@
 from unittest.mock import call, patch
 
+from django.test import TestCase
+
 from pepysdiary.encyclopedia.models import Topic
-from ..common.test_base import PepysdiaryTestCase
 
 
-class FetchWikipediaTextsTest(PepysdiaryTestCase):
+class FetchWikipediaTextsTestCase(TestCase):
     # ./manage.py dumpdata encyclopedia.Topic --pks=344,112,6079 --indent 4 > pepysdiary/encyclopedia/fixtures/wikipedia_test.json  # noqa: E501
     fixtures = ["wikipedia_test.json"]
 
@@ -88,7 +89,7 @@ class FetchWikipediaTextsTest(PepysdiaryTestCase):
         self.assertEqual(Topic.objects.get(pk=344).wikipedia_html, "344 html")
 
 
-class MakeOrderTitleTestCase(PepysdiaryTestCase):
+class MakeOrderTitleTestCase(TestCase):
     """
     Tests TopicManager.make_order_title().
     """

@@ -1,12 +1,13 @@
 from unittest.mock import patch
-import responses
 from requests.exceptions import ConnectionError, Timeout, TooManyRedirects
+import responses
+
+from django.test import TestCase
 
 from pepysdiary.encyclopedia.wikipedia_fetcher import WikipediaFetcher
-from ..common.test_base import PepysdiaryTestCase
 
 
-class FetchTest(PepysdiaryTestCase):
+class FetchTestCase(TestCase):
 
     source_html = "<p>Hello</p>"
     page_name = "Edward_Montagu%2C_1st_Earl_of_Sandwich"
