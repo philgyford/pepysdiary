@@ -13,7 +13,7 @@ class AbstractArticleFactory(factory.django.DjangoModelFactory):
 
     title = factory.Faker("text", max_nb_chars=100)
     text = "<p>A test article.</p>"
-    slug = factory.LazyAttribute(lambda o: slugify(o.title))
+    slug = factory.LazyAttribute(lambda o: slugify(o.title)[:50])
 
 
 class DraftArticleFactory(AbstractArticleFactory):
