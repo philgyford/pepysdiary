@@ -34,7 +34,14 @@ def get_subnav(url_name):
                 "1893_introduction_pepys",
             ),
         ),
-        ("letters", ("letters", "letter_detail", "letter_person",)),
+        (
+            "letters",
+            (
+                "letters",
+                "letter_detail",
+                "letter_person",
+            ),
+        ),
         (
             "encyclopedia",
             (
@@ -45,8 +52,21 @@ def get_subnav(url_name):
                 "encyclopedia_familytree",
             ),
         ),
-        ("indepth", ("indepth", "article_detail",)),
-        ("news", ("news", "post_category_archive", "post_detail",)),
+        (
+            "indepth",
+            (
+                "indepth",
+                "article_detail",
+            ),
+        ),
+        (
+            "news",
+            (
+                "news",
+                "post_category_archive",
+                "post_detail",
+            ),
+        ),
         ("recent", ("recent",)),
         (
             "about",

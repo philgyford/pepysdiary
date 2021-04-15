@@ -153,14 +153,15 @@ class SearchView(PaginatedListView):
             queryset = self.queryset.filter(search_document=query)
 
             ordering = self.get_ordering()
-            if ordering:
-                if ordering == "-rank" or ordering == "rank":
-                    # Need to annotate the queryset to display in rank order.
-                    # Assumes that all our searchable models have a search_document
-                    # attribute that's a SearchVectorField().
-                    rank_annotation = SearchRank(F("search_document"), query)
-                    queryset = queryset.annotate(rank=rank_annotation)
-                queryset = queryset.order_by(ordering)
+
+            if ordering == "-rank" or ordering == "rank":
+                # Need to annotate the queryset to display in rank order.
+                # Assumes that all our searchable models have a search_document
+                # attribute that's a SearchVectorField().
+                rank_annotation = SearchRank(F("search_document"), query)
+                queryset = queryset.annotate(rank=rank_annotation)
+
+            queryset = queryset.order_by(ordering)
 
         return queryset
 

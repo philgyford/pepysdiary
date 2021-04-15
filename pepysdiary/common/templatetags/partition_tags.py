@@ -29,39 +29,34 @@ def make_rows(thelist, num_rows, threshold=None):
     Break a list into ``num_rows`` rows, filling up each row to the maximum
     equal length possible. For example::
 
-        >>> l = range(10)
+        >>> l = list(range(10))
 
-        >>> rows(l, 2)
+        >>> make_rows(l, 2)
         [[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]
 
-        >>> rows(l, 3)
+        >>> make_rows(l, 3)
         [[0, 1, 2, 3], [4, 5, 6, 7], [8, 9]]
 
-        >>> rows(l, 4)
+        >>> make_rows(l, 4)
         [[0, 1, 2], [3, 4, 5], [6, 7, 8], [9]]
 
-        >>> rows(l, 5)
+        >>> make_rows(l, 5)
         [[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]]
 
-        >>> rows(l, 9)
+        >>> make_rows(l, 9)
         [[0, 1], [2, 3], [4, 5], [6, 7], [8, 9], [], [], [], []]
 
     This tag will always return `num_rows` rows, even if some are empty:
 
-        >>> rows(range(2), 3)
+        >>> make_rows(list(range(2)), 3)
         [[0], [1], []]
 
     If ``threshold`` is supplied, the list will only be split if it has
     more items than ``threshold``. Again, `num_rows` rows are always returned:
 
-        >>> rows(range(4), num_rows=3, threshold=5)
+        >>> make_rows(list(range(4)), num_rows=3, threshold=5)
         [[0,1,2,3], [], []]
     """
-    try:
-        num_rows = int(num_rows)
-    except (ValueError):
-        return [thelist]
-
     list_len = len(thelist)
 
     if threshold is not None and list_len <= threshold:
@@ -82,34 +77,29 @@ def make_rows_distributed(thelist, num_rows):
     Break a list into ``num_rows`` rows, distributing columns as evenly as
     possible across the rows. For example::
 
-        >>> l = range(10)
+        >>> l = list(range(10))
 
-        >>> rows_distributed(l, 2)
+        >>> make_rows_distributed(l, 2)
         [[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]
 
-        >>> rows_distributed(l, 3)
+        >>> make_rows_distributed(l, 3)
         [[0, 1, 2, 3], [4, 5, 6], [7, 8, 9]]
 
-        >>> rows_distributed(l, 4)
+        >>> make_rows_distributed(l, 4)
         [[0, 1, 2], [3, 4, 5], [6, 7], [8, 9]]
 
-        >>> rows_distributed(l, 5)
+        >>> make_rows_distributed(l, 5)
         [[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]]
 
-        >>> rows_distributed(l, 9)
+        >>> make_rows_distributed(l, 9)
         [[0, 1], [2], [3], [4], [5], [6], [7], [8], [9]]
 
         # This filter will always return `num_rows` rows, even if some are
         empty:
 
-        >>> rows(range(2), 3)
+        >>> make_rows(list(range(2)), 3)
         [[0], [1], []]
     """
-    try:
-        num_rows = int(num_rows)
-        thelist = list(thelist)
-    except (ValueError, TypeError):
-        return [thelist]
     list_len = len(thelist)
     split = list_len // num_rows
 
@@ -137,7 +127,7 @@ def make_columns(thelist, num_cols):
         >>> from pprint import pprint
         >>> for i in range(7, 11):
         ...     print '%sx%s:' % (i, 3)
-        ...     pprint(columns(range(i), 3), width=20)
+        ...     pprint(make_columns(range(i), 3), width=20)
         7x3:
         [[0, 3, 6],
          [1, 4],
@@ -158,15 +148,10 @@ def make_columns(thelist, num_cols):
 
         # Note that this filter does not guarantee that `num_cols` columns will
         be present:
-        >>> pprint(columns(range(4), 3), width=10)
+        >>> pprint(make_columns(list(range(4)), 3), width=10)
         [[0, 2],
          [1, 3]]
     """
-    try:
-        num_cols = int(num_cols)
-        thelist = list(thelist)
-    except (ValueError, TypeError):
-        return [thelist]
     list_len = len(thelist)
     split = list_len // num_cols
     if list_len % num_cols != 0:

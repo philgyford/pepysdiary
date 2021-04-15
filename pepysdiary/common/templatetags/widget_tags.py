@@ -1,8 +1,8 @@
-# -*- coding: utf-8 -*-
 from django import template
 from django.urls import reverse
 from django.utils.html import mark_safe
 
+from pepysdiary.diary.models import Entry
 from pepysdiary.encyclopedia.models import Topic
 from pepysdiary.encyclopedia import topic_lookups
 from pepysdiary.indepth.models import Article
@@ -36,34 +36,34 @@ def rss_feeds(*args):
         (
             "entries",
             {
-                "url": "http://feeds.feedburner.com/PepysDiary",
+                "url": "https://feeds.feedburner.com/PepysDiary",
                 "title": "Diary entries",
             },
         ),
         (
             "topics",
             {
-                "url": "http://feeds.feedburner.com/PepysDiary-Encyclopedia",
+                "url": "https://feeds.feedburner.com/PepysDiary-Encyclopedia",
                 "title": "Encyclopedia topics",
             },
         ),
         (
             "articles",
             {
-                "url": "http://feeds.feedburner.com/PepysDiary-InDepthArticles",
+                "url": "https://feeds.feedburner.com/PepysDiary-InDepthArticles",
                 "title": "In-Depth articles",
             },
         ),
         (
             "posts",
             {
-                "url": "http://feeds.feedburner.com/PepysDiary-SiteNews",
+                "url": "https://feeds.feedburner.com/PepysDiary-SiteNews",
                 "title": "Site News posts",
             },
         ),
         # Not on Feedburner yet:
         # ('letters', {
-        #     'url': 'http://feeds.feedburner.com/PepysDiary-SiteNews',
+        #     'url': 'https://feeds.feedburner.com/PepysDiary-SiteNews',
         #     'title': 'Site News posts',
         # }),
     )
@@ -86,7 +86,10 @@ def rss_feeds(*args):
 
 @register.inclusion_tag("widgets/recent_list.html", takes_context=True)
 def latest_posts(context, quantity=5):
-    """Displays links to the most recent Site News Posts."""
+    """
+    Displays links to the most recent Site News Posts.
+    Expects date_format_long to be in the context.
+    """
     post_list = Post.published_posts.all().only("title", "date_published")[:quantity]
 
     return {
@@ -98,7 +101,10 @@ def latest_posts(context, quantity=5):
 
 @register.inclusion_tag("widgets/recent_list.html", takes_context=True)
 def latest_articles(context, quantity=5):
-    """Displays links to the most recent In-Depth Articles."""
+    """
+    Displays links to the most recent In-Depth Articles.
+    Expects date_format_long to be in the context.
+    """
     article_list = Article.published_articles.all().only(
         "title", "date_published", "slug"
     )[:quantity]
@@ -142,37 +148,31 @@ def all_articles(context, exclude_id=None):
 def summary_year_navigation(current_year):
     """
     The list of years for the Diary Summary sidebar navigation.
-    current_year will either be 'year' or a date object.
+    current_year will either be 'before' (to indicate we're on the
+    "Before the diary" summary page) or a python date object.
     """
     css_class = ""
+
     if current_year == "before":
         css_class = "active"
     else:
         current_year = current_year.year
+
     html = '<a class="list-group-item %s" href="%s">Before the diary</a>' % (
         css_class,
         reverse("diary_summary"),
     )
-    for y in [
-        1660,
-        1661,
-        1662,
-        1663,
-        1664,
-        1665,
-        1666,
-        1667,
-        1668,
-        1669,
-    ]:
+
+    for y in Entry.objects.all_years():
         css_class = ""
-        if y == current_year:
+        if int(y) == current_year:
             css_class = "active"
         html += '<a class="list-group-item %s" href="%s">%s</a>' % (
             css_class,
             reverse("summary_year_archive", kwargs={"year": y}),
             y,
         )
+
     html += (
         '<a class="list-group-item" href="%s">After the diary (In-Depth Article)</a>'
         % (
@@ -196,6 +196,8 @@ def family_tree_link(topic=None):
     Displays a thumbnail of the family tree and a link to it.
     If `topic` is present, and the topic is featured on the family tree, then
     the text is different.
+
+    topic should be a Topic object, or None.
     """
     link_text = "See the Pepys family tree"
     if topic is not None and topic.on_pepys_family_tree:

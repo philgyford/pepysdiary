@@ -5,6 +5,10 @@ import pytz
 
 from pepysdiary.annotations.models import Annotation
 from pepysdiary.diary.factories import EntryFactory
+from pepysdiary.encyclopedia.factories import TopicFactory
+from pepysdiary.indepth.factories import PublishedArticleFactory
+from pepysdiary.news.factories import PublishedPostFactory
+from pepysdiary.letters.factories import LetterFactory
 
 
 class AbstractAnnotationFactory(factory.django.DjangoModelFactory):
@@ -12,10 +16,11 @@ class AbstractAnnotationFactory(factory.django.DjangoModelFactory):
     Use a child class and pass in the content_object that the
     annotation is posted on (e.g. an Entry).
     """
+
     class Meta:
         model = Annotation
         abstract = True
-        exclude = ['content_object']
+        exclude = ["content_object"]
 
     user = factory.SubFactory("pepysdiary.membership.factories.PersonFactory")
     user_name = factory.LazyAttribute(lambda o: o.user.name)
@@ -34,8 +39,26 @@ class AbstractAnnotationFactory(factory.django.DjangoModelFactory):
     object_pk = factory.SelfAttribute("content_object.pk")
 
 
+class ArticleAnnotationFactory(AbstractAnnotationFactory):
+    "Pass in an Article as content_object to have the annotation on a specific Article"
+    content_object = factory.SubFactory(PublishedArticleFactory)
+
+
 class EntryAnnotationFactory(AbstractAnnotationFactory):
+    "Pass in an Entry as content_object to have the annotation on a specific Entry"
     content_object = factory.SubFactory(EntryFactory)
 
 
-# We could make subclasses for Annotations posted on other objects if necessary.
+class LetterAnnotationFactory(AbstractAnnotationFactory):
+    "Pass in a Letter as content_object to have the annotation on a specific Letter"
+    content_object = factory.SubFactory(LetterFactory)
+
+
+class PostAnnotationFactory(AbstractAnnotationFactory):
+    "Pass in a Post as content_object to have the annotation on a specific Post"
+    content_object = factory.SubFactory(PublishedPostFactory)
+
+
+class TopicAnnotationFactory(AbstractAnnotationFactory):
+    "Pass in a Topic as content_object to have the annotation on a specific Topic"
+    content_object = factory.SubFactory(TopicFactory)

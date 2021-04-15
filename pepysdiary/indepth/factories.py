@@ -1,6 +1,8 @@
 import factory
 import pytz
 
+from django.utils.text import slugify
+
 from pepysdiary.indepth.models import Article
 
 
@@ -11,6 +13,7 @@ class AbstractArticleFactory(factory.django.DjangoModelFactory):
 
     title = factory.Faker("text", max_nb_chars=100)
     text = "<p>A test article.</p>"
+    slug = factory.LazyAttribute(lambda o: slugify(o.title))
 
 
 class DraftArticleFactory(AbstractArticleFactory):

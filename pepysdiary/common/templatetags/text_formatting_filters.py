@@ -1,4 +1,7 @@
 import re
+
+import smartypants as original_smartypants
+
 from django import template
 from django.utils.safestring import mark_safe
 
@@ -14,27 +17,21 @@ def smartypants(value):
 
     e.g. 'Change should not be ‘Change but ’Change.
     i.e. some words use a curly apostophe the other way.
-
     """
-    try:
-        import smartypants
+    replacements = (
+        ("'Change", "&#8217;Change"),
+        ("'Chequer", "&#8217;Chequer"),
+        ("'guinny", "&#8217;guinny"),
+        ("'light", "&#8217;light"),
+        ("'lighting", "&#8217;lighting"),
+        ("'prentice", "&#8217;prentice"),
+        ("'prentices", "&#8217;prentices"),
+        ("'sparagus", "&#8217;sparagus"),
+    )
+    for rep in replacements:
+        value = re.sub(rf"(\W){rep[0]}(\W)", rf"\1{rep[1]}\2", value)
 
-        replacements = (
-            ("'Change", "&#8217;Change"),
-            ("'Chequer", "&#8217;Chequer"),
-            ("'guinny", "&#8217;guinny"),
-            ("'light", "&#8217;light"),
-            ("'lighting", "&#8217;lighting"),
-            ("'prentice", "&#8217;prentice"),
-            ("'prentices", "&#8217;prentices"),
-            ("'sparagus", "&#8217;sparagus"),
-        )
-        for rep in replacements:
-            value = re.sub(rf"(\W){rep[0]}(\W)", rf"\1{rep[1]}\2", value)
-
-        return smartypants.smartypants(value)
-    except ImportError:
-        return value
+    return original_smartypants.smartypants(value)
 
 
 @register.filter()
