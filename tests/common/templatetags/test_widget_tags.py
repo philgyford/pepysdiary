@@ -91,6 +91,19 @@ class RSSFeedsTestCase(TestCase):
             rendered_template,
         )
 
+    def test_invalid_kind(self):
+        "It should quiety ignore any invalid kinds it's given"
+        context = Context({})
+        template_to_render = Template("{% load widget_tags %}{% rss_feeds 'foo' %}")
+        rendered_template = template_to_render.render(context)
+
+        self.assertInHTML(
+            '<h1 class="aside-title">RSS feeds</h1>',
+            rendered_template,
+        )
+
+        self.assertInHTML('<ul class="feeds"></ul>', rendered_template)
+
 
 class LatestPostsTestCase(TestCase):
     def test_output(self):
