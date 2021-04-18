@@ -104,20 +104,22 @@ class HomeViewTestCase(ViewTestCase):
         self.assertEqual(len(response.context_data["tooltip_references"]), 2)
 
         # Now check the contents:
+        # The image filenames have a random string on the end testing locally,
+        # but not in GitHub Actions, so making it optional.
         refs = response.context_data["tooltip_references"]
 
         self.assertEqual(refs[str(topic_1.pk)]["title"], "Cats")
         self.assertEqual(refs[str(topic_1.pk)]["text"], "About cats")
         self.assertRegex(
             refs[str(topic_1.pk)]["thumbnail_url"],
-            r"^/media/encyclopedia/thumbnails/topic_1_\w+.jpg",
+            r"^/media/encyclopedia/thumbnails/topic_1_?\w+?.jpg",
         )
 
         self.assertEqual(refs[str(topic_2.pk)]["title"], "Dogs")
         self.assertEqual(refs[str(topic_2.pk)]["text"], "About dogs")
         self.assertRegex(
             refs[str(topic_2.pk)]["thumbnail_url"],
-            r"^/media/encyclopedia/thumbnails/topic_2_\w+.jpg",
+            r"^/media/encyclopedia/thumbnails/topic_2_?\w+?.jpg",
         )
 
 
