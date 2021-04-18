@@ -112,14 +112,14 @@ class HomeViewTestCase(ViewTestCase):
         self.assertEqual(refs[str(topic_1.pk)]["text"], "About cats")
         self.assertRegex(
             refs[str(topic_1.pk)]["thumbnail_url"],
-            r"^/media/encyclopedia/thumbnails/topic_1_?\w+?.jpg",
+            r"^/media/encyclopedia/thumbnails/topic_1",
         )
 
         self.assertEqual(refs[str(topic_2.pk)]["title"], "Dogs")
         self.assertEqual(refs[str(topic_2.pk)]["text"], "About dogs")
         self.assertRegex(
             refs[str(topic_2.pk)]["thumbnail_url"],
-            r"^/media/encyclopedia/thumbnails/topic_2_?\w+?.jpg",
+            r"^/media/encyclopedia/thumbnails/topic_2",
         )
 
 
