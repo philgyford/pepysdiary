@@ -25,16 +25,15 @@ EMAIL_USE_TLS = True
 # the environment entirely. Otherwise, set to 'True' (or anything tbh).
 PREPEND_WWW = True
 
-
 CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": get_env_variable("REDIS_URL"),
-        "KEY_PREFIX": "pepysdiary",
+        "LOCATION": get_env_variable("REDIS_TLS_URL"),
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
-            # If Redis is down, ignore exceptions:
-            "IGNORE_EXCEPTIONS": True,
+            "CONNECTION_POOL_KWARGS": {
+                "ssl_cert_reqs": None
+            },
         },
     }
 }
