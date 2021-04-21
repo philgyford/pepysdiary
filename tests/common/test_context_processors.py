@@ -7,7 +7,7 @@ from pepysdiary.common.context_processors import (
     api_keys,
     config,
     date_formats,
-    url_name,
+    # url_name,
 )
 from pepysdiary.common.factories import ConfigFactory
 from pepysdiary.common.utilities import make_datetime
