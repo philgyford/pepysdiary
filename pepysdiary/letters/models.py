@@ -6,7 +6,8 @@ from django.db import models
 from django.urls import reverse
 
 from django_comments.moderation import CommentModerator, moderator
-from pepysdiary.common.models import OldDateMixin, PepysModel, ReferredManagerMixin
+from pepysdiary.common.managers import ReferredManagerMixin
+from pepysdiary.common.models import OldDateMixin, PepysModel
 
 # from pepysdiary.common.utilities import *
 from pepysdiary.encyclopedia.models import Topic
