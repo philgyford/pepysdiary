@@ -1,13 +1,15 @@
 from freezegun import freeze_time
 
 from django.conf import settings
-from django.test import Client, override_settings, RequestFactory, TestCase
+from django.test import override_settings, RequestFactory, TestCase
+from django.urls import path, resolve
+from django.views.generic import TemplateView
 
 from pepysdiary.common.context_processors import (
     api_keys,
     config,
     date_formats,
-    # url_name,
+    url_name,
 )
 from pepysdiary.common.factories import ConfigFactory
 from pepysdiary.common.utilities import make_datetime
@@ -94,36 +96,29 @@ class DateFormatsTestCase(RequestTestCase):
         self.assertEqual(context["time_now"], make_datetime("2021-04-10 12:00:00"))
 
 
+# URL paths we use for the URLNameTestCase
+# So that we're not relying on the usual URLs remaining the same.
+urlpatterns = [
+    path("home/", TemplateView.as_view(template_name="home.html"), name="home"),
+    path("no-name/", TemplateView.as_view(template_name="home.html")),
+]
+
+
+@override_settings(ROOT_URLCONF=__name__)
 class URLNameTestCase(RequestTestCase):
-    """
-    For some reason request.resolver_match, in url_name() is always
-    None when I test this using only the request.
-
-    So we need to rely on the response from the Client() request in
-    order to do this test.
-
-    Which is going to fail if the url_name contexxt processor isn't
-    enabled in settings.k
-    """
 
     def test_url_name(self):
-        "If the URL exists it should return the URL's name"
-        response = Client().get("/")
-        self.assertIn("url_name", response.context)
-        self.assertEqual(response.context["url_name"], "home")
-
-        # request = self.factory.get("/")
-        # context = url_name(request)
-        # self.assertIn("url_name", context)
-        # self.assertEqual(context["url_name"], "home")
+        "If the URL has a name it should return the URL's name"
+        request = self.factory.get("/home/")
+        request.resolver_match = resolve("/home/")
+        context = url_name(request)
+        self.assertIn("url_name", context)
+        self.assertEqual(context["url_name"], "home")
 
     def test_url_name_does_not_exist(self):
-        "If the URL doesn't exist it should return False"
-        response = Client().get("/does-not-exist")
-        self.assertIn("url_name", response.context)
-        self.assertFalse(response.context["url_name"])
-
-        # request = self.factory.get("/does-not-exist/")
-        # context = url_name(request)
-        # self.assertIn("url_name", context)
-        # self.assertFalse(context["url_name"])
+        "If the URL doesn't have a name exist it should return False"
+        request = self.factory.get("/no-name/")
+        request.resolver_match = resolve("/no-name/")
+        context = url_name(request)
+        self.assertIn("url_name", context)
+        self.assertFalse(context["url_name"])
