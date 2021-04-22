@@ -42,16 +42,15 @@ if DEBUG:
         "debug_toolbar",
         "django_extensions",
     ]
+
+    def show_toolbar(request):
+        return True
+
     DEBUG_TOOLBAR_CONFIG = {
         "INTERCEPT_REDIRECTS": False,
-        # Force the toolbar to show as INTERNAL_IPS wasn't working with Vagrant.
-        "SHOW_TOOLBAR_CALLBACK": "%s.true" % __name__,
+        "SHOW_TOOLBAR_CALLBACK": show_toolbar,
     }
-    INTERNAL_IPS = ["127.0.0.1", "192.168.33.1", "0.0.0.0"]
     RESULTS_CACHE_SIZE = 100
-
-    def true(request):
-        return True
 
 
 #############################################################################
