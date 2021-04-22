@@ -6,13 +6,13 @@ from django.contrib.syndication.views import add_domain, Feed
 from django.db.models import F
 from django.urls import reverse
 from django.utils.encoding import force_str
+from django.utils.feedgenerator import Rss201rev2Feed
 from django.utils.html import strip_tags
 from django.views.decorators.cache import cache_page
 from django.views.generic import ListView, RedirectView
 from django.views.generic.base import TemplateView
 
 from pepysdiary.common.paginator import DiggPaginator
-from pepysdiary.common.utilities import ExtendedRSSFeed
 from pepysdiary.annotations.models import Annotation
 from pepysdiary.diary.models import Entry
 from pepysdiary.encyclopedia.models import Topic
@@ -238,6 +238,22 @@ class RecentView(CacheMixin, TemplateView):
 
     cache_timeout = 60 * 5
     template_name = "recent.html"
+
+
+class ExtendedRSSFeed(Rss201rev2Feed):
+    """
+    Create a type of RSS feed that has content:encoded elements.
+    Should be used as the feed_type for View classes that inherit Feed.
+    """
+
+    def root_attributes(self):
+        attrs = super(ExtendedRSSFeed, self).root_attributes()
+        attrs["xmlns:content"] = "http://purl.org/rss/1.0/modules/content/"
+        return attrs
+
+    def add_item_elements(self, handler, item):
+        super(ExtendedRSSFeed, self).add_item_elements(handler, item)
+        handler.addQuickElement("content:encoded", item["content_encoded"])
 
 
 class BaseRSSFeed(Feed):

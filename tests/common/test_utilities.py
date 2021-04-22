@@ -1,6 +1,71 @@
-from django.test import TestCase
+from datetime import datetime
+import pytz
 
-from pepysdiary.common.utilities import hilite_words, trim_hilites
+from django.contrib.sites.models import Site
+from django.test import override_settings, TestCase
+
+from pepysdiary.common.utilities import (
+    make_date,
+    make_datetime,
+    hilite_words,
+    smart_truncate,
+    trim_hilites,
+    is_leap_year,
+    fix_old_links,
+    get_year,
+    get_month,
+    get_month_b,
+    get_day,
+    get_day_e,
+    make_url_absolute
+)
+
+
+class MakeDateTestCase(TestCase):
+    def test_make_date(self):
+        self.assertEqual(
+            make_date("2021-02-01"), datetime.strptime("2021-02-01", "%Y-%m-%d").date()
+        )
+
+
+class MakeDateTimeTestCase(TestCase):
+    def test_make_date(self):
+        self.assertEqual(
+            make_datetime("2021-02-01 12:00:00"),
+            datetime.strptime("2021-02-01 12:00:00", "%Y-%m-%d %H:%M:%S").replace(
+                tzinfo=pytz.utc
+            ),
+        )
+
+
+class SmartTruncateTestCase(TestCase):
+    def test_short_string(self):
+        "Does nothing if string is shorter than length"
+        self.assertEqual(smart_truncate("Hello"), "Hello")
+
+    def test_default_length(self):
+        "Truncates at 80 characters by default"
+        s = (
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. "
+            "Etiam vitae erat blandit, malesuada sem."
+        )
+        self.assertEqual(
+            smart_truncate(s),
+            (
+                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. "
+                "Etiam vitae erat…"
+            ),
+        )
+
+    def test_custom_length(self):
+        "Truncates at whatever length is supplied"
+        s = "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+        self.assertEqual(smart_truncate(s, 20), "Lorem ipsum dolor…")
+
+    def test_custom_suffix(self):
+        "It should use a custom suffix if supplied"
+        s = "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+        self.assertEqual(smart_truncate(s, 20, " –"), "Lorem ipsum dolor –")
 
 
 class HiliteWordsTestCase(TestCase):
@@ -98,3 +163,117 @@ class TrimHilitesTestCase(TestCase):
         self.assertEqual(result["html"], "Hi <b>test</b> so … ds <b>test</b> an")
         self.assertEqual(result["hilites_shown"], 2)
         self.assertEqual(result["total_hilites"], 3)
+
+
+class IsLeapYearTestCase(TestCase):
+    def test_is_leap_year_true(self):
+        self.assertTrue(is_leap_year(1600))
+        self.assertTrue(is_leap_year(1980))
+        self.assertTrue(is_leap_year(2000))
+
+    def test_is_leap_year_false(self):
+        self.assertFalse(is_leap_year(1700))
+        self.assertFalse(is_leap_year(1800))
+        self.assertFalse(is_leap_year(1900))
+        self.assertFalse(is_leap_year(1979))
+
+
+class FixOldLinksTestCase(TestCase):
+    def test_topic(self):
+        a = 'Hi <a href="http://www.pepysdiary.com/p/42.php">link</a> Bye'
+        b = 'Hi <a href="http://www.pepysdiary.com/encyclopedia/42/">link</a> Bye'
+        self.assertEqual(fix_old_links(a), b)
+
+    def test_article(self):
+        a = 'Hi <a href="http://www.pepysdiary.com/indepth/archive/2012/12/23/slug.php">link</a> Bye'  # noqa: E501
+        b = 'Hi <a href="http://www.pepysdiary.com/indepth/2012/12/23/slug/">link</a> Bye'  # noqa: E501
+        self.assertEqual(fix_old_links(a), b)
+
+    def test_entry_1(self):
+        a = 'Hi <a href="http://www.pepysdiary.com/archive/1666/12/23/">link</a> Bye'
+        b = 'Hi <a href="http://www.pepysdiary.com/diary/1666/12/23/">link</a> Bye'
+        self.assertEqual(fix_old_links(a), b)
+
+    def test_entry_2(self):
+        a = 'Hi <a href="http://www.pepysdiary.com/archive/1666/12/23/index.php">link</a> Bye'  # noqa: E501
+        b = 'Hi <a href="http://www.pepysdiary.com/diary/1666/12/23/">link</a> Bye'
+        self.assertEqual(fix_old_links(a), b)
+
+    def test_letter(self):
+        a = 'Hi <a href="http://www.pepysdiary.com/letters/1666/12/23/pepys-to-evelyn.php">link</a> Bye'  # noqa: E501
+        b = 'Hi <a href="http://www.pepysdiary.com/letters/1666/12/23/pepys-to-evelyn/">link</a> Bye'  # noqa: E501
+        self.assertEqual(fix_old_links(a), b)
+
+    def test_article_image(self):
+        a = 'Hi <a href="http://www.pepysdiary.com/indepth/images/2012/05/31/SamuelPepys_1666.jpg">link</a> Bye'  # noqa: E501
+        b = 'Hi <a href="http://www.pepysdiary.com/static/img/indepth/2012/05/31/SamuelPepys_1666.jpg">link</a> Bye'  # noqa: E501
+        self.assertEqual(fix_old_links(a), b)
+
+    def test_about_image(self):
+        a = 'Hi <a href="http://www.pepysdiary.com/about/archive/files/2012/05/31/SamuelPepys_1666.jpg">link</a> Bye'  # noqa: E501
+        b = 'Hi <a href="http://www.pepysdiary.com/static/img/news/2012/05/31/SamuelPepys_1666.jpg">link</a> Bye'  # noqa: E501
+        self.assertEqual(fix_old_links(a), b)
+
+    def test_about_pdf(self):
+        a = 'Hi <a href="http://www.pepysdiary.com/about/archive/files/2009/03/23/ParallelLivesFlyer2009.pdf">link</a> Bye'  # noqa: E501
+        b = 'Hi <a href="http://www.pepysdiary.com/static/files/news/2009/03/23/ParallelLivesFlyer2009.pdf">link</a> Bye'  # noqa: E501
+        self.assertEqual(fix_old_links(a), b)
+
+
+class GetYearTestCase(TestCase):
+    def test_get_year(self):
+        d = make_date("1660-01-01")
+        self.assertEqual(get_year(d), "1660")
+
+
+class GetMonthTestCase(TestCase):
+    def test_get_month(self):
+        d = make_date("1660-01-01")
+        self.assertEqual(get_month(d), "01")
+
+
+class GetMonthBTestCase(TestCase):
+    def test_get_month_b(self):
+        d = make_date("1660-01-01")
+        self.assertEqual(get_month_b(d), "Jan")
+
+
+class GetDayTestCase(TestCase):
+    def test_get_day(self):
+        d = make_date("1660-01-01")
+        self.assertEqual(get_day(d), "01")
+
+
+class GetDayETestCase(TestCase):
+    def test_get_day_e(self):
+        d = make_date("1660-01-10")
+        self.assertEqual(get_day_e(d), "10")
+
+    def test_get_day_e_under_10(self):
+        d = make_date("1660-01-01")
+        self.assertEqual(get_day_e(d), "1")
+
+
+class MakeURLAbsoluteTestCase(TestCase):
+    def test_absolute(self):
+        "Shouldn't change an already absolute URL"
+        self.assertEqual(
+            make_url_absolute("http://example.com/foo/bar/"),
+            "http://example.com/foo/bar/",
+        )
+
+    @override_settings(SECURE_SSL_REDIRECT=False)
+    def test_http(self):
+        domain = Site.objects.get_current().domain
+        self.assertEqual(
+            make_url_absolute("/foo/bar/"),
+            f"http://{domain}/foo/bar/",
+        )
+
+    @override_settings(SECURE_SSL_REDIRECT=True)
+    def test_https(self):
+        domain = Site.objects.get_current().domain
+        self.assertEqual(
+            make_url_absolute("/foo/bar/"),
+            f"https://{domain}/foo/bar/",
+        )
