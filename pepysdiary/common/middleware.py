@@ -90,7 +90,7 @@ class VisitTimeMiddleware(MiddlewareMixin):
                 expires=cookie_expire,
             )
 
-        elif self.visit_start is not None:
+        else:
             #  User has viewed a page before.
             current_visit_duration = time_now - self.visit_start
             if current_visit_duration.total_seconds() > self.visit_length:
