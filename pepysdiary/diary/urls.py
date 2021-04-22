@@ -1,11 +1,11 @@
 from django.urls import path, re_path
 
-from pepysdiary.diary.views import (
+from .feeds import LatestEntriesFeed
+from .views import (
     EntryDetailView,
     EntryMonthArchiveView,
     EntryArchiveView,
     SummaryYearArchiveView,
-    LatestEntriesFeed,
 )
 
 

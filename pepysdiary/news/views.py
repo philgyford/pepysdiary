@@ -2,8 +2,8 @@ from django.core.exceptions import ImproperlyConfigured
 from django.http import Http404
 from django.views.generic.dates import DateDetailView
 
-from pepysdiary.common.views import BaseRSSFeed, PaginatedListView
-from pepysdiary.news.models import Post
+from pepysdiary.common.views import PaginatedListView
+from .models import Post
 
 
 class PostArchiveView(PaginatedListView):
@@ -117,22 +117,3 @@ class PostDetailView(DateDetailView):
             "previous_post": previous_post,
             "next_post": next_post,
         }
-
-
-class LatestPostsFeed(BaseRSSFeed):
-    title = "The Diary of Samuel Pepys - Site News"
-    description = "News about the Diary of Samuel Pepys website"
-
-    def items(self):
-        return Post.published_posts.all().order_by("-date_published")[:3]
-
-    def item_description(self, item):
-        return self.make_item_description(item.intro_html)
-
-    def item_content_encoded(self, item):
-        return self.make_item_content_encoded(
-            text1=item.intro_html,
-            text2=item.text_html,
-            url=item.get_absolute_url(),
-            comment_name=item.comment_name,
-        )

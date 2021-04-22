@@ -1,7 +1,7 @@
 from django.views.generic.dates import DateDetailView
 
-from pepysdiary.common.views import BaseRSSFeed, PaginatedListView
-from pepysdiary.indepth.models import Article
+from pepysdiary.common.views import PaginatedListView
+from .models import Article
 
 
 class ArticleArchiveView(PaginatedListView):
@@ -62,22 +62,3 @@ class ArticleDetailView(DateDetailView):
             "previous_article": previous_article,
             "next_article": next_article,
         }
-
-
-class LatestArticlesFeed(BaseRSSFeed):
-    title = "The Diary of Samuel Pepys - In-Depth Articles"
-    description = "Articles about Samuel Pepys and his world"
-
-    def items(self):
-        return Article.published_articles.all().order_by("-date_published")[:2]
-
-    def item_description(self, item):
-        return self.make_item_description(item.intro_html)
-
-    def item_content_encoded(self, item):
-        return self.make_item_content_encoded(
-            text1=item.intro_html,
-            text2=item.text_html,
-            url=item.get_absolute_url(),
-            comment_name=item.comment_name,
-        )

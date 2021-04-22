@@ -1,7 +1,7 @@
 from django.urls import re_path
 
-from pepysdiary.news.views import (
-    LatestPostsFeed,
+from .feeds import LatestPostsFeed
+from .views import (
     PostDetailView,
     PostCategoryArchiveView,
     PostArchiveView,

@@ -1,6 +1,7 @@
 from django.test import TestCase
 from django.urls import resolve, reverse
 
+from pepysdiary.diary import feeds
 from pepysdiary.diary import views
 
 
@@ -60,5 +61,5 @@ class DiaryURLsTestCase(TestCase):
     def test_entry_rss_view(self):
         self.assertEqual(
             resolve("/diary/rss/").func.__class__.__name__,
-            views.LatestEntriesFeed.__name__,
+            feeds.LatestEntriesFeed.__name__,
         )
