@@ -1,42 +1,18 @@
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.postgres.search import SearchVectorField
 from django.contrib.postgres.indexes import GinIndex
-from django.contrib.sites.models import Site
+
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Max, signals
 from django.dispatch import receiver
 from django.utils.html import strip_tags
 
 from django_comments.abstracts import CommentAbstractModel
-from django_comments.managers import CommentManager
+
 from django_comments.signals import comment_was_posted
 
-from pepysdiary.annotations.utils import test_comment_for_spam
-
-
-class AnnotationManager(CommentManager):
-    def get_queryset(self):
-        """
-        Trying this out, to fetch the related Persons for comments posted
-        by authenticated users. Otherwise we're doing a query for every single
-        comment while listing them.
-        Suggested at http://stackoverflow.com/a/7992722/250962
-        """
-        return super(AnnotationManager, self).get_queryset().select_related("user")
-
-
-class VisibleAnnotationManager(AnnotationManager):
-    """
-    For just displaying the public, non-removed annotations, eg on a person's
-    profile page.
-    """
-
-    def get_queryset(self):
-        return (
-            super(VisibleAnnotationManager, self)
-            .get_queryset()
-            .filter(site=Site.objects.get_current(), is_public=True, is_removed=False)
-        )
+from .managers import AnnotationManager, VisibleAnnotationManager
+from .utils import test_comment_for_spam
 
 
 class Annotation(CommentAbstractModel):

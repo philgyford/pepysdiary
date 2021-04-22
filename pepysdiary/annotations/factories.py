@@ -23,9 +23,15 @@ class AbstractAnnotationFactory(factory.django.DjangoModelFactory):
         exclude = ["content_object"]
 
     user = factory.SubFactory("pepysdiary.membership.factories.PersonFactory")
-    user_name = factory.LazyAttribute(lambda o: o.user.name)
-    user_email = factory.LazyAttribute(lambda o: o.user.email)
-    user_url = factory.LazyAttribute(lambda o: o.user.url if o.user.url else "")
+    user_name = factory.LazyAttribute(
+        lambda o: o.user.name if o.user and o.user.name else ""
+    )
+    user_email = factory.LazyAttribute(
+        lambda o: o.user.email if o.user and o.user.email else ""
+    )
+    user_url = factory.LazyAttribute(
+        lambda o: o.user.url if o.user and o.user.url else ""
+    )
     comment = factory.Faker("paragraph")
     submit_date = factory.Faker("past_datetime", start_date="-30d", tzinfo=pytz.utc)
     is_public = True
