@@ -4,7 +4,6 @@ import re
 
 from django.conf import settings
 from django.contrib.sites.models import Site
-from django.utils.feedgenerator import Rss201rev2Feed
 from django.utils.html import strip_tags
 
 
@@ -322,7 +321,7 @@ def fix_old_links(text):
         r"pepysdiary.com/diary/\1/",
         text,
     )
-    # From pepysdiary.com/letters/1666/12/23/pepys-to-evelyn.pyp
+    # From pepysdiary.com/letters/1666/12/23/pepys-to-evelyn.php
     # to   pepysdiary.com/letters/1666/12/23/pepys-to-evelyn/
     text = re.sub(
         r"pepysdiary\.com\/letters\/(\d\d\d\d\/\d\d\/\d\d\/[\w-]+)\.php",
@@ -431,19 +430,3 @@ def make_url_absolute(url):
         domain = Site.objects.get_current().domain
 
         return "{}://{}{}".format(protocol, domain, url)
-
-
-class ExtendedRSSFeed(Rss201rev2Feed):
-    """
-    Create a type of RSS feed that has content:encoded elements.
-    Should be used as the feed_type for View classes that inherit Feed.
-    """
-
-    def root_attributes(self):
-        attrs = super(ExtendedRSSFeed, self).root_attributes()
-        attrs["xmlns:content"] = "http://purl.org/rss/1.0/modules/content/"
-        return attrs
-
-    def add_item_elements(self, handler, item):
-        super(ExtendedRSSFeed, self).add_item_elements(handler, item)
-        handler.addQuickElement("content:encoded", item["content_encoded"])

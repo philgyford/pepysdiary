@@ -1,10 +1,7 @@
 from django.urls import re_path
 
-from pepysdiary.indepth.views import (
-    LatestArticlesFeed,
-    ArticleDetailView,
-    ArticleArchiveView,
-)
+from .feeds import LatestArticlesFeed
+from .views import ArticleDetailView, ArticleArchiveView
 
 
 # ALL REDIRECTS are in common/urls.py.

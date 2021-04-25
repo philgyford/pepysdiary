@@ -57,7 +57,7 @@ class ArticleSitemap(Sitemap):
         return Article.published_articles.all()
 
     def lastmod(self, obj):
-        return obj.date_published
+        return obj.date_modified
 
 
 class PostSitemap(Sitemap):
@@ -70,7 +70,7 @@ class PostSitemap(Sitemap):
         return Post.published_posts.all()
 
     def lastmod(self, obj):
-        return obj.date_published
+        return obj.date_modified
 
 
 class AbstractSitemapClass:
@@ -164,9 +164,7 @@ class ArchiveSitemap(Sitemap):
         sitemaps = []
         for c in Category.objects.all():
             sitemap_class = AbstractSitemapClass()
-            sitemap_class.url = reverse_lazy(
-                "category_detail", kwargs={"slugs": c.slug}
-            )
+            sitemap_class.url = c.get_absolute_url()
             sitemaps.append(sitemap_class)
         return sitemaps
 

@@ -1,4 +1,3 @@
-#! -*- coding: utf-8 -*-
 import string
 
 from django.core.exceptions import ImproperlyConfigured
@@ -11,9 +10,9 @@ from django.views.decorators.csrf import csrf_protect
 from django.views.generic import FormView, TemplateView
 from django.views.generic.detail import DetailView
 
-from pepysdiary.common.views import BaseRSSFeed, CacheMixin
-from pepysdiary.encyclopedia.forms import CategoryMapForm
-from pepysdiary.encyclopedia.models import Category, Topic
+from pepysdiary.common.views import CacheMixin
+from .forms import CategoryMapForm
+from .models import Category, Topic
 
 
 # If no ID is supplied to the Map, it displays Topics from this Category:
@@ -87,35 +86,6 @@ class TopicDetailView(DetailView):
         context = super(TopicDetailView, self).get_context_data(**kwargs)
         context["diary_references"] = self.object.get_annotated_diary_references()
         return context
-
-
-class LatestTopicsFeed(BaseRSSFeed):
-    title = "Pepys' Diary - Encyclopedia Topics"
-    description = "New topics about Samuel Pepys and his world"
-
-    def items(self):
-        return Topic.objects.all().order_by("-date_created")[:8]
-
-    def item_pubdate(self, item):
-        return item.date_created
-
-    def item_description(self, item):
-        if item.summary_html:
-            return self.make_item_description(item.summary_html)
-        elif item.wheatley_html:
-            return self.make_item_description(item.wheatley_html)
-        elif item.tooltip_text:
-            return self.make_item_description(item.tooltip_text)
-        else:
-            return ""
-
-    def item_content_encoded(self, item):
-        return self.make_item_content_encoded(
-            text1=item.summary_html,
-            text2=item.wheatley_html,
-            url=item.get_absolute_url(),
-            comment_name=item.comment_name,
-        )
 
 
 @method_decorator([csrf_protect], name="dispatch")

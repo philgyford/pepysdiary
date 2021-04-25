@@ -1,8 +1,8 @@
 from django.urls import re_path
 
-from pepysdiary.encyclopedia.views import (
+from .feeds import LatestTopicsFeed
+from .views import (
     EncyclopediaView,
-    LatestTopicsFeed,
     TopicDetailView,
     CategoryMapView,
     CategoryDetailView,

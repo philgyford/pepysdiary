@@ -4,7 +4,7 @@ import pytz
 from django.conf import settings
 from django.db import models
 
-from ..common.models import ReferredManagerMixin
+from ..common.managers import ReferredManagerMixin
 from ..common.utilities import is_leap_year
 
 

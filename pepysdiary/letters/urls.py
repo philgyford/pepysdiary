@@ -1,7 +1,7 @@
 from django.urls import re_path
 
-from pepysdiary.letters.views import (
-    LatestLettersFeed,
+from .feeds import LatestLettersFeed
+from .views import (
     LetterDetailView,
     LetterPersonView,
     LetterArchiveView,
