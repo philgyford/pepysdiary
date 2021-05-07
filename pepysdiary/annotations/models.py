@@ -3,16 +3,12 @@ from django.contrib.postgres.search import SearchVectorField
 from django.contrib.postgres.indexes import GinIndex
 
 from django.core.exceptions import ObjectDoesNotExist
-from django.db.models import Max, signals
-from django.dispatch import receiver
+from django.db.models import Max
 from django.utils.html import strip_tags
 
 from django_comments.abstracts import CommentAbstractModel
 
-from django_comments.signals import comment_was_posted
-
 from .managers import AnnotationManager, VisibleAnnotationManager
-from .utils import test_comment_for_spam
 
 
 class Annotation(CommentAbstractModel):
@@ -182,17 +178,3 @@ class Annotation(CommentAbstractModel):
             ):
                 self.user.first_comment_date = self.submit_date
                 self.user.save()
-
-
-@receiver(signals.post_delete, sender=Annotation)
-def post_annotation_delete_actions(sender, instance, using, **kwargs):
-    """
-    If we're deleting a comment, we need to make sure the parent object's
-    comment count and most-recent-comment date are still accurate.
-    """
-    instance.set_parent_comment_data()
-
-
-comment_was_posted.connect(
-    test_comment_for_spam, sender=Annotation, dispatch_uid="comments.post_comment"
-)

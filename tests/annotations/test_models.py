@@ -3,6 +3,7 @@ from django.test import TestCase
 from pepysdiary.annotations.factories import EntryAnnotationFactory
 from pepysdiary.annotations.models import Annotation
 from pepysdiary.common.utilities import make_datetime
+from django.contrib.contenttypes.models import ContentType
 from pepysdiary.diary.factories import EntryFactory
 from pepysdiary.membership.factories import PersonFactory
 
@@ -134,6 +135,33 @@ class AnnotationTestCase(TestCase):
 
         self.assertEqual(entry.comment_count, 1)
         self.assertEqual(entry.last_comment_time, annotation_1.submit_date)
+
+    def test_parent_comment_data_no_content_type_model(self):
+        "If the content_type has no associated model saving should raise an exception"
+        ct = ContentType()
+        ct.save()
+
+        annotation = EntryAnnotationFactory()
+        annotation.content_type = ct
+
+        with self.assertRaises(AttributeError):
+            annotation.save()
+
+    def test_parent_comment_data_invalid_content_type(self):
+        "If the content_type doesn't exist, saving should raise an exception"
+        ct = ContentType()
+        ct.save()
+
+        annotation = EntryAnnotationFactory()
+        annotation.content_type = ct
+
+        ct.delete()
+
+        with self.assertRaises(AttributeError):
+            # Can't work out how to do annotation.save() here, given the state
+            # of the content type etc, so doing this, which *should* get called
+            # on save:
+            annotation.set_parent_comment_data()
 
     def test_set_users_first_comment_date_first(self):
         "If this is the user's first annotation, we set their first_comment_date"
