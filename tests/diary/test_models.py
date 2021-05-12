@@ -93,10 +93,14 @@ class EntryTestCase(TestCase):
         "It should return the correct short title"
         # Just test a couple.
 
-        entry = EntryFactory(title="Monday 16 September 1661")
+        entry = EntryFactory(
+            title="Monday 16 September 1661", diary_date=make_date("1661-09-16")
+        )
         self.assertEqual(entry.short_title, "Mon 16 Sep 1661")
 
-        entry = EntryFactory(title="Saturday 29 February 1667/68")
+        entry = EntryFactory(
+            title="Saturday 29 February 1667/68", diary_date=make_date("1668-02-29")
+        )
         self.assertEqual(entry.short_title, "Sat 29 Feb 1667/68")
 
 
