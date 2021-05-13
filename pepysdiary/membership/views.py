@@ -1,4 +1,5 @@
 # coding: utf-8
+from django.contrib import messages
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.sites.shortcuts import get_current_site
@@ -116,6 +117,14 @@ class EditProfileView(LoginRequiredMixin, UpdateView):
 class LoginView(auth_views.LoginView):
     authentication_form = forms.LoginForm
     template_name = "login.html"
+
+    def form_valid(self, form):
+        "Override so we can add a message for the user."
+        user = form.get_user()
+        messages.success(
+            self.request, "You're now logged in as %s." % user.get_full_name()
+        )
+        return super().form_valid(form)
 
 
 class LogoutView(auth_views.LogoutView):

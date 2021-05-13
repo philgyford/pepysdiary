@@ -4,13 +4,11 @@ import pytz
 import re
 
 from django.conf import settings
-from django.contrib import messages
 from django.contrib.auth.models import (
     AbstractBaseUser,
     PermissionsMixin,
     BaseUserManager,
 )
-from django.contrib.auth.signals import user_logged_in
 from django.urls import reverse
 from django.utils.crypto import get_random_string
 from django.utils.encoding import smart_str
@@ -35,20 +33,20 @@ class PersonManager(BaseUserManager):
         Creates and saves a Person with the given name, email and password.
         """
         now = timezone.now()
+
         if not email:
             raise ValueError("Users must have an email address")
+
         if not name:
             raise ValueError("Users must have a name")
+
         email = PersonManager.normalize_email(email)
-        user = self.model(
-            name=name,
-            email=email,
-            is_staff=False,
-            is_active=True,
-            is_superuser=False,
-            last_login=now,
-            **extra_fields
-        )
+
+        extra_fields.setdefault("is_active", True)
+        extra_fields.setdefault("is_staff", False)
+        extra_fields.setdefault("is_superuser", False)
+
+        user = self.model(name=name, email=email, last_login=now, **extra_fields)
 
         user.set_password(password)
         user.save(using=self._db)
@@ -218,7 +216,10 @@ class Person(AbstractBaseUser, PermissionsMixin):
     # groups
 
     email = models.EmailField(
-        verbose_name="Email address", max_length=255, unique=True, db_index=True,
+        verbose_name="Email address",
+        max_length=255,
+        unique=True,
+        db_index=True,
     )
     name = models.CharField(
         max_length=50,
@@ -349,16 +350,3 @@ class Person(AbstractBaseUser, PermissionsMixin):
         ctx_dict = {"activation_key": self.activation_key, "site": site}
 
         email_user(self, "emails/activation.txt", settings.DEFAULT_FROM_EMAIL, ctx_dict)
-
-
-def post_login_actions(sender, user, request, **kwargs):
-    """ After logging in, we want to show the user a message. """
-    # We need to do this to make this work successfully in tests.
-    # http://stackoverflow.com/questions/8930090/
-    if not hasattr(request, "user"):
-        setattr(request, "user", user)
-    messages.success(request, "You're now logged in as %s." % user.get_full_name())
-
-
-# Register a post-login action for thing we want to do...
-user_logged_in.connect(post_login_actions, dispatch_uid="user_logged_in")
