@@ -15,12 +15,12 @@ from pepysdiary.diary.factories import EntryFactory
 @override_settings(AKISMET_API_KEY="abcd1234")
 class TestCommentForSpamTestCase(TestCase):
     """
-    Testing the utils.test_comment_for_spam() method.
+    Testing the spam_checker.test_comment_for_spam() method.
 
     That method itself doesn't do much but we're testing the full
     process of sending data to Akismet and dealing with the response.
 
-    So we're effectively also testing utils.is_akismet_spam() and
+    So we're effectively also testing spam_checker.is_akismet_spam() and
     pykismet3.py here, with the idea that we could replace both and call
     the replacement from test_comment_for_spam() and these tests
     should still pass.
