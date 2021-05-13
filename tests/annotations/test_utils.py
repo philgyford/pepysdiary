@@ -20,8 +20,8 @@ class TestCommentForSpamTestCase(TestCase):
     That method itself doesn't do much but we're testing the full
     process of sending data to Akismet and dealing with the response.
 
-    So we're effectively also testing spam_checker.is_akismet_spam() and
-    pykismet3.py here, with the idea that we could replace both and call
+    So we're effectively also testing spam_checker.is_akismet_spam()
+    here, with the idea that we could replace it and call
     the replacement from test_comment_for_spam() and these tests
     should still pass.
     """
@@ -243,3 +243,18 @@ class TestCommentForSpamTestCase(TestCase):
 
         params = self.get_request_params(responses.calls[0].request)
         self.assertEqual(params["comment_author_url"], "https://example.org/audrey")
+
+    @responses.activate
+    def test_akismet_error(self):
+        "If Akismet returns error, we should display error message and publish comment"
+        self.add_response("invalid")
+        response = self.post_comment()
+
+        messages = [m.message for m in get_messages(response.wsgi_request)]
+
+        self.assertEqual(len(messages), 1)
+        self.assertIn("There was an error when testing the comment", str(messages[0]))
+        self.assertIn("invalid", str(messages[0]))
+
+        annotation = Annotation.objects.first()
+        self.assertTrue(annotation.is_public)
