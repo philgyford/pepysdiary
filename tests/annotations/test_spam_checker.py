@@ -1,7 +1,6 @@
-from urllib.parse import unquote
+from urllib.parse import unquote_plus
 
 from django.conf import settings
-from django.contrib.auth import get_user_model
 from django.contrib.messages import get_messages
 from django.test import override_settings, TestCase
 
@@ -10,6 +9,7 @@ import responses
 from pepysdiary.annotations.forms import AnnotationForm
 from pepysdiary.annotations.models import Annotation
 from pepysdiary.diary.factories import EntryFactory
+from pepysdiary.membership.factories import PersonFactory
 
 
 @override_settings(AKISMET_API_KEY="abcd1234")
@@ -71,13 +71,7 @@ class TestCommentForSpamTestCase(TestCase):
         Any kwargs passed in are passed to create_user()
         The created user is returned.
         """
-        User = get_user_model()
-        user = User.objects.create_user(
-            name="Terry",
-            email="terry@example.org",
-            password="foo",
-            **kwargs,
-        )
+        user = PersonFactory(**kwargs)
         self.client.force_login(user)
         return user
 
@@ -85,7 +79,9 @@ class TestCommentForSpamTestCase(TestCase):
         "Returns a dict of data from a request.body string"
         params = dict(i.split("=") for i in request.body.split("&"))
         for k, v in params.items():
-            params[k] = unquote(v)
+            # Not 100% sure unquote_plus() is the correct method for
+            # decoding a POST body but it seems to work so far...
+            params[k] = unquote_plus(v)
         return params
 
     @responses.activate
@@ -192,13 +188,13 @@ class TestCommentForSpamTestCase(TestCase):
     @responses.activate
     def test_logged_in_user_data(self):
         "If the user is logged in, their name and email should be sent to Akismet"
-        self.log_user_in()
+        user = self.log_user_in()
         self.add_response("false")
         self.post_comment(data={"comment": "Hello"})
 
         params = self.get_request_params(responses.calls[0].request)
-        self.assertEqual(params["comment_author"], "Terry")
-        self.assertEqual(params["comment_author_email"], "terry@example.org")
+        self.assertEqual(params["comment_author"], user.name)
+        self.assertEqual(params["comment_author_email"], user.email)
         self.assertNotIn("comment_author_url", params)
 
     @responses.activate

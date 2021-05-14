@@ -22,6 +22,10 @@ def flag(request, comment_id, next=None):
     Because CommentFlags don't work with custom comments app, which
     is what we have with Annotations.
 
+    Args:
+    comment_id - The ID of the comment to flag
+    next - Only used when POSTing, the URL to redirect to once done.
+
     Templates: :template:`comments/flag.html`,
     Context:
         comment

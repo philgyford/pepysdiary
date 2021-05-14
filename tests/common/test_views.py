@@ -3,7 +3,8 @@ import tempfile
 
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.http.request import QueryDict
-from django.test import override_settings, RequestFactory, TestCase, TransactionTestCase
+from django.test import override_settings
+
 from freezegun import freeze_time
 
 from pepysdiary.common.utilities import make_date, make_datetime
@@ -15,35 +16,11 @@ from pepysdiary.indepth.factories import DraftArticleFactory, PublishedArticleFa
 from pepysdiary.letters.factories import LetterFactory
 from pepysdiary.news.factories import DraftPostFactory, PublishedPostFactory
 
+from tests import ViewTestCase, ViewTransactionTestCase
+
 
 # Location for files used in tests
 ASSET_DIR = os.path.dirname(__file__) + "/../assets/"
-
-
-class ViewTestCase(TestCase):
-    """
-    Parent class to use with all the other view test cases.
-    """
-
-    def setUp(self):
-        self.factory = RequestFactory()
-        # We use '/fake-path/' for all tests because not testing URLs here,
-        # and the views don't care what the URL is.
-        self.request = self.factory.get("/fake-path/")
-
-
-class ViewTransactionTestCase(TransactionTestCase):
-    """
-    Same as ViewTestCase but with a different parent.
-
-    Need to use TransactionTestCase for the SearchView tests because setting the
-    search_vectors on objects requires transaction.on_commit() to work, which it
-    doesn't with the standard TestCase.
-    """
-
-    def setUp(self):
-        self.factory = RequestFactory()
-        self.request = self.factory.get("/fake-path/")
 
 
 class HomeViewTestCase(ViewTestCase):
