@@ -73,6 +73,7 @@ class FlagTestCase(TestCase):
         self.assertEqual(mail.outbox[0].to, ["bob@example.org"])
 
     def test_post_redirects_to_default_url(self):
+        "If no next parameter is passed in, it redirects to comments-flag-done"
         self.log_user_in()
         response = self.client.post(self.url)
         redirect_url = (
@@ -81,7 +82,8 @@ class FlagTestCase(TestCase):
         self.assertRedirects(response, redirect_url)
 
     def test_post_redirects_to_next(self):
+        "If a next parameter is passed in, it redirects to that URL"
         self.log_user_in()
         response = self.client.post(self.url, {"next": reverse("home")})
-        redirect_url = (reverse("home") + "?" + urlencode({"c": self.annotation.pk}))
+        redirect_url = reverse("home") + "?" + urlencode({"c": self.annotation.pk})
         self.assertRedirects(response, redirect_url)
