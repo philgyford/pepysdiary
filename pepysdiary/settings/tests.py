@@ -10,4 +10,6 @@ CACHES = {
 
 # Don't use S3 for tests
 DEFAULT_FILE_STORAGE = "django.core.files.storage.FileSystemStorage"
+
+MEDIA_ROOT = os.path.join(PROJECT_ROOT, "..", "tests", "_media")
 MEDIA_URL = "/media/"

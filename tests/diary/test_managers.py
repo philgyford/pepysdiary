@@ -1,8 +1,11 @@
+from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import override_settings, TestCase
 from freezegun import freeze_time
 
 from pepysdiary.common.utilities import make_date
+from pepysdiary.diary.factories import EntryFactory
 from pepysdiary.diary.models import Entry
+from pepysdiary.encyclopedia.factories import TopicFactory
 
 
 class EntryManagerTestCase(TestCase):
@@ -80,3 +83,59 @@ class EntryManagerTestCase(TestCase):
                 "1669",
             ],
         )
+
+    def test_get_brief_references(self):
+        "It should return the correct data about topics referenced by Entry texts"
+
+        topic_1 = TopicFactory(
+            title="Cats",
+            tooltip_text="About cats",
+            thumbnail=SimpleUploadedFile(
+                name="cat.jpg", content=b"", content_type="image/jpeg"
+            ),
+        )
+        topic_2 = TopicFactory(title="Dogs", tooltip_text="About dogs")
+        topic_3 = TopicFactory(title="Fish", tooltip_text="About fish")
+        TopicFactory(title="Birds")
+
+        entry_1 = EntryFactory(
+            text=(
+                "<p>"
+                f'<a href="http://www.pepysdiary.com/encyclopedia/{topic_1.id}/">cats'
+                "</a> and "
+                f'<a href="https://www.pepysdiary.com/encyclopedia/{topic_3.id}/">fish'
+                "</a>.</p>"
+            )
+        )
+        entry_2 = EntryFactory(
+            text=(
+                "<p>"
+                f'<a href="http://www.pepysdiary.com/encyclopedia/{topic_1.id}/">cats'
+                "</a> and "
+                f'<a href="https://www.pepysdiary.com/encyclopedia/{topic_2.id}/">dogs'
+                "</a>.</p>"
+            )
+        )
+
+        references = Entry.objects.get_brief_references([entry_1, entry_2])
+
+        self.assertEqual(len(references.keys()), 3)
+        self.assertEqual(
+            references[str(topic_1.pk)],
+            {
+                "title": "Cats",
+                "text": "About cats",
+                "thumbnail_url": "/media/encyclopedia/thumbnails/cat.jpg",
+            },
+        )
+        self.assertEqual(
+            references[str(topic_3.pk)],
+            {"title": "Fish", "text": "About fish", "thumbnail_url": ""},
+        )
+        self.assertEqual(
+            references[str(topic_2.pk)],
+            {"title": "Dogs", "text": "About dogs", "thumbnail_url": ""},
+        )
+
+        # Tidy up the file
+        topic_1.thumbnail.delete()
