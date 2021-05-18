@@ -369,3 +369,7 @@ class RecentViewTestCase(ViewTestCase):
     def test_template(self):
         response = views.RecentView.as_view()(self.request)
         self.assertEqual(response.template_name[0], "recent.html")
+
+
+# No tests for the RedirectViews here because we fully test the URLs
+# that they redirect in common/tests_urls.py.
