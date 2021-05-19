@@ -1,3 +1,5 @@
+from django.core.exceptions import ImproperlyConfigured
+
 from ..utilities import (
     get_year,
     get_month,
@@ -22,8 +24,8 @@ class OldDateMixin(object):
     old_date_field = None
 
     def get_old_date(self):
-        if (not hasattr(self, self.old_date_field)) or (self.old_date_field is None):
-            raise AttributeError(
+        if self.old_date_field is None:
+            raise ImproperlyConfigured(
                 "Objects using OldDateMixin should define" "`old_date_field`."
             )
         return getattr(self, self.old_date_field)

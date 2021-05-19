@@ -103,6 +103,24 @@ class EntryTestCase(TestCase):
         )
         self.assertEqual(entry.short_title, "Sat 29 Feb 1667/68")
 
+    # Testing PepysModel properties/methods:
+
+    def test_get_a_comment_name(self):
+        "It should retun the correct string"
+        entry = EntryFactory()
+        self.assertEqual(entry.get_a_comment_name(), "an annotation")
+
+    # Testing OldDateMixin properties/methods:
+
+    def test_old_dates(self):
+        "The properties should return the correct data"
+        entry = EntryFactory(diary_date=make_date("1660-01-02"))
+        self.assertEqual(entry.year, "1660")
+        self.assertEqual(entry.month, "01")
+        self.assertEqual(entry.month_b, "Jan")
+        self.assertEqual(entry.day, "02")
+        self.assertEqual(entry.day_e, "2")
+
 
 def EntryModeratorTestCase(TestCase):
     def test_properties(self):
@@ -139,3 +157,30 @@ class SummaryTestCase(TestCase):
             summary.text_html,
             '<p>This is <strong>my</strong> <a href="http://example.org">test</a>.</p>',
         )
+
+    # Testing PepysModel properties/methods:
+
+    def test_short_title(self):
+        "It should return the correct short title"
+        # Just test a couple.
+
+        summary = SummaryFactory(
+            title="September 1661", summary_date=make_date("1661-09-01")
+        )
+        self.assertEqual(summary.short_title, "September 1661")
+
+    def test_get_a_comment_name(self):
+        "It should retun the correct string"
+        summary = SummaryFactory()
+        self.assertEqual(summary.get_a_comment_name(), "a comment")
+
+    # Testing OldDateMixin properties/methods:
+
+    def test_old_dates(self):
+        "The properties should return the correct data"
+        summary = SummaryFactory(summary_date=make_date("1660-01-02"))
+        self.assertEqual(summary.year, "1660")
+        self.assertEqual(summary.month, "01")
+        self.assertEqual(summary.month_b, "Jan")
+        self.assertEqual(summary.day, "02")
+        self.assertEqual(summary.day_e, "2")
