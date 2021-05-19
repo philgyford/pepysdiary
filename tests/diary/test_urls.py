@@ -40,7 +40,7 @@ class DiaryURLsTestCase(TestCase):
 
     def test_entry_archive_view(self):
         self.assertEqual(
-            resolve("/diary/").func.__name__, views.EntryArchiveView.__name__
+            resolve("/diary/").func.__name__, views.EntryArchiveIndexView.__name__
         )
 
     def test_summary_year_archive_url(self):
