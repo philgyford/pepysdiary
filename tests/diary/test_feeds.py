@@ -1,5 +1,3 @@
-from xml.dom import minidom
-
 from django.test import override_settings
 from django.utils.feedgenerator import rfc2822_date
 from freezegun import freeze_time
@@ -12,14 +10,7 @@ from tests import FeedTestCase
 class LatestEntriesFeedTestCase(FeedTestCase):
     def test_rss_element(self):
         "Testing the root <rss> element"
-        response = self.client.get("/diary/rss/")
-        doc = minidom.parseString(response.content)
-
-        # Making sure there's only 1 `rss` element and that the correct
-        # RSS version was specified.
-        feed_elements = doc.getElementsByTagName("rss")
-        self.assertEqual(len(feed_elements), 1)
-        feed = feed_elements[0]
+        feed = self.get_feed_element("/diary/rss/")
         self.assertEqual(feed.getAttribute("version"), "2.0")
 
     @freeze_time("2021-04-07 12:00:00", tz_offset=0)
@@ -30,15 +21,7 @@ class LatestEntriesFeedTestCase(FeedTestCase):
         # Need one entry so we have the most recent date for lastBuildDate.
         EntryFactory(title="Entry 6", diary_date=make_date("1668-04-06"))
 
-        response = self.client.get("/diary/rss/")
-        doc = minidom.parseString(response.content)
-        feed = doc.getElementsByTagName("rss")[0]
-
-        # Making sure there's only one `channel` element w/in the
-        # `rss` element.
-        channel_elements = feed.getElementsByTagName("channel")
-        self.assertEqual(len(channel_elements), 1)
-        channel = channel_elements[0]
+        channel = self.get_channel_element("/diary/rss/")
 
         self.assertChildNodes(
             channel,
@@ -84,10 +67,7 @@ class LatestEntriesFeedTestCase(FeedTestCase):
         # 1 unpublished entry:
         EntryFactory(diary_date=make_date("1668-04-07"))
 
-        response = self.client.get("/diary/rss/")
-        doc = minidom.parseString(response.content)
-        feed = doc.getElementsByTagName("rss")[0]
-        channel = feed.getElementsByTagName("channel")[0]
+        channel = self.get_channel_element("/diary/rss/")
 
         items = channel.getElementsByTagName("item")
 
@@ -138,10 +118,7 @@ class LatestEntriesFeedTestCase(FeedTestCase):
             footnotes="<ol><li>Footnote 6</li></ol>",
         )
 
-        response = self.client.get("/diary/rss/")
-        doc = minidom.parseString(response.content)
-        feed = doc.getElementsByTagName("rss")[0]
-        channel = feed.getElementsByTagName("channel")[0]
+        channel = self.get_channel_element("/diary/rss/")
 
         items = channel.getElementsByTagName("item")
 

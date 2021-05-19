@@ -1,5 +1,6 @@
 from xml.dom import minidom
 
+from django.contrib.sites.models import Site
 from django.test import RequestFactory, TestCase, TransactionTestCase
 
 
@@ -9,11 +10,21 @@ class FeedTestCase(TestCase):
     https://github.com/django/django/blob/master/tests/syndication_tests/tests.py
     """
 
+    def setUp(self):
+        # For some reason we need to set this or else, when we run
+        # *all* the tests then the domain name is set to the same
+        # as the Site object for the dev site in Docker. But not when
+        # we only run the feed tests specifically. Weird.
+        site = Site.objects.first()
+        site.domain = "example.com"
+        site.save()
+
     def get_feed_element(self, url):
         response = self.client.get(url)
         doc = minidom.parseString(response.content)
 
         feed_elem = doc.getElementsByTagName("rss")
+        self.assertEqual(len(feed_elem), 1)
         feed = feed_elem[0]
 
         return feed
@@ -28,6 +39,7 @@ class FeedTestCase(TestCase):
         feed = self.get_feed_element(url)
 
         chan_elem = feed.getElementsByTagName("channel")
+        self.assertEqual(len(chan_elem), 1)
         chan = chan_elem[0]
 
         return chan
