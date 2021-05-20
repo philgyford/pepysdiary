@@ -11,14 +11,18 @@ from pepysdiary.membership.factories import PersonFactory
 class AnnotationTestCase(TestCase):
     def test_objects(self):
         "It should include not public and removed Annotations"
-
-        visible_annotation = EntryAnnotationFactory(is_public=True, is_removed=False)
-        not_public_annotation = EntryAnnotationFactory(
-            is_public=False, is_removed=False
+        entry = EntryFactory()
+        visible_annotation = EntryAnnotationFactory(
+            content_object=entry, is_public=True, is_removed=False
         )
-        removed_annotation = EntryAnnotationFactory(is_public=True, is_removed=True)
+        not_public_annotation = EntryAnnotationFactory(
+            content_object=entry, is_public=False, is_removed=False
+        )
+        removed_annotation = EntryAnnotationFactory(
+            content_object=entry, is_public=True, is_removed=True
+        )
         not_public_and_removed_annotation = EntryAnnotationFactory(
-            is_public=False, is_removed=True
+            content_object=entry, is_public=False, is_removed=True
         )
 
         annotations = Annotation.objects.all()
@@ -31,10 +35,13 @@ class AnnotationTestCase(TestCase):
 
     def test_visible_objects(self):
         "It should only include public and not removed Annotations"
-        visible_annotation = EntryAnnotationFactory(is_public=True, is_removed=False)
-        EntryAnnotationFactory(is_public=False, is_removed=False)
-        EntryAnnotationFactory(is_public=True, is_removed=True)
-        EntryAnnotationFactory(is_public=False, is_removed=True)
+        entry = EntryFactory()
+        visible_annotation = EntryAnnotationFactory(
+            content_object=entry, is_public=True, is_removed=False
+        )
+        EntryAnnotationFactory(content_object=entry, is_public=False, is_removed=False)
+        EntryAnnotationFactory(content_object=entry, is_public=True, is_removed=True)
+        EntryAnnotationFactory(content_object=entry, is_public=False, is_removed=True)
 
         annotations = Annotation.visible_objects.all()
 
@@ -43,14 +50,15 @@ class AnnotationTestCase(TestCase):
 
     def test_ordering(self):
         "They should be ordered by submit_date ascending"
+        entry = EntryFactory()
         annotation_1 = EntryAnnotationFactory(
-            submit_date=make_datetime("2021-04-10 12:00:00")
+            content_object=entry, submit_date=make_datetime("2021-04-10 12:00:00")
         )
         annotation_2 = EntryAnnotationFactory(
-            submit_date=make_datetime("2021-04-09 12:00:00")
+            content_object=entry, submit_date=make_datetime("2021-04-09 12:00:00")
         )
         annotation_3 = EntryAnnotationFactory(
-            submit_date=make_datetime("2021-04-11 12:00:00")
+            content_object=entry, submit_date=make_datetime("2021-04-11 12:00:00")
         )
 
         annotations = Annotation.objects.all()

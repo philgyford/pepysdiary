@@ -1,17 +1,54 @@
 from django.conf import settings
 from django.contrib.postgres.search import SearchVectorField
 from django.db import models
-from django.db.models.signals import m2m_changed, post_delete, pre_delete
 from django.urls import reverse
 
 from django_comments.moderation import CommentModerator, moderator
 from markdown import markdown
-from treebeard.mp_tree import MP_Node, MP_NodeManager
+from treebeard.mp_tree import MP_Node
 
-from pepysdiary.common.models import PepysModel
-from pepysdiary.encyclopedia.managers import TopicManager
-from pepysdiary.encyclopedia import category_lookups
-from pepysdiary.encyclopedia import topic_lookups
+from ..common.models import PepysModel
+from .managers import CategoryManager, TopicManager
+from . import category_lookups
+from . import topic_lookups
+
+
+class Category(MP_Node):
+    title = models.CharField(max_length=255, blank=False, null=False)
+    slug = models.SlugField(max_length=50, blank=False, null=False)
+    topic_count = models.IntegerField(default=0, blank=False, null=False)
+
+    # Will also have a `topics` field, listing Topics within the Category.
+
+    objects = CategoryManager()
+
+    node_order_by = ["title"]
+
+    class Meta:
+        verbose_name_plural = "Categories"
+
+    def __str__(self):
+        return str(self.title)
+
+    def get_absolute_url(self):
+        # Join all the parent categories' slugs, eg:
+        # 'fooddrink/drink/alcdrinks'.
+        parent_slugs = "/".join([c.slug for c in self.get_ancestors()])
+        if parent_slugs:
+            path = "%s/%s" % (parent_slugs, self.slug)
+        else:
+            # Top level category.
+            path = str(self.slug)
+        return reverse("category_detail", kwargs={"slugs": path})
+
+    def set_topic_count(self):
+        """
+        Should be called when we add/delete a Topic.
+        Just means we don't have to do the count() query live whenever we
+        want to display the number in templates.
+        """
+        self.topic_count = self.topics.count()
+        self.save()
 
 
 class Topic(PepysModel):
@@ -204,6 +241,7 @@ class Topic(PepysModel):
             people_category = Category.objects.get(pk=settings.PEOPLE_CATEGORY_ID)
         except Category.DoesNotExist:
             people_category = None
+
         if people_category is not None and people_category in self.categories.all():
             self.order_title = Topic.objects.make_order_title(
                 self.title, is_person=True
@@ -233,11 +271,11 @@ class Topic(PepysModel):
         Doesn't include years/months where there are no referring Entries.
         [
             ['1660', [
-                'Jan', [Entry, Entry, Entry, ],
-                'Mar', [Entry, Entry, ],
+                ['Jan', [Entry, Entry, Entry, ]],
+                ['Mar', [Entry, Entry, ]],
             ]],
             ['1663', [
-                'Dec', [Entry, ],
+                ['Dec', [Entry, ]],
             ],
             ...
         ]
@@ -306,162 +344,3 @@ class TopicModerator(CommentModerator):
 
 
 moderator.register(Topic, TopicModerator)
-
-
-def topic_categories_changed(sender, **kwargs):
-    """
-    When we add or remove categories on this topic, we need to re-set those
-    categories' topic counts.
-    """
-    if kwargs["reverse"] is False:
-        # We're changing the categories on a topic.
-        if kwargs["action"] == "pre_clear":
-            # Before we do anything,
-            # store the PKs of the current categories on this topic.
-            kwargs["instance"]._original_categories_pks = [
-                c.pk for c in kwargs["instance"].categories.all()
-            ]
-
-        elif kwargs["action"] in ["post_add", "post_remove"]:
-            # Finished the action, so now change the old and new categories'
-            # topic counts.
-            # The PKs of the categories the topic has now:
-            new_pks = kwargs.get("pk_set", [])
-            # Make a list of both the new and old categories' PKs:
-            pks = kwargs["instance"]._original_categories_pks + list(
-                set(new_pks) - set(kwargs["instance"]._original_categories_pks)
-            )
-            # For all the old and new categories, set the counts:
-            for pk in pks:
-                cat = Category.objects.get(pk=pk)
-                cat.set_topic_count()
-    else:
-        # We're changing a Category's topics, so set that Category's count.
-        if kwargs["instance"] is not None:
-            kwargs["instance"].set_topic_count()
-
-
-m2m_changed.connect(topic_categories_changed, sender=Topic.categories.through)
-
-
-def topic_pre_delete(sender, **kwargs):
-    """
-    Before deleting the topic, store the categories it has so that...
-    """
-    kwargs["instance"]._original_categories_pks = [
-        c.pk for c in kwargs["instance"].categories.all()
-    ]
-
-
-pre_delete.connect(topic_pre_delete, sender=Topic)
-
-
-def topic_post_delete(sender, **kwargs):
-    """
-    ...after deleting the topic, we re-set its categories' topic counts.
-    """
-    for pk in kwargs["instance"]._original_categories_pks:
-        cat = Category.objects.get(pk=pk)
-        cat.set_topic_count()
-
-
-post_delete.connect(topic_post_delete, sender=Topic)
-
-
-class CategoryManager(MP_NodeManager):
-    def map_category_choices(self):
-        """
-        The categories we DO use on the maps page.
-        As opposed to the Topic.MapCategory, which appears to be unused.
-        This structure is used to generate the SELECT field on the
-        /encyclopedia/map/ page.
-        The numbers are the IDs of the relevant Categories.
-
-        To add a new option to the map, you should ONLY need to add it to
-        this structure, and everything else should work...
-        You might also want to adjust the start_coords in pepys.js if the map
-        should be focused on something other than central London.
-        """
-        return (
-            (
-                "London",
-                (
-                    (category_lookups.PLACES_LONDON_AREAS, "Areas of London"),
-                    (
-                        category_lookups.PLACES_LONDON_CHURCHES,
-                        "Churches and cathedrals in London",
-                    ),
-                    (category_lookups.PLACES_LONDON_GOVERNMENT, "Government buildings"),
-                    (category_lookups.PLACES_LONDON_LIVERY_HALLS, "Livery halls"),
-                    (
-                        category_lookups.PLACES_LONDON_STREETS,
-                        "Streets, gates, squares, piers, etc",
-                    ),
-                    (category_lookups.PLACES_LONDON_TAVERNS, "Taverns in London"),
-                    (category_lookups.PLACES_LONDON_THEATRES, "Theatres in London"),
-                    (category_lookups.PLACES_LONDON_WHITEHALL, "Whitehall Palace"),
-                    (category_lookups.PLACES_LONDON_ROYAL, "Other royal buildings"),
-                    (category_lookups.PLACES_LONDON_OTHER, "Other London buildings"),
-                ),
-            ),
-            (category_lookups.PLACES_LONDON_ENVIRONS, "London environs"),
-            (category_lookups.PLACES_BRITAIN_WATERWAYS, "Waterways in Britain"),
-            (category_lookups.PLACES_BRITAIN_REST, "Rest of Britain"),
-            (category_lookups.PLACES_WORLD_REST, "Rest of the world"),
-        )
-
-    def valid_map_category_ids(self):
-        """
-        Returns a list of the category IDs in map_category_choices().
-        Assumes we only have one sub-level.
-        There's probably some clever one-line way of doing this, but still.
-        """
-        choices = self.map_category_choices()
-        ids = []
-        for tup1 in choices:
-            if isinstance(tup1[0], int):
-                ids.append(tup1[0])
-            else:
-                for tup2 in tup1[1]:
-                    ids.append(tup2[0])
-        return ids
-
-
-class Category(MP_Node):
-    title = models.CharField(max_length=255, blank=False, null=False)
-    slug = models.SlugField(max_length=50, blank=False, null=False)
-    topic_count = models.IntegerField(default=0, blank=False, null=False)
-
-    # Will also have a `topics` field, listing Topics within the Category.
-
-    objects = CategoryManager()
-
-    node_order_by = [
-        "title",
-    ]
-
-    class Meta:
-        verbose_name_plural = "Categories"
-
-    def __str__(self):
-        return "%s" % self.title
-
-    def get_absolute_url(self):
-        # Join all the parent categories' slugs, eg:
-        # 'fooddrink/drink/alcdrinks'.
-        parent_slugs = "/".join([c.slug for c in self.get_ancestors()])
-        if parent_slugs:
-            path = "%s/%s" % (parent_slugs, self.slug)
-        else:
-            # Top level category.
-            path = "%s" % self.slug
-        return reverse("category_detail", kwargs={"slugs": path})
-
-    def set_topic_count(self):
-        """
-        Should be called when we add/delete a Topic.
-        Just means we don't have to do the count() query live whenever we
-        want to display the number in templates.
-        """
-        self.topic_count = self.topics.count()
-        self.save()

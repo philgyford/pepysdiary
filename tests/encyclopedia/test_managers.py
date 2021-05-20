@@ -2,7 +2,31 @@ from unittest.mock import call, patch
 
 from django.test import TestCase
 
-from pepysdiary.encyclopedia.models import Topic
+from pepysdiary.encyclopedia.models import Category, Topic
+
+
+class CategoryManagerTestCase(TestCase):
+    def test_map_catwgory_choices(self):
+        "Just checking some of it's as it should be."
+        choices = Category.objects.map_category_choices()
+        self.assertEqual(len(choices), 5)
+        self.assertEqual(choices[0][0], "London")
+        self.assertEqual(choices[0][1][9], (29, "Other London buildings"))
+        self.assertEqual(choices[4], (45, "Rest of the world"))
+
+    def test_valid_map_category_ids(self):
+        "Is there any point to this?"
+        ids = Category.objects.valid_map_category_ids()
+        self.assertEqual(
+            ids, [196, 31, 199, 201, 28, 27, 197, 180, 200, 29, 214, 209, 30, 45]
+        )
+
+
+class TopicManagerTestCase(TestCase):
+    "Testing any TopicManager stuff not covered by the other classes"
+
+    def test_pepys_homes_ids(self):
+        self.assertEqual(Topic.objects.pepys_homes_ids(), [102, 1023])
 
 
 class TopicManagerFetchWikipediaTextsTestCase(TestCase):
@@ -90,8 +114,16 @@ class TopicManagerFetchWikipediaTextsTestCase(TestCase):
         self.assertEqual(Topic.objects.get(pk=112).wikipedia_html, "112 html")
         self.assertEqual(Topic.objects.get(pk=344).wikipedia_html, "344 html")
 
+    @patch("pepysdiary.encyclopedia.wikipedia_fetcher.WikipediaFetcher.fetch")
+    def test_no_topics(self, fetch_method):
+        "If there are no matching topics to fetch, it doesn't"
+        updated = Topic.objects.fetch_wikipedia_texts(topic_ids=[6079])
+        fetch_method.assert_has_calls([])
+        self.assertEqual(len(updated["success"]), 0)
+        self.assertEqual(len(updated["failure"]), 0)
 
-class MakeOrderTitleTestCase(TestCase):
+
+class TopicManagerMakeOrderTitleTestCase(TestCase):
     "Testing TopicManager.make_order_title()"
 
     # NOT PEOPLE.
@@ -306,3 +338,6 @@ class MakeOrderTitleTestCase(TestCase):
             ),
             "Cooper, Sir Anthony Ashley (Baron Ashley)",
         )
+
+    def test_name_blank(self):
+        self.assertEqual(Topic.objects.make_order_title("", is_person=True), "")
