@@ -98,7 +98,7 @@ class LatestEntriesFeedTestCase(FeedTestCase):
                 "pubDate": rfc2822_date(make_datetime("2021-04-06 23:00:00")),
                 "guid": "http://example.com/diary/1668/04/06/",
                 "content:encoded": (
-                    "<p>Description 6</p>  "
+                    "<p>Description 6</p> "
                     "<p><strong>"
                     '<a href="http://example.com/diary/1668/04/06/#annotations">'
                     "Read the annotations</a>"

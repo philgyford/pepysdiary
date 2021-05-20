@@ -51,10 +51,19 @@ class FeedTestCase(TestCase):
 
     def assertChildNodeContent(self, elem, expected):
         for k, v in expected.items():
+
+            # It appears that minidom will make a node with no text
+            # None, rather than an element. So when we try to get its
+            # wholeText, we get an AttributeError.
+            # So here we try to work around that...
+            first_child = elem.getElementsByTagName(k)[0].firstChild
             try:
-                self.assertEqual(
-                    elem.getElementsByTagName(k)[0].firstChild.wholeText, v
-                )
+                test_value = first_child.wholeText
+            except AttributeError:
+                test_value = ""
+
+            try:
+                self.assertEqual(test_value, v)
             except IndexError as e:
                 raise IndexError("{} for '{}' and '{}'".format(e, k, v))
 
