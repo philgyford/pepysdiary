@@ -5,9 +5,11 @@ from django.test import TestCase
 from pepysdiary.encyclopedia.models import Topic
 
 
-class FetchWikipediaTextsTestCase(TestCase):
+class TopicManagerFetchWikipediaTextsTestCase(TestCase):
+    "Testing TopicManager.fetch_wikipedia_texts()"
+
     # ./manage.py dumpdata encyclopedia.Topic --pks=344,112,6079 --indent 4 > pepysdiary/encyclopedia/fixtures/wikipedia_test.json  # noqa: E501
-    fixtures = ["wikipedia_test.json"]
+    fixtures = ["tests/encyclopedia/fixtures/wikipedia_test.json"]
 
     # Of the topics in the fixture, two have `wikipedia_fragment`s:
     page_names = [
@@ -90,9 +92,7 @@ class FetchWikipediaTextsTestCase(TestCase):
 
 
 class MakeOrderTitleTestCase(TestCase):
-    """
-    Tests TopicManager.make_order_title().
-    """
+    "Testing TopicManager.make_order_title()"
 
     # NOT PEOPLE.
 
