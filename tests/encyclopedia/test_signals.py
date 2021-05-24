@@ -25,3 +25,14 @@ class TopicCategoriesChangedTestCase(TestCase):
         topic.categories.remove(category)
         category.refresh_from_db()
         self.assertEqual(category.topic_count, 0)
+
+    def test_deleting_topic(self):
+        "When we delete a topic its categories' topic counts should change"
+        category = CategoryFactory()
+        topic = TopicFactory(categories=[category])
+        category.refresh_from_db()
+        self.assertEqual(category.topic_count, 1)
+
+        topic.delete()
+        category.refresh_from_db()
+        self.assertEqual(category.topic_count, 0)
