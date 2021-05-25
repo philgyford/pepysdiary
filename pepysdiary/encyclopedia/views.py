@@ -36,15 +36,15 @@ class CategoryDetailView(DetailView):
 
     def get_object(self, queryset=None):
         slugs = self.kwargs.get(self.slug_url_kwarg, None)
-        if slugs is not None:
+        if slugs is None:
+            raise AttributeError(
+                "CategoryDetailView must be called with slugs in the URL"
+            )
+        else:
             try:
                 slug = slugs.split("/")[-1]
             except Exception:
                 raise Http404(_("No Category slug found"))
-        else:
-            raise AttributeError(
-                "CategoryDetailView must be called with " "slugs in the URL"
-            )
 
         try:
             obj = Category.objects.get(slug=slug)
