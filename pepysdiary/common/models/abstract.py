@@ -31,14 +31,7 @@ class PepysModel(models.Model):
         If we want to print something like "an annotation" or "a comment",
         then call this.
         """
-        if self.comment_name[:1] in [
-            "a",
-            "e",
-            "h",
-            "i",
-            "o",
-            "u",
-        ]:
+        if self.comment_name[:1] in ["a", "e", "h", "i", "o", "u"]:
             return "an %s" % self.comment_name
         else:
             return "a %s" % self.comment_name
