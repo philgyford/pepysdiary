@@ -8,7 +8,11 @@ def topic_categories_changed(sender, **kwargs):
     When we add or remove categories on this topic, we need to re-set those
     categories' topic counts.
     """
-    if kwargs["reverse"] is False:
+    if kwargs["reverse"]:
+        # We're changing a Category's topics, so set that Category's count.
+        if kwargs["instance"] is not None:
+            kwargs["instance"].set_topic_count()
+    else:
         # We're changing the categories on a topic.
         if kwargs["action"] == "pre_clear":
             # Before we do anything,
@@ -30,10 +34,6 @@ def topic_categories_changed(sender, **kwargs):
             for pk in pks:
                 cat = Category.objects.get(pk=pk)
                 cat.set_topic_count()
-    else:
-        # We're changing a Category's topics, so set that Category's count.
-        if kwargs["instance"] is not None:
-            kwargs["instance"].set_topic_count()
 
 
 m2m_changed.connect(topic_categories_changed, sender=Topic.categories.through)
