@@ -123,12 +123,6 @@ class LatestTopicsFeedTestCase(FeedTestCase):
         self.assertChildNodeContent(
             items[0],
             {
-                "title": "Topic 1",
-                "link": f"http://example.com/encyclopedia/{topic.pk}/",
-                "description": "Wheatley text.",
-                "dc:creator": "Phil Gyford",
-                "pubDate": rfc2822_date(make_datetime("2021-04-07 12:00:00")),
-                "guid": f"http://example.com/encyclopedia/{topic.pk}/",
                 "content:encoded": (
                     "<p>Wheatley text.</p> "
                     "<p><strong>"
@@ -156,12 +150,6 @@ class LatestTopicsFeedTestCase(FeedTestCase):
         self.assertChildNodeContent(
             items[0],
             {
-                "title": "Topic 1",
-                "link": f"http://example.com/encyclopedia/{topic.pk}/",
-                "description": "Tooltip text.",
-                "dc:creator": "Phil Gyford",
-                "pubDate": rfc2822_date(make_datetime("2021-04-07 12:00:00")),
-                "guid": f"http://example.com/encyclopedia/{topic.pk}/",
                 "content:encoded": (
                     "<p>Tooltip text.</p> "
                     "<p><strong>"
@@ -189,12 +177,6 @@ class LatestTopicsFeedTestCase(FeedTestCase):
         self.assertChildNodeContent(
             items[0],
             {
-                "title": "Topic 1",
-                "link": f"http://example.com/encyclopedia/{topic.pk}/",
-                "description": "",
-                "dc:creator": "Phil Gyford",
-                "pubDate": rfc2822_date(make_datetime("2021-04-07 12:00:00")),
-                "guid": f"http://example.com/encyclopedia/{topic.pk}/",
                 "content:encoded": (
                     "<p><strong>"
                     f'<a href="http://example.com/encyclopedia/{topic.pk}/'
