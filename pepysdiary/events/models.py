@@ -15,9 +15,7 @@ class DayEvent(PepysModel, OldDateMixin):
     source = models.IntegerField(blank=True, null=True, choices=Source.choices)
 
     class Meta:
-        ordering = [
-            "event_date",
-        ]
+        ordering = ["event_date"]
         verbose_name = "Day Event"
 
     def __str__(self):

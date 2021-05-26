@@ -2,12 +2,25 @@ from django.test import TestCase
 
 from pepysdiary.common.utilities import make_date
 from pepysdiary.events.factories import DayEventFactory
+from pepysdiary.events.models import DayEvent
 
 
 class DayEventModelsTestCase(TestCase):
     def test_str(self):
         event = DayEventFactory.build(title="My Event")
         self.assertEqual(str(event), "My Event")
+
+    def test_ordering(self):
+        "It should return events in chronological order"
+        event_1 = DayEventFactory.build(event_date=make_date("1660-01-01"))
+        event_2 = DayEventFactory.build(event_date=make_date("1660-01-03"))
+        event_3 = DayEventFactory.build(event_date=make_date("1660-01-02"))
+
+        events = DayEvent.objects.all()
+
+        self.assertEqual(events[0], event_1)
+        self.assertEqual(events[1], event_3)
+        self.assertEqual(events[2], event_2)
 
     # Testing PepysModel methods
 

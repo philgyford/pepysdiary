@@ -89,6 +89,8 @@ class EntryTestCase(TestCase):
         entry = EntryFactory(diary_date=make_date("1668-02-29"))
         self.assertEqual(entry.date_published, make_datetime("2018-03-01 23:00:00"))
 
+    # Testing PepysModel properties/methods:
+
     def test_short_title(self):
         "It should return the correct short title"
         # Just test a couple.
@@ -102,8 +104,6 @@ class EntryTestCase(TestCase):
             title="Saturday 29 February 1667/68", diary_date=make_date("1668-02-29")
         )
         self.assertEqual(entry.short_title, "Sat 29 Feb 1667/68")
-
-    # Testing PepysModel properties/methods:
 
     def test_get_a_comment_name(self):
         "It should retun the correct string"
