@@ -10,6 +10,30 @@ from pepysdiary.letters.models import Letter
 register = template.Library()
 
 
+def events_html(title, event_list):
+    """
+    Generates the HTML for a list of Diary Entries, Letters or DayEvents.
+    `title` is for the <h2>, eg 'Diary Entries' or 'In Parliament'.
+    `event_list` is a list of dicts, each dict having a `text` element and an
+    optional `url`.
+
+    Used by the three functions below.
+    """
+    if len(event_list) == 0:
+        return ""
+    html = "<h2>%s</h2>\n<ul>\n" % title
+    for li in event_list:
+        if "url" in li and li["url"] != "":
+            html += '<li><a href="%s">%s</a></li>\n' % (li["url"], li["text"])
+        else:
+            html += "<li>%s</li>\n" % li["text"]
+    html += "</ul>\n"
+    return html
+
+
+# Functions that generate HTML for DayEvents, Entries or Letters for a particular day.
+
+
 def dayevents_for_day(date):
     """
     Returns HTML for displaying any DayEvents that happen on `date`.
@@ -72,6 +96,22 @@ def entries_for_day(date):
     return mark_safe(events_html("In the Diary", event_list))
 
 
+def letters_for_day(date):
+    """
+    Returns HTML for links to any Letters that were written on `date`.
+    Or an empty string if there aren't any.
+    """
+    event_list = []
+    letters = Letter.objects.filter(letter_date=date)
+    if len(letters) > 0:
+        for letter in letters:
+            event_list.append({"url": letter.get_absolute_url(), "text": letter.title})
+    return mark_safe(events_html("Letters", event_list))
+
+
+# The actual template tags, that call the above functions.
+
+
 @register.simple_tag
 def events_for_day(date, exclude=None):
     html = ""
@@ -100,35 +140,3 @@ def events_for_day_in_sidebar(date, exclude=None):
             % html
         )
     return mark_safe(html)
-
-
-def events_html(title, event_list):
-    """
-    Generates the HTML for a list of Diary Entries, Letters or DayEvents.
-    `title` is for the <h2>, eg 'Diary Entries' or 'In Parliament'.
-    `event_list` is a list of dicts, each dict having a `text` element and an
-    optional `url`.
-    """
-    if len(event_list) == 0:
-        return ""
-    html = "<h2>%s</h2>\n<ul>\n" % title
-    for li in event_list:
-        if "url" in li and li["url"] != "":
-            html += '<li><a href="%s">%s</a></li>\n' % (li["url"], li["text"])
-        else:
-            html += "<li>%s</li>\n" % li["text"]
-    html += "</ul>\n"
-    return html
-
-
-def letters_for_day(date):
-    """
-    Returns HTML for links to any Letters that were written on `date`.
-    Or an empty string if there aren't any.
-    """
-    event_list = []
-    letters = Letter.objects.filter(letter_date=date)
-    if len(letters) > 0:
-        for letter in letters:
-            event_list.append({"url": letter.get_absolute_url(), "text": letter.title})
-    return mark_safe(events_html("Letters", event_list))
