@@ -3,5 +3,5 @@ from django.db import models
 from pepysdiary.common.managers import ReferredManagerMixin
 
 
-class LetterManager(models.Manager, ReferredManagerMixin):
+class LetterManager(ReferredManagerMixin, models.Manager):
     pass
