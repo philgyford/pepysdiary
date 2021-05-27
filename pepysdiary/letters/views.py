@@ -4,6 +4,7 @@ from django.http import Http404
 from django.shortcuts import redirect
 from django.views.generic.base import TemplateView
 from django.views.generic.dates import DateDetailView
+from django.views.generic.detail import SingleObjectMixin
 from django.views.generic.list import ListView
 
 from pepysdiary.encyclopedia.models import Topic
@@ -61,17 +62,14 @@ class LetterDetailView(DateDetailView):
         }
 
 
-class LetterPersonView(ListView):
+class LetterPersonView(SingleObjectMixin, ListView):
     """
     For displaying all the Letters sent from/to an individual.
     Just needs the pk of a Topic in the People Category.
     """
 
-    model = Letter
     template_name = "letter_person.html"
     allow_empty = False
-    # Will be populated with a Topic in get_queryset().
-    person = None
 
     def get(self, request, *args, **kwargs):
         """
@@ -80,36 +78,31 @@ class LetterPersonView(ListView):
         """
         if int(kwargs.get("pk", 0)) == settings.PEPYS_TOPIC_ID:
             return redirect("letters")
-        return super(LetterPersonView, self).get(request, *args, **kwargs)
+
+        self.object = self.get_object(queryset=Topic.objects.all())
+        return super().get(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["person"] = self.object
+        context["letter_list"] = context["object_list"]
+        return context
 
     def get_queryset(self):
         """
         Get the list of items for this view. This must be an interable, and may
         be a queryset (in which qs-specific behavior will be enabled).
         """
-        try:
-            topic = Topic.objects.get(pk=self.kwargs["pk"])
-        except Topic.DoesNotExist:
-            raise Http404("Topic matching pk '%s' does not exist." % self.kwargs.pk)
-
-        # We did check that the topic was in the People Category, but we don't
-        # need to, as we show a 404 if there's nothing found anyway.
-
-        self.person = topic
-
-        queryset = self.model.objects.filter(Q(sender=topic) | Q(recipient=topic))
+        queryset = Letter.objects.filter(
+            Q(sender=self.object) | Q(recipient=self.object)
+        )
         return queryset
-
-    def get_context_data(self, **kwargs):
-        context = super(LetterPersonView, self).get_context_data(**kwargs)
-        context["person"] = self.person
-        return context
 
 
 class LetterArchiveView(TemplateView):
     template_name = "letter_list.html"
 
     def get_context_data(self, **kwargs):
-        context = super(LetterArchiveView, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         context["letters"] = Letter.objects.all()
         return context

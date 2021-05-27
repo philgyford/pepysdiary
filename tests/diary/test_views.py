@@ -30,6 +30,20 @@ class EntryDetailViewTestCase(ViewTestCase):
                 self.request, year="1661", month="01", day="02"
             )
 
+    def test_context_data_entry(self):
+        "The entry should be sent to the template"
+        entry = EntryFactory(diary_date=make_date("1661-01-02"))
+
+        response = views.EntryDetailView.as_view()(
+            self.request, year="1661", month="01", day="02"
+        )
+
+        data = response.context_data
+        self.assertIn("object", data)
+        self.assertIn("entry", data)
+        self.assertEqual(data["entry"], data["object"])
+        self.assertEqual(data["entry"], entry)
+
     def test_context_data_tooltip_references(self):
         "The tooltip_references are sent to the template"
         entry = EntryFactory(diary_date=make_date("1661-01-02"))
@@ -41,6 +55,7 @@ class EntryDetailViewTestCase(ViewTestCase):
         response = views.EntryDetailView.as_view()(
             self.request, year="1661", month="01", day="02"
         )
+
         self.assertIn("tooltip_references", response.context_data)
         self.assertEqual(
             response.context_data["tooltip_references"],
