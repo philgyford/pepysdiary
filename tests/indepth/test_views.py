@@ -1,3 +1,5 @@
+from django.http.response import Http404
+
 from pepysdiary.common.utilities import make_datetime
 from pepysdiary.indepth.factories import DraftArticleFactory, PublishedArticleFactory
 from pepysdiary.indepth import views
@@ -32,3 +34,117 @@ class ArticleArchiveViewTestCase(ViewTestCase):
         self.assertEqual(len(data["article_list"]), 10)
         self.assertNotIn(old_article, data["article_list"])
         self.assertNotIn(draft_article, data["article_list"])
+
+    def test_pagination(self):
+        PublishedArticleFactory.create_batch(10)
+        # Should be the only one on page 2:
+        old_article = PublishedArticleFactory(
+            date_published=make_datetime("2021-01-01 00:00:00")
+        )
+
+        # Need to make a new request so we can pass the page argument in:
+        request = self.factory.get("/fake-path/?page=2")
+        response = views.ArticleArchiveView.as_view()(request)
+
+        data = response.context_data
+        self.assertIn("object_list", data)
+        self.assertIn("article_list", data)
+        self.assertEqual(len(data["article_list"]), 1)
+        self.assertEqual(data["article_list"][0], old_article)
+
+
+class ArticleDetailViewTestCase(ViewTestCase):
+    def test_response_200(self):
+        PublishedArticleFactory(
+            date_published=make_datetime("2021-01-02 12:00:00"), slug="my-article"
+        )
+        response = views.ArticleDetailView.as_view()(
+            self.request,
+            year="2021",
+            month="01",
+            day="02",
+            slug="my-article",
+        )
+        self.assertEqual(response.status_code, 200)
+
+    def test_response_404(self):
+        with self.assertRaises(Http404):
+            views.ArticleDetailView.as_view()(
+                self.request,
+                year="2021",
+                month="01",
+                day="02",
+                slug="my-article",
+            )
+
+    def test_template(self):
+        PublishedArticleFactory(
+            date_published=make_datetime("2021-01-02 12:00:00"), slug="my-article"
+        )
+        response = views.ArticleDetailView.as_view()(
+            self.request,
+            year="2021",
+            month="01",
+            day="02",
+            slug="my-article",
+        )
+        self.assertEqual(response.template_name[0], "indepth/article_detail.html")
+
+    def test_context_article(self):
+        article = PublishedArticleFactory(
+            date_published=make_datetime("2021-01-02 12:00:00"), slug="my-article"
+        )
+        response = views.ArticleDetailView.as_view()(
+            self.request,
+            year="2021",
+            month="01",
+            day="02",
+            slug="my-article",
+        )
+
+        self.assertIn("article", response.context_data)
+        self.assertEqual(response.context_data["article"], article)
+
+    def test_context_next_previous(self):
+        "If there are next/previous articles, they should be in the context"
+        prev_article = PublishedArticleFactory(
+            date_published=make_datetime("2021-01-01 12:00:00")
+        )
+        PublishedArticleFactory(
+            date_published=make_datetime("2021-01-02 12:00:00"), slug="my-article"
+        )
+        next_article = PublishedArticleFactory(
+            date_published=make_datetime("2021-01-03 12:00:00")
+        )
+
+        response = views.ArticleDetailView.as_view()(
+            self.request,
+            year="2021",
+            month="01",
+            day="02",
+            slug="my-article",
+        )
+
+        self.assertIn("previous_article", response.context_data)
+        self.assertEqual(response.context_data["previous_article"], prev_article)
+        self.assertIn("next_article", response.context_data)
+        self.assertEqual(response.context_data["next_article"], next_article)
+
+    def test_context_no_next_previous(self):
+        "If there's no next/previous, None should be in the context"
+        PublishedArticleFactory(
+            date_published=make_datetime("2021-01-02 12:00:00"), slug="my-article"
+        )
+
+        response = views.ArticleDetailView.as_view()(
+            self.request,
+            year="2021",
+            month="01",
+            day="02",
+            slug="my-article",
+        )
+
+        self.assertIn("previous_article", response.context_data)
+        self.assertIsNone(response.context_data["previous_article"])
+        self.assertIn("next_article", response.context_data)
+        self.assertIsNone(response.context_data["next_article"])
