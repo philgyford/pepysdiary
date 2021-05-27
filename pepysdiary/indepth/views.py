@@ -8,6 +8,7 @@ class ArticleArchiveView(PaginatedListView):
     model = Article
     queryset = Article.published_articles.all()
     paginate_by = 10
+    allow_empty = True
 
 
 class ArticleDetailView(DateDetailView):

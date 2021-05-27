@@ -14,6 +14,7 @@
 
 	<hr />
 
+  {% if article_list|length > 0 %}
     {% for article in article_list %}
         <article class="clearfix">
             <header>
@@ -36,6 +37,9 @@
 
         <hr />
     {% endfor %}
+  {% else %}
+    <p>There aren’t yet any articles.</p>
+  {% endif %}
 
 	{% include 'inc/paginator.html' %}
 
