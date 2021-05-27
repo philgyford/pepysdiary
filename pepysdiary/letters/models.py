@@ -6,15 +6,9 @@ from django.db import models
 from django.urls import reverse
 
 from django_comments.moderation import CommentModerator, moderator
-from pepysdiary.common.managers import ReferredManagerMixin
-from pepysdiary.common.models import OldDateMixin, PepysModel
-
-# from pepysdiary.common.utilities import *
-from pepysdiary.encyclopedia.models import Topic
-
-
-class LetterManager(models.Manager, ReferredManagerMixin):
-    pass
+from .managers import LetterManager
+from ..common.models import OldDateMixin, PepysModel
+from ..encyclopedia.models import Topic
 
 
 class Letter(PepysModel, OldDateMixin):
