@@ -261,6 +261,7 @@ class AllArticlesTestCase(TestCase):
             article = PublishedArticleFactory(
                 title=f"Article {n}",
                 date_published=make_datetime(f"2021-04-0{n} 12:00:00"),
+                slug=f"article-{n}",
             )
             articles.append(article)
 
@@ -301,17 +302,21 @@ class AllArticlesTestCase(TestCase):
         article_1 = PublishedArticleFactory(
             title="Article 1",
             date_published=make_datetime("2021-04-01 12:00:00"),
+            slug="article-1",
         )
-        PublishedArticleFactory(
+        article_2 = PublishedArticleFactory(
             title="Article 2",
             date_published=make_datetime("2021-04-02 12:00:00"),
         )
 
         context = Context({"date_format_long": "Y-m-d"})
         template_to_render = Template(
-            "{% load widget_tags %}{% all_articles exclude_id=2 %}"
+            "{% load widget_tags %}{% all_articles exclude_id="
+            + str(article_2.pk)
+            + " %}"
         )
         rendered_template = template_to_render.render(context)
+        print(rendered_template)
 
         self.assertInHTML(
             f"""

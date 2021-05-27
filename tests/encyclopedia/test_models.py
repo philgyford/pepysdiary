@@ -1,4 +1,4 @@
-from django.test import TestCase, TransactionTestCase
+from django.test import TestCase
 
 from pepysdiary.common.utilities import make_date
 from pepysdiary.diary.factories import EntryFactory
@@ -45,7 +45,7 @@ class CategoryTestCase(TestCase):
         self.assertEqual(cat_1.get_absolute_url(), "/encyclopedia/animals/")
 
 
-class TopicTestCase(TransactionTestCase):
+class TopicTestCase(TestCase):
     def test_categories(self):
         "Topic.categories should return the correct Categories"
         cat_1 = CategoryFactory(title="Animals")

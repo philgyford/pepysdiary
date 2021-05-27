@@ -1,4 +1,4 @@
-from django.test import TransactionTestCase
+from django.test import TestCase
 
 from pepysdiary.common.utilities import make_date
 from pepysdiary.diary.factories import EntryFactory
@@ -11,7 +11,7 @@ from pepysdiary.events.templatetags.event_tags import (
 from pepysdiary.letters.factories import LetterFactory
 
 
-class EventsTemplateTagsTestCase(TransactionTestCase):
+class EventsTemplateTagsTestCase(TestCase):
 
     # The HTML generated for different parts, so we don't have to repeat
     # it in each of the relevant tests.

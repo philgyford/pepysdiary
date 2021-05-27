@@ -1,12 +1,12 @@
 from django.core.files.uploadedfile import SimpleUploadedFile
-from django.test import TransactionTestCase
+from django.test import TestCase
 
 from pepysdiary.encyclopedia.factories import TopicFactory
 from pepysdiary.letters.factories import LetterFactory
 from pepysdiary.letters.models import Letter
 
 
-class LetterManagerTestCase(TransactionTestCase):
+class LetterManagerTestCase(TestCase):
     def test_get_brief_references(self):
         "It should return the correct data about topics referenced by Letter texts"
 
