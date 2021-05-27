@@ -1,6 +1,5 @@
 from django.conf import settings
 from django.db.models import Q
-from django.http import Http404
 from django.shortcuts import redirect
 from django.views.generic.base import TemplateView
 from django.views.generic.dates import DateDetailView
