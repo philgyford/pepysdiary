@@ -1,9 +1,10 @@
 from django.test import TestCase
+from django_comments.moderation import AlreadyModerated, moderator
 from freezegun import freeze_time
 
 from pepysdiary.common.utilities import make_datetime
 from pepysdiary.indepth.factories import DraftArticleFactory, PublishedArticleFactory
-from pepysdiary.indepth.models import Article
+from pepysdiary.indepth.models import Article, ArticleModerator
 
 
 class ArticleTestCase(TestCase):
@@ -80,3 +81,10 @@ class ArticleTestCase(TestCase):
         )
 
         self.assertEqual(article.get_absolute_url(), "/indepth/2021/01/02/my-article/")
+
+
+class ArticleModeratorTestCase(TestCase):
+    def test_it_is_registered(self):
+        # Shouldn't be able to register it again:
+        with self.assertRaises(AlreadyModerated):
+            moderator.register(Article, ArticleModerator)

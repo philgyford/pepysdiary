@@ -1,5 +1,7 @@
 from django.test import TestCase
 
+from django_comments.moderation import AlreadyModerated, moderator
+
 from pepysdiary.common.utilities import make_date
 from pepysdiary.diary.factories import EntryFactory
 from pepysdiary.encyclopedia import category_lookups
@@ -9,7 +11,7 @@ from pepysdiary.encyclopedia.factories import (
     PlaceTopicFactory,
     TopicFactory,
 )
-from pepysdiary.encyclopedia.models import Category
+from pepysdiary.encyclopedia.models import Category, Topic, TopicModerator
 from pepysdiary.letters.factories import LetterFactory
 
 
@@ -230,3 +232,10 @@ class TopicTestCase(TestCase):
         "Should return False if it has categories, but none are Places"
         topic = PersonTopicFactory()
         self.assertFalse(topic.is_place)
+
+
+class TopicModeratorTestCase(TestCase):
+    def test_it_is_registered(self):
+        # Shouldn't be able to register it again:
+        with self.assertRaises(AlreadyModerated):
+            moderator.register(Topic, TopicModerator)

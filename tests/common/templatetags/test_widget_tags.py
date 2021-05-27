@@ -316,7 +316,6 @@ class AllArticlesTestCase(TestCase):
             + " %}"
         )
         rendered_template = template_to_render.render(context)
-        print(rendered_template)
 
         self.assertInHTML(
             f"""

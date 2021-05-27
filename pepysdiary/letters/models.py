@@ -136,7 +136,7 @@ class Letter(PepysModel, OldDateMixin):
     @property
     def short_date(self):
         """
-        Shorter than self.display_date, like '27 April 1665'.
+        Shorter than self.display_date, like '27 Apr 1665'.
         """
         return "%s %s %s" % (self.day_e, self.month_b, self.year)
 

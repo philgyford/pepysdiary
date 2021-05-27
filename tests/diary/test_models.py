@@ -1,6 +1,6 @@
 from django.test import override_settings, TestCase
 
-from django_comments.moderation import CommentModerator
+from django_comments.moderation import AlreadyModerated, moderator
 
 from pepysdiary.common.utilities import make_date, make_datetime
 from pepysdiary.diary.factories import EntryFactory, SummaryFactory
@@ -122,13 +122,11 @@ class EntryTestCase(TestCase):
         self.assertEqual(entry.day_e, "2")
 
 
-def EntryModeratorTestCase(TestCase):
-    def test_properties(self):
-        "Just testing it exists I guess?"
-        em = EntryModerator()
-        self.assertTrue(issubclass(em, CommentModerator))
-        self.assertFalse(em.email_notifications)
-        self.essetEqual(em.enable_field, "allow_comments")
+class EntryModeratorTestCase(TestCase):
+    def test_it_is_registered(self):
+        # Shouldn't be able to register it again:
+        with self.assertRaises(AlreadyModerated):
+            moderator.register(Entry, EntryModerator)
 
 
 class SummaryTestCase(TestCase):
