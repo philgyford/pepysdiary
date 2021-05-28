@@ -15,6 +15,10 @@ class PersonTestCase(TestCase):
         person = PersonFactory(name="Bob Ferris")
         self.assertEqual(str(person), "Bob Ferris")
 
+    def test_get_full_name(self):
+        person = PersonFactory(name="Bob Ferris")
+        self.assertEqual(person.get_full_name(), "Bob Ferris")
+
     def test_get_absolute_url(self):
         person = PersonFactory()
         self.assertEqual(person.get_absolute_url(), f"/account/profile/{person.pk}/")

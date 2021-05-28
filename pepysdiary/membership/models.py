@@ -109,6 +109,10 @@ class Person(AbstractBaseUser, PermissionsMixin):
     def __str__(self):
         return self.name
 
+    def get_full_name(self):
+        "This is required by django-contrib-comments."
+        return self.name
+
     def get_absolute_url(self):
         return reverse("profile", kwargs={"pk": self.pk})
 
