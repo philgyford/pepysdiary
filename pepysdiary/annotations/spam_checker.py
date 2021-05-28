@@ -52,7 +52,7 @@ def is_akismet_spam(sender, comment, request):
 
     if comment.user:
         # Posted by a logged-in user.
-        parameters["comment_author"] = comment.user.get_full_name()
+        parameters["comment_author"] = comment.user.name
         parameters["comment_author_email"] = comment.user.email
         if comment.user.url:
             parameters["comment_author_url"] = comment.user.url

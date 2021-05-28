@@ -106,10 +106,7 @@ class Person(AbstractBaseUser, PermissionsMixin):
     class Meta:
         verbose_name_plural = "People"
 
-    def get_full_name(self):
-        return self.name
-
-    def get_short_name(self):
+    def __str__(self):
         return self.name
 
     def get_absolute_url(self):
@@ -125,16 +122,15 @@ class Person(AbstractBaseUser, PermissionsMixin):
             return Topic.objects.none()
 
     def get_indepth_articles(self):
-        "A queryset of all the Articles the user has written"
+        "A queryset of all the published Articles the user has written"
         from pepysdiary.indepth.models import Article
 
         if self.indepth_articles.count() > 0:
-            return self.indepth_articles.all().order_by("date_published")
+            return self.indepth_articles.filter(
+                status=Article.Status.PUBLISHED
+            ).order_by("date_published")
         else:
             return Article.objects.none()
-
-    def __str__(self):
-        return self.name
 
     def activation_key_expired(self):
         """
@@ -163,7 +159,8 @@ class Person(AbstractBaseUser, PermissionsMixin):
             self.date_created + expiration_date <= datetime.datetime.now(pytz.utc)
         )
 
-    activation_key_expired.boolean = True
+    # Not sure what this was ever for:
+    # activation_key_expired.boolean = True
 
     def send_activation_email(self, site):
         """

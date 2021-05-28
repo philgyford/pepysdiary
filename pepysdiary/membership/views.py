@@ -121,9 +121,7 @@ class LoginView(auth_views.LoginView):
     def form_valid(self, form):
         "Override so we can add a message for the user."
         user = form.get_user()
-        messages.success(
-            self.request, "You're now logged in as %s." % user.get_full_name()
-        )
+        messages.success(self.request, "You're now logged in as %s." % user.name)
         return super().form_valid(form)
 
 

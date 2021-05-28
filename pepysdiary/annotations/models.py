@@ -67,7 +67,7 @@ class Annotation(CommentAbstractModel):
         return the name supplied when the comment was posted.
         """
         # if self.user:
-        #     return self.user.get_full_name()
+        #     return self.user.name
         # else:
         #     return self.user_name
         return self.user_name

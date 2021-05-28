@@ -10,7 +10,7 @@ from django.utils.encoding import smart_str
 import pytz
 
 
-SHA1_RE = re.compile("^[a-f0-9]{40}$")
+SHA1_RE = re.compile(r"^[a-f0-9]{40}$")
 
 
 class PersonManager(BaseUserManager):
@@ -109,7 +109,7 @@ class PersonManager(BaseUserManager):
                 person = self.get(activation_key=activation_key)
             except self.model.DoesNotExist:
                 return False
-            if not person.activation_key_expired():
+            if person.activation_key_expired() is False:
                 person.is_active = True
                 person.date_activated = datetime.datetime.now(pytz.utc)
                 person.save()
@@ -156,6 +156,6 @@ class PersonManager(BaseUserManager):
 
         """
         for person in self.all():
-            if person.activation_key_expired():
+            if person.activation_key_expired() is True:
                 if not person.is_active:
                     person.delete()
