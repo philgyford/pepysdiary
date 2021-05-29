@@ -20,13 +20,65 @@ from pepysdiary.membership import forms
 from pepysdiary.membership.models import Person
 
 
-@method_decorator(
-    [csrf_protect, never_cache, sensitive_post_parameters("password1", "password2")],
-    name="dispatch",
-)
-class RegisterView(FormView):
-    template_name = "register.html"
-    form_class = forms.RegistrationForm
+@method_decorator(never_cache, name="dispatch")
+class MessageView(TemplateView):
+    """
+    For displaying generic messages.
+    You can probably pass 'title' and 'message' in from the URL conf, although
+    I'm not keen on that, and subclassing this with 'title' and 'message'
+    attributes seems nicer.
+    """
+
+    template_name = "message.html"
+    title = "Message"
+    message = ""
+
+    def get_title(self):
+        return self.title
+
+    def get_message(self):
+        return self.message
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = self.get_title()
+        context["message"] = self.get_message()
+        return context
+
+
+class ActivateView(MessageView):
+    """
+    By default we treat this as a failure, but redirect to the success view if
+    it worked.
+    """
+
+    title = "Oops"
+    message = "Sorry, that doesn't look like a valid activation URL."
+
+    def get(self, request, *args, **kwargs):
+        # Check that registration is allowed, before we go any further:
+        config = Config.objects.get_site_config()
+        if config and config.allow_registration is False:
+            self.message = (
+                "Sorry, registration isn’t allowed at the moment. "
+                "Please try again soon."
+            )
+            return super().get(request, *args, **kwargs)
+        else:
+            #  Registration allowed, so continue:
+            person = Person.objects.activate_user(kwargs["activation_key"])
+            if person:
+                return redirect("activate_complete")
+            else:
+                return super().get(request, *args, **kwargs)
+
+
+class ActivateCompleteView(MessageView):
+    """After the user has successfully clicked the link in their Activation
+    email.
+    """
+
+    title = "Done!"
 
     def get(self, request, *args, **kwargs):
         if request.user.is_authenticated:
@@ -34,65 +86,12 @@ class RegisterView(FormView):
         else:
             return super().get(request, *args, **kwargs)
 
-    def get_success_url(self):
-        return reverse("register_complete")
-
-    def form_valid(self, form):
-        Person.objects.create_inactive_user(
-            name=form.cleaned_data["name"],
-            password=form.cleaned_data["password1"],
-            email=form.cleaned_data["email"],
-            url=form.cleaned_data["url"],
-            site=get_current_site(self.request),
+    def get_message(self):
+        return (
+            "Your email address is confirmed and you are now registered."
+            '<br><br><a class="link-more" href="%s">You can now log in</a>'
+            % reverse("login")
         )
-        return super().form_valid(form)
-
-
-class ProfileView(SingleObjectMixin, PaginatedListView):
-    """
-    A general, public view of a user's details.
-    PrivateProfileView inherits this for the logged-in user's private view.
-
-    SingleObjectMixin handles the Person object.
-    PaginatedListView handles the Annotations (comment_list).
-    """
-
-    is_private_profile = False
-    template_name = "membership/person_detail.html"
-    paginate_by = 20
-    allow_empty = True
-
-    def get(self, request, *args, **kwargs):
-        self.object = self.get_object(
-            queryset=Person.objects.filter(is_active=True).all()
-        )
-        return super().get(request, *args, **kwargs)
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["is_private_profile"] = self.is_private_profile
-        context["comment_list"] = context["object_list"]
-        return context
-
-    def get_queryset(self):
-        return Annotation.visible_objects.filter(user=self.object).order_by(
-            "-submit_date"
-        )
-
-
-@method_decorator([never_cache], name="dispatch")
-class PrivateProfileView(LoginRequiredMixin, ProfileView):
-    """
-    The logged-in user viewing themself.
-    """
-
-    is_private_profile = True
-
-    def get_object(self, queryset=None):
-        """
-        Override so that we can get the logged-in user's Person object.
-        """
-        return self.request.user
 
 
 @method_decorator([csrf_protect, never_cache], name="dispatch")
@@ -192,30 +191,79 @@ class PasswordResetCompleteView(auth_views.PasswordResetCompleteView):
         return context
 
 
-@method_decorator(never_cache, name="dispatch")
-class MessageView(TemplateView):
+class ProfileView(SingleObjectMixin, PaginatedListView):
     """
-    For displaying generic messages.
-    You can probably pass 'title' and 'message' in from the URL conf, although
-    I'm not keen on that, and subclassing this with 'title' and 'message'
-    attributes seems nicer.
+    A general, public view of a user's details.
+    PrivateProfileView inherits this for the logged-in user's private view.
+
+    SingleObjectMixin handles the Person object.
+    PaginatedListView handles the Annotations (comment_list).
     """
 
-    template_name = "message.html"
-    title = "Message"
-    message = ""
+    is_private_profile = False
+    template_name = "membership/person_detail.html"
+    paginate_by = 20
+    allow_empty = True
 
-    def get_title(self):
-        return self.title
-
-    def get_message(self):
-        return self.message
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object(
+            queryset=Person.objects.filter(is_active=True).all()
+        )
+        return super().get(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["title"] = self.get_title()
-        context["message"] = self.get_message()
+        context["is_private_profile"] = self.is_private_profile
+        context["comment_list"] = context["object_list"]
         return context
+
+    def get_queryset(self):
+        return Annotation.visible_objects.filter(user=self.object).order_by(
+            "-submit_date"
+        )
+
+
+@method_decorator([never_cache], name="dispatch")
+class PrivateProfileView(LoginRequiredMixin, ProfileView):
+    """
+    The logged-in user viewing themself.
+    """
+
+    is_private_profile = True
+
+    def get_object(self, queryset=None):
+        """
+        Override so that we can get the logged-in user's Person object.
+        """
+        return self.request.user
+
+
+@method_decorator(
+    [csrf_protect, never_cache, sensitive_post_parameters("password1", "password2")],
+    name="dispatch",
+)
+class RegisterView(FormView):
+    template_name = "register.html"
+    form_class = forms.RegistrationForm
+
+    def get(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            return redirect("home")
+        else:
+            return super().get(request, *args, **kwargs)
+
+    def get_success_url(self):
+        return reverse("register_complete")
+
+    def form_valid(self, form):
+        Person.objects.create_inactive_user(
+            name=form.cleaned_data["name"],
+            password=form.cleaned_data["password1"],
+            email=form.cleaned_data["email"],
+            url=form.cleaned_data["url"],
+            site=get_current_site(self.request),
+        )
+        return super().form_valid(form)
 
 
 class RegisterCompleteView(MessageView):
@@ -231,51 +279,3 @@ class RegisterCompleteView(MessageView):
             return redirect("home")
         else:
             return super().get(request, *args, **kwargs)
-
-
-class ActivateView(MessageView):
-    """
-    By default we treat this as a failure, but redirect to the success view if
-    it worked.
-    """
-
-    title = "Oops"
-    message = "Sorry, that doesn't look like a valid activation URL."
-
-    def get(self, request, *args, **kwargs):
-        # Check that registration is allowed, before we go any further:
-        config = Config.objects.get_site_config()
-        if config and config.allow_registration is False:
-            self.message = (
-                "Sorry, registration isn’t allowed at the moment. "
-                "Please try again soon."
-            )
-            return super().get(request, *args, **kwargs)
-        else:
-            #  Registration allowed, so continue:
-            person = Person.objects.activate_user(kwargs["activation_key"])
-            if person:
-                return redirect("activate_complete")
-            else:
-                return super().get(request, *args, **kwargs)
-
-
-class ActivateCompleteView(MessageView):
-    """After the user has successfully clicked the link in their Activation
-    email.
-    """
-
-    title = "Done!"
-
-    def get(self, request, *args, **kwargs):
-        if request.user.is_authenticated:
-            return redirect("home")
-        else:
-            return super().get(request, *args, **kwargs)
-
-    def get_message(self):
-        return (
-            "Your email address is confirmed and you are now registered."
-            '<br><br><a class="link-more" href="%s">You can now log in</a>'
-            % reverse("login")
-        )
