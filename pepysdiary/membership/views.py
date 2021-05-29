@@ -250,7 +250,7 @@ class ActivateView(MessageView):
                 return super(ActivateView, self).get(request, *args, **kwargs)
 
 
-class ActivationCompleteView(MessageView):
+class ActivateCompleteView(MessageView):
     """After the user has successfully clicked the link in their Activation
     email.
     """
@@ -261,7 +261,7 @@ class ActivationCompleteView(MessageView):
         if request.user.is_authenticated:
             return redirect("home")
         else:
-            return super(ActivationCompleteView, self).get(request, *args, **kwargs)
+            return super().get(request, *args, **kwargs)
 
     def get_message(self):
         return (

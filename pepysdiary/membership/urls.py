@@ -5,7 +5,7 @@ from pepysdiary.membership.views import (
     LogoutView,
     RegisterView,
     RegisterCompleteView,
-    ActivationCompleteView,
+    ActivateCompleteView,
     ActivateView,
     EditProfileView,
     PrivateProfileView,
@@ -22,11 +22,13 @@ urlpatterns = [
     path("logout/", LogoutView.as_view(), name="logout"),
     path("register/", RegisterView.as_view(), name="register"),
     path(
-        "register/complete/", RegisterCompleteView.as_view(), name="register_complete",
+        "register/complete/",
+        RegisterCompleteView.as_view(),
+        name="register_complete",
     ),
     path(
         "activate/complete/",
-        ActivationCompleteView.as_view(),
+        ActivateCompleteView.as_view(),
         name="activate_complete",
     ),
     re_path(
