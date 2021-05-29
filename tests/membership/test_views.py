@@ -229,6 +229,7 @@ class LoginViewTestCase(LoginTestCase):
 
     def test_successful_login(self):
         "It should redirect, show a message, and log the user in."
+        ConfigFactory(allow_login=True)
         PersonFactory(
             name="Bob",
             email="bob@example.org",
