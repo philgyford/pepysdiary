@@ -32,11 +32,9 @@ class RegisterView(FormView):
         if request.user.is_authenticated:
             return redirect("home")
         else:
-            return super(RegisterView, self).get(request, *args, **kwargs)
+            return super().get(request, *args, **kwargs)
 
     def get_success_url(self):
-        if self.success_url:
-            return self.success_url
         return reverse("register_complete")
 
     def form_valid(self, form):
@@ -47,7 +45,7 @@ class RegisterView(FormView):
             url=form.cleaned_data["url"],
             site=get_current_site(self.request),
         )
-        return super(RegisterView, self).form_valid(form)
+        return super().form_valid(form)
 
 
 class ProfileView(SingleObjectMixin, PaginatedListView):
@@ -59,9 +57,10 @@ class ProfileView(SingleObjectMixin, PaginatedListView):
     PaginatedListView handles the Annotations (comment_list).
     """
 
-    private_profile = False
+    is_private_profile = False
     template_name = "membership/person_detail.html"
     paginate_by = 20
+    allow_empty = True
 
     def get(self, request, *args, **kwargs):
         self.object = self.get_object(
@@ -70,8 +69,8 @@ class ProfileView(SingleObjectMixin, PaginatedListView):
         return super().get(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
-        context = super(ProfileView, self).get_context_data(**kwargs)
-        context["private_profile"] = self.private_profile
+        context = super().get_context_data(**kwargs)
+        context["is_private_profile"] = self.is_private_profile
         context["comment_list"] = context["object_list"]
         return context
 
@@ -87,7 +86,7 @@ class PrivateProfileView(LoginRequiredMixin, ProfileView):
     The logged-in user viewing themself.
     """
 
-    private_profile = True
+    is_private_profile = True
 
     def get_object(self, queryset=None):
         """
@@ -118,10 +117,16 @@ class LoginView(auth_views.LoginView):
     authentication_form = forms.LoginForm
     template_name = "login.html"
 
+    def get(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            return redirect("home")
+        else:
+            return super().get(request, *args, **kwargs)
+
     def form_valid(self, form):
         "Override so we can add a message for the user."
         user = form.get_user()
-        messages.success(self.request, "You're now logged in as %s." % user.name)
+        messages.success(self.request, "You’re now logged in as %s." % user.name)
         return super().form_valid(form)
 
 
@@ -129,13 +134,20 @@ class LogoutView(auth_views.LogoutView):
     template_name = "message.html"
 
     def get_context_data(self, **kwargs):
-        context = super(LogoutView, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         context["title"] = "You are now logged out"
         context["message"] = "Thanks for coming."
         return context
 
 
 class PasswordResetView(auth_views.PasswordResetView):
+    """The form where the user enters their address to receive a reset link
+
+    Note: If they enter an email address that doesn't exist in the database this
+    will still look like they've been sent an email - we don't show an error message -
+    but no email is sent.
+    """
+
     email_template_name = "emails/password_reset.txt"
     form_class = forms.PasswordResetForm
     success_url = reverse_lazy("password_reset_done")
@@ -143,10 +155,12 @@ class PasswordResetView(auth_views.PasswordResetView):
 
 
 class PasswordResetDoneView(auth_views.PasswordResetDoneView):
+    "The page after submitting their email address to receive a reminder."
+
     template_name = "message.html"
 
     def get_context_data(self, **kwargs):
-        context = super(PasswordResetDoneView, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         context["title"] = "Reset instructions sent"
         context["message"] = (
             "We’ve sent instructions for resetting your password to the "
@@ -156,16 +170,20 @@ class PasswordResetDoneView(auth_views.PasswordResetDoneView):
 
 
 class PasswordResetConfirmView(auth_views.PasswordResetConfirmView):
+    "The page the user gets to after clicking the link in a password reset email."
+
     form_class = forms.SetPasswordForm
     success_url = reverse_lazy("password_reset_complete")
     template_name = "password_confirm.html"
 
 
 class PasswordResetCompleteView(auth_views.PasswordResetCompleteView):
+    "The page the user is redirected to after successfully changing their email address"
+
     template_name = "message.html"
 
     def get_context_data(self, **kwargs):
-        context = super(PasswordResetCompleteView, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         context["title"] = "Password reset"
         context["message"] = (
             'Your password has been changed. <a href="%s">Now you can log in.</a>'
@@ -179,7 +197,7 @@ class MessageView(TemplateView):
     """
     For displaying generic messages.
     You can probably pass 'title' and 'message' in from the URL conf, although
-    I'm not keen on that, and subclassing this witl 'title' and 'message'
+    I'm not keen on that, and subclassing this with 'title' and 'message'
     attributes seems nicer.
     """
 
@@ -188,23 +206,13 @@ class MessageView(TemplateView):
     message = ""
 
     def get_title(self):
-        if "title" in self.kwargs:
-            return self.kwargs["title"]
-        elif self.title:
-            return self.title
-        else:
-            return ""
+        return self.title
 
     def get_message(self):
-        if "message" in self.kwargs:
-            return self.kwargs["message"]
-        elif self.message:
-            return self.message
-        else:
-            return ""
+        return self.message
 
     def get_context_data(self, **kwargs):
-        context = super(MessageView, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         context["title"] = self.get_title()
         context["message"] = self.get_message()
         return context
@@ -222,7 +230,7 @@ class RegisterCompleteView(MessageView):
         if request.user.is_authenticated:
             return redirect("home")
         else:
-            return super(RegisterCompleteView, self).get(request, *args, **kwargs)
+            return super().get(request, *args, **kwargs)
 
 
 class ActivateView(MessageView):
@@ -238,16 +246,18 @@ class ActivateView(MessageView):
         # Check that registration is allowed, before we go any further:
         config = Config.objects.get_site_config()
         if config and config.allow_registration is False:
-            self.message = "Sorry, registration isn't allowed at the moment. "
-            "Please try again soon."
-            return super(ActivateView, self).get(request, *args, **kwargs)
+            self.message = (
+                "Sorry, registration isn’t allowed at the moment. "
+                "Please try again soon."
+            )
+            return super().get(request, *args, **kwargs)
         else:
             #  Registration allowed, so continue:
             person = Person.objects.activate_user(kwargs["activation_key"])
             if person:
                 return redirect("activate_complete")
             else:
-                return super(ActivateView, self).get(request, *args, **kwargs)
+                return super().get(request, *args, **kwargs)
 
 
 class ActivateCompleteView(MessageView):

@@ -2,8 +2,8 @@
 
 {% load humanize %}
 
-{% block title %}{% if private_profile %}Your profile{% else %}{{ person.get_full_name }}{% endif %}{% endblock %}
-{% block header_title %}{% if private_profile %}Your profile{% else %}{{ person.get_full_name }}{% endif %}{% endblock %}
+{% block title %}{% if is_private_profile %}Your profile{% else %}{{ person.get_full_name }}{% endif %}{% endblock %}
+{% block header_title %}{% if is_private_profile %}Your profile{% else %}{{ person.get_full_name }}{% endif %}{% endblock %}
 
 
 {% block main_content %}
@@ -14,11 +14,11 @@
         {% admin_link_change change_url %}
     {% endif %}
 
-    {% if private_profile or person.url %}
+    {% if is_private_profile or person.url %}
         {# There is something to show... #}
 
         <article>
-            {% if private_profile %}
+            {% if is_private_profile %}
                 {# The logged-in user viewing themselves. #}
                 <div class="form-horizontal">
                     <div class="form-group">
@@ -31,7 +31,7 @@
                     </div>
                     <div class="form-group">
                         <span class="control-label label-static col-md-4">Website</span>
-                        <span class="col-md-8 form-control-static">{% if person.url %}<a href="{{ person.url }}" rel="nofollow">{{ person.url|urlizetrunc:50 }}</a>{% else %}None{% endif %}</span>
+                        <span class="col-md-8 form-control-static">{% if person.url %}<a href="{{ person.url }}" rel="nofollow">{{ person.url|urlizetrunc:50 }}</a>{% else %}<span class="text-muted">None</span>{% endif %}</span>
                     </div>
                 </div>
 
@@ -52,7 +52,7 @@
     {% if articles %}
       <h2>In-depth articles</h2>
 
-      <p>{% if private_profile %}You have{% else %}{{ person.get_short_name }} has{% endif %} written {% if topics|length == 1 %}this in-depth article{% else %}these in-depth articles{% endif %}:</p>
+      <p>{% if is_private_profile %}You have{% else %}{{ person.get_short_name }} has{% endif %} written {% if topics|length == 1 %}this in-depth article{% else %}these in-depth articles{% endif %}:</p>
 
       <ul>
         {% for article in articles %}
@@ -67,7 +67,7 @@
     {% if topics %}
       <h2>Encyclopedia topics</h2>
 
-      <p>{% if private_profile %}You have{% else %}{{ person.get_short_name }} has{% endif %} written {% if topics|length == 1 %}a summary for this topic{% else %}summaries for these topics{% endif %}:</p>
+      <p>{% if is_private_profile %}You have{% else %}{{ person.get_short_name }} has{% endif %} written {% if topics|length == 1 %}a summary for this topic{% else %}summaries for these topics{% endif %}:</p>
 
       <ul>
         {% for topic in topics %}
@@ -80,7 +80,7 @@
 
 	<h2>Annotations and comments</h2>
 
-	<p>{% if private_profile %}You have{% else %}{{ person.get_short_name }} has{% endif %} posted <strong>{{ page_obj.paginator.count|intcomma }}</strong> annotation{{ page_obj.paginator.count|pluralize }}/comment{{ page_obj.paginator.count|pluralize }}{% if person.first_comment_date %} since {{ person.first_comment_date|date:date_format_long }}{% endif %}.</p>
+	<p>{% if is_private_profile %}You have{% else %}{{ person.get_short_name }} has{% endif %} posted <strong>{{ page_obj.paginator.count|intcomma }}</strong> annotation{{ page_obj.paginator.count|pluralize }}/comment{{ page_obj.paginator.count|pluralize }}{% if person.first_comment_date %} since {{ person.first_comment_date|date:date_format_long }}{% endif %}.</p>
 
 	{% if comment_list %}
     {% if page_obj.number == 1 %}
@@ -100,20 +100,20 @@
 
 
 {% block sidebar_content %}
-	{% if private_profile %}
+	{% if is_private_profile %}
 		<aside class="aside-block">
-            <div class="aside-body">
-                <p><strong>Only you can see this page</strong></p>
-                <p><a href="{% url 'profile' pk=user.pk %}">See what everyone else sees</a></p>
-                <p><a href="{% url 'edit_profile' %}">Edit your profile</a></p>
-            </div>
+      <div class="aside-body">
+        <p><strong>Only you can see this page</strong></p>
+        <p><a href="{% url 'profile' pk=user.pk %}">See what everyone else sees</a></p>
+        <p><a href="{% url 'edit_profile' %}">Edit your profile</a></p>
+      </div>
 		</aside>
 	{% elif user.is_authenticated and user.pk == person.pk %}
 		<aside class="aside-block">
-            <div class="aside-body">
-                <p><strong>This is the public view of your profile</strong></p>
-                <p><a href="{% url 'private_profile' %}">See or edit all your details</a></p>
-            </div>
+      <div class="aside-body">
+        <p><strong>This is the public view of your profile</strong></p>
+        <p><a href="{% url 'private_profile' %}">See or edit all your details</a></p>
+      </div>
 		</aside>
 	{% endif %}
 {% endblock sidebar_content %}

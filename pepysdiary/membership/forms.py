@@ -84,7 +84,7 @@ class RegistrationForm(forms.Form):
         We might need to add captcha and question/answer anti-spam fields,
         depending on our site config.
         """
-        super(RegistrationForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         config = Config.objects.get_site_config()
         if config is not None:
             if config.use_registration_captcha is True:
@@ -187,19 +187,16 @@ class LoginForm(AuthenticationForm):
         if config is not None:
             if config.allow_login is False:
                 raise forms.ValidationError("Sorry, logging in is currently disabled.")
-        return super(LoginForm, self).clean()
+        return super().clean()
 
 
 class PersonEditForm(forms.ModelForm):
     class Meta:
         model = Person
-        fields = (
-            "email",
-            "url",
-        )
+        fields = ("email", "url")
 
     def __init__(self, *args, **kwargs):
-        super(PersonEditForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.fields["email"].widget = forms.TextInput(attrs=attrs_dict)
         self.fields["url"].widget = forms.TextInput(attrs=attrs_dict)
 
