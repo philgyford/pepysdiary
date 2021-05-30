@@ -6,35 +6,8 @@ from django.utils import timezone
 from django_comments.moderation import CommentModerator, moderator
 from markdown import markdown
 
-from pepysdiary.common.models import PepysModel
-
-
-class PublishedPostManager(models.Manager):
-    """
-    All Posts that have been Published.
-    """
-
-    def get_queryset(self):
-        return (
-            super(PublishedPostManager, self)
-            .get_queryset()
-            .filter(status=Post.Status.PUBLISHED)
-        )
-
-    def is_valid_category_slug(self, slug):
-        "Is `slug` a valid Post category?"
-        return slug in Post.Category.values
-
-    def category_slug_to_name(self, slug):
-        """
-        Assuming slug is a valid category slug, return the name.
-        Else, ''.
-        """
-        name = ""
-        for k, v in Post.Category.choices:
-            if k == slug:
-                name = v
-        return name
+from .managers import PublishedPostManager
+from ..common.models import PepysModel
 
 
 class Post(PepysModel):
@@ -93,9 +66,7 @@ class Post(PepysModel):
     published_posts = PublishedPostManager()
 
     class Meta:
-        ordering = [
-            "-date_published",
-        ]
+        ordering = ["-date_published"]
 
     def __str__(self):
         return "%s" % (self.title)
@@ -108,7 +79,7 @@ class Post(PepysModel):
             # then set it.
             self.date_published = timezone.now()
 
-        super(Post, self).save(*args, **kwargs)
+        super().save(*args, **kwargs)
 
     def get_absolute_url(self):
         return reverse(
@@ -134,8 +105,24 @@ class Post(PepysModel):
         e.g. "New features".
         """
         categories = {c[0]: c[1] for c in self.Category.choices}
-        if self.category in categories:
-            return categories[self.category]
+        return categories[self.category]
+
+    @classmethod
+    def is_valid_category_slug(self, slug):
+        "Is `slug` a valid Post category?"
+        return slug in Post.Category.values
+
+    @classmethod
+    def category_slug_to_name(self, slug):
+        """
+        Assuming slug is a valid category slug, return the name.
+        Else, ''.
+        """
+        name = ""
+        for k, v in Post.Category.choices:
+            if k == slug:
+                name = v
+        return name
 
 
 class PostModerator(CommentModerator):

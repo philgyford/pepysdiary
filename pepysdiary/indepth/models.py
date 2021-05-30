@@ -80,7 +80,7 @@ class Article(PepysModel):
             # then set it.
             self.date_published = timezone.now()
 
-        super(Article, self).save(*args, **kwargs)
+        super().save(*args, **kwargs)
 
     def get_absolute_url(self):
         return reverse(

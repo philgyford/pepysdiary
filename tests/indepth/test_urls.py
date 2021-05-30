@@ -5,7 +5,7 @@ from pepysdiary.indepth import feeds
 from pepysdiary.indepth import views
 
 
-class InDepthURLsTestCase(TestCase):
+class IndepthURLsTestCase(TestCase):
     """Testing that the named URLs map the correct name to URL,
     and that the correct views are called.
     """

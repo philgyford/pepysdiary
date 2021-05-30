@@ -9,8 +9,4 @@ class PublishedArticleManager(models.Manager):
     def get_queryset(self):
         from .models import Article
 
-        return (
-            super(PublishedArticleManager, self)
-            .get_queryset()
-            .filter(status=Article.Status.PUBLISHED)
-        )
+        return super().get_queryset().filter(status=Article.Status.PUBLISHED)
