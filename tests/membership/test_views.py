@@ -1,12 +1,12 @@
 from unittest.mock import patch
 
+from captcha.client import RecaptchaResponse
 from django.contrib import auth
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.tokens import default_token_generator
 from django.contrib.messages import get_messages
 from django.contrib.sites.models import Site
 from django.core import mail
-from django.db.models import CharField
 from django.http.response import Http404
 from django.test import TestCase
 from django.utils.encoding import force_bytes
@@ -736,14 +736,14 @@ class RegisterViewTestCase(LoginTestCase):
         self.assertEqual(Person.objects.count(), 0)
         self.assertEqual(response.status_code, 200)
 
-    @patch(
-        "pepysdiary.membership.forms.ReCaptchaField", lambda: CharField(required=False)
-    )
-    def test_recaptcha_enabled(self):
+    @patch("captcha.fields.client.submit")
+    def test_recaptcha_enabled(self, mocked_submit):
         """Ensure registration works if captcha is enabled.
         Can't really test the ReCaptcha itself, so mocking it so it's not required.
+        Following an example at https://github.com/praekelt/django-recaptcha/blob/develop/captcha/tests/test_fields.py  # noqa: E501
         """
-        ConfigFactory(use_registration_captcha=False)
+        ConfigFactory(use_registration_captcha=True)
+        mocked_submit.return_value = RecaptchaResponse(is_valid=True)
 
         data = {
             "name": "Bob",
@@ -752,6 +752,7 @@ class RegisterViewTestCase(LoginTestCase):
             "email": "bob@example.com",
             "url": "",
             "honeypot": "",
+            "g-recaptcha-response": "PASSED",
         }
         response = self.client.post("/account/register/", data)
 
