@@ -1,4 +1,3 @@
-from django.core.exceptions import ImproperlyConfigured
 from django.http import Http404
 from django.views.generic.dates import DateDetailView
 
