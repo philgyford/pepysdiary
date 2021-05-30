@@ -759,6 +759,55 @@ class RegisterViewTestCase(LoginTestCase):
         self.assertEqual(Person.objects.count(), 1)
         self.assertRedirects(response, "/account/register/complete/")
 
+    def test_validate_disallowed_names(self):
+        "We should not be able to register with a disallowed name"
+        # Not testing every disallowed name, but a sample from
+        # membership.utilities.validate_person_name()
+        # Matching the first test in there.
+        names = ["anon", "Samuel Pepys", "  root  "]
+
+        for name in names:
+            data = {
+                "name": name,
+                "password1": "my-password-123",
+                "password2": "my-password-123",
+                "email": "bob@example.com",
+                "url": "",
+                "honeypot": "",
+            }
+            response = self.client.post("/account/register/", data)
+            self.assertEqual(Person.objects.count(), 0)
+            self.assertEqual(response.status_code, 200)
+            errors = response.context["form"].errors.as_data()
+            self.assertEqual(
+                f"{name.strip()} is not an available name",
+                str(errors["name"][0].message),
+            )
+
+    def test_validate_disallowed_names_2(self):
+        "We should not be able to register with a disallowed name"
+        # Not testing every disallowed name, but a sample from
+        # membership.utilities.validate_person_name()
+        # Matching the second test in there.
+        names = ["()"]
+        for name in names:
+            data = {
+                "name": name,
+                "password1": "my-password-123",
+                "password2": "my-password-123",
+                "email": "bob@example.com",
+                "url": "",
+                "honeypot": "",
+            }
+            response = self.client.post("/account/register/", data)
+            self.assertEqual(Person.objects.count(), 0)
+            self.assertEqual(response.status_code, 200)
+            errors = response.context["form"].errors.as_data()
+            self.assertEqual(
+                f"{name.strip()} contains invalid characters or formatting",
+                str(errors["name"][0].message),
+            )
+
 
 class RegisterCompleteViewTestCase(LoginTestCase):
     def test_response_200(self):

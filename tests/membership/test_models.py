@@ -1,9 +1,9 @@
-from django.core import mail
 from django.test import override_settings, TestCase
+from django.contrib.sites.models import Site
+from django.core import mail
 from freezegun import freeze_time
 
 from pepysdiary.common.utilities import make_datetime
-from django.contrib.sites.models import Site
 from pepysdiary.encyclopedia.factories import TopicFactory
 from pepysdiary.indepth.factories import DraftArticleFactory, PublishedArticleFactory
 from pepysdiary.membership.factories import PersonFactory
