@@ -1,20 +1,77 @@
-#! -*- coding: utf-8 -*-
 import re
 import time
 
 from django.db import models
 from django.utils import timezone
+from treebeard.mp_tree import MP_NodeManager
 
+from pepysdiary.encyclopedia import category_lookups
 from pepysdiary.encyclopedia.wikipedia_fetcher import WikipediaFetcher
+
+
+class CategoryManager(MP_NodeManager):
+    def map_category_choices(self):
+        """
+        The categories we DO use on the maps page.
+        As opposed to the Topic.MapCategory, which appears to be unused.
+        This structure is used to generate the SELECT field on the
+        /encyclopedia/map/ page.
+        The numbers are the IDs of the relevant Categories.
+
+        To add a new option to the map, you should ONLY need to add it to
+        this structure, and everything else should work...
+        You might also want to adjust the start_coords in pepys.js if the map
+        should be focused on something other than central London.
+        """
+        return (
+            (
+                "London",
+                (
+                    (category_lookups.PLACES_LONDON_AREAS, "Areas of London"),
+                    (
+                        category_lookups.PLACES_LONDON_CHURCHES,
+                        "Churches and cathedrals in London",
+                    ),
+                    (category_lookups.PLACES_LONDON_GOVERNMENT, "Government buildings"),
+                    (category_lookups.PLACES_LONDON_LIVERY_HALLS, "Livery halls"),
+                    (
+                        category_lookups.PLACES_LONDON_STREETS,
+                        "Streets, gates, squares, piers, etc",
+                    ),
+                    (category_lookups.PLACES_LONDON_TAVERNS, "Taverns in London"),
+                    (category_lookups.PLACES_LONDON_THEATRES, "Theatres in London"),
+                    (category_lookups.PLACES_LONDON_WHITEHALL, "Whitehall Palace"),
+                    (category_lookups.PLACES_LONDON_ROYAL, "Other royal buildings"),
+                    (category_lookups.PLACES_LONDON_OTHER, "Other London buildings"),
+                ),
+            ),
+            (category_lookups.PLACES_LONDON_ENVIRONS, "London environs"),
+            (category_lookups.PLACES_BRITAIN_WATERWAYS, "Waterways in Britain"),
+            (category_lookups.PLACES_BRITAIN_REST, "Rest of Britain"),
+            (category_lookups.PLACES_WORLD_REST, "Rest of the world"),
+        )
+
+    def valid_map_category_ids(self):
+        """
+        Returns a list of the category IDs in map_category_choices().
+        Assumes we only have one sub-level.
+        There's probably some clever one-line way of doing this, but still.
+        """
+        choices = self.map_category_choices()
+        ids = []
+        for tup1 in choices:
+            if isinstance(tup1[0], int):
+                ids.append(tup1[0])
+            else:
+                for tup2 in tup1[1]:
+                    ids.append(tup2[0])
+        return ids
 
 
 class TopicManager(models.Manager):
     def pepys_homes_ids(self):
         """The IDs of the Topics about the places Pepys has lived."""
-        return [
-            102,
-            1023,
-        ]
+        return [102, 1023]
 
     def fetch_wikipedia_texts(self, topic_ids=[], num=None):
         """
@@ -40,30 +97,30 @@ class TopicManager(models.Manager):
             "success": [],
             "failure": [],
         }
-        topics = None
 
         qs = self.model.objects.only("id", "wikipedia_fragment").exclude(
             wikipedia_fragment__exact=""
         )
 
         if num == "all":
-            topics = qs
-        elif num is not None and isinstance(num, int):
+            # We don't modify the QuerySet
+            pass
+        elif isinstance(num, int):
             # We want any topics with wikipedia_last_fetch = NULL to be
             # returned first, before any low datetimes. By default they would
             # be listed last. This fixes that.
             # http://stackoverflow.com/a/12631576/250962
-            topics = qs.extra(
+            qs = qs.extra(
                 select={"null_fetch": "wikipedia_last_fetch is null"},
                 order_by=["-null_fetch", "wikipedia_last_fetch"],
             )[:num]
         else:
-            topics = qs.filter(pk__in=topic_ids)
+            qs = qs.filter(pk__in=topic_ids)
 
         fetcher = WikipediaFetcher()
 
-        if topics is not None:
-            for topic in topics:
+        if qs.count() > 0:
+            for topic in qs:
                 fetched = fetcher.fetch(topic.wikipedia_fragment)
                 if fetched["success"] is True:
                     topic.wikipedia_html = fetched["content"]
@@ -113,34 +170,30 @@ class TopicManager(models.Manager):
         """
         order_title = text
 
-        if is_person:
-            # First we take off any bit in parentheses at the end.
-            name_match = re.match(r"^(.*?)(?:\s)?(\(.*?\))?$", text)
-            parentheses = ""
-            if name_match is not None:
+        if text != "":
+            if is_person:
+                # First we take off any bit in parentheses at the end.
+                name_match = re.match(r"^(.*?)(?:\s)?(\(.*?\))?$", text)
+                parentheses = ""
                 matches = name_match.groups()
                 if matches[1] is not None:
-                    parentheses = " %s" % matches[1]
+                    parentheses = f" {matches[1]}"
                 # The actual name part of the string:
                 name = matches[0]
 
-            pattern = r"""
-                # Optionally match a title:
-                (Ald\.|Capt\.|Col\.|Don|Dr|Lady|Lieut\.|Lord|Lt-Adm\.|Lt-Col\.|Lt-Gen\.|Maj\.(?:-Gen\.)?(?:\sAld\.)?(?:\sSir)?|Miss|(?:Mrs?)|Ms|Pope|Sir)?
-                # Ignore any space after a title:
-                (?:\s)?
-                # Match a single first name:
-                (.*?)
-                # Match any other names up until the end:
-                (?:\s(.*?))?
-                # That's it:
-                $
-            """
-            name_match = re.match(pattern, name, re.VERBOSE)
-            if name_match is None:
-                # Leave it as it is.
-                pass
-            else:
+                pattern = r"""
+                    # Optionally match a title:
+                    (Ald\.|Capt\.|Col\.|Don|Dr|Lady|Lieut\.|Lord|Lt-Adm\.|Lt-Col\.|Lt-Gen\.|Maj\.(?:-Gen\.)?(?:\sAld\.)?(?:\sSir)?|Miss|(?:Mrs?)|Ms|Pope|Sir)?
+                    # Ignore any space after a title:
+                    (?:\s)?
+                    # Match a single first name:
+                    (.*?)
+                    # Match any other names up until the end:
+                    (?:\s(.*?))?
+                    # That's it:
+                    $
+                """
+                name_match = re.match(pattern, name, re.VERBOSE)
                 matches = list(name_match.groups())
 
                 # We need to trap anything that's like:
@@ -167,6 +220,8 @@ class TopicManager(models.Manager):
                         # The "surname" part has something in it.
 
                         if matches[2][:1] == "(":
+                            # Not sure what this would catch, because the example below
+                            # is split up with the very first regex.
                             # eg, (None, 'Mary', "(c, Pepys' chambermaid)", None)
                             # leave it as-is.
                             pass
@@ -248,24 +303,24 @@ class TopicManager(models.Manager):
                     else:
                         pass
 
-        else:  # Not a person.
-            # Remove leading 'The '.
-            the_pattern = re.compile(r"^The\s(.*?)(?:\s\((.*?)\))?$")
-            the_match = the_pattern.match(text)
-            if the_match is not None:
-                # Starts with 'The '.
-                matches = the_match.groups()
-                if matches[1] is None:
-                    # eg, ('Royal Prince', None)
-                    order_title = "%s, The" % matches[0]
-                else:
-                    # eg, ('Alchemist', 'Ben Jonson')
-                    order_title = "%s, The (%s)" % (matches[0], matches[1])
+            else:  # Not a person.
+                # Remove leading 'The '.
+                the_pattern = re.compile(r"^The\s(.*?)(?:\s\((.*?)\))?$")
+                the_match = the_pattern.match(text)
+                if the_match is not None:
+                    # Starts with 'The '.
+                    matches = the_match.groups()
+                    if matches[1] is None:
+                        # eg, ('Royal Prince', None)
+                        order_title = "%s, The" % matches[0]
+                    else:
+                        # eg, ('Alchemist', 'Ben Jonson')
+                        order_title = "%s, The (%s)" % (matches[0], matches[1])
 
-            # Remove leading apostrophe.
-            apos_pattern = re.compile(r"^'(.*)$")
-            apos_match = apos_pattern.match(text)
-            if apos_match is not None:
-                order_title = apos_match.groups()[0]
+                # Remove leading apostrophe.
+                apos_pattern = re.compile(r"^'(.*)$")
+                apos_match = apos_pattern.match(text)
+                if apos_match is not None:
+                    order_title = apos_match.groups()[0]
 
         return order_title

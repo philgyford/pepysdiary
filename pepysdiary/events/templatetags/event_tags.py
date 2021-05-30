@@ -16,6 +16,8 @@ def events_html(title, event_list):
     `title` is for the <h2>, eg 'Diary Entries' or 'In Parliament'.
     `event_list` is a list of dicts, each dict having a `text` element and an
     optional `url`.
+
+    Used by the three functions below.
     """
     if len(event_list) == 0:
         return ""
@@ -29,30 +31,7 @@ def events_html(title, event_list):
     return html
 
 
-def entries_for_day(date):
-    """
-    Returns HTML for links to any Diary Entries that were written on `date`.
-    Or an empty string if there aren't any.
-    """
-    event_list = []
-    entries = Entry.objects.filter(diary_date=date)
-    if len(entries) > 0:
-        for entry in entries:
-            event_list.append({"url": entry.get_absolute_url(), "text": entry.title})
-    return mark_safe(events_html("In the Diary", event_list))
-
-
-def letters_for_day(date):
-    """
-    Returns HTML for links to any Letters that were written on `date`.
-    Or an empty string if there aren't any.
-    """
-    event_list = []
-    letters = Letter.objects.filter(letter_date=date)
-    if len(letters) > 0:
-        for letter in letters:
-            event_list.append({"url": letter.get_absolute_url(), "text": letter.title})
-    return mark_safe(events_html("Letters", event_list))
+# Functions that generate HTML for DayEvents, Entries or Letters for a particular day.
 
 
 def dayevents_for_day(date):
@@ -102,6 +81,35 @@ def dayevents_for_day(date):
         )
 
     return html
+
+
+def entries_for_day(date):
+    """
+    Returns HTML for links to any Diary Entries that were written on `date`.
+    Or an empty string if there aren't any.
+    """
+    event_list = []
+    entries = Entry.objects.filter(diary_date=date)
+    if len(entries) > 0:
+        for entry in entries:
+            event_list.append({"url": entry.get_absolute_url(), "text": entry.title})
+    return mark_safe(events_html("In the Diary", event_list))
+
+
+def letters_for_day(date):
+    """
+    Returns HTML for links to any Letters that were written on `date`.
+    Or an empty string if there aren't any.
+    """
+    event_list = []
+    letters = Letter.objects.filter(letter_date=date)
+    if len(letters) > 0:
+        for letter in letters:
+            event_list.append({"url": letter.get_absolute_url(), "text": letter.title})
+    return mark_safe(events_html("Letters", event_list))
+
+
+# The actual template tags, that call the above functions.
 
 
 @register.simple_tag

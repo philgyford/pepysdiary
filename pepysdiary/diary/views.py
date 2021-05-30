@@ -1,6 +1,3 @@
-import datetime
-
-from django.core.exceptions import ObjectDoesNotExist
 from django.http import Http404
 from django.utils.translation import ugettext as _
 from django.views.generic.dates import (
@@ -51,36 +48,15 @@ class EntryDetailView(EntryMixin, DateDetailView):
             self.get_day_format(),
         )
 
+        # Deleted some things from DateDetailView.get_object() that we don't use.
+
         # Use a custom queryset if provided
         qs = queryset or self.get_queryset()
+        qs = qs.filter(**{self.date_field: date})
 
-        if not self.get_allow_future() and date > datetime.date.today():
-            raise Http404(
-                _(
-                    "Future %(verbose_name_plural)s not available because "
-                    "%(class_name)s.allow_future is False."
-                )
-                % {
-                    "verbose_name_plural": qs.model._meta.verbose_name_plural,
-                    "class_name": self.__class__.__name__,
-                }
-            )
-
-        # Filter down a queryset from self.queryset using the date from the
-        # URL. This'll get passed as the queryset to DetailView.get_object,
-        # which'll handle the 404
-        # date_field = self.get_date_field()
-        # field = qs.model._meta.get_field(date_field)
-        # lookup = _date_lookup_for_field(field, date)
-        lookup_kwargs = self._make_single_date_lookup(date)
-        qs = qs.filter(**lookup_kwargs)
-
-        # Here's where we differ from DateDetailView.get_object().
-        # Instead of calling DetailView.get_object(), we just fetch an object
-        # based on the date we've got.
         try:
             obj = qs.get()
-        except ObjectDoesNotExist:
+        except qs.model.DoesNotExist:
             raise Http404(
                 _("No %(verbose_name)s found matching the query")
                 % {"verbose_name": qs.model._meta.verbose_name}
@@ -153,7 +129,7 @@ class EntryMonthArchiveView(EntryMixin, MonthArchiveView):
         return self.ordering
 
 
-class EntryArchiveView(EntryMixin, ArchiveIndexView):
+class EntryArchiveIndexView(EntryMixin, ArchiveIndexView):
     """Show all the years and months there are Entries for."""
 
     def get_dated_items(self):

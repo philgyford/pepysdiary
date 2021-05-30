@@ -18,8 +18,18 @@ class LetterFactory(factory.django.DjangoModelFactory):
     display_date = factory.Faker("text", max_nb_chars=50)
     text = factory.Faker("paragraph")
     excerpt = factory.Faker("text", max_nb_chars=200)
-    sender = factory.SubFactory("pepysdiary.encyclopedia.factories.PersonTopicFactory")
-    recipient = factory.SubFactory(
-        "pepysdiary.encyclopedia.factories.PersonTopicFactory"
-    )
     slug = factory.Sequence(lambda n: "letter%d" % n)
+
+    # Including the attributes below results in tests aborting with:
+    #   django.db.transaction.TransactionManagementError: An error
+    #   occurred in the current transaction. You can't execute queries
+    #   until the end of the 'atomic' block.
+    # Using TransactionTestCase instead of TestCase works, but given
+    # these aren't needed for most tests, let's just omit them:
+
+    # sender = factory.SubFactory(
+    #       "pepysdiary.encyclopedia.factories.PersonTopicFactory"
+    # )
+    # recipient = factory.SubFactory(
+    #     "pepysdiary.encyclopedia.factories.PersonTopicFactory"
+    # )

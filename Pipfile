@@ -37,6 +37,7 @@ black = "==20.8b1"
 django-extensions = "*"
 coverage = "*"
 freezegun = "*"
+responses = "*"
 
 [requires]
 python_version = "3.8"

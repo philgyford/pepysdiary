@@ -6,15 +6,9 @@ from django.db import models
 from django.urls import reverse
 
 from django_comments.moderation import CommentModerator, moderator
-from pepysdiary.common.managers import ReferredManagerMixin
-from pepysdiary.common.models import OldDateMixin, PepysModel
-
-# from pepysdiary.common.utilities import *
-from pepysdiary.encyclopedia.models import Topic
-
-
-class LetterManager(models.Manager, ReferredManagerMixin):
-    pass
+from .managers import LetterManager
+from ..common.models import OldDateMixin, PepysModel
+from ..encyclopedia.models import Topic
 
 
 class Letter(PepysModel, OldDateMixin):
@@ -36,8 +30,8 @@ class Letter(PepysModel, OldDateMixin):
         help_text='eg "Thursday 27 April 1665". Because days of the week '
         "are calculated wrong for old dates.",
     )
-    text = models.TextField(blank=False, null=False)
-    footnotes = models.TextField(blank=True, null=False)
+    text = models.TextField(blank=False, null=False, help_text="Should be HTML.")
+    footnotes = models.TextField(blank=True, null=False, help_text="Should be HTML.")
     excerpt = models.TextField(
         blank=False,
         null=False,
@@ -142,7 +136,7 @@ class Letter(PepysModel, OldDateMixin):
     @property
     def short_date(self):
         """
-        Shorter than self.display_date, like '27 April 1665'.
+        Shorter than self.display_date, like '27 Apr 1665'.
         """
         return "%s %s %s" % (self.day_e, self.month_b, self.year)
 

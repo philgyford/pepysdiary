@@ -1,4 +1,4 @@
-from django.test import TransactionTestCase
+from django.test import TestCase
 
 from pepysdiary.common.templatetags.list_tags import (
     latest_commented_articles,
@@ -22,7 +22,7 @@ from pepysdiary.news.factories import PublishedPostFactory
 from pepysdiary.letters.factories import LetterFactory
 
 
-class ListTagsTestCase(TransactionTestCase):
+class ListTagsTestCase(TestCase):
     def test_latest_commented_entries(self):
         entry_1 = EntryFactory()
         entry_2 = EntryFactory()

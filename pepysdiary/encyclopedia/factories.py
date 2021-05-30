@@ -10,6 +10,15 @@ fake = Faker()
 
 
 class CategoryFactory(factory.django.DjangoModelFactory):
+    """
+    I think doing something like this creates a structure, and avoids
+    errors about 'duplicate key value violates unique constraint
+    "encyclopedia_category_path_key"':
+
+        cat_1 = Category.add_root(title="Animals")
+        cat_2 = cat_1.add_child(title="Dogs")
+        cat_3 = cat_2.add_child(title="Terriers")
+    """
     class Meta:
         model = Category
 
@@ -35,9 +44,31 @@ class TopicFactory(factory.django.DjangoModelFactory):
             return
 
         if extracted:
-            # A list of categories were passed in, use them
+            # A list of Categories were passed in, use them
             for category in extracted:
                 self.categories.add(category)
+
+    @factory.post_generation
+    def diary_references(self, create, extracted, **kwargs):
+        if not create:
+            # Simple build, do nothing.
+            return
+
+        if extracted:
+            # A list of Entries were passed in, use them
+            for entry in extracted:
+                self.diary_references.add(entry)
+
+    @factory.post_generation
+    def letter_references(self, create, extracted, **kwargs):
+        if not create:
+            # Simple build, do nothing.
+            return
+
+        if extracted:
+            # A list of Letters were passed in, use them
+            for letter in extracted:
+                self.letter_references.add(letter)
 
 
 class PersonTopicFactory(TopicFactory):

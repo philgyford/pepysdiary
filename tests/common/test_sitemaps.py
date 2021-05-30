@@ -1,4 +1,5 @@
-from django.test import TransactionTestCase
+from django.contrib.sites.models import Site
+from django.test import TestCase
 
 from pepysdiary.common.utilities import make_date, make_datetime
 from pepysdiary.diary.factories import EntryFactory
@@ -10,10 +11,14 @@ from pepysdiary.news.factories import PublishedPostFactory
 from pepysdiary.news.models import Post
 
 
-class SitemapsTestCase(TransactionTestCase):
-    """
-    TransactionTestCase is needed for LetterFactory
-    """
+class SitemapsTestCase(TestCase):
+
+    def setUp(self):
+        # Because otherwise, for some reason, the tests have a different domain,
+        # and we need that to test URLs:
+        site = Site.objects.first()
+        site.domain = "example.com"
+        site.save()
 
     def test_overall_sitemap_response(self):
         response = self.client.get("/sitemap.xml")

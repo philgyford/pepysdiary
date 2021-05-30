@@ -1,12 +1,15 @@
 from django.conf import settings
 from django.contrib import messages
-
 # from django.contrib.auth import get_user_model
 from django.utils.encoding import smart_str
 
+import requests
+
 # from django_comments import signals
 # from django_comments.models import CommentFlag
-from .pykismet3 import Akismet
+
+
+AKISMET_CHECK_URL = "rest.akismet.com/1.1/comment-check"
 
 
 def is_akismet_spam(sender, comment, request):
@@ -23,7 +26,7 @@ def is_akismet_spam(sender, comment, request):
         # Don't test comments posted by staff/admin or trusted commenters.
         return False
 
-    if not settings.AKISMET_API_KEY:
+    if not hasattr(settings, "AKISMET_API_KEY"):
         # If it's not set we can't test.
         return False
 
@@ -34,7 +37,7 @@ def is_akismet_spam(sender, comment, request):
     # URL of the Post the Comment was posted on
     parent_object_url = comment.content_object.get_absolute_url()
 
-    data = {
+    parameters = {
         "user_ip": ip,
         "user_agent": request.META.get("HTTP_USER_AGENT", ""),
         "referrer": request.POST.get("referrer", ""),
@@ -42,32 +45,49 @@ def is_akismet_spam(sender, comment, request):
         "permalink": f"{host}{parent_object_url}",
         "comment_type": "comment",
         "comment_content": smart_str(comment.comment),
+        "blog": host,
         "blog_lang": "en",
         "blog_charset": "UTF-8",
     }
 
     if comment.user:
         # Posted by a logged-in user.
-        data["comment_author"] = comment.user.get_full_name()
-        data["comment_author_email"] = comment.user.email
+        parameters["comment_author"] = comment.user.name
+        parameters["comment_author_email"] = comment.user.email
         if comment.user.url:
-            data["comment_author_url"] = comment.user.url
+            parameters["comment_author_url"] = comment.user.url
     else:
-        data["comment_author"] = comment.user_name
-        data["comment_author_email"] = comment.user_email
+        parameters["comment_author"] = comment.user_name
+        parameters["comment_author_email"] = comment.user_email
         if comment.user_url:
-            data["comment_author_url"] = comment.user_url
-
-    if settings.DEBUG:
-        data["is_test"] = 1
+            parameters["comment_author_url"] = comment.user_url
 
     # When testing you can ensure a spam response by adding this:
-    # data["comment_author"] = "viagra-test-123"
+    # parameters["comment_author"] = "viagra-test-123"
 
-    a = Akismet(blog_url=host, user_agent="")
-    a.api_key = settings.AKISMET_API_KEY
+    headers = {
+        "User-Agent": "PepysDiary.com/1.0"
+    }
 
-    return a.check(data)
+    r = requests.post(
+        "https://" + settings.AKISMET_API_KEY + "." + AKISMET_CHECK_URL,
+        data=parameters,
+        headers=headers,
+    )
+
+    if r.text == "false":
+        return False
+    elif r.text == "true":
+        return True
+    else:
+        # If there was an error from Akismet, say the comment isn't spam.
+        messages.add_message(
+            request,
+            messages.ERROR,
+            f"There was an error when testing the comment: {r.text}",
+            extra_tags="danger",
+        )
+        return False
 
 
 def test_comment_for_spam(sender, comment, request, **kwargs):
@@ -119,19 +139,6 @@ def test_comment_for_spam(sender, comment, request, **kwargs):
                 "to have it published." % (managers[0][1], comment.id)
             )
 
-        add_comment_message(request, messages.WARNING, message_content)
-
-
-def add_comment_message(request, level, content):
-    """
-    So we have a single place for adding flash messages that will
-    appear when submitting a comment.
-
-    https://docs.djangoproject.com/en/3.0/ref/contrib/messages/
-
-    Keyword arguments:
-    request - The Request object
-    level - One of the message levels, e.g. messages.SUCCESS
-    content - The content of the message, a string.
-    """
-    messages.add_message(request, level, content, extra_tags="danger")
+        messages.add_message(
+            request, messages.WARNING, message_content, extra_tags="danger"
+        )

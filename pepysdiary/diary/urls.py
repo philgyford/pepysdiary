@@ -4,7 +4,7 @@ from .feeds import LatestEntriesFeed
 from .views import (
     EntryDetailView,
     EntryMonthArchiveView,
-    EntryArchiveView,
+    EntryArchiveIndexView,
     SummaryYearArchiveView,
 )
 
@@ -22,7 +22,7 @@ urlpatterns = [
         EntryMonthArchiveView.as_view(),
         name="entry_month_archive",
     ),
-    path("", EntryArchiveView.as_view(), name="entry_archive"),
+    path("", EntryArchiveIndexView.as_view(), name="entry_archive"),
     re_path(
         r"^summary/(?P<year>[0-9]{4})/$",
         SummaryYearArchiveView.as_view(),

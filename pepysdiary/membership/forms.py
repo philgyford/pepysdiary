@@ -22,6 +22,43 @@ from pepysdiary.membership.utilities import validate_person_name
 attrs_dict = {"class": "required form-control"}
 
 
+class LoginForm(AuthenticationForm):
+    username = forms.EmailField(
+        widget=forms.EmailInput(attrs=attrs_dict),
+        max_length=254,
+        label="Email address",
+        error_messages={"invalid": "Please enter a valid email address."},
+    )
+    password = forms.CharField(widget=forms.PasswordInput(attrs=attrs_dict))
+
+    def clean(self):
+        config = Config.objects.get_site_config()
+        if config is not None:
+            if config.allow_login is False:
+                raise forms.ValidationError("Sorry, logging in is currently disabled.")
+        return super().clean()
+
+
+class PersonEditForm(forms.ModelForm):
+    class Meta:
+        model = Person
+        fields = ("email", "url")
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["email"].widget = forms.TextInput(attrs=attrs_dict)
+        self.fields["url"].widget = forms.TextInput(attrs=attrs_dict)
+
+
+class PasswordResetForm(PasswordResetForm):
+    email = forms.EmailField(
+        widget=forms.EmailInput(attrs=attrs_dict),
+        max_length=254,
+        label="Email address",
+        error_messages={"invalid": "Please enter a valid email address."},
+    )
+
+
 class RegistrationForm(forms.Form):
     """
     Form for registering a new user account.
@@ -84,7 +121,7 @@ class RegistrationForm(forms.Form):
         We might need to add captcha and question/answer anti-spam fields,
         depending on our site config.
         """
-        super(RegistrationForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         config = Config.objects.get_site_config()
         if config is not None:
             if config.use_registration_captcha is True:
@@ -171,46 +208,6 @@ class RegistrationForm(forms.Form):
             if self.cleaned_data["password1"] != self.cleaned_data["password2"]:
                 raise forms.ValidationError(_("The two password fields didn't match."))
         return self.cleaned_data
-
-
-class LoginForm(AuthenticationForm):
-    username = forms.EmailField(
-        widget=forms.EmailInput(attrs=attrs_dict),
-        max_length=254,
-        label="Email address",
-        error_messages={"invalid": "Please enter a valid email address."},
-    )
-    password = forms.CharField(widget=forms.PasswordInput(attrs=attrs_dict))
-
-    def clean(self):
-        config = Config.objects.get_site_config()
-        if config is not None:
-            if config.allow_login is False:
-                raise forms.ValidationError("Sorry, logging in is currently disabled.")
-        return super(LoginForm, self).clean()
-
-
-class PersonEditForm(forms.ModelForm):
-    class Meta:
-        model = Person
-        fields = (
-            "email",
-            "url",
-        )
-
-    def __init__(self, *args, **kwargs):
-        super(PersonEditForm, self).__init__(*args, **kwargs)
-        self.fields["email"].widget = forms.TextInput(attrs=attrs_dict)
-        self.fields["url"].widget = forms.TextInput(attrs=attrs_dict)
-
-
-class PasswordResetForm(PasswordResetForm):
-    email = forms.EmailField(
-        widget=forms.EmailInput(attrs=attrs_dict),
-        max_length=254,
-        label="Email address",
-        error_messages={"invalid": "Please enter a valid email address."},
-    )
 
 
 class SetPasswordForm(SetPasswordForm):

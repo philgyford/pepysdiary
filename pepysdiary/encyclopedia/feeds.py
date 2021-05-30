@@ -14,18 +14,27 @@ class LatestTopicsFeed(BaseRSSFeed):
         return item.date_created
 
     def item_description(self, item):
+        desc = ""
+
         if item.summary_html:
-            return self.make_item_description(item.summary_html)
+            desc = item.summary_html
         elif item.wheatley_html:
-            return self.make_item_description(item.wheatley_html)
+            desc = item.wheatley_html
         elif item.tooltip_text:
-            return self.make_item_description(item.tooltip_text)
-        else:
-            return ""
+            desc = item.tooltip_text
+
+        return self.make_item_description(desc)
 
     def item_content_encoded(self, item):
+        text1 = ""
+
+        if item.summary_html:
+            text1 = item.summary_html
+        elif item.tooltip_text:
+            text1 = f"<p>{item.tooltip_text}</p>"
+
         return self.make_item_content_encoded(
-            text1=item.summary_html,
+            text1=text1,
             text2=item.wheatley_html,
             url=item.get_absolute_url(),
             comment_name=item.comment_name,

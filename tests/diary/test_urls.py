@@ -5,11 +5,11 @@ from pepysdiary.diary import feeds
 from pepysdiary.diary import views
 
 
-# Testing that the named URLs map the correct name to URL,
-# and that the correct views are called.
-
-
 class DiaryURLsTestCase(TestCase):
+    """Testing that the named URLs map the correct name to URL,
+    and that the correct views are called.
+    """
+
     def test_entry_detail_url(self):
         self.assertEqual(
             reverse(
@@ -40,7 +40,7 @@ class DiaryURLsTestCase(TestCase):
 
     def test_entry_archive_view(self):
         self.assertEqual(
-            resolve("/diary/").func.__name__, views.EntryArchiveView.__name__
+            resolve("/diary/").func.__name__, views.EntryArchiveIndexView.__name__
         )
 
     def test_summary_year_archive_url(self):

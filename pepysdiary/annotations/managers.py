@@ -11,7 +11,7 @@ class AnnotationManager(CommentManager):
         comment while listing them.
         Suggested at http://stackoverflow.com/a/7992722/250962
         """
-        return super(AnnotationManager, self).get_queryset().select_related("user")
+        return super().get_queryset().select_related("user")
 
 
 class VisibleAnnotationManager(AnnotationManager):
@@ -22,7 +22,7 @@ class VisibleAnnotationManager(AnnotationManager):
 
     def get_queryset(self):
         return (
-            super(VisibleAnnotationManager, self)
+            super()
             .get_queryset()
             .filter(site=Site.objects.get_current(), is_public=True, is_removed=False)
         )

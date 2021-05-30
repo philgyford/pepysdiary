@@ -1,4 +1,4 @@
-from django.test import TransactionTestCase
+from django.test import TestCase
 
 from pepysdiary.annotations.factories import ArticleAnnotationFactory
 from pepysdiary.common.templatetags.search_tags import search_summary
@@ -9,8 +9,7 @@ from pepysdiary.news.factories import PublishedPostFactory
 from pepysdiary.letters.factories import LetterFactory
 
 
-class SearchSummaryTestCase(TransactionTestCase):
-    "TransactionTestCase required for Letters I think."
+class SearchSummaryTestCase(TestCase):
 
     def test_annotation(self):
         annotation = ArticleAnnotationFactory(

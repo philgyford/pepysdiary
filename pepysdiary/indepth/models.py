@@ -7,20 +7,8 @@ from django.utils import timezone
 from django_comments.moderation import CommentModerator, moderator
 from markdown import markdown
 
-from pepysdiary.common.models import PepysModel
-
-
-class PublishedArticleManager(models.Manager):
-    """
-    All Articles that have been Published.
-    """
-
-    def get_queryset(self):
-        return (
-            super(PublishedArticleManager, self)
-            .get_queryset()
-            .filter(status=Article.Status.PUBLISHED)
-        )
+from ..common.models import PepysModel
+from .managers import PublishedArticleManager
 
 
 class Article(PepysModel):
@@ -79,9 +67,7 @@ class Article(PepysModel):
     published_articles = PublishedArticleManager()
 
     class Meta:
-        ordering = [
-            "-date_published",
-        ]
+        ordering = ["-date_published"]
 
     def __str__(self):
         return "%s" % (self.title)
@@ -94,7 +80,7 @@ class Article(PepysModel):
             # then set it.
             self.date_published = timezone.now()
 
-        super(Article, self).save(*args, **kwargs)
+        super().save(*args, **kwargs)
 
     def get_absolute_url(self):
         return reverse(

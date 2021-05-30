@@ -64,11 +64,11 @@ class Command(BaseCommand):
 
         print(
             "%s associated with %s (ID %s)."
-            % (output_str, self.person.get_full_name(), self.person.id)
+            % (output_str, self.person.name, self.person.id)
         )
         print(
             "%s first_comment_date was set to %s"
-            % (self.person.get_full_name(), first_comment_date)
+            % (self.person.name, first_comment_date)
         )
 
     def process_args(self, args, options):

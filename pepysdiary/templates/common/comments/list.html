@@ -54,7 +54,7 @@ NOTE: The listings in templatetags/list_tags.py for the Recent Activity page
 						<small>
 							&nbsp;•&nbsp; <a href="{% if show_object_titles %}{{ comment.content_object.get_absolute_url }}{% endif %}#c{{comment.id}}" title="Link directly to this {% if object and object.comment_name %}{{ object.comment_name }}{% endif %}" class="comment-link">Link</a>
 							{% if user.is_authenticated %}
-								&nbsp;•&nbsp; <a href="{% url 'comments-flag' comment.id %}" title="Flag this {{ object.comment_name }} if it’s spam or inappropriate. You’ll have a chance to confirm.">Flag</a>
+								&nbsp;•&nbsp; <a href="{% url 'annotations-flag' comment.id %}" title="Flag this {{ object.comment_name }} if it’s spam or inappropriate. You’ll have a chance to confirm.">Flag</a>
 							{% endif %}
 							{% if perms.annotation.can_edit %}
 								&nbsp;•&nbsp; <a class="admin" href="{% url 'admin:annotations_annotation_change' comment.id %}" title="Edit">Edit</a>

@@ -1,6 +1,6 @@
 from django.db import models
 
-from pepysdiary.common.models import OldDateMixin, PepysModel
+from ..common.models import OldDateMixin, PepysModel
 
 
 class DayEvent(PepysModel, OldDateMixin):
@@ -14,10 +14,10 @@ class DayEvent(PepysModel, OldDateMixin):
     url = models.URLField(max_length=255, blank=True, null=False)
     source = models.IntegerField(blank=True, null=True, choices=Source.choices)
 
+    old_date_field = "event_date"
+
     class Meta:
-        ordering = [
-            "event_date",
-        ]
+        ordering = ["event_date"]
         verbose_name = "Day Event"
 
     def __str__(self):
