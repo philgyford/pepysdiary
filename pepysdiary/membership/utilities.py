@@ -82,13 +82,6 @@ def email_list(to_list, template_path, from_address, context_dict):
         )
 
 
-def email(to, template_path, from_address, context_dict):
-    """
-    Send an email to a specific email address.
-    """
-    return email_list([to], template_path, from_address, context_dict)
-
-
 def email_user(user, template_path, from_address, context_dict):
     """
     Send an email to a specific User object.
@@ -96,10 +89,19 @@ def email_user(user, template_path, from_address, context_dict):
     return email_list([user.email], template_path, from_address, context_dict)
 
 
-def email_users(user_list, template_path, from_address, context_dict):
-    """
-    Send an email to a list of User objects.
-    """
-    return email_list(
-        [user.email for user in user_list], template_path, from_address, context_dict
-    )
+# We don't use the two functions below.
+
+# def email(to, template_path, from_address, context_dict):
+#     """
+#     Send an email to a specific email address.
+#     """
+#     return email_list([to], template_path, from_address, context_dict)
+
+
+# def email_users(user_list, template_path, from_address, context_dict):
+#     """
+#     Send an email to a list of User objects.
+#     """
+#     return email_list(
+#         [user.email for user in user_list], template_path, from_address, context_dict
+#     )
