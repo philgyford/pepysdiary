@@ -261,12 +261,6 @@ REST_FRAMEWORK = {
     "EXCEPTION_HANDLER": "pepysdiary.api.views.custom_exception_handler",
 }
 
-# The REST_FRAMEWORK API documentation
-SWAGGER_SETTINGS = {
-    "DOC_EXPANSION": "list",
-    "SUPPORTED_SUBMIT_METHODS": ["get"],
-    "USE_SESSION_AUTH": False,
-}
 
 MAPBOX_MAP_ID = get_env_variable("MAPBOX_MAP_ID")
 MAPBOX_ACCESS_TOKEN = get_env_variable("MAPBOX_ACCESS_TOKEN")
