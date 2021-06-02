@@ -1,13 +1,12 @@
-from django_filters import rest_framework as filters
 from rest_framework import generics
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
 from rest_framework.views import exception_handler
 
-from .filters import EntryFilter
 from ..common.views import CacheMixin
 from ..diary.models import Entry
+from ..diary.views import date_from_string
 from ..encyclopedia.models import Category, Topic
 from .serializers import (
     CategoryDetailSerializer,
@@ -89,8 +88,41 @@ class EntryListView(APICacheMixin, generics.ListAPIView):
     lookup_url_kwarg = "entry_date"
     queryset = Entry.objects.all()
     serializer_class = EntryListSerializer
-    filter_backends = (filters.DjangoFilterBackend,)
-    filter_class = EntryFilter
+
+    def get_queryset(self):
+        """
+        Optionally filter by year and month query string arguments.
+        Either filter by year alone, or year and month.
+        """
+        queryset = self.queryset
+        year = self.request.query_params.get("year")
+        month = self.request.query_params.get("month")
+
+        if year is not None:
+            year = int(year)
+            start_year = year
+            end_year = year
+
+            if month is None:
+                start_month = 1
+                end_month = 12
+            else:
+                start_month = int(month)
+                end_month = int(month) + 1
+
+            if end_month == 13:
+                end_year += 1
+                end_month = 1
+
+            start_date = date_from_string(
+                start_year, "%Y", start_month, "%m", 1, "%d", "-"
+            )
+            end_date = date_from_string(end_year, "%Y", end_month, "%m", 1, "%d", "-")
+            queryset = queryset.filter(
+                diary_date__gte=start_date, diary_date__lt=end_date
+            )
+
+        return queryset
 
 
 class EntryDetailView(APICacheMixin, generics.RetrieveAPIView):
