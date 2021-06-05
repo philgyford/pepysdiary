@@ -28,6 +28,8 @@ django-redis = "*"
 lxml = "*"
 sentry-sdk = "*"
 django-extensions = "*"
+pyyaml = "*"
+uritemplate = "*"
 
 [dev-packages]
 django-debug-toolbar = "*"

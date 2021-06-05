@@ -271,8 +271,8 @@ urlpatterns += [
 # API stuff
 
 urlpatterns += [
-    re_path(r"^api/docs/", include_docs_urls(title="The Diary of Samuel Pepys API")),
-    re_path(r"^api/v1/", include("pepysdiary.api.urls")),
+    path("api/docs/", include_docs_urls(title="The Diary of Samuel Pepys API")),
+    path("api/v1/", include("pepysdiary.api.urls")),
 ]
 
 

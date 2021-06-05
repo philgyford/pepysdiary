@@ -1,7 +1,8 @@
+import datetime
+
 from django.http import Http404
 from django.utils.translation import ugettext as _
 from django.views.generic.dates import (
-    _date_from_string,
     ArchiveIndexView,
     DateDetailView,
     MonthArchiveView,
@@ -9,6 +10,29 @@ from django.views.generic.dates import (
 )
 
 from .models import Entry, Summary
+
+
+def date_from_string(
+    year, year_format, month="", month_format="", day="", day_format="", delim="__"
+):
+    """
+    Get a datetime.date object given a format string and a year, month, and day
+    (only year is mandatory). Raise a 404 for an invalid date.
+
+    Copied from django.views.generic.dates.
+    """
+    format = year_format + delim + month_format + delim + day_format
+    datestr = str(year) + delim + str(month) + delim + str(day)
+    try:
+        return datetime.datetime.strptime(datestr, format).date()
+    except ValueError:
+        raise Http404(
+            _("Invalid date string “%(datestr)s” given format “%(format)s”")
+            % {
+                "datestr": datestr,
+                "format": format,
+            }
+        )
 
 
 class EntryMixin(object):
@@ -39,7 +63,7 @@ class EntryDetailView(EntryMixin, DateDetailView):
         year = self.get_year()
         month = self.get_month()
         day = self.get_day()
-        date = _date_from_string(
+        date = date_from_string(
             year,
             self.get_year_format(),
             month,
@@ -80,7 +104,7 @@ class EntryDetailView(EntryMixin, DateDetailView):
         month = self.get_month()
         day = self.get_day()
 
-        date = _date_from_string(
+        date = date_from_string(
             year,
             self.get_year_format(),
             month,
