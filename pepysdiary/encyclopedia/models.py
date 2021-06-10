@@ -64,7 +64,9 @@ class Topic(PepysModel):
         TOWN = "town", "Town or Village"
 
     title = models.CharField(max_length=255, blank=False, null=False)
-    order_title = models.CharField(max_length=255, blank=True, null=False)
+    order_title = models.CharField(
+        max_length=255, blank=True, null=False, db_index=True
+    )
     summary = models.TextField(blank=True, null=False, help_text="Can use Markdown.")
     summary_html = models.TextField(
         blank=True,
@@ -164,9 +166,7 @@ class Topic(PepysModel):
     objects = TopicManager()
 
     class Meta:
-        ordering = [
-            "order_title",
-        ]
+        ordering = ["order_title"]
 
     def __str__(self):
         return self.title

@@ -32,6 +32,7 @@ class TopicFactory(factory.django.DjangoModelFactory):
         model = Topic
 
     title = factory.Faker("sentence", nb_words=4)
+    order_title = ""
 
     summary = factory.Faker("paragraph", nb_sentences=2)
     wheatley = factory.Faker("sentence", nb_words=20)

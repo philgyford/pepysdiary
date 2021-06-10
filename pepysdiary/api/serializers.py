@@ -68,7 +68,7 @@ class BaseSerializer(serializers.ModelSerializer):
         return make_url_absolute(obj.get_absolute_url())
 
 
-class CategoryListSerializer(BaseSerializer):
+class CategorySerializer(BaseSerializer):
     "Brief info about each Category for the ListView"
 
     apiURL = serializers.HyperlinkedIdentityField(**categories_kwargs)
@@ -89,6 +89,7 @@ class CategoryListSerializer(BaseSerializer):
             "slug",
             "title",
             "topicCount",
+            "depth",
             "parents",
             "children",
             "apiURL",
@@ -96,7 +97,11 @@ class CategoryListSerializer(BaseSerializer):
         )
 
 
-class CategoryDetailSerializer(TopicsMixin, CategoryListSerializer):
+class CategoryListSerializer(CategorySerializer):
+    pass
+
+
+class CategoryDetailSerializer(TopicsMixin, CategorySerializer):
     """
     Full info about the Category, for the DetailView.
 
@@ -119,10 +124,14 @@ class CategoryDetailSerializer(TopicsMixin, CategoryListSerializer):
         )
 
 
-class EntryListSerializer(BaseSerializer):
+class EntrySerializer(BaseSerializer):
     "Brief info about an Entry for the ListView."
 
-    apiURL = serializers.HyperlinkedIdentityField(**entries_kwargs)
+    apiURL = serializers.HyperlinkedIdentityField(
+        view_name="api:entry_detail",
+        lookup_field="diary_date",
+        lookup_url_kwarg="entry_date",
+    )
 
     date = serializers.DateField(source="diary_date", read_only=True)
 
@@ -136,7 +145,11 @@ class EntryListSerializer(BaseSerializer):
         )
 
 
-class EntryDetailSerializer(TopicsMixin, EntryListSerializer):
+class EntryListSerializer(EntrySerializer):
+    pass
+
+
+class EntryDetailSerializer(TopicsMixin, EntrySerializer):
     """
     Full info about an Entry for the DetailView.
 
@@ -167,7 +180,7 @@ class EntryDetailSerializer(TopicsMixin, EntryListSerializer):
         )
 
 
-class TopicListSerializer(BaseSerializer):
+class TopicSerializer(BaseSerializer):
     "Brief information about a Topic."
 
     apiURL = serializers.HyperlinkedIdentityField(**topics_kwargs)
@@ -191,7 +204,11 @@ class TopicListSerializer(BaseSerializer):
         )
 
 
-class TopicDetailSerializer(TopicListSerializer):
+class TopicListSerializer(TopicSerializer):
+    pass
+
+
+class TopicDetailSerializer(TopicSerializer):
     """
     All information about a Topic, for Detail view.
 

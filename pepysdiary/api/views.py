@@ -51,12 +51,19 @@ def api_root(request, format=None):
 class CategoryListView(APICacheMixin, generics.ListAPIView):
     """
     Return a list of all the Encyclopedia Categories.
+
+    Optional query string arguments:
+
+    * `page` - e.g. `2`
+
+    e.g. `?page=2`
     """
 
-    lookup_field = "slug"
-    lookup_url_kwarg = "category_slug"
-    queryset = Category.objects.all()
+    queryset = Category.objects.all().order_by("slug")
     serializer_class = CategoryListSerializer
+    # Don't seem to work:
+    # ordering_fields = ['slug', 'title']
+    # ordering = ["title"]
 
 
 class CategoryDetailView(APICacheMixin, generics.RetrieveAPIView):
@@ -78,14 +85,16 @@ class EntryListView(APICacheMixin, generics.ListAPIView):
     """
     Return a list of all the Diary Entries.
 
-    Optional query parameters:
 
-    * `year` - e.g. `1660`.
-    * `month` - e.g. `4` or `12`.
+    Optional query string arguments:
+
+    * `start` - e.g. `1660-12-31`.
+    * `end` - e.g. `1660-12-31`.
+    * `page` - e.g. `2`
+
+    e.g. `?start=1660-01-01&end=1660-12-31&page=2`
     """
 
-    lookup_field = "diary_date"
-    lookup_url_kwarg = "entry_date"
     queryset = Entry.objects.all()
     serializer_class = EntryListSerializer
 
@@ -95,32 +104,22 @@ class EntryListView(APICacheMixin, generics.ListAPIView):
         Either filter by year alone, or year and month.
         """
         queryset = self.queryset
-        year = self.request.query_params.get("year")
-        month = self.request.query_params.get("month")
+        start = self.request.query_params.get("start")
+        end = self.request.query_params.get("end")
 
-        if year is not None:
-            year = int(year)
-            start_year = year
-            end_year = year
-
-            if month is None:
-                start_month = 1
-                end_month = 12
-            else:
-                start_month = int(month)
-                end_month = int(month) + 1
-
-            if end_month == 13:
-                end_year += 1
-                end_month = 1
-
+        if start:
+            parts = start.split("-")
             start_date = date_from_string(
-                start_year, "%Y", start_month, "%m", 1, "%d", "-"
+                parts[0], "%Y", parts[1], "%m", parts[2], "%d", "-"
             )
-            end_date = date_from_string(end_year, "%Y", end_month, "%m", 1, "%d", "-")
-            queryset = queryset.filter(
-                diary_date__gte=start_date, diary_date__lt=end_date
+            queryset = queryset.filter(diary_date__gte=start_date)
+
+        if end:
+            parts = end.split("-")
+            end_date = date_from_string(
+                parts[0], "%Y", parts[1], "%m", parts[2], "%d", "-"
             )
+            queryset = queryset.filter(diary_date__lte=end_date)
 
         return queryset
 
@@ -129,7 +128,7 @@ class EntryDetailView(APICacheMixin, generics.RetrieveAPIView):
     """
     Return the Diary Entry specified by the date (`YYYY-MM-DD`).
 
-    Includes a list of all Topics referred to by this Entry.
+    Includes a list of all Encyclopedia Topics referred to by this Entry.
 
     e.g. `1666-09-02`.
     """
@@ -143,6 +142,12 @@ class EntryDetailView(APICacheMixin, generics.RetrieveAPIView):
 class TopicListView(APICacheMixin, generics.ListAPIView):
     """
     Return a list of all the Encyclopedia Topics.
+
+    Optional query string arguments:
+
+    * `page` - e.g. `2`
+
+    e.g. `?page=2`
     """
 
     lookup_field = "id"
@@ -155,7 +160,7 @@ class TopicDetailView(APICacheMixin, generics.RetrieveAPIView):
     """
     Return the Encyclopedia Topic specified by `topic_id`.
 
-    Includes a list of all Entries that refer to this Topic.
+    Includes a list of all Diary Entries that refer to this Topic.
 
     e.g. `796` or `1075`.
     """
