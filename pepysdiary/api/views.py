@@ -37,7 +37,13 @@ class APICacheMixin(CacheMixin):
 @api_view(["GET"])
 def api_root(request, format=None):
     """
-    Defines what appears when we go to the top-level URL of the API:
+    Listing the possible endpoints for retrieving lists of data.
+
+    Optional query string arguments:
+
+    * `format`, one of `json` or `api` (default)
+
+    e.g. `/api/v1/?format=json`
     """
     return Response(
         {
@@ -50,29 +56,35 @@ def api_root(request, format=None):
 
 class CategoryListView(APICacheMixin, generics.ListAPIView):
     """
-    Return a list of all the Encyclopedia Categories.
+    Returns a list of all the Encyclopedia Categories. The Categories
+    are a hierarchical tree structure, and each one may containg zero
+    or more Topics.
 
     Optional query string arguments:
 
+    * `format`, one of `json` or `api` (default)
     * `page` - e.g. `2`
 
-    e.g. `?page=2`
+    e.g. `/api/v1/categories/?format=json&page=2`
     """
 
     queryset = Category.objects.all().order_by("slug")
     serializer_class = CategoryListSerializer
-    # Don't seem to work:
-    # ordering_fields = ['slug', 'title']
-    # ordering = ["title"]
 
 
 class CategoryDetailView(APICacheMixin, generics.RetrieveAPIView):
     """
-    Return the Encyclopedia Category specified by `category_slug`.
+    Returns the Encyclopedia Category specified by a slug,
+    e.g. `london` or `music`.
 
-    Includes a list of all Topics in this Category.
+    Each Category lists the API URLs for the zero or more Topics
+    within.
 
-    e.g. `london` or `instruments`.
+    Optional query string arguments:
+
+    * `format`, one of `json` or `api` (default)
+
+    e.g. `/api/v1/categories/music/?format=json`
     """
 
     lookup_field = "slug"
@@ -83,16 +95,18 @@ class CategoryDetailView(APICacheMixin, generics.RetrieveAPIView):
 
 class EntryListView(APICacheMixin, generics.ListAPIView):
     """
-    Return a list of all the Diary Entries.
-
+    Returns a list of all the Diary Entries, between
+    `1660-01-01` and `1669-05-31`.
 
     Optional query string arguments:
 
-    * `start` - e.g. `1660-12-31`.
-    * `end` - e.g. `1660-12-31`.
+    * `start` - Only fetch Entries from this date forwards, e.g. `1660-01-01`.
+    * `end` - Only fetch Entries from this date backwards, e.g. `1669-05-31`.
+      Using both `start` and `end` restricts results to between those dates.
+    * `format`, one of `json` or `api` (default)
     * `page` - e.g. `2`
 
-    e.g. `?start=1660-01-01&end=1660-12-31&page=2`
+    e.g. `/api/v1/entries/?start=1660-01-01&end=1660-12-31&format=json&page=2`
     """
 
     queryset = Entry.objects.all()
@@ -126,11 +140,17 @@ class EntryListView(APICacheMixin, generics.ListAPIView):
 
 class EntryDetailView(APICacheMixin, generics.RetrieveAPIView):
     """
-    Return the Diary Entry specified by the date (`YYYY-MM-DD`).
+    Returns the Diary Entry specified by a date, e.g. `1660-12-31`.
+    Dates range from `1660-01-01` to `1669-05-31`.
 
-    Includes a list of all Encyclopedia Topics referred to by this Entry.
+    Each Entry lists the API URLs for all the Encyclopedia Topics
+    referred to in its text.
 
-    e.g. `1666-09-02`.
+    Optional query string arguments:
+
+    * `format`, one of `json` or `api` (default)
+
+    e.g. `/api/v1/entries/1660-12-31/?format=json`
     """
 
     lookup_field = "diary_date"
@@ -141,13 +161,14 @@ class EntryDetailView(APICacheMixin, generics.RetrieveAPIView):
 
 class TopicListView(APICacheMixin, generics.ListAPIView):
     """
-    Return a list of all the Encyclopedia Topics.
+    Returns a list of all the Encyclopedia Topics.
 
     Optional query string arguments:
 
+    * `format`, one of `json` or `api` (default)
     * `page` - e.g. `2`
 
-    e.g. `?page=2`
+    e.g. `/api/v1/topics/?format=json&page=2`
     """
 
     lookup_field = "id"
@@ -158,11 +179,18 @@ class TopicListView(APICacheMixin, generics.ListAPIView):
 
 class TopicDetailView(APICacheMixin, generics.RetrieveAPIView):
     """
-    Return the Encyclopedia Topic specified by `topic_id`.
-
-    Includes a list of all Diary Entries that refer to this Topic.
-
+    Returns the Encyclopedia Topic specified by a numeric ID,
     e.g. `796` or `1075`.
+
+    Each Topic lists the API URLs for one or more Diary Entries in
+    which it is mentioned, and the one or more Encyclpedia Categories
+    in which it lives.
+
+    Optional query string arguments:
+
+    * `format`, one of `json` or `api` (default)
+
+    e.g. `/api/v1/topics/796/?format=json`
     """
 
     lookup_field = "id"
