@@ -412,8 +412,7 @@ class TopicListViewTestCase(SiteAPITestCase):
                             ("id", topic.pk),
                             ("title", "Dogs"),
                             ("orderTitle", "Dogs"),
-                            ("isPerson", False),
-                            ("isPlace", False),
+                            ("kind", None),
                             ("apiURL", f"http://example.com/api/v1/topics/{topic.pk}/"),
                             ("webURL", f"http://example.com/encyclopedia/{topic.pk}/"),
                         ]
@@ -435,8 +434,7 @@ class TopicListViewTestCase(SiteAPITestCase):
                     ("id", topic.pk),
                     ("title", "Mr Bob Ferris"),
                     ("orderTitle", "Ferris, Mr Bob"),
-                    ("isPerson", True),
-                    ("isPlace", False),
+                    ("kind", "person"),
                     ("apiURL", f"http://example.com/api/v1/topics/{topic.pk}/"),
                     ("webURL", f"http://example.com/encyclopedia/{topic.pk}/"),
                 ]
@@ -456,8 +454,7 @@ class TopicListViewTestCase(SiteAPITestCase):
                     ("id", topic.pk),
                     ("title", "London"),
                     ("orderTitle", "London"),
-                    ("isPerson", False),
-                    ("isPlace", True),
+                    ("kind", "place"),
                     ("apiURL", f"http://example.com/api/v1/topics/{topic.pk}/"),
                     ("webURL", f"http://example.com/encyclopedia/{topic.pk}/"),
                 ]
@@ -535,8 +532,7 @@ class TopicDetailViewTestCase(SiteAPITestCase):
                 "thumbnailURL": None,
                 "annotationCount": 0,
                 "lastAnnotationTime": None,
-                "isPerson": False,
-                "isPlace": False,
+                "kind": None,
                 "latitude": None,
                 "longitude": None,
                 "zoom": None,
@@ -557,7 +553,7 @@ class TopicDetailViewTestCase(SiteAPITestCase):
             SERVER_NAME="example.com",
         )
 
-        self.assertTrue(response.data["isPerson"])
+        self.assertEqual(response.data["kind"], "person")
         self.assertEqual(response.data["orderTitle"], "Ferris, Mr Bob")
 
     def test_response_data_place(self):
@@ -575,7 +571,7 @@ class TopicDetailViewTestCase(SiteAPITestCase):
             SERVER_NAME="example.com",
         )
 
-        self.assertTrue(response.data["isPlace"])
+        self.assertEqual(response.data["kind"], "place")
         self.assertEqual(response.data["latitude"], Decimal("51.123000"))
         self.assertEqual(response.data["longitude"], Decimal("-0.456000"))
         self.assertEqual(response.data["shape"], "0,0;1,0;1,1;1,0;0,0")

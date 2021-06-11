@@ -187,9 +187,7 @@ class TopicSerializer(BaseSerializer):
 
     orderTitle = serializers.CharField(source="order_title", read_only=True)
 
-    isPerson = serializers.BooleanField(source="is_person", read_only=True)
-
-    isPlace = serializers.BooleanField(source="is_place", read_only=True)
+    kind = serializers.SerializerMethodField()
 
     class Meta:
         model = Topic
@@ -197,11 +195,18 @@ class TopicSerializer(BaseSerializer):
             "id",
             "title",
             "orderTitle",
-            "isPerson",
-            "isPlace",
+            "kind",
             "apiURL",
             "webURL",
         )
+
+    def get_kind(self, instance):
+        if instance.is_person:
+            return "person"
+        elif instance.is_place:
+            return "place"
+        else:
+            return None
 
 
 class TopicListSerializer(TopicSerializer):
@@ -247,8 +252,7 @@ class TopicDetailSerializer(TopicSerializer):
             "thumbnailURL",
             "annotationCount",
             "lastAnnotationTime",
-            "isPerson",
-            "isPlace",
+            "kind",
             "latitude",
             "longitude",
             "zoom",
