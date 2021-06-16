@@ -4,6 +4,7 @@ import json
 
 from django.contrib.sites.models import Site
 from django.urls import reverse
+from freezegun import freeze_time
 from rest_framework.test import APITestCase
 
 from pepysdiary.annotations.factories import (
@@ -184,6 +185,7 @@ class CategoryDetailViewTestCase(SiteAPITestCase):
         )
         self.assertEqual(response.data, {"detail": "Not found.", "status_code": 404})
 
+    @freeze_time("2021-06-01 12:00:00", tz_offset=0)
     def test_response_data(self):
         "It should return the correct data"
         cat_1 = Category.add_root(title="Animals", slug="animals")
@@ -218,6 +220,7 @@ class EntryListViewTestCase(SiteAPITestCase):
         response = self.client.get(reverse("api:entry-list"))
         self.assertEqual(response.status_code, 200)
 
+    @freeze_time("2021-06-01 12:00:00", tz_offset=0)
     def test_response_data(self):
         "It should return the correct data"
         EntryFactory(diary_date=make_date("1660-01-02"), title="2 January 1660")
@@ -236,6 +239,7 @@ class EntryListViewTestCase(SiteAPITestCase):
                         [
                             ("date", "1660-01-02"),
                             ("title", "2 January 1660"),
+                            ("lastModifiedTime", "2021-06-01T12:00:00Z"),
                             ("apiURL", "http://example.com/api/v1/entries/1660-01-02"),
                             ("webURL", "http://example.com/diary/1660/01/02/"),
                         ]
@@ -325,6 +329,7 @@ class EntryDetailViewTestCase(SiteAPITestCase):
         )
         self.assertEqual(response.data, {"detail": "Not found.", "status_code": 404})
 
+    @freeze_time("2021-06-01 12:00:00", tz_offset=0)
     def test_response_data(self):
         "It should return the correct data"
 
@@ -362,6 +367,7 @@ class EntryDetailViewTestCase(SiteAPITestCase):
                 "annotationCount": 0,
                 "lastAnnotationTime": None,
                 "topics": [f"http://example.com/api/v1/topics/{topic_1.pk}"],
+                "lastModifiedTime": "2021-06-01T12:00:00Z",
                 "apiURL": "http://example.com/api/v1/entries/1660-01-02",
                 "webURL": "http://example.com/diary/1660/01/02/",
             },
@@ -393,6 +399,7 @@ class TopicListViewTestCase(SiteAPITestCase):
         response = self.client.get(reverse("api:topic-list"))
         self.assertEqual(response.status_code, 200)
 
+    @freeze_time("2021-06-01 12:00:00", tz_offset=0)
     def test_response_data(self):
         "It should return the correct data"
         cat = Category.add_root(title="Animals", slug="animals")
@@ -414,6 +421,7 @@ class TopicListViewTestCase(SiteAPITestCase):
                             ("title", "Dogs"),
                             ("orderTitle", "Dogs"),
                             ("kind", "default"),
+                            ("lastModifiedTime", "2021-06-01T12:00:00Z"),
                             ("apiURL", f"http://example.com/api/v1/topics/{topic.pk}"),
                             ("webURL", f"http://example.com/encyclopedia/{topic.pk}/"),
                         ]
@@ -422,6 +430,7 @@ class TopicListViewTestCase(SiteAPITestCase):
             },
         )
 
+    @freeze_time("2021-06-01 12:00:00", tz_offset=0)
     def test_response_data_person(self):
         "It should correctly mark a Person as being one"
         topic = PersonTopicFactory(title="Mr Bob Ferris")
@@ -436,12 +445,14 @@ class TopicListViewTestCase(SiteAPITestCase):
                     ("title", "Mr Bob Ferris"),
                     ("orderTitle", "Ferris, Mr Bob"),
                     ("kind", "person"),
+                    ("lastModifiedTime", "2021-06-01T12:00:00Z"),
                     ("apiURL", f"http://example.com/api/v1/topics/{topic.pk}"),
                     ("webURL", f"http://example.com/encyclopedia/{topic.pk}/"),
                 ]
             ),
         )
 
+    @freeze_time("2021-06-01 12:00:00", tz_offset=0)
     def test_response_data_place(self):
         "It should correctly mark a Place as being one"
         topic = PlaceTopicFactory(title="London")
@@ -456,6 +467,7 @@ class TopicListViewTestCase(SiteAPITestCase):
                     ("title", "London"),
                     ("orderTitle", "London"),
                     ("kind", "place"),
+                    ("lastModifiedTime", "2021-06-01T12:00:00Z"),
                     ("apiURL", f"http://example.com/api/v1/topics/{topic.pk}"),
                     ("webURL", f"http://example.com/encyclopedia/{topic.pk}/"),
                 ]
@@ -503,6 +515,7 @@ class TopicDetailViewTestCase(SiteAPITestCase):
         )
         self.assertEqual(response.data, {"detail": "Not found.", "status_code": 404})
 
+    @freeze_time("2021-06-01 12:00:00", tz_offset=0)
     def test_response_data(self):
         "It should return the correct data"
 
@@ -540,6 +553,7 @@ class TopicDetailViewTestCase(SiteAPITestCase):
                 "shape": "",
                 "categories": [f"http://example.com/api/v1/categories/{cat.slug}"],
                 "entries": [],
+                "lastModifiedTime": "2021-06-01T12:00:00Z",
                 "apiURL": f"http://example.com/api/v1/topics/{topic.pk}",
                 "webURL": f"http://example.com/encyclopedia/{topic.pk}/",
             },

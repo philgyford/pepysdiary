@@ -250,6 +250,7 @@ REST_FRAMEWORK = {
     "ALLOWED_VERSIONS": ["v1"],
     # e.g. for latitude/longitude:
     "COERCE_DECIMAL_TO_STRING": False,
+    "DATETIME_FORMAT": "%Y-%m-%dT%H:%M:%SZ",
     "DEFAULT_PAGINATION_CLASS": "pepysdiary.api.pagination.CustomPagination",
     "DEFAULT_RENDERER_CLASSES": (
         "pepysdiary.api.renderers.PrettyJSONRenderer",

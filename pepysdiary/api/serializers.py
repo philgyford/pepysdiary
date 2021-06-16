@@ -30,6 +30,8 @@ class BaseSerializer(serializers.ModelSerializer):
     get_absolute_url() method.
     """
 
+    lastModifiedTime = serializers.DateTimeField(source="date_modified", read_only=True)
+
     webURL = serializers.SerializerMethodField()
 
     def get_webURL(self, obj):
@@ -60,6 +62,7 @@ class CategorySerializer(BaseSerializer):
             "depth",
             "parents",
             "children",
+            "lastModifiedTime",
             "apiURL",
             "webURL",
         )
@@ -90,6 +93,7 @@ class CategoryDetailSerializer(CategorySerializer):
             "parents",
             "children",
             "topics",
+            "lastModifiedTime",
             "apiURL",
             "webURL",
         )
@@ -111,6 +115,7 @@ class EntrySerializer(BaseSerializer):
         fields = (
             "date",
             "title",
+            "lastModifiedTime",
             "apiURL",
             "webURL",
         )
@@ -148,6 +153,7 @@ class EntryDetailSerializer(EntrySerializer):
             "annotationCount",
             "lastAnnotationTime",
             "topics",
+            "lastModifiedTime",
             "apiURL",
             "webURL",
         )
@@ -169,6 +175,7 @@ class TopicSerializer(BaseSerializer):
             "title",
             "orderTitle",
             "kind",
+            "lastModifiedTime",
             "apiURL",
             "webURL",
         )
@@ -234,6 +241,7 @@ class TopicDetailSerializer(TopicSerializer):
             "shape",
             "categories",
             "entries",
+            "lastModifiedTime",
             "apiURL",
             "webURL",
         )
