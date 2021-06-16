@@ -202,6 +202,7 @@ class CategoryDetailViewTestCase(SiteAPITestCase):
                 "slug": "dogs",
                 "title": "Dogs",
                 "topicCount": 1,
+                "depth": 2,
                 "parents": ["http://example.com/api/v1/categories/animals"],
                 "children": ["http://example.com/api/v1/categories/terriers"],
                 "topics": [f"http://example.com/api/v1/topics/{topic.pk}"],

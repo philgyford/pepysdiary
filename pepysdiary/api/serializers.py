@@ -86,6 +86,7 @@ class CategoryDetailSerializer(CategorySerializer):
             "slug",
             "title",
             "topicCount",
+            "depth",
             "parents",
             "children",
             "topics",
