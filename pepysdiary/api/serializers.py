@@ -1,5 +1,4 @@
 from rest_framework import serializers
-from rest_framework.reverse import reverse
 
 from ..common.utilities import make_url_absolute
 from ..diary.models import Entry
@@ -9,51 +8,20 @@ from ..encyclopedia.models import Category, Topic
 # View names and lookup fields for various detail pages.
 # Keeping them in one place.
 topics_kwargs = {
-    "view_name": "api:topic_detail",
+    "view_name": "api:topic-detail",
     "lookup_field": "id",
     "lookup_url_kwarg": "topic_id",
 }
 categories_kwargs = {
-    "view_name": "api:category_detail",
+    "view_name": "api:category-detail",
     "lookup_field": "slug",
     "lookup_url_kwarg": "category_slug",
 }
 entries_kwargs = {
-    "view_name": "api:entry_detail",
+    "view_name": "api:entry-detail",
     "lookup_field": "diary_date",
     "lookup_url_kwarg": "entry_date",
 }
-
-
-class TopicsMixin(object):
-    """
-    For Serializers that need to fetch a list of Topic URLs.
-
-    The Serializer should include:
-
-        topics = serializers.SerializerMethodField()
-    """
-
-    def get_topics(self, instance):
-        """
-        Returns a list of URLs to Topics' API detail views.
-        We're not using HyperlinkedRelatedField() because that fetches ALL of
-        the Topics' data from the database, which is a lot of unncessary stuff.
-        """
-        request = self.context.get("request")
-        topics = []
-        qs = instance.topics.values("pk").order_by("pk")
-
-        for topic in qs:
-            topics.append(
-                reverse(
-                    topics_kwargs["view_name"],
-                    kwargs={topics_kwargs["lookup_url_kwarg"]: topic["pk"]},
-                    request=request,
-                )
-            )
-
-        return topics
 
 
 class BaseSerializer(serializers.ModelSerializer):
@@ -101,14 +69,16 @@ class CategoryListSerializer(CategorySerializer):
     pass
 
 
-class CategoryDetailSerializer(TopicsMixin, CategorySerializer):
+class CategoryDetailSerializer(CategorySerializer):
     """
     Full info about the Category, for the DetailView.
 
     Includes a list of all Topics in the Category.
     """
 
-    topics = serializers.SerializerMethodField()
+    topics = serializers.HyperlinkedIdentityField(
+        read_only=True, many=True, **topics_kwargs
+    )
 
     class Meta:
         model = Category
@@ -128,7 +98,7 @@ class EntrySerializer(BaseSerializer):
     "Brief info about an Entry for the ListView."
 
     apiURL = serializers.HyperlinkedIdentityField(
-        view_name="api:entry_detail",
+        view_name="api:entry-detail",
         lookup_field="diary_date",
         lookup_url_kwarg="entry_date",
     )
@@ -149,7 +119,7 @@ class EntryListSerializer(EntrySerializer):
     pass
 
 
-class EntryDetailSerializer(TopicsMixin, EntrySerializer):
+class EntryDetailSerializer(EntrySerializer):
     """
     Full info about an Entry for the DetailView.
 
@@ -163,7 +133,9 @@ class EntryDetailSerializer(TopicsMixin, EntrySerializer):
         source="last_comment_time", read_only=True
     )
 
-    topics = serializers.SerializerMethodField()
+    topics = serializers.HyperlinkedIdentityField(
+        read_only=True, many=True, **topics_kwargs
+    )
 
     class Meta:
         model = Entry
@@ -206,7 +178,7 @@ class TopicSerializer(BaseSerializer):
         elif instance.is_place:
             return "place"
         else:
-            return None
+            return "default"
 
 
 class TopicListSerializer(TopicSerializer):
@@ -231,7 +203,9 @@ class TopicDetailSerializer(TopicSerializer):
         read_only=True, many=True, **categories_kwargs
     )
 
-    entries = serializers.SerializerMethodField()
+    entries = serializers.HyperlinkedRelatedField(
+        source="diary_references", read_only=True, many=True, **entries_kwargs
+    )
 
     wikipediaURL = serializers.URLField(source="wikipedia_url", read_only=True)
 
@@ -262,24 +236,3 @@ class TopicDetailSerializer(TopicSerializer):
             "apiURL",
             "webURL",
         )
-
-    def get_entries(self, instance):
-        """
-        Returns a list of URLs to Entries' API detail views.
-        We're not using HyperlinkedRelatedField() because that fetches ALL of
-        the Entries' data from the database, which is a lot of unncessary stuff.
-        """
-        request = self.context.get("request")
-        entries = []
-        qs = instance.diary_references.values("diary_date").order_by("diary_date")
-
-        for entry in qs:
-            entries.append(
-                reverse(
-                    entries_kwargs["view_name"],
-                    kwargs={entries_kwargs["lookup_url_kwarg"]: entry["diary_date"]},
-                    request=request,
-                )
-            )
-
-        return entries

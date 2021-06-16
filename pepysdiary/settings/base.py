@@ -258,6 +258,7 @@ REST_FRAMEWORK = {
     "DEFAULT_THROTTLE_CLASSES": ("rest_framework.throttling.AnonRateThrottle",),
     "DEFAULT_THROTTLE_RATES": {"anon": "3660/hour"},  # 1 per second plus a bit.
     "EXCEPTION_HANDLER": "pepysdiary.api.views.custom_exception_handler",
+    "URL_FORMAT_OVERRIDE": None,
 }
 
 
