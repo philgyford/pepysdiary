@@ -62,7 +62,6 @@ class CategorySerializer(BaseSerializer):
             "depth",
             "parents",
             "children",
-            "lastModifiedTime",
             "apiURL",
             "webURL",
         )
@@ -93,7 +92,6 @@ class CategoryDetailSerializer(CategorySerializer):
             "parents",
             "children",
             "topics",
-            "lastModifiedTime",
             "apiURL",
             "webURL",
         )
