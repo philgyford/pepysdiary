@@ -8,8 +8,6 @@ from django.urls import reverse_lazy
 from django.views.decorators.cache import cache_page
 from django.views.generic import RedirectView, TemplateView
 
-from rest_framework.documentation import include_docs_urls
-
 from pepysdiary.common import sitemaps
 from pepysdiary.common.views import (
     DiaryMonthRedirectView,
@@ -271,7 +269,6 @@ urlpatterns += [
 # API stuff
 
 urlpatterns += [
-    path("api/docs/", include_docs_urls(title="The Diary of Samuel Pepys API")),
     path("api/v1/", include("pepysdiary.api.urls", namespace="v1")),
 ]
 
