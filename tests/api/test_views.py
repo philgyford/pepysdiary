@@ -34,14 +34,15 @@ class APIRootViewTestCase(SiteAPITestCase):
 
     def test_response_200(self):
         "It should return 200"
-        response = self.client.get(reverse("api:api-root"))
+        response = self.client.get(reverse("api:api-root", kwargs={"format": "json"}))
         self.assertEqual(response.status_code, 200)
 
     def test_response_data(self):
         "It should return the correct data"
         response = self.client.get(reverse("api:api-root"), SERVER_NAME="example.com")
+
         self.assertEqual(
-            response.data,
+            json.loads(response.content),
             {
                 "categories": "http://example.com/api/v1/categories",
                 "entries": "http://example.com/api/v1/entries",
@@ -49,11 +50,44 @@ class APIRootViewTestCase(SiteAPITestCase):
             },
         )
 
+    def test_response_html(self):
+        "It should return the correct HTML if the Accept html header is sent."
+        response = self.client.get(
+            reverse("api:api-root"), SERVER_NAME="example.com", HTTP_ACCEPT="text/html"
+        )
+
+        self.assertContains(
+            response,
+            (
+                '<a href="http://example.com/api/v1/categories" rel="nofollow">'
+                "http://example.com/api/v1/categories</a>"
+            ),
+            html=True,
+        )
+        self.assertContains(
+            response,
+            (
+                '<a href="http://example.com/api/v1/entries" rel="nofollow">'
+                "http://example.com/api/v1/entries</a>"
+            ),
+            html=True,
+        )
+        self.assertContains(
+            response,
+            (
+                '<a href="http://example.com/api/v1/topics" rel="nofollow">'
+                "http://example.com/api/v1/topics</a>"
+            ),
+            html=True,
+        )
+
 
 class CategoryListViewTestCase(SiteAPITestCase):
     def test_response_200(self):
         "It should return 200"
-        response = self.client.get(reverse("api:category-list"))
+        response = self.client.get(
+            reverse("api:category-list", kwargs={"format": "json"})
+        )
         self.assertEqual(response.status_code, 200)
 
     def test_response_data(self):
@@ -66,7 +100,8 @@ class CategoryListViewTestCase(SiteAPITestCase):
         TopicFactory(categories=[cat_2, cat_3])
 
         response = self.client.get(
-            reverse("api:category-list"), SERVER_NAME="example.com"
+            reverse("api:category-list", kwargs={"format": "json"}),
+            SERVER_NAME="example.com",
         )
 
         self.assertEqual(
@@ -86,9 +121,12 @@ class CategoryListViewTestCase(SiteAPITestCase):
                             ("parents", []),
                             (
                                 "children",
-                                ["http://example.com/api/v1/categories/dogs"],
+                                ["http://example.com/api/v1/categories/dogs.json"],
                             ),
-                            ("apiURL", "http://example.com/api/v1/categories/animals"),
+                            (
+                                "apiURL",
+                                "http://example.com/api/v1/categories/animals.json",
+                            ),
                             ("webURL", "http://example.com/encyclopedia/animals/"),
                         ]
                     ),
@@ -100,13 +138,16 @@ class CategoryListViewTestCase(SiteAPITestCase):
                             ("depth", 2),
                             (
                                 "parents",
-                                ["http://example.com/api/v1/categories/animals"],
+                                ["http://example.com/api/v1/categories/animals.json"],
                             ),
                             (
                                 "children",
-                                ["http://example.com/api/v1/categories/terriers"],
+                                ["http://example.com/api/v1/categories/terriers.json"],
                             ),
-                            ("apiURL", "http://example.com/api/v1/categories/dogs"),
+                            (
+                                "apiURL",
+                                "http://example.com/api/v1/categories/dogs.json",
+                            ),
                             ("webURL", "http://example.com/encyclopedia/animals/dogs/"),
                         ]
                     ),
@@ -119,14 +160,14 @@ class CategoryListViewTestCase(SiteAPITestCase):
                             (
                                 "parents",
                                 [
-                                    "http://example.com/api/v1/categories/animals",
-                                    "http://example.com/api/v1/categories/dogs",
+                                    "http://example.com/api/v1/categories/animals.json",
+                                    "http://example.com/api/v1/categories/dogs.json",
                                 ],
                             ),
                             ("children", []),
                             (
                                 "apiURL",
-                                "http://example.com/api/v1/categories/terriers",
+                                "http://example.com/api/v1/categories/terriers.json",
                             ),
                             (
                                 "webURL",
@@ -152,19 +193,18 @@ class CategoryListViewTestCase(SiteAPITestCase):
                 parent_cat.add_child(title=f"Title {n}", slug=f"slug-{n}")
             )
 
-        response = self.client.get(
-            reverse("api:category-list") + "?page=2", SERVER_NAME="example.com"
-        )
+        url = reverse("api:category-list", kwargs={"format": "json"})
+        response = self.client.get(url + "?page=2", SERVER_NAME="example.com")
 
         self.assertEqual(response.data["totalResults"], 11)
         self.assertEqual(response.data["totalPages"], 3)
         self.assertEqual(
             response.data["nextPageURL"],
-            f"http://example.com{reverse('api:category-list')}?page=3",
+            f"http://example.com{url}?page=3",
         )
         self.assertEqual(
             response.data["previousPageURL"],
-            f"http://example.com{reverse('api:category-list')}",
+            f"http://example.com{url}",
         )
         self.assertEqual(len(response.data["results"]), 5)
 
@@ -174,14 +214,20 @@ class CategoryDetailViewTestCase(SiteAPITestCase):
         "It should return 200"
         Category.add_root(title="Animals", slug="animals")
         response = self.client.get(
-            reverse("api:category-detail", kwargs={"category_slug": "animals"})
+            reverse(
+                "api:category-detail",
+                kwargs={"category_slug": "animals", "format": "json"},
+            )
         )
         self.assertEqual(response.status_code, 200)
 
     def test_response_404(self):
         "It should return 404 if the category doesn't exist"
         response = self.client.get(
-            reverse("api:category-detail", kwargs={"category_slug": "animals"})
+            reverse(
+                "api:category-detail",
+                kwargs={"category_slug": "animals", "format": "json"},
+            )
         )
         self.assertEqual(response.data, {"detail": "Not found.", "status_code": 404})
 
@@ -194,7 +240,10 @@ class CategoryDetailViewTestCase(SiteAPITestCase):
         topic = TopicFactory(categories=[cat_2])
 
         response = self.client.get(
-            reverse("api:category-detail", kwargs={"category_slug": "dogs"}),
+            reverse(
+                "api:category-detail",
+                kwargs={"category_slug": "dogs", "format": "json"},
+            ),
             SERVER_NAME="example.com",
         )
 
@@ -205,10 +254,10 @@ class CategoryDetailViewTestCase(SiteAPITestCase):
                 "title": "Dogs",
                 "topicCount": 1,
                 "depth": 2,
-                "parents": ["http://example.com/api/v1/categories/animals"],
-                "children": ["http://example.com/api/v1/categories/terriers"],
-                "topics": [f"http://example.com/api/v1/topics/{topic.pk}"],
-                "apiURL": "http://example.com/api/v1/categories/dogs",
+                "parents": ["http://example.com/api/v1/categories/animals.json"],
+                "children": ["http://example.com/api/v1/categories/terriers.json"],
+                "topics": [f"http://example.com/api/v1/topics/{topic.pk}.json"],
+                "apiURL": "http://example.com/api/v1/categories/dogs.json",
                 "webURL": "http://example.com/encyclopedia/animals/dogs/",
             },
         )
@@ -217,7 +266,7 @@ class CategoryDetailViewTestCase(SiteAPITestCase):
 class EntryListViewTestCase(SiteAPITestCase):
     def test_response_200(self):
         "It should return 200"
-        response = self.client.get(reverse("api:entry-list"))
+        response = self.client.get(reverse("api:entry-list", kwargs={"format": "json"}))
         self.assertEqual(response.status_code, 200)
 
     @freeze_time("2021-06-01 12:00:00", tz_offset=0)
@@ -225,7 +274,10 @@ class EntryListViewTestCase(SiteAPITestCase):
         "It should return the correct data"
         EntryFactory(diary_date=make_date("1660-01-02"), title="2 January 1660")
 
-        response = self.client.get(reverse("api:entry-list"), SERVER_NAME="example.com")
+        response = self.client.get(
+            reverse("api:entry-list", kwargs={"format": "json"}),
+            SERVER_NAME="example.com",
+        )
 
         self.assertEqual(
             response.data,
@@ -240,7 +292,10 @@ class EntryListViewTestCase(SiteAPITestCase):
                             ("date", "1660-01-02"),
                             ("title", "2 January 1660"),
                             ("lastModifiedTime", "2021-06-01T12:00:00Z"),
-                            ("apiURL", "http://example.com/api/v1/entries/1660-01-02"),
+                            (
+                                "apiURL",
+                                "http://example.com/api/v1/entries/1660-01-02.json",
+                            ),
                             ("webURL", "http://example.com/diary/1660/01/02/"),
                         ]
                     )
@@ -255,19 +310,18 @@ class EntryListViewTestCase(SiteAPITestCase):
         for n in range(1, 12):
             EntryFactory(diary_date=make_date(f"1660-01-{n:02}"))
 
-        response = self.client.get(
-            reverse("api:entry-list") + "?page=2", SERVER_NAME="example.com"
-        )
+        url = reverse("api:entry-list", kwargs={"format": "json"})
+        response = self.client.get(url + "?page=2", SERVER_NAME="example.com")
 
         self.assertEqual(response.data["totalResults"], 11)
         self.assertEqual(response.data["totalPages"], 3)
         self.assertEqual(
             response.data["nextPageURL"],
-            f"http://example.com{reverse('api:entry-list')}?page=3",
+            f"http://example.com{url}?page=3",
         )
         self.assertEqual(
             response.data["previousPageURL"],
-            f"http://example.com{reverse('api:entry-list')}",
+            f"http://example.com{url}",
         )
         self.assertEqual(len(response.data["results"]), 5)
 
@@ -277,7 +331,7 @@ class EntryListViewTestCase(SiteAPITestCase):
         EntryFactory(diary_date=make_date("1662-01-01"))
 
         response = self.client.get(
-            reverse("api:entry-list") + "?start=1661-01-01",
+            reverse("api:entry-list", kwargs={"format": "json"}) + "?start=1661-01-01",
             SERVER_NAME="example.com",
         )
 
@@ -291,7 +345,7 @@ class EntryListViewTestCase(SiteAPITestCase):
         EntryFactory(diary_date=make_date("1662-01-01"))
 
         response = self.client.get(
-            reverse("api:entry-list") + "?end=1661-01-01",
+            reverse("api:entry-list", kwargs={"format": "json"}) + "?end=1661-01-01",
             SERVER_NAME="example.com",
         )
 
@@ -305,7 +359,8 @@ class EntryListViewTestCase(SiteAPITestCase):
         EntryFactory(diary_date=make_date("1662-01-01"))
 
         response = self.client.get(
-            reverse("api:entry-list") + "?start=1661-01-01&end=1661-12-31",
+            reverse("api:entry-list", kwargs={"format": "json"})
+            + "?start=1661-01-01&end=1661-12-31",
             SERVER_NAME="example.com",
         )
 
@@ -318,14 +373,20 @@ class EntryDetailViewTestCase(SiteAPITestCase):
         "It should return 200"
         EntryFactory(diary_date=make_date("1660-01-02"))
         response = self.client.get(
-            reverse("api:entry-detail", kwargs={"entry_date": "1660-01-02"})
+            reverse(
+                "api:entry-detail",
+                kwargs={"entry_date": "1660-01-02", "format": "json"},
+            )
         )
         self.assertEqual(response.status_code, 200)
 
     def test_response_404(self):
         "It should return 404 if the entry doesn't exist"
         response = self.client.get(
-            reverse("api:entry-detail", kwargs={"entry_date": "1660-01-02"})
+            reverse(
+                "api:entry-detail",
+                kwargs={"entry_date": "1660-01-02", "format": "json"},
+            )
         )
         self.assertEqual(response.data, {"detail": "Not found.", "status_code": 404})
 
@@ -349,7 +410,10 @@ class EntryDetailViewTestCase(SiteAPITestCase):
         )
 
         response = self.client.get(
-            reverse("api:entry-detail", kwargs={"entry_date": "1660-01-02"}),
+            reverse(
+                "api:entry-detail",
+                kwargs={"entry_date": "1660-01-02", "format": "json"},
+            ),
             SERVER_NAME="example.com",
         )
 
@@ -366,9 +430,9 @@ class EntryDetailViewTestCase(SiteAPITestCase):
                 "footnotesHTML": "<p>My footnotes.</p>",
                 "annotationCount": 0,
                 "lastAnnotationTime": None,
-                "topics": [f"http://example.com/api/v1/topics/{topic_1.pk}"],
+                "topics": [f"http://example.com/api/v1/topics/{topic_1.pk}.json"],
                 "lastModifiedTime": "2021-06-01T12:00:00Z",
-                "apiURL": "http://example.com/api/v1/entries/1660-01-02",
+                "apiURL": "http://example.com/api/v1/entries/1660-01-02.json",
                 "webURL": "http://example.com/diary/1660/01/02/",
             },
         )
@@ -386,7 +450,10 @@ class EntryDetailViewTestCase(SiteAPITestCase):
         EntryAnnotationFactory()
 
         response = self.client.get(
-            reverse("api:entry-detail", kwargs={"entry_date": "1660-01-02"}),
+            reverse(
+                "api:entry-detail",
+                kwargs={"entry_date": "1660-01-02", "format": "json"},
+            ),
             SERVER_NAME="example.com",
         )
         self.assertEqual(response.data["annotationCount"], 1)
@@ -396,7 +463,7 @@ class EntryDetailViewTestCase(SiteAPITestCase):
 class TopicListViewTestCase(SiteAPITestCase):
     def test_response_200(self):
         "It should return 200"
-        response = self.client.get(reverse("api:topic-list"))
+        response = self.client.get(reverse("api:topic-list", kwargs={"format": "json"}))
         self.assertEqual(response.status_code, 200)
 
     @freeze_time("2021-06-01 12:00:00", tz_offset=0)
@@ -405,7 +472,10 @@ class TopicListViewTestCase(SiteAPITestCase):
         cat = Category.add_root(title="Animals", slug="animals")
         topic = TopicFactory(title="Dogs", categories=[cat])
 
-        response = self.client.get(reverse("api:topic-list"), SERVER_NAME="example.com")
+        response = self.client.get(
+            reverse("api:topic-list", kwargs={"format": "json"}),
+            SERVER_NAME="example.com",
+        )
 
         self.assertEqual(
             response.data,
@@ -422,7 +492,10 @@ class TopicListViewTestCase(SiteAPITestCase):
                             ("orderTitle", "Dogs"),
                             ("kind", "default"),
                             ("lastModifiedTime", "2021-06-01T12:00:00Z"),
-                            ("apiURL", f"http://example.com/api/v1/topics/{topic.pk}"),
+                            (
+                                "apiURL",
+                                f"http://example.com/api/v1/topics/{topic.pk}.json",
+                            ),
                             ("webURL", f"http://example.com/encyclopedia/{topic.pk}/"),
                         ]
                     ),
@@ -435,7 +508,10 @@ class TopicListViewTestCase(SiteAPITestCase):
         "It should correctly mark a Person as being one"
         topic = PersonTopicFactory(title="Mr Bob Ferris")
 
-        response = self.client.get(reverse("api:topic-list"), SERVER_NAME="example.com")
+        response = self.client.get(
+            reverse("api:topic-list", kwargs={"format": "json"}),
+            SERVER_NAME="example.com",
+        )
 
         self.assertEqual(
             response.data["results"][0],
@@ -446,7 +522,7 @@ class TopicListViewTestCase(SiteAPITestCase):
                     ("orderTitle", "Ferris, Mr Bob"),
                     ("kind", "person"),
                     ("lastModifiedTime", "2021-06-01T12:00:00Z"),
-                    ("apiURL", f"http://example.com/api/v1/topics/{topic.pk}"),
+                    ("apiURL", f"http://example.com/api/v1/topics/{topic.pk}.json"),
                     ("webURL", f"http://example.com/encyclopedia/{topic.pk}/"),
                 ]
             ),
@@ -457,7 +533,10 @@ class TopicListViewTestCase(SiteAPITestCase):
         "It should correctly mark a Place as being one"
         topic = PlaceTopicFactory(title="London")
 
-        response = self.client.get(reverse("api:topic-list"), SERVER_NAME="example.com")
+        response = self.client.get(
+            reverse("api:topic-list", kwargs={"format": "json"}),
+            SERVER_NAME="example.com",
+        )
 
         self.assertEqual(
             response.data["results"][0],
@@ -468,7 +547,7 @@ class TopicListViewTestCase(SiteAPITestCase):
                     ("orderTitle", "London"),
                     ("kind", "place"),
                     ("lastModifiedTime", "2021-06-01T12:00:00Z"),
-                    ("apiURL", f"http://example.com/api/v1/topics/{topic.pk}"),
+                    ("apiURL", f"http://example.com/api/v1/topics/{topic.pk}.json"),
                     ("webURL", f"http://example.com/encyclopedia/{topic.pk}/"),
                 ]
             ),
@@ -482,19 +561,18 @@ class TopicListViewTestCase(SiteAPITestCase):
         for n in range(0, 11):
             TopicFactory(categories=[cat])
 
-        response = self.client.get(
-            reverse("api:topic-list") + "?page=2", SERVER_NAME="example.com"
-        )
+        url = reverse("api:topic-list", kwargs={"format": "json"})
+        response = self.client.get(url + "?page=2", SERVER_NAME="example.com")
 
         self.assertEqual(response.data["totalResults"], 11)
         self.assertEqual(response.data["totalPages"], 3)
         self.assertEqual(
             response.data["nextPageURL"],
-            f"http://example.com{reverse('api:topic-list')}?page=3",
+            f"http://example.com{url}?page=3",
         )
         self.assertEqual(
             response.data["previousPageURL"],
-            f"http://example.com{reverse('api:topic-list')}",
+            f"http://example.com{url}",
         )
         self.assertEqual(len(response.data["results"]), 5)
 
@@ -504,14 +582,16 @@ class TopicDetailViewTestCase(SiteAPITestCase):
         "It should return 200"
         topic = TopicFactory()
         response = self.client.get(
-            reverse("api:topic-detail", kwargs={"topic_id": str(topic.pk)})
+            reverse(
+                "api:topic-detail", kwargs={"topic_id": str(topic.pk), "format": "json"}
+            )
         )
         self.assertEqual(response.status_code, 200)
 
     def test_response_404(self):
         "It should return 404 if the entry doesn't exist"
         response = self.client.get(
-            reverse("api:topic-detail", kwargs={"topic_id": "123"})
+            reverse("api:topic-detail", kwargs={"topic_id": "123", "format": "json"})
         )
         self.assertEqual(response.data, {"detail": "Not found.", "status_code": 404})
 
@@ -530,7 +610,9 @@ class TopicDetailViewTestCase(SiteAPITestCase):
         )
 
         response = self.client.get(
-            reverse("api:topic-detail", kwargs={"topic_id": str(topic.pk)}),
+            reverse(
+                "api:topic-detail", kwargs={"topic_id": str(topic.pk), "format": "json"}
+            ),
             SERVER_NAME="example.com",
         )
 
@@ -551,10 +633,10 @@ class TopicDetailViewTestCase(SiteAPITestCase):
                 "longitude": None,
                 "zoom": None,
                 "shape": "",
-                "categories": [f"http://example.com/api/v1/categories/{cat.slug}"],
+                "categories": [f"http://example.com/api/v1/categories/{cat.slug}.json"],
                 "entries": [],
                 "lastModifiedTime": "2021-06-01T12:00:00Z",
-                "apiURL": f"http://example.com/api/v1/topics/{topic.pk}",
+                "apiURL": f"http://example.com/api/v1/topics/{topic.pk}.json",
                 "webURL": f"http://example.com/encyclopedia/{topic.pk}/",
             },
         )
@@ -564,7 +646,9 @@ class TopicDetailViewTestCase(SiteAPITestCase):
         topic = PersonTopicFactory(title="Mr Bob Ferris")
 
         response = self.client.get(
-            reverse("api:topic-detail", kwargs={"topic_id": str(topic.pk)}),
+            reverse(
+                "api:topic-detail", kwargs={"topic_id": str(topic.pk), "format": "json"}
+            ),
             SERVER_NAME="example.com",
         )
 
@@ -582,7 +666,9 @@ class TopicDetailViewTestCase(SiteAPITestCase):
         )
 
         response = self.client.get(
-            reverse("api:topic-detail", kwargs={"topic_id": str(topic.pk)}),
+            reverse(
+                "api:topic-detail", kwargs={"topic_id": str(topic.pk), "format": "json"}
+            ),
             SERVER_NAME="example.com",
         )
 
@@ -608,7 +694,9 @@ class TopicDetailViewTestCase(SiteAPITestCase):
         TopicAnnotationFactory()
 
         response = self.client.get(
-            reverse("api:topic-detail", kwargs={"topic_id": str(topic.pk)}),
+            reverse(
+                "api:topic-detail", kwargs={"topic_id": str(topic.pk), "format": "json"}
+            ),
             SERVER_NAME="example.com",
         )
 
@@ -629,10 +717,13 @@ class TopicDetailViewTestCase(SiteAPITestCase):
         EntryFactory(diary_date=make_date("1660-01-03"))
 
         response = self.client.get(
-            reverse("api:topic-detail", kwargs={"topic_id": str(topic.pk)}),
+            reverse(
+                "api:topic-detail", kwargs={"topic_id": str(topic.pk), "format": "json"}
+            ),
             SERVER_NAME="example.com",
         )
 
         self.assertEqual(
-            response.data["entries"], ["http://example.com/api/v1/entries/1660-01-02"]
+            response.data["entries"],
+            ["http://example.com/api/v1/entries/1660-01-02.json"],
         )
