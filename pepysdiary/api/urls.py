@@ -1,34 +1,29 @@
-from django.urls import path, re_path
+from django.urls import include, path
 
-from rest_framework.urlpatterns import format_suffix_patterns
+# from rest_framework.documentation import include_docs_urls
+from rest_framework.routers import DefaultRouter
+from rest_framework.schemas import get_schema_view
 
 from . import views
 
 
 app_name = "api"
 
+router = DefaultRouter(trailing_slash=False)
+router.register(r"categories", views.CategoryViewSet)
+router.register(r"entries", views.EntryViewSet)
+router.register(r"topics", views.TopicViewSet)
 
 urlpatterns = [
-    path("", views.api_root, name="root"),
-    re_path(r"^categories/$", views.CategoryListView.as_view(), name="category_list"),
-    re_path(
-        r"^categories/(?P<category_slug>[\w-]+)/$",
-        views.CategoryDetailView.as_view(),
-        name="category_detail",
-    ),
-    re_path(r"^entries/$", views.EntryListView.as_view(), name="entry_list"),
-    re_path(
-        r"^entries/(?P<entry_date>\d{4}-\d{2}-\d{2})/$",
-        views.EntryDetailView.as_view(),
-        name="entry_detail",
-    ),
-    re_path(r"^topics/$", views.TopicListView.as_view(), name="topic_list"),
-    re_path(
-        r"^topics/(?P<topic_id>\d+)/$",
-        views.TopicDetailView.as_view(),
-        name="topic_detail",
+    path("", include(router.urls)),
+    # path("docs/", include_docs_urls(title="The Diary of Samuel Pepys API")),
+    path(
+        "schema/",
+        get_schema_view(
+            title="The Diary of Samuel Pepys API",
+            url="https://www.pepysdiary.com/",
+            version="1.0.0",
+        ),
+        name="openapi-schema",
     ),
 ]
-
-
-urlpatterns = format_suffix_patterns(urlpatterns)

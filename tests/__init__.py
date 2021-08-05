@@ -11,6 +11,7 @@ class FeedTestCase(TestCase):
     """
 
     def setUp(self):
+        super().setUp()
         # For some reason we need to set this or else, when we run
         # *all* the tests then the domain name is set to the same
         # as the Site object for the dev site in Docker. But not when

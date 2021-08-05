@@ -15,3 +15,7 @@ DEFAULT_FILE_STORAGE = "django.core.files.storage.FileSystemStorage"
 
 MEDIA_ROOT = os.path.join(PROJECT_ROOT, "..", "tests", "_media")  # noqa: F405
 MEDIA_URL = "/media/"
+
+
+# Make it easier/quicker to test pagination:
+REST_FRAMEWORK["PAGE_SIZE"] = 5  # noqa: F405
