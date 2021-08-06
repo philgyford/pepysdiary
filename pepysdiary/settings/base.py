@@ -256,8 +256,11 @@ REST_FRAMEWORK = {
         "pepysdiary.api.renderers.PrettyJSONRenderer",
         "rest_framework.renderers.BrowsableAPIRenderer",
     ),
-    "DEFAULT_THROTTLE_CLASSES": ("rest_framework.throttling.AnonRateThrottle",),
-    "DEFAULT_THROTTLE_RATES": {"anon": "3660/hour"},  # 1 per second plus a bit.
+    "DEFAULT_THROTTLE_CLASSES": (
+        "rest_framework.throttling.AnonRateThrottle",
+        "rest_framework.throttling.UserRateThrottle"
+    ),
+    "DEFAULT_THROTTLE_RATES": {"anon": "60/minute", "user": "60/minute"},
     "DEFAULT_VERSIONING_CLASS": "rest_framework.versioning.NamespaceVersioning",
     "DEFAULT_VERSION": "v1",
     "EXCEPTION_HANDLER": "pepysdiary.api.views.custom_exception_handler",
