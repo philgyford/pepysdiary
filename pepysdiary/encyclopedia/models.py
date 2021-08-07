@@ -233,6 +233,15 @@ class Topic(PepysModel):
                 return category.id
         return None
 
+    @property
+    def diary_references_brief(self):
+        """
+        A more efficient way of fetching diary_references.
+        For when we don't need the bigger text fields, and don't care about the order.
+        e.g. for when getting a Topic's diary_references in the API.
+        """
+        return self.diary_references.only("id", "title", "diary_date").order_by()
+
     def make_order_title(self):
         """
         Set the order_title, depending on what type of Topic this is.
@@ -269,23 +278,27 @@ class Topic(PepysModel):
         """
         Returns a list of lists, of this Topic's diary entry references.
         Doesn't include years/months where there are no referring Entries.
-        [
-            ['1660', [
-                ['Jan', [Entry, Entry, Entry, ]],
-                ['Mar', [Entry, Entry, ]],
-            ]],
-            ['1663', [
-                ['Dec', [Entry, ]],
-            ],
-            ...
-        ]
+
+            [
+                ['1660', [
+                    ['Jan', [Entry, Entry, Entry, ]],
+                    ['Mar', [Entry, Entry, ]],
+                ]],
+                ['1663', [
+                    ['Dec', [Entry, ]],
+                ],
+                ...
+            ]
+
+        We only use diary_references_brief, so we defer fetching bigger
+        text fields on the Entries.
         """
         refs = []
         year_refs = []
         month_refs = []
         prev_year = None
         prev_yearmonth = None
-        for ref in self.diary_references.order_by("diary_date"):
+        for ref in self.diary_references_brief.order_by("diary_date"):
             if ref.year + ref.month_b != prev_yearmonth:
                 if prev_yearmonth is not None:
                     year_refs[1].append(month_refs)

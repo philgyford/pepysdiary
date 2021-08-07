@@ -209,8 +209,10 @@ class TopicDetailSerializer(TopicSerializer):
         read_only=True, many=True, **categories_kwargs
     )
 
+    # Only need the "brief" references to generate the URLs and it's much more efficient
+    # for Topics like 180 (945 diary references).
     entries = serializers.HyperlinkedRelatedField(
-        source="diary_references", read_only=True, many=True, **entries_kwargs
+        source="diary_references_brief", read_only=True, many=True, **entries_kwargs
     )
 
     wikipediaURL = serializers.URLField(source="wikipedia_url", read_only=True)
