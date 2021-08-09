@@ -181,6 +181,12 @@ urlpatterns += [
         name="about_text",
     ),
     path(
+        "api/",
+        flatpages_views.flatpage,
+        {"url": "/api/"},
+        name="about_api",
+    ),
+    path(
         "diary/1893-introduction/",
         flatpages_views.flatpage,
         {"url": "/diary/1893-introduction/"},

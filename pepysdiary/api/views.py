@@ -152,7 +152,7 @@ class TopicViewSet(CachedReadOnlyModelViewSet):
 
     * `topics/796`
     """
-    queryset = Topic.objects.all()
+    queryset = Topic.objects.all().order_by("id")
     serializer_class = TopicListSerializer
     lookup_field = "id"
     lookup_url_kwarg = "topic_id"

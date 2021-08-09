@@ -77,6 +77,7 @@ def get_subnav(url_name):
                 "about_annotations",
                 "about_formats",
                 "about_support",
+                "about_api",
             ),
         ),
     )

@@ -63,3 +63,23 @@ figure {
     font-size: $font-size-small;
   }
 }
+
+code,
+kbd,
+pre,
+samp {
+  font-size: 0.9em;
+	background-color: $gray-light;
+}
+
+/* Used on the About API page */
+h4,
+h5 {
+  margin-top: $line-height-computed;
+	font-weight: bold;
+}
+
+dl dl {
+	padding-left: 40px;
+	margin-bottom: 0;
+}

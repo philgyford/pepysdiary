@@ -10,7 +10,7 @@
 	{% endblock extra_css %}
 
 	<!-- inject:css -->
-	<link rel="stylesheet" href="/static/common/css/site-052ebe96cb.css">
+	<link rel="stylesheet" href="/static/common/css/site-c70dfdfe10.css">
 	<!-- endinject -->
 
     <link rel="apple-touch-icon" sizes="57x57" href="{% static 'common/img/favicons/apple-touch-icon-57x57.png' %}">
@@ -160,6 +160,9 @@
 						</li>
 						<li class="{% if url_name == 'about_formats' %}active{% endif %}">
 							<a href="{% url 'about_formats' %}"><span class="inner">Email, Twitter &amp;  RSS</span></a>
+						</li>
+						<li class="{% if url_name == 'about_api' %}active{% endif %}">
+							<a href="{% url 'about_api' %}"><span class="inner">API</span></a>
 						</li>
 					{% endif %}
 				</ul>
