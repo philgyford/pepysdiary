@@ -78,8 +78,8 @@ class CategoryDetailSerializer(CategorySerializer):
     Includes a list of all Topics in the Category.
     """
 
-    topics = serializers.HyperlinkedIdentityField(
-        read_only=True, many=True, **topics_kwargs
+    topics = serializers.HyperlinkedRelatedField(
+        source="topics_brief", read_only=True, many=True, **topics_kwargs
     )
 
     class Meta:

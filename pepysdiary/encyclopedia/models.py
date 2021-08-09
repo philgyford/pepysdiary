@@ -30,6 +30,14 @@ class Category(MP_Node):
     def __str__(self):
         return str(self.title)
 
+    @property
+    def topics_brief(self):
+        """
+        A more efficient way to get the Category's Topics if we don't
+        need all the fields or a specific order.
+        """
+        return self.topics.only("id", "order_title").order_by()
+
     def get_absolute_url(self):
         # Join all the parent categories' slugs, eg:
         # 'fooddrink/drink/alcdrinks'.

@@ -27,6 +27,17 @@ class CategoryTestCase(TestCase):
         self.assertIn(topic_1, topics)
         self.assertIn(topic_2, topics)
 
+    def test_topics_brief(self):
+        cat = CategoryFactory(title="Animals")
+        topic_1 = TopicFactory(categories=[cat])
+        topic_2 = TopicFactory(categories=[cat])
+
+        topics = cat.topics_brief
+
+        self.assertEqual(len(topics), 2)
+        self.assertIn(topic_1, topics)
+        self.assertIn(topic_2, topics)
+
     def test_str(self):
         cat = CategoryFactory(title="Animals")
         self.assertEqual(str(cat), "Animals")

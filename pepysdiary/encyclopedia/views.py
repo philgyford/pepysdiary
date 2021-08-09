@@ -50,7 +50,7 @@ class CategoryDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        topics = self.object.topics.only("id", "order_title")
+        topics = self.object.topics_brief.order_by("order_title")
 
         #  Makes a list of unique letters. Each letter is only included if this
         # category has a topic starting with that letter.
