@@ -220,7 +220,7 @@ Note that by default Heroku's Redis is set up with a `maxmemory-policy` of `noev
 
 Then use that Redis name like:
 
-    $ heroku redis:maxmemory redis-fisher-12345 --policy volatile-lru
+    $ heroku redis:maxmemory redis-fisher-12345 --policy allkeys-lru
 
 
 ## Environment variables
