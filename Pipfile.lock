@@ -143,11 +143,11 @@
         },
         "django-storages": {
             "hashes": [
-                "sha256:c823dbf56c9e35b0999a13d7e05062b837bae36c518a40255d522fbe3750fbb4",
-                "sha256:f28765826d507a0309cfaa849bd084894bc71d81bf0d09479168d44785396f80"
+                "sha256:b3fdb4337b1e54b8a23fe41c62d91648e26249f9fc00e882d1d09e16207aa204",
+                "sha256:b76fb6758ff6251565d07a18fe051ca1dc886921052cd5a7e373442449c72a4a"
             ],
             "index": "pypi",
-            "version": "==1.11.1"
+            "version": "==1.12"
         },
         "django-treebeard": {
             "hashes": [
@@ -708,11 +708,11 @@
         },
         "faker": {
             "hashes": [
-                "sha256:526da15fd36801427b8af91af854bbe7d6b979d696d3ecef91bf4d81e9b004f2",
-                "sha256:ae9bf986d75caa9c9011eed400bb2ed6e94f2208e987ee2aa013f8a0ae495772"
+                "sha256:13032b8f40e6e5d75bfe80c49137433a0f527f8f65ad5fd1e29a6be456f465f0",
+                "sha256:4750eee71197f68f56b222caffc176cb5c9da2684665af3d00ce2f3693826b4d"
             ],
             "markers": "python_version >= '3.6'",
-            "version": "==9.2.0"
+            "version": "==9.3.0"
         },
         "flake8": {
             "hashes": [
