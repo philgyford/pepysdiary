@@ -89,8 +89,8 @@ class PostTestCase(TestCase):
         self.assertFalse(Post.is_valid_category_slug("nope"))
 
     def test_category_slug_to_name(self):
-        self.assertTrue(Post.is_valid_category_slug("new-features"))
-        self.assertFalse(Post.is_valid_category_slug("nope"))
+        self.assertEqual(Post.category_slug_to_name("new-features"), "New features")
+        self.assertEqual(Post.category_slug_to_name("nope"), "")
 
 
 class PostModeratorTestCase(TestCase):

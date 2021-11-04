@@ -16,6 +16,12 @@ class Article(PepysModel):
     An In-Depth Article.
     """
 
+    class Category(models.TextChoices):
+        # These are used as slugs in URLs.
+        BOOKREVIEWS = "book-reviews", "Book reviews"
+        BACKGROUND = "background", "Background"
+        MISCELLANEOUS = "misc", "Miscellaneous"
+
     class Status(models.IntegerChoices):
         DRAFT = 10, "Draft"
         PUBLISHED = 20, "Published"
@@ -59,6 +65,14 @@ class Article(PepysModel):
     status = models.IntegerField(
         blank=False, null=False, choices=Status.choices, default=Status.DRAFT
     )
+    category = models.CharField(
+        max_length=25,
+        blank=False,
+        null=False,
+        db_index=True,
+        choices=Category.choices,
+        default=Category.MISCELLANEOUS,
+    )
 
     # Also see index_components() method.
     search_document = SearchVectorField(null=True)
@@ -98,6 +112,32 @@ class Article(PepysModel):
         self.search_document.
         """
         return ((self.title, "A"), (self.intro, "B"), (self.text, "B"))
+
+    @property
+    def category_title(self):
+        """
+        Return the title of this Article's category.
+        e.g. "Book reviews".
+        """
+        categories = {c[0]: c[1] for c in self.Category.choices}
+        return categories[self.category]
+
+    @classmethod
+    def is_valid_category_slug(cls, slug):
+        "Is `slug` a valid Article category?"
+        return slug in cls.Category.values
+
+    @classmethod
+    def category_slug_to_name(cls, slug):
+        """
+        Assuming slug is a valid category slug, return the name.
+        Else, ''.
+        """
+        name = ""
+        for k, v in cls.Category.choices:
+            if k == slug:
+                name = v
+        return name
 
 
 class ArticleModerator(CommentModerator):

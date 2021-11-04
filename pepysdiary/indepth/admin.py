@@ -7,8 +7,12 @@ class ArticleAdmin(admin.ModelAdmin):
     list_display = (
         "title",
         "status",
+        "category",
         "date_published",
         "comment_count",
+    )
+    list_editable = (
+        "category",
     )
     search_fields = [
         "title",
@@ -35,7 +39,7 @@ class ArticleAdmin(admin.ModelAdmin):
                 )
             },
         ),
-        (None, {"fields": ("intro", "text", "excerpt",)}),
+        (None, {"fields": ("category", "intro", "text", "excerpt",)}),
         (
             None,
             {

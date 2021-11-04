@@ -82,6 +82,18 @@ class ArticleTestCase(TestCase):
 
         self.assertEqual(article.get_absolute_url(), "/indepth/2021/01/02/my-article/")
 
+    def test_category_title(self):
+        article = PublishedArticleFactory(category="book-reviews")
+        self.assertEqual(article.category_title, "Book reviews")
+
+    def test_is_valid_category_slug(self):
+        self.assertTrue(Article.is_valid_category_slug("book-reviews"))
+        self.assertFalse(Article.is_valid_category_slug("nope"))
+
+    def test_category_slug_to_name(self):
+        self.assertEqual(Article.category_slug_to_name("book-reviews"), "Book reviews")
+        self.assertEqual(Article.category_slug_to_name("nope"), "")
+
 
 class ArticleModeratorTestCase(TestCase):
     def test_it_is_registered(self):

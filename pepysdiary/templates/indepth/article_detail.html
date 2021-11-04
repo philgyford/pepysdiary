@@ -39,8 +39,6 @@
 
 {% block sidebar_content %}
 
-    {% load widget_tags %}
-
-    {% all_articles exclude_id=article.id %}
+	{% include 'inc/indepth_category_nav.html' with category_slug=article.category %}
 
 {% endblock sidebar_content %}

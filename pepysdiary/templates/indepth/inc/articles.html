@@ -1,0 +1,29 @@
+
+{% load text_formatting_filters %}
+
+{% if article_list|length > 0 %}
+  {% for article in article_list %}
+      <article class="clearfix">
+          <header>
+              <h1 class="h2"><a href="{{ article.get_absolute_url }}">{{ article.title }}</a></h1>
+          </header>
+
+          <p class="article-byline">
+            {% if article.author %}
+              By <a href="{{ article.author.get_absolute_url }}" itemprop="author">{{ article.author.name }}</a>,
+            {% endif %}
+            <time class="text-nowrap" datetime="{{ article.date_published|date:"Y-m-d" }}" itemprop="datePublished">{{ article.date_published|date:date_format_long }}</time>
+          </p>
+
+          {{ article.intro_html|smartypants|safe }}
+
+          {% if article.text %}
+              <p><a class="link-more" href="{{ article.get_absolute_url }}">Continue reading…</a></p>
+          {% endif %}
+      </article>
+
+      <hr />
+  {% endfor %}
+{% else %}
+  <p>There aren’t yet any articles.</p>
+{% endif %}
