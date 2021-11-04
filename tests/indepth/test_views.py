@@ -78,7 +78,9 @@ class ArticleCategoryArchiveViewTestCase(ViewTestCase):
         response = views.ArticleCategoryArchiveView.as_view()(
             self.request, category_slug="book-reviews"
         )
-        self.assertEqual(response.template_name[0], "indepth/article_category_list.html")
+        self.assertEqual(
+            response.template_name[0], "indepth/article_category_list.html"
+        )
 
     def test_context_data_articles(self):
         "It should include 10 published articles from this category"
