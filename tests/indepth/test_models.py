@@ -84,14 +84,14 @@ class ArticleTestCase(TestCase):
 
     def test_category_title(self):
         article = PublishedArticleFactory(category="book-reviews")
-        self.assertEqual(article.category_title, "Book reviews")
+        self.assertEqual(article.category_title, "Book Reviews")
 
     def test_is_valid_category_slug(self):
         self.assertTrue(Article.is_valid_category_slug("book-reviews"))
         self.assertFalse(Article.is_valid_category_slug("nope"))
 
     def test_category_slug_to_name(self):
-        self.assertEqual(Article.category_slug_to_name("book-reviews"), "Book reviews")
+        self.assertEqual(Article.category_slug_to_name("book-reviews"), "Book Reviews")
         self.assertEqual(Article.category_slug_to_name("nope"), "")
 
 
