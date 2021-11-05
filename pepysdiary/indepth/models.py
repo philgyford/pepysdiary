@@ -18,8 +18,8 @@ class Article(PepysModel):
 
     class Category(models.TextChoices):
         # These are used as slugs in URLs.
-        BOOKREVIEWS = "book-reviews", "Book reviews"
-        BACKGROUND = "background", "Background"
+        BOOKREVIEWS = "book-reviews", "Book Reviews"
+        BACKGROUND = "background", "In-depth Background"
         MISCELLANEOUS = "misc", "Miscellaneous"
 
     class Status(models.IntegerChoices):

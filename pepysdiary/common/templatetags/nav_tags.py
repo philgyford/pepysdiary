@@ -57,6 +57,7 @@ def get_subnav(url_name):
             (
                 "indepth",
                 "article_detail",
+                "article_category_archive",
             ),
         ),
         (

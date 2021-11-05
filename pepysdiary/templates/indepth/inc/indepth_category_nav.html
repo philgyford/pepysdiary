@@ -8,7 +8,7 @@ And maybe:
 
 <aside class="aside-block">
 	<div class="list-group">
-    <h1 class="aside-title">In-depth categories</h1>
+    <h1 class="aside-title">Articles categories</h1>
 
 		{% for slug, name in categories %}
 			<a class="list-group-item{% if slug == category_slug %} active{% endif %}" href="{% url 'article_category_archive' category_slug=slug %}">{{ name }}</a>
