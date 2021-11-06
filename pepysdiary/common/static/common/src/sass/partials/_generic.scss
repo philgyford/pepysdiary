@@ -26,11 +26,6 @@ img.pull-left {
 
 /* For 'Read more about this' type links at the ends of things. */
 .link-more {
-	font-weight: bold;
-
-	&::after {
-		content: " >";
-	}
 }
 
 /**********************************************************************/

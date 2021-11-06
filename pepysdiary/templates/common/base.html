@@ -10,7 +10,7 @@
 	{% endblock extra_css %}
 
 	<!-- inject:css -->
-	<link rel="stylesheet" href="/static/common/css/site-734c8fe2fe.css">
+	<link rel="stylesheet" href="/static/common/css/site-a0660892c4.css">
 	<!-- endinject -->
 
     <link rel="apple-touch-icon" sizes="57x57" href="{% static 'common/img/favicons/apple-touch-icon-57x57.png' %}">
@@ -134,13 +134,13 @@
 						<li class="{% block indepth_index_nav_active %}{% endblock %}">
 							<a href="{% url 'indepth' %}"><span class="inner">Latest Articles</span></a>
 						</li>
-						<li class="{% if category_slug == "book-reviews" %}active{% endif %}">
+						<li class="{% if category_slug == "book-reviews" or article.category == "book-reviews" %}active{% endif %}">
 							<a href="{% url 'article_category_archive' category_slug="book-reviews" %}"><span class="inner">Book Reviews</span></a>
 						</li>
-						<li class="{% if category_slug == "background" %}active{% endif %}">
+						<li class="{% if category_slug == "background" or article.category == "background" %}active{% endif %}">
 							<a href="{% url 'article_category_archive' category_slug="background" %}"><span class="inner">In-depth Background</span></a>
 						</li>
-						<li class="{% if category_slug == "misc" %}active{% endif %}">
+						<li class="{% if category_slug == "misc" or article.category == "misc" %}active{% endif %}">
 							<a href="{% url 'article_category_archive' category_slug="misc" %}"><span class="inner">Miscellaneous</span></a>
 						</li>
 

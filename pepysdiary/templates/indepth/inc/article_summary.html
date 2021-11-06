@@ -1,0 +1,27 @@
+{% comment %}
+  Used in the inc/articles.html template to display the author, time and
+  excerpt for both book reviews and other indepth Articles.
+{% endcomment %}
+
+{% load text_formatting_filters %}
+
+<p>
+  {% if article.author or article.author_name %}
+    {% if article.category == "book-reviews" %}Reviewed{% else %}Written{% endif %} by
+    <span itemprop="author">
+      {% if article.author %}
+        {{ article.author.name }}
+      {% else %}
+        {{ article.author_name }}
+      {% endif %}
+    </span>
+    <br>
+  {% endif %}
+  <time class="text-nowrap text-muted" datetime="{{ article.date_published|date:"Y-m-d" }}" itemprop="datePublished">{{ article.date_published|date:date_format_long }}</time>
+</p>
+
+<p>
+  {{ article.excerpt|smartypants|striptags|safe }}
+  <br>
+  <a class="link-more" href="{{ article.get_absolute_url }}">Continue reading…</a>
+</p>

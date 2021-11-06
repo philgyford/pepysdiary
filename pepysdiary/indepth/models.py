@@ -36,6 +36,18 @@ class Article(PepysModel):
         related_name="indepth_articles",
         help_text="Optional.",
     )
+    author_name = models.CharField(
+        max_length=50,
+        blank=True,
+        null=False,
+        help_text="If Author does not have an account, enter their name here instead",
+    )
+    author_url = models.URLField(
+        max_length=255,
+        blank=True,
+        null=False,
+        help_text="If Author does not have an account, enter optional URL here instead",
+    )
     intro = models.TextField(blank=False, null=False, help_text="Can use Markdown.")
     intro_html = models.TextField(
         blank=True,
@@ -72,6 +84,24 @@ class Article(PepysModel):
         db_index=True,
         choices=Category.choices,
         default=Category.MISCELLANEOUS,
+    )
+
+    cover = models.ImageField(
+        upload_to="indepth/covers",
+        blank=True,
+        null=True,
+        height_field="cover_height",
+        width_field="cover_width",
+        help_text="Book cover, if any. 250px wide.",
+    )
+    cover_width = models.PositiveSmallIntegerField(blank=True, null=False, default=0)
+    cover_height = models.PositiveSmallIntegerField(blank=True, null=False, default=0)
+
+    item_authors = models.CharField(
+        max_length=255,
+        blank=True,
+        null=False,
+        help_text="e.g. if this is a book review, the author(s) of the book",
     )
 
     # Also see index_components() method.
