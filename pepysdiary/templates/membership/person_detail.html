@@ -50,13 +50,13 @@
 
   {% with person.get_indepth_articles as articles %}
     {% if articles %}
-      <h2>In-depth articles</h2>
+      <h2>Articles</h2>
 
-      <p>{% if is_private_profile %}You have{% else %}{{ person.get_full_name }} has{% endif %} written {% if topics|length == 1 %}this in-depth article{% else %}these in-depth articles{% endif %}:</p>
+      <p>{% if is_private_profile %}You have{% else %}{{ person.get_full_name }} has{% endif %} written {% if articles|length == 1 %}this article{% else %}{{ articles|length|apnumber }} articles{% endif %}:</p>
 
       <ul>
         {% for article in articles %}
-          <li><a href="{{ article.get_absolute_url }}">{{ article.title }}</a> <span class="text-nowrap">({{ article.date_published|date:date_format_long }})</span></li>
+          <li><a href="{{ article.get_absolute_url }}">{{ article.title }}{% if article.item_authors %} by {{ article.item_authors }}{% endif %}</a> <span class="text-nowrap text-muted">({{ article.date_published|date:date_format_long }})</span></li>
         {% endfor %}
       </ul>
       <hr>
@@ -67,7 +67,7 @@
     {% if topics %}
       <h2>Encyclopedia topics</h2>
 
-      <p>{% if is_private_profile %}You have{% else %}{{ person.get_full_name }} has{% endif %} written {% if topics|length == 1 %}a summary for this topic{% else %}summaries for these topics{% endif %}:</p>
+      <p>{% if is_private_profile %}You have{% else %}{{ person.get_full_name }} has{% endif %} written {% if topics|length == 1 %}a summary for this topic{% else %}summaries for {{ topics|length|apnumber }} topics{% endif %}:</p>
 
       <ul>
         {% for topic in topics %}
@@ -80,7 +80,7 @@
 
 	<h2>Annotations and comments</h2>
 
-	<p>{% if is_private_profile %}You have{% else %}{{ person.get_full_name }} has{% endif %} posted <strong>{{ page_obj.paginator.count|intcomma }}</strong> annotation{{ page_obj.paginator.count|pluralize }}/comment{{ page_obj.paginator.count|pluralize }}{% if person.first_comment_date %} since {{ person.first_comment_date|date:date_format_long }}{% endif %}.</p>
+	<p>{% if is_private_profile %}You have{% else %}{{ person.get_full_name }} has{% endif %} posted {{ page_obj.paginator.count|apnumber|intcomma }} annotation{{ page_obj.paginator.count|pluralize }}/comment{{ page_obj.paginator.count|pluralize }}{% if person.first_comment_date %} since {{ person.first_comment_date|date:date_format_long }}{% endif %}.</p>
 
 	{% if comment_list %}
     {% if page_obj.number == 1 %}
