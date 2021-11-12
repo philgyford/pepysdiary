@@ -24,10 +24,10 @@ from pepysdiary.letters.factories import LetterFactory
 
 class ListTagsTestCase(TestCase):
     def test_latest_commented_entries(self):
-        entry_1 = EntryFactory()
-        entry_2 = EntryFactory()
-        entry_3 = EntryFactory()
-        entry_4 = EntryFactory()
+        entry_1 = EntryFactory(diary_date=make_date("1660-01-01"))
+        entry_2 = EntryFactory(diary_date=make_date("1660-01-02"))
+        entry_3 = EntryFactory(diary_date=make_date("1660-01-03"))
+        entry_4 = EntryFactory(diary_date=make_date("1660-01-04"))
 
         annotation_1 = EntryAnnotationFactory(
             user_name="Name 1",
