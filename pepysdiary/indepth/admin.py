@@ -8,16 +8,20 @@ class ArticleAdmin(admin.ModelAdmin):
     list_display = (
         "title",
         "item_authors",
-        "status",
+        "status_icon",
         "category",
         "date_published",
         "comment_count",
     )
-    list_editable = ("category",)
+    list_filter = (
+        "category",
+    )
     search_fields = [
         "title",
         "intro",
         "text",
+        "excerpt",
+        "item_author",
     ]
     readonly_fields = (
         "date_created",
@@ -88,6 +92,17 @@ class ArticleAdmin(admin.ModelAdmin):
             )
         else:
             return "–"
+
+    def status_icon(self, obj):
+        if obj.status == Article.Status.PUBLISHED:
+            return "✅"
+        elif obj.status == Article.Status.DRAFT:
+            return "…"
+        else:
+            return ""
+
+
+    status_icon.short_description = "Status"
 
 
 admin.site.register(Article, ArticleAdmin)
