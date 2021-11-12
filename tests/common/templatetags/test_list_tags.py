@@ -7,7 +7,7 @@ from pepysdiary.common.templatetags.list_tags import (
     latest_commented_posts,
     latest_commented_topics,
 )
-from pepysdiary.common.utilities import make_datetime
+from pepysdiary.common.utilities import make_date, make_datetime
 from pepysdiary.annotations.factories import (
     ArticleAnnotationFactory,
     EntryAnnotationFactory,
