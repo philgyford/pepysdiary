@@ -94,8 +94,8 @@ class Article(PepysModel):
         width_field="cover_width",
         help_text="Book cover, if any. 250px wide.",
     )
-    cover_width = models.PositiveSmallIntegerField(blank=True, null=False, default=0)
-    cover_height = models.PositiveSmallIntegerField(blank=True, null=False, default=0)
+    cover_width = models.PositiveSmallIntegerField(blank=True, null=True, default=0)
+    cover_height = models.PositiveSmallIntegerField(blank=True, null=True, default=0)
 
     item_authors = models.CharField(
         max_length=255,
