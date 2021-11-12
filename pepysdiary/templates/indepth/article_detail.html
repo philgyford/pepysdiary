@@ -4,7 +4,7 @@
 {% block indepth_nav_active %}active{% endblock %}
 
 {% block title %}{% if article.category == "book-reviews" %}‘{{ article.title|smartypants|safe }}’{% if article.item_authors %} by {{ article.item_authors }}{% endif %}{% else %}{{ article.title|smartypants|safe }}{% endif %}{% endblock %}}
-{% block header_title %}{% if article.category == "book-reviews" %}<cite>{{ article.title|smartypants|safe }}</cite>{% if article.item_authors %} <span class="text-muted">by {{ article.item_authors }}</span>{% endif %}{% else %}{{ article.title|smartypants|safe }}{% endif %}{% endblock %}}
+{% block header_title %}{% if article.category == "book-reviews" %}{{ article.title|smartypants|safe }}{% if article.item_authors %} <span class="text-muted">by {{ article.item_authors }}</span>{% endif %}{% else %}{{ article.title|smartypants|safe }}{% endif %}{% endblock %}}
 
 
 {% block main_content %}
