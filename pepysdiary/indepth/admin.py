@@ -13,9 +13,7 @@ class ArticleAdmin(admin.ModelAdmin):
         "date_published",
         "comment_count",
     )
-    list_filter = (
-        "category",
-    )
+    list_filter = ("category",)
     search_fields = [
         "title",
         "intro",
@@ -100,7 +98,6 @@ class ArticleAdmin(admin.ModelAdmin):
             return "…"
         else:
             return ""
-
 
     status_icon.short_description = "Status"
 

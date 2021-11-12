@@ -6,13 +6,20 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('indepth', '0010_article_author_name'),
+        ("indepth", "0010_article_author_name"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='article',
-            name='author_url',
-            field=models.URLField(blank=True, help_text='If Author does not have an account, enter optional URL here instead', max_length=255),
+            model_name="article",
+            name="author_url",
+            field=models.URLField(
+                blank=True,
+                help_text=(
+                    "If Author does not have an account, enter "
+                    "optional URL here instead"
+                ),
+                max_length=255,
+            ),
         ),
     ]

@@ -6,13 +6,22 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('indepth', '0005_article_author'),
+        ("indepth", "0005_article_author"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='article',
-            name='category',
-            field=models.CharField(choices=[('book-reviews', 'Book revies'), ('background', 'Background'), ('misc', 'Miscellaneous')], db_index=True, default='misc', max_length=25),
+            model_name="article",
+            name="category",
+            field=models.CharField(
+                choices=[
+                    ("book-reviews", "Book revies"),
+                    ("background", "Background"),
+                    ("misc", "Miscellaneous"),
+                ],
+                db_index=True,
+                default="misc",
+                max_length=25,
+            ),
         ),
     ]

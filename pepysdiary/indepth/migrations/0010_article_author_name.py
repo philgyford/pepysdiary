@@ -6,13 +6,20 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('indepth', '0009_auto_20211105_1453'),
+        ("indepth", "0009_auto_20211105_1453"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='article',
-            name='author_name',
-            field=models.CharField(blank=True, help_text='If Author does not have an account, enter their name here instead', max_length=50),
+            model_name="article",
+            name="author_name",
+            field=models.CharField(
+                blank=True,
+                help_text=(
+                    "If Author does not have an account, enter their "
+                    "name here instead"
+                ),
+                max_length=50,
+            ),
         ),
     ]

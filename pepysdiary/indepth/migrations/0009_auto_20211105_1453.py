@@ -6,23 +6,30 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('indepth', '0008_alter_article_category'),
+        ("indepth", "0008_alter_article_category"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='article',
-            name='cover',
-            field=models.ImageField(blank=True, height_field='cover_height', help_text='Book cover, if any. 250px wide.', null=True, upload_to='indepth/covers', width_field='cover_width'),
+            model_name="article",
+            name="cover",
+            field=models.ImageField(
+                blank=True,
+                height_field="cover_height",
+                help_text="Book cover, if any. 250px wide.",
+                null=True,
+                upload_to="indepth/covers",
+                width_field="cover_width",
+            ),
         ),
         migrations.AddField(
-            model_name='article',
-            name='cover_height',
+            model_name="article",
+            name="cover_height",
             field=models.PositiveSmallIntegerField(blank=True, default=0),
         ),
         migrations.AddField(
-            model_name='article',
-            name='cover_width',
+            model_name="article",
+            name="cover_width",
             field=models.PositiveSmallIntegerField(blank=True, default=0),
         ),
     ]
