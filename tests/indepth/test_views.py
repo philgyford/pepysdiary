@@ -117,7 +117,7 @@ class ArticleCategoryArchiveViewTestCase(ViewTestCase):
         self.assertIn("category_slug", data)
         self.assertEqual(data["category_slug"], "book-reviews")
         self.assertIn("category_name", data)
-        self.assertEqual(data["category_name"], "Book reviews")
+        self.assertEqual(data["category_name"], "Book Reviews")
         self.assertIn("categories", data)
         self.assertEqual(data["categories"], Article.Category.choices)
 
