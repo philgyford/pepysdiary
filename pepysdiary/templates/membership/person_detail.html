@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% load humanize %}
+{% load humanize text_formatting_filters %}
 
 {% block title %}{% if is_private_profile %}Your profile{% else %}{{ person.get_full_name }}{% endif %}{% endblock %}
 {% block header_title %}{% if is_private_profile %}Your profile{% else %}{{ person.get_full_name }}{% endif %}{% endblock %}
