@@ -1,0 +1,48 @@
+
+{% load text_formatting_filters %}
+
+{% if article_list|length > 0 %}
+
+  {% for article in article_list %}
+    <article class="row">
+
+      {% if article.category == "book-reviews" %}
+
+        <div class="col-xs-8">
+          <header>
+            <h1 class="h2 mt-1 mb-0">
+              <a href="{{ article.get_absolute_url }}">{{ article.title }}</a>
+            </h1>
+            {% if article.item_authors %}
+              <p>by {{ article.item_authors }}</p>
+            {% endif %}
+          </header>
+
+          {% include "inc/article_summary.html" %}
+        </div>
+
+        <div class="col-xs-4">
+          {% if article.cover %}
+            <a href="{{ article.get_absolute_url }}"><img class="img-responsive" src="{{ article.cover.url }}" width="{{ article.cover.width }}" height="{{ article.cover.height }}" alt="Book cover"></a>
+          {% endif %}
+        </div>
+
+      {% else %}
+
+        <div class="col-xs-12">
+          <header>
+            <h1 class="h2 mt-1 mb-2"><a href="{{ article.get_absolute_url }}">{{ article.title }}</a></h1>
+          </header>
+
+          {% include "inc/article_summary.html" %}
+        </div>
+
+      {% endif %}
+
+    </article>
+    <hr>
+  {% endfor %}
+
+{% else %}
+  <p>There aren’t any articles yet.</p>
+{% endif %}

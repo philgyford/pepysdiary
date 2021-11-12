@@ -139,6 +139,7 @@ TEMPLATES = [
             os.path.join(PROJECT_ROOT, "templates", "common"),
             os.path.join(PROJECT_ROOT, "templates", "diary"),
             os.path.join(PROJECT_ROOT, "templates", "encyclopedia"),
+            os.path.join(PROJECT_ROOT, "templates", "indepth"),
             os.path.join(PROJECT_ROOT, "templates", "letters"),
             os.path.join(PROJECT_ROOT, "templates", "news"),
             os.path.join(PROJECT_ROOT, "templates", "membership"),

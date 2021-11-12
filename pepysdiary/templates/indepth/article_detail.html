@@ -3,8 +3,8 @@
 
 {% block indepth_nav_active %}active{% endblock %}
 
-{% block title %}{{ article.title|smartypants|safe }}{% endblock %}}
-{% block header_title %}{{ article.title|smartypants|safe }}{% endblock %}}
+{% block title %}{% if article.category == "book-reviews" %}‘{{ article.title|smartypants|safe }}’{% if article.item_authors %} by {{ article.item_authors }}{% endif %}{% else %}{{ article.title|smartypants|safe }}{% endif %}{% endblock %}}
+{% block header_title %}{% if article.category == "book-reviews" %}<cite>{{ article.title|smartypants|safe }}</cite>{% if article.item_authors %} <span class="text-muted">by {{ article.item_authors }}</span>{% endif %}{% else %}{{ article.title|smartypants|safe }}{% endif %}{% endblock %}}
 
 
 {% block main_content %}
@@ -19,11 +19,29 @@
     <span class="hidden" itemprop="name">{{ article.title|smartypants }}</span>
 
     <p class="article-byline">
-      {% if article.author %}
-        By <a href="{{ article.author.get_absolute_url }}" itemprop="author">{{ article.author.name }}</a>,
+      {% if article.author or article.author_name %}
+        {% if article.category == "book-reviews" %}
+					Reviewed by
+				{% else %}
+					By
+				{% endif %}
+				{% if article.author %}
+					<a href="{{ article.author.get_absolute_url }}" itemprop="author">{{ article.author.name }}</a>
+				{% else %}
+					{% if article.author_url %}
+						<a href="{{ article.author_url }}" itemprop="author">{{ article.author_name }}</a>
+					{% else %}
+						<span itemprop="author">{{ article.author_name }}</span>
+					{% endif %}
+				{% endif %}
+				<br>
       {% endif %}
-      <time class="text-nowrap" datetime="{{ article.date_published|date:"Y-m-d" }}" itemprop="datePublished">{{ article.date_published|date:date_format_long }}</time>
+      <time class="text-nowrap text-muted" datetime="{{ article.date_published|date:"Y-m-d" }}" itemprop="datePublished">{{ article.date_published|date:date_format_long }}</time>
     </p>
+
+		{% if article.cover %}
+			<img class="img-responsive pull-right" src="{{ article.cover.url }}" width="{{ article.cover.width }}" height="{{ article.cover.height }}" alt="Book cover">
+		{% endif %}
 
 		{{ article.intro_html|smartypants|safe }}
 
@@ -39,8 +57,6 @@
 
 {% block sidebar_content %}
 
-    {% load widget_tags %}
-
-    {% all_articles exclude_id=article.id %}
+	{% include 'inc/indepth_category_nav.html' with category_slug=article.category %}
 
 {% endblock sidebar_content %}

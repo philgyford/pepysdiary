@@ -39,6 +39,20 @@ class IndepthURLsTestCase(TestCase):
             views.ArticleDetailView.__name__,
         )
 
+    def test_article_category_archive_url(self):
+        self.assertEqual(
+            reverse(
+                "article_category_archive", kwargs={"category_slug": "book-reviews"}
+            ),
+            "/indepth/book-reviews/",
+        )
+
+    def test_article_category_archive_view(self):
+        self.assertEqual(
+            resolve("/indepth/book-reviews/").func.__name__,
+            views.ArticleCategoryArchiveView.__name__,
+        )
+
     def test_article_archive_url(self):
         self.assertEqual(reverse("indepth"), "/indepth/")
 

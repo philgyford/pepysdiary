@@ -18,19 +18,16 @@
 
 img.pull-right {
 	margin-left: ($grid-gutter-width / 2);
+	margin-bottom: 0.3em;
 }
 img.pull-left {
 	margin-right: ($grid-gutter-width / 2);
+	margin-bottom: 0.3em;
 }
 
 
 /* For 'Read more about this' type links at the ends of things. */
 .link-more {
-	font-weight: bold;
-
-	&::after {
-		content: " >";
-	}
 }
 
 /**********************************************************************/

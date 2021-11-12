@@ -139,8 +139,12 @@ $popover-title-bg:			$gray-light;
 //== List group
 
 $list-group-border:			$gray-light;
+$list-group-active-color:       $link-color;
+$list-group-active-bg:       $gray-lighter;
+$list-group-active-border:      $list-group-border;
 $list-group-hover-bg:		$gray-lighter;
 $list-group-link-color:		$link-color;
+$list-group-link-hover-color:		$link-hover-color;
 
 //== Panels
 //== Thumbnails

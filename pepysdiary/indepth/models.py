@@ -16,6 +16,12 @@ class Article(PepysModel):
     An In-Depth Article.
     """
 
+    class Category(models.TextChoices):
+        # These are used as slugs in URLs.
+        BOOKREVIEWS = "book-reviews", "Book Reviews"
+        BACKGROUND = "background", "In-depth Background"
+        MISCELLANEOUS = "misc", "Miscellaneous"
+
     class Status(models.IntegerChoices):
         DRAFT = 10, "Draft"
         PUBLISHED = 20, "Published"
@@ -29,6 +35,18 @@ class Article(PepysModel):
         on_delete=models.SET_DEFAULT,
         related_name="indepth_articles",
         help_text="Optional.",
+    )
+    author_name = models.CharField(
+        max_length=50,
+        blank=True,
+        null=False,
+        help_text="If Author does not have an account, enter their name here instead",
+    )
+    author_url = models.URLField(
+        max_length=255,
+        blank=True,
+        null=False,
+        help_text="If Author does not have an account, enter optional URL here instead",
     )
     intro = models.TextField(blank=False, null=False, help_text="Can use Markdown.")
     intro_html = models.TextField(
@@ -58,6 +76,32 @@ class Article(PepysModel):
 
     status = models.IntegerField(
         blank=False, null=False, choices=Status.choices, default=Status.DRAFT
+    )
+    category = models.CharField(
+        max_length=25,
+        blank=False,
+        null=False,
+        db_index=True,
+        choices=Category.choices,
+        default=Category.MISCELLANEOUS,
+    )
+
+    cover = models.ImageField(
+        upload_to="indepth/covers",
+        blank=True,
+        null=True,
+        height_field="cover_height",
+        width_field="cover_width",
+        help_text="Book cover, if any. 250px wide.",
+    )
+    cover_width = models.PositiveSmallIntegerField(blank=True, null=False, default=0)
+    cover_height = models.PositiveSmallIntegerField(blank=True, null=False, default=0)
+
+    item_authors = models.CharField(
+        max_length=255,
+        blank=True,
+        null=False,
+        help_text="e.g. if this is a book review, the author(s) of the book",
     )
 
     # Also see index_components() method.
@@ -98,6 +142,32 @@ class Article(PepysModel):
         self.search_document.
         """
         return ((self.title, "A"), (self.intro, "B"), (self.text, "B"))
+
+    @property
+    def category_title(self):
+        """
+        Return the title of this Article's category.
+        e.g. "Book reviews".
+        """
+        categories = {c[0]: c[1] for c in self.Category.choices}
+        return categories[self.category]
+
+    @classmethod
+    def is_valid_category_slug(cls, slug):
+        "Is `slug` a valid Article category?"
+        return slug in cls.Category.values
+
+    @classmethod
+    def category_slug_to_name(cls, slug):
+        """
+        Assuming slug is a valid category slug, return the name.
+        Else, ''.
+        """
+        name = ""
+        for k, v in cls.Category.choices:
+            if k == slug:
+                name = v
+        return name
 
 
 class ArticleModerator(CommentModerator):

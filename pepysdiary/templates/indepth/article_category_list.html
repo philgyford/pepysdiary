@@ -1,16 +1,11 @@
 {% extends "base.html" %}
 
 {% block indepth_nav_active %}active{% endblock %}
-{% block indepth_index_nav_active %}active{% endblock %}
 
-{% block title %}Articles{% endblock %}}
-{% block header_title %}Articles{% endblock %}}
+{% block title %}Articles: {{ category_name }}{% endblock %}}
+{% block header_title %}Articles: {{ category_name }}{% endblock %}}
 
 {% block main_content %}
-
-	<p class="lead">Longer articles on broader topics.</p>
-
-	<hr />
 
 	{% include 'inc/articles.html' %}
 

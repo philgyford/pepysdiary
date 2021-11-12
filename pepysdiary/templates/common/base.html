@@ -10,7 +10,7 @@
 	{% endblock extra_css %}
 
 	<!-- inject:css -->
-	<link rel="stylesheet" href="/static/common/css/site-c70dfdfe10.css">
+	<link rel="stylesheet" href="/static/common/css/site-1cd97eb19a.css">
 	<!-- endinject -->
 
     <link rel="apple-touch-icon" sizes="57x57" href="{% static 'common/img/favicons/apple-touch-icon-57x57.png' %}">
@@ -34,7 +34,7 @@
 
     <link rel="alternate" type="application/rss+xml" title="Diary entries" href="http://feeds.feedburner.com/PepysDiary">
     <link rel="alternate" type="application/rss+xml" title="Encyclopedia topics" href="http://feeds.feedburner.com/PepysDiary-Encyclopedia">
-    <link rel="alternate" type="application/rss+xml" title="In-Depth articles" href="http://feeds.feedburner.com/PepysDiary-InDepthArticles">
+    <link rel="alternate" type="application/rss+xml" title="Articles" href="http://feeds.feedburner.com/PepysDiary-InDepthArticles">
     <link rel="alternate" type="application/rss+xml" title="Site News posts" href="http://feeds.feedburner.com/PepysDiary-SiteNews">
     {% block link_tags %}{% endblock %}
 
@@ -78,7 +78,7 @@
 						<a href="{% url 'encyclopedia' %}"><span class="inner">Encyclopedia</span></a>
 					</li>
 					<li class="{% block indepth_nav_active %}{% endblock %}">
-						<a href="{% url 'indepth' %}"><span class="inner">In-depth Articles</span></a>
+						<a href="{% url 'indepth' %}"><span class="inner">Articles</span></a>
 					</li>
 					<li class="{% block news_nav_active %}{% endblock %}">
 						<a href="{% url 'news' %}"><span class="inner">Site News</span></a>
@@ -133,6 +133,15 @@
 					{% elif subnav == 'indepth' %}
 						<li class="{% block indepth_index_nav_active %}{% endblock %}">
 							<a href="{% url 'indepth' %}"><span class="inner">Latest Articles</span></a>
+						</li>
+						<li class="{% if category_slug == "book-reviews" or article.category == "book-reviews" %}active{% endif %}">
+							<a href="{% url 'article_category_archive' category_slug="book-reviews" %}"><span class="inner">Book Reviews</span></a>
+						</li>
+						<li class="{% if category_slug == "background" or article.category == "background" %}active{% endif %}">
+							<a href="{% url 'article_category_archive' category_slug="background" %}"><span class="inner">In-depth Background</span></a>
+						</li>
+						<li class="{% if category_slug == "misc" or article.category == "misc" %}active{% endif %}">
+							<a href="{% url 'article_category_archive' category_slug="misc" %}"><span class="inner">Miscellaneous</span></a>
 						</li>
 
 					{% elif subnav == 'news' %}

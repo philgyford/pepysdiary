@@ -108,18 +108,18 @@ class Post(PepysModel):
         return categories[self.category]
 
     @classmethod
-    def is_valid_category_slug(self, slug):
+    def is_valid_category_slug(cls, slug):
         "Is `slug` a valid Post category?"
-        return slug in Post.Category.values
+        return slug in cls.Category.values
 
     @classmethod
-    def category_slug_to_name(self, slug):
+    def category_slug_to_name(cls, slug):
         """
         Assuming slug is a valid category slug, return the name.
         Else, ''.
         """
         name = ""
-        for k, v in Post.Category.choices:
+        for k, v in cls.Category.choices:
             if k == slug:
                 name = v
         return name
