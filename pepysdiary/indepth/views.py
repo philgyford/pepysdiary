@@ -8,7 +8,7 @@ from .models import Article
 class ArticleArchiveView(PaginatedListView):
     model = Article
     queryset = Article.published_articles.all()
-    paginate_by = 10
+    paginate_by = 15
     allow_empty = True
 
     def get_context_data(self, **kwargs):
@@ -24,7 +24,7 @@ class ArticleCategoryArchiveView(PaginatedListView):
 
     model = Article
     template_name_suffix = "_category_list"
-    paginate_by = 10
+    paginate_by = 15
     allow_empty = True
     # Will be set in get():
     category = None

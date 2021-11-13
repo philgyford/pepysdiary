@@ -17,8 +17,8 @@ class ArticleArchiveViewTestCase(ViewTestCase):
         self.assertEqual(response.template_name[0], "indepth/article_list.html")
 
     def test_context_articles(self):
-        "It should include the 10 most recent published Articles"
-        PublishedArticleFactory.create_batch(10)
+        "It should include the 15 most recent published Articles"
+        PublishedArticleFactory.create_batch(15)
         # One older published Article, shouldn't be included:
         old_article = PublishedArticleFactory(
             date_published=make_datetime("2021-01-01 00:00:00")
@@ -32,7 +32,7 @@ class ArticleArchiveViewTestCase(ViewTestCase):
         self.assertIn("object_list", data)
         self.assertIn("article_list", data)
         self.assertEqual(data["object_list"], data["article_list"])
-        self.assertEqual(len(data["article_list"]), 10)
+        self.assertEqual(len(data["article_list"]), 15)
         self.assertNotIn(old_article, data["article_list"])
         self.assertNotIn(draft_article, data["article_list"])
 
@@ -44,7 +44,7 @@ class ArticleArchiveViewTestCase(ViewTestCase):
         self.assertEqual(len(data["categories"]), len(Article.Category.choices))
 
     def test_pagination(self):
-        PublishedArticleFactory.create_batch(10)
+        PublishedArticleFactory.create_batch(15)
         # Should be the only one on page 2:
         old_article = PublishedArticleFactory(
             date_published=make_datetime("2021-01-01 00:00:00")
@@ -85,7 +85,7 @@ class ArticleCategoryArchiveViewTestCase(ViewTestCase):
     def test_context_data_articles(self):
         "It should include 10 published articles from this category"
         PublishedArticleFactory.create_batch(
-            11,
+            16,
             category="book-reviews",
             date_published=make_datetime("2021-01-01 12:00:00"),
         )
@@ -104,7 +104,7 @@ class ArticleCategoryArchiveViewTestCase(ViewTestCase):
         self.assertIn("object_list", data)
         self.assertIn("article_list", data)
         self.assertEqual(data["object_list"], data["article_list"])
-        self.assertEqual(len(data["article_list"]), 10)
+        self.assertEqual(len(data["article_list"]), 15)
         self.assertNotIn(other_category_article, data["article_list"])
         self.assertNotIn(draft_article, data["article_list"])
 
