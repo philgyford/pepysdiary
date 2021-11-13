@@ -74,10 +74,10 @@ class ArticleAdmin(admin.ModelAdmin):
 
     @admin.display()
     def cover_dimensions(self, obj):
-        if obj.cover_width == 0 and obj.cover_height == 0:
-            return "–"
-        else:
+        if obj.cover_width and obj.cover_height:
             return f"{obj.cover_width} × {obj.cover_height}"
+        else:
+            return "–"
 
     @admin.display()
     def cover_preview(self, obj):
