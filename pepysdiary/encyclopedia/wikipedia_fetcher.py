@@ -180,6 +180,7 @@ class WikipediaFetcher(object):
             "div.topicon",
             "a.mw-headline-anchor",
             "script",
+            "style",
         ]
 
         # Strip any element that has one of these classes.
