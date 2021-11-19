@@ -6,9 +6,9 @@ from pepysdiary.membership.models import Person
 class PersonFactory(factory.django.DjangoModelFactory):
     """If passing in a password, best to do it like:
 
-        from django.contrib.auth.hashers import make_password
+    from django.contrib.auth.hashers import make_password
 
-        PersonFactory(password=make_password("my-password))
+    PersonFactory(password=make_password("my-password))
     """
 
     class Meta:

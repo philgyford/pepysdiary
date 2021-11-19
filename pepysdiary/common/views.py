@@ -192,8 +192,7 @@ class SearchView(PaginatedListView):
         return order
 
     def set_model(self):
-        """Work out what model we're searching, based on the 'k' GET arg.
-        """
+        """Work out what model we're searching, based on the 'k' GET arg."""
         kind = self.request.GET.get("k", "").strip()
 
         if kind == "a":

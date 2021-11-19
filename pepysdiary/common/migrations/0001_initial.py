@@ -32,14 +32,14 @@ class Migration(migrations.Migration):
                     "use_registration_captcha",
                     models.BooleanField(
                         default=False,
-                        help_text=b"If checked, people must complete a Captcha field when registering."  # noqa: E501,
+                        help_text=b"If checked, people must complete a Captcha field when registering.",  # noqa: E501,
                     ),
                 ),
                 (
                     "use_registration_question",
                     models.BooleanField(
                         default=False,
-                        help_text=b"If checked, people must successfully answer the question below when registering."  # noqa: E501,
+                        help_text=b"If checked, people must successfully answer the question below when registering.",  # noqa: E501,
                     ),
                 ),
                 (

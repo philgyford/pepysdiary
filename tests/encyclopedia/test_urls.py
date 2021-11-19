@@ -61,5 +61,5 @@ class EncyclopediaURLsTestCase(TestCase):
     def test_category_detail_view(self):
         self.assertEqual(
             resolve("/encyclopedia/animals/domestic-dogs/terriers/").func.__name__,
-            views.CategoryDetailView.__name__
+            views.CategoryDetailView.__name__,
         )

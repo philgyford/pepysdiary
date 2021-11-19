@@ -4,7 +4,6 @@ from pepysdiary.common.templatetags.nav_tags import get_subnav
 
 
 class NavTagsTestCase(TestCase):
-
     def test_getsubnav_success(self):
         "It should return the correct subnav name for a URL name"
         # Just testing one per subnav section

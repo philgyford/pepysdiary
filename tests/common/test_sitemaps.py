@@ -12,7 +12,6 @@ from pepysdiary.news.models import Post
 
 
 class SitemapsTestCase(TestCase):
-
     def setUp(self):
         # Because otherwise, for some reason, the tests have a different domain,
         # and we need that to test URLs:

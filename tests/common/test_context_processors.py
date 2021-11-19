@@ -106,7 +106,6 @@ urlpatterns = [
 
 @override_settings(ROOT_URLCONF=__name__)
 class URLNameTestCase(RequestTestCase):
-
     def test_url_name(self):
         "If the URL has a name it should return the URL's name"
         request = self.factory.get("/home/")

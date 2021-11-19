@@ -67,10 +67,13 @@ class BaseRSSFeed(Feed):
         if text2 != "":
             parts.append(force_str(smartypants.smartypants(text2)))
 
-        parts.append('<p><strong><a href="%s#%ss">Read the %ss</a></strong></p>' % (
-            add_domain(Site.objects.get_current().domain, url),
-            comment_name,
-            comment_name,
-        ))
+        parts.append(
+            '<p><strong><a href="%s#%ss">Read the %ss</a></strong></p>'
+            % (
+                add_domain(Site.objects.get_current().domain, url),
+                comment_name,
+                comment_name,
+            )
+        )
 
         return " ".join(parts)

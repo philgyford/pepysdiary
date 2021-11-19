@@ -6,18 +6,18 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('letters', '0006_populate_letter_search_index'),
+        ("letters", "0006_populate_letter_search_index"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='letter',
-            name='footnotes',
-            field=models.TextField(blank=True, help_text='Should be HTML.'),
+            model_name="letter",
+            name="footnotes",
+            field=models.TextField(blank=True, help_text="Should be HTML."),
         ),
         migrations.AlterField(
-            model_name='letter',
-            name='text',
-            field=models.TextField(help_text='Should be HTML.'),
+            model_name="letter",
+            name="text",
+            field=models.TextField(help_text="Should be HTML."),
         ),
     ]

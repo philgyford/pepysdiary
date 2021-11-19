@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.contrib import messages
+
 # from django.contrib.auth import get_user_model
 from django.utils.encoding import smart_str
 
@@ -65,9 +66,7 @@ def is_akismet_spam(sender, comment, request):
     # When testing you can ensure a spam response by adding this:
     # parameters["comment_author"] = "viagra-test-123"
 
-    headers = {
-        "User-Agent": "PepysDiary.com/1.0"
-    }
+    headers = {"User-Agent": "PepysDiary.com/1.0"}
 
     r = requests.post(
         "https://" + settings.AKISMET_API_KEY + "." + AKISMET_CHECK_URL,

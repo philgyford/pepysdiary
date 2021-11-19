@@ -100,7 +100,6 @@ class LetterTestCase(TestCase):
 
 
 class LetterModeratorTestCase(TestCase):
-
     def test_it_is_registered(self):
         # Shouldn't be able to register it again:
         with self.assertRaises(AlreadyModerated):
