@@ -52,15 +52,15 @@ function manage {
 
 function tests {
   # Run the Django tests
-  manage collectstatic --settings=config.settings.tests --no-input
-  manage test --settings=config.settings.tests "${@}"
+  manage collectstatic --settings=pepysdiary.settings.tests --no-input
+  manage test --settings=pepysdiary.settings.tests "${@}"
 }
 
 
 function coverage {
   # Run the tests and generate a coverage report in htmlcov/
-  manage collectstatic --settings=config.settings.tests --no-input
-  cmd pipenv run coverage run manage.py test --settings=config.settings.tests tests
+  manage collectstatic --settings=pepysdiary.settings.tests --no-input
+  cmd pipenv run coverage run manage.py test --settings=pepysdiary.settings.tests tests
   cmd pipenv run coverage html
 }
 
