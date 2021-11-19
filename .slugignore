@@ -1,11 +1,18 @@
+# Things that don't need to be sent to Heroku
 .github
 .vscode
+/assets
 /docker
-/pepysdiary/media
 /graphics
+/pepysdiary/media
+/tests
+devcontainer.json
 docker-compose.yml
+README.md
+run
+setup.cfg
 
 # Only used for front-end build locally:
 gulpfile.js
-package-lock.json
 package.json
+yarn.lock
