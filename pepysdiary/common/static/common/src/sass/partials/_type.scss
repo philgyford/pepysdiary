@@ -37,7 +37,7 @@ sup {
 }
 
 blockquote {
-  margin-bottom: ceil($line-height-computed / 2);
+  margin-bottom: ceil($line-height-computed * 0.5);
 
   footer,
   small,
@@ -55,11 +55,11 @@ cite {
 }
 
 figure {
-  margin: 0 0 ($line-height-computed / 2) 0;
-  padding:($line-height-computed / 2) 0;
+  margin: 0 0 ($line-height-computed * 0.5) 0;
+  padding:($line-height-computed * 0.5) 0;
 
   figcaption {
-    margin-top: ($line-height-computed / 2);
+    margin-top: ($line-height-computed * 0.5);
     font-size: $font-size-small;
   }
 }

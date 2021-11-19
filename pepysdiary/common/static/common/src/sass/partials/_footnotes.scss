@@ -1,7 +1,7 @@
 .footnotes {
 	border-top: 1px solid $hr-border;	
 	font-size: $font-size-base;
-	padding-top: ceil($line-height-computed / 2);
+	padding-top: ceil($line-height-computed * 0.5);
 
 	& > p,
     & > blockquote > p {

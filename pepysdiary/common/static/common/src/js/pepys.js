@@ -51,7 +51,7 @@ window.pepys.utilities = {
    */
   diary_years_months: function () {
     return {
-      "1660": {
+      1660: {
         Jan: 31,
         Feb: 29,
         Mar: 31,
@@ -65,7 +65,7 @@ window.pepys.utilities = {
         Nov: 30,
         Dec: 31,
       },
-      "1661": {
+      1661: {
         Jan: 31,
         Feb: 28,
         Mar: 31,
@@ -79,7 +79,7 @@ window.pepys.utilities = {
         Nov: 30,
         Dec: 31,
       },
-      "1662": {
+      1662: {
         Jan: 31,
         Feb: 28,
         Mar: 31,
@@ -93,7 +93,7 @@ window.pepys.utilities = {
         Nov: 30,
         Dec: 31,
       },
-      "1663": {
+      1663: {
         Jan: 31,
         Feb: 28,
         Mar: 31,
@@ -107,7 +107,7 @@ window.pepys.utilities = {
         Nov: 30,
         Dec: 31,
       },
-      "1664": {
+      1664: {
         Jan: 31,
         Feb: 29,
         Mar: 31,
@@ -121,7 +121,7 @@ window.pepys.utilities = {
         Nov: 30,
         Dec: 31,
       },
-      "1665": {
+      1665: {
         Jan: 31,
         Feb: 28,
         Mar: 31,
@@ -135,7 +135,7 @@ window.pepys.utilities = {
         Nov: 30,
         Dec: 31,
       },
-      "1666": {
+      1666: {
         Jan: 31,
         Feb: 28,
         Mar: 31,
@@ -149,7 +149,7 @@ window.pepys.utilities = {
         Nov: 30,
         Dec: 31,
       },
-      "1667": {
+      1667: {
         Jan: 31,
         Feb: 28,
         Mar: 31,
@@ -163,7 +163,7 @@ window.pepys.utilities = {
         Nov: 30,
         Dec: 31,
       },
-      "1668": {
+      1668: {
         Jan: 31,
         Feb: 28,
         Mar: 31,
@@ -177,7 +177,7 @@ window.pepys.utilities = {
         Nov: 30,
         Dec: 31,
       },
-      "1669": { Jan: 31, Feb: 29, Mar: 31, Apr: 30, May: 31 },
+      1669: { Jan: 31, Feb: 29, Mar: 31, Apr: 30, May: 31 },
     };
   },
 };
@@ -417,11 +417,11 @@ window.pepys.category = {
   // Mapping a category ID to start coordinates.
   // If not listed, we default to using the 'london' coordinates.
   categories_start_coords: {
-    "30": "britain",
-    "45": "world",
-    "180": "whitehall",
-    "209": "waterways",
-    "214": "environs",
+    30: "britain",
+    45: "world",
+    180: "whitehall",
+    209: "waterways",
+    214: "environs",
   },
 
   /**
@@ -466,9 +466,10 @@ window.pepys.category = {
     // Work out which centre and zoom to draw.
     var start_coords = this.start_coords["london"];
     if (this.category_id.toString() in this.categories_start_coords) {
-      start_coords = this.start_coords[
-        this.categories_start_coords[this.category_id.toString()]
-      ];
+      start_coords =
+        this.start_coords[
+          this.categories_start_coords[this.category_id.toString()]
+        ];
     }
     pepys.maps.init(start_coords);
     $.each(this.topics, function (n, topic) {

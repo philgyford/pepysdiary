@@ -20,18 +20,20 @@
  *
  * Used on diary/entry_archive.html.
  */
+@use "sass:math";
+
 .lists-horizontal {
 	border-top: 1px solid $hr-border;
 	display: inline-block;
 	font-weight: bold;
 	list-style-type: none;
 	padding-left: 0;
-	padding-top: ceil($line-height-computed / 2);
+	padding-top: ceil($line-height-computed * 0.5);
 
 	> li {
 		border-bottom: 1px solid $hr-border;
-		margin-bottom: ceil($line-height-computed / 2); 
-		padding-bottom: ceil($line-height-computed / 2);
+		margin-bottom: ceil($line-height-computed * 0.5); 
+		padding-bottom: ceil($line-height-computed * 0.5);
 	}
 
 	ul {
@@ -42,18 +44,18 @@
 
 		> li {
 			display: inline-block;
-			margin-right: ceil($grid-gutter-width / 4);
+			margin-right: ceil($grid-gutter-width * 0.25);
 		}
 	}
 }
 
 .lists-horizontal-small {
-	padding-top: ceil($line-height-computed / 4);
+	padding-top: ceil($line-height-computed * 0.25);
 
 	> li {
 		font-size: $font-size-small;
-		margin-bottom: ceil($line-height-computed / 4); 
-		padding-bottom: ceil($line-height-computed / 4);
+		margin-bottom: ceil($line-height-computed * 0.25); 
+		padding-bottom: ceil($line-height-computed * 0.25);
 	}
 }
 
@@ -62,20 +64,20 @@
 	.lists-horizontal {
 		ul {
 			display: inline-block;
-			padding-left: ceil($grid-gutter-width / 2);
+			padding-left: ceil($grid-gutter-width * 0.5);
 
 			> li {
-				margin-right: ceil($grid-gutter-width / 3);
+				margin-right: ceil(math.div($grid-gutter-width, 3));
 			}
 		}
 	}
 
 	.lists-horizontal-small {
 		ul {
-			padding-left: ceil($grid-gutter-width / 3);
+			padding-left: ceil(math.div($grid-gutter-width, 3));
 		
 			> li {
-				margin-right: ceil($grid-gutter-width / 6);
+				margin-right: ceil(math.div($grid-gutter-width, 6));
 			}
 		}
 	}

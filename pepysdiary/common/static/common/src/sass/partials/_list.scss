@@ -32,7 +32,7 @@ ul ul ul ul {
 
 .list-small.list-spaced {
     li {
-        margin-bottom: floor($line-height-computed / 2);
+        margin-bottom: floor($line-height-computed * 0.5);
     }
 }
 
@@ -43,8 +43,8 @@ ul ul ul ul {
  */
 .list-ruled {
 	li {
-		padding-bottom: ceil($line-height-computed / 2);
-		padding-top: ceil($line-height-computed / 2);
+		padding-bottom: ceil($line-height-computed * 0.5);
+		padding-top: ceil($line-height-computed * 0.5);
 		border-bottom: 1px solid $hr-border;
 
 		&:first-child {
