@@ -1,12 +1,7 @@
-*.log
-*.pot
-*.pyc
 .coverage
 .env
-htmlcov
-pepysdiary/media
+node_modules/
+db.sqlite3
+htmlcov/
 pepysdiary/static_collected
-.bundle
-/vendor
-/node_modules
-.vscode
+pepysdiary/media
