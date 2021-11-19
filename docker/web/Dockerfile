@@ -18,9 +18,7 @@ RUN apk update \
     # Because?
     postgresql-client \
     # Required for lxml python package, which we use with BeautifulSoup:
-    libxml2-dev libxslt-dev \
-    # For front-end build:
-    nodejs yarn
+    libxml2-dev libxslt-dev
 
 # set work directory
 RUN mkdir /code
