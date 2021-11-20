@@ -5,81 +5,80 @@
 @use "sass:math";
 
 .comments {
-	font-family: $font-family-sans-serif;
+  font-family: $font-family-sans-serif;
 }
 
 .comments-title {
-	background: $gray-light;
-	font-family: $font-family-serif;
-	font-size: $font-size-larger;
-	padding: ceil(math.div($line-height-computed, 3)) $grid-gutter-width;
+  background: $gray-light;
+  font-family: $font-family-serif;
+  font-size: $font-size-larger;
+  padding: ceil(math.div($line-height-computed, 3)) $grid-gutter-width;
 }
 
 .media {
-	margin-top: 0;
-	padding-top: 15px;
-	border-bottom: 1px solid $hr-border;
+  margin-top: 0;
+  padding-top: 15px;
+  border-bottom: 1px solid $hr-border;
 }
 .comments .media:target {
-	background: #fff;
+  background: #fff;
 }
 
 /* A custom style, modifying things, used on Recent Activity page. */
 .media-small {
-	border-bottom: none;
+  border-bottom: none;
 
-	p {
-		margin-bottom: 0;
-	}
+  p {
+    margin-bottom: 0;
+  }
 }
 
 .media-heading {
-	font-size: $font-size-large;
-	font-weight: bold;
-	margin-bottom: ($line-height-computed * 0.5);
+  font-size: $font-size-large;
+  font-weight: bold;
+  margin-bottom: ($line-height-computed * 0.5);
 
-	.media-small & {
-		font-size: $font-size-base;
-		font-weight: normal;
-		margin-bottom: 0;
-	}
+  .media-small & {
+    font-size: $font-size-base;
+    font-weight: normal;
+    margin-bottom: 0;
+  }
 
-	small {
-		color: $gray-mid;
-		font-size: $font-size-base;
-		font-weight: normal;
+  small {
+    color: $gray-mid;
+    font-size: $font-size-base;
+    font-weight: normal;
 
-		small,
-		.media-small & {
-			font-size: $font-size-small;
-		}
-	}
+    small,
+    .media-small & {
+      font-size: $font-size-small;
+    }
+  }
 }
 
 .media-body {
-	padding-right: ceil($grid-gutter-width * 0.5);
+  padding-right: ceil($grid-gutter-width * 0.5);
 }
 
 .comments-title {
-	margin-bottom: 0;
+  margin-bottom: 0;
 }
 
 .comment-name {
-	font-weight: bold;
+  font-weight: bold;
 }
 
 .newflag {
-	font-size: $font-size-large;
-	line-height: $headings-line-height;
-    color: $gray-light;
-	padding-left: 3px;
+  font-size: $font-size-large;
+  line-height: $headings-line-height;
+  color: $gray-light;
+  padding-left: 3px;
 
-    &.is-new {
-        color: $text-color;
-    }
+  &.is-new {
+    color: $text-color;
+  }
 
-	.media-small & {
-		font-size: $font-size-base;
-	}
+  .media-small & {
+    font-size: $font-size-base;
+  }
 }
-

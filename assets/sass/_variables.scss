@@ -4,39 +4,38 @@
 
 // COLORS
 
-
 // Contains the title.
-$site-header-bg:          #164e08;
+$site-header-bg: #164e08;
 $site-header-title-color: $gray-light;
 $site-header-subtitle-color: $gray-lighter;
-$site-header-border-color:#325831; // Top and bottom.
+$site-header-border-color: #325831; // Top and bottom.
 
 $site-mainnav-collapsed-link-active-bg: $brand-primary;
 
 // Bottom nav, below the header and main nav.
-$site-subnav-bg:          $gray-light;
-$site-subnav-color:       #b7b7b2; // dividers.
+$site-subnav-bg: $gray-light;
+$site-subnav-color: #b7b7b2; // dividers.
 
 // User nav, top of page.
 // Thinner vertically, so some replacement styles:
 $supernav-height: 32px;
 $supernav-line-height-computed: 32px;
-$supernav-padding-vertical: (($supernav-height - $supernav-line-height-computed) * 0.5);
+$supernav-padding-vertical: (
+  ($supernav-height - $supernav-line-height-computed) * 0.5
+);
 
 $site-highlight-color: #589359; // eg 'on' border of subnav.
 
-$aside-bg:                #fff;
-$aside-title-color:		  #fff;
-$aside-title-bg:          #549355;
-$aside-hr-color:          $hr-border;
+$aside-bg: #fff;
+$aside-title-color: #fff;
+$aside-title-bg: #549355;
+$aside-hr-color: $hr-border;
 $aside-padding-horizontal: 15px;
 
-$comments-header-bg:      $gray-light; // eg behind '3 annotations'.
+$comments-header-bg: $gray-light; // eg behind '3 annotations'.
 
-$admin-bg:                #ff0; // "Edit" links.
-
+$admin-bg: #ff0; // "Edit" links.
 
 // PATHS
 
 $img-path: "../img/backgrounds";
-

@@ -1,43 +1,43 @@
 .nextprev {
-	@include clearfix;
+  @include clearfix;
 
-	font-size: $font-size-largish;
-	font-weight: bold;
+  font-size: $font-size-largish;
+  font-weight: bold;
 
-	a {
-		@include image-retina('#{$img-path}/bullets', 'png', 36px, 352px);
-		background-repeat: no-repeat;
-	}
+  a {
+    @include image-retina("#{$img-path}/bullets", "png", 36px, 352px);
+    background-repeat: no-repeat;
+  }
 }
 .nextprev-next {
-	float: right;
-    margin-left: 10px;
-    margin-bottom: 0.5em;
+  float: right;
+  margin-left: 10px;
+  margin-bottom: 0.5em;
 
-	a {
-		padding-right: 50px;
-		// Gray:
-		//background-position: right -137px;
-		background-position: right -208px;
+  a {
+    padding-right: 50px;
+    // Gray:
+    //background-position: right -137px;
+    background-position: right -208px;
 
-		&:hover {
-			background-position: right -279px;
-		}
-	}
+    &:hover {
+      background-position: right -279px;
+    }
+  }
 }
 .nextprev-prev {
-	float: left;
-    margin-right: 10px;
-    margin-bottom: 0.5em;
+  float: left;
+  margin-right: 10px;
+  margin-bottom: 0.5em;
 
-	a {
-		padding-left: 50px;
-		// Gray:
-		//background-position: left -103px;
-		background-position: left -174px;
+  a {
+    padding-left: 50px;
+    // Gray:
+    //background-position: left -103px;
+    background-position: left -174px;
 
-		&:hover {
-			background-position: left -245px;
-		}
-	}
+    &:hover {
+      background-position: left -245px;
+    }
+  }
 }

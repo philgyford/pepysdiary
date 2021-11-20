@@ -7,11 +7,10 @@
  * Maybe use with a .form-control-static fake input element.
  */
 .label-static {
-	@extend label;
+  @extend label;
 }
 
 /* Django thing. */
 #id_honeypot {
-    display: none;
+  display: none;
 }
-

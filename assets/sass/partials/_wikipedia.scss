@@ -5,108 +5,110 @@
  */
 
 .wikipedia {
+  // Generic items.
 
-     // Generic items.
+  .tleft {
+    float: left;
+    clear: left;
+    margin: $padding-base-vertical $padding-large-horizontal
+      $padding-base-vertical 0;
+  }
+  .tright {
+    float: right;
+    clear: right;
+    margin: $padding-base-vertical 0 $padding-base-vertical
+      $padding-large-horizontal;
+  }
 
-    .tleft {
-        float: left;
-        clear: left;
-        margin: $padding-base-vertical $padding-large-horizontal $padding-base-vertical 0;
-    }
-    .tright {
-        float: right;
-        clear: right;
-        margin: $padding-base-vertical 0 $padding-base-vertical $padding-large-horizontal;
-    }
+  // Images.
 
-    // Images.
+  .thumb,
+  .thumbinner {
+    // Make them collapse to width of image inside.
+    display: table;
+    width: 1%;
+  }
 
-    .thumb,
-    .thumbinner {
-        // Make them collapse to width of image inside.
-        display: table;
-        width: 1%;
-    }
+  .thumb img,
+  img.thumbborder {
+    @extend .thumbnail;
+    margin-bottom: 0;
+  }
+  .thumbcaption {
+    font-size: $font-size-small;
+    margin-top: 0.5em;
+  }
 
-    .thumb img,
-    img.thumbborder {
-        @extend .thumbnail;
-        margin-bottom: 0;
-    }
-    .thumbcaption {
-        font-size: $font-size-small;
-        margin-top: 0.5em;
-    }
+  // Infobox
+  // eg, 2570
 
-    // Infobox
-    // eg, 2570
-
-    .infobox,
+  .infobox,
     table.mbox-small // Audio on https://en.wikipedia.org/wiki/Bagpipes
-    {
-        width: 100%;
+ {
+    width: 100%;
 
-        @media (min-width: $screen-sm-min) {
-            float: right;
-            clear: right;
-            margin: $padding-base-vertical 0 $padding-base-vertical $padding-large-horizontal;
-            width: 40%;
-        }
+    @media (min-width: $screen-sm-min) {
+      float: right;
+      clear: right;
+      margin: $padding-base-vertical 0 $padding-base-vertical
+        $padding-large-horizontal;
+      width: 40%;
+    }
+  }
+
+  .infobox {
+    th,
+    td {
+      font-size: $font-size-small;
     }
 
-    .infobox {
-        th,
-        td {
-            font-size: $font-size-small;
-        }
-
-        td.role {
-            text-align: center; // 2570
-        }
-
-        tr.note th {
-            text-align: left; // 2570
-        }
-
-        .image img // 2570
-        {
-            // Center the main image in its cell.
-            display: block;
-            margin: 0 auto 0.3em auto;
-        }
+    td.role {
+      text-align: center; // 2570
     }
 
-    // Other things.
-
-    table table {
-        width: 100%;
+    tr.note th {
+      text-align: left; // 2570
     }
 
-    .toc ul {
-        @include list-unstyled;
-
-        ul {
-            margin-left: 40px;
-        }
+    .image img // 2570
+ {
+      // Center the main image in its cell.
+      display: block;
+      margin: 0 auto 0.3em auto;
     }
+  }
 
-    .infobox,
-    .wikitable {
-        th {
-            text-align: center;
-            // Override colors set in the HTML:
-            border-top-color: $table-border-color !important;
-        }
+  // Other things.
+
+  table table {
+    width: 100%;
+  }
+
+  .toc ul {
+    @include list-unstyled;
+
+    ul {
+      margin-left: 40px;
     }
+  }
 
-    .metadata a.image, // 13747 (bottom)
+  .infobox,
+  .wikitable {
+    th {
+      text-align: center;
+      // Override colors set in the HTML:
+      border-top-color: $table-border-color !important;
+    }
+  }
+
+  .metadata a.image, // 13747 (bottom)
     .mbox-image img    // 4941 (bottom)
-    {
-        display: none;
-    }
+ {
+    display: none;
+  }
 
-    .geo-multi-punct,
-    .geo-nondefault {
-        display: none;
-    }
+  .geo-multi-punct,
+  .geo-nondefault {
+    display: none;
+  }
 }

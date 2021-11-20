@@ -1,98 +1,98 @@
 @use "sass:math";
 
 .aside-block {
-	margin-top: $line-height-computed;
+  margin-top: $line-height-computed;
 }
 
 .aside-block:first-child {
-	margin-top: 0;
+  margin-top: 0;
 }
 
 .aside-title {
-	font-family: $font-family-serif;
-	font-size:	$font-size-large;
-	color:		$aside-title-color;
-	@include image-retina('#{$img-path}/decorations', 'png', 194px, 150px);
-	background-position: right top;
-	background-repeat: no-repeat;
-	background-color: $aside-title-bg;
-	margin-top: 0;
-	margin-bottom: 0;
-	padding:	math.div($line-height-computed, 3) $aside-padding-horizontal;
+  font-family: $font-family-serif;
+  font-size: $font-size-large;
+  color: $aside-title-color;
+  @include image-retina("#{$img-path}/decorations", "png", 194px, 150px);
+  background-position: right top;
+  background-repeat: no-repeat;
+  background-color: $aside-title-bg;
+  margin-top: 0;
+  margin-bottom: 0;
+  padding: math.div($line-height-computed, 3) $aside-padding-horizontal;
 }
 
 .aside-body {
-	background: $aside-bg;
-	padding: ($line-height-computed * 0.5) $aside-padding-horizontal;
+  background: $aside-bg;
+  padding: ($line-height-computed * 0.5) $aside-padding-horizontal;
 
-	h2 {
-		font-size: $font-size-base;
-		font-weight: bold;
-		line-height: $line-height-computed;
-		margin-top: ceil($line-height-computed * 0.5);
-		margin-bottom: 0;
+  h2 {
+    font-size: $font-size-base;
+    font-weight: bold;
+    line-height: $line-height-computed;
+    margin-top: ceil($line-height-computed * 0.5);
+    margin-bottom: 0;
 
-		&:first-child {
-			margin-top: 0;
-		}
-	}
+    &:first-child {
+      margin-top: 0;
+    }
+  }
 
-	ul {
-		padding-left: ceil($font-size-base * 1.25);
-		margin-bottom: 0.3em;
-		padding-bottom: ceil($line-height-computed * 0.5);
-		border-bottom: 1px solid $aside-hr-color;
+  ul {
+    padding-left: ceil($font-size-base * 1.25);
+    margin-bottom: 0.3em;
+    padding-bottom: ceil($line-height-computed * 0.5);
+    border-bottom: 1px solid $aside-hr-color;
 
-		&:last-child {
-			border-bottom: none;
-		}
+    &:last-child {
+      border-bottom: none;
+    }
 
-		&.list-unstyled {
-			padding-left: 0;
-		}
-	}
+    &.list-unstyled {
+      padding-left: 0;
+    }
+  }
 
-	ul,
-	dl,
-	p {
-		&:last-child {
-			margin-bottom: 0;
-		}
-	}
+  ul,
+  dl,
+  p {
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
 
-	img {
-		border: 1px solid $gray-light;
-	}
+  img {
+    border: 1px solid $gray-light;
+  }
 
-	.text-right {
-		font-size: $font-size-small;
-	}
+  .text-right {
+    font-size: $font-size-small;
+  }
 }
 
 /**
  * Special case, used on the home page for a single aside in the footer.
  */
 .asides-flatten {
-    .aside-title {
-        display: none;
-    }
+  .aside-title {
+    display: none;
+  }
 
-    .aside-body {
-        background: none;
-        text-align: center;
-        padding: 0;
+  .aside-body {
+    background: none;
+    text-align: center;
+    padding: 0;
 
-        p {
-            display: inline-block;
-            
-            &:after {
-                // [converter] Workaround for https://github.com/sass/libsass/issues/1115
-                $nbsp: "\00a0";
-                content: " #{$nbsp} #{$nbsp} • #{$nbsp} ";
-            }
-            &:last-child::after {
-                content: '';
-            }
-        }
+    p {
+      display: inline-block;
+
+      &:after {
+        // [converter] Workaround for https://github.com/sass/libsass/issues/1115
+        $nbsp: "\00a0";
+        content: " #{$nbsp} #{$nbsp} • #{$nbsp} ";
+      }
+      &:last-child::after {
+        content: "";
+      }
     }
+  }
 }

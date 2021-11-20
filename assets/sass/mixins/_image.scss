@@ -18,27 +18,36 @@
 
 // Note that the spelling of `min--moz-device-pixel-ratio` is intentional.
 @mixin image-retina($file, $ext, $width, $height) {
-  background-image: url(if($bootstrap-sass-asset-helper, twbs-image-path("#{$file}.#{$ext}"), "#{$file}.#{$ext}"));
+  background-image: url(if(
+    $bootstrap-sass-asset-helper,
+    twbs-image-path("#{$file}.#{$ext}"),
+    "#{$file}.#{$ext}"
+  ));
   background-size: $width $height;
 
-  @media
-  only screen and (-webkit-min-device-pixel-ratio: 2),
-  only screen and (   min--moz-device-pixel-ratio: 2),
-  only screen and (     -o-min-device-pixel-ratio: 2/1),
-  only screen and (        min-device-pixel-ratio: 2),
-  only screen and (                min-resolution: 192dpi),
-  only screen and (                min-resolution: 2dppx) {
-    background-image: url(if($bootstrap-sass-asset-helper, twbs-image-path("#{$file}@2x.#{$ext}"), "#{$file}@2x.#{$ext}"));
+  @media only screen and (-webkit-min-device-pixel-ratio: 2),
+    only screen and (min--moz-device-pixel-ratio: 2),
+    only screen and (-o-min-device-pixel-ratio: 2/1),
+    only screen and (min-device-pixel-ratio: 2),
+    only screen and (min-resolution: 192dpi),
+    only screen and (min-resolution: 2dppx) {
+    background-image: url(if(
+      $bootstrap-sass-asset-helper,
+      twbs-image-path("#{$file}@2x.#{$ext}"),
+      "#{$file}@2x.#{$ext}"
+    ));
   }
 
-  @media
-  only screen and (-webkit-min-device-pixel-ratio: 3),
-  only screen and (   min--moz-device-pixel-ratio: 3),
-  only screen and (     -o-min-device-pixel-ratio: 3/1),
-  only screen and (        min-device-pixel-ratio: 3),
-  only screen and (                min-resolution: 288dpi),
-  only screen and (                min-resolution: 3dppx) {
-    background-image: url(if($bootstrap-sass-asset-helper, twbs-image-path("#{$file}@3x.#{$ext}"), "#{$file}@3x.#{$ext}"));
+  @media only screen and (-webkit-min-device-pixel-ratio: 3),
+    only screen and (min--moz-device-pixel-ratio: 3),
+    only screen and (-o-min-device-pixel-ratio: 3/1),
+    only screen and (min-device-pixel-ratio: 3),
+    only screen and (min-resolution: 288dpi),
+    only screen and (min-resolution: 3dppx) {
+    background-image: url(if(
+      $bootstrap-sass-asset-helper,
+      twbs-image-path("#{$file}@3x.#{$ext}"),
+      "#{$file}@3x.#{$ext}"
+    ));
   }
 }
-

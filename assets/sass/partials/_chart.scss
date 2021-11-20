@@ -4,62 +4,60 @@
  * And the Pepys' Wealth chart in the Encyclopedia.
  */
 
-
 .chart {
-	width: 100%;
+  width: 100%;
 }
 
 .chart-wealth {
-    margin: 1em 0;
+  margin: 1em 0;
 }
 
 /* Bars on the chart: */
 .chart line {
-	/* General line styles. */
-    stroke-width: 1px;
-    shape-rendering: crispEdges;
+  /* General line styles. */
+  stroke-width: 1px;
+  shape-rendering: crispEdges;
 }
 
 .chart .bar {
-	fill: $gray-dark;
-    opacity: 0.8;
+  fill: $gray-dark;
+  opacity: 0.8;
 }
 
 /* The line on the wealth chart. */
 .chart .valueline {
-    stroke: $gray-dark;
-    stroke-width: 2px;
+  stroke: $gray-dark;
+  stroke-width: 2px;
 }
 
 .chart .bar.highlight {
-	opacity: 1.0;
+  opacity: 1;
 }
 
 .chart .axis path,
 .chart .axis line {
-	shape-rendering: crispEdges;
-	stroke: $text-color;
-    width: 1px;
+  shape-rendering: crispEdges;
+  stroke: $text-color;
+  width: 1px;
 }
 
 #chart-references .axis-y path {
-	stroke: none;
+  stroke: none;
 }
 
 // The horizontal lines across the chart.
 .chart .axis-y .tick line {
-    stroke: $gray-light;
+  stroke: $gray-light;
 }
 
 .chart-tooltip {
-	background: #fff;
-	position: absolute;
-	z-index: 10;
-	visibility: hidden;
-	box-shadow: 1px 1px 3px #666;
-	/* Font size, padding is set by JS. */
+  background: #fff;
+  position: absolute;
+  z-index: 10;
+  visibility: hidden;
+  box-shadow: 1px 1px 3px #666;
+  /* Font size, padding is set by JS. */
 }
-
 
 .chart-wealth .overlay {
   fill: none;
@@ -70,4 +68,3 @@
   fill: none;
   stroke: $gray-dark;
 }
-

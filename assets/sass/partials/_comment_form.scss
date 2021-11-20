@@ -3,17 +3,17 @@
  */
 
 #comment-form {
-	margin-top: ($line-height-computed * 0.5);
+  margin-top: ($line-height-computed * 0.5);
 }
 
 .comment-form-title {
-	font-size: $font-size-large;
+  font-size: $font-size-large;
 }
 .comment-form-notes {
-	font-size: $font-size-small;
-	margin-top: ($line-height-computed * 0.5);
+  font-size: $font-size-small;
+  margin-top: ($line-height-computed * 0.5);
 }
 
 .comments-no-form {
-	margin-top: $line-height-computed;
+  margin-top: $line-height-computed;
 }

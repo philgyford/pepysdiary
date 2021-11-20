@@ -20,9 +20,8 @@
  * 				);
  */
 @mixin gradient-with-image($url, $angle, $colors...) {
-	background-image: -webkit-linear-gradient($angle, $colors), url($url);
-	background-image: -o-linear-gradient($angle, $colors), url($url);
-	background-image: linear-gradient($angle, $colors), url($url);
-	background-image: url($url);
+  background-image: -webkit-linear-gradient($angle, $colors), url($url);
+  background-image: -o-linear-gradient($angle, $colors), url($url);
+  background-image: linear-gradient($angle, $colors), url($url);
+  background-image: url($url);
 }
-

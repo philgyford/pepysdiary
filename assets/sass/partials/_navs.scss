@@ -2,14 +2,14 @@
  * To make text line up with li's containing links.
  */
 .nav > li {
-	&.disabled > a {
-		&:hover,
-		&:focus {
-			cursor: default;
-		}
-	}
+  &.disabled > a {
+    &:hover,
+    &:focus {
+      cursor: default;
+    }
+  }
 }
 
 .nav-tabs {
-	margin-bottom: $line-height-computed;
+  margin-bottom: $line-height-computed;
 }

@@ -5,8 +5,13 @@
 
 /* Used on Category Detail page for A-Z. */
 .pagination-sm {
-	@include pagination-size(3px, 6px, $font-size-small, $line-height-computed, $border-radius-small);
-	margin-top: 0;
-	margin-bottom: 0;
+  @include pagination-size(
+    3px,
+    6px,
+    $font-size-small,
+    $line-height-computed,
+    $border-radius-small
+  );
+  margin-top: 0;
+  margin-bottom: 0;
 }
-
