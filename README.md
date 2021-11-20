@@ -2,6 +2,8 @@
 
 [![Build Status](https://github.com/philgyford/pepysdiary/workflows/CI/badge.svg)](https://github.com/philgyford/pepysdiary/actions?query=workflow%3ACI)
 [![Coverage Status](https://coveralls.io/repos/github/philgyford/pepysdiary/badge.svg?branch=main)](https://coveralls.io/github/philgyford/pepysdiary?branch=main)
+[![Code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
 Code for [www.pepysdiary.com](http://www.pepysdiary.com/). This repository includes fixtures for all of the site's data (apart from user accounts and user-contributed comments) although it's out of date compared to what's live.
 
