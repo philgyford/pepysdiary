@@ -1,10 +1,12 @@
 {
   "name": "django-pepysdiary",
-  "version": "2.0.0",
+  "version": "UNLICENSED",
   "description": "Front-end assets for pepysdiary.com",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "gulp",
+    "watch": "gulp watch"
   },
   "repository": {
     "type": "git",
@@ -18,16 +20,16 @@
   "homepage": "https://github.com/philgyford/pepysdiary",
   "dependencies": {},
   "devDependencies": {
-    "del": "^5.1.0",
+    "del": "^6.0.0",
     "gulp": "^4.0.2",
     "gulp-concat": "^2.6.1",
     "gulp-inject": "^5.0.5",
     "gulp-rev": "^9.0.0",
-    "gulp-sass": "^4.1.0",
-    "gulp-sourcemaps": "^2.6.5",
+    "gulp-sass": "^5.0.0",
+    "gulp-sourcemaps": "^3.0.0",
     "gulp-uglify": "^3.0.2",
+    "sass": "^1.43.4",
     "stream-series": "^0.1.1",
     "watch": "^1.0.2"
-  },
-  "optionalDependencies": {}
+  }
 }

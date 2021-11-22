@@ -31,9 +31,7 @@ CACHES = {
         "LOCATION": get_env_variable("REDIS_TLS_URL"),
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
-            "CONNECTION_POOL_KWARGS": {
-                "ssl_cert_reqs": None
-            },
+            "CONNECTION_POOL_KWARGS": {"ssl_cert_reqs": None},
         },
     }
 }
@@ -66,11 +64,6 @@ if SENTRY_DSN:
 # PEPYSDIARY-SPECIFIC SETTINGS.
 
 GOOGLE_ANALYTICS_ID = "UA-89135-2"
-
-# Do we use Akismet/TypePad spam checking?
-# True/False. If false, no posted comments are checked.
-# If True, AKISMET_API_KEY must also be set.
-USE_SPAM_CHECK = get_env_variable("USE_SPAM_CHECK")
 
 # From http://akismet.com/
 AKISMET_API_KEY = get_env_variable("AKISMET_API_KEY")

@@ -13,7 +13,8 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.AlterModelOptions(
-            name="letter", options={"ordering": ["letter_date", "order"]},
+            name="letter",
+            options={"ordering": ["letter_date", "order"]},
         ),
         migrations.AddField(
             model_name="letter",

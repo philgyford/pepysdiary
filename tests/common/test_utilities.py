@@ -17,7 +17,7 @@ from pepysdiary.common.utilities import (
     get_month_b,
     get_day,
     get_day_e,
-    make_url_absolute
+    make_url_absolute,
 )
 
 

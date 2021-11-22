@@ -10,7 +10,6 @@ from pepysdiary.letters.factories import LetterFactory
 
 
 class SearchSummaryTestCase(TestCase):
-
     def test_annotation(self):
         annotation = ArticleAnnotationFactory(
             comment=(

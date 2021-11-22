@@ -1,0 +1,41 @@
+/**
+ * Extra styles for hr's for adding decoration.
+ * eg <hr class="decoration decoration-small">
+ */
+hr {
+  margin-top: $line-height-computed;
+  margin-bottom: $line-height-computed;
+
+  &.decoration {
+    text-align: center;
+    &:after {
+      content: "";
+      display: inline-block;
+      position: relative;
+      font-size: 1.5em;
+      @include image-retina("#{$img-path}/decorations", "png", 194px, 150px);
+      background-repeat: no-repeat;
+      background-color: $body-bg;
+    }
+  }
+  &.decoration-small {
+    border-width: 3px;
+    &:after {
+      top: -11px;
+      background-position: center -89px;
+      width: 26px;
+      height: 19px;
+    }
+  }
+  &.decoration-big {
+    border-width: 1px;
+    margin-top: $line-height-computed * 3;
+    margin-bottom: $line-height-computed * 2;
+    &:after {
+      top: -32px;
+      background-position: center -114px;
+      width: 208px;
+      height: 36px;
+    }
+  }
+}

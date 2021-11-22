@@ -1,0 +1,85 @@
+/**
+ * Overriding Bootstrap's styles.
+ */
+.page-header {
+  margin-top: 0;
+}
+.page-header h1,
+.entry h1 {
+  padding-bottom: 0.3em;
+  border-bottom: 1px solid $hr-border;
+  margin-top: 0;
+}
+
+/* Reduce the big headers a little at narrow widths. */
+h1 {
+  @media (max-width: $screen-sm-min) {
+    font-size: $font-size-larger;
+  }
+}
+
+.page-header h1 {
+  margin-bottom: 0;
+}
+
+.lead {
+  font-size: $font-size-largish;
+
+  @media (min-width: $screen-md-min) {
+    font-size: $font-size-large;
+  }
+}
+
+sup {
+  font-size: 80%;
+  margin-left: 0.15em;
+  margin-right: 0.1em;
+}
+
+blockquote {
+  margin-bottom: ceil($line-height-computed * 0.5);
+
+  footer,
+  small,
+  .small {
+    font-size: $font-size-small;
+  }
+}
+
+.text-nowrap {
+  white-space: nowrap;
+}
+
+cite {
+  font-style: italic;
+}
+
+figure {
+  margin: 0 0 ($line-height-computed * 0.5) 0;
+  padding: ($line-height-computed * 0.5) 0;
+
+  figcaption {
+    margin-top: ($line-height-computed * 0.5);
+    font-size: $font-size-small;
+  }
+}
+
+code,
+kbd,
+pre,
+samp {
+  font-size: 0.9em;
+  background-color: $gray-light;
+}
+
+/* Used on the About API page */
+h4,
+h5 {
+  margin-top: $line-height-computed;
+  font-weight: bold;
+}
+
+dl dl {
+  padding-left: 40px;
+  margin-bottom: 0;
+}

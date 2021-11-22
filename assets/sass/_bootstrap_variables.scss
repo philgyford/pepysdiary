@@ -1,0 +1,174 @@
+// Any values that we want to override the defaults in
+// https://github.com/twbs/bootstrap-sass/blob/master/assets/stylesheets/bootstrap/_variables.scss
+
+//== Colors
+$gray-dark: #4a4a45;
+$gray-mid: #7c7c74; // Not Bootstrap.
+$gray-lightish: #bbbbb3; // Not Bootstrap.
+$gray-light: #ebebe5;
+$gray-lighter: #f8f8f1;
+
+$brand-primary: #549355;
+$brand-success: darken($brand-primary, 10%);
+$brand-danger: #d95d4f;
+
+//== Scaffolding
+$body-bg: $gray-lighter;
+$text-color: $gray-dark;
+$link-color: #3672ad;
+$link-hover-color: darken($link-color, 15%); // #244c73
+
+//== Typography
+
+$font-family-sans-serif: "Droid Sans", "Helvetica Neue", Helvetica, Arial,
+  sans-serif;
+$font-family-serif: "Crimson Text", "Times New Roman", Times, serif;
+$font-family-base: $font-family-sans-serif;
+
+$font-size-base: 16px;
+
+$font-size-largest: $font-size-base * 2.5; // 40px
+$font-size-larger: $font-size-base * 2; // 32px
+$font-size-large: $font-size-base * 1.375; // 22px
+$font-size-largish: $font-size-base * 1.125; // 18px (Not Bootstrap)
+$font-size-small: $font-size-base * 0.875; // 14px
+
+$font-size-h1: $font-size-largest; // 40px
+$font-size-h2: $font-size-large;
+$font-size-h3: $font-size-largish;
+$font-size-h4: $font-size-base;
+$font-size-h5: $font-size-small;
+$font-size-h6: $font-size-small;
+
+//** Unit-less `line-height` for use in components like buttons.
+$line-height-base: 1.5; // 16/24
+//** Computed "line-height" (`font-size` * `line-height`) for use with `margin`, `padding`, etc.
+$line-height-computed: $font-size-base * $line-height-base; // 24px
+
+$headings-font-weight: 400;
+$headings-line-height: 1.2;
+
+//-- Iconography
+
+$icon-font-path: "../fonts/";
+
+//== Components
+
+$padding-small-vertical: 5px;
+$padding-small-horizontal: 8px;
+
+$line-height-large: 1.3333333; // extra decimals for Win 8.1 Chrome
+$line-height-small: 1.5;
+
+$border-radius-base: 0px;
+$border-radius-large: 0px;
+$border-radius-small: 0px;
+
+//== Tables
+//== Buttons
+//== Forms
+
+// For search input.
+$input-height-small: (
+  floor($font-size-small * $line-height-small) + $padding-small-vertical
+);
+
+//== Dropdowns
+//-- Z-index master list
+//== Media queries breakpoints
+//== Grid systexm
+
+// Navbar collapse
+//** Point at which the navbar becomes uncollapsed.
+//$grid-float-breakpoint:     830px;
+//** Point at which the navbar begins collapsing.
+//$grid-float-breakpoint-max: ($grid-float-breakpoint - 1);
+
+//== Navbar
+
+$navbar-height: 43px;
+$navbar-padding-horizontal: 7px;
+$navbar-padding-vertical: (($navbar-height - $line-height-computed) * 0.5);
+
+$navbar-default-bg: $gray-light;
+$navbar-default-border: $gray-light;
+$navbar-default-link-color: $link-color;
+$navbar-default-link-hover-color: $link-hover-color;
+$navbar-default-link-active-color: $link-color;
+$navbar-default-link-active-bg: $navbar-default-bg;
+$navbar-default-link-disabled-color: $gray-dark;
+
+$navbar-inverse-color: $brand-primary;
+$navbar-inverse-bg: #002801;
+
+$navbar-inverse-link-color: #f8f8f1;
+$navbar-inverse-link-active-bg: $navbar-inverse-bg;
+$navbar-inverse-link-disabled-color: $gray-light;
+
+$navbar-inverse-toggle-hover-bg: transparent;
+$navbar-inverse-toggle-border-color: transparent;
+
+//== Navs
+
+$nav-link-padding: 10px $navbar-padding-horizontal;
+
+//== Tabs
+//== Pagination
+//== Pager
+//== Jumbotron
+//== Form states and alerts
+
+$state-success-text: $brand-success;
+$state-success-bg: lighten($state-success-text, 55%);
+$state-success-border: darken(adjust-hue($state-success-bg, -10), 5%);
+
+$state-danger-text: $brand-danger;
+$state-danger-bg: lighten($state-danger-text, 38%);
+$state-danger-border: darken(adjust-hue($state-danger-bg, -10), 5%);
+
+//== Tooltips
+
+//== Popovers
+
+$popover-max-width: 350px;
+$popover-border-color: $gray-light;
+$popover-title-bg: $gray-light;
+
+//== Labels
+//== Modals
+//== Alerts
+//== Progress bars
+//== List group
+
+$list-group-border: $gray-light;
+$list-group-active-color: $link-color;
+$list-group-active-bg: $gray-lighter;
+$list-group-active-border: $list-group-border;
+$list-group-hover-bg: $gray-lighter;
+$list-group-link-color: $link-color;
+$list-group-link-hover-color: $link-hover-color;
+
+//== Panels
+//== Thumbnails
+//== Wells
+//== Badges
+//== Breadcrumbs
+
+$breadcrumb-bg: $gray-light;
+$breadcrumb-active-color: $gray-lightish;
+
+//== Carousel
+//== Close
+//== Code
+//== Type
+
+$text-muted: $gray-mid;
+
+$blockquote-small-color: $text-color;
+$blockquote-font-size: $font-size-base;
+$blockquote-border-color: transparent;
+
+$hr-border: #dfdfd8;
+
+//== Miscellaneou
+//== Container sizes

@@ -22,8 +22,27 @@ class PostAdmin(admin.ModelAdmin):
         "last_comment_time",
     )
     fieldsets = (
-        (None, {"fields": ("title", "status", "date_published", "allow_comments",)}),
-        (None, {"fields": ("category", "intro", "text",)}),
+        (
+            None,
+            {
+                "fields": (
+                    "title",
+                    "status",
+                    "date_published",
+                    "allow_comments",
+                )
+            },
+        ),
+        (
+            None,
+            {
+                "fields": (
+                    "category",
+                    "intro",
+                    "text",
+                )
+            },
+        ),
         (
             None,
             {

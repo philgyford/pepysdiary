@@ -7,7 +7,6 @@ from pepysdiary.common.templatetags.form_filters import tabindex
 
 
 class TabIndexTestCase(TestCase):
-
     def test_tabindex(self):
         # Make a fake value like what would be passed from the template:
         value = SimpleNamespace()

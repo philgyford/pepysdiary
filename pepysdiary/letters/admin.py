@@ -47,7 +47,16 @@ class LetterAdmin(admin.ModelAdmin):
                 )
             },
         ),
-        (None, {"fields": ("text", "footnotes", "excerpt",)}),
+        (
+            None,
+            {
+                "fields": (
+                    "text",
+                    "footnotes",
+                    "excerpt",
+                )
+            },
+        ),
         (
             None,
             {

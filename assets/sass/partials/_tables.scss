@@ -1,0 +1,34 @@
+/**
+ * Overriding or adding to Bootstrap's .table styles.
+ */
+
+.table {
+  .th-number,
+  .td-number {
+    text-align: right;
+  }
+}
+
+/**
+ * To remove the lines between rows.
+ */
+.table-plain {
+  // Cells
+  > thead,
+  > tbody,
+  > tfoot {
+    > tr {
+      > th,
+      > td {
+        border-top: 0;
+      }
+    }
+  }
+  > thead > tr > th {
+    border-bottom: 0;
+  }
+  // Account for multiple tbody instances
+  > tbody + tbody {
+    border-top: 0;
+  }
+}

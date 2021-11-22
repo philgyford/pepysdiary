@@ -101,7 +101,8 @@ class PersonKindsFilter(admin.SimpleListFilter):
     def queryset(self, request, queryset):
         if self.value() == "spammers":
             return queryset.exclude(url="").filter(
-                is_active=True, last_login__lte=F("date_created") + timedelta(days=1),
+                is_active=True,
+                last_login__lte=F("date_created") + timedelta(days=1),
             )
         elif self.value() == "trusted":
             return queryset.filter(is_trusted_commenter=True)
@@ -141,7 +142,18 @@ class PersonAdmin(UserAdmin):
         "last_login",
     )
     fieldsets = (
-        (None, {"fields": ("name", "email", "url", "password", "activation_key",)}),
+        (
+            None,
+            {
+                "fields": (
+                    "name",
+                    "email",
+                    "url",
+                    "password",
+                    "activation_key",
+                )
+            },
+        ),
         (
             "Dates",
             {

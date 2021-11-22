@@ -1,0 +1,114 @@
+/**
+ * Styling content that's fetched from Wikipedia.
+ * Numbers in comments give the ID of an Encyclopedia page where an example
+ * of this can be found.
+ */
+
+.wikipedia {
+  // Generic items.
+
+  .tleft {
+    float: left;
+    clear: left;
+    margin: $padding-base-vertical $padding-large-horizontal
+      $padding-base-vertical 0;
+  }
+  .tright {
+    float: right;
+    clear: right;
+    margin: $padding-base-vertical 0 $padding-base-vertical
+      $padding-large-horizontal;
+  }
+
+  // Images.
+
+  .thumb,
+  .thumbinner {
+    // Make them collapse to width of image inside.
+    display: table;
+    width: 1%;
+  }
+
+  .thumb img,
+  img.thumbborder {
+    @extend .thumbnail;
+    margin-bottom: 0;
+  }
+  .thumbcaption {
+    font-size: $font-size-small;
+    margin-top: 0.5em;
+  }
+
+  // Infobox
+  // eg, 2570
+
+  .infobox,
+    table.mbox-small // Audio on https://en.wikipedia.org/wiki/Bagpipes
+ {
+    width: 100%;
+
+    @media (min-width: $screen-sm-min) {
+      float: right;
+      clear: right;
+      margin: $padding-base-vertical 0 $padding-base-vertical
+        $padding-large-horizontal;
+      width: 40%;
+    }
+  }
+
+  .infobox {
+    th,
+    td {
+      font-size: $font-size-small;
+    }
+
+    td.role {
+      text-align: center; // 2570
+    }
+
+    tr.note th {
+      text-align: left; // 2570
+    }
+
+    .image img // 2570
+ {
+      // Center the main image in its cell.
+      display: block;
+      margin: 0 auto 0.3em auto;
+    }
+  }
+
+  // Other things.
+
+  table table {
+    width: 100%;
+  }
+
+  .toc ul {
+    @include list-unstyled;
+
+    ul {
+      margin-left: 40px;
+    }
+  }
+
+  .infobox,
+  .wikitable {
+    th {
+      text-align: center;
+      // Override colors set in the HTML:
+      border-top-color: $table-border-color !important;
+    }
+  }
+
+  .metadata a.image, // 13747 (bottom)
+    .mbox-image img    // 4941 (bottom)
+ {
+    display: none;
+  }
+
+  .geo-multi-punct,
+  .geo-nondefault {
+    display: none;
+  }
+}

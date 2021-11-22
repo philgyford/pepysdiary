@@ -1,0 +1,241 @@
+/**
+ * Things in addition to the Bootstrap settings.
+ */
+.navbar {
+  border: none;
+  font-size: $font-size-small;
+}
+
+.navbar-nav {
+  > li > a {
+    &:hover,
+    &:focus {
+      text-decoration: underline;
+    }
+  }
+}
+
+.navbar-supernav {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  min-height: $supernav-height;
+
+  .navbar-nav {
+    margin-top: 0;
+    margin-bottom: 0;
+    float: left;
+
+    > li {
+      /* Stop it collapsing at narrow widths. */
+      float: left;
+
+      > a {
+        line-height: $supernav-line-height-computed;
+        padding-top: 0;
+      }
+    }
+
+    @media (max-width: $grid-float-breakpoint-max) {
+      > li > a {
+        line-height: $supernav-line-height-computed;
+      }
+    }
+
+    @media (min-width: $grid-float-breakpoint) {
+      > li > a {
+        padding-top: $supernav-padding-vertical;
+        padding-bottom: $supernav-padding-vertical;
+      }
+    }
+  }
+  .navbar-text {
+    @include supernav-vertical-align($supernav-line-height-computed);
+    line-height: $supernav-line-height-computed;
+    padding-left: 0;
+  }
+
+  .navbar-logged-in {
+    display: none;
+    @media (min-width: $grid-float-breakpoint-max) {
+      display: block;
+    }
+  }
+
+  .navbar-form {
+    float: right;
+    padding-top: 0;
+    padding-bottom: 0;
+    border: none;
+
+    .form-group {
+      display: inline-block;
+      vertical-align: middle;
+      margin-bottom: 0;
+    }
+    .form-control {
+      display: inline-block;
+      padding-top: 6px;
+      width: 100px;
+
+      @media (min-width: 350px) {
+        width: 150px;
+      }
+    }
+  }
+}
+
+.navbar-mainnav .navbar-collapse .navbar-nav {
+  @media (max-width: $grid-float-breakpoint-max) {
+    > li > a {
+      padding-bottom: 10px;
+    }
+
+    > .active > a {
+      &,
+      &:hover,
+      &:focus {
+        background: $site-mainnav-collapsed-link-active-bg;
+      }
+    }
+  }
+}
+
+.navbar-subnav {
+  margin-top: -($navbar-margin-bottom);
+
+  @media (max-width: $grid-float-breakpoint-max) {
+    .container {
+      padding-left: ($grid-gutter-width * 0.5);
+      padding-right: ($grid-gutter-width * 0.5);
+    }
+  }
+
+  .navbar-nav {
+    /* Fix height at small widths. */
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-left: 7px;
+
+    > li {
+      /* Stop it collapsing at small widths. */
+      float: left;
+    }
+  }
+}
+
+/******************************************************************************
+ * Collapse button.
+ */
+
+.navbar-toggle {
+  float: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+
+  .navbar-inverse & {
+    color: $navbar-inverse-link-color;
+  }
+}
+
+/******************************************************************************
+ * Special 'on' markers.
+ */
+
+/**
+ * We have extra <span class="inner">s inside the <a>s in the subnav, so that 
+ * we can add a bottom border 'on' state to them.
+ * So we have to remove bottom padding from the <a>s and add to the <span>s.
+ */
+$subnav-active-border-height: 3px;
+
+.navbar-nav {
+  > li > a {
+    padding-bottom: 0;
+  }
+  @media (min-width: $grid-float-breakpoint) {
+    > li > a {
+      padding-bottom: 0;
+      .inner {
+        display: block;
+        padding-bottom: $navbar-padding-vertical;
+      }
+    }
+  }
+}
+.navbar-mainnav {
+  .navbar-nav {
+    @media (min-width: $grid-float-breakpoint) {
+      > .active > a > .inner {
+        @include image-retina("#{$img-path}/bullets", "png", 36px, 352px);
+        background-position: center bottom;
+        background-repeat: no-repeat;
+      }
+    }
+  }
+}
+.navbar-subnav {
+  .navbar-nav {
+    a > .inner {
+      /* Make all the links the same height, even if 'off'. */
+      display: block;
+      padding-bottom: ($navbar-padding-vertical - $subnav-active-border-height);
+      border-bottom: $subnav-active-border-height solid transparent;
+    }
+
+    > .active > a > .inner {
+      border-bottom-color: $site-highlight-color;
+    }
+  }
+}
+
+/******************************************************************************
+ * Add bullet-separators.
+ */
+.navbar-nav > li {
+  padding-right: ($navbar-padding-horizontal + 2);
+  @include image-retina("#{$img-path}/bullets", "png", 36px, 352px);
+  background-position: right 20px;
+  background-repeat: no-repeat;
+
+  .navbar-supernav & {
+    background-position: right 12px;
+  }
+  .navbar-inverse & {
+    background-position: right -29px;
+  }
+  .navbar-inverse.navbar-supernav & {
+    background-position: right -37px;
+  }
+
+  .navbar-mainnav .navbar-collapse & {
+    /* No bullets on collapsed main nav. */
+    @media (max-width: $grid-float-breakpoint) {
+      background-image: none;
+    }
+  }
+
+  &.navbar-text {
+    margin-left: 0;
+    margin-right: 0;
+    padding-left: $navbar-padding-horizontal * 2;
+    padding-right: ($navbar-padding-horizontal * 2) + 2;
+    background-position: right 0.85em;
+    .navbar-supernav & {
+      background-position: right 12px;
+    }
+    .navbar-inverse & {
+      background-position: right -29px;
+    }
+    .navbar-inverse.navbar-supernav & {
+      background-position: right -37px;
+    }
+  }
+  &:last-child {
+    padding-right: 0;
+    background: none;
+  }
+}

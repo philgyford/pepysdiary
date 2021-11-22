@@ -7,17 +7,16 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('django_comments', '__first__'),
+        ("django_comments", "__first__"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Annotation',
-            fields=[
-            ],
+            name="Annotation",
+            fields=[],
             options={
-                'proxy': True,
+                "proxy": True,
             },
-            bases=('django_comments.comment',),
+            bases=("django_comments.comment",),
         ),
     ]

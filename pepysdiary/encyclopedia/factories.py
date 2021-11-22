@@ -19,6 +19,7 @@ class CategoryFactory(factory.django.DjangoModelFactory):
         cat_2 = cat_1.add_child(title="Dogs")
         cat_3 = cat_2.add_child(title="Terriers")
     """
+
     class Meta:
         model = Category
 

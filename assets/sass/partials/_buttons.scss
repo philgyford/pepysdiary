@@ -1,0 +1,18 @@
+/**
+ * Overriding Bootstrap's default button styles.
+ */
+
+/**
+ * I think this is only used for the search button in the navbar.
+ * Need to make it the same height as the input-small field.
+ */
+.btn-sm {
+  @include button-size(
+    2px,
+    $padding-small-horizontal,
+    $font-size-small,
+    $line-height-small,
+    $border-radius-small
+  );
+  padding-bottom: 1px;
+}

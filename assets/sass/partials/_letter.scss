@@ -1,0 +1,31 @@
+/**
+ * LETTER
+ * Styles for things in letters.
+ */
+
+.letter-to {
+  font-style: italic;
+  margin-bottom: 1em;
+}
+.letter-from {
+  margin-bottom: 1em;
+  text-align: right;
+}
+.letter-to p,
+.letter-from p {
+  margin-bottom: 0;
+}
+.letter-yours {
+  margin-left: 130px;
+  margin-bottom: 1em;
+}
+.letter-yours p {
+  margin-left: 0;
+  margin-bottom: 0;
+}
+.letter-indent {
+  margin-left: 4em;
+}
+.letter-indent-2 {
+  margin-left: 8em;
+}

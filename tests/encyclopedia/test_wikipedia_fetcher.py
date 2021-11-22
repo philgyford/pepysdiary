@@ -136,22 +136,22 @@ class FetchTestCase(TestCase):
         "All <style> tags and contents should be removed."
         in_html = (
             '<style data-mw-deduplicate="TemplateStyles:r1033289096">'
-            '  .mw-parser-output .hatnote { font-style:italic }'
+            "  .mw-parser-output .hatnote { font-style:italic }"
             "</style>"
-            '<div>This should show up.</div>'
+            "<div>This should show up.</div>"
         )
-        out_html = '<div>This should show up.</div>'
+        out_html = "<div>This should show up.</div>"
         self.assertEqual(WikipediaFetcher()._strip_html(in_html), out_html)
 
     def test_it_removes_style_tags_inside_allowed_elements(self):
         "All <style> tags and contents should be removed, even if inside allowed els."
         in_html = (
-            '<div>'
+            "<div>"
             '  <style data-mw-deduplicate="TemplateStyles:r1033289096">'
-            '    .mw-parser-output .hatnote { font-style:italic }'
+            "    .mw-parser-output .hatnote { font-style:italic }"
             "  </style>"
-            '</div>'
-            '<div>This should show up.</div>'
+            "</div>"
+            "<div>This should show up.</div>"
         )
-        out_html = '<div> </div><div>This should show up.</div>'
+        out_html = "<div> </div><div>This should show up.</div>"
         self.assertEqual(WikipediaFetcher()._strip_html(in_html), out_html)

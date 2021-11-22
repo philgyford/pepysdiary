@@ -8,17 +8,19 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('diary', '0002_auto_20180115_1635'),
+        ("diary", "0002_auto_20180115_1635"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='entry',
-            name='search_document',
+            model_name="entry",
+            name="search_document",
             field=django.contrib.postgres.search.SearchVectorField(null=True),
         ),
         migrations.AddIndex(
-            model_name='entry',
-            index=django.contrib.postgres.indexes.GinIndex(fields=['search_document'], name='diary_entry_search__7a3c43_gin'),  # noqa: E501
+            model_name="entry",
+            index=django.contrib.postgres.indexes.GinIndex(
+                fields=["search_document"], name="diary_entry_search__7a3c43_gin"
+            ),  # noqa: E501
         ),
     ]

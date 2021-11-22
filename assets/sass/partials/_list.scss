@@ -1,0 +1,53 @@
+/**
+ * LIST
+ * Different formats of list. Apply the .list-* class to the ol or ul.
+ */
+
+ul {
+  /* Putting bullets in line with left edge. */
+  padding-left: 20px;
+}
+
+ul ul,
+ul ul ul,
+ul ul ul ul {
+  list-style-type: disc;
+}
+
+/**
+ * .list-spaced
+ * More space below each element.
+ */
+.list-spaced {
+  li {
+    margin-bottom: $line-height-computed;
+  }
+}
+
+.list-small {
+  li {
+    font-size: $font-size-small;
+  }
+}
+
+.list-small.list-spaced {
+  li {
+    margin-bottom: floor($line-height-computed * 0.5);
+  }
+}
+
+/**
+ * .list-ruled
+ * Spaced, with borders. You might want to combine with .list-unstyled.
+ */
+.list-ruled {
+  li {
+    padding-bottom: ceil($line-height-computed * 0.5);
+    padding-top: ceil($line-height-computed * 0.5);
+    border-bottom: 1px solid $hr-border;
+
+    &:first-child {
+      border-top: 1px solid $hr-border;
+    }
+  }
+}

@@ -39,10 +39,26 @@ class TopicAdmin(admin.ModelAdmin):
                 ),
             },
         ),
-        ("People", {"fields": ("thumbnail", "on_pepys_family_tree",)}),
+        (
+            "People",
+            {
+                "fields": (
+                    "thumbnail",
+                    "on_pepys_family_tree",
+                )
+            },
+        ),
         (
             "Places",
-            {"fields": ("map_category", "latitude", "longitude", "zoom", "shape",)},
+            {
+                "fields": (
+                    "map_category",
+                    "latitude",
+                    "longitude",
+                    "zoom",
+                    "shape",
+                )
+            },
         ),
         (
             None,
