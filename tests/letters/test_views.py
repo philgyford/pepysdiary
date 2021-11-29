@@ -24,7 +24,7 @@ class LetterDetailViewTestCase(ViewTestCase):
         self.assertEqual(response.template_name[0], "letters/letter_detail.html")
 
     def test_response_404_no_letter(self):
-        "It 404s if there's no Lette "
+        "It 404s if there's no Letter"
         with self.assertRaises(Http404):
             views.LetterDetailView.as_view()(
                 self.request, year="1661", month="01", day="02", slug="my-letter"
