@@ -40,10 +40,6 @@ jobs:
           cache: "pipenv"
 
       - name: Install dependencies
-        env:
-          WORKON_HOME: ~/.pipenv/virtualenvs
-          PIPENV_CACHE_DIR: ~/.pipenv/pipcache
-        if: steps.pipenv-cache.outputs.cache-hit != 'true'
         run: pipenv install --dev --verbose
 
       - name: Run Tests
@@ -60,7 +56,6 @@ jobs:
           DATABASE_URL: "postgres://postgres:postgres@localhost:${{ job.services.postgres.ports[5432] }}/postgres"
           DJANGO_SECRET_KEY: "fake-secret-key-for-tests"
           DJANGO_SETTINGS_MODULE: pepysdiary.settings.tests
-          WORKON_HOME: ~/.pipenv/virtualenvs
           AWS_ACCESS_KEY_ID: ""
           AWS_SECRET_ACCESS_KEY: ""
           AWS_STORAGE_BUCKET_NAME: ""
