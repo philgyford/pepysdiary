@@ -28,8 +28,11 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Install pipenv and coveralls
-        run: pipx install pipenv coverage coveralls
+      - name: Install pipenv, coverage and coveralls
+        run: |
+          pipx install pipenv
+          pipx install coverage
+          pipx install coveralls
 
       - uses: actions/setup-python@v2
         with:
