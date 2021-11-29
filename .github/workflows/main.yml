@@ -41,7 +41,7 @@ jobs:
           cache: "pipenv"
 
       - name: Install dependencies
-        run: pipenv install --dev --verbose
+        run: pipenv install --dev
 
       - name: Run Tests
         # Shouldn't need to manually migrate, but otherwise the tests that use AdminSite() fail:
