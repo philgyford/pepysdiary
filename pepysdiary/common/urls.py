@@ -22,6 +22,7 @@ from pepysdiary.common.views import (
     GoogleSearchView,
     SearchView,
     RecentView,
+    up,
 )
 
 
@@ -33,6 +34,7 @@ urlpatterns = []
 
 # Redirects from old Movable Type URLs to new ones.
 urlpatterns += [
+    path("up/", up, name="up"),
     path(
         "favicon.ico",
         RedirectView.as_view(
