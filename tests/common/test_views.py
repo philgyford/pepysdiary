@@ -100,6 +100,13 @@ class HomeViewTestCase(ViewTestCase):
         )
 
 
+class UpViewTestCase(ViewTestCase):
+    def test_response_200(self):
+        "It should respond with 200."
+        response = views.up(self.request)
+        self.assertEqual(response.status_code, 200)
+
+
 class GoogleSearchViewTestCase(ViewTestCase):
     def test_response_200(self):
         response = views.GoogleSearchView.as_view()(self.request)
