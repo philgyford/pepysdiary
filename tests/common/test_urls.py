@@ -16,6 +16,14 @@ class RedirectsTestCase(TestCase):
         )
         self.assertEqual(response.status_code, 200)
 
+    def test_up_url(self):
+        "The healthcheck url"
+        self.assertEqual(reverse("up"), "/up/")
+
+    def test_up_view(self):
+        "Should use the correct view."
+        self.assertEqual(resolve("/up/").func, common_views.up)
+
     def test_php(self):
         response = self.client.get("/diary/1660/01/02/index.php", follow=True)
         self.assertEqual(response.redirect_chain, [("/diary/1660/01/02/", 301)])
