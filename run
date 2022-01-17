@@ -50,6 +50,12 @@ function manage {
 }
 
 
+function sp {
+  # Run the shell_plus command from django-extensions
+  cmd pipenv run python manage.py shell_plus
+}
+
+
 function tests {
   # Run the Django tests
   manage test --settings=pepysdiary.settings.tests "${@}"

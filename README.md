@@ -162,6 +162,10 @@ The development environment has [django-extensions](https://django-extensions.re
     $ ./run manage shell_plus
     $ ./run manage show_urls
 
+### `./run sp`
+
+Run the `shell_plus` command from django-extensions.
+
 ### `./run tests`
 
 It runs `collectstatic` and then runs all the Django tests.
