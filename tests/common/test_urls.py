@@ -144,7 +144,7 @@ class CommonURLsTestCase(TestCase):
         self.assertEqual(reverse("home"), "/")
 
     def test_home_view(self):
-        self.assertEqual(resolve("/").func.__name__, common_views.HomeView.__name__)
+        self.assertEqual(resolve("/").func.view_class, common_views.HomeView)
 
     def test_sitemap_url(self):
         self.assertEqual(reverse("sitemap"), "/sitemap.xml")
@@ -174,27 +174,20 @@ class CommonURLsTestCase(TestCase):
 
     def test_google_search_view(self):
         self.assertEqual(
-            resolve("/google-search/").func.__name__,
-            common_views.GoogleSearchView.__name__,
+            resolve("/google-search/").func.view_class, common_views.GoogleSearchView
         )
 
     def test_search_url(self):
         self.assertEqual(reverse("search"), "/search/")
 
     def test_search_view(self):
-        self.assertEqual(
-            resolve("/search/").func.__name__,
-            common_views.SearchView.__name__,
-        )
+        self.assertEqual(resolve("/search/").func.view_class, common_views.SearchView)
 
     def test_recent_url(self):
         self.assertEqual(reverse("recent"), "/recent/")
 
     def test_recent_view(self):
-        self.assertEqual(
-            resolve("/recent/").func.__name__,
-            common_views.RecentView.__name__,
-        )
+        self.assertEqual(resolve("/recent/").func.view_class, common_views.RecentView)
 
 
 class DjangoDebugToolbarTestCase(TestCase):

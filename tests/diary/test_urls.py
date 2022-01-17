@@ -20,7 +20,7 @@ class DiaryURLsTestCase(TestCase):
 
     def test_entry_detail_view(self):
         self.assertEqual(
-            resolve("/diary/1660/01/01/").func.__name__, views.EntryDetailView.__name__
+            resolve("/diary/1660/01/01/").func.view_class, views.EntryDetailView
         )
 
     def test_entry_month_archive_url(self):
@@ -31,8 +31,7 @@ class DiaryURLsTestCase(TestCase):
 
     def test_entry_month_archive_view(self):
         self.assertEqual(
-            resolve("/diary/1660/01/").func.__name__,
-            views.EntryMonthArchiveView.__name__,
+            resolve("/diary/1660/01/").func.view_class, views.EntryMonthArchiveView
         )
 
     def test_entry_archive_url(self):
@@ -40,7 +39,7 @@ class DiaryURLsTestCase(TestCase):
 
     def test_entry_archive_view(self):
         self.assertEqual(
-            resolve("/diary/").func.__name__, views.EntryArchiveIndexView.__name__
+            resolve("/diary/").func.view_class, views.EntryArchiveIndexView
         )
 
     def test_summary_year_archive_url(self):
@@ -51,8 +50,8 @@ class DiaryURLsTestCase(TestCase):
 
     def test_summary_year_archive_view(self):
         self.assertEqual(
-            resolve("/diary/summary/1660/").func.__name__,
-            views.SummaryYearArchiveView.__name__,
+            resolve("/diary/summary/1660/").func.view_class,
+            views.SummaryYearArchiveView,
         )
 
     def test_entry_rss_url(self):

@@ -35,8 +35,8 @@ class DiaryURLsTestCase(TestCase):
 
     def test_letter_detail_view(self):
         self.assertEqual(
-            resolve("/letters/1660/01/01/my-letter/").func.__name__,
-            views.LetterDetailView.__name__,
+            resolve("/letters/1660/01/01/my-letter/").func.view_class,
+            views.LetterDetailView,
         )
 
     def test_letter_person_url(self):
@@ -50,14 +50,11 @@ class DiaryURLsTestCase(TestCase):
 
     def test_letter_person_view(self):
         self.assertEqual(
-            resolve("/letters/person/123/").func.__name__,
-            views.LetterPersonView.__name__,
+            resolve("/letters/person/123/").func.view_class, views.LetterPersonView
         )
 
     def test_letter_archive_url(self):
         self.assertEqual(reverse("letters"), "/letters/")
 
     def test_letter_archive_view(self):
-        self.assertEqual(
-            resolve("/letters/").func.__name__, views.LetterArchiveView.__name__
-        )
+        self.assertEqual(resolve("/letters/").func.view_class, views.LetterArchiveView)

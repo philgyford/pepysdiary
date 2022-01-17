@@ -1,6 +1,6 @@
-from unittest.mock import patch
+# from unittest.mock import patch
 
-from captcha.client import RecaptchaResponse
+# from captcha.client import RecaptchaResponse
 from django.contrib import auth
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.tokens import default_token_generator
@@ -736,28 +736,30 @@ class RegisterViewTestCase(LoginTestCase):
         self.assertEqual(Person.objects.count(), 0)
         self.assertEqual(response.status_code, 200)
 
-    @patch("captcha.fields.client.submit")
-    def test_recaptcha_enabled(self, mocked_submit):
-        """Ensure registration works if captcha is enabled.
-        Can't really test the ReCaptcha itself, so mocking it so it's not required.
-        Following an example at https://github.com/praekelt/django-recaptcha/blob/develop/captcha/tests/test_fields.py  # noqa: E501
-        """
-        ConfigFactory(use_registration_captcha=True)
-        mocked_submit.return_value = RecaptchaResponse(is_valid=True)
+    # From when we used django-recaptcha on the registration form.
+    # Not sure how to test django-hCaptcha here instead.
+    # @patch("captcha.fields.client.submit")
+    # def test_recaptcha_enabled(self, mocked_submit):
+    #     """Ensure registration works if captcha is enabled.
+    #     Can't really test the ReCaptcha itself, so mocking it so it's not required.
+    #     Following an example at https://github.com/praekelt/django-recaptcha/blob/develop/captcha/tests/test_fields.py  # noqa: E501
+    #     """
+    #     ConfigFactory(use_registration_captcha=True)
+    #     mocked_submit.return_value = RecaptchaResponse(is_valid=True)
 
-        data = {
-            "name": "Bob",
-            "password1": "my-password-123",
-            "password2": "my-password-123",
-            "email": "bob@example.com",
-            "url": "",
-            "honeypot": "",
-            "g-recaptcha-response": "PASSED",
-        }
-        response = self.client.post("/account/register/", data)
+    #     data = {
+    #         "name": "Bob",
+    #         "password1": "my-password-123",
+    #         "password2": "my-password-123",
+    #         "email": "bob@example.com",
+    #         "url": "",
+    #         "honeypot": "",
+    #         "g-recaptcha-response": "PASSED",
+    #     }
+    #     response = self.client.post("/account/register/", data)
 
-        self.assertEqual(Person.objects.count(), 1)
-        self.assertRedirects(response, "/account/register/complete/")
+    #     self.assertEqual(Person.objects.count(), 1)
+    #     self.assertRedirects(response, "/account/register/complete/")
 
     def test_validate_disallowed_names(self):
         "We should not be able to register with a disallowed name"

@@ -8,8 +8,7 @@ from django.contrib.auth.forms import (
 from django.contrib.auth import password_validation
 from django.utils.translation import gettext_lazy as _
 
-from captcha.fields import ReCaptchaField
-from captcha.widgets import ReCaptchaV2Checkbox
+from hcaptcha.fields import hCaptchaField
 
 from pepysdiary.common.models import Config
 from pepysdiary.membership.models import Person
@@ -125,12 +124,7 @@ class RegistrationForm(forms.Form):
         config = Config.objects.get_site_config()
         if config is not None:
             if config.use_registration_captcha is True:
-                self.fields["captcha"] = ReCaptchaField(
-                    widget=ReCaptchaV2Checkbox(
-                        attrs={"data-theme": "light", "data-tabindex": 6}
-                    ),
-                    label=_("Anti-spam test"),
-                )
+                self.fields["captcha"] = hCaptchaField(label=_("Anti-spam test"))
             if (
                 config.use_registration_question is True
                 and config.registration_question != ""

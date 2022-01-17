@@ -16,7 +16,7 @@ class EncyclopediaURLsTestCase(TestCase):
 
     def test_encyclopedia_view(self):
         self.assertEqual(
-            resolve("/encyclopedia/").func.__name__, views.EncyclopediaView.__name__
+            resolve("/encyclopedia/").func.view_class, views.EncyclopediaView
         )
 
     def test_topic_rss_url(self):
@@ -35,7 +35,7 @@ class EncyclopediaURLsTestCase(TestCase):
 
     def test_topic_detail_view(self):
         self.assertEqual(
-            resolve("/encyclopedia/123/").func.__name__, views.TopicDetailView.__name__
+            resolve("/encyclopedia/123/").func.view_class, views.TopicDetailView
         )
 
     def test_category_map_url(self):
@@ -46,8 +46,7 @@ class EncyclopediaURLsTestCase(TestCase):
 
     def test_category_map_view(self):
         self.assertEqual(
-            resolve("/encyclopedia/map/123/").func.__name__,
-            views.CategoryMapView.__name__,
+            resolve("/encyclopedia/map/123/").func.view_class, views.CategoryMapView
         )
 
     def test_category_detail_url(self):
@@ -60,6 +59,6 @@ class EncyclopediaURLsTestCase(TestCase):
 
     def test_category_detail_view(self):
         self.assertEqual(
-            resolve("/encyclopedia/animals/domestic-dogs/terriers/").func.__name__,
-            views.CategoryDetailView.__name__,
+            resolve("/encyclopedia/animals/domestic-dogs/terriers/").func.view_class,
+            views.CategoryDetailView,
         )
