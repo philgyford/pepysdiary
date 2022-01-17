@@ -128,6 +128,7 @@ class WikipediaFetcher(object):
             "small",
             "span",
             "strong",
+            "style",
             "sub",
             "sup",
             "table",
@@ -140,9 +141,10 @@ class WikipediaFetcher(object):
             "tr",
             "ul",
             "var",
-            # We allow script here, so we can close/un-mis-nest its tags,
-            # but then it's removed completely in _strip_html():
+            # We allow script and style here, so we can close/un-mis-nest
+            # its tags, but then it's removed completely in _strip_html():
             "script",
+            "style",
         ]
 
         # These attributes will be removed from any of the allowed tags.
@@ -159,9 +161,11 @@ class WikipediaFetcher(object):
             "th": ["colspan", "rowspan", "scope"],
         }
 
-        return bleach.clean(
+        a = bleach.clean(
             html, tags=allowed_tags, attributes=allowed_attributes, strip=True
         )
+
+        return a
 
     def _strip_html(self, html):
         """

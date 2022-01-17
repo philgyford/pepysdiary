@@ -96,7 +96,7 @@ class FetchTestCase(TestCase):
             '<div class="mini navbar">This is not either</div>'
         )
         out_html = "<div>This is OK</div><div>This is also fine</div>"
-        self.assertEqual(WikipediaFetcher()._strip_html(in_html), out_html)
+        self.assertEqual(WikipediaFetcher()._tidy_html(in_html), out_html)
 
     def test_it_removes_disallowed_classes(self):
         in_html = (
@@ -105,7 +105,7 @@ class FetchTestCase(TestCase):
             "is not either</p>"
         )
         out_html = "<div>This is OK</div><div>This is also fine</div>"
-        self.assertEqual(WikipediaFetcher()._strip_html(in_html), out_html)
+        self.assertEqual(WikipediaFetcher()._tidy_html(in_html), out_html)
 
     def test_it_adds_classes(self):
         in_html = (
@@ -119,7 +119,7 @@ class FetchTestCase(TestCase):
             '<div class="infobox table table-bordered">Infobox 2'
             "</div>"
         )
-        self.assertEqual(WikipediaFetcher()._strip_html(in_html), out_html)
+        self.assertEqual(WikipediaFetcher()._tidy_html(in_html), out_html)
 
     def test_it_removes_scripts(self):
         "All <script> tags and contents should be removed."
@@ -130,7 +130,7 @@ class FetchTestCase(TestCase):
             "</div>"
         )
         out_html = '<div class="bibble">This should show up.</div>'
-        self.assertEqual(WikipediaFetcher()._strip_html(in_html), out_html)
+        self.assertEqual(WikipediaFetcher()._tidy_html(in_html), out_html)
 
     def test_it_removes_style_tags(self):
         "All <style> tags and contents should be removed."
@@ -141,7 +141,7 @@ class FetchTestCase(TestCase):
             "<div>This should show up.</div>"
         )
         out_html = "<div>This should show up.</div>"
-        self.assertEqual(WikipediaFetcher()._strip_html(in_html), out_html)
+        self.assertEqual(WikipediaFetcher()._tidy_html(in_html), out_html)
 
     def test_it_removes_style_tags_inside_allowed_elements(self):
         "All <style> tags and contents should be removed, even if inside allowed els."
@@ -154,4 +154,4 @@ class FetchTestCase(TestCase):
             "<div>This should show up.</div>"
         )
         out_html = "<div> </div><div>This should show up.</div>"
-        self.assertEqual(WikipediaFetcher()._strip_html(in_html), out_html)
+        self.assertEqual(WikipediaFetcher()._tidy_html(in_html), out_html)
