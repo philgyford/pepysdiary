@@ -182,7 +182,7 @@ INSTALLED_APPS = [
     # 'django.contrib.postgres',
     "treebeard",
     "gunicorn",
-    "captcha",
+    "hcaptcha",
     "rest_framework",
     # Started breaking with Django 1.10.7 although it shouldn't:
     # 'memcache_status',
@@ -226,9 +226,6 @@ TEST_RUNNER = "django.test.runner.DiscoverRunner"
 # THIRD-PARTY APPS
 
 future_date = date.today() + timedelta(days=365)
-
-# From https://github.com/praekelt/django-recaptcha
-NOCAPTCHA = True
 
 # Storing Media files on AWS.
 
@@ -301,10 +298,8 @@ PEOPLE_CATEGORY_ID = 2
 # treatment, so we store its ID here:
 PEPYS_TOPIC_ID = 29
 
-# From https://www.google.com/recaptcha/
-RECAPTCHA_PUBLIC_KEY = get_env_variable("RECAPTCHA_PUBLIC_KEY")
-RECAPTCHA_PRIVATE_KEY = get_env_variable("RECAPTCHA_PRIVATE_KEY")
-RECAPTCHA_USE_SSL = True
+HCAPTCHA_SITEKEY = get_env_variable("HCAPTCHA_SITEKEY")
+HCAPTCHA_SECRET = get_env_variable("HCAPTCHA_SECRET")
 
 # The IDs of the various Movable Type blogs that we do one-off imports of data
 # from:

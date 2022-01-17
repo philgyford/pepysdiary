@@ -36,8 +36,8 @@ Create a `.env` file containing the below (see the Custom Django Settings sectio
     export MAPBOX_ACCESS_TOKEN='YOUR-ACCESS-TOKEN'
     export MAPBOX_MAP_ID='mapbox/light-v10'
 
-    export RECAPTCHA_PRIVATE_KEY='YOUR-PRIVATE-KEY'
-    export RECAPTCHA_PUBLIC_KEY='YOUR-PUBLIC-KEY'
+    export HCAPTCHA_SITEKEY='YOUR_SITEKEY'
+    export HCAPTCHA_SECRET='YOUR_SECRET'
 
     export SENDGRID_USERNAME='apikey'
     export SENDGRID_PASSWORD='YOUR_PASSWORD'
@@ -246,8 +246,8 @@ DJANGO_SECRET_KEY           YOUR-SECRET-KEY
 DJANGO_SETTINGS_MODULE      pepysdiary.settings.production
 MAPBOX_ACCESS_TOKEN         YOUR-ACCESS-TOKEN
 MAPBOX_MAP_ID               mapbox/light-v10
-RECAPTCHA_PRIVATE_KEY       YOUR-PRIVATE-KEY
-RECAPTCHA_PUBLIC_KEY        YOUR-PUBLIC-KEY
+HCAPTCHA_SITEKEY            YOUR-SITE-KEY
+HCAPTCHA_SECRET             YOUR-SECRET
 SENDGRID_USERNAME           apikey
 SENDGRID_PASSWORD           YOUR_PASSWORD
 WEB_CONCURRENCY             2
@@ -267,7 +267,7 @@ Custom settings that can be in the Django `settings.py` file:
 
 `MAPBOX_MAP_ID` e.g. "mapbox/light-v10"
 
-`RECAPTCHA_PRIVATE_KEY` and `RECAPTCHA_PUBLIC_KEY`: To activate the Recaptcha on the sign-up form.
+`HCAPTCHA_SITEKEY` and `HCAPTCHA_SECRET`: To activate the hCaptcha on the sign-up form.
 
 ## Bootstrap
 
