@@ -219,7 +219,7 @@ LOGOUT_URL = "logout"
 
 COMMENTS_APP = "pepysdiary.annotations"
 
-TEST_RUNNER = "django.test.runner.DiscoverRunner"
+TEST_RUNNER = "pepysdiary.common.test_runner.PepysDiaryTestRunner"
 
 
 ####################################################################
@@ -269,7 +269,6 @@ REST_FRAMEWORK = {
 
 MAPBOX_MAP_ID = get_env_variable("MAPBOX_MAP_ID")
 MAPBOX_ACCESS_TOKEN = get_env_variable("MAPBOX_ACCESS_TOKEN")
-
 
 ####################################################################
 # PEPYSDIARY SPECIFIC
