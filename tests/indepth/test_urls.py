@@ -35,8 +35,8 @@ class IndepthURLsTestCase(TestCase):
 
     def test_article_detail_view(self):
         self.assertEqual(
-            resolve("/indepth/2021/01/02/my-article/").func.__name__,
-            views.ArticleDetailView.__name__,
+            resolve("/indepth/2021/01/02/my-article/").func.view_class,
+            views.ArticleDetailView,
         )
 
     def test_article_category_archive_url(self):
@@ -49,14 +49,12 @@ class IndepthURLsTestCase(TestCase):
 
     def test_article_category_archive_view(self):
         self.assertEqual(
-            resolve("/indepth/book-reviews/").func.__name__,
-            views.ArticleCategoryArchiveView.__name__,
+            resolve("/indepth/book-reviews/").func.view_class,
+            views.ArticleCategoryArchiveView,
         )
 
     def test_article_archive_url(self):
         self.assertEqual(reverse("indepth"), "/indepth/")
 
     def test_article_archive_view(self):
-        self.assertEqual(
-            resolve("/indepth/").func.__name__, views.ArticleArchiveView.__name__
-        )
+        self.assertEqual(resolve("/indepth/").func.view_class, views.ArticleArchiveView)

@@ -13,24 +13,20 @@ class MembershipURLsTestCase(TestCase):
         self.assertEqual(reverse("login"), "/account/login/")
 
     def test_login_view(self):
-        self.assertEqual(
-            resolve("/account/login/").func.__name__, views.LoginView.__name__
-        )
+        self.assertEqual(resolve("/account/login/").func.view_class, views.LoginView)
 
     def test_logout_url(self):
         self.assertEqual(reverse("logout"), "/account/logout/")
 
     def test_logout_view(self):
-        self.assertEqual(
-            resolve("/account/logout/").func.__name__, views.LogoutView.__name__
-        )
+        self.assertEqual(resolve("/account/logout/").func.view_class, views.LogoutView)
 
     def test_register_url(self):
         self.assertEqual(reverse("register"), "/account/register/")
 
     def test_register_view(self):
         self.assertEqual(
-            resolve("/account/register/").func.__name__, views.RegisterView.__name__
+            resolve("/account/register/").func.view_class, views.RegisterView
         )
 
     def test_register_complete_url(self):
@@ -38,8 +34,8 @@ class MembershipURLsTestCase(TestCase):
 
     def test_register_complete_view(self):
         self.assertEqual(
-            resolve("/account/register/complete/").func.__name__,
-            views.RegisterCompleteView.__name__,
+            resolve("/account/register/complete/").func.view_class,
+            views.RegisterCompleteView,
         )
 
     def test_activate_complete_url(self):
@@ -47,8 +43,8 @@ class MembershipURLsTestCase(TestCase):
 
     def test_activate_complete_view(self):
         self.assertEqual(
-            resolve("/account/activate/complete/").func.__name__,
-            views.ActivateCompleteView.__name__,
+            resolve("/account/activate/complete/").func.view_class,
+            views.ActivateCompleteView,
         )
 
     def test_edit_profile_url(self):
@@ -56,7 +52,7 @@ class MembershipURLsTestCase(TestCase):
 
     def test_edit_profile_view(self):
         self.assertEqual(
-            resolve("/account/edit/").func.__name__, views.EditProfileView.__name__
+            resolve("/account/edit/").func.view_class, views.EditProfileView
         )
 
     def test_private_profile_url(self):
@@ -64,8 +60,7 @@ class MembershipURLsTestCase(TestCase):
 
     def test_private_profile_view(self):
         self.assertEqual(
-            resolve("/account/profile/").func.__name__,
-            views.PrivateProfileView.__name__,
+            resolve("/account/profile/").func.view_class, views.PrivateProfileView
         )
 
     def test_profile_url(self):
@@ -75,7 +70,7 @@ class MembershipURLsTestCase(TestCase):
 
     def test_profile_view(self):
         self.assertEqual(
-            resolve("/account/profile/123/").func.__name__, views.ProfileView.__name__
+            resolve("/account/profile/123/").func.view_class, views.ProfileView
         )
 
     def test_password_reset_url(self):
@@ -83,8 +78,7 @@ class MembershipURLsTestCase(TestCase):
 
     def test_password_reset_view(self):
         self.assertEqual(
-            resolve("/account/password/reset/").func.__name__,
-            views.PasswordResetView.__name__,
+            resolve("/account/password/reset/").func.view_class, views.PasswordResetView
         )
 
     def test_password_reset_done_url(self):
@@ -94,8 +88,8 @@ class MembershipURLsTestCase(TestCase):
 
     def test_password_reset_done_view(self):
         self.assertEqual(
-            resolve("/account/password/reset/done/").func.__name__,
-            views.PasswordResetDoneView.__name__,
+            resolve("/account/password/reset/done/").func.view_class,
+            views.PasswordResetDoneView,
         )
 
     def test_password_reset_confirm_url(self):
@@ -109,8 +103,8 @@ class MembershipURLsTestCase(TestCase):
 
     def test_password_reset_confirm_view(self):
         self.assertEqual(
-            resolve("/account/reset/123456abcdef/abcdef123456/").func.__name__,
-            views.PasswordResetConfirmView.__name__,
+            resolve("/account/reset/123456abcdef/abcdef123456/").func.view_class,
+            views.PasswordResetConfirmView,
         )
 
     def test_password_reset_complete_url(self):
@@ -120,6 +114,6 @@ class MembershipURLsTestCase(TestCase):
 
     def test_password_reset_complete_view(self):
         self.assertEqual(
-            resolve("/account/password/reset/complete/").func.__name__,
-            views.PasswordResetCompleteView.__name__,
+            resolve("/account/password/reset/complete/").func.view_class,
+            views.PasswordResetCompleteView,
         )

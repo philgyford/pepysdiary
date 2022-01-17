@@ -30,8 +30,7 @@ class NewsURLsTestCase(TestCase):
 
     def test_post_detail_view(self):
         self.assertEqual(
-            resolve("/news/2021/01/02/123/").func.__name__,
-            views.PostDetailView.__name__,
+            resolve("/news/2021/01/02/123/").func.view_class, views.PostDetailView
         )
 
     def test_post_category_archive_url(self):
@@ -42,14 +41,12 @@ class NewsURLsTestCase(TestCase):
 
     def test_post_category_archive_view(self):
         self.assertEqual(
-            resolve("/news/new-features/").func.__name__,
-            views.PostCategoryArchiveView.__name__,
+            resolve("/news/new-features/").func.view_class,
+            views.PostCategoryArchiveView,
         )
 
     def test_post_archive_url(self):
         self.assertEqual(reverse("news"), "/news/")
 
     def test_post_archive_view(self):
-        self.assertEqual(
-            resolve("/news/").func.__name__, views.PostArchiveView.__name__
-        )
+        self.assertEqual(resolve("/news/").func.view_class, views.PostArchiveView)
