@@ -8,10 +8,10 @@ from pepysdiary.letters.factories import LetterFactory
 
 class ToClassNameTestCase(TestCase):
     def test_entry(self):
-        self.assertEqual(to_class_name(EntryFactory(), "Entry"))
+        self.assertEqual(to_class_name(EntryFactory()), "Entry")
 
     def test_letter(self):
-        self.assertEqual(to_class_name(LetterFactory(), "Letter"))
+        self.assertEqual(to_class_name(LetterFactory()), "Letter")
 
     def test_topic(self):
-        self.assertEqual(to_class_name(TopicFactory(), "Topic"))
+        self.assertEqual(to_class_name(TopicFactory()), "Topic")
