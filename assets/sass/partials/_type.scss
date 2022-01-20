@@ -5,20 +5,24 @@
   margin-top: 0;
 }
 .page-header h1,
-.entry h1 {
+.page-header .h1,
+.entry h1,
+.entry .h1 {
   padding-bottom: 0.3em;
   border-bottom: 1px solid $hr-border;
   margin-top: 0;
 }
 
 /* Reduce the big headers a little at narrow widths. */
-h1 {
+h1,
+.h1 {
   @media (max-width: $screen-sm-min) {
     font-size: $font-size-larger;
   }
 }
 
-.page-header h1 {
+.page-header h1,
+.page-header .h1 {
   margin-bottom: 0;
 }
 

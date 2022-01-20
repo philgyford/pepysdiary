@@ -1,12 +1,31 @@
 {% extends "comments/base.html" %}
 
+{% load utility_filters %}
+
 {% block title %}Preview before posting{% endblock %}
 {% block page_header %}{% endblock %}
 
 {% block main_content %}
-    <p class="lead">Preview your {{ form.target_object.comment_name }} before posting</p>
+  <p class="lead">Preview your {{ form.target_object.comment_name }} before posting</p>
 
-    {% include 'comments/inc/comment_form.html' with preview=True object=form.target_object %}
+  {# Display the title of the object the user is commenting on. #}
+  {% if form.target_object|to_class_name == "Entry" %}
+    <div class="manuscript manuscript--large">
+  {% else %}
+    <div>
+  {% endif %}
+      <div class="entry">
+        <p class="h1">
+          {% if form.target_object|to_class_name == "Letter" %}
+            {{ form.target_object.full_title }}
+          {% else %}
+            {{ form.target_object }}
+          {% endif %}
+        </p>
+      </div>
+    </div>
+
+  {% include 'comments/inc/comment_form.html' with preview=True object=form.target_object %}
 {% endblock main_content %}
 
 {% block sidebar %}
