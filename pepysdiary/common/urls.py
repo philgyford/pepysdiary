@@ -282,6 +282,8 @@ urlpatterns += [
 
 
 admin.site.site_header = "The Diary of Samuel Pepys admin"
+admin.site.enable_nav_sidebar = False
+
 
 if settings.DEBUG:
     import debug_toolbar
