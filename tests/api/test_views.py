@@ -469,7 +469,12 @@ class TopicListViewTestCase(SiteAPITestCase):
     @freeze_time("2021-06-01 12:00:00", tz_offset=0)
     def test_response_data(self):
         "It should return the correct data"
-        cat = Category.add_root(title="Animals", slug="animals")
+        cat = Category.add_root(
+            # Set ID so that it's definitely not a person or place:
+            id=9999,
+            title="Animals",
+            slug="animals",
+        )
         topic = TopicFactory(title="Dogs", categories=[cat])
 
         response = self.client.get(
@@ -599,7 +604,12 @@ class TopicDetailViewTestCase(SiteAPITestCase):
     def test_response_data(self):
         "It should return the correct data"
 
-        cat = Category.add_root(title="Animals", slug="animals")
+        cat = Category.add_root(
+            # Set ID so that it's definitely not a person or place:
+            id=9999,
+            title="Animals",
+            slug="animals",
+        )
 
         topic = TopicFactory(
             title="Dogs",
