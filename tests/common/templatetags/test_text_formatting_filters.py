@@ -20,6 +20,7 @@ class SmartypantsTestCase(TestCase):
             ("a 'light which", "a &#8217;light which"),
             ("not 'lighting, and", "not &#8217;lighting, and"),
             ("a 'prentice was", "a &#8217;prentice was"),
+            ("once a 'Prentice of", "once a &#8217;Prentice of"),
             ("the 'prentices were", "the &#8217;prentices were"),
             ("the 'sparagus garden,", "the &#8217;sparagus garden,"),
         )
