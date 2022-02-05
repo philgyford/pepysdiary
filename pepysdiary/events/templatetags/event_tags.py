@@ -41,18 +41,21 @@ def dayevents_for_day(date):
     """
     html = ""
 
-    sources = {key: label for (key, label) in DayEvent.Source.choices}
+    choices = DayEvent.Source.choices
+
+    sources = {str(key): label for (key, label) in choices}
 
     # Makes a dict like:
     # {10: {}, 20: {}, 30: {}}
-    events_by_source = {key: {} for (key, label) in DayEvent.Source.choices}
+    events_by_source = {key: {} for key in sources.keys()}
 
     for ev in DayEvent.objects.filter(event_date=date).order_by("source"):
         # For each source, there *might* be several events with the same title
         # so we create a list of events for each title, within each source.
-        if ev.title not in events_by_source[ev.source]:
-            events_by_source[ev.source][ev.title] = []
-        events_by_source[ev.source][ev.title].append(ev)
+        source = str(ev.source)
+        if ev.title not in events_by_source[source]:
+            events_by_source[source][ev.title] = []
+        events_by_source[source][ev.title].append(ev)
 
     for source_key, titles in list(events_by_source.items()):
         if len(titles) > 0:
