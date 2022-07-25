@@ -11,7 +11,7 @@ from pepysdiary.diary.factories import EntryFactory
 from pepysdiary.membership.factories import PersonFactory
 
 
-@override_settings(AKISMET_API_KEY="abcd1234")
+@override_settings(PEPYS_AKISMET_API_KEY="abcd1234")
 class TestCommentForSpamTestCase(TestCase):
     """
     Testing the spam_checker.test_comment_for_spam() method.
@@ -151,7 +151,7 @@ class TestCommentForSpamTestCase(TestCase):
     @responses.activate
     def test_with_no_api_key(self):
         "If no API key is present, Akismet shouldn't be called."
-        del settings.AKISMET_API_KEY
+        del settings.PEPYS_AKISMET_API_KEY
         self.add_response("false")
         self.post_comment()
 

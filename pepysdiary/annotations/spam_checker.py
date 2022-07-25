@@ -26,7 +26,7 @@ def is_akismet_spam(sender, comment, request):
         # Don't test comments posted by staff/admin or trusted commenters.
         return False
 
-    if not hasattr(settings, "AKISMET_API_KEY"):
+    if not hasattr(settings, "PEPYS_AKISMET_API_KEY"):
         # If it's not set we can't test.
         return False
 
@@ -68,7 +68,7 @@ def is_akismet_spam(sender, comment, request):
     headers = {"User-Agent": "PepysDiary.com/1.0"}
 
     r = requests.post(
-        "https://" + settings.AKISMET_API_KEY + "." + AKISMET_CHECK_URL,
+        "https://" + settings.PEPYS_AKISMET_API_KEY + "." + AKISMET_CHECK_URL,
         data=parameters,
         headers=headers,
     )

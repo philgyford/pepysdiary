@@ -37,8 +37,8 @@ def api_keys(request):
     if getattr(settings, "MAPBOX_ACCESS_TOKEN", False):
         ctx["MAPBOX_ACCESS_TOKEN"] = settings.MAPBOX_ACCESS_TOKEN
 
-    if getattr(settings, "GOOGLE_ANALYTICS_ID", False):
-        ctx["GOOGLE_ANALYTICS_ID"] = settings.GOOGLE_ANALYTICS_ID
+    if getattr(settings, "PEPYS_GOOGLE_ANALYTICS_ID", False):
+        ctx["PEPYS_GOOGLE_ANALYTICS_ID"] = settings.PEPYS_GOOGLE_ANALYTICS_ID
 
     return ctx
 

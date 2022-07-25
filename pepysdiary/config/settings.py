@@ -340,10 +340,10 @@ HCAPTCHA_SECRET = os.getenv("HCAPTCHA_SECRET", default="")
 MAPBOX_MAP_ID = os.getenv("MAPBOX_MAP_ID", default="")
 MAPBOX_ACCESS_TOKEN = os.getenv("MAPBOX_ACCESS_TOKEN", default="")
 
-GOOGLE_ANALYTICS_ID = os.getenv("GOOGLE_ANALYTICS_ID", default="")
+PEPYS_GOOGLE_ANALYTICS_ID = os.getenv("PEPYS_GOOGLE_ANALYTICS_ID", default="")
 
 # From http://akismet.com/
-AKISMET_API_KEY = os.getenv("AKISMET_API_KEY", default="")
+PEPYS_AKISMET_API_KEY = os.getenv("PEPYS_AKISMET_API_KEY", default="")
 
 
 # Sentry

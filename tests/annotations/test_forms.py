@@ -16,7 +16,7 @@ class AnnotationFormTestCase(TestCase):
     @override_settings()
     def test_clean_comment_blank_lines(self):
         "It should replace three or more blank lines with two."
-        del settings.AKISMET_API_KEY
+        del settings.PEPYS_AKISMET_API_KEY
 
         entry = EntryFactory()
         form = AnnotationForm(entry)
@@ -51,7 +51,7 @@ Bye.""",
     @override_settings()
     def test_clean_comment_strip_spaces(self):
         "It should strip leading and trailing spaces."
-        del settings.AKISMET_API_KEY
+        del settings.PEPYS_AKISMET_API_KEY
 
         entry = EntryFactory()
         form = AnnotationForm(entry)

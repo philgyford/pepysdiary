@@ -53,19 +53,19 @@ class APIKeysTestCase(RequestTestCase):
         context = api_keys(self.request)
         self.assertNotIn("MAPBOX_ACCESS_TOKEN", context)
 
-    @override_settings(GOOGLE_ANALYTICS_ID="1234")
+    @override_settings(PEPYS_GOOGLE_ANALYTICS_ID="1234")
     def test_google_analytics_id(self):
-        "If the GOOGLE_ANALYTICS_ID setting is set it should be returned in the context"
+        "If the PEPYS_GOOGLE_ANALYTICS_ID setting is set, should be returned in context"
         context = api_keys(self.request)
-        self.assertIn("GOOGLE_ANALYTICS_ID", context)
-        self.assertEqual(context["GOOGLE_ANALYTICS_ID"], "1234")
+        self.assertIn("PEPYS_GOOGLE_ANALYTICS_ID", context)
+        self.assertEqual(context["PEPYS_GOOGLE_ANALYTICS_ID"], "1234")
 
     @override_settings()
     def test_google_analytics_id_not_set(self):
-        "If the GOOGLE_ANALYTICS_ID setting is not set that key should not be returned"
-        del settings.GOOGLE_ANALYTICS_ID
+        "If PEPYS_GOOGLE_ANALYTICS_ID setting is not set, key should not be returned"
+        del settings.PEPYS_GOOGLE_ANALYTICS_ID
         context = api_keys(self.request)
-        self.assertNotIn("GOOGLE_ANALYTICS_ID", context)
+        self.assertNotIn("PEPYS_GOOGLE_ANALYTICS_ID", context)
 
 
 class ConfigTestCase(RequestTestCase):
