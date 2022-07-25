@@ -1,14 +1,13 @@
 import datetime
+import hashlib
 import re
 
-import hashlib
+import pytz
 from django.contrib.auth.models import BaseUserManager
 from django.db import transaction
 from django.utils import timezone
 from django.utils.crypto import get_random_string
 from django.utils.encoding import smart_str
-import pytz
-
 
 SHA1_RE = re.compile(r"^[a-f0-9]{40}$")
 

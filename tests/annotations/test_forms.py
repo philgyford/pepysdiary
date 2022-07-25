@@ -1,5 +1,5 @@
 from django.conf import settings
-from django.test import override_settings, TestCase
+from django.test import TestCase, override_settings
 
 from pepysdiary.annotations.forms import AnnotationForm
 from pepysdiary.annotations.models import Annotation

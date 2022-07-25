@@ -1,11 +1,11 @@
 import re
 
+from django.contrib.sites.models import Site
 from django.core import mail
-from django.test import override_settings, TestCase
+from django.test import TestCase, override_settings
 from freezegun import freeze_time
 
 from pepysdiary.common.utilities import make_datetime
-from django.contrib.sites.models import Site
 from pepysdiary.membership.factories import PersonFactory
 from pepysdiary.membership.managers import PersonManager
 from pepysdiary.membership.models import Person

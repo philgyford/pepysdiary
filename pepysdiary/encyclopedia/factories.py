@@ -1,10 +1,9 @@
 import factory
+from django.db import IntegrityError
 from faker import Faker
 
-from django.db import IntegrityError
-
-from pepysdiary.encyclopedia.models import Category, Topic
 from pepysdiary.encyclopedia import category_lookups
+from pepysdiary.encyclopedia.models import Category, Topic
 
 fake = Faker()
 

@@ -2,6 +2,7 @@ from django.http import Http404
 from django.views.generic.dates import DateDetailView
 
 from pepysdiary.common.views import PaginatedListView
+
 from .models import Article
 
 

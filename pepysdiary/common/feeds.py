@@ -1,7 +1,6 @@
 import smartypants
-
 from django.contrib.sites.models import Site
-from django.contrib.syndication.views import add_domain, Feed
+from django.contrib.syndication.views import Feed, add_domain
 from django.utils.encoding import force_str
 from django.utils.feedgenerator import Rss201rev2Feed
 from django.utils.html import strip_tags

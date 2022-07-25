@@ -1,5 +1,4 @@
-from django.test import override_settings, TestCase
-
+from django.test import TestCase, override_settings
 from django_comments.moderation import AlreadyModerated, moderator
 
 from pepysdiary.common.utilities import make_date, make_datetime

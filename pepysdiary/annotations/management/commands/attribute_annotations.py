@@ -1,5 +1,5 @@
-from optparse import make_option
 import re
+from optparse import make_option
 
 from django.core.management.base import BaseCommand, CommandError
 

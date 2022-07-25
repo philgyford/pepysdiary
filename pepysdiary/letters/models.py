@@ -1,14 +1,14 @@
 import re
 
-from django.contrib.postgres.search import SearchVectorField
 from django.contrib.postgres.indexes import GinIndex
+from django.contrib.postgres.search import SearchVectorField
 from django.db import models
 from django.urls import reverse
-
 from django_comments.moderation import CommentModerator, moderator
-from .managers import LetterManager
+
 from ..common.models import OldDateMixin, PepysModel
 from ..encyclopedia.models import Topic
+from .managers import LetterManager
 
 
 class Letter(PepysModel, OldDateMixin):

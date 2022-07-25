@@ -1,8 +1,7 @@
 from django.test import TestCase
 from django.urls import resolve, reverse
 
-from pepysdiary.letters import feeds
-from pepysdiary.letters import views
+from pepysdiary.letters import feeds, views
 
 
 class DiaryURLsTestCase(TestCase):

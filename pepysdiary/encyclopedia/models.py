@@ -2,15 +2,13 @@ from django.conf import settings
 from django.contrib.postgres.search import SearchVectorField
 from django.db import models
 from django.urls import reverse
-
 from django_comments.moderation import CommentModerator, moderator
 from markdown import markdown
 from treebeard.mp_tree import MP_Node
 
 from ..common.models import PepysModel
+from . import category_lookups, topic_lookups
 from .managers import CategoryManager, TopicManager
-from . import category_lookups
-from . import topic_lookups
 
 
 class Category(MP_Node):

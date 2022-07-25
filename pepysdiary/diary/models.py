@@ -1,20 +1,19 @@
 import calendar
 import datetime
-import pytz
 import re
 
+import pytz
 from django.conf import settings
-from django.contrib.postgres.search import SearchVectorField
 from django.contrib.postgres.indexes import GinIndex
-from django.urls import reverse
+from django.contrib.postgres.search import SearchVectorField
 from django.db import models
-
+from django.urls import reverse
 from django_comments.moderation import CommentModerator, moderator
 from markdown import markdown
 
-from .managers import EntryManager
 from ..common.models import OldDateMixin, PepysModel
 from ..encyclopedia.models import Topic
+from .managers import EntryManager
 
 
 class Entry(PepysModel, OldDateMixin):

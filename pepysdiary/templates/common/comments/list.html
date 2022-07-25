@@ -22,7 +22,7 @@ NOTE: The listings in templatetags/list_tags.py for the Recent Activity page
 <section id="{% if object and object.comment_name %}{{ object.comment_name }}{% else %}comment{% endif %}s" class="media-list comments">
 	<h1 class="comments-title{% if show_section_title == False %} sr-only{% endif %}">
 		{% if object %}
-			{{ object.comment_count }} 
+			{{ object.comment_count }}
 			{% if object.comment_name %}
 				{{ object.comment_name|capfirst }}{{ object.comment_count|pluralize }}
 			{% else %}

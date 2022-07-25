@@ -1,5 +1,4 @@
 import factory
-
 from django.contrib.sites.models import Site
 
 from .models import Config

@@ -1,5 +1,5 @@
 from django.core import mail
-from django.test import override_settings, TestCase
+from django.test import TestCase, override_settings
 from django.urls import reverse
 from django.utils.http import urlencode
 

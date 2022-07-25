@@ -1,6 +1,5 @@
 import factory
 import pytz
-
 from django.utils.text import slugify
 
 from pepysdiary.indepth.models import Article

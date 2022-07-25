@@ -1,12 +1,10 @@
 import time
 
-from freezegun import freeze_time
-
 from django.http.cookie import SimpleCookie
 from django.test import TestCase
+from freezegun import freeze_time
 
 from pepysdiary.common.utilities import make_datetime
-
 
 # Format used for the cookies' expires parameter:
 EXPIRES_FORMAT = "%a, %d %b %Y %H:%M:%S GMT"

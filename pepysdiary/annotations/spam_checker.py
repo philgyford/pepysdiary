@@ -1,10 +1,9 @@
+import requests
 from django.conf import settings
 from django.contrib import messages
 
 # from django.contrib.auth import get_user_model
 from django.utils.encoding import smart_str
-
-import requests
 
 # from django_comments import signals
 # from django_comments.models import CommentFlag

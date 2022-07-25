@@ -1,7 +1,6 @@
 import re
 
 import smartypants as original_smartypants
-
 from django import template
 from django.utils.safestring import mark_safe
 

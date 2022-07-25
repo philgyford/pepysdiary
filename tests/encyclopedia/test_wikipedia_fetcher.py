@@ -1,8 +1,8 @@
 from unittest.mock import patch
-from requests.exceptions import ConnectionError, Timeout, TooManyRedirects
-import responses
 
+import responses
 from django.test import TestCase
+from requests.exceptions import ConnectionError, Timeout, TooManyRedirects
 
 from pepysdiary.encyclopedia.wikipedia_fetcher import WikipediaFetcher
 

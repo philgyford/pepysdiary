@@ -16,9 +16,9 @@ from freezegun import freeze_time
 from pepysdiary.annotations.factories import PostAnnotationFactory
 from pepysdiary.common.factories import ConfigFactory
 from pepysdiary.common.utilities import make_datetime
+from pepysdiary.membership import views
 from pepysdiary.membership.factories import PersonFactory
 from pepysdiary.membership.models import Person
-from pepysdiary.membership import views
 from tests import ViewTestCase
 
 

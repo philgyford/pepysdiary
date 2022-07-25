@@ -7,4 +7,5 @@ class EncyclopediaConfig(AppConfig):
 
     def ready(self):
         from pepysdiary.common import signals  # noqa: F401
+
         from . import signals as encyclopedia_signals  # noqa: F401

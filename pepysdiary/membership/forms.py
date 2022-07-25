@@ -1,19 +1,17 @@
 # coding: utf-8
 from django import forms
+from django.contrib.auth import password_validation
 from django.contrib.auth.forms import (
     AuthenticationForm,
     PasswordResetForm,
     SetPasswordForm,
 )
-from django.contrib.auth import password_validation
 from django.utils.translation import gettext_lazy as _
-
 from hcaptcha.fields import hCaptchaField
 
 from pepysdiary.common.models import Config
 from pepysdiary.membership.models import Person
 from pepysdiary.membership.utilities import validate_person_name
-
 
 #  Much of this based on django-registration.
 

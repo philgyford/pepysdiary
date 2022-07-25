@@ -1,14 +1,14 @@
 # coding: utf-8
-import MySQLdb
-from optparse import make_option
-import pytz
 import re
+from optparse import make_option
 
+import MySQLdb
+import pytz
 from django.conf import settings
 from django.core.management.base import BaseCommand
 
-from pepysdiary.common.utilities import fix_old_links
 from pepysdiary.annotations.models import Annotation
+from pepysdiary.common.utilities import fix_old_links
 
 # You'll need to: pip install MySQL-python
 

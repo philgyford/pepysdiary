@@ -1,5 +1,5 @@
 // So we can do things like if ($('.classname').exists()) {}
-jQuery.fn.exists = function() {
+jQuery.fn.exists = function () {
   return jQuery(this).length > 0;
 };
 
@@ -17,10 +17,10 @@ window.pepys.controller = {
   config: {
     mapbox_map_id: "",
     mapbox_access_token: "",
-    static_prefix: ""
+    static_prefix: "",
   },
 
-  init: function(spec) {
+  init: function (spec) {
     if ("config" in spec) {
       $.extend(this.config, spec.config);
     }
@@ -38,7 +38,7 @@ window.pepys.controller = {
     // Prettify the dates/times on comments.
     $.timeago.settings.cutoff = 7 * 24 * 60 * 60 * 1000;
     $("time.timeago").timeago();
-  }
+  },
 };
 
 /**
@@ -49,7 +49,7 @@ window.pepys.utilities = {
    * Returns a list of all the years, months, and number of days in each
    * month for which there are diary entries.
    */
-  diary_years_months: function() {
+  diary_years_months: function () {
     return {
       1660: {
         Jan: 31,
@@ -63,7 +63,7 @@ window.pepys.utilities = {
         Sep: 30,
         Oct: 31,
         Nov: 30,
-        Dec: 31
+        Dec: 31,
       },
       1661: {
         Jan: 31,
@@ -77,7 +77,7 @@ window.pepys.utilities = {
         Sep: 30,
         Oct: 31,
         Nov: 30,
-        Dec: 31
+        Dec: 31,
       },
       1662: {
         Jan: 31,
@@ -91,7 +91,7 @@ window.pepys.utilities = {
         Sep: 30,
         Oct: 31,
         Nov: 30,
-        Dec: 31
+        Dec: 31,
       },
       1663: {
         Jan: 31,
@@ -105,7 +105,7 @@ window.pepys.utilities = {
         Sep: 30,
         Oct: 31,
         Nov: 30,
-        Dec: 31
+        Dec: 31,
       },
       1664: {
         Jan: 31,
@@ -119,7 +119,7 @@ window.pepys.utilities = {
         Sep: 30,
         Oct: 31,
         Nov: 30,
-        Dec: 31
+        Dec: 31,
       },
       1665: {
         Jan: 31,
@@ -133,7 +133,7 @@ window.pepys.utilities = {
         Sep: 30,
         Oct: 31,
         Nov: 30,
-        Dec: 31
+        Dec: 31,
       },
       1666: {
         Jan: 31,
@@ -147,7 +147,7 @@ window.pepys.utilities = {
         Sep: 30,
         Oct: 31,
         Nov: 30,
-        Dec: 31
+        Dec: 31,
       },
       1667: {
         Jan: 31,
@@ -161,7 +161,7 @@ window.pepys.utilities = {
         Sep: 30,
         Oct: 31,
         Nov: 30,
-        Dec: 31
+        Dec: 31,
       },
       1668: {
         Jan: 31,
@@ -175,11 +175,11 @@ window.pepys.utilities = {
         Sep: 30,
         Oct: 31,
         Nov: 30,
-        Dec: 31
+        Dec: 31,
       },
-      1669: { Jan: 31, Feb: 29, Mar: 31, Apr: 30, May: 31 }
+      1669: { Jan: 31, Feb: 29, Mar: 31, Apr: 30, May: 31 },
     };
-  }
+  },
 };
 
 /**
@@ -190,7 +190,7 @@ window.pepys.utilities = {
  * order-by-title option is present.
  */
 window.pepys.search = {
-  init: function() {
+  init: function () {
     if ($(".js-search-form").length === 0) {
       return;
     }
@@ -206,7 +206,7 @@ window.pepys.search = {
     // When the kind select changes, check whether the order-by-title option
     // should be present or not.
     var that = this;
-    $(".js-search-kind").on("change", function(ev) {
+    $(".js-search-kind").on("change", function (ev) {
       if ($(this).val() == "c") {
         // Chosen the Annotation/Comment kind, so hide order-by-title option.
         that.hideTitleOption();
@@ -226,9 +226,9 @@ window.pepys.search = {
     });
   },
 
-  hideTitleOption: function() {
+  hideTitleOption: function () {
     $(".js-search-order-title").remove();
-  }
+  },
 };
 
 /**
@@ -243,7 +243,7 @@ window.pepys.tooltips = {
    * tooltips is an array of dictionaries.
    * Each dictionary has 'id', 'title', 'text' and 'thumbnail_url' keys.
    */
-  init: function(tooltips) {
+  init: function (tooltips) {
     this.tooltips = tooltips;
 
     // Regular expression to match the topic ID in an encyclopedia link.
@@ -256,11 +256,11 @@ window.pepys.tooltips = {
   /**
    * Prepare all the Bootstrap tooltips for all the links.
    */
-  prepare_tooltips: function() {
+  prepare_tooltips: function () {
     var that = this;
     $("article.entry, article.letter")
       .find("a")
-      .each(function(idx) {
+      .each(function (idx) {
         id = that.id_from_encyclopedia_url($(this).attr("href"));
         if (id in that.tooltips) {
           var tip_options = {
@@ -271,7 +271,7 @@ window.pepys.tooltips = {
             ),
             trigger: "hover click",
             placement: "auto left",
-            html: true
+            html: true,
             // For debugging CSS etc:
             //,delay: { show: 0, hide: 100000 }
           };
@@ -295,7 +295,7 @@ window.pepys.tooltips = {
    * Passed a URL like http://www.pepysdiary.com/encyclopedia/123/ it returns
    * '123'. Or '' if the URL doesn't match that pattern.
    */
-  id_from_encyclopedia_url: function(url) {
+  id_from_encyclopedia_url: function (url) {
     if (!url) {
       return "";
     }
@@ -310,7 +310,7 @@ window.pepys.tooltips = {
    * Generate the content portion of a tooltip.
    * Varies, depending if there's a thumbnail or not.
    */
-  tooltip_content: function(text, thumbnail_url) {
+  tooltip_content: function (text, thumbnail_url) {
     if (thumbnail_url) {
       return (
         '<img src="' +
@@ -321,7 +321,7 @@ window.pepys.tooltips = {
     } else {
       return text;
     }
-  }
+  },
 };
 
 /**
@@ -337,12 +337,12 @@ window.pepys.comments = {
    */
   prev_visit_end: null,
 
-  init: function() {
+  init: function () {
     this.init_hash_link();
     this.init_newables();
   },
 
-  init_hash_link: function() {
+  init_hash_link: function () {
     var hash = window.location.hash.substring(1);
 
     if (hash) {
@@ -352,7 +352,7 @@ window.pepys.comments = {
     }
   },
 
-  init_newables: function() {
+  init_newables: function () {
     this.get_cookies();
     this.set_markers();
   },
@@ -360,7 +360,7 @@ window.pepys.comments = {
   /**
    * We only need to know the end of their previous visit, if any.
    */
-  get_cookies: function() {
+  get_cookies: function () {
     cookie_value = readCookie("prev_visit_end");
     if (isNumber(cookie_value)) {
       this.prev_visit_end = parseInt(cookie_value, 10);
@@ -373,9 +373,9 @@ window.pepys.comments = {
    * If it's newer than the end of the user's last visit, we add the .is-new
    * class to its .newflag element, and add 'New' text inside it.
    */
-  set_markers: function() {
+  set_markers: function () {
     var that = this;
-    $(".newable").each(function(idx) {
+    $(".newable").each(function (idx) {
       if (
         that.prev_visit_end === null ||
         parseInt($(this).data("time"), 10) > that.prev_visit_end
@@ -386,7 +386,7 @@ window.pepys.comments = {
           .after('<span class="sr-only">New since your last visit</span>');
       }
     });
-  }
+  },
 };
 
 /**
@@ -411,7 +411,7 @@ window.pepys.category = {
     environs: { latitude: 51.508, longitude: -0.1791, zoom: 11 },
     waterways: { latitude: 52.0, longitude: -1.3, zoom: 7 },
     whitehall: { latitude: 51.5035, longitude: -0.1257, zoom: 17 },
-    world: { latitude: 24.0389, longitude: 25.045, zoom: 2 }
+    world: { latitude: 24.0389, longitude: 25.045, zoom: 2 },
   },
 
   // Mapping a category ID to start coordinates.
@@ -421,7 +421,7 @@ window.pepys.category = {
     45: "world",
     180: "whitehall",
     209: "waterways",
-    214: "environs"
+    214: "environs",
   },
 
   /**
@@ -431,10 +431,10 @@ window.pepys.category = {
    *  valid_map_category_ids: A list of category IDs we can display.
    *  topics: An array of objects describing individual topics to display.
    */
-  init_map: function(data) {
+  init_map: function (data) {
     this.resize_map();
     var that = this;
-    $(window).resize(function() {
+    $(window).resize(function () {
       that.resize_map();
     });
     this.valid_map_category_ids = data.valid_map_category_ids;
@@ -446,9 +446,9 @@ window.pepys.category = {
     this.init_form();
   },
 
-  init_form: function() {
+  init_form: function () {
     $("#category-form button").hide();
-    $("#category-form select").change(function() {
+    $("#category-form select").change(function () {
       $("#category-form").submit();
     });
   },
@@ -457,7 +457,7 @@ window.pepys.category = {
    * Assuming we've already called init_map() earlier, draw the map for a
    * particular category (which should be in this.valid_map_category_ids).
    */
-  draw_category_map: function(category_id) {
+  draw_category_map: function (category_id) {
     if (!this.is_valid_map_category_id(category_id)) {
       return;
     }
@@ -466,12 +466,13 @@ window.pepys.category = {
     // Work out which centre and zoom to draw.
     var start_coords = this.start_coords["london"];
     if (this.category_id.toString() in this.categories_start_coords) {
-      start_coords = this.start_coords[
-        this.categories_start_coords[this.category_id.toString()]
-      ];
+      start_coords =
+        this.start_coords[
+          this.categories_start_coords[this.category_id.toString()]
+        ];
     }
     pepys.maps.init(start_coords);
-    $.each(this.topics, function(n, topic) {
+    $.each(this.topics, function (n, topic) {
       pepys.maps.add_place(topic, { link_to_topic: true });
     });
   },
@@ -479,7 +480,7 @@ window.pepys.category = {
   /**
    * Make the map as big as possible.
    */
-  resize_map: function() {
+  resize_map: function () {
     var $container = $("#content");
     var $map = $("#map-frame");
 
@@ -508,13 +509,13 @@ window.pepys.category = {
   /**
    * Check that the category_id is a valid one for drawing maps with.
    */
-  is_valid_map_category_id: function(category_id) {
+  is_valid_map_category_id: function (category_id) {
     if ($.inArray(category_id, this.valid_map_category_ids) == -1) {
       return false;
     } else {
       return true;
     }
-  }
+  },
 };
 
 /**
@@ -527,10 +528,10 @@ window.pepys.topic = {
     "wikipedia",
     "wheatley",
     "discussion",
-    "references"
+    "references",
   ],
 
-  init: function() {
+  init: function () {
     if ($(".nav-tabs").length === 0) {
       return;
     }
@@ -542,7 +543,7 @@ window.pepys.topic = {
    * Work out if we need to show one of the tabs based on the URL's #hash.
    * Also, set the URL's #hash when a tab is clicked.
    */
-  init_tabs: function() {
+  init_tabs: function () {
     var hash = window.location.hash.substring(1);
 
     if (hash) {
@@ -565,7 +566,7 @@ window.pepys.topic = {
     }
 
     // When a tab is clicked, change the URL's hash.
-    $(".nav-tabs a").on("shown.bs.tab", function(e) {
+    $(".nav-tabs a").on("shown.bs.tab", function (e) {
       var hash = e.target.hash.substring(1);
       if (history.pushState) {
         // Use pushState if it exists, to prevent the page jumping.
@@ -582,11 +583,11 @@ window.pepys.topic = {
    * data has keys like: latitude, longitude, zoom, title.
    * And optionally: tooltip_text and one of polygon or path.
    */
-  draw_map: function(data) {
+  draw_map: function (data) {
     pepys.maps.init({
       latitude: data.latitude,
       longitude: data.longitude,
-      zoom: data.zoom
+      zoom: data.zoom,
     });
 
     pepys.maps.add_place(data, { show_popup: true });
@@ -595,7 +596,7 @@ window.pepys.topic = {
   /**
    * Used for both wealth and references charts.
    */
-  chart_tooltip: function() {},
+  chart_tooltip: function () {},
 
   /**
    * Draw the d3 chart of Pepys' wealth in a div.js-wealth-chart.
@@ -603,7 +604,7 @@ window.pepys.topic = {
    * second.
    * Also requires a div.js-wealth-chart to draw the chart in.
    */
-  draw_wealth_chart: function() {
+  draw_wealth_chart: function () {
     if (
       $(".js-wealth-chart").length === 0 ||
       $(".js-wealth-table").length === 0
@@ -613,7 +614,7 @@ window.pepys.topic = {
 
     var parseDate = d3.time.format("%Y-%m-%d").parse;
     var formatDate = d3.time.format("%_d %b %Y");
-    var formatValue = function(d) {
+    var formatValue = function (d) {
       return "£" + d3.format(",")(d);
     };
     var font_size = "14px";
@@ -621,11 +622,9 @@ window.pepys.topic = {
     var data = [];
 
     // Read the dates and 1660s values from the <table>
-    $(".js-wealth-table tbody tr").each(function(idx) {
+    $(".js-wealth-table tbody tr").each(function (idx) {
       var date = $("time", $(this)).attr("datetime");
-      var value = $("td", $(this))
-        .eq(1)
-        .text();
+      var value = $("td", $(this)).eq(1).text();
       value = value.replace(",", "");
       value = parseInt(value);
       data.push({ date: parseDate(date), value: value });
@@ -661,10 +660,7 @@ window.pepys.topic = {
       .domain([parseDate("1660-01-01"), parseDate("1669-05-31")])
       .range([0, inner_width], 0);
 
-    var y = d3.scale
-      .linear()
-      .domain([0, 7000])
-      .range([inner_height, 0]);
+    var y = d3.scale.linear().domain([0, 7000]).range([inner_height, 0]);
 
     // Construct and then add the y axis.
     var yAxis = d3.svg
@@ -677,10 +673,7 @@ window.pepys.topic = {
       .tickPadding(5)
       .tickFormat(formatValue);
 
-    svg
-      .append("g")
-      .attr("class", "axis axis-y")
-      .call(yAxis);
+    svg.append("g").attr("class", "axis axis-y").call(yAxis);
 
     // Construct and then add the x axis.
     var xAxis = d3.svg
@@ -695,7 +688,7 @@ window.pepys.topic = {
         parseDate("1662-01-01"),
         parseDate("1664-01-01"),
         parseDate("1666-01-01"),
-        parseDate("1668-01-01")
+        parseDate("1668-01-01"),
       ]);
 
     // When it's very narrow, reduce the number of ticks.
@@ -703,7 +696,7 @@ window.pepys.topic = {
       xAxis.tickValues([
         parseDate("1660-01-01"),
         parseDate("1663-01-01"),
-        parseDate("1666-01-01")
+        parseDate("1666-01-01"),
       ]);
     }
 
@@ -719,10 +712,10 @@ window.pepys.topic = {
     // Construct and add the chart's line.
     var line = d3.svg
       .line()
-      .x(function(d) {
+      .x(function (d) {
         return x(d.date);
       })
-      .y(function(d) {
+      .y(function (d) {
         return y(d.value);
       });
 
@@ -737,10 +730,7 @@ window.pepys.topic = {
 
     // Do all the stuff for the hover-focus circle thing.
 
-    var focus = svg
-      .append("g")
-      .attr("class", "focus")
-      .style("display", "none");
+    var focus = svg.append("g").attr("class", "focus").style("display", "none");
 
     focus.append("circle").attr("r", 4.5);
 
@@ -788,7 +778,7 @@ window.pepys.topic = {
       .attr("dx", 10)
       .attr("dy", "1em");
 
-    var bisectDate = d3.bisector(function(d) {
+    var bisectDate = d3.bisector(function (d) {
       return d.date;
     }).left;
 
@@ -825,10 +815,10 @@ window.pepys.topic = {
       .attr("class", "overlay")
       .attr("width", inner_width)
       .attr("height", inner_height)
-      .on("mouseover", function() {
+      .on("mouseover", function () {
         focus.style("display", null);
       })
-      .on("mouseout", function() {
+      .on("mouseout", function () {
         focus.style("display", "none");
       })
       .on("mousemove", mousemove);
@@ -845,15 +835,15 @@ window.pepys.topic = {
    * }
    * Note that months with no references have no entry in the object.
    */
-  draw_references_chart: function(references) {
+  draw_references_chart: function (references) {
     // data ends up as an array of objects, each object for a month:
     // { 'name': 'Jan 1660', 'percent_refs': 42, 'num_refs': 13},
     // `num_refs` is the number of references for this topic in that month.
     // `percent_refs` is that number as a percentage of the number of
     // days in that month.
     var data = [];
-    $.each(pepys.utilities.diary_years_months(), function(year, months) {
-      $.each(months, function(month_name, month_days) {
+    $.each(pepys.utilities.diary_years_months(), function (year, months) {
+      $.each(months, function (month_name, month_days) {
         var m_y = month_name + " " + year;
         var num_refs = 0;
         var percent_refs = 0;
@@ -865,7 +855,7 @@ window.pepys.topic = {
         data.push({
           name: m_y,
           num_refs: num_refs,
-          percent_refs: percent_refs
+          percent_refs: percent_refs,
         });
       });
     });
@@ -899,10 +889,7 @@ window.pepys.topic = {
       .ordinal()
       .domain(d3.range(data.length))
       .rangeBands([0, inner_width], 0);
-    var y = d3.scale
-      .linear()
-      .domain([0, 100])
-      .range([inner_height, 0]);
+    var y = d3.scale.linear().domain([0, 100]).range([inner_height, 0]);
 
     var xAxis = d3.svg
       .axis()
@@ -912,7 +899,7 @@ window.pepys.topic = {
       .tickValues([0, 12, 24, 36, 48, 60, 72, 84, 96, 108])
       .tickSize(8, 0, 0)
       .tickPadding(5)
-      .tickFormat(function(d, i) {
+      .tickFormat(function (d, i) {
         // This doesn't feel right, but it works.
         // Returns the year from the month-year names: '1661'.
         return data[d].name.substring(4, 8);
@@ -934,7 +921,7 @@ window.pepys.topic = {
     // middle of the 12 months they refer to.
     svg
       .selectAll("text")
-      .attr("dx", function(d, i) {
+      .attr("dx", function (d, i) {
         // Shift them all in relation to the width of the bars.
         var left_padding = x.rangeBand() * 6;
         if (i >= 9) {
@@ -960,10 +947,7 @@ window.pepys.topic = {
       // Make the y-axis numbers just numbers.
       .tickFormat("");
 
-    svg
-      .append("g")
-      .attr("class", "axis axis-y")
-      .call(yAxis);
+    svg.append("g").attr("class", "axis axis-y").call(yAxis);
 
     var tooltip = d3
       .select("body")
@@ -980,31 +964,31 @@ window.pepys.topic = {
       .enter()
       .append("rect")
       .attr("class", "bar")
-      .attr("x", function(d, i) {
+      .attr("x", function (d, i) {
         return x(i);
       })
-      .attr("y", function(d) {
+      .attr("y", function (d) {
         return y(d.percent_refs);
       })
       .attr("width", x.rangeBand())
-      .attr("height", function(d, i) {
+      .attr("height", function (d, i) {
         return inner_height - y(d.percent_refs);
       })
-      .on("mouseover", function(d, i) {
+      .on("mouseover", function (d, i) {
         tooltip.html("<strong>" + d.num_refs + "</strong> (" + d.name + ")");
         d3.select(this).classed("highlight", true);
         tooltip.style("visibility", "visible");
       })
-      .on("mousemove", function() {
+      .on("mousemove", function () {
         tooltip
           .style("top", event.pageY - 10 + "px")
           .style("left", event.pageX + 10 + "px");
       })
-      .on("mouseout", function() {
+      .on("mouseout", function () {
         d3.select(this).classed("highlight", false);
         tooltip.style("visibility", "hidden");
       });
-  }
+  },
 };
 
 /**
@@ -1020,7 +1004,7 @@ window.pepys.maps = {
    * Draw the actual map.
    * map_data has keys for 'latitude', 'longitude' and 'zoom'.
    */
-  init: function(map_data) {
+  init: function (map_data) {
     this.map = L.map("map-frame").setView(
       L.latLng(map_data.latitude, map_data.longitude),
       map_data.zoom
@@ -1029,7 +1013,7 @@ window.pepys.maps = {
     L.tileLayer
       .provider("MapBox", {
         id: pepys.controller.config.mapbox_map_id,
-        accessToken: pepys.controller.config.mapbox_access_token
+        accessToken: pepys.controller.config.mapbox_access_token,
       })
       .addTo(this.map);
 
@@ -1043,7 +1027,7 @@ window.pepys.maps = {
     // So when we switch to the map tab, re-draw the map.
     if ($("#tab-map").exists()) {
       var that = this;
-      $('a[data-toggle="tab"]').on("shown", function(e) {
+      $('a[data-toggle="tab"]').on("shown", function (e) {
         if ($(e.target).attr("href") == "#map") {
           that.map.invalidateSize(false);
         }
@@ -1055,7 +1039,7 @@ window.pepys.maps = {
   /**
    * Add the overlays for areas on all maps.
    */
-  init_overlays: function() {
+  init_overlays: function () {
     var london_wall_overlay = L.layerGroup([
       L.polyline(
         // Drawn from Hollar's 1666 map after the Great Fire:
@@ -1075,10 +1059,10 @@ window.pepys.maps = {
           [51.515112, -0.079147],
           [51.514024, -0.077151],
           [51.51365, -0.076593],
-          [51.509424, -0.075821]
+          [51.509424, -0.075821],
         ],
         { stroke: true, color: "#333333", opacity: 0.8 }
-      )
+      ),
     ]);
 
     var built_area_overlay = L.layerGroup([
@@ -1209,10 +1193,10 @@ window.pepys.maps = {
           [51.490148, -0.123124],
           [51.492633, -0.121751],
           [51.494664, -0.12115],
-          [51.494931, -0.12454]
+          [51.494931, -0.12454],
         ],
         { stroke: false, fill: true, fillColor: "#666666", fillOpacity: 0.4 }
-      )
+      ),
     ]);
 
     var great_fire_overlay = L.layerGroup([
@@ -1293,10 +1277,10 @@ window.pepys.maps = {
           [51.510893, -0.109477],
           [51.513911, -0.109949],
           [51.513964, -0.109627],
-          [51.514204, -0.109756]
+          [51.514204, -0.109756],
         ],
         { stroke: false, fill: true, fillColor: "#cc6666", fillOpacity: 0.3 }
-      )
+      ),
     ]);
 
     L.control
@@ -1305,7 +1289,7 @@ window.pepys.maps = {
         {
           "City of London wall": london_wall_overlay,
           "Built-up London (approx.)": built_area_overlay,
-          "Great Fire damage": great_fire_overlay
+          "Great Fire damage": great_fire_overlay,
         }
       )
       .addTo(this.map);
@@ -1323,7 +1307,7 @@ window.pepys.maps = {
    *  link_to_topic is true/false(default):
    *      Show we add a link to the place's Topic Detail page in the popup?
    */
-  add_place: function(place_data, options) {
+  add_place: function (place_data, options) {
     if (!options) {
       options = {};
     }
@@ -1337,12 +1321,12 @@ window.pepys.maps = {
         opacity: 0.75,
         fill: "#a02b2d",
         fillOpacity: 0.4,
-        weight: 2
+        weight: 2,
       });
     } else if ("path" in place_data) {
       place = L.polyline(this.string_to_coords(place_data["path"]), {
         color: "#a02b2d",
-        opacity: 0.5
+        opacity: 0.5,
       });
     } else {
       var icon_options = {
@@ -1352,7 +1336,7 @@ window.pepys.maps = {
         iconSize: [25, 41],
         popupAnchor: [0, -35],
         shadowUrl: static_prefix + "img/marker-shadow.png",
-        shadowAnchor: [12.5, 41]
+        shadowAnchor: [12.5, 41],
       };
 
       if ("pepys_home" in place_data && place_data.pepys_home === true) {
@@ -1363,7 +1347,7 @@ window.pepys.maps = {
       var icon = L.icon(icon_options);
 
       place = L.marker(L.latLng(place_data.latitude, place_data.longitude), {
-        icon: icon
+        icon: icon,
       });
     }
 
@@ -1380,7 +1364,7 @@ window.pepys.maps = {
         '" title="See more about this topic">In the Encyclopedia</a>';
     }
     place.bindPopup(popup_html, {
-      minWidth: 150
+      minWidth: 150,
     });
 
     if ("show_popup" in options && options.show_popup === true) {
@@ -1394,14 +1378,14 @@ window.pepys.maps = {
    * into this:
    * [[51.513558,-0.104268],[51.513552,-0.104517],...]
    */
-  string_to_coords: function(str) {
+  string_to_coords: function (str) {
     var arr = [];
-    $.each(str.split(";"), function(n, pair) {
+    $.each(str.split(";"), function (n, pair) {
       ll = pair.split(",");
       arr.push([parseFloat(ll[0]), parseFloat(ll[1])]);
     });
     return arr;
-  }
+  },
 };
 
 /**
@@ -1429,7 +1413,7 @@ var getUrlParameter = function getUrlParameter(sParam) {
  * Provides a readCookie() function.
  * eg, my_value = readCookie('cookie_name');
  */
-(function() {
+(function () {
   var cookies;
 
   function readCookie(name, c, C, i) {

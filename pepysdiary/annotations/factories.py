@@ -1,14 +1,14 @@
-from django.contrib.contenttypes.models import ContentType
-from django.contrib.sites.models import Site
 import factory
 import pytz
+from django.contrib.contenttypes.models import ContentType
+from django.contrib.sites.models import Site
 
 from pepysdiary.annotations.models import Annotation
 from pepysdiary.diary.factories import EntryFactory
 from pepysdiary.encyclopedia.factories import TopicFactory
 from pepysdiary.indepth.factories import PublishedArticleFactory
-from pepysdiary.news.factories import PublishedPostFactory
 from pepysdiary.letters.factories import LetterFactory
+from pepysdiary.news.factories import PublishedPostFactory
 
 
 class AbstractAnnotationFactory(factory.django.DjangoModelFactory):

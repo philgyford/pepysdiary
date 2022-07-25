@@ -1,9 +1,9 @@
 from django.http.response import Http404
 
 from pepysdiary.common.utilities import make_datetime
+from pepysdiary.news import views
 from pepysdiary.news.factories import DraftPostFactory, PublishedPostFactory
 from pepysdiary.news.models import Post
-from pepysdiary.news import views
 from tests import ViewTestCase
 
 

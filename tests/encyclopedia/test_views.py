@@ -9,7 +9,6 @@ from pepysdiary.encyclopedia.factories import TopicFactory
 from pepysdiary.encyclopedia.models import Category
 from tests import ViewTestCase
 
-
 DEFAULT_MAP_CATEGORY_ID = 28
 
 

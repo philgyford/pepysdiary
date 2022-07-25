@@ -3,8 +3,8 @@ from django.urls import reverse
 from django.utils.html import mark_safe
 
 from pepysdiary.diary.models import Entry
-from pepysdiary.encyclopedia.models import Topic
 from pepysdiary.encyclopedia import topic_lookups
+from pepysdiary.encyclopedia.models import Topic
 from pepysdiary.indepth.models import Article
 from pepysdiary.news.models import Post
 

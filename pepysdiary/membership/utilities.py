@@ -60,7 +60,7 @@ def email_list(to_list, template_path, from_address, context_dict):
         {% block html %}{% endblock %}
     """
     from django.core.mail import send_mail
-    from django.template import loader, Context
+    from django.template import Context, loader
 
     nodes = dict(
         (n.name, n)

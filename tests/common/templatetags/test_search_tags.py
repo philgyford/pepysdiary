@@ -5,8 +5,8 @@ from pepysdiary.common.templatetags.search_tags import search_summary
 from pepysdiary.diary.factories import EntryFactory
 from pepysdiary.encyclopedia.factories import TopicFactory
 from pepysdiary.indepth.factories import PublishedArticleFactory
-from pepysdiary.news.factories import PublishedPostFactory
 from pepysdiary.letters.factories import LetterFactory
+from pepysdiary.news.factories import PublishedPostFactory
 
 
 class SearchSummaryTestCase(TestCase):

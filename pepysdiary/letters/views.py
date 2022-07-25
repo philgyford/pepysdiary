@@ -7,6 +7,7 @@ from django.views.generic.detail import SingleObjectMixin
 from django.views.generic.list import ListView
 
 from pepysdiary.encyclopedia.models import Topic
+
 from .models import Letter
 
 

@@ -1,9 +1,9 @@
+from django.contrib.contenttypes.models import ContentType
 from django.test import TestCase
 
 from pepysdiary.annotations.factories import EntryAnnotationFactory
 from pepysdiary.annotations.models import Annotation
 from pepysdiary.common.utilities import make_datetime
-from django.contrib.contenttypes.models import ContentType
 from pepysdiary.diary.factories import EntryFactory
 from pepysdiary.membership.factories import PersonFactory
 

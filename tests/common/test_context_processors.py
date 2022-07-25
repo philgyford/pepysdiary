@@ -1,9 +1,8 @@
-from freezegun import freeze_time
-
 from django.conf import settings
-from django.test import override_settings, RequestFactory, TestCase
+from django.test import RequestFactory, TestCase, override_settings
 from django.urls import path, resolve
 from django.views.generic import TemplateView
+from freezegun import freeze_time
 
 from pepysdiary.common.context_processors import (
     api_keys,

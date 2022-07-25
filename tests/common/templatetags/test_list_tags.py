@@ -1,5 +1,12 @@
 from django.test import TestCase
 
+from pepysdiary.annotations.factories import (
+    ArticleAnnotationFactory,
+    EntryAnnotationFactory,
+    LetterAnnotationFactory,
+    PostAnnotationFactory,
+    TopicAnnotationFactory,
+)
 from pepysdiary.common.templatetags.list_tags import (
     latest_commented_articles,
     latest_commented_entries,
@@ -8,18 +15,11 @@ from pepysdiary.common.templatetags.list_tags import (
     latest_commented_topics,
 )
 from pepysdiary.common.utilities import make_date, make_datetime
-from pepysdiary.annotations.factories import (
-    ArticleAnnotationFactory,
-    EntryAnnotationFactory,
-    LetterAnnotationFactory,
-    PostAnnotationFactory,
-    TopicAnnotationFactory,
-)
 from pepysdiary.diary.factories import EntryFactory
 from pepysdiary.encyclopedia.factories import TopicFactory
 from pepysdiary.indepth.factories import PublishedArticleFactory
-from pepysdiary.news.factories import PublishedPostFactory
 from pepysdiary.letters.factories import LetterFactory
+from pepysdiary.news.factories import PublishedPostFactory
 
 
 class ListTagsTestCase(TestCase):

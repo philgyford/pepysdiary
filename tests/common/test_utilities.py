@@ -1,23 +1,23 @@
 from datetime import datetime
-import pytz
 
+import pytz
 from django.contrib.sites.models import Site
-from django.test import override_settings, TestCase
+from django.test import TestCase, override_settings
 
 from pepysdiary.common.utilities import (
-    make_date,
-    make_datetime,
-    hilite_words,
-    smart_truncate,
-    trim_hilites,
-    is_leap_year,
     fix_old_links,
-    get_year,
-    get_month,
-    get_month_b,
     get_day,
     get_day_e,
+    get_month,
+    get_month_b,
+    get_year,
+    hilite_words,
+    is_leap_year,
+    make_date,
+    make_datetime,
     make_url_absolute,
+    smart_truncate,
+    trim_hilites,
 )
 
 

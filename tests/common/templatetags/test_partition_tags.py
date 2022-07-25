@@ -1,9 +1,9 @@
 from django.test import TestCase
 
 from pepysdiary.common.templatetags.partition_tags import (
+    make_columns,
     make_rows,
     make_rows_distributed,
-    make_columns,
 )
 
 

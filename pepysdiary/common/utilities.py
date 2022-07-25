@@ -1,7 +1,7 @@
-from datetime import datetime
-import pytz
 import re
+from datetime import datetime
 
+import pytz
 from django.conf import settings
 from django.contrib.sites.models import Site
 from django.utils.html import strip_tags
@@ -269,11 +269,11 @@ def expire_view_cache(
         from: http://stackoverflow.com/questions/2268417/expire-a-view-cache-in-django
         added: method to request to get the key generating properly
     """
-    from django.urls import reverse
-    from django.http import HttpRequest
-    from django.utils.cache import get_cache_key
-    from django.core.cache import cache
     from django.conf import settings
+    from django.core.cache import cache
+    from django.http import HttpRequest
+    from django.urls import reverse
+    from django.utils.cache import get_cache_key
 
     # create a fake request object
     request = HttpRequest()

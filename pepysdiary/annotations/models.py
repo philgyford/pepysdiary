@@ -1,11 +1,9 @@
 from django.contrib.contenttypes.models import ContentType
-from django.contrib.postgres.search import SearchVectorField
 from django.contrib.postgres.indexes import GinIndex
-
+from django.contrib.postgres.search import SearchVectorField
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Max
 from django.utils.html import strip_tags
-
 from django_comments.abstracts import CommentAbstractModel
 
 from .managers import AnnotationManager, VisibleAnnotationManager

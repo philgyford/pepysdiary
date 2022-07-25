@@ -1,12 +1,7 @@
 from django.urls import path, re_path
 
 from .feeds import LatestLettersFeed
-from .views import (
-    LetterDetailView,
-    LetterPersonView,
-    LetterArchiveView,
-)
-
+from .views import LetterArchiveView, LetterDetailView, LetterPersonView
 
 # ALL REDIRECTS are in common/urls.py.
 

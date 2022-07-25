@@ -1,6 +1,6 @@
 from django.db.models.signals import m2m_changed, post_delete, pre_delete
 
-from .models import Topic, Category
+from .models import Category, Topic
 
 
 def topic_categories_changed(sender, **kwargs):

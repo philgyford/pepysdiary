@@ -1,7 +1,7 @@
 import string
 
-from django.urls import reverse
 from django.http import Http404, HttpResponseRedirect
+from django.urls import reverse
 from django.utils.decorators import method_decorator
 from django.utils.translation import gettext as _
 from django.views.decorators.csrf import csrf_protect
@@ -9,9 +9,9 @@ from django.views.generic import FormView, TemplateView
 from django.views.generic.detail import DetailView
 
 from pepysdiary.common.views import CacheMixin
+
 from .forms import CategoryMapForm
 from .models import Category, Topic
-
 
 # If no ID is supplied to the Map, it displays Topics from this Category:
 DEFAULT_MAP_CATEGORY_ID = 28

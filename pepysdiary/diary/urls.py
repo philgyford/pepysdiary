@@ -2,12 +2,11 @@ from django.urls import path, re_path
 
 from .feeds import LatestEntriesFeed
 from .views import (
+    EntryArchiveIndexView,
     EntryDetailView,
     EntryMonthArchiveView,
-    EntryArchiveIndexView,
     SummaryYearArchiveView,
 )
-
 
 # ALL REDIRECTS are in common/urls.py.
 

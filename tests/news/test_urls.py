@@ -1,8 +1,7 @@
 from django.test import TestCase
 from django.urls import resolve, reverse
 
-from pepysdiary.news import feeds
-from pepysdiary.news import views
+from pepysdiary.news import feeds, views
 
 
 class NewsURLsTestCase(TestCase):

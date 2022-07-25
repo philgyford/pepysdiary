@@ -1,7 +1,7 @@
 import factory
 
-from pepysdiary.diary.models import Entry, Summary
 from pepysdiary.common.utilities import make_date
+from pepysdiary.diary.models import Entry, Summary
 
 
 class EntryFactory(factory.django.DjangoModelFactory):

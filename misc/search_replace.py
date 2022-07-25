@@ -1,7 +1,8 @@
 from django.db.models import F, Func, Value
+
+from pepysdiary.encyclopedia.models import Topic
 from pepysdiary.indepth.models import Article
 from pepysdiary.news.models import Post
-from pepysdiary.encyclopedia.models import Topic
 
 # This was used to replace all the instances of old Media URLs with new
 # ones. Saved in case we need it, or similar, again.

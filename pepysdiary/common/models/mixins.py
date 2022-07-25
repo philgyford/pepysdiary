@@ -1,12 +1,6 @@
 from django.core.exceptions import ImproperlyConfigured
 
-from ..utilities import (
-    get_year,
-    get_month,
-    get_month_b,
-    get_day,
-    get_day_e,
-)
+from ..utilities import get_day, get_day_e, get_month, get_month_b, get_year
 
 
 class OldDateMixin(object):

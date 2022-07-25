@@ -1,8 +1,7 @@
 from django.test import TestCase
 from django.urls import resolve, reverse
 
-from pepysdiary.encyclopedia import feeds
-from pepysdiary.encyclopedia import views
+from pepysdiary.encyclopedia import feeds, views
 
 
 class EncyclopediaURLsTestCase(TestCase):

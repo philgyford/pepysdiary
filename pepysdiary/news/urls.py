@@ -1,12 +1,7 @@
 from django.urls import path, re_path
 
 from .feeds import LatestPostsFeed
-from .views import (
-    PostDetailView,
-    PostCategoryArchiveView,
-    PostArchiveView,
-)
-
+from .views import PostArchiveView, PostCategoryArchiveView, PostDetailView
 
 # ALL REDIRECTS are in common/urls.py.
 

@@ -2,9 +2,9 @@ from django.http.response import Http404
 from django.test import override_settings
 
 from pepysdiary.common.utilities import make_date
+from pepysdiary.encyclopedia.factories import PersonTopicFactory, TopicFactory
 from pepysdiary.letters import views
 from pepysdiary.letters.factories import LetterFactory
-from pepysdiary.encyclopedia.factories import PersonTopicFactory, TopicFactory
 from tests import ViewTestCase, ViewTransactionTestCase
 
 

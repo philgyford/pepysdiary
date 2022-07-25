@@ -1,10 +1,10 @@
 import datetime
-import pytz
 
+import pytz
 from django.conf import settings
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
-from django.urls import reverse
 from django.db import models
+from django.urls import reverse
 
 from .managers import PersonManager
 from .utilities import email_user, validate_person_name

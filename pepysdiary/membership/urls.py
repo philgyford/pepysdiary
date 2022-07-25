@@ -1,21 +1,20 @@
 from django.urls import path, re_path
 
 from pepysdiary.membership.views import (
-    LoginView,
-    LogoutView,
-    RegisterView,
-    RegisterCompleteView,
     ActivateCompleteView,
     ActivateView,
     EditProfileView,
+    LoginView,
+    LogoutView,
+    PasswordResetCompleteView,
+    PasswordResetConfirmView,
+    PasswordResetDoneView,
+    PasswordResetView,
     PrivateProfileView,
     ProfileView,
-    PasswordResetView,
-    PasswordResetDoneView,
-    PasswordResetConfirmView,
-    PasswordResetCompleteView,
+    RegisterCompleteView,
+    RegisterView,
 )
-
 
 urlpatterns = [
     path("login/", LoginView.as_view(), name="login"),

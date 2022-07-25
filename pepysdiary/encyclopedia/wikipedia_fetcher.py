@@ -1,6 +1,6 @@
-from bs4 import BeautifulSoup
 import bleach
 import requests
+from bs4 import BeautifulSoup
 
 
 class WikipediaFetcher(object):

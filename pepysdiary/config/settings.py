@@ -1,11 +1,10 @@
 import os
 from pathlib import Path
-import sentry_sdk
 
 import dj_database_url
+import sentry_sdk
 from dotenv import load_dotenv
 from sentry_sdk.integrations.django import DjangoIntegration
-
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 # Build paths inside the project like this: BASE_DIR / 'subdir'.

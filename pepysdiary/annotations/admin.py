@@ -2,9 +2,9 @@ from django.contrib import admin
 from django_comments import get_model
 from django_comments.admin import CommentsAdmin
 
-# from django_comments.models import CommentFlag
-
 from pepysdiary.annotations.models import Annotation
+
+# from django_comments.models import CommentFlag
 
 
 # class CommentFlagInline(admin.TabularInline):

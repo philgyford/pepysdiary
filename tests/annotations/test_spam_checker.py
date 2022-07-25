@@ -1,10 +1,9 @@
 from urllib.parse import unquote_plus
 
+import responses
 from django.conf import settings
 from django.contrib.messages import get_messages
-from django.test import override_settings, TestCase
-
-import responses
+from django.test import TestCase, override_settings
 
 from pepysdiary.annotations.forms import AnnotationForm
 from pepysdiary.annotations.models import Annotation

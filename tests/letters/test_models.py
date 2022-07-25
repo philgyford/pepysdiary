@@ -1,5 +1,4 @@
 from django.test import TestCase
-
 from django_comments.moderation import AlreadyModerated, moderator
 
 from pepysdiary.common.utilities import make_date

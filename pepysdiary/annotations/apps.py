@@ -7,4 +7,5 @@ class AnnotationsConfig(AppConfig):
 
     def ready(self):
         from pepysdiary.common import signals  # noqa: F401
+
         from . import signals as annotation_signals  # noqa: F401

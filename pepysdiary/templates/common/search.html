@@ -54,7 +54,7 @@
 
   {% if search_string %}
     <hr>
-    <p>Searching for <strong>{{ search_string }}</strong>, in 
+    <p>Searching for <strong>{{ search_string }}</strong>, in
       <strong>
         {% if model_name == 'Entry' %}diary entries{% elif model_name == 'Topic' %}encyclopedia topics{% elif model_name == 'Letter' %}letters{% elif model_name == 'Article' %}in-depth articles{% elif model_name == 'Post' %}site news posts{% elif model_name == 'Annotation' %}annotations/comments{% endif %}</strong>,
       ordered by <strong>{% if order_string == 'az' %}title{% elif order_string == 'da' %}date (earliest first){% elif order_string == 'dd' %}date (latest first){% else %}relevancy{% endif %}</strong>.

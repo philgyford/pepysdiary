@@ -6,7 +6,6 @@ from rest_framework.schemas import get_schema_view
 
 from . import views
 
-
 app_name = "api"
 
 router = DefaultRouter(trailing_slash=False)

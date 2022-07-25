@@ -1,6 +1,6 @@
+import json
 from collections import OrderedDict
 from decimal import Decimal
-import json
 
 from django.contrib.sites.models import Site
 from django.urls import reverse
@@ -13,12 +13,12 @@ from pepysdiary.annotations.factories import (
 )
 from pepysdiary.common.utilities import make_date, make_datetime
 from pepysdiary.diary.factories import EntryFactory
-from pepysdiary.encyclopedia.models import Category
 from pepysdiary.encyclopedia.factories import (
     PersonTopicFactory,
     PlaceTopicFactory,
     TopicFactory,
 )
+from pepysdiary.encyclopedia.models import Category
 
 
 class SiteAPITestCase(APITestCase):

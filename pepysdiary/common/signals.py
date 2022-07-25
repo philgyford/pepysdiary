@@ -1,12 +1,11 @@
-from functools import reduce
 import operator
+from functools import reduce
 
-from django.dispatch import receiver
-from django.db.models.signals import post_save
-from django.db.models import Value, TextField
 from django.contrib.postgres.search import SearchVector
 from django.db import transaction
-
+from django.db.models import TextField, Value
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 # Signals for models from all apps that have search indexes.
 

@@ -1,13 +1,12 @@
-from django.db import models
 from django.contrib.postgres.search import SearchVectorField
+from django.db import models
 from django.urls import reverse
 from django.utils import timezone
-
 from django_comments.moderation import CommentModerator, moderator
 from markdown import markdown
 
-from .managers import PublishedPostManager
 from ..common.models import PepysModel
+from .managers import PublishedPostManager
 
 
 class Post(PepysModel):

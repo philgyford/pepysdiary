@@ -1,8 +1,7 @@
 from django.urls import path, re_path
 
 from .feeds import LatestArticlesFeed
-from .views import ArticleDetailView, ArticleCategoryArchiveView, ArticleArchiveView
-
+from .views import ArticleArchiveView, ArticleCategoryArchiveView, ArticleDetailView
 
 # ALL REDIRECTS are in common/urls.py.
 

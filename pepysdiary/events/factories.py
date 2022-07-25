@@ -1,7 +1,7 @@
 import factory
 
-from pepysdiary.events.models import DayEvent
 from pepysdiary.common.utilities import make_date
+from pepysdiary.events.models import DayEvent
 
 
 class DayEventFactory(factory.django.DjangoModelFactory):

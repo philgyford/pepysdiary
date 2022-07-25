@@ -1,4 +1,4 @@
-from django.test import override_settings, TestCase
+from django.test import TestCase, override_settings
 from django.urls import resolve, reverse
 
 from pepysdiary.common import views as common_views

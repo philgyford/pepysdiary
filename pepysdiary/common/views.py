@@ -7,8 +7,8 @@ from django.views.decorators.cache import cache_page
 from django.views.generic import ListView, RedirectView
 from django.views.generic.base import TemplateView
 
-from pepysdiary.common.paginator import DiggPaginator
 from pepysdiary.annotations.models import Annotation
+from pepysdiary.common.paginator import DiggPaginator
 from pepysdiary.diary.models import Entry
 from pepysdiary.encyclopedia.models import Topic
 from pepysdiary.indepth.models import Article
@@ -58,7 +58,7 @@ class PaginatedListView(ListView):
             margin=self.paginator_margin,
             padding=self.paginator_padding,
             tail=self.paginator_tail,
-            **kwargs
+            **kwargs,
         )
 
 

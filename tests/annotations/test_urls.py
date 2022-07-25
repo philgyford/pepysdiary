@@ -4,7 +4,6 @@ from django.urls import resolve, reverse
 from pepysdiary.annotations import views
 from pepysdiary.annotations.factories import EntryAnnotationFactory
 
-
 # Testing that the named URLs map the correct name to URL,
 # and that the correct views are called.
 

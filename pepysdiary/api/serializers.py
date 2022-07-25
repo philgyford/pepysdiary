@@ -4,7 +4,6 @@ from ..common.utilities import make_url_absolute
 from ..diary.models import Entry
 from ..encyclopedia.models import Category, Topic
 
-
 # View names and lookup fields for various detail pages.
 # Keeping them in one place.
 topics_kwargs = {

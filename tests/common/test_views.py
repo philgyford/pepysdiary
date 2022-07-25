@@ -4,20 +4,17 @@ import tempfile
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.http.request import QueryDict
 from django.test import override_settings
-
 from freezegun import freeze_time
 
-from pepysdiary.common.utilities import make_date, make_datetime
-from pepysdiary.common import views
-from pepysdiary.diary.factories import EntryFactory
 from pepysdiary.annotations.factories import EntryAnnotationFactory
+from pepysdiary.common import views
+from pepysdiary.common.utilities import make_date, make_datetime
+from pepysdiary.diary.factories import EntryFactory
 from pepysdiary.encyclopedia.factories import TopicFactory
 from pepysdiary.indepth.factories import DraftArticleFactory, PublishedArticleFactory
 from pepysdiary.letters.factories import LetterFactory
 from pepysdiary.news.factories import DraftPostFactory, PublishedPostFactory
-
 from tests import ViewTestCase, ViewTransactionTestCase
-
 
 # Location for files used in tests
 ASSET_DIR = os.path.dirname(__file__) + "/../assets/"

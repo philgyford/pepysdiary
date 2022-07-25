@@ -1,6 +1,6 @@
 import calendar
-from datetime import date
 import re
+from datetime import date
 
 from django.contrib import admin
 

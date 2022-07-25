@@ -4,7 +4,6 @@ from django.utils.safestring import mark_safe
 
 from pepysdiary.common.utilities import hilite_words, trim_hilites
 
-
 register = template.Library()
 
 

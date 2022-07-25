@@ -1,8 +1,8 @@
 # coding: utf-8
 import calendar
 import datetime
-import pytz
 
+import pytz
 from django.utils.deprecation import MiddlewareMixin
 
 

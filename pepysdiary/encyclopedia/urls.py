@@ -2,12 +2,11 @@ from django.urls import re_path
 
 from .feeds import LatestTopicsFeed
 from .views import (
+    CategoryDetailView,
+    CategoryMapView,
     EncyclopediaView,
     TopicDetailView,
-    CategoryMapView,
-    CategoryDetailView,
 )
-
 
 # ALL REDIRECTS are in common/urls.py.
 

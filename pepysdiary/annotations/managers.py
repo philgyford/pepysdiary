@@ -1,5 +1,4 @@
 from django.contrib.sites.models import Site
-
 from django_comments.managers import CommentManager
 
 

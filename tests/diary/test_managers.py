@@ -1,5 +1,5 @@
 from django.core.files.uploadedfile import SimpleUploadedFile
-from django.test import override_settings, TestCase
+from django.test import TestCase, override_settings
 from freezegun import freeze_time
 
 from pepysdiary.common.utilities import make_date
