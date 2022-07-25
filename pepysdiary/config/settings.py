@@ -170,7 +170,7 @@ STATIC_ROOT = BASE_DIR / "pepysdiary" / "static_collected"
 
 STATIC_URL = "/static/"
 
-STATICFILES_DIRS = [BASE_DIR / "pepysdiary" / "static"]
+STATICFILES_DIRS = [BASE_DIR / "pepysdiary" / "common" / "static"]
 
 STATICFILES_FINDERS = [
     "django.contrib.staticfiles.finders.FileSystemFinder",
@@ -242,12 +242,12 @@ LOGGING = {
     "loggers": {
         "django": {
             "handlers": [],
-            "level": os.getenv("HINES_LOG_LEVEL", default="INFO"),
+            "level": os.getenv("PEPYS_LOG_LEVEL", default="INFO"),
         },
     },
     "root": {
         "handlers": ["console"],
-        "level": os.getenv("HINES_LOG_LEVEL", default="INFO"),
+        "level": os.getenv("PEPYS_LOG_LEVEL", default="INFO"),
     },
 }
 
