@@ -4,46 +4,29 @@
 [![Coverage Status](https://coveralls.io/repos/github/philgyford/pepysdiary/badge.svg?branch=main)](https://coveralls.io/github/philgyford/pepysdiary?branch=main)
 [![Code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+[![Imports: isort](https://img.shields.io/badge/%20imports-isort-%231674b1?style=flat&labelColor=ef8336)](https://pycqa.github.io/isort/)
+[![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
 
-Code for [www.pepysdiary.com](http://www.pepysdiary.com/). This repository includes fixtures for all of the site's data (apart from user accounts and user-contributed comments) although it's out of date compared to what's live.
+Code for [www.pepysdiary.com](http://www.pepysdiary.com/).
 
 Pushing to `main` will run the commit through [this GitHub Action](https://github.com/philgyford/pepysdiary/actions/workflows/main.yml) to run tests. If it passes, it will be deployed automatically to Heroku.
+
+When changing the python version, it will need to be changed in:
+
+- `.github/workflows/main.yml`
+- `.pre-commit-config.yaml`
+- `.python-version` (for pyenv)
+- `runtime.txt` (for Heroku)
+- `pyproject.toml` (black's target-version)
+- `Dockerfile`
+
+For local development we use Docker. The live site is on Heroku.
 
 ## Local development setup
 
 ### 1. Create a .env file
 
-Create a `.env` file containing the below (see the Custom Django Settings section below for more about some of the variables):
-
-    export AKISMET_API_KEY='YOUR-API-KEY'
-
-    export ALLOWED_HOSTS='*'
-
-    export AWS_ACCESS_KEY_ID='YOUR-ACCESS-KEY'
-    export AWS_SECRET_ACCESS_KEY='YOUR-SECRET-ACCESS-KEY'
-    export AWS_STORAGE_BUCKET_NAME='your-bucket-name'
-
-    export DJANGO_SECRET_KEY='YOUR-SECRET-KEY'
-    export DJANGO_SETTINGS_MODULE='config.settings.development'
-
-    # For use in Django:
-    export DATABASE_URL='postgres://pepysdiary:pepysdiary@pepys_db:5432/pepysdiary'
-    # For use in Docker:
-    POSTGRES_USER=pepysdiary
-    POSTGRES_PASSWORD=pepysdiary
-    POSTGRES_DB=pepysdiary
-
-    export MAPBOX_ACCESS_TOKEN='YOUR-ACCESS-TOKEN'
-    export MAPBOX_MAP_ID='mapbox/light-v10'
-
-    export HCAPTCHA_SITEKEY='YOUR_SITEKEY'
-    export HCAPTCHA_SECRET='YOUR_SECRET'
-
-    export SENDGRID_USERNAME='apikey'
-    export SENDGRID_PASSWORD='YOUR_PASSWORD'
-
-    # TBD what this should be when using Docker:
-    export REDIS_URL='redis://127.0.0.1:6379/1'
+Copy `.env.dist` to `.env` and alter any necessary settings.
 
 ### 2. Set up a local domain name
 
@@ -111,6 +94,8 @@ Log in to the [Django Admin](http://www.pepysdiary.test:8000/backstage/), go to 
 
 ## Ongoing work
 
+### Docker
+
 Whenever you come back to start work you need to start the containers up again by doing this from the project directory:
 
     $ docker-compose up
@@ -125,11 +110,38 @@ You can check if anything's running by doing this, which will list any Docker pr
 
 See details on the `./run` script below for running things inside the containers.
 
-To have VS Code know what python packages are available you'll need to set up a pipenv environment on your host machine:
+### Python dependencies with virtualenv and pip-tools
 
-    $ pipenv install --dev
+Adding and removing python depenencies is most easily done with a virtual environment on your host machine. This also means you can use that environment easily in VS Code.
 
-This is _only_ used for this purpose. It's apparently possible to use another Docker "remote container" in VS Code but it was way too fiddly for any benefit, compared to this.
+Set up and activate a virtual environment on your host machine using [virtualenv](https://virtualenv.pypa.io/en/latest/):
+
+    $ virtualenv --prompt . venv
+    $ source venv/bin/activate
+
+We use [pip-tools](https://pip-tools.readthedocs.io/en/latest/) to generate `requirements.txt` from `requirements.in`, and install the dependencies. Install the current dependencies into the activated virtual environment:
+
+    (venv) $ python -m pip install -r requirements.txt
+
+To add a new depenency, add it to `requirements.in` and then regenerate `requirements.txt`:
+
+    (venv) $ pip-compile --upgrade --quiet --generate-hashes
+
+And do the `pip install` step again to install.
+
+To remove a dependency, delete it from `requirements.in`, run that same `pip-compile` command, and then:
+
+    (venv) $ python -m pip uninstall <module-name>
+
+To update the python dependencies in the Docker container, this should work:
+
+    $ ./run pipsync
+
+But you might have to do `docker-compose build` instead?
+
+### pre-commit
+
+Install [pre-commit](https://pre-commit.com) to run `.pre-commit-config.yml` automatically when `git commit` is done.
 
 ## Front-end assets
 
@@ -139,13 +151,13 @@ Gulp is used to build the final CSS and JS file(s), and watches for changes in t
 
 The `./run` script makes it easier to run things that are within the Docker containers. This will list the commands available, which are outlined below:
 
-    ./run
+    $ ./run
 
 ### `./run cmd`
 
 Run any command in the web container. e.g.
 
-    ./run cmd ls -al
+    $ ./run cmd ls -al
 
 ### `./run sh`
 
@@ -155,53 +167,37 @@ Starts a Shell session in the web container.
 
 Run the Django `manage.py` file with any of the usual commands, within the pipenv virtual environment. e.g.
 
-    ./run manage makemigrations
+    $ ./run manage makemigrations
 
 The development environment has [django-extensions](https://django-extensions.readthedocs.io/en/latest/index.html) installed so you can use its `shell_plus` and other commands. e.g.:
 
     $ ./run manage shell_plus
     $ ./run manage show_urls
 
-### `./run sp`
-
-Run the `shell_plus` command from django-extensions.
-
 ### `./run tests`
 
-It runs `collectstatic` and then runs all the Django tests.
+Runs all the Django tests. If it complains you might need to do `./run manage collecstatic` first.
 
 Run a folder, file, or class of tests, or a single test, something like this:
 
-    ./run tests tests.core
-    ./run tests tests.core.test_views
-    ./run tests tests.core.test_views.HomeViewTestCase
-    ./run tests tests.core.test_views.HomeViewTestCase.test_response_200
+    $ ./run tests tests.core
+    $ ./run tests tests.core.test_views
+    $ ./run tests tests.core.test_views.HomeViewTestCase
+    $ ./run tests tests.core.test_views.HomeViewTestCase.test_response_200
 
 ### `./run coverage`
 
-It runs `collectstatic` and then all the tests with coverage. The HTML report files will be at `htmlcov/index.html`.
-
-### `./run flake8`
-
-Lints the python code with flake8. Add any required arguments on the end.
-
-### `./run black`
-
-Runs the Black formatter over the python code. Add any required arguments on the end.
+Run all the tests with coverage. The HTML report files will be at `htmlcov/index.html`.
 
 ### `./run psql`
 
-Conects to PosgreSQL with psql. Add any required arguments on the end. Uses the `pepysdiary` database unless you specify another like:
+Conects to PosgreSQL with psql. Add any required arguments on the end. Uses the `hines` database unless you specify another like:
 
-    ./run psql -d databasename
+    $ ./run psql -d databasename
 
-### `./run pipenv:outdated`
+### `./run pipsync`
 
-List any installed python packages (default and develop) that are outdated.
-
-### `./run pipenv:update`
-
-Update any installed python packages (default and develop) that are outdated.
+Update the installed python depenencies depending on the contents of `requirements.txt`.
 
 ### `./run yarn:outdated`
 
@@ -223,6 +219,8 @@ For hosting on Heroku, we use these add-ons:
 
 The site will require Config settings to be set-up as in the local development `.env` (above) and see the Django settings (below).
 
+    DJANGO_SETTINGS_MODULE      pepysdiary.config.settings
+
 To clear the Redis cache, use our `clear_cache` management command:
 
     $ heroku run python ./manage.py clear_cache
@@ -235,43 +233,6 @@ Note that by default Heroku's Redis is set up with a `maxmemory-policy` of `noev
 Then use that Redis name like:
 
     $ heroku redis:maxmemory redis-fisher-12345 --policy allkeys-lru
-
-### Heroku Config Vars
-
-Set these Config Vars in Heroku (see the Custom Django Settings section below for more about some of the variables):
-
-```
-AKISMET_API_KEY             YOUR-API-KEY
-ALLOWED_HOSTS               pepysdiary-production.herokuapp.com,www.pepysdiary.com
-AWS_ACCESS_KEY_ID           YOUR-ACCESS-KEY
-AWS_SECRET_ACCESS_KEY       YOUR-SECRET-ACCESS-KEY
-AWS_STORAGE_BUCKET_NAME     your-bucket-nuame
-DJANGO_SECRET_KEY           YOUR-SECRET-KEY
-DJANGO_SETTINGS_MODULE      pepysdiary.settings.production
-MAPBOX_ACCESS_TOKEN         YOUR-ACCESS-TOKEN
-MAPBOX_MAP_ID               mapbox/light-v10
-HCAPTCHA_SITEKEY            YOUR-SITE-KEY
-HCAPTCHA_SECRET             YOUR-SECRET
-SENDGRID_USERNAME           apikey
-SENDGRID_PASSWORD           YOUR_PASSWORD
-WEB_CONCURRENCY             2
-```
-
-Further settings will be set automatically by add-ons.
-
-## Custom Django Settings
-
-Custom settings that can be in the Django `settings.py` file:
-
-`AKISMET_API_KEY`: To enable checking submitted comments for spam using [Akismet](https://akismet.com) set this to your API key, a string. If `None` then no spam checking is done using Akismet. `None` is the default. By default this is picked up from a `AKISMET_API_KEY` environment variable.
-
-`GOOGLE_ANALYTICS_ID` for Google Analytics.
-
-`MAPBOX_ACCESS_TOKEN`: To access the mapbox.com API
-
-`MAPBOX_MAP_ID` e.g. "mapbox/light-v10"
-
-`HCAPTCHA_SITEKEY` and `HCAPTCHA_SECRET`: To activate the hCaptcha on the sign-up form.
 
 ## Bootstrap
 
