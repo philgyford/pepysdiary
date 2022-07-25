@@ -191,4 +191,9 @@ class Person(AbstractBaseUser, PermissionsMixin):
         """
         ctx_dict = {"activation_key": self.activation_key, "site": site}
 
-        email_user(self, "emails/activation.txt", settings.DEFAULT_FROM_EMAIL, ctx_dict)
+        email_user(
+            self,
+            "membership/emails/activation.txt",
+            settings.DEFAULT_FROM_EMAIL,
+            ctx_dict,
+        )

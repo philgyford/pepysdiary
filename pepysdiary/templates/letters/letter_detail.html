@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "common/layouts/base.html" %}
 {% load static %}
 
 {% block letter_nav_active %}active{% endblock %}
@@ -38,9 +38,9 @@
 		{% endif %}
 	</article>
 
-	{% include 'inc/next_previous.html' with next=next_letter previous=previous_letter name='letter' %}
+	{% include 'common/inc/next_previous.html' with next=next_letter previous=previous_letter name='letter' %}
 
-	{% include 'inc/comments.html' with object=letter %}
+	{% include 'common/inc/comments.html' with object=letter %}
 
 {% endblock main_content %}
 

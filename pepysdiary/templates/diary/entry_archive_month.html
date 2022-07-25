@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "common/layouts/base.html" %}
 
 {% block diary_nav_active %}active{% endblock %}
 {% block diary_archive_nav_active %}active{% endblock %}
@@ -7,7 +7,7 @@
 {% block header_title %}Diary entries from {{ month|date:"F" }}&nbsp;{{ month|date:"Y" }}{% endblock %}
 
 {% block main_content %}
-	{% include 'inc/entry_list.html' %}
+	{% include 'diary/inc/entry_list.html' %}
 {% endblock main_content %}
 
 
@@ -36,4 +36,3 @@
     </aside>
 
 {% endblock sidebar_content %}
-

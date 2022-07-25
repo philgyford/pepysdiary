@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "common/layouts/base.html" %}
 
 {% block diary_nav_active %}active disabled{% endblock %}
 {% block diary_home_nav_active %}active disabled{% endblock %}
@@ -11,7 +11,7 @@
 		{% comment %} <p class="lead">A new diary entry appears here at the end of each day.</p> {% endcomment %}
 		<p class="lead">The second read-through of the diary is now complete. Come back on 1st January 2023 for the third.</p>
 
-		{% include 'inc/entry_list.html' with entry_list=entry_list|slice:"7" %}
+		{% include 'diary/inc/entry_list.html' with entry_list=entry_list|slice:"7" %}
 
 		{% if entry_list|length > 7 %}
 			{# I should use `with entry=entry_list|slice:"7:" here, instead of `for`, but can't get it to work... #}

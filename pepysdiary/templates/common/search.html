@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "common/layouts/base.html" %}
 {% load humanize search_tags %}
 
 {% block title %}Search{% if search_string %}: {{ search_string }}{% if page_obj.number > 1 %} (p.{{ page_obj.number }}){% endif %}{% endif %}{% endblock %}}
@@ -71,7 +71,7 @@
   {% endif %}
 
   {% if page_obj.number > 1 %}
-    {% include 'inc/paginator.html' with page_obj=page_obj %}
+    {% include 'common/inc/paginator.html' with page_obj=page_obj %}
   {% endif %}
 
   {% for object in object_list %}
@@ -111,7 +111,7 @@
     </article>
   {% endfor %}
 
-  {% include 'inc/paginator.html' with page_obj=page_obj %}
+  {% include 'common.inc/paginator.html' with page_obj=page_obj %}
 
 {% endblock main_content %}
 
@@ -146,4 +146,3 @@
   </aside>
 
 {% endblock sidebar_content %}
-

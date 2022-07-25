@@ -64,7 +64,7 @@ class ActivateViewTestCase(TestCase):
         response = self.client.get("/account/activate/123456abcdef/")
 
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.template_name[0], "message.html")
+        self.assertEqual(response.template_name[0], "membership/message.html")
         self.assertIn(
             "Sorry, registration isn’t allowed at the moment.",
             response.content.decode(),
@@ -101,7 +101,7 @@ class ActivateViewTestCase(TestCase):
         person.refresh_from_db()
 
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.template_name[0], "message.html")
+        self.assertEqual(response.template_name[0], "membership/message.html")
         self.assertFalse(person.is_active)
 
 
@@ -112,7 +112,7 @@ class ActivateCompleteView(LoginTestCase):
 
     def test_template(self):
         response = self.client.get("/account/activate/complete/")
-        self.assertEqual(response.template_name[0], "message.html")
+        self.assertEqual(response.template_name[0], "membership/message.html")
 
     def test_redirects_if_user_is_logged_in(self):
         self.log_user_in()
@@ -220,7 +220,7 @@ class LoginViewTestCase(LoginTestCase):
 
     def test_template(self):
         response = self.client.get("/account/login/")
-        self.assertEqual(response.template_name[0], "login.html")
+        self.assertEqual(response.template_name[0], "membership/login.html")
 
     def test_redirects_if_user_is_logged_in(self):
         self.log_user_in()
@@ -293,7 +293,7 @@ class LogoutViewTestCase(LoginTestCase):
 
     def test_template(self):
         response = self.client.get("/account/logout/")
-        self.assertEqual(response.template_name[0], "message.html")
+        self.assertEqual(response.template_name[0], "membership/message.html")
 
     def test_logs_user_out(self):
         "It should log the user out."
@@ -314,7 +314,7 @@ class MessageViewTestCase(ViewTestCase):
 
     def test_template(self):
         response = views.MessageView.as_view()(self.request)
-        self.assertEqual(response.template_name[0], "message.html")
+        self.assertEqual(response.template_name[0], "membership/message.html")
 
 
 class PasswordResetViewTestCase(TestCase):
@@ -324,7 +324,7 @@ class PasswordResetViewTestCase(TestCase):
 
     def test_template(self):
         response = self.client.get("/account/password/reset/")
-        self.assertEqual(response.template_name[0], "password_reset.html")
+        self.assertEqual(response.template_name[0], "membership/password_reset.html")
 
     def test_form_success(self):
         "It should redirect and an email should be sent to the email address"
@@ -375,7 +375,7 @@ class PassworResetDoneViewTestCase(ViewTestCase):
 
     def test_template(self):
         response = views.PasswordResetDoneView.as_view()(self.request)
-        self.assertEqual(response.template_name[0], "message.html")
+        self.assertEqual(response.template_name[0], "membership/message.html")
 
 
 class PasswordResetConfirmViewTestCase(TestCase):
@@ -395,7 +395,7 @@ class PasswordResetConfirmViewTestCase(TestCase):
         "On the actual password form page, we should use the correct template"
         person = PersonFactory()
         response = self.client.get(make_password_reset_form_url(person))
-        self.assertEqual(response.template_name[0], "password_confirm.html")
+        self.assertEqual(response.template_name[0], "membership/password_confirm.html")
 
 
 class PasswordResetCompleteTestCase(ViewTestCase):
@@ -405,7 +405,7 @@ class PasswordResetCompleteTestCase(ViewTestCase):
 
     def test_template(self):
         response = views.PasswordResetCompleteView.as_view()(self.request)
-        self.assertEqual(response.template_name[0], "message.html")
+        self.assertEqual(response.template_name[0], "membership/message.html")
 
 
 class PrivateProfileViewTestCase(LoginTestCase):
@@ -576,7 +576,7 @@ class RegisterViewTestCase(LoginTestCase):
 
     def test_template(self):
         response = self.client.get("/account/register/")
-        self.assertEqual(response.template_name[0], "register.html")
+        self.assertEqual(response.template_name[0], "membership/register.html")
 
     def test_redirects_if_user_is_logged_in(self):
         self.log_user_in()
@@ -818,7 +818,7 @@ class RegisterCompleteViewTestCase(LoginTestCase):
 
     def test_template(self):
         response = self.client.get("/account/register/complete/")
-        self.assertEqual(response.template_name[0], "message.html")
+        self.assertEqual(response.template_name[0], "membership/message.html")
 
     def test_redirects_if_user_is_logged_in(self):
         self.log_user_in()

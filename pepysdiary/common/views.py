@@ -65,7 +65,7 @@ class PaginatedListView(ListView):
 class HomeView(TemplateView):
     """Front page of the whole site."""
 
-    template_name = "home.html"
+    template_name = "common/home.html"
 
     def get_context_data(self, **kwargs):
         context = super(HomeView, self).get_context_data(**kwargs)
@@ -105,7 +105,7 @@ class GoogleSearchView(TemplateView):
     results via JavaScript.
     """
 
-    template_name = "search_google.html"
+    template_name = "common/search_google.html"
 
 
 class SearchView(PaginatedListView):
@@ -135,7 +135,7 @@ class SearchView(PaginatedListView):
             * 'az': Title ascending
     """
 
-    template_name = "search.html"
+    template_name = "common/search.html"
     allow_empty = True
 
     # Will be set when we set self.model.
@@ -247,7 +247,7 @@ class RecentView(CacheMixin, TemplateView):
     """Recent Activity page."""
 
     cache_timeout = 60 * 5
-    template_name = "recent.html"
+    template_name = "common/recent.html"
 
 
 # ALL THE REDIRECT VIEWS:

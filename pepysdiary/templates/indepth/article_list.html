@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "common/layouts/base.html" %}
 
 {% block indepth_nav_active %}active{% endblock %}
 {% block indepth_index_nav_active %}active{% endblock %}
@@ -12,15 +12,15 @@
 
 	<hr />
 
-	{% include 'inc/articles.html' %}
+	{% include 'indepth/inc/articles.html' %}
 
-	{% include 'inc/paginator.html' %}
+	{% include 'common/inc/paginator.html' %}
 
 {% endblock main_content %}
 
 
 {% block sidebar_content %}
 
-	{% include 'inc/indepth_category_nav.html' %}
+	{% include 'indepth/inc/indepth_category_nav.html' %}
 
 {% endblock sidebar_content %}

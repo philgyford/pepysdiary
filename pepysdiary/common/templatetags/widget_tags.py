@@ -13,17 +13,17 @@ register = template.Library()
 # Things that appear in the sidebar or footer on several pages.
 
 
-@register.inclusion_tag("widgets/twitter_and_email.html")
+@register.inclusion_tag("common/widgets/twitter_and_email.html")
 def twitter_and_email():
     return {}
 
 
-@register.inclusion_tag("widgets/credit.html")
+@register.inclusion_tag("common/widgets/credit.html")
 def credit():
     return {}
 
 
-@register.inclusion_tag("widgets/rss_feeds.html")
+@register.inclusion_tag("common/widgets/rss_feeds.html")
 def rss_feeds(*args):
     """
     Display a list of links to RSS feeds. Use something like:
@@ -84,7 +84,7 @@ def rss_feeds(*args):
     return {"feeds": feeds}
 
 
-@register.inclusion_tag("widgets/recent_list.html", takes_context=True)
+@register.inclusion_tag("common/widgets/recent_list.html", takes_context=True)
 def latest_posts(context, quantity=5):
     """
     Displays links to the most recent Site News Posts.
@@ -99,7 +99,7 @@ def latest_posts(context, quantity=5):
     }
 
 
-@register.inclusion_tag("widgets/recent_list.html", takes_context=True)
+@register.inclusion_tag("common/widgets/recent_list.html", takes_context=True)
 def latest_articles(context, quantity=5):
     """
     Displays links to the most recent In-Depth Articles.
@@ -115,7 +115,7 @@ def latest_articles(context, quantity=5):
     }
 
 
-@register.inclusion_tag("widgets/recent_list.html", takes_context=True)
+@register.inclusion_tag("common/widgets/recent_list.html", takes_context=True)
 def latest_topics(context, quantity=5):
     """Displays links to the most recent Encyclopedia Topics"""
     topic_list = Topic.objects.order_by("-date_created").only("title", "date_created")[
@@ -128,7 +128,7 @@ def latest_topics(context, quantity=5):
     }
 
 
-@register.inclusion_tag("widgets/all_articles.html", takes_context=True)
+@register.inclusion_tag("common/widgets/all_articles.html", takes_context=True)
 def all_articles(context, exclude_id=None):
     """
     Displays links to all the In-Depth Articles.
@@ -190,7 +190,7 @@ def summary_year_navigation(current_year):
     return mark_safe('<div class="list-group">%s</div>' % html)
 
 
-@register.inclusion_tag("widgets/family_tree_link.html")
+@register.inclusion_tag("common/widgets/family_tree_link.html")
 def family_tree_link(topic=None):
     """
     Displays a thumbnail of the family tree and a link to it.
@@ -205,7 +205,7 @@ def family_tree_link(topic=None):
     return {"link_text": link_text}
 
 
-@register.inclusion_tag("widgets/pepys_wealth_link.html")
+@register.inclusion_tag("common/widgets/pepys_wealth_link.html")
 def pepys_wealth_link():
     """
     Displays a thumbnail of the Pepys' Wealth chart and a link to it.
@@ -215,7 +215,7 @@ def pepys_wealth_link():
     return {"link_url": link_url, "link_text": link_text}
 
 
-@register.inclusion_tag("widgets/category_map_link.html")
+@register.inclusion_tag("common/widgets/category_map_link.html")
 def category_map_link(category_id=None):
     """
     Displays a thumbnail of the category map and a link to it.
@@ -238,7 +238,7 @@ def admin_link_change(url):
     )
 
 
-@register.inclusion_tag("widgets/detailed_topics.html")
+@register.inclusion_tag("common/widgets/detailed_topics.html")
 def detailed_topics():
     topics = (
         (150, "Elizabeth Pepys"),

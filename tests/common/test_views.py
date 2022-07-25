@@ -30,7 +30,7 @@ class HomeViewTestCase(ViewTestCase):
 
     def test_template(self):
         response = views.HomeView.as_view()(self.request)
-        self.assertEqual(response.template_name[0], "home.html")
+        self.assertEqual(response.template_name[0], "common/home.html")
 
     @freeze_time("2021-04-10 12:00:00", tz_offset=0)
     @override_settings(YEARS_OFFSET=353)
@@ -114,7 +114,7 @@ class GoogleSearchViewTestCase(ViewTestCase):
 
     def test_template(self):
         response = views.GoogleSearchView.as_view()(self.request)
-        self.assertEqual(response.template_name[0], "search_google.html")
+        self.assertEqual(response.template_name[0], "common/search_google.html")
 
 
 class SearchViewTestCase(ViewTransactionTestCase):
@@ -124,7 +124,7 @@ class SearchViewTestCase(ViewTransactionTestCase):
 
     def test_template(self):
         response = views.SearchView.as_view()(self.request)
-        self.assertEqual(response.template_name[0], "search.html")
+        self.assertEqual(response.template_name[0], "common/search.html")
 
     def test_articles(self):
         "It should return matching published Articles"
@@ -375,7 +375,7 @@ class RecentViewTestCase(ViewTestCase):
 
     def test_template(self):
         response = views.RecentView.as_view()(self.request)
-        self.assertEqual(response.template_name[0], "recent.html")
+        self.assertEqual(response.template_name[0], "common/recent.html")
 
 
 # No tests for the RedirectViews here because we fully test the URLs

@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "common/layouts/base.html" %}
 
 {% block letter_nav_active %}active{% endblock %}
 {% block letters_index_nav_active %}active{% endblock %}
@@ -10,7 +10,7 @@
 
 	<p class="lead">Letters sent by or to Samuel Pepys.</p>
 
-	{% include 'inc/letter_list.html' with letter_list=letters %}
+	{% include 'letters/inc/letter_list.html' with letter_list=letters %}
 
 {% endblock main_content %}
 

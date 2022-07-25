@@ -20,7 +20,7 @@ class EncyclopediaViewTestCase(ViewTestCase):
 
     def test_template(self):
         response = views.EncyclopediaView.as_view()(self.request)
-        self.assertEqual(response.template_name[0], "category_list.html")
+        self.assertEqual(response.template_name[0], "encyclopedia/category_list.html")
 
     def test_context_data(self):
         cat_1 = Category.add_root(title="Animals")
@@ -212,7 +212,7 @@ class CategoryMapViewTestCase(ViewTestCase):
 
         response = views.CategoryMapView.as_view()(self.request, category_id=cat.pk)
 
-        self.assertEqual(response.template_name[0], "category_map.html")
+        self.assertEqual(response.template_name[0], "encyclopedia/category_map.html")
 
     @patch("pepysdiary.encyclopedia.managers.CategoryManager.valid_map_category_ids")
     @patch("pepysdiary.encyclopedia.managers.TopicManager.pepys_homes_ids")

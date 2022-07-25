@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "common/layouts/base.html" %}
 
 {% block diary_nav_active %}active{% endblock %}
 {% block diary_archive_nav_active %}active{% endblock %}
@@ -24,11 +24,11 @@
 
 {% block main_content %}
 
-	{% include 'inc/entry.html' with entry=entry %}
+	{% include 'diary/inc/entry.html' with entry=entry %}
 
-	{% include 'inc/next_previous.html' with next=next_entry previous=previous_entry name='entry' %}
+	{% include 'common/inc/next_previous.html' with next=next_entry previous=previous_entry name='entry' %}
 
-	{% include 'inc/comments.html' with object=entry %}
+	{% include 'common/inc/comments.html' with object=entry %}
 
 {% endblock main_content %}
 

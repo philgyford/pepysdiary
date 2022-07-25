@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "common/layouts/base.html" %}
 
 {% block news_nav_active %}active{% endblock %}
 
@@ -7,15 +7,15 @@
 
 {% block main_content %}
 
-	{% include 'inc/posts.html' %}
+	{% include 'news/inc/posts.html' %}
 
-	{% include 'inc/paginator.html' %}
+	{% include 'common/inc/paginator.html' %}
 
 {% endblock main_content %}
 
 
 {% block sidebar_content %}
 
-	{% include 'inc/news_category_nav.html' %}
+	{% include 'news/inc/news_category_nav.html' %}
 
 {% endblock sidebar_content %}

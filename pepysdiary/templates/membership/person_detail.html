@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "common/layouts/base.html" %}
 
 {% load humanize text_formatting_filters %}
 
@@ -88,12 +88,12 @@
         <p><strong>The most recent first…</strong></p>
       {% endif %}
     {% else %}
-      {% include 'inc/paginator.html' %}
+      {% include 'common/inc/paginator.html' %}
     {% endif %}
 
 		{% include "comments/list.html" with show_object_titles=True only_comments=True show_section_title=False %}
 
-	  {% include 'inc/paginator.html' %}
+	  {% include 'common/inc/paginator.html' %}
 	{% endif %}
 
 {% endblock main_content %}

@@ -29,7 +29,7 @@ class MessageView(TemplateView):
     attributes seems nicer.
     """
 
-    template_name = "message.html"
+    template_name = "membership/message.html"
     title = "Message"
     message = ""
 
@@ -114,7 +114,7 @@ class EditProfileView(LoginRequiredMixin, UpdateView):
 @method_decorator(sensitive_post_parameters("password"), name="dispatch")
 class LoginView(auth_views.LoginView):
     authentication_form = forms.LoginForm
-    template_name = "login.html"
+    template_name = "membership/login.html"
 
     def get(self, request, *args, **kwargs):
         if request.user.is_authenticated:
@@ -130,7 +130,7 @@ class LoginView(auth_views.LoginView):
 
 
 class LogoutView(auth_views.LogoutView):
-    template_name = "message.html"
+    template_name = "membership/message.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -147,16 +147,16 @@ class PasswordResetView(auth_views.PasswordResetView):
     but no email is sent.
     """
 
-    email_template_name = "emails/password_reset.txt"
+    email_template_name = "membership/emails/password_reset.txt"
     form_class = forms.PasswordResetForm
     success_url = reverse_lazy("password_reset_done")
-    template_name = "password_reset.html"
+    template_name = "membership/password_reset.html"
 
 
 class PasswordResetDoneView(auth_views.PasswordResetDoneView):
     "The page after submitting their email address to receive a reminder."
 
-    template_name = "message.html"
+    template_name = "membership/message.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -173,13 +173,13 @@ class PasswordResetConfirmView(auth_views.PasswordResetConfirmView):
 
     form_class = forms.SetPasswordForm
     success_url = reverse_lazy("password_reset_complete")
-    template_name = "password_confirm.html"
+    template_name = "membership/password_confirm.html"
 
 
 class PasswordResetCompleteView(auth_views.PasswordResetCompleteView):
     "The page the user is redirected to after successfully changing their email address"
 
-    template_name = "message.html"
+    template_name = "membership/message.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -243,7 +243,7 @@ class PrivateProfileView(LoginRequiredMixin, ProfileView):
     name="dispatch",
 )
 class RegisterView(FormView):
-    template_name = "register.html"
+    template_name = "membership/register.html"
     form_class = forms.RegistrationForm
 
     def get(self, request, *args, **kwargs):

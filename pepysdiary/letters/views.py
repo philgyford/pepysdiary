@@ -67,7 +67,7 @@ class LetterPersonView(SingleObjectMixin, ListView):
     Just needs the pk of a Topic in the People Category.
     """
 
-    template_name = "letter_person.html"
+    template_name = "letters/letter_person.html"
     allow_empty = False
 
     def get(self, request, *args, **kwargs):
@@ -99,7 +99,7 @@ class LetterPersonView(SingleObjectMixin, ListView):
 
 
 class LetterArchiveView(TemplateView):
-    template_name = "letter_list.html"
+    template_name = "letters/letter_list.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

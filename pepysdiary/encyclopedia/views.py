@@ -19,7 +19,7 @@ DEFAULT_MAP_CATEGORY_ID = 28
 
 class EncyclopediaView(CacheMixin, TemplateView):
     cache_timeout = 60 * 60
-    template_name = "category_list.html"
+    template_name = "encyclopedia/category_list.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -91,7 +91,7 @@ class CategoryMapView(FormView):
     """
 
     form_class = CategoryMapForm
-    template_name = "category_map.html"
+    template_name = "encyclopedia/category_map.html"
 
     # Will be a Category object.
     category = None

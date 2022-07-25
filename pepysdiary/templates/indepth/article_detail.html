@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "common/layouts/base.html" %}
 {% load text_formatting_filters %}
 
 {% block indepth_nav_active %}active{% endblock %}
@@ -48,15 +48,15 @@
 		{{ article.text_html|smartypants|safe }}
 	</article>
 
-	{% include 'inc/next_previous.html' with next=next_article previous=previous_article %}
+	{% include 'common/inc/next_previous.html' with next=next_article previous=previous_article %}
 
-	{% include 'inc/comments.html' with object=article %}
+	{% include 'common/inc/comments.html' with object=article %}
 
 {% endblock main_content %}
 
 
 {% block sidebar_content %}
 
-	{% include 'inc/indepth_category_nav.html' with category_slug=article.category %}
+	{% include 'indepth/inc/indepth_category_nav.html' with category_slug=article.category %}
 
 {% endblock sidebar_content %}

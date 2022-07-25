@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "common/layouts/base.html" %}
 {% load text_formatting_filters %}
 
 {% block news_nav_active %}active{% endblock %}
@@ -29,15 +29,15 @@
 		{% endif %}
 	</article>
 
-	{% include 'inc/next_previous.html' with next=next_post previous=previous_post %}
+	{% include 'common/inc/next_previous.html' with next=next_post previous=previous_post %}
 
-	{% include 'inc/comments.html' with object=post %}
+	{% include 'common/inc/comments.html' with object=post %}
 
 {% endblock main_content %}
 
 
 {% block sidebar_content %}
 
-	{% include 'inc/news_category_nav.html' with category_slug=post.category %}
+	{% include 'news/inc/news_category_nav.html' with category_slug=post.category %}
 
 {% endblock sidebar_content %}

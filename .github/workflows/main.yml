@@ -49,14 +49,6 @@ jobs:
           ALLOWED_HOSTS: "*"
           DATABASE_URL: "postgres://postgres:postgres@localhost:${{ job.services.postgres.ports[5432] }}/postgres"
           DJANGO_SECRET_KEY: "fake-secret-key-for-tests"
-          DJANGO_SETTINGS_MODULE: pepysdiary.settings.tests
-          AWS_ACCESS_KEY_ID: ""
-          AWS_SECRET_ACCESS_KEY: ""
-          AWS_STORAGE_BUCKET_NAME: ""
-          MAPBOX_MAP_ID: ""
-          MAPBOX_ACCESS_TOKEN: ""
-          HCAPTCHA_SITEKEY: ""
-          HCAPTCHA_SECRET: ""
 
       - name: Upload Coverage to Codecov
         uses: codecov/codecov-action@v2

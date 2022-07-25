@@ -115,7 +115,7 @@ class LetterPersonViewTestCase(ViewTransactionTestCase):
         person = PersonTopicFactory()
         LetterFactory(sender=person)
         response = views.LetterPersonView.as_view()(self.request, pk=person.pk)
-        self.assertEqual(response.template_name[0], "letter_person.html")
+        self.assertEqual(response.template_name[0], "letters/letter_person.html")
 
     def test_response_404_no_topic(self):
         "If the person/topic doesn't exist, we 404"
@@ -173,7 +173,7 @@ class LetterArchiveViewTestCase(ViewTestCase):
 
     def test_template(self):
         response = views.LetterArchiveView.as_view()(self.request)
-        self.assertEqual(response.template_name[0], "letter_list.html")
+        self.assertEqual(response.template_name[0], "letters/letter_list.html")
 
     def test_context_data_letters(self):
         "The letters should be in the context data"

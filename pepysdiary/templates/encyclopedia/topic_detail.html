@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "common/layouts/base.html" %}
 {% load text_formatting_filters %}
 {% load humanize %}
 {% load include_tags %}
@@ -33,7 +33,7 @@
 
 {% block breadcrumbs %}
 	{% for category in topic.categories.all %}
-		{% include 'inc/category_breadcrumb.html' with link_final_item="true" %}
+		{% include 'encyclopedia/inc/category_breadcrumb.html' with link_final_item="true" %}
 	{% endfor %}
 {% endblock breadcrumbs %}
 
@@ -178,7 +178,7 @@
 			{% endif %}
 
 			<section class="tab-pane{% if not topic.latitude and not topic.summary_html and not topic.wikipedia_fragment and not topic.wheatley_html %} active{% endif %}" id="discussion">
-				{% include 'inc/comments.html' with object=topic show_section_title=False %}
+				{% include 'common/inc/comments.html' with object=topic show_section_title=False %}
 			</section>
 
 			{% if diary_references %}

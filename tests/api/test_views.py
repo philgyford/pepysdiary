@@ -3,6 +3,7 @@ from decimal import Decimal
 import json
 
 from django.contrib.sites.models import Site
+from django.test import override_settings
 from django.urls import reverse
 from freezegun import freeze_time
 from rest_framework.test import APITestCase
@@ -180,15 +181,13 @@ class CategoryListViewTestCase(SiteAPITestCase):
         )
 
     def test_response_pagination(self):
-        """Pagination-related results should be correct.
-        Assuming we've set REST_FRAMEWORK["PAGE_SIZE"] = 5 in test settings.
-        """
+        """Pagination-related results should be correct."""
         site = Site.objects.first()
         site.domain = "example.com"
         site.save()
         parent_cat = Category.add_root(title="Animals", slug="animals")
         child_cats = []
-        for n in range(0, 10):
+        for n in range(1, 101):
             child_cats.append(
                 parent_cat.add_child(title=f"Title {n}", slug=f"slug-{n}")
             )
@@ -196,7 +195,7 @@ class CategoryListViewTestCase(SiteAPITestCase):
         url = reverse("api:category-list", kwargs={"format": "json"})
         response = self.client.get(url + "?page=2", SERVER_NAME="example.com")
 
-        self.assertEqual(response.data["totalResults"], 11)
+        self.assertEqual(response.data["totalResults"], 101)
         self.assertEqual(response.data["totalPages"], 3)
         self.assertEqual(
             response.data["nextPageURL"],
@@ -206,7 +205,7 @@ class CategoryListViewTestCase(SiteAPITestCase):
             response.data["previousPageURL"],
             f"http://example.com{url}",
         )
-        self.assertEqual(len(response.data["results"]), 5)
+        self.assertEqual(len(response.data["results"]), 50)
 
 
 class CategoryDetailViewTestCase(SiteAPITestCase):
@@ -304,16 +303,16 @@ class EntryListViewTestCase(SiteAPITestCase):
         )
 
     def test_response_pagination(self):
-        """Pagination-related results should be correct.
-        Assuming we've set REST_FRAMEWORK["PAGE_SIZE"] = 5 in test settings.
-        """
-        for n in range(1, 12):
-            EntryFactory(diary_date=make_date(f"1660-01-{n:02}"))
+        """Pagination-related results should be correct."""
+        # Enough entries for three pages of results:
+        for m in range(1, 5):
+            for d in range(1, 27):
+                EntryFactory(diary_date=make_date(f"1660-{m:02}-{d:02}"))
 
         url = reverse("api:entry-list", kwargs={"format": "json"})
         response = self.client.get(url + "?page=2", SERVER_NAME="example.com")
 
-        self.assertEqual(response.data["totalResults"], 11)
+        self.assertEqual(response.data["totalResults"], 104)
         self.assertEqual(response.data["totalPages"], 3)
         self.assertEqual(
             response.data["nextPageURL"],
@@ -323,7 +322,7 @@ class EntryListViewTestCase(SiteAPITestCase):
             response.data["previousPageURL"],
             f"http://example.com{url}",
         )
-        self.assertEqual(len(response.data["results"]), 5)
+        self.assertEqual(len(response.data["results"]), 50)
 
     def test_reponse_with_start_date(self):
         EntryFactory(diary_date=make_date("1660-01-01"))
@@ -559,17 +558,15 @@ class TopicListViewTestCase(SiteAPITestCase):
         )
 
     def test_response_pagination(self):
-        """Pagination-related results should be correct.
-        Assuming we've set REST_FRAMEWORK["PAGE_SIZE"] = 5 in test settings.
-        """
+        """Pagination-related results should be correct."""
         cat = Category.add_root(title="Animals", slug="animals")
-        for n in range(0, 11):
+        for n in range(1, 102):
             TopicFactory(categories=[cat])
 
         url = reverse("api:topic-list", kwargs={"format": "json"})
         response = self.client.get(url + "?page=2", SERVER_NAME="example.com")
 
-        self.assertEqual(response.data["totalResults"], 11)
+        self.assertEqual(response.data["totalResults"], 101)
         self.assertEqual(response.data["totalPages"], 3)
         self.assertEqual(
             response.data["nextPageURL"],
@@ -579,7 +576,7 @@ class TopicListViewTestCase(SiteAPITestCase):
             response.data["previousPageURL"],
             f"http://example.com{url}",
         )
-        self.assertEqual(len(response.data["results"]), 5)
+        self.assertEqual(len(response.data["results"]), 50)
 
 
 class TopicDetailViewTestCase(SiteAPITestCase):
