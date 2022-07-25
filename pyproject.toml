@@ -7,7 +7,7 @@ omit = ["*/migrations/*"]
 
 [tool.coverage.run]
 branch = true
-include = ["hines/*"]
+include = ["pepysdiary/*"]
 omit = ["*/migrations/*.py"]
 
 [tool.isort]
