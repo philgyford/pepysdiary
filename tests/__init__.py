@@ -1,6 +1,7 @@
 from xml.dom import minidom
 
 from django.contrib.sites.models import Site
+from django.core.cache import cache
 from django.test import RequestFactory, TestCase, TransactionTestCase
 
 
@@ -19,6 +20,7 @@ class FeedTestCase(TestCase):
         site = Site.objects.first()
         site.domain = "example.com"
         site.save()
+        cache.clear()
 
     def get_feed_element(self, url):
         response = self.client.get(url)

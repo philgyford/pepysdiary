@@ -3,6 +3,7 @@ from collections import OrderedDict
 from decimal import Decimal
 
 from django.contrib.sites.models import Site
+from django.core.cache import cache
 from django.urls import reverse
 from freezegun import freeze_time
 from rest_framework.test import APITestCase
@@ -27,6 +28,7 @@ class SiteAPITestCase(APITestCase):
         site = Site.objects.first()
         site.domain = "example.com"
         site.save()
+        cache.clear()
 
 
 class APIRootViewTestCase(SiteAPITestCase):

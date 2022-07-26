@@ -1,4 +1,5 @@
 from django.contrib.sites.models import Site
+from django.core.cache import cache
 from django.test import TestCase
 
 from pepysdiary.common.utilities import make_date, make_datetime
@@ -18,6 +19,7 @@ class SitemapsTestCase(TestCase):
         site = Site.objects.first()
         site.domain = "example.com"
         site.save()
+        cache.clear()
 
     def test_overall_sitemap_response(self):
         response = self.client.get("/sitemap.xml")

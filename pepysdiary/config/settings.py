@@ -265,6 +265,7 @@ elif PEPYS_CACHE == "dummy":
             "BACKEND": "django.core.cache.backends.dummy.DummyCache",
         }
     }
+# else use the default in-memory caching
 
 
 if os.getenv("SENDGRID_USERNAME", default=""):
