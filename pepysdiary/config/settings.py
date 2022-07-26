@@ -88,18 +88,7 @@ ROOT_URLCONF = "pepysdiary.common.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [
-            "pepysdiary/templates",
-            # "treebeard/templates/",
-            # os.path.join(BASE_DIR, "templates"),
-            # os.path.join(BASE_DIR, "templates", "common"),
-            # os.path.join(BASE_DIR, "templates", "diary"),
-            # os.path.join(BASE_DIR, "templates", "encyclopedia"),
-            # os.path.join(BASE_DIR, "templates", "indepth"),
-            # os.path.join(BASE_DIR, "templates", "letters"),
-            # os.path.join(BASE_DIR, "templates", "news"),
-            # os.path.join(BASE_DIR, "templates", "membership"),
-        ],
+        "DIRS": ["pepysdiary/templates"],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
