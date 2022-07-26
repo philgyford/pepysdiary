@@ -49,6 +49,7 @@ jobs:
           ALLOWED_HOSTS: "*"
           DATABASE_URL: "postgres://postgres:postgres@localhost:${{ job.services.postgres.ports[5432] }}/postgres"
           DJANGO_SECRET_KEY: "fake-secret-key-for-tests"
+          MEDIA_ROOT: "${GITHUB_WORKSPACE}/tests/_media"
 
       - name: Upload Coverage to Codecov
         uses: codecov/codecov-action@v2
