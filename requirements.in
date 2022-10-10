@@ -27,7 +27,7 @@ uritemplate
 whitenoise
 
 # Dev
-black==22.8.0
+black==22.10.0
 coverage[toml]
 django-debug-toolbar
 django-extensions
