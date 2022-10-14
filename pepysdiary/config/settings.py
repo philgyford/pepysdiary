@@ -376,4 +376,7 @@ PEOPLE_CATEGORY_ID = 2
 # treatment, so we store its ID here:
 PEPYS_TOPIC_ID = 29
 
-PEPYS_MEMBERSHIP_BLACKLISTED_DOMAINS = []
+PEPYS_MEMBERSHIP_BLACKLISTED_DOMAINS = [
+    "bukhariansiddur.com",
+    "spacehotline.com",
+]
