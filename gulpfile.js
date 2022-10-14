@@ -54,7 +54,10 @@ var PATHS = {
     jsFiles: STATIC_DIR + "/common/js/**/*.js",
   },
   templates: {
-    files: [TEMPLATES_DIR + "/common/base.html", TEMPLATES_DIR + "/500.html"],
+    files: [
+      TEMPLATES_DIR + "/common/layouts/base.html",
+      TEMPLATES_DIR + "/500.html",
+    ],
   },
 };
 
