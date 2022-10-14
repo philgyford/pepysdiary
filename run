@@ -62,13 +62,13 @@ function coverage {
 
 function sp {
   # Run the shell_plus command from django-extensions
-  cmd python manage.py shell_plus
+  manage shell_plus
 }
 
 
 function shell {
   # Start a Shell session in the web container
-  cmd sh "${@}"
+  cmd bash "${@}"
 }
 
 
