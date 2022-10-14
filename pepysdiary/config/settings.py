@@ -375,3 +375,5 @@ PEOPLE_CATEGORY_ID = 2
 # We have a Topic for Samuel Pepys, which occasionally needs special
 # treatment, so we store its ID here:
 PEPYS_TOPIC_ID = 29
+
+PEPYS_MEMBERSHIP_BLACKLISTED_DOMAINS = []

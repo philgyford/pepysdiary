@@ -1,4 +1,4 @@
-# coding: utf-8
+from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -256,13 +256,22 @@ class RegisterView(FormView):
         return reverse("register_complete")
 
     def form_valid(self, form):
-        Person.objects.create_inactive_user(
-            name=form.cleaned_data["name"],
-            password=form.cleaned_data["password1"],
-            email=form.cleaned_data["email"],
-            url=form.cleaned_data["url"],
-            site=get_current_site(self.request),
-        )
+        """
+        Create the user unless their email domain is blacklisted.
+        In that case we do everything as usual except create the user.
+        No error message or anything.
+        """
+        email = form.cleaned_data["email"]
+        bad_domains = settings.PEPYS_MEMBERSHIP_BLACKLISTED_DOMAINS
+        if email.split("@")[1] not in bad_domains:
+            Person.objects.create_inactive_user(
+                name=form.cleaned_data["name"],
+                password=form.cleaned_data["password1"],
+                email=email,
+                url=form.cleaned_data["url"],
+                site=get_current_site(self.request),
+            )
+
         return super().form_valid(form)
 
 

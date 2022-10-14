@@ -8,7 +8,7 @@ from django.contrib.messages import get_messages
 from django.contrib.sites.models import Site
 from django.core import mail
 from django.http.response import Http404
-from django.test import TestCase
+from django.test import TestCase, override_settings
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode
 from freezegun import freeze_time
@@ -809,6 +809,23 @@ class RegisterViewTestCase(LoginTestCase):
                 f"{name.strip()} contains invalid characters or formatting",
                 str(errors["name"][0].message),
             )
+
+    @override_settings(PEPYS_MEMBERSHIP_BLACKLISTED_DOMAINS=["example.com"])
+    def test_blacklisted_domains(self):
+        "It should silently fail to create the user, as if it worked"
+
+        data = {
+            "name": "Bob",
+            "password1": "my-password-123",
+            "password2": "my-password-123",
+            "email": "bob@example.com",
+            "url": "https://example.com",
+            "honeypot": "",
+        }
+        response = self.client.post("/account/register/", data)
+
+        self.assertEqual(Person.objects.count(), 0)
+        self.assertRedirects(response, "/account/register/complete/")
 
 
 class RegisterCompleteViewTestCase(LoginTestCase):
