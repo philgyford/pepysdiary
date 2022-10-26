@@ -573,9 +573,9 @@ requests==2.28.1 \
     #   -r requirements.in
     #   coreapi
     #   responses
-responses==0.21.0 \
-    --hash=sha256:2dcc863ba63963c0c3d9ee3fa9507cbe36b7d7b0fccb4f0bdfd9e96c539b1487 \
-    --hash=sha256:b82502eb5f09a0289d8e209e7bad71ef3978334f56d09b444253d5ad67bf5253
+responses==0.22.0 \
+    --hash=sha256:396acb2a13d25297789a5866b4881cf4e46ffd49cc26c43ab1117f40b973102e \
+    --hash=sha256:dcf294d204d14c436fddcc74caefdbc5764795a40ff4e6a7740ed8ddbf3294be
     # via -r requirements.in
 rich==12.6.0 \
     --hash=sha256:a4eb26484f2c82589bd9a17c73d32a010b1e29d89f1604cd9bf3a2097b81bb5e \
@@ -613,6 +613,10 @@ stack-data==0.3.0 \
     --hash=sha256:77bec1402dcd0987e9022326473fdbcc767304892a533ed8c29888dacb7dddbc \
     --hash=sha256:aa1d52d14d09c7a9a12bb740e6bdfffe0f5e8f4f9218d85e7c73a8c37f7ae38d
     # via ipython
+toml==0.10.2 \
+    --hash=sha256:806143ae5bfb6a3c6e736a764057db0e6a0e05e338b5630894a5f779cabb4f9b \
+    --hash=sha256:b3bda1d108d5dd99f4a20d24d9c348e91c4db7ab1b749200bded2f839ccbe68f
+    # via responses
 tomli==2.0.1 \
     --hash=sha256:939de3e7a6161af0c887ef91b7d41a53e7c5a1ca976325f429cb46ea9bc30ecc \
     --hash=sha256:de526c12914f0c550d15924c62d72abc48d6fe7364aa87328337a31007fe8a4f
@@ -625,6 +629,10 @@ traitlets==5.3.0 \
     # via
     #   ipython
     #   matplotlib-inline
+types-toml==0.10.8 \
+    --hash=sha256:8300fd093e5829eb9c1fba69cee38130347d4b74ddf32d0a7df650ae55c2b599 \
+    --hash=sha256:b7e7ea572308b1030dc86c3ba825c5210814c2825612ec679eb7814f8dd9295a
+    # via responses
 uritemplate==4.1.1 \
     --hash=sha256:4346edfc5c3b79f694bccd6d6099a322bbeb628dbf2cd86eea55a456ce5124f0 \
     --hash=sha256:830c08b8d99bdd312ea4ead05994a38e8936266f84b9a7878232db50b044e02e
