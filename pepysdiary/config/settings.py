@@ -378,5 +378,7 @@ PEPYS_TOPIC_ID = 29
 
 PEPYS_MEMBERSHIP_BLACKLISTED_DOMAINS = [
     "bukhariansiddur.com",
+    "leaderssk.com",
+    "passedil.com",
     "spacehotline.com",
 ]
