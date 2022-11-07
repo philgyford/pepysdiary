@@ -64,7 +64,7 @@ def email_list(to_list, template_path, from_address, context_dict):
 
     nodes = dict(
         (n.name, n)
-        for n in loader.get_template(template_path).template
+        for n in loader.get_template(template_path).template.nodelist
         if n.__class__.__name__ == "BlockNode"
     )
 
