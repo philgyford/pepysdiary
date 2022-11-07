@@ -204,6 +204,7 @@ if PEPYS_USE_HTTPS:
     SECURE_HSTS_PRELOAD = True
 
 
+# Some tips: https://www.reddit.com/r/django/comments/x2h6cq/whats_your_logging_setup/
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
@@ -216,28 +217,28 @@ LOGGING = {
         },
     },
     "formatters": {
-        "rich": {"datefmt": "[%X]"},
+        "superverbose": {
+            "format": "%(levelname)s %(asctime)s %(module)s:%(lineno)d %(process)d %(thread)d %(message)s"  # noqa: E501
+        },
+        "verbose": {
+            "format": "%(levelname)s %(asctime)s %(module)s:%(lineno)d %(message)s"
+        },
+        "simple": {"format": "%(levelname)s %(message)s"},
     },
     "handlers": {
         "console": {
-            "class": "rich.logging.RichHandler",
-            "filters": ["require_debug_true"],
-            "formatter": "rich",
-            "level": "DEBUG",
-            "rich_tracebacks": True,
-            "tracebacks_show_locals": True,
+            "class": "logging.StreamHandler",
+            # "filters": ["require_debug_true"],
+            "formatter": "verbose",
         },
     },
     "loggers": {
         "django": {
-            "handlers": [],
+            "handlers": ["console"],
             "level": os.getenv("PEPYS_LOG_LEVEL", default="INFO"),
         },
     },
-    "root": {
-        "handlers": ["console"],
-        "level": os.getenv("PEPYS_LOG_LEVEL", default="INFO"),
-    },
+    # "root": {"handlers": ["console"], "level": "INFO"},
 }
 
 
