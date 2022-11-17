@@ -36,3 +36,4 @@ freezegun
 ipython
 isort
 responses
+tblib  # For tracebacks when running tests in parallel
