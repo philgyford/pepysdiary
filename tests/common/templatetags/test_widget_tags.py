@@ -29,7 +29,7 @@ class TwitterAndEmailTestCase(TestCase):
             '<p>Follow in real time <a href="http://twitter.com/samuelpepys" '
             'title="@samuelpepys">on&nbsp;Twitter</a> or '
             '<a href="https://mastodon.social/@samuelpepys" '
-            'title="@samuelpepys@mastodon.social">on&nbsp;Mastodon</a></p>',
+            'title="@samuelpepys@mastodon.social" rel="me">on&nbsp;Mastodon</a></p>',
             rendered_template,
         )
 
