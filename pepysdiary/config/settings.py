@@ -379,7 +379,14 @@ PEPYS_TOPIC_ID = 29
 
 PEPYS_MEMBERSHIP_BLACKLISTED_DOMAINS = [
     "bukhariansiddur.com",
+    "hbviralbv.com",
+    "karenkey.com",
+    "lanceuq.com",
     "leaderssk.com",
     "passedil.com",
+    "rapidlyws.com",
     "spacehotline.com",
+    "ustudentli.com",
+    "vsmethodu.com",
+    "vtqreplaced.com",
 ]
