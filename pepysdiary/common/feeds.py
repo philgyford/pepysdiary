@@ -75,4 +75,11 @@ class BaseRSSFeed(Feed):
             )
         )
 
-        return " ".join(parts)
+        html = " ".join(parts)
+
+        # Newlines between HTML tags screw things up when an RSS feed item
+        # is used as HTML content for an email. So we'll remove them all,
+        # given this is HTML and newlines shouldn't affect any appearance.
+        html = html.replace("\n", "").replace("\r", "")
+
+        return html
