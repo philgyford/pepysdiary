@@ -1,4 +1,5 @@
 import os
+from datetime import datetime, timezone
 from pathlib import Path
 
 import dj_database_url
@@ -376,6 +377,14 @@ PEOPLE_CATEGORY_ID = 2
 # We have a Topic for Samuel Pepys, which occasionally needs special
 # treatment, so we store its ID here:
 PEPYS_TOPIC_ID = 29
+
+# When did each 'reading' of the diary begin?
+# Used to mark which annotations belong to which reading.
+PEPYS_READING_DATETIMES = [
+    datetime(2002, 12, 26, 0, 0, 0, tzinfo=timezone.utc),
+    datetime(2013, 1, 1, 0, 0, 0, tzinfo=timezone.utc),
+    datetime(2023, 1, 1, 0, 0, 0, tzinfo=timezone.utc),
+]
 
 PEPYS_MEMBERSHIP_BLACKLISTED_DOMAINS = [
     "bukhariansiddur.com",

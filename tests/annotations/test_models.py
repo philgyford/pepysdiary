@@ -1,3 +1,6 @@
+from datetime import datetime, timezone
+
+from django.conf import settings
 from django.contrib.contenttypes.models import ContentType
 from django.test import TestCase
 
@@ -245,6 +248,34 @@ class AnnotationTestCase(TestCase):
         person.refresh_from_db()
 
         self.assertEqual(person.first_comment_date, annotation.submit_date)
+
+    def test_reading_1(self):
+        "Should return 1 for an annotation posted during reading 1"
+        annotation = EntryAnnotationFactory(
+            submit_date=datetime(2002, 12, 26, 12, 0, 0, tzinfo=timezone.utc)
+        )
+        self.assertEqual(annotation.reading, 1)
+
+    def test_reading_2(self):
+        "Should return 1 for an annotation posted during reading 2"
+        annotation = EntryAnnotationFactory(
+            submit_date=datetime(2013, 1, 1, 1, 0, 0, tzinfo=timezone.utc)
+        )
+        self.assertEqual(annotation.reading, 2)
+
+    def test_reading_3(self):
+        "Should return 1 for an annotation posted during reading 3"
+        annotation = EntryAnnotationFactory(
+            submit_date=datetime(2023, 1, 1, 1, 0, 0, tzinfo=timezone.utc)
+        )
+        self.assertEqual(annotation.reading, 3)
+
+    def test_reading_unknown(self):
+        "Should return the biggest reading num for an annotation posted way beyond it"
+        annotation = EntryAnnotationFactory(
+            submit_date=datetime(2100, 1, 1, 1, 0, 0, tzinfo=timezone.utc)
+        )
+        self.assertEqual(annotation.reading, len(settings.PEPYS_READING_DATETIMES))
 
     def test_get_user_name(self):
         "It should return the user_name"

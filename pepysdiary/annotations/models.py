@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.postgres.indexes import GinIndex
 from django.contrib.postgres.search import SearchVectorField
@@ -48,6 +49,19 @@ class Annotation(CommentAbstractModel):
         super(Annotation, self).save(*args, **kwargs)
         self.set_parent_comment_data()
         self._set_user_first_comment_date()
+
+    @property
+    def reading(self):
+        """
+        Returns an integer indicating which reading this was posted during.
+        From 1 to 3 (so far).
+        """
+        reading = len(settings.PEPYS_READING_DATETIMES)
+        for dt in reversed(sorted(settings.PEPYS_READING_DATETIMES)):
+            if self.submit_date >= dt:
+                return reading
+            reading -= 1
+        return reading
 
     def index_components(self):
         """Used by common.signals.on_save() to update the SearchVector on
