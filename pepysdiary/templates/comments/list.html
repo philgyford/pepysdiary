@@ -33,13 +33,16 @@ NOTE: The listings in templatetags/list_tags.py for the Recent Activity page
 		{% endif %}
 	</h1>
   	{% for comment in comment_list %}
+
+      {% ifchanged %}<h2 class="comments-reading">Reading {{ comment.reading }}</h2>{% endifchanged %}
+
 	    <article id="c{{ comment.id }}" class="media newable" data-time="{{ comment.submit_date|date:'U' }}">
     		<span class="newflag pull-left" aria-hidden="true">✹</span>
 	    	<div {% if forloop.last %} id="latest"{% endif %}class="media-body">
 	    		{% if show_object_titles %}
 	    			<p>About <a href="{{ comment.content_object.get_absolute_url }}"><strong>{{ comment.content_object.title }}</strong></a></p>
 	    		{% endif %}
-				<h2 class="media-heading">
+				<h3 class="media-heading">
 					<span class="comment-name">
 						{% if comment.user %}
 							<a href="{{ comment.user.get_absolute_url }}" title="See more about this person">{{ comment.get_user_name }}</a>
@@ -61,7 +64,7 @@ NOTE: The listings in templatetags/list_tags.py for the Recent Activity page
 							{% endif %}
 						</small>
 					</small>
-				</h2>
+				</h3>
 		        {{ comment.comment|urlizetrunc:50|linebreaks }}
 		    </div>
 		</article>

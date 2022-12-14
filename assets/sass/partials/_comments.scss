@@ -68,6 +68,13 @@
   font-weight: bold;
 }
 
+.comments-reading {
+  padding: 0 0 6px 30px;
+  border-bottom: 1px solid $hr-border;
+  font-size: $font-size-base;
+  font-weight: bold;
+}
+
 .newflag {
   font-size: $font-size-large;
   line-height: $headings-line-height;
