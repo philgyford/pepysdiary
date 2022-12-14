@@ -51,20 +51,20 @@ class BaseRSSFeed(Feed):
         else:
             return " ".join(text[: length + 1].split(" ")[0:-1]) + "..."
 
-    def make_item_content_encoded(self, text1, text2, url, comment_name):
+    def make_item_content_encoded(self, texts, url, comment_name):
         """
         Called from item_content_encoded() in children.
-        text1 and text2 are chunks of HTML text (or empty strings).
-        url is the URL of the item (no domain needed, eg '/diary/1666/10/31/').
-        comment_name is one of 'comment' or 'annotation'.
+
+        Arguments:
+        - texts - chunks of HTML text (or empty strings).
+        - url - the URL of the item (no domain needed, eg '/diary/1666/10/31/').
+        - comment_name - one of 'comment' or 'annotation'.
         """
         parts = []
 
-        if text1 != "":
-            parts.append(force_str(smartypants.smartypants(text1)))
-
-        if text2 != "":
-            parts.append(force_str(smartypants.smartypants(text2)))
+        for text in texts:
+            if text != "":
+                parts.append(force_str(smartypants.smartypants(text)))
 
         parts.append(
             '<p><strong><a href="%s#%ss">Read the %ss</a></strong></p>'

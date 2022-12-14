@@ -22,9 +22,9 @@ class LatestEntriesFeed(BaseRSSFeed):
         footnotes = ""
         if item.footnotes:
             footnotes = "<p><strong>Footnotes</strong></p>%s" % item.footnotes
+
         return self.make_item_content_encoded(
-            text1=item.text,
-            text2=footnotes,
+            texts=[item.text, footnotes],
             url=item.get_absolute_url(),
             comment_name=item.comment_name,
         )

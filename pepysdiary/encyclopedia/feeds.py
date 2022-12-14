@@ -34,8 +34,7 @@ class LatestTopicsFeed(BaseRSSFeed):
             text1 = f"<p>{item.tooltip_text}</p>"
 
         return self.make_item_content_encoded(
-            text1=text1,
-            text2=item.wheatley_html,
+            texts=[text1, item.wheatley_html],
             url=item.get_absolute_url(),
             comment_name=item.comment_name,
         )

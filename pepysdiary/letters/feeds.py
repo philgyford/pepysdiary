@@ -18,8 +18,7 @@ class LatestLettersFeed(BaseRSSFeed):
 
     def item_content_encoded(self, item):
         return self.make_item_content_encoded(
-            text1=item.text,
-            text2=item.footnotes,
+            texts=[item.text, item.footnotes],
             url=item.get_absolute_url(),
             comment_name=item.comment_name,
         )
