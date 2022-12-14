@@ -110,6 +110,20 @@ class Entry(PepysModel, OldDateMixin):
 
         return short_title
 
+    @property
+    def text_for_rss(self):
+        """
+        Returns self.text but with the links to footnotes removed
+        """
+        return re.sub(r'<a href="#fn[^"]*?">(\d+)</a>', "\\1", self.text)
+
+    @property
+    def footnotes_for_rss(self):
+        """
+        Returns self.footnotes but with the return links removed.
+        """
+        return re.sub(r'<a href="#fnr[^"]*?">&#8617;</a>', "", self.footnotes)
+
     def _make_references(self):
         """
         Sets all the Encyclopedia Topics the text of this entry (and footnotes)

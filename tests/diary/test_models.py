@@ -104,6 +104,38 @@ class EntryTestCase(TestCase):
         )
         self.assertEqual(entry.short_title, "Sat 29 Feb 1667/68")
 
+    def test_text_for_rss(self):
+        "It should remove the links to footnotes, leaving other links as is"
+        text = """<p>Blessed be God <sup id="fnr1-1660-01-01"><a href="#fn1-1660-01-01">1</a></sup></p>
+
+<p>I lived in <a href="http://www.pepysdiary.com/foo/">Axe Yard</a> having <sup id="fnr2-1660-01-01"><a href="#fn2-1660-01-01">2</a></sup> The condition of the State was thus</p>"""  # noqa: E501
+
+        entry = EntryFactory(text=text)
+        self.assertEqual(
+            entry.text_for_rss,
+            """<p>Blessed be God <sup id="fnr1-1660-01-01">1</sup></p>
+
+<p>I lived in <a href="http://www.pepysdiary.com/foo/">Axe Yard</a> having <sup id="fnr2-1660-01-01">2</sup> The condition of the State was thus</p>""",  # noqa: E501
+        )
+
+    def test_footnotes_for_rss(self):
+        "It should remove the return links from footnotes, leaving other links as is"
+        footnotes = """<ol>
+<li id="fn1-1660-01-01">Pepys was successfully cut for <a href="http://www.pepysdiary.com/foo/">the stone</a> on. <a href="#fnr1-1660-01-01">&#8617;</a></li>
+
+<li id="fn2-1660-01-01">This is the first. <a href="#fnr2-1660-01-01">&#8617;</a></li>
+"""  # noqa: E501
+
+        entry = EntryFactory(footnotes=footnotes)
+        self.assertEqual(
+            entry.footnotes_for_rss,
+            """<ol>
+<li id="fn1-1660-01-01">Pepys was successfully cut for <a href="http://www.pepysdiary.com/foo/">the stone</a> on. </li>
+
+<li id="fn2-1660-01-01">This is the first. </li>
+""",  # noqa: E501
+        )
+
     def test_get_a_comment_name(self):
         "It should retun the correct string"
         entry = EntryFactory()
