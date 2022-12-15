@@ -22,6 +22,10 @@ DEBUG = os.getenv("DEBUG", default="False") == "True"
 ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS").split(",")
 
 
+ADMINS = [("Phil Gyford", "phil@gyford.com")]
+
+MANAGERS = ADMINS
+
 INSTALLED_APPS = [
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -29,7 +33,6 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.sites",
     "django.contrib.messages",
-    "whitenoise.runserver_nostatic",
     "django.contrib.staticfiles",
     "django.contrib.admin",
     "django.contrib.sitemaps",
@@ -61,8 +64,6 @@ MIDDLEWARE = [
     # * LocaleMiddleware (adds Accept-Language)
     # Should go near top of the list:
     "django.middleware.security.SecurityMiddleware",
-    # Above all other middleware apart from Django's SecurityMiddleware:
-    "whitenoise.middleware.WhiteNoiseMiddleware",
     # Must be before those that modify the `Vary` header:
     "django.middleware.cache.UpdateCacheMiddleware",
     # Before any middleware that may change or use the response body:
@@ -109,13 +110,8 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "pepysdiary.config.wsgi.application"
 
+
 DATABASES = {"default": dj_database_url.config(conn_max_age=500)}
-
-
-CACHE_MIDDLEWARE_ALIAS = "default"
-# Also see the CACHES setting in the server-specific settings files.
-CACHE_MIDDLEWARE_SECONDS = 500
-CACHE_MIDDLEWARE_KEY_PREFIX = "pepys"
 
 
 # Password validation
@@ -154,7 +150,7 @@ USE_L10N = True
 USE_TZ = True
 
 
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+STATICFILES_STORAGE = "django.contrib.staticfiles.storage.StaticFilesStorage"
 
 STATIC_ROOT = BASE_DIR / "pepysdiary" / "static_collected"
 
@@ -241,6 +237,12 @@ LOGGING = {
     },
     # "root": {"handlers": ["console"], "level": "INFO"},
 }
+
+
+CACHE_MIDDLEWARE_ALIAS = "default"
+# Also see the CACHES setting in the server-specific settings files.
+CACHE_MIDDLEWARE_SECONDS = 500
+CACHE_MIDDLEWARE_KEY_PREFIX = "pepys"
 
 
 PEPYS_CACHE = os.getenv("PEPYS_CACHE", default="memory")

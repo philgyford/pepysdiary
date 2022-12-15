@@ -23,7 +23,6 @@ responses
 sentry-sdk
 smartypants
 uritemplate
-whitenoise
 
 # Dev
 black
