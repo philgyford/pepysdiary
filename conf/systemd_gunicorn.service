@@ -1,0 +1,15 @@
+# Should be symlinked to /etc/systemd/system/gunicorn_pepys.service
+
+[Unit]
+Description=gunicorn pepys daemon
+Requires=gunicorn_pepys.socket
+After=network.target
+
+[Service]
+User=phil
+Group=phil
+WorkingDirectory=/webapps/pepys/code
+ExecStart=/bin/bash /webapps/pepys/code/bin/gunicorn_start.sh
+
+[Install]
+WantedBy=multi-user.target

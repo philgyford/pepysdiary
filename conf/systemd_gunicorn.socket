@@ -1,0 +1,10 @@
+# Should be symlinked to /etc/systemd/system/gunicorn_pepys.socket
+
+[Unit]
+Description=gunicorn pepys socket
+
+[Socket]
+ListenStream=/webapps/pepys/run/gunicorn.sock
+
+[Install]
+WantedBy=sockets.target
