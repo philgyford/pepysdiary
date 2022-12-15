@@ -21,7 +21,6 @@ from pepysdiary.common.views import (
     RecentView,
     SearchView,
     SummaryYearRedirectView,
-    up,
 )
 
 admin.autodiscover()
@@ -32,7 +31,7 @@ urlpatterns = []
 
 # Redirects from old Movable Type URLs to new ones.
 urlpatterns += [
-    path("up/", up, name="up"),
+    path("up/", include("pepysdiary.up.urls")),
     path(
         "favicon.ico",
         RedirectView.as_view(

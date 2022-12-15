@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     "pepysdiary.events",
     "django_comments",
     "pepysdiary.annotations",
+    "pepysdiary.up",
 ]
 
 
