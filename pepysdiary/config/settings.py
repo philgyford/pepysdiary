@@ -126,9 +126,6 @@ AUTH_PASSWORD_VALIDATORS = [
     {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"},
 ]
 
-SITE_ID = 1
-
-AUTH_USER_MODEL = "membership.Person"
 
 LOGIN_REDIRECT_URL = "home"
 LOGIN_URL = "login"
@@ -185,6 +182,13 @@ if os.getenv("PEPYS_USE_AWS_FOR_MEDIA", default="False") == "True":
     MEDIA_URL = f"https://{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com{MEDIA_URL}"
 
 
+SITE_ID = 1
+
+AUTH_USER_MODEL = "membership.Person"
+
+# Monday:
+FIRST_DAY_OF_WEEK = 1
+
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 
@@ -230,6 +234,12 @@ LOGGING = {
         },
     },
     "loggers": {
+        "commands": {
+            # For management commands and tasks where we specify the "commands" logger
+            "handlers": ["console"],
+            "propagate": True,
+            "level": os.getenv("PEPYS_LOG_LEVEL", default="INFO"),
+        },
         "django": {
             "handlers": ["console"],
             "level": os.getenv("PEPYS_LOG_LEVEL", default="INFO"),
@@ -239,37 +249,36 @@ LOGGING = {
 }
 
 
-CACHE_MIDDLEWARE_ALIAS = "default"
-# Also see the CACHES setting in the server-specific settings files.
-CACHE_MIDDLEWARE_SECONDS = 500
-CACHE_MIDDLEWARE_KEY_PREFIX = "pepys"
+PEPYS_CACHE_TYPE = os.getenv("PEPYS_CACHE_TYPE", default="dummy")
+REDIS_URL = os.getenv("REDIS_URL", "")
 
-
-PEPYS_CACHE = os.getenv("PEPYS_CACHE", default="memory")
-
-if PEPYS_CACHE == "redis":
-    # Use the TLS URL if set, otherwise, use the non-TLS one:
-    REDIS_URL = os.getenv("REDIS_TLS_URL", default=os.getenv("REDIS_URL", default=""))
-    if REDIS_URL != "":
-        CACHES = {
-            "default": {
-                "BACKEND": "django_redis.cache.RedisCache",
-                "LOCATION": REDIS_URL,
-                "OPTIONS": {"CLIENT_CLASS": "django_redis.client.DefaultClient"},
-            }
+if PEPYS_CACHE_TYPE == "memory":
+    # Use in-memory caching
+    CACHES = {
+        "default": {
+            "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
+            "LOCATION": "PEPYS",
         }
-        if os.getenv("REDIS_TLS_URL", default=""):
-            CACHES["default"]["OPTIONS"]["CONNECTION_POOL_KWARGS"] = {
-                "ssl_cert_reqs": None
-            }
+    }
 
-elif PEPYS_CACHE == "dummy":
+elif PEPYS_CACHE_TYPE == "redis" and REDIS_URL:
+    CACHES = {
+        "default": {
+            "BACKEND": "django.core.cache.backends.redis.RedisCache",
+            "LOCATION": REDIS_URL,
+        }
+    }
+
+else:
+    # Use dummy cache (ie, no caching)
     CACHES = {
         "default": {
             "BACKEND": "django.core.cache.backends.dummy.DummyCache",
         }
     }
-# else use the default in-memory caching
+
+# Seconds before expiring a cached item. None for never expiring.
+CACHES["default"]["TIMEOUT"] = 300
 
 
 if os.getenv("SENDGRID_USERNAME", default=""):
@@ -301,9 +310,11 @@ if DEBUG:
     EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
 
-####################################################################
-# THIRD-PARTY APPS
+########################################################################################
+# THIRD-PARTY APP SETTINGS
 
+
+# django-rest-framework ################################################
 
 REST_FRAMEWORK = {
     "ALLOWED_VERSIONS": ["v1"],
@@ -327,20 +338,13 @@ REST_FRAMEWORK = {
     "URL_FORMAT_OVERRIDE": None,
 }
 
+# hcaptcha #############################################################
 
 HCAPTCHA_SITEKEY = os.getenv("HCAPTCHA_SITEKEY", default="")
 HCAPTCHA_SECRET = os.getenv("HCAPTCHA_SECRET", default="")
 
-MAPBOX_MAP_ID = os.getenv("MAPBOX_MAP_ID", default="")
-MAPBOX_ACCESS_TOKEN = os.getenv("MAPBOX_ACCESS_TOKEN", default="")
 
-PEPYS_GOOGLE_ANALYTICS_ID = os.getenv("PEPYS_GOOGLE_ANALYTICS_ID", default="")
-
-# From http://akismet.com/
-PEPYS_AKISMET_API_KEY = os.getenv("PEPYS_AKISMET_API_KEY", default="")
-
-
-# Sentry
+# sentry-sdk ###########################################################
 # https://devcenter.heroku.com/articles/sentry#integrating-with-python-or-django
 
 SENTRY_DSN = os.getenv("SENTRY_DSN", default="")
@@ -349,15 +353,25 @@ if SENTRY_DSN:
     sentry_sdk.init(
         dsn=SENTRY_DSN,
         integrations=[DjangoIntegration()],
-        release=os.getenv("HEROKU_SLUG_COMMIT", ""),
     )
 
+# END THIRD-PARTY APP SETTINGS
+########################################################################################
 
-####################################################################
-# PEPYSDIARY SPECIFIC
+########################################################################################
+# PEPYSDIARY SPECIFIC SETTINGS
+
+PEPYS_GOOGLE_ANALYTICS_ID = os.getenv("PEPYS_GOOGLE_ANALYTICS_ID", default="")
+
+# From http://akismet.com/
+PEPYS_AKISMET_API_KEY = os.getenv("PEPYS_AKISMET_API_KEY", default="")
+
+MAPBOX_MAP_ID = os.getenv("MAPBOX_MAP_ID", default="")
+MAPBOX_ACCESS_TOKEN = os.getenv("MAPBOX_ACCESS_TOKEN", default="")
 
 # For messages we send to users.
 DEFAULT_FROM_EMAIL = "do-not-reply@pepysdiary.com"
+
 # For error messages.
 SERVER_EMAIL = "do-not-reply@pepysdiary.com"
 
@@ -401,3 +415,6 @@ PEPYS_MEMBERSHIP_BLACKLISTED_DOMAINS = [
     "vsmethodu.com",
     "vtqreplaced.com",
 ]
+
+# END PEPYSDIARY SPECIFIC SETTINGS
+########################################################################################
