@@ -85,7 +85,7 @@ MIDDLEWARE = [
     "django.middleware.cache.FetchFromCacheMiddleware",
 ]
 
-ROOT_URLCONF = "pepysdiary.common.urls"
+ROOT_URLCONF = "pepysdiary.config.urls"
 
 
 TEMPLATES = [
