@@ -21,6 +21,7 @@ pyyaml
 requests
 responses
 sentry-sdk
+setproctitle
 smartypants
 uritemplate
 
