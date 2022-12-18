@@ -122,13 +122,15 @@ class LatestEntriesFeedTestCase(FeedTestCase):
 
         items = channel.getElementsByTagName("item")
 
+        # self.maxDiff = None
         self.assertChildNodeContent(
             items[0],
             {
                 "content:encoded": (
                     "<p>Description 6</p> "
                     "<p><strong>Footnotes</strong></p>"
-                    "<ol><li>Footnote 6</li></ol> "
+                    "<aside><ol><li>Footnote 6</li></ol>"
+                    "</aside> "
                     "<p><strong>"
                     '<a href="http://example.com/diary/1668/04/06/#annotations">'
                     "Read the annotations</a>"
