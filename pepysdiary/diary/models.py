@@ -120,9 +120,14 @@ class Entry(PepysModel, OldDateMixin):
     @property
     def footnotes_for_rss(self):
         """
-        Returns self.footnotes but with the return links removed.
+        Returns self.footnotes but with the return links removed, wrapped
+        in <aside> tags.
         """
-        return re.sub(r'<a href="#fnr[^"]*?">&#8617;</a>', "", self.footnotes)
+        if self.footnotes:
+            footnotes = re.sub(r'<a href="#fnr[^"]*?">&#8617;</a>', "", self.footnotes)
+            return f"<aside>{footnotes}</aside>"
+        else:
+            return ""
 
     def _make_references(self):
         """

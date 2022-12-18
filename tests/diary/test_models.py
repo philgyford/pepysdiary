@@ -111,7 +111,7 @@ class EntryTestCase(TestCase):
 <p>I lived in <a href="http://www.pepysdiary.com/foo/">Axe Yard</a> having <sup id="fnr2-1660-01-01"><a href="#fn2-1660-01-01">2</a></sup> The condition of the State was thus</p>"""  # noqa: E501
 
         entry = EntryFactory(text=text)
-        self.assertEqual(
+        self.assertHTMLEqual(
             entry.text_for_rss,
             """<p>Blessed be God <sup id="fnr1-1660-01-01">1</sup></p>
 
@@ -124,15 +124,19 @@ class EntryTestCase(TestCase):
 <li id="fn1-1660-01-01">Pepys was successfully cut for <a href="http://www.pepysdiary.com/foo/">the stone</a> on. <a href="#fnr1-1660-01-01">&#8617;</a></li>
 
 <li id="fn2-1660-01-01">This is the first. <a href="#fnr2-1660-01-01">&#8617;</a></li>
+</ol>
 """  # noqa: E501
 
         entry = EntryFactory(footnotes=footnotes)
-        self.assertEqual(
+        self.assertHTMLEqual(
             entry.footnotes_for_rss,
-            """<ol>
+            """<aside>
+<ol>
 <li id="fn1-1660-01-01">Pepys was successfully cut for <a href="http://www.pepysdiary.com/foo/">the stone</a> on. </li>
 
 <li id="fn2-1660-01-01">This is the first. </li>
+</ol>
+</aside>
 """,  # noqa: E501
         )
 
