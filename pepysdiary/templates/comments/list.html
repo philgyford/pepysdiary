@@ -18,6 +18,7 @@ NOTE: The listings in templatetags/list_tags.py for the Recent Activity page
 	  and the preview in teamplates/inc/comment_form.html
       use similar HTML.
 {% endcomment %}
+{% load utility_filters %}
 
 <section id="{% if object and object.comment_name %}{{ object.comment_name }}{% else %}comment{% endif %}s" class="media-list comments">
 	<h1 class="comments-title{% if show_section_title == False %} sr-only{% endif %}">
@@ -34,7 +35,7 @@ NOTE: The listings in templatetags/list_tags.py for the Recent Activity page
 	</h1>
   	{% for comment in comment_list %}
 
-      {% ifchanged %}<h2 class="comments-reading">Reading {{ comment.reading }}</h2>{% endifchanged %}
+      {% ifchanged %}<h2 class="comments-reading">{{ comment.reading|ordinal_word|title }} Reading</h2>{% endifchanged %}
 
 	    <article id="c{{ comment.id }}" class="media newable" data-time="{{ comment.submit_date|date:'U' }}">
     		<span class="newflag pull-left" aria-hidden="true">✹</span>
