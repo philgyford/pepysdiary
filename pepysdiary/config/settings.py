@@ -388,6 +388,7 @@ PEPYS_READING_DATETIMES = [
 
 PEPYS_MEMBERSHIP_BLACKLISTED_DOMAINS = [
     "bukhariansiddur.com",
+    "ctopicsbh.com",
     "densebpoqq.com",
     "hbviralbv.com",
     "karenkey.com",
