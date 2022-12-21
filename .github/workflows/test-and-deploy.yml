@@ -28,7 +28,7 @@ jobs:
           username: ${{ secrets.DEPLOY_USERNAME }}
           key: ${{ secrets.DEPLOY_KEY }}
           script: |
-            cd /webapps/hines/code
+            cd /webapps/pepys/code
             git checkout .
             git pull
             source venv/bin/activate
