@@ -1,24 +1,20 @@
 name: test
 
 on:
-  # Triggers the workflow on push or pull request events but only for the main branch
-  push:
-    branches:
-      - main
   pull_request:
     branches:
       - main
-
-  # Stop any existing tests in same group and stop them before starting this:
-  concurrency:
-    group: ci-tests-${{ github.ref }}-1
-    cancel-in-progress: true
 
   # Allow calling this workflow from others:
   workflow_call:
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
+
+# Stop any existing tests in same group and stop them before starting this:
+concurrency:
+  group: ci-${{ github.ref }}-1
+  cancel-in-progress: true
 
 jobs:
   build:
