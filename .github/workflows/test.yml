@@ -11,13 +11,14 @@ on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
-# Stop any existing tests in same group and stop them before starting this:
 concurrency:
-  group: ci-${{ github.ref }}-1
-  cancel-in-progress: true
+  # Skip intermediate builds: always.
+  # Cancel intermediate builds: only if it is a pull request build.
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ startsWith(github.ref, 'refs/pull/') }}
 
 jobs:
-  build:
+  build-and-test:
     runs-on: ubuntu-latest
 
     services:
