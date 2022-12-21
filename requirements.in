@@ -21,9 +21,9 @@ pyyaml
 requests
 responses
 sentry-sdk
+setproctitle
 smartypants
 uritemplate
-whitenoise
 
 # Dev
 black

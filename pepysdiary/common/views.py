@@ -1,7 +1,5 @@
 from django.contrib.postgres.search import SearchQuery, SearchRank
-from django.db import connection
 from django.db.models import F
-from django.http import HttpResponse
 from django.urls import reverse
 from django.views.decorators.cache import cache_page
 from django.views.generic import ListView, RedirectView
@@ -82,22 +80,6 @@ class HomeView(TemplateView):
         )
 
         return context
-
-
-def up(request):
-    """
-    Healthcheck page, for testing the site is up.
-
-    Could also do:
-
-        from redis import Redis
-
-    and then:
-
-        redis.ping()
-    """
-    connection.ensure_connection()
-    return HttpResponse("")
 
 
 class GoogleSearchView(TemplateView):
