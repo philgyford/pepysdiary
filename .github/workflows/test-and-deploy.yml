@@ -16,7 +16,7 @@ concurrency:
 jobs:
   # Run the tests first:
   use-test:
-    uses: philgyford/pepysdiary/.github/workflows/test.yml
+    uses: philgyford/pepysdiary/.github/workflows/test.yml@main
 
   deploy:
     needs: use-test
