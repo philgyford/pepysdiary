@@ -9,7 +9,7 @@
 {% block main_content %}
 	{% if entry_list %}
 		{% comment %} <p class="lead">A new diary entry appears here at the end of each day.</p> {% endcomment %}
-		<p class="lead">The second read-through of the diary is now complete. Come back on 1st January 2023 for the third.</p>
+		<p class="lead">The third reading of the diary begins on 1st January 2023.</p>
 
 		{% include 'diary/inc/entry_list.html' with entry_list=entry_list|slice:"7" %}
 
