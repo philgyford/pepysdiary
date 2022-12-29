@@ -366,7 +366,9 @@ if SENTRY_DSN:
 ########################################################################################
 # PEPYSDIARY SPECIFIC SETTINGS
 
-PEPYS_GOOGLE_ANALYTICS_ID = os.getenv("PEPYS_GOOGLE_ANALYTICS_ID", default="")
+PEPYS_CLOUDFLARE_ANALYTICS_TOKEN = os.getenv(
+    "PEPYS_CLOUDFLARE_ANALYTICS_TOKEN", default=""
+)
 
 # From http://akismet.com/
 PEPYS_AKISMET_API_KEY = os.getenv("PEPYS_AKISMET_API_KEY", default="")

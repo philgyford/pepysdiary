@@ -53,19 +53,19 @@ class APIKeysTestCase(RequestTestCase):
         context = api_keys(self.request)
         self.assertNotIn("MAPBOX_ACCESS_TOKEN", context)
 
-    @override_settings(PEPYS_GOOGLE_ANALYTICS_ID="1234")
-    def test_google_analytics_id(self):
-        "If the PEPYS_GOOGLE_ANALYTICS_ID setting is set, should be returned in context"
+    @override_settings(PEPYS_CLOUDFLARE_ANALYTICS_TOKEN="1234")
+    def test_cloudflare_analytics_token(self):
+        "If the PEPYS_CLOUDFLARE_ANALYTICS_TOKEN setting is set, should be in context"
         context = api_keys(self.request)
-        self.assertIn("PEPYS_GOOGLE_ANALYTICS_ID", context)
-        self.assertEqual(context["PEPYS_GOOGLE_ANALYTICS_ID"], "1234")
+        self.assertIn("PEPYS_CLOUDFLARE_ANALYTICS_TOKEN", context)
+        self.assertEqual(context["PEPYS_CLOUDFLARE_ANALYTICS_TOKEN"], "1234")
 
     @override_settings()
-    def test_google_analytics_id_not_set(self):
-        "If PEPYS_GOOGLE_ANALYTICS_ID setting is not set, key should not be returned"
-        del settings.PEPYS_GOOGLE_ANALYTICS_ID
+    def test_cloudflare_analytics_token_not_set(self):
+        "If PEPYS_CLOUDFLARE_ANALYTICS_ID setting isn't set, shouldn't be in context"
+        del settings.PEPYS_CLOUDFLARE_ANALYTICS_TOKEN
         context = api_keys(self.request)
-        self.assertNotIn("PEPYS_GOOGLE_ANALYTICS_ID", context)
+        self.assertNotIn("PEPYS_CLOUDFLARE_ANALYTICS_TOKEN", context)
 
 
 class ConfigTestCase(RequestTestCase):

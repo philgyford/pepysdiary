@@ -297,15 +297,15 @@
 		});
 	</script>
 
-	{% if PEPYS_GOOGLE_ANALYTICS_ID %}
-	<!-- Google Analytics JS -->
-	<script>
-	    var _gaq=[['_setAccount','{{ PEPYS_GOOGLE_ANALYTICS_ID }}'],['_trackPageview']];
-	    (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
-	    g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
-	    s.parentNode.insertBefore(g,s)}(document,'script'));
-	</script>
-	<!-- End Google Analytics JS -->
-	{% endif %}
+	{% if PEPYS_CLOUDFLARE_ANALYTICS_TOKEN %}
+    <!-- Cloudflare Web Analytics -->
+    <script
+      defer
+      src="https://static.cloudflareinsights.com/beacon.min.js"
+      data-cf-beacon='{"token": "{{ PEPYS_CLOUDFLARE_ANALYTICS_TOKEN }}"}'
+    ></script>
+    <!-- End Cloudflare Web Analytics -->
+  {% endif %}
+
 </body>
 </html>
