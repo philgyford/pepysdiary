@@ -13,13 +13,8 @@ register = template.Library()
 # Things that appear in the sidebar or footer on several pages.
 
 
-@register.inclusion_tag("common/widgets/socials.html")
-def socials():
-    return {}
-
-
-@register.inclusion_tag("common/widgets/discussion_group.html")
-def discussion_group():
+@register.inclusion_tag("common/widgets/credit.html")
+def credit():
     return {}
 
 
@@ -28,8 +23,13 @@ def diary_emails():
     return {}
 
 
-@register.inclusion_tag("common/widgets/credit.html")
-def credit():
+@register.inclusion_tag("common/widgets/discussion_group.html")
+def discussion_group():
+    return {}
+
+
+@register.inclusion_tag("common/widgets/socials.html")
+def socials():
     return {}
 
 
