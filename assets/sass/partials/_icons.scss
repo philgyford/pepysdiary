@@ -13,6 +13,14 @@ ul.icons {
       background-size: 1.1em;
     }
   }
+  > .icon-kofi {
+    a {
+      @include background-svg(kofi, $link-color, "#fff");
+      background-size: 1.4em;
+      background-position: 0 0.3em;
+      padding-left: 30px;
+    }
+  }
   > .icon-mastodon {
     a {
       @include background-svg(mastodon, $link-color, "#fff");

@@ -33,6 +33,11 @@ def socials():
     return {}
 
 
+@register.inclusion_tag("common/widgets/support.html")
+def support():
+    return {}
+
+
 @register.inclusion_tag("common/widgets/rss_feeds.html")
 def rss_feeds(*args):
     """
