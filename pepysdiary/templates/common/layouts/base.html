@@ -244,21 +244,21 @@
 				<div class="row mb-3">
 					{% block site_footer_content %}
 						{% load widget_tags %}
-						<div class="col-sm-3">
+						<div class="col-sm-6 col-md-3">
               {% socials %}
               {% discussion_group %}
 						</div>
 
-						<div class="col-sm-3">
+						<div class="col-sm-6 col-md-3">
               {% diary_emails %}
-						</div>
-
-						<div class="col-sm-3">
-							{% rss_feeds %}
               {% support %}
 						</div>
 
-						<div class="col-sm-3">
+						<div class="col-sm-6 col-md-3">
+							{% rss_feeds %}
+						</div>
+
+						<div class="col-sm-6 col-md-3">
 							{% latest_posts quantity=2 %}
 						</div>
 					{% endblock %}
