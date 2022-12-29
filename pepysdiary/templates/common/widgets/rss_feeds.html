@@ -3,9 +3,9 @@
 {% block widget_title %}RSS feeds{% endblock %}
 
 {% block widget_body %}
-  <ul class="feeds">
+  <ul class="icons">
     {% for feed in feeds %}
-      <li class="feed"><a href="{{ feed.url }}">{{ feed.title }}</a></li>
+      <li class="icon icon-rss"><a href="{{ feed.url }}">{{ feed.title }}</a></li>
     {% endfor %}
   </ul>
 {% endblock %}

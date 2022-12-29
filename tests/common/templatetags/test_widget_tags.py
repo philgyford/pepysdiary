@@ -13,27 +13,6 @@ from pepysdiary.indepth.factories import DraftArticleFactory, PublishedArticleFa
 from pepysdiary.news.factories import DraftPostFactory, PublishedPostFactory
 
 
-class TwitterAndEmailTestCase(TestCase):
-    def test_output(self):
-        "Just check it generates some of the correct HTML."
-        context = Context({})
-        template_to_render = Template("{% load widget_tags %}{% twitter_and_email %}")
-        rendered_template = template_to_render.render(context)
-
-        self.assertInHTML(
-            '<h1 class="aside-title">Email, Twitter &amp;&nbsp;Mastodon</h1>',
-            rendered_template,
-        )
-
-        self.assertInHTML(
-            '<p>Follow in real time <a href="http://twitter.com/samuelpepys" '
-            'title="@samuelpepys">on&nbsp;Twitter</a> or '
-            '<a href="https://mastodon.social/@samuelpepys" '
-            'title="@samuelpepys@mastodon.social" rel="me">on&nbsp;Mastodon</a></p>',
-            rendered_template,
-        )
-
-
 class CreditTestCase(TestCase):
     def test_output(self):
         "Just check it generates some of the correct HTML."
@@ -87,7 +66,7 @@ class RSSFeedsTestCase(TestCase):
         )
 
         self.assertInHTML(
-            '<ul class="feeds"><li class="feed"><a href="https://feeds.feedburner.com/PepysDiary">Diary entries</a></li></ul>',  # noqa: E501
+            '<ul class="icons"><li class="icon icon-rss"><a href="https://feeds.feedburner.com/PepysDiary">Diary entries</a></li></ul>',  # noqa: E501
             rendered_template,
         )
 
@@ -102,7 +81,7 @@ class RSSFeedsTestCase(TestCase):
             rendered_template,
         )
 
-        self.assertInHTML('<ul class="feeds"></ul>', rendered_template)
+        self.assertInHTML('<ul class="icons"></ul>', rendered_template)
 
 
 class LatestPostsTestCase(TestCase):

@@ -13,3 +13,35 @@
     padding-left: 25px;
   }
 }
+
+ul.icons {
+  list-style-type: none;
+  padding-left: 0;
+
+  > .icon {
+    margin-bottom: 0.5em;
+
+    a {
+      display: inline-block;
+      padding-left: 25px;
+      background-position: 0 0.1em;
+      background-repeat: no-repeat;
+      background-size: 1.1em;
+    }
+  }
+  > .icon-mastodon {
+    a {
+      @include background-svg(mastodon, $link-color, "#fff");
+    }
+  }
+  > .icon-twitter {
+    a {
+      @include background-svg(twitter, $link-color);
+    }
+  }
+  > .icon-rss {
+    a {
+      @include background-svg(rss, $link-color, "#fff");
+    }
+  }
+}

@@ -13,8 +13,18 @@ register = template.Library()
 # Things that appear in the sidebar or footer on several pages.
 
 
-@register.inclusion_tag("common/widgets/twitter_and_email.html")
-def twitter_and_email():
+@register.inclusion_tag("common/widgets/socials.html")
+def socials():
+    return {}
+
+
+@register.inclusion_tag("common/widgets/discussion_group.html")
+def discussion_group():
+    return {}
+
+
+@register.inclusion_tag("common/widgets/diary_emails.html")
+def diary_emails():
     return {}
 
 

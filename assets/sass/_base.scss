@@ -5,6 +5,8 @@
 /* Set up Boostrap. */
 @import "bootstrap_custom";
 
+@import "_functions";
+@import "_svgs";
 @import "_variables";
 
 @import "mixins/all";

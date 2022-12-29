@@ -38,7 +38,11 @@
 
 	{% latest_articles quantity=2 %}
 
-	{% twitter_and_email %}
+	{% socials %}
+
+	{% diary_emails %}
+
+	{% discussion_group %}
 
 	{% rss_feeds %}
 
@@ -46,9 +50,4 @@
 
 
 {% block site_footer_content %}
-	{% load widget_tags %}
-
-	<div class="col-sm-12 asides-flatten">
-		{% credit %}
-	</div>
 {% endblock %}

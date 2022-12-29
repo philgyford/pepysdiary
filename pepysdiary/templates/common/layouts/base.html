@@ -10,7 +10,7 @@
 	{% endblock extra_css %}
 
 	<!-- inject:css -->
-	<link rel="stylesheet" href="/static/common/css/site-8cbbb9961f.css">
+	<link rel="stylesheet" href="/static/common/css/site-72f581899c.css">
 	<!-- endinject -->
 
 
@@ -241,15 +241,16 @@
 		<footer class="site-footer">
 			<hr class="decoration decoration-big">
 			<div class="container">
-				<div class="row">
+				<div class="row mb-3">
 					{% block site_footer_content %}
 						{% load widget_tags %}
 						<div class="col-sm-3">
-							{% latest_posts quantity=2 %}
+              {% socials %}
+              {% discussion_group %}
 						</div>
 
 						<div class="col-sm-3">
-							{% twitter_and_email %}
+              {% diary_emails %}
 						</div>
 
 						<div class="col-sm-3">
@@ -257,10 +258,16 @@
 						</div>
 
 						<div class="col-sm-3">
-							{% credit %}
+							{% latest_posts quantity=2 %}
 						</div>
 					{% endblock %}
 				</div>
+
+        <div class="row">
+          <div class="col-sm-12 asides-flatten">
+            {% credit %}
+          </div>
+        </div>
 			</div>
 		</footer>
 	{% endblock %}
