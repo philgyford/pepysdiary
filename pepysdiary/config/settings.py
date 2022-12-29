@@ -421,6 +421,7 @@ PEPYS_MEMBERSHIP_BLACKLISTED_DOMAINS = [
     "passedil.com",
     "rapidlyws.com",
     "spacehotline.com",
+    "triots.com",
     "ustudentli.com",
     "vsmethodu.com",
     "vtqreplaced.com",
