@@ -1,9 +1,10 @@
-import smartypants
 from django.contrib.sites.models import Site
 from django.contrib.syndication.views import Feed, add_domain
 from django.utils.encoding import force_str
 from django.utils.feedgenerator import Rss201rev2Feed
 from django.utils.html import strip_tags
+
+from pepysdiary.common.templatetags.text_formatting_filters import smartypants
 
 
 class ExtendedRSSFeed(Rss201rev2Feed):
@@ -64,7 +65,7 @@ class BaseRSSFeed(Feed):
 
         for text in texts:
             if text != "":
-                parts.append(force_str(smartypants.smartypants(text)))
+                parts.append(force_str(smartypants(text)))
 
         parts.append(
             '<p><strong><a href="%s#%ss">Read the %ss</a></strong></p>'

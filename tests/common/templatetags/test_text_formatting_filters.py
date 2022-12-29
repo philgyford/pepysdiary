@@ -9,20 +9,20 @@ from pepysdiary.common.templatetags.text_formatting_filters import (
 class SmartypantsTestCase(TestCase):
     def test_standard(self):
         val = smartypants("""'This is -- "a test"'""")
-        self.assertEqual(val, "&#8216;This is &#8212; &#8220;a test&#8221;&#8217;")
+        self.assertEqual(val, "‘This is — “a test”’")
 
     def test_special_cases(self):
         "Our special cases should be replaced"
         cases = (
-            ("the 'Change was", "the &#8217;Change was"),
-            ("the 'Chequer,", "the &#8217;Chequer,"),
-            ("a 'guinny, which", "a &#8217;guinny, which"),
-            ("a 'light which", "a &#8217;light which"),
-            ("not 'lighting, and", "not &#8217;lighting, and"),
-            ("a 'prentice was", "a &#8217;prentice was"),
-            ("once a 'Prentice of", "once a &#8217;Prentice of"),
-            ("the 'prentices were", "the &#8217;prentices were"),
-            ("the 'sparagus garden,", "the &#8217;sparagus garden,"),
+            ("the 'Change was", "the ’Change was"),
+            ("the 'Chequer,", "the ’Chequer,"),
+            ("a 'guinny, which", "a ’guinny, which"),
+            ("a 'light which", "a ’light which"),
+            ("not 'lighting, and", "not ’lighting, and"),
+            ("a 'prentice was", "a ’prentice was"),
+            ("once a 'Prentice of", "once a ’Prentice of"),
+            ("the 'prentices were", "the ’prentices were"),
+            ("the 'sparagus garden,", "the ’sparagus garden,"),
         )
 
         for case in cases:

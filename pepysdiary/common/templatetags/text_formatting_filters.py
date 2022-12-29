@@ -31,7 +31,15 @@ def smartypants(value):
     for rep in replacements:
         value = re.sub(rf"(\W){rep[0]}(\W)", rf"\1{rep[1]}\2", value)
 
-    return original_smartypants.smartypants(value)
+    # Set smartypants to use the default replacements, and replace with
+    # unicode characters instead of HTML entities.
+    attrs = original_smartypants.Attrs = (
+        original_smartypants.Attr.set1 | original_smartypants.Attr.u
+    )
+
+    value = original_smartypants.smartypants(value, attrs)
+
+    return value
 
 
 @register.filter()
