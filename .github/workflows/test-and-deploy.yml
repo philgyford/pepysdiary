@@ -35,6 +35,7 @@ jobs:
             pip-sync
             ./manage.py migrate
             ./manage.py collectstatic --noinput
+            ./manage.py clear_cache
             sudo systemctl restart gunicorn_pepys
 
       - name: Slack notification
