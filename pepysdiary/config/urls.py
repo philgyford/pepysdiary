@@ -32,7 +32,82 @@ sitemaps = {
 }
 
 
+# FLATPAGES
+# Comes before other URLs so that they take precedence.
+# e.g. so the /encyclopedia/familytree/ flatpage URL isn't matched
+# to a category in encyclopedia.urls
 urlpatterns = [
+    path("about/", flatpages_views.flatpage, {"url": "/about/"}, name="about"),
+    path(
+        "about/annotations/",
+        flatpages_views.flatpage,
+        {"url": "/about/annotations/"},
+        name="about_annotations",
+    ),
+    path(
+        "about/faq/",
+        flatpages_views.flatpage,
+        {"url": "/about/faq/"},
+        name="about_faq",
+    ),
+    path(
+        "about/formats/",
+        flatpages_views.flatpage,
+        {"url": "/about/formats/"},
+        name="about_formats",
+    ),
+    path(
+        "about/text/",
+        flatpages_views.flatpage,
+        {"url": "/about/text/"},
+        name="about_text",
+    ),
+    path(
+        "api/",
+        flatpages_views.flatpage,
+        {"url": "/api/"},
+        name="about_api",
+    ),
+    path(
+        "diary/1893-introduction/",
+        flatpages_views.flatpage,
+        {"url": "/diary/1893-introduction/"},
+        name="1893_introduction",
+    ),
+    path(
+        "diary/1893-introduction/pepys/",
+        flatpages_views.flatpage,
+        {"url": "/diary/1893-introduction/pepys/"},
+        name="1893_introduction_pepys",
+    ),
+    path(
+        "diary/1893-introduction/preface/",
+        flatpages_views.flatpage,
+        {"url": "/diary/1893-introduction/preface/"},
+        name="1893_introduction_preface",
+    ),
+    path(
+        "diary/1893-introduction/previous/",
+        flatpages_views.flatpage,
+        {"url": "/diary/1893-introduction/previous/"},
+        name="1893_introduction_previous",
+    ),
+    path(
+        "diary/summary/",
+        flatpages_views.flatpage,
+        {"url": "/diary/summary/"},
+        name="diary_summary",
+    ),
+    path(
+        "encyclopedia/familytree/",
+        flatpages_views.flatpage,
+        {"url": "/encyclopedia/familytree/"},
+        name="encyclopedia_familytree",
+    ),
+]
+
+
+urlpatterns += [
     path("up/", include("pepysdiary.up.urls")),
     path(
         "sitemap.xml",
@@ -187,77 +262,6 @@ urlpatterns += [
     path(
         "about/support/",
         RedirectView.as_view(url=reverse_lazy("about"), permanent=True),
-    ),
-]
-
-# FLATPAGES
-urlpatterns += [
-    path("about/", flatpages_views.flatpage, {"url": "/about/"}, name="about"),
-    path(
-        "about/annotations/",
-        flatpages_views.flatpage,
-        {"url": "/about/annotations/"},
-        name="about_annotations",
-    ),
-    path(
-        "about/faq/",
-        flatpages_views.flatpage,
-        {"url": "/about/faq/"},
-        name="about_faq",
-    ),
-    path(
-        "about/formats/",
-        flatpages_views.flatpage,
-        {"url": "/about/formats/"},
-        name="about_formats",
-    ),
-    path(
-        "about/text/",
-        flatpages_views.flatpage,
-        {"url": "/about/text/"},
-        name="about_text",
-    ),
-    path(
-        "api/",
-        flatpages_views.flatpage,
-        {"url": "/api/"},
-        name="about_api",
-    ),
-    path(
-        "diary/1893-introduction/",
-        flatpages_views.flatpage,
-        {"url": "/diary/1893-introduction/"},
-        name="1893_introduction",
-    ),
-    path(
-        "diary/1893-introduction/pepys/",
-        flatpages_views.flatpage,
-        {"url": "/diary/1893-introduction/pepys/"},
-        name="1893_introduction_pepys",
-    ),
-    path(
-        "diary/1893-introduction/preface/",
-        flatpages_views.flatpage,
-        {"url": "/diary/1893-introduction/preface/"},
-        name="1893_introduction_preface",
-    ),
-    path(
-        "diary/1893-introduction/previous/",
-        flatpages_views.flatpage,
-        {"url": "/diary/1893-introduction/previous/"},
-        name="1893_introduction_previous",
-    ),
-    path(
-        "diary/summary/",
-        flatpages_views.flatpage,
-        {"url": "/diary/summary/"},
-        name="diary_summary",
-    ),
-    path(
-        "encyclopedia/familytree/",
-        flatpages_views.flatpage,
-        {"url": "/encyclopedia/familytree/"},
-        name="encyclopedia_familytree",
     ),
 ]
 
