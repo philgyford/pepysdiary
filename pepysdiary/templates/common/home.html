@@ -9,7 +9,9 @@
 {% block main_content %}
 	{% if entry_list %}
 		{% comment %} <p class="lead">A new diary entry appears here at the end of each day.</p> {% endcomment %}
-		<p class="lead">The third reading of the diary begins on 1st January 2023.</p>
+		<p class="lead">The third reading of the diary begins on 1st&nbsp;January&nbsp;2023.
+    </p>
+    <p class="lead">A new diary entry will appear here at the end of each day (UK&nbsp;time).</p>
 
 		{% include 'diary/inc/entry_list.html' with entry_list=entry_list|slice:"7" %}
 
