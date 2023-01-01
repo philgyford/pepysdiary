@@ -391,7 +391,7 @@ COMMENT_FLAG_EMAIL = "phil@gyford.com"
 ACCOUNT_ACTIVATION_DAYS = 7
 
 # How many years ahead of the diary entries are we?
-YEARS_OFFSET = 353
+YEARS_OFFSET = 363
 
 # We have to do special things to some Encyclopedia Topics depending on
 # whether they're in the 'People' category. So we need to store its ID:

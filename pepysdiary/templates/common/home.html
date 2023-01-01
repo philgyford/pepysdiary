@@ -8,10 +8,7 @@
 
 {% block main_content %}
 	{% if entry_list %}
-		{% comment %} <p class="lead">A new diary entry appears here at the end of each day.</p> {% endcomment %}
-		<p class="lead">The third reading of the diary begins on 1st&nbsp;January&nbsp;2023.
-    </p>
-    <p class="lead">A new diary entry will appear here at the end of each day (UK&nbsp;time).</p>
+		<p class="lead">A new diary entry appears here at the end of each day.</p>
 
 		{% include 'diary/inc/entry_list.html' with entry_list=entry_list|slice:"7" %}
 
@@ -23,11 +20,11 @@
 		{% endif %}
 
 	{% else %}
-		<p class="lead">In 1660, at age 26, Samuel Pepys began his diary. He stopped a decade later.</p>
+		<p class="lead">In 1660, at age 26, Samuel Pepys began his diary. He stopped a decade&nbsp;later.</p>
 
-		<p class="lead">From 2003 until 2012 this site featured a daily entry from the diary accompanied by thoughts from readers.</p>
+		{% comment %} <p class="lead">From 2003 until 2012 this site featured a daily entry from the diary accompanied by thoughts from readers.</p> {% endcomment %}
 
-		<p class="lead">Diary entries will begin appearing here again at 11pm (London time) on 1st January 2013.</p>
+		<p class="lead">Diary entries will begin appearing here again at the end of each day (UK time) from 1st&nbsp;January&nbsp;2023.</p>
 
 	{% endif %}
 {% endblock main_content %}
