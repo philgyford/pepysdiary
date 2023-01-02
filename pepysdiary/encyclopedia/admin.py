@@ -10,6 +10,7 @@ class TopicAdmin(admin.ModelAdmin):
         "id",
         "title",
         "comment_count",
+        "wikipedia_last_fetch",
     )
     list_display_links = ("title",)
     filter_horizontal = ("categories",)
@@ -70,6 +71,7 @@ class TopicAdmin(admin.ModelAdmin):
                     "summary_publication_date",
                     "comment_count",
                     "last_comment_time",
+                    "wikipedia_last_fetch",
                 ),
             },
         ),
