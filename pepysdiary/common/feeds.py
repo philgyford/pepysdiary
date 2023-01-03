@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.contrib.sites.models import Site
 from django.contrib.syndication.views import Feed, add_domain
 from django.utils.encoding import force_str
@@ -70,7 +71,11 @@ class BaseRSSFeed(Feed):
         parts.append(
             '<p><strong><a href="%s#%ss">Read the %ss</a></strong></p>'
             % (
-                add_domain(Site.objects.get_current().domain, url),
+                add_domain(
+                    Site.objects.get_current().domain,
+                    url,
+                    secure=settings.PEPYS_USE_HTTPS,
+                ),
                 comment_name,
                 comment_name,
             )
