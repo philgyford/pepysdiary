@@ -34,8 +34,10 @@
 
 {% block sidebar_content %}
 
+  {% comment %}
 	{% load event_tags %}
 	{% events_for_day_in_sidebar entry.diary_date exclude='entries' %}
+  {% endcomment %}
 
 	<aside class="aside-block">
 		<header class="aside-header">
