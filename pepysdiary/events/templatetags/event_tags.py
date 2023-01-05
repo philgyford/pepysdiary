@@ -44,7 +44,7 @@ def dayevents_for_day(date):
     sources = {str(key): label for (key, label) in DayEvent.Source.choices}
 
     # Temporarily remove the Josselin events as links are broken (#339):
-    del sources[str(DayEvent.Source.JOSSELIN)]
+    # del sources[str(DayEvent.Source.JOSSELIN)]
 
     # Makes a dict like:
     # {"10": {}, "20": {}, "30": {}}
