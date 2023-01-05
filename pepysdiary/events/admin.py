@@ -17,6 +17,7 @@ class DayEventAdmin(admin.ModelAdmin):
     list_filter = ("source", EventDateYearmonthListFilter)
     search_fields = [
         "title",
+        "url",
     ]
     readonly_fields = (
         "date_created",
