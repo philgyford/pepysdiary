@@ -9,7 +9,7 @@
 
 Code for [www.pepysdiary.com](http://www.pepysdiary.com/).
 
-Pushing to `main` will run the commit through [this GitHub Action](https://github.com/philgyford/pepysdiary/actions/workflows/main.yml) to run tests. If it passes, it will be deployed automatically to Heroku.
+Pushing to `main` will run the commit through [this GitHub Action](https://github.com/philgyford/pepysdiary/actions/workflows/main.yml) to run tests. If it passes, it will be deployed automatically to the website.
 
 When changing the python version, it will need to be changed in:
 
@@ -20,7 +20,7 @@ When changing the python version, it will need to be changed in:
 - `pyproject.toml` (black's target-version)
 - `Dockerfile`
 
-For local development we use Docker. The live site is on Heroku.
+For local development we use Docker. The live site is on an Ubuntu 22 VPS.
 
 ## Local development setup
 
@@ -50,7 +50,14 @@ Then start up the web, assets and database containers:
 
     $ docker-compose up
 
-There are three containers, the webserver (`pepysdiary_web`), the front-end assets builder (`pepysdiary_assets`) and the postgres server (`pepysdiary_db`). All the repository's code is mirrored in the web and assets containers in the `/code/` directory.
+There are four containers:
+
+- `pepysdiary_web`: the webserver
+- `pepysdiary_db`: the postgres server
+- `pepysdiary_assets`: the front-end assets builder
+- `pepysdiary_redis`: the redis server (for django-q2 and optional caching)
+
+All the repository's code is mirrored in the web and assets containers in the `/code/` directory.
 
 ### 4. Set up the database
 
@@ -78,13 +85,20 @@ Log into postgres and drop the current (empty) database:
     # grant all privileges on database pepysdiary to pepysdiary;
     # \q
 
-On Heroku, download a backup file of the live site's database and rename it to something simpler. We'll use "heroku_db_dump" below.
+On the VPS, create a backup file of the live site's database:
+
+    $ pg_dump dbname -U username -h localhost | gzip > ~/pepys_dump.gz
+
+Then scp it to your local machine:
+
+    $ scp username@your.vps.domain.com:/home/username/pepys_dump.gz .
 
 Put the file in the same directory as this README.
 
 Import the data into the database ():
 
-    $ docker exec -i pepys_db pg_restore --verbose --clean --no-acl --no-owner -U pepysdiary -d pepysdiary < heroku_db_dump
+    $ gunzip pepys_dump.gz
+    $ docker exec -i pepys_db pg_restore --verbose --clean --no-acl --no-owner -U pepysdiary -d pepysdiary < pepys_dump
 
 #### 5. Vist and set up the site
 
@@ -207,32 +221,125 @@ List any installed Node packages (used for building front end assets) that are o
 
 Update any installed Node packages that are outdated.
 
-## Heroku set-up
+## VPS set-up
 
-For hosting on Heroku, we use these add-ons:
+The complete set-up of an Ubuntu VPS is beyond the scope of this README. Requirements:
 
-- Heroku Postgres
-- Heroku Redis (for caching)
-- Heroku Scheduler
-- Papertrail (for viewing/filtering logs)
-- Sentry (for error reporting)
+- Local postgresql
+- Local redis (for caching and django-q2)
+- pipx, virtualenv and pyenv
+- gunicorn
+- nginx
+- systemd
+- cron
 
-The site will require Config settings to be set-up as in the local development `.env` (above) and see the Django settings (below).
+### 1. Create a database
 
-    DJANGO_SETTINGS_MODULE      pepysdiary.config.settings
+    username$ sudo su - postgres
+    postgres$ createuser --interactive -P
+    postgres$ createdb --owner pepys pepys
+    postgres$ exit
 
-To clear the Redis cache, use our `clear_cache` management command:
+### 2. Create a directory for the code
 
-    $ heroku run python ./manage.py clear_cache
+    username$ sudo mkdir -p /webapps/pepys/
+    username$ sudo chown username:username /webapps/pepys/
+    username$ mkdir /webapps/pepys/logs/
+    username$ cd /webapps/pepys/
+    username$ git clone git@github.com:philgyford/pepysdiary.git code
 
-Note that by default Heroku's Redis is set up with a `maxmemory-policy` of `noeviction` which will generate OOM (Out Of Memory) errors when the memory limit is reached. This [can be changed](https://devcenter.heroku.com/articles/heroku-redis#maxmemory-policy):
+### 3. ## Install python version, set up virtualenv, install python dependencies
 
-    $ heroku redis:info
-    === redis-fishery-12345 (HEROKU_REDIS_NAVY_TLS_URL, ...
+    username$ pyenv install --list  # All those available to install
+    username$ pyenv versions        # All those already installed and available
+    username$ pyenv install 3.10.8  # Whatever version we're using
 
-Then use that Redis name like:
+Make the virtual environment and install pip-tools:
 
-    $ heroku redis:maxmemory redis-fisher-12345 --policy allkeys-lru
+    username$ cd /webapps/pepys/code
+    username$ virtualenv --prompt pepys venv -p $(pyenv which python)
+    username$ source venv/bin/activate
+    (pepys) username$ python -m pip install pip-tools
+
+Install dependencies from `requirements.txt`:
+
+    (pepys) username$ pip-sync
+
+### 4. Create `.env` file
+
+    (pepys) username$ cp .env.dist .env
+
+Then fill it out as required.
+
+### 5. Set up database
+
+Either do `./manage.py migrate` and `./manage.py createsuperuser` to create a new database, or import an existing database dumbp.
+
+### 6. Set up gunicorn with systemd
+
+Symlink the files in this repo to correct location for systemd:
+
+    username$ sudo ln -s /webapps/pepys/code/conf/systemd_gunicorn.socket /etc/systemd/system/gunicorn_pepys.socket
+    username$ sudo ln -s /webapps/pepys/code/conf/systemd_gunicorn.service /etc/systemd/system/gunicorn_pepys.service
+
+Start the socket:
+
+    username$ sudo systemctl start gunicorn_pepys.socket
+    username$ sudo systemctl enable gunicorn_pepys.socket
+
+Check the socket status:
+
+    username$ sudo systemctl status gunicorn_pepys.socket
+
+Start the service:
+
+    username$ sudo systemctl start gunicorn_pepys
+
+### 5. Set up nginx
+
+Symlink the file in this repo to correct location:
+
+    username$ sudo ln -s /webapps/pepys/code/conf/nginx.conf /etc/nginx/sites-available/pepys
+
+Enable this site:
+
+    username$ sudo ln -s /etc/nginx/sites-available/pepys /etc/nginx/sites-enabled/pepys
+
+Remove the default site if it's not already:
+
+    username$ sudo rm /etc/nginx/sites-enabled/default
+
+Check configuration before (re)starting nginx:
+
+    username$ sudo nginx -t
+
+Start nginx:
+
+     username$ sudo service nginx start
+
+### 6. Set up djagno-q2 with systemd
+
+Symlink the file in this repo to the correct location for systemd:
+
+    username$ sudo ln -s /webapps/pepys/code/conf/systemd_djangoq.service /etc/systemd/system/djangoq_pepys.service
+
+Start the service:
+
+    username$ sudo systemctl start djangoq_pepys
+
+### 7. Set up cron for management commands
+
+    phil5 crontab -e
+
+Add this:
+
+    # pepys - fetch some content from Wikipedia
+    10 3,4,5,6 * * * /webapps/pepys/code/venv/bin/python /webapps/pepys/code/manage.py fetch_wikipedia --num=30 > /dev/null 2>&1
+
+### Other stuff
+
+- Allow service restarts without a password, so that GitHub Actions autodeploy works
+- Set up Let's Encrypt for the domain
 
 ## Bootstrap
 
