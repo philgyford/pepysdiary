@@ -25,13 +25,11 @@ class EventsTemplateTagsTestCase(TestCase):
 <ul>
 <li>Event 3</li>
 </ul>
+<h2>In Earl’s Colne, Essex</h2>
+<ul>
+<li>Event 4</li>
+</ul>
 """
-    # Temporarily not appearing because of broken linkes (#339):
-    # <h2>In Earl’s Colne, Essex</h2>
-    # <ul>
-    # <li>Event 4</li>
-    # </ul>
-    # """
 
     entries_html = """<h2>In the Diary</h2>
 <ul>
