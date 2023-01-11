@@ -55,7 +55,7 @@ There are four containers:
 - `pepysdiary_web`: the webserver
 - `pepysdiary_db`: the postgres server
 - `pepysdiary_assets`: the front-end assets builder
-- `pepysdiary_redis`: the redis server (for django-q2 and optional caching)
+- `pepysdiary_redis`: the redis server (for optional caching)
 
 All the repository's code is mirrored in the web and assets containers in the `/code/` directory.
 
@@ -226,7 +226,7 @@ Update any installed Node packages that are outdated.
 The complete set-up of an Ubuntu VPS is beyond the scope of this README. Requirements:
 
 - Local postgresql
-- Local redis (for caching and django-q2)
+- Local redis (for caching)
 - pipx, virtualenv and pyenv
 - gunicorn
 - nginx
@@ -317,19 +317,9 @@ Start nginx:
 
      username$ sudo service nginx start
 
-### 6. Set up djagno-q2 with systemd
+### 6. Set up cron for management commands
 
-Symlink the file in this repo to the correct location for systemd:
-
-    username$ sudo ln -s /webapps/pepys/code/conf/systemd_djangoq.service /etc/systemd/system/djangoq_pepys.service
-
-Start the service:
-
-    username$ sudo systemctl start djangoq_pepys
-
-### 7. Set up cron for management commands
-
-    phil5 crontab -e
+    username$ crontab -e
 
 Add this:
 
