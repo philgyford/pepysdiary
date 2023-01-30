@@ -77,7 +77,7 @@ class WikipediaFetcher(object):
         """
 
         # Pretty much most elements, but no forms or audio/video.
-        allowed_tags = [
+        allowed_tags = {
             "a",
             "abbr",
             "acronym",
@@ -145,7 +145,7 @@ class WikipediaFetcher(object):
             # its tags, but then it's removed completely in _strip_html():
             "script",
             "style",
-        ]
+        }
 
         # These attributes will be removed from any of the allowed tags.
         allowed_attributes = {
