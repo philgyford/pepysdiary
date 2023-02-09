@@ -810,15 +810,14 @@ class RegisterViewTestCase(LoginTestCase):
                 str(errors["name"][0].message),
             )
 
-    @override_settings(PEPYS_MEMBERSHIP_BLACKLISTED_DOMAINS=["example.com"])
+    @override_settings(PEPYS_MEMBERSHIP_BLACKLISTED_DOMAINS=["evildomain.com"])
     def test_blacklisted_domains(self):
         "It should silently fail to create the user, as if it worked"
-
         data = {
             "name": "Bob",
             "password1": "my-password-123",
             "password2": "my-password-123",
-            "email": "bob@example.com",
+            "email": "bob@evildomain.com",
             "url": "https://example.com",
             "honeypot": "",
         }
@@ -826,6 +825,27 @@ class RegisterViewTestCase(LoginTestCase):
 
         self.assertEqual(Person.objects.count(), 0)
         self.assertRedirects(response, "/account/register/complete/")
+
+    def test_bad_urls(self):
+        "It should silently fail to create the user, as if it worked"
+        bad_urls = [
+            "http://123.123.255.0",
+            "https://123.123.255.0",
+            "https://123.123.255.0/foo",
+        ]
+        for url in bad_urls:
+            data = {
+                "name": "Bob",
+                "password1": "my-password-123",
+                "password2": "my-password-123",
+                "email": "bob@example.com",
+                "url": url,
+                "honeypot": "",
+            }
+            response = self.client.post("/account/register/", data)
+
+            self.assertEqual(Person.objects.count(), 0)
+            self.assertRedirects(response, "/account/register/complete/")
 
 
 class RegisterCompleteViewTestCase(LoginTestCase):

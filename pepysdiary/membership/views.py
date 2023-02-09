@@ -1,3 +1,5 @@
+import re
+
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import views as auth_views
@@ -257,13 +259,14 @@ class RegisterView(FormView):
 
     def form_valid(self, form):
         """
-        Create the user unless their email domain is blacklisted.
+        Create the user unless their email or url look dodgy.
         In that case we do everything as usual except create the user.
         No error message or anything.
         """
         email = form.cleaned_data["email"]
-        bad_domains = settings.PEPYS_MEMBERSHIP_BLACKLISTED_DOMAINS
-        if email.split("@")[1] not in bad_domains:
+        url = form.cleaned_data["url"]
+
+        if self._form_data_is_good(email, url):
             Person.objects.create_inactive_user(
                 name=form.cleaned_data["name"],
                 password=form.cleaned_data["password1"],
@@ -273,6 +276,25 @@ class RegisterView(FormView):
             )
 
         return super().form_valid(form)
+
+    def _form_data_is_good(self, email, url):
+        """
+        Is the data from the form maybe legitimate?
+
+        * Rejects any emails witha  domain in blacklisted domains
+        * Rejects any urls that are just IP addresses
+
+        Returns boolean
+        """
+        bad_domains = settings.PEPYS_MEMBERSHIP_BLACKLISTED_DOMAINS
+        if email.split("@")[1] in bad_domains:
+            return False
+        elif re.match(r"https?:\/\/\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}", url):
+            # It'll match technically invalid IP addresses but that's fine.
+            return False
+        else:
+            print("C")
+            return True
 
 
 class RegisterCompleteView(MessageView):
