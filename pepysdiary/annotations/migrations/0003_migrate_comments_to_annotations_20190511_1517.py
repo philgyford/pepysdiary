@@ -37,7 +37,6 @@ def forwards(apps, schema_editor):
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("annotations", "0002_change_to_non_proxy_annotation_20190511_1515"),
         ("django_comments", "0003_add_submit_date_index"),

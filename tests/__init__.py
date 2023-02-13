@@ -54,7 +54,6 @@ class FeedTestCase(TestCase):
 
     def assertChildNodeContent(self, elem, expected):
         for k, v in expected.items():
-
             # It appears that minidom will make a node with no text
             # None, rather than an element. So when we try to get its
             # wholeText, we get an AttributeError.

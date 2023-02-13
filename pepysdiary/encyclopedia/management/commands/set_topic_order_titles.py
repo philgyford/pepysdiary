@@ -27,7 +27,6 @@ class Command(BaseCommand):
     help = "Re-set all the order_titles for all Topics"
 
     def handle(self, *args, **options):
-
         for topic in Topic.objects.all():
             # print '%s %s' % (topic.pk, topic.title)
             # Because the order_title is set on save, we just need to save

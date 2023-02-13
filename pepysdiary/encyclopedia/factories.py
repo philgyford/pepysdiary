@@ -73,7 +73,6 @@ class TopicFactory(factory.django.DjangoModelFactory):
 
 
 class PersonTopicFactory(TopicFactory):
-
     title = factory.LazyAttribute(lambda p: "{} {}".format(fake.prefix(), fake.name()))
 
     @factory.post_generation

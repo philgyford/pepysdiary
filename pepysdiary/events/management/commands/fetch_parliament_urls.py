@@ -72,7 +72,6 @@ class Command(BaseCommand):
     help = "Generates a JSON fixture file suitable for importing as DayEvent objects linking to British History pages for the Commons and Lords."  # noqa: E501
 
     def handle(self, *args, **kwargs):
-
         data_for_fixture = []
 
         for place, urls in URLS.items():
@@ -147,7 +146,6 @@ class Command(BaseCommand):
         soup = BeautifulSoup(html, "lxml")
 
         for link in soup.find("table", class_="views-table").find_all("a"):
-
             try:
                 # We're getting the date out of a string like:
                 # "House of Commons Journal Volume 7: 16 March 1660"

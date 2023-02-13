@@ -17,7 +17,6 @@ def populate_search_index(apps, schema_editor):
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("news", "0003_post_search_document"),
     ]

@@ -17,7 +17,6 @@ def populate_search_index(apps, schema_editor):
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("diary", "0003_auto_20190323_1503"),
     ]

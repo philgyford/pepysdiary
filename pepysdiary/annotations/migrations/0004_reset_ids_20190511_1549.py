@@ -16,7 +16,6 @@ def reset_counter(apps, schema_editor):
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("annotations", "0003_migrate_comments_to_annotations_20190511_1517")
     ]

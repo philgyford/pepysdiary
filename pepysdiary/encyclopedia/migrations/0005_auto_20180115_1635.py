@@ -4,7 +4,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("encyclopedia", "0004_auto_20150308_1324"),
     ]

@@ -41,7 +41,6 @@ class Command(BaseCommand):
     help = "Imports Comments from legacy MT MySQL database."
 
     def handle(self, *args, **options):
-
         db = MySQLdb.connect(
             host=settings.MT_MYSQL_DB_HOST,
             user=settings.MT_MYSQL_DB_USER,

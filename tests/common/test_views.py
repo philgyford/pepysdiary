@@ -57,7 +57,6 @@ class HomeViewTestCase(ViewTestCase):
         with open(
             os.path.join(ASSET_DIR, "topic_thumbnail.jpg"), "rb"
         ) as thumbnail_file:
-
             # 2 Topics referencing the Entry:
             topic_1 = TopicFactory(
                 title="Cats",

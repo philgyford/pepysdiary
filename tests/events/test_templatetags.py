@@ -12,7 +12,6 @@ from pepysdiary.letters.factories import LetterFactory
 
 
 class EventsTemplateTagsTestCase(TestCase):
-
     # The HTML generated for different parts, so we don't have to repeat
     # it in each of the relevant tests.
 

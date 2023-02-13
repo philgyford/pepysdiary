@@ -8,7 +8,6 @@ from pepysdiary.encyclopedia.wikipedia_fetcher import WikipediaFetcher
 
 
 class FetchTestCase(TestCase):
-
     source_html = "<p>Hello</p>"
     page_name = "Edward_Montagu%2C_1st_Earl_of_Sandwich"
 

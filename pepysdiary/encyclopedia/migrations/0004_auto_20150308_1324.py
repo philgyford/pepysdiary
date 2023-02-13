@@ -5,7 +5,6 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("encyclopedia", "0003_auto_20150308_1322"),
     ]

@@ -6,7 +6,6 @@ import pepysdiary.membership.utilities
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("membership", "0002_auto_20160324_1541"),
     ]

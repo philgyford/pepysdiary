@@ -5,7 +5,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("letters", "0001_initial"),
         ("encyclopedia", "0001_initial"),

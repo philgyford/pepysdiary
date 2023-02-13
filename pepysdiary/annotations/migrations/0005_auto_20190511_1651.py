@@ -6,7 +6,6 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("annotations", "0004_reset_ids_20190511_1549"),
     ]

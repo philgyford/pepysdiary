@@ -28,7 +28,6 @@ def backwards(apps, schema_editor):
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("diary", "0004_populate_entry_search_index"),
     ]

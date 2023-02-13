@@ -7,7 +7,6 @@ import pepysdiary.common.models
 
 
 class Migration(migrations.Migration):
-
     dependencies = []
 
     operations = [

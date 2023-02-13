@@ -24,7 +24,6 @@ def fix_josselin_links(apps, schema_editor):
 
 
 class Migration(migrations.Migration):
-
     dependencies = [("events", "0001_initial")]
 
     operations = [

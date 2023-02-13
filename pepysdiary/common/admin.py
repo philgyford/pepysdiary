@@ -51,8 +51,8 @@ class YearmonthListFilter(admin.SimpleListFilter):
         years_months = Entry.objects.all_years_months()
 
         choices = []
-        for (y, months) in years_months:
-            for (m_count, m) in enumerate(months):
+        for y, months in years_months:
+            for m_count, m in enumerate(months):
                 choices.append(
                     (
                         # Will be like ('1660-03', 'Mar 1660'):
@@ -74,7 +74,6 @@ class YearmonthListFilter(admin.SimpleListFilter):
             self.value() is not None
             and re.match(r"^\d{,4}-\d{,2}$", self.value()) is not None
         ):
-
             [year, month] = [int(n) for n in self.value().split("-")]
             last_day = calendar.monthrange(year, month)[1]
 

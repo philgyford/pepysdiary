@@ -7,7 +7,6 @@ import pepysdiary.common.models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("encyclopedia", "0001_initial"),
     ]
