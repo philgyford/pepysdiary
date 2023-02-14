@@ -50,7 +50,7 @@ def dayevents_for_day(date):
     # {"10": {}, "20": {}, "30": {}, "40": {}}
     events_by_source = {key: {} for key in sources.keys()}
 
-    for ev in DayEvent.objects.filter(event_date=date).order_by("source"):
+    for ev in DayEvent.objects.filter(event_date=date).order_by("source", "order"):
         # For each source, there *might* be several events with the same title
         # so we create a list of events for each title, within each source.
         source = str(ev.source)

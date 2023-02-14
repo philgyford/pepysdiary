@@ -134,6 +134,27 @@ class EventsTemplateTagsTestCase(TestCase):
 {self.link_html}""",
         )
 
+    def test_order(self):
+        "The Event.order field should be used to order a Source's events"
+        DayEventFactory(
+            title="4:14 pm sunset",
+            source=DayEvent.Source.TIMEANDDATE,
+            event_date=self.date,
+            order=2,
+        )
+        DayEventFactory(
+            title="8:02 am sunrise",
+            source=DayEvent.Source.TIMEANDDATE,
+            event_date=self.date,
+            order=1,
+        )
+
+        html = events_for_day(make_date("1660-01-01"))
+        self.assertInHTML(
+            "<li>8:02 am sunrise</li><li>4:14 pm sunset</li>",
+            html,
+        )
+
     # Testing events_for_day_in_sidebar()
 
     def test_events_for_day_in_sidebar_with_no_exclude(self):
