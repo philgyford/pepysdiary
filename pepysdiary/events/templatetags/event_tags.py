@@ -47,7 +47,7 @@ def dayevents_for_day(date):
     # del sources[str(DayEvent.Source.JOSSELIN)]
 
     # Makes a dict like:
-    # {"10": {}, "20": {}, "30": {}}
+    # {"10": {}, "20": {}, "30": {}, "40": {}}
     events_by_source = {key: {} for key in sources.keys()}
 
     for ev in DayEvent.objects.filter(event_date=date).order_by("source"):
