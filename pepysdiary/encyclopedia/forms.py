@@ -1,6 +1,8 @@
 from django import forms
+from django.contrib.admin.widgets import FilteredSelectMultiple
 
-from pepysdiary.encyclopedia.models import Category
+from .fields import CategoryMultipleChoiceField
+from .models import Category, Topic
 
 
 class CategoryMapForm(forms.Form):
@@ -13,4 +15,16 @@ class CategoryMapForm(forms.Form):
         required=True,
         widget=forms.Select(attrs={"class": "form-control"}),
         choices=Category.objects.map_category_choices(),
+    )
+
+
+class TopicForm(forms.ModelForm):
+    class Meta:
+        model = Topic
+        exclude = ()
+
+    categories = CategoryMultipleChoiceField(
+        queryset=Category.objects.all(),
+        required=False,
+        widget=FilteredSelectMultiple("categories", is_stacked=False),
     )

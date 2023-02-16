@@ -2,10 +2,13 @@ from django.contrib import admin
 from treebeard.admin import TreeAdmin
 from treebeard.forms import movenodeform_factory
 
-from pepysdiary.encyclopedia.models import Category, Topic
+from .forms import TopicForm
+from .models import Category, Topic
 
 
 class TopicAdmin(admin.ModelAdmin):
+    form = TopicForm
+
     list_display = (
         "id",
         "title",
