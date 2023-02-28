@@ -80,7 +80,9 @@
 
 	<h2>Annotations and comments</h2>
 
-	<p>{% if is_private_profile %}You have{% else %}{{ person.get_full_name }} has{% endif %} posted {{ page_obj.paginator.count|apnumber|intcomma }} annotation{{ page_obj.paginator.count|pluralize }}/comment{{ page_obj.paginator.count|pluralize }}{% if person.first_comment_date %} since {{ person.first_comment_date|date:date_format_long }}{% endif %}.</p>
+  {% with comment_count=page_obj.paginator.count %}
+    <p>{% if is_private_profile %}You have{% else %}{{ person.get_full_name }} has{% endif %} posted {% if comment_count == 0 %}no{% else %}{{ comment_count|apnumber|intcomma }}{% endif %} annotation{{ comment_count|pluralize }}/comment{{ comment_count|pluralize }}{% if person.first_comment_date %} since {{ person.first_comment_date|dat/e:date_format_long }}{% endif %}.</p>
+  {% endwith %}
 
 	{% if comment_list %}
     {% if page_obj.number == 1 %}
