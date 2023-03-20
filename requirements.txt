@@ -4,10 +4,6 @@
 #
 #    pip-compile --generate-hashes
 #
-appnope==0.1.3 \
-    --hash=sha256:02bd91c4de869fbb1e1c50aafc4098827a7a54ab2f39d9dcba6c9547ed920e24 \
-    --hash=sha256:265a455292d0bd8a72453494fa24df5a11eb18373a60c7c0430889f22548605e
-    # via ipython
 asgiref==3.6.0 \
     --hash=sha256:71e68008da809b957b7ee4b43dbccff33d1b23519fb8344e33f049897077afac \
     --hash=sha256:9567dfe7bd8d3c8c892227827c41cce860b368104c3431da67a0c5a65a949506
@@ -59,13 +55,13 @@ bleach==6.0.0 \
     --hash=sha256:1a1a85c1595e07d8db14c5f09f09e6433502c51c595970edc090551f0db99414 \
     --hash=sha256:33c16e3353dbd13028ab4799a0f89a83f113405c766e9c122df8a06f5b85b3f4
     # via -r requirements.in
-boto3==1.26.85 \
-    --hash=sha256:9afe405c71bfd13fa958637caec9dc91f7009b221a7d87d4b067fa6f262aab67 \
-    --hash=sha256:ae106bdc5ac6e693100a2dba5ea1c9cfa6e556f6f39944fa8b3af6b104eeccf3
+boto3==1.26.94 \
+    --hash=sha256:619022059e255731f33cd9fe083b8fd62406efcbc07dc15660037bcaa1ba1255 \
+    --hash=sha256:9f156f4da4b0a15924196e1a8e3439d1b99cd4a463588e4bb103d1cfaf5618fa
     # via -r requirements.in
-botocore==1.29.85 \
-    --hash=sha256:1f2d1f7e3b41f8c9cc5576be16d86552a46724fd5d15f38a50c002a957ac43ff \
-    --hash=sha256:cb7e7e88a09ba807956643849b3a9b4e343a2c117838c0be1ca660052f69bcd2
+botocore==1.29.94 \
+    --hash=sha256:01b9e066b9eea719ee852e91841b92c7371f6bd388cf6186b5d55508e0f7fa1b \
+    --hash=sha256:3748b79e6fc95c19d890aa7439a53b9d468a4c4918439b2ba5cc3c13bfaff817
     # via
     #   boto3
     #   s3transfer
