@@ -345,6 +345,13 @@ class PasswordResetViewTestCase(TestCase):
         self.assertEqual(
             mail.outbox[0].subject, "Password reset on The Diary of Samuel Pepys"
         )
+        self.assertDictEqual(
+            mail.outbox[0].extra_headers,
+            {
+                "X-Auto-Response-Suppress": "OOF",
+                "Auto-Submitted": "auto-generated",
+            },
+        )
 
         reset_url = "http://example.com" + make_password_reset_url(person)
         self.assertIn(reset_url, mail.outbox[0].body)

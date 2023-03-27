@@ -2,6 +2,8 @@ import re
 import string
 
 from django.core.exceptions import ValidationError
+from django.core.mail import EmailMessage
+from django.template import loader
 
 
 def validate_person_name(value):
@@ -59,7 +61,7 @@ def email_list(to_list, template_path, from_address, context_dict):
         {% block plain %}{% endblock %}
         {% block html %}{% endblock %}
     """
-    from django.core.mail import send_mail
+    from django.core.mail import EmailMessage, get_connection
     from django.template import Context, loader
 
     nodes = dict(
@@ -73,35 +75,55 @@ def email_list(to_list, template_path, from_address, context_dict):
     def render_node(node, con):
         return nodes[node].render(con)
 
-    for address in to_list:
-        send_mail(
+    connection = get_connection(username=None, password=None, fail_silently=False)
+
+    messages = [
+        EmailMessage(
             render_node("subject", context),
             render_node("plain", context),
             from_address,
-            [address],
+            recipient,
+            connection=connection,
+            headers={
+                "X-Auto-Response-Suppress": "OOF",
+                "Auto-Submitted": "auto-generated",
+            },
         )
+        for recipient in to_list
+    ]
+
+    return connection.send_messages(messages)
 
 
-def email_user(user, template_path, from_address, context_dict):
+def send_email(
+    to_address, from_address, subject_template_name, email_template_name, context
+):
     """
-    Send an email to a specific User object.
+    Send a plaintext transactional email.
+
+    Args:
+    to_address - The email address to send To
+    from_address - Email address to send From
+    subject_template_name - Path to a plaintext template for the email subject
+    email_template_name - Path to a plaintext template for the email body
+    context - Context dictionary passed to the template
     """
-    return email_list([user.email], template_path, from_address, context_dict)
 
+    subject = loader.render_to_string(subject_template_name, context)
+    # Email subject *must not* contain newlines
+    subject = "".join(subject.splitlines())
 
-# We don't use the two functions below.
+    body = loader.render_to_string(email_template_name, context)
 
-# def email(to, template_path, from_address, context_dict):
-#     """
-#     Send an email to a specific email address.
-#     """
-#     return email_list([to], template_path, from_address, context_dict)
+    email_message = EmailMessage(
+        subject,
+        body,
+        from_address,
+        [to_address],
+        headers={
+            "X-Auto-Response-Suppress": "OOF",
+            "Auto-Submitted": "auto-generated",
+        },
+    )
 
-
-# def email_users(user_list, template_path, from_address, context_dict):
-#     """
-#     Send an email to a list of User objects.
-#     """
-#     return email_list(
-#         [user.email for user in user_list], template_path, from_address, context_dict
-#     )
+    email_message.send()

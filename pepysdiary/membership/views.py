@@ -149,7 +149,7 @@ class PasswordResetView(auth_views.PasswordResetView):
     but no email is sent.
     """
 
-    email_template_name = "membership/emails/password_reset.txt"
+    email_template_name = "membership/emails/password_reset_email.txt"
     form_class = forms.PasswordResetForm
     success_url = reverse_lazy("password_reset_done")
     template_name = "membership/password_reset.html"

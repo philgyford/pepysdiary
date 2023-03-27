@@ -13,6 +13,8 @@ from pepysdiary.common.models import Config
 from pepysdiary.membership.models import Person
 from pepysdiary.membership.utilities import validate_person_name
 
+from .utilities import send_email
+
 #  Much of this based on django-registration.
 
 
@@ -54,6 +56,23 @@ class PasswordResetForm(PasswordResetForm):
         label="Email address",
         error_messages={"invalid": "Please enter a valid email address."},
     )
+
+    def send_mail(
+        self,
+        subject_template_name,
+        email_template_name,
+        context,
+        from_email,
+        to_email,
+        html_email_template_name=None,
+    ):
+        """
+        Overriding the default so that we can use our custom send_email()
+        method which includes the headers we want.
+        """
+        send_email(
+            to_email, from_email, subject_template_name, email_template_name, context
+        )
 
 
 class RegistrationForm(forms.Form):

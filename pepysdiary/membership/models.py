@@ -7,7 +7,7 @@ from django.db import models
 from django.urls import reverse
 
 from .managers import PersonManager
-from .utilities import email_user, validate_person_name
+from .utilities import send_email, validate_person_name
 
 
 class Person(AbstractBaseUser, PermissionsMixin):
@@ -189,11 +189,12 @@ class Person(AbstractBaseUser, PermissionsMixin):
             framework for details regarding these objects' interfaces.
 
         """
-        ctx_dict = {"activation_key": self.activation_key, "site": site}
+        context = {"activation_key": self.activation_key, "site": site}
 
-        email_user(
-            self,
-            "membership/emails/activation.txt",
+        send_email(
+            self.email,
             settings.DEFAULT_FROM_EMAIL,
-            ctx_dict,
+            "membership/emails/activation_subject.txt",
+            "membership/emails/activation_email.txt",
+            context,
         )

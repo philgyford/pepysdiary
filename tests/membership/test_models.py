@@ -130,3 +130,10 @@ class PersonTestCase(TestCase):
         self.assertIn(
             "https://example.com/account/activate/123456ABCDEF/", mail.outbox[0].body
         )
+        self.assertDictEqual(
+            mail.outbox[0].extra_headers,
+            {
+                "X-Auto-Response-Suppress": "OOF",
+                "Auto-Submitted": "auto-generated",
+            },
+        )
