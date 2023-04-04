@@ -143,8 +143,6 @@ LANGUAGE_CODE = "en-gb"
 
 USE_I18N = False
 
-USE_L10N = True
-
 USE_TZ = True
 
 
