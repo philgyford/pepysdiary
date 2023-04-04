@@ -15,7 +15,7 @@ gunicorn
 lxml
 Markdown
 Pillow
-psycopg2
+psycopg[binary]
 python-dotenv
 pyyaml
 requests
