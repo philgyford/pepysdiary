@@ -59,13 +59,13 @@ bleach==6.0.0 \
     --hash=sha256:1a1a85c1595e07d8db14c5f09f09e6433502c51c595970edc090551f0db99414 \
     --hash=sha256:33c16e3353dbd13028ab4799a0f89a83f113405c766e9c122df8a06f5b85b3f4
     # via -r requirements.in
-boto3==1.26.105 \
-    --hash=sha256:2914776e0138530ec6464d0e2f05b4aa18e9212ac920c48472f8a93650feaed2 \
-    --hash=sha256:f4951f8162905b96fd045e32853ba8cf707042faac846a23910817c508ef27d7
+boto3==1.26.106 \
+    --hash=sha256:53d449bc3445da0a8812857f3e24e143dc56573bc365f36a5610900b09d06faf \
+    --hash=sha256:bdabab7ad27ae86de22a8687cbf55d8a152c6d6f178ffb452e560bac0be957a7
     # via -r requirements.in
-botocore==1.29.105 \
-    --hash=sha256:06a2838daad3f346cba5460d0d3deb198225b556ff9ca729798d787fadbdebde \
-    --hash=sha256:17c82391dfd6aaa8f96fbbb08cad2c2431ef3cda0ece89e6e6ba444c5eed45c2
+botocore==1.29.106 \
+    --hash=sha256:d50df9a39da1b0e475727c6c2ba141b44d9df527d3dc1936b264ee4cb1525ab7 \
+    --hash=sha256:eaaa669fe33a0ef2e9d345a98ed0befac1ea33395d63620913c1bb738c387d4d
     # via
     #   boto3
     #   s3transfer
@@ -283,9 +283,9 @@ factory-boy==3.2.1 \
     --hash=sha256:a98d277b0c047c75eb6e4ab8508a7f81fb03d2cb21986f627913546ef7a2a55e \
     --hash=sha256:eb02a7dd1b577ef606b75a253b9818e6f9eaf996d94449c9d5ebb124f90dc795
     # via -r requirements.in
-faker==18.3.2 \
-    --hash=sha256:a000bba893ea502cea66d06acf14e01655a2289e4904de80faf9dbe880fa1a39 \
-    --hash=sha256:f3299679a6b23409cfe69774bbd1148324a05bd38bda041da6c302e618d7d4a0
+faker==18.3.4 \
+    --hash=sha256:662db19e32768f15440525526849b561bf866cafc05dc8dd674645b9a6070599 \
+    --hash=sha256:c2c69414b0cf6ddd7978c64eabbca66a4fc2a5fb7e74317eeb169e906dc2915d
     # via factory-boy
 flake8==6.0.0 \
     --hash=sha256:3833794e27ff64ea4e9cf5d410082a8b97ff1a06c16aa3d2027339cd0f1195c7 \
