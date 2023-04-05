@@ -113,6 +113,7 @@ WSGI_APPLICATION = "pepysdiary.config.wsgi.application"
 
 
 DATABASES = {"default": dj_database_url.config(conn_max_age=500)}
+DATABASES["default"]["OPTIONS"] = {"server_side_binding": True}
 
 
 # Password validation
