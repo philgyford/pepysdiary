@@ -147,14 +147,7 @@ USE_I18N = False
 USE_TZ = True
 
 
-STORAGES = {
-    "default": {
-        "BACKEND": "django.core.files.storage.FileSystemStorage",
-    },
-    "staticfiles": {
-        "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
-    },
-}
+STATICFILES_STORAGE = "django.contrib.staticfiles.storage.StaticFilesStorage"
 
 STATIC_ROOT = BASE_DIR / "pepysdiary" / "static_collected"
 
@@ -176,7 +169,7 @@ MEDIA_URL = "/media/"
 
 if os.getenv("PEPYS_USE_AWS_FOR_MEDIA", default="False") == "True":
     # Storing Media files on AWS.
-    STORAGES["default"]["BACKEND"] = "pepysdiary.common.storage.MediaS3Boto3Storage"
+    DEFAULT_FILE_STORAGE = "pepysdiary.common.storage.MediaS3Boto3Storage"
 
     AWS_ACCESS_KEY_ID = os.getenv("AWS_ACCESS_KEY_ID")
     AWS_SECRET_ACCESS_KEY = os.getenv("AWS_SECRET_ACCESS_KEY")
