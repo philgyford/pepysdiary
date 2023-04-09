@@ -9,13 +9,13 @@ django-hcaptcha
 django-redis
 django-storages
 django-treebeard
-django<5.0
+django<4.2
 djangorestframework
 gunicorn
 lxml
 Markdown
 Pillow
-psycopg[binary]
+psycopg2
 python-dotenv
 pyyaml
 requests
