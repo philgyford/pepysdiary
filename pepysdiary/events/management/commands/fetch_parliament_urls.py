@@ -32,6 +32,7 @@ URLS = {
     "House of Commons": [
         "https://www.british-history.ac.uk/commons-jrnl/vol7?page=10",
         "https://www.british-history.ac.uk/commons-jrnl/vol7?page=11",
+        "https://www.british-history.ac.uk/commons-jrnl/vol8",
         "https://www.british-history.ac.uk/commons-jrnl/vol8?page=1",
         "https://www.british-history.ac.uk/commons-jrnl/vol8?page=2",
         "https://www.british-history.ac.uk/commons-jrnl/vol8?page=3",
@@ -62,11 +63,14 @@ class Command(BaseCommand):
 
     Grabs all of the urls in URLs, and generates a file at FIXTURE_FILE_PATH.
 
-    This could then be loaded into the database as DayEvents,
+    This could then be loaded into the database as DayEvents:
+
+        ./manage.py loaddata pepysdiary/events/fixtures/dayevents_parliament.json
+
     BUT FIRST, delete all existing Commons and Lords DayEvents:
 
-    from pepysdiary.events.models import DayEvent
-    DayEvent.objects.filter(source=DayEvent.Source.PARLIAMENT).delete()
+        from pepysdiary.events.models import DayEvent
+        DayEvent.objects.filter(source=DayEvent.Source.PARLIAMENT).delete()
     """
 
     help = "Generates a JSON fixture file suitable for importing as DayEvent objects linking to British History pages for the Commons and Lords."  # noqa: E501
