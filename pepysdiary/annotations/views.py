@@ -74,7 +74,7 @@ Flagged by:      {} <{}>
     send_mail(
         "Pepys' Diary Flag",
         message,
-        settings.COMMENT_FLAG_EMAIL,
+        settings.DEFAULT_FROM_EMAIL,
         [settings.COMMENT_FLAG_EMAIL],
         fail_silently=False,
     )
