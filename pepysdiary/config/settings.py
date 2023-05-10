@@ -416,7 +416,9 @@ PEPYS_READING_DATETIMES = [
     datetime(2023, 1, 1, 0, 0, 0, tzinfo=timezone.utc),
 ]
 
+# We don't allow signing up using email addresses with these domains:
 PEPYS_MEMBERSHIP_BLACKLISTED_DOMAINS = [
+    "bugfoo.com",
     "bukhariansiddur.com",
     "ctopicsbh.com",
     "densebpoqq.com",
