@@ -19,7 +19,7 @@ class ArticleAdmin(admin.ModelAdmin):
         "intro",
         "text",
         "excerpt",
-        "item_author",
+        "item_authors",
     ]
     readonly_fields = (
         "date_created",
