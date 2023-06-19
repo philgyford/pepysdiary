@@ -264,9 +264,9 @@ django-hcaptcha==0.2.0 \
     --hash=sha256:18804fb38a01827b6c65d111bac31265c1b96fcf52d7a54c3e2d2cb1c62ddcde \
     --hash=sha256:b2519eaf0cc97865ac72f825301122c5cf61e1e4852d6895994160222acb6c1a
     # via -r requirements.in
-django-redis==5.2.0 \
-    --hash=sha256:1d037dc02b11ad7aa11f655d26dac3fb1af32630f61ef4428860a2e29ff92026 \
-    --hash=sha256:8a99e5582c79f894168f5865c52bd921213253b7fd64d16733ae4591564465de
+django-redis==5.3.0 \
+    --hash=sha256:2d8660d39f586c41c9907d5395693c477434141690fd7eca9d32376af00b0aac \
+    --hash=sha256:8bc5793ec06b28ea802aad85ec437e7646511d4e571e07ccad19cfed8b9ddd44
     # via -r requirements.in
 django-storages==1.13.2 \
     --hash=sha256:31dc5a992520be571908c4c40d55d292660ece3a55b8141462b4e719aa38eab3 \
