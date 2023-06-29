@@ -170,9 +170,13 @@ STATICFILES_FINDERS = [
 ]
 
 
-MEDIA_ROOT = BASE_DIR / "pepysdiary" / "media"
-
 MEDIA_URL = "/media/"
+
+if os.getenv("MEDIA_ROOT", default=""):
+    # Used for tests
+    MEDIA_ROOT = os.getenv("MEDIA_ROOT")
+else:
+    MEDIA_ROOT = BASE_DIR / "pepysdiary" / "media"
 
 
 if os.getenv("PEPYS_USE_AWS_FOR_MEDIA", default="False") == "True":
