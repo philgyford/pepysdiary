@@ -245,9 +245,9 @@ django-extensions==3.2.3 \
     --hash=sha256:44d27919d04e23b3f40231c4ab7af4e61ce832ef46d610cc650d53e68328410a \
     --hash=sha256:9600b7562f79a92cbf1fde6403c04fee314608fefbb595502e34383ae8203401
     # via -r requirements.in
-django-filter==23.2 \
-    --hash=sha256:2fe15f78108475eda525692813205fa6f9e8c1caf1ae65daa5862d403c6dbf00 \
-    --hash=sha256:d12d8e0fc6d3eb26641e553e5d53b191eb8cec611427d4bdce0becb1f7c172b5
+django-filter==23.3 \
+    --hash=sha256:015fe155582e1805b40629344e4a6cf3cc40450827d294d040b4b8c1749a9fa6 \
+    --hash=sha256:65bc5d1d8f4fff3aaf74cb5da537b6620e9214fb4b3180f6c560776b1b6dccd0
     # via -r requirements.in
 django-hcaptcha==0.2.0 \
     --hash=sha256:18804fb38a01827b6c65d111bac31265c1b96fcf52d7a54c3e2d2cb1c62ddcde \
