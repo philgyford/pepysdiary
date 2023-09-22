@@ -49,7 +49,7 @@ Expects:
 										<span class="comment-name">{{ user.get_full_name }}</span>
 										<small>on {{ time_now|date:date_format_mid }}</small>
 									</h2>
-							        {{ form.comment.value|striptags|urlizetrunc:50|linebreaks }}
+							        {{ form.comment.value|striptags|urlizetrunc:34|linebreaks }}
 							    </div>
 							</article>
 						</section>
