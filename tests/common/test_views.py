@@ -356,6 +356,12 @@ class SearchViewTestCase(ViewTransactionTestCase):
         self.assertEqual(data["object_list"][1], entry_1)
         self.assertEqual(data["object_list"][2], entry_3)
 
+    def test_null_bytes(self):
+        "Shouldn't result in a fatal 500 error"
+        self.request.GET = QueryDict("q=%00")
+        response = views.SearchView.as_view()(self.request)
+        response.context_data
+
 
 class RecentViewTestCase(ViewTestCase):
     def test_response_200(self):
