@@ -44,9 +44,9 @@ black==23.10.0 \
     --hash=sha256:f74892b4b836e5162aa0452393112a574dac85e13902c57dfbaaf388e4eda37c \
     --hash=sha256:f8dc7d50d94063cdfd13c82368afd8588bac4ce360e4224ac399e769d6704e98
     # via -r requirements.in
-bleach==6.0.0 \
-    --hash=sha256:1a1a85c1595e07d8db14c5f09f09e6433502c51c595970edc090551f0db99414 \
-    --hash=sha256:33c16e3353dbd13028ab4799a0f89a83f113405c766e9c122df8a06f5b85b3f4
+bleach==6.1.0 \
+    --hash=sha256:0a31f1837963c41d46bbf1331b8778e1308ea0791db03cc4e7357b97cf42a8fe \
+    --hash=sha256:3225f354cfc436b9789c66c4ee030194bee0568fbf9cbdad3bc8b5c26c5f12b6
     # via -r requirements.in
 boto3==1.28.68 \
     --hash=sha256:0da96244df4771a8ee70b742c42759a440fdb9c8b7850584db7c5daf10e824e1 \
