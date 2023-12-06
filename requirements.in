@@ -9,7 +9,7 @@ django-hcaptcha
 django-redis
 django-storages
 django-treebeard
-django<5.0
+django<6.0
 djangorestframework
 gunicorn
 lxml
