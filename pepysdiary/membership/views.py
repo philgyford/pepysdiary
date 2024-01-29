@@ -132,6 +132,11 @@ class LoginView(auth_views.LoginView):
 
 
 class LogoutView(auth_views.LogoutView):
+    "Takes a POST, logs out, and redirects to LogoutCompleteView"
+    pass
+
+
+class LogoutCompleteView(TemplateView):
     template_name = "membership/message.html"
 
     def get_context_data(self, **kwargs):
