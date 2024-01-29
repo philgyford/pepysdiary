@@ -63,7 +63,7 @@ function coverage {
 
 function sp {
   # Run the shell_plus command from django-extensions
-  manage shell_plus
+  manage shell_plus --ipython
 }
 
 

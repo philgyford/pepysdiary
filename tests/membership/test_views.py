@@ -287,21 +287,23 @@ class LoginViewTestCase(LoginTestCase):
 
 
 class LogoutViewTestCase(LoginTestCase):
-    def test_response_200(self):
+    def test_response_405(self):
+        "Should not accept a GET request"
         response = self.client.get("/account/logout/")
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 405)
 
-    def test_template(self):
-        response = self.client.get("/account/logout/")
+    def test_redirect(self):
+        "After a POST to logout, it should redirect to the 'complete' view"
+        response = self.client.post("/account/logout/", follow=True)
+        self.assertRedirects(response, "/account/logout/complete/")
+        # After redirecting:
         self.assertEqual(response.template_name[0], "membership/message.html")
 
     def test_logs_user_out(self):
         "It should log the user out."
         self.log_user_in()
 
-        response = self.client.get("/account/logout/")
-
-        self.assertEqual(response.status_code, 200)
+        self.client.post("/account/logout/")
 
         user = auth.get_user(self.client)
         self.assertFalse(user.is_authenticated)

@@ -131,7 +131,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LOGIN_REDIRECT_URL = "home"
 LOGIN_URL = "login"
-LOGOUT_URL = "logout"
+LOGOUT_REDIRECT_URL = "logout_complete"
 
 COMMENTS_APP = "pepysdiary.annotations"
 
