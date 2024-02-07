@@ -1,6 +1,6 @@
 # pepysdiary
 
-[![Build Status](https://github.com/philgyford/pepysdiary/workflows/CI/badge.svg)](https://github.com/philgyford/pepysdiary/actions?query=workflow%3ACI)
+[![Build Status](https://github.com/philgyford/pepysdiary/actions/workflows/test.yml/badge.svg)](https://github.com/philgyford/pepysdiary/actions/workflows/test.yml)
 [![codecov](https://codecov.io/gh/philgyford/pepysdiary/branch/main/graph/badge.svg?token=GD97K3Q26Z)](https://codecov.io/gh/philgyford/pepysdiary)
 [![Code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
