@@ -3,8 +3,7 @@
 [![Build Status](https://github.com/philgyford/pepysdiary/workflows/CI/badge.svg)](https://github.com/philgyford/pepysdiary/actions?query=workflow%3ACI)
 [![codecov](https://codecov.io/gh/philgyford/pepysdiary/branch/main/graph/badge.svg?token=GD97K3Q26Z)](https://codecov.io/gh/philgyford/pepysdiary)
 [![Code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
-[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
-[![Imports: isort](https://img.shields.io/badge/%20imports-isort-%231674b1?style=flat&labelColor=ef8336)](https://pycqa.github.io/isort/)
+[![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
 [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
 
 Code for [www.pepysdiary.com](http://www.pepysdiary.com/).
@@ -16,7 +15,7 @@ When changing the python version, it will need to be changed in:
 - `.github/workflows/test.yml`
 - `.pre-commit-config.yaml`
 - `.python-version` (for pyenv)
-- `pyproject.toml` (black's target-version)
+- `pyproject.toml` (ruff's target-version)
 - `docker/web/Dockerfile`
 
 For local development we use Docker. The live site is on an Ubuntu 22 VPS.
