@@ -6,13 +6,15 @@
     "**/templates/**/*.html": "django-html",
     "**/templates/**/*": "django-txt"
   },
-  "python.formatting.provider": "black",
-  "python.linting.pylintArgs": [
-    "--load-plugins",
-    "pylint_django",
-    "--disable=C0111"
-  ],
   "[django-html]": {
-    "editor.defaultFormatter": "batisteo.vscode-django"
+    "editor.defaultFormatter": "batisteo.vscode-django",
+    "editor.insertSpaces": false,
+    "editor.tabSize": 2
+  },
+  "[python]": {
+    "editor.codeActionsOnSave": {
+      "source.organizeImports": "explicit"
+    },
+    "editor.defaultFormatter": "charliermarsh.ruff"
   }
 }

@@ -26,15 +26,13 @@ smartypants
 uritemplate
 
 # Dev
-black
 coverage[toml]
 django-debug-toolbar
 django-extensions
 factory-boy
-flake8
 freezegun
 ipython
-isort
 responses
+ruff
 tblib  # For tracebacks when running tests in parallel
 unittest-parametrize
