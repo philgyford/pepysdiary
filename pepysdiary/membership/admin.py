@@ -36,19 +36,21 @@ class PersonCreationForm(forms.ModelForm):
             Person.objects.get(name=name)
         except Person.DoesNotExist:
             return name
-        raise forms.ValidationError("A user with that name already exists.")
+        msg = "A user with that name already exists."
+        raise forms.ValidationError(msg)
 
     def clean_password2(self):
         # Check that the two password entries match
         password1 = self.cleaned_data.get("password1")
         password2 = self.cleaned_data.get("password2")
         if password1 and password2 and password1 != password2:
-            raise forms.ValidationError("Passwords don't match")
+            msg = "Passwords don't match"
+            raise forms.ValidationError(msg)
         return password2
 
-    def save(self, commit=True):
+    def save(self, commit=True):  # noqa: FBT002
         # Save the provided password in hashed format
-        person = super(PersonCreationForm, self).save(commit=False)
+        person = super().save(commit=False)
         person.set_password(self.cleaned_data["password1"])
         if commit:
             person.save()
@@ -65,10 +67,28 @@ class PersonChangeForm(forms.ModelForm):
 
     class Meta:
         model = Person
-        exclude = []
+        fields = [
+            # AbstractBaseUser
+            "password",
+            "last_login",
+            # PermissionsMixin
+            "is_superuser",
+            "groups",
+            "user_permissions",
+            # Person
+            "email",
+            "name",
+            "url",
+            "is_staff",
+            "is_active",
+            "is_trusted_commenter",
+            "activation_key",
+            "first_comment_date",
+            "date_activated",
+        ]
 
     def __init__(self, *args, **kwargs):
-        super(PersonChangeForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         f = self.fields.get("user_permissions", None)
         if f is not None:
             f.queryset = f.queryset.select_related("content_type")
@@ -113,7 +133,7 @@ def deactivate(modeladmin, request, queryset):
     queryset.update(is_active=False)
 
 
-deactivate.short_description = "Deactivate selected People"  # noqa: E305
+deactivate.short_description = "Deactivate selected People"
 
 
 class PersonAdmin(UserAdmin):

@@ -48,7 +48,7 @@ class Command(BaseCommand):
             self.person.save()
 
         else:
-            print(
+            self.stdout.write(
                 "DRY RUN, NOTHING CHANGED IN THE DATABASE. " "WHAT WOULD HAVE HAPPENED:"
             )
             updated = annotations.count()
@@ -62,18 +62,17 @@ class Command(BaseCommand):
         else:
             output_str = "%s Annotations were" % updated
 
-        print(
-            "%s associated with %s (ID %s)."
-            % (output_str, self.person.name, self.person.id)
+        self.stdout.write(
+            f"{output_str} associated with {self.person.name} (ID {self.person.id})."
         )
-        print(
-            "%s first_comment_date was set to %s"
-            % (self.person.name, first_comment_date)
+        self.stdout.write(
+            f"{self.person.name} first_comment_date was set to {first_comment_date}"
         )
 
     def process_args(self, args, options):
         if len(args) != 2:
-            raise CommandError("Please suppy an email address and Person ID.")
+            msg = "Please suppy an email address and Person ID."
+            raise CommandError(msg)
 
         # Very loose test for email address format:
         if re.match(r"^.*?@.*?\..*?$", args[0]) is None:
@@ -86,8 +85,9 @@ class Command(BaseCommand):
 
         try:
             self.person = Person.objects.get(pk=int(args[1]))
-        except Person.DoesNotExist:
-            raise CommandError("There is no Person with an ID of '%s'" % args[1])
+        except Person.DoesNotExist as err:
+            msg = f"There is no Person with an ID of '{args[1]}'"
+            raise CommandError(msg) from err
 
         if options.get("dry-run"):
             self.dry_run = True

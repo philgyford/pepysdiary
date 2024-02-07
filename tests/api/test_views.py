@@ -173,7 +173,7 @@ class CategoryListViewTestCase(SiteAPITestCase):
                             ),
                             (
                                 "webURL",
-                                "http://example.com/encyclopedia/animals/dogs/terriers/",  # noqa: E501
+                                "http://example.com/encyclopedia/animals/dogs/terriers/",
                             ),
                         ]
                     ),
@@ -561,7 +561,7 @@ class TopicListViewTestCase(SiteAPITestCase):
     def test_response_pagination(self):
         """Pagination-related results should be correct."""
         cat = Category.add_root(title="Animals", slug="animals")
-        for n in range(1, 102):
+        for _ in range(1, 102):
             TopicFactory(categories=[cat])
 
         url = reverse("api:topic-list", kwargs={"format": "json"})

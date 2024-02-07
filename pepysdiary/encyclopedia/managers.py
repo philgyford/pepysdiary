@@ -73,7 +73,7 @@ class TopicManager(models.Manager):
         """The IDs of the Topics about the places Pepys has lived."""
         return [102, 1023]
 
-    def fetch_wikipedia_texts(self, topic_ids=[], num=None):
+    def fetch_wikipedia_texts(self, topic_ids=None, num=None):
         """
         Passed a list of Topic IDs, this calls the method that fetches and
         munges the Wikipedia HTML for any of those Topics that have
@@ -93,6 +93,9 @@ class TopicManager(models.Manager):
         Topics that have no Wikipedia URL fragments aren't counted (as we
         don't even try to fetch their texts).
         """
+        if topic_ids is None:
+            topic_ids = []
+
         results = {
             "success": [],
             "failure": [],
@@ -134,13 +137,13 @@ class TopicManager(models.Manager):
 
         return results
 
-    def make_order_title(self, text, is_person=False):
+    def make_order_title(self, text, *, is_person=False):
         """
         If is_person we change:
 
         "Fred Bloggs" to "Bloggs, Fred"
         "Sidney Smythe (1st Lord Smythe)" to "Smythe, Sidney (1st Lord Smythe)"
-        "Sir Heneage Finch (Solicitor-General)" to "Finch, Sir Heneage (Solicitor-General)"  # noqa: E501
+        "Sir Heneage Finch (Solicitor-General)" to "Finch, Sir Heneage (Solicitor-General)"
         "Capt. Henry Terne" to "Terne, Capt. Henry"
         "Capt. Aldridge" to "Aldridge, Capt."
         "Mr Hazard" to "Hazard, Mr"
@@ -167,7 +170,7 @@ class TopicManager(models.Manager):
         "The Royal Prince" to "Royal Prince, The"
         "The Alchemist (Ben Jonson)" to "Alchemist, The (Ben Jonson)"
         "'A dialogue concerning...'" to "A dialogue concerning...'"
-        """
+        """  # noqa: E501
         order_title = text
 
         if text != "":
@@ -243,15 +246,11 @@ class TopicManager(models.Manager):
                                 apostrophe_matches = apostrophe_match.groups()
                                 if apostrophe_matches[0] == "":
                                     # Will be like "Monsieur d'":
-                                    matches[1] = "%s %s" % (
-                                        matches[1],
-                                        apostrophe_matches[1],
-                                    )
+                                    matches[1] = f"{matches[1]} {apostrophe_matches[1]}"
                                 else:
-                                    matches[1] = "%s %s %s" % (
-                                        matches[1],
-                                        apostrophe_matches[0],
-                                        apostrophe_matches[1],
+                                    matches[1] = (
+                                        f"{matches[1]} {apostrophe_matches[0]} "
+                                        f"{apostrophe_matches[1]}"
                                     )
                                 # Will be like "Esquier":
                                 matches[2] = apostrophe_matches[2]
@@ -263,17 +262,13 @@ class TopicManager(models.Manager):
                                 # "surname" was just one word, simple.
                                 # eg, (None, 'Fred', 'Bloggs', None)
                                 if title == "":
-                                    order_title = "%s, %s%s" % (
-                                        matches[2],
-                                        matches[1],
-                                        parentheses,
+                                    order_title = (
+                                        f"{matches[2]}, {matches[1]}{parentheses}"
                                     )
                                 else:
-                                    order_title = "%s, %s %s%s" % (
-                                        matches[2],
-                                        title,
-                                        matches[1],
-                                        parentheses,
+                                    order_title = (
+                                        f"{matches[2]}, {title} "
+                                        f"{matches[1]}{parentheses}"
                                     )
                             else:
                                 # "surname" has more than one word.
@@ -286,20 +281,17 @@ class TopicManager(models.Manager):
                                     pre_surname = " %s" % surname_matches[0]
                                 if title != "":
                                     title += " "
-                                order_title = "%s, %s%s%s%s" % (
-                                    surname_matches[1],
-                                    title,
-                                    matches[1],
-                                    pre_surname,
-                                    parentheses,
+                                order_title = (
+                                    f"{surname_matches[1]}, "
+                                    f"{title}{matches[1]}{pre_surname}{parentheses}"
                                 )
                     elif title != "":
                         # eg, ('Mr', 'Hazard', None)
                         # Need to remove extra space from title, eg 'Mr ':
                         if parentheses == "":
-                            order_title = "%s, %s" % (matches[1], title)
+                            order_title = f"{matches[1]}, {title}"
                         else:
-                            order_title = "%s, %s%s" % (matches[1], title, parentheses)
+                            order_title = f"{matches[1]}, {title}{parentheses}"
                     else:
                         pass
 
@@ -315,7 +307,7 @@ class TopicManager(models.Manager):
                         order_title = "%s, The" % matches[0]
                     else:
                         # eg, ('Alchemist', 'Ben Jonson')
-                        order_title = "%s, The (%s)" % (matches[0], matches[1])
+                        order_title = f"{matches[0]}, The ({matches[1]})"
 
                 # Remove leading apostrophe.
                 apos_pattern = re.compile(r"^'(.*)$")

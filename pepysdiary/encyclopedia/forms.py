@@ -21,7 +21,25 @@ class CategoryMapForm(forms.Form):
 class TopicForm(forms.ModelForm):
     class Meta:
         model = Topic
-        exclude = ()
+        fields = (
+            "title",
+            "order_title",
+            "summary",
+            "summary_author",
+            "summary_publication_date",
+            "wheatley",
+            "tooltip_text",
+            "wikipedia_fragment",
+            "thumbnail",
+            "on_pepys_family_tree",
+            "allow_comments",
+            "map_category",
+            "latitude",
+            "longitude",
+            "zoom",
+            "shape",
+            "categories",
+        )
 
     categories = CategoryMultipleChoiceField(
         queryset=Category.objects.all(),

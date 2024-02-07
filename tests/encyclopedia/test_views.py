@@ -191,8 +191,8 @@ class CategoryMapViewTestCase(ViewTestCase):
 
     @patch("pepysdiary.encyclopedia.managers.CategoryManager.valid_map_category_ids")
     def test_response_category_does_not_exist(self, mocked_valid_map_category_ids):
-        """If the category_id is in the valid map categories, but category does not exist
-        it should raise a 404
+        """If the category_id is in the valid map categories, but
+        category does not exist it should raise a 404
         """
         cat = Category.add_root()
         # We'll look for this category_ID...

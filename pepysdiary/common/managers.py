@@ -2,7 +2,7 @@ from django.contrib.sites.models import Site
 from django.db import models
 
 
-class ReferredManagerMixin(object):
+class ReferredManagerMixin:
     """
     Used for the managers of Diary Entries and Letters, which both have
     references to Encyclopedia Topics.

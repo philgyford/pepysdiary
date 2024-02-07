@@ -1,5 +1,6 @@
+from datetime import timezone
+
 import factory
-import pytz
 from django.utils.text import slugify
 
 from pepysdiary.indepth.models import Article
@@ -21,4 +22,6 @@ class DraftArticleFactory(AbstractArticleFactory):
 
 class PublishedArticleFactory(AbstractArticleFactory):
     status = Article.Status.PUBLISHED
-    date_published = factory.Faker("past_datetime", start_date="-30d", tzinfo=pytz.utc)
+    date_published = factory.Faker(
+        "past_datetime", start_date="-30d", tzinfo=timezone.utc
+    )

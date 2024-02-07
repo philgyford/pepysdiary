@@ -56,20 +56,16 @@ def perform_flag(request, comment):
     """
 
     comment_url = request.build_absolute_uri(comment.get_absolute_url())
-    admin_url = reverse(
-        "admin:%s_%s_change" % (comment._meta.app_label, comment._meta.model_name),
-        args=[comment.id],
-    )
+    url_name = f"admin:{comment._meta.app_label}_{comment._meta.model_name}_change"
+    admin_url = reverse(url_name, args=[comment.id])
     admin_url = request.build_absolute_uri(admin_url)
 
-    message = """Flagged comment: {}
+    message = f"""Flagged comment: {comment_url}
 
-Admin:           {}
+Admin:           {admin_url}
 
-Flagged by:      {} <{}>
-""".format(
-        comment_url, admin_url, request.user.name, request.user.email
-    )
+Flagged by:      {request.user.name} <{request.user.email}>
+"""
 
     send_mail(
         "Pepys' Diary Flag",

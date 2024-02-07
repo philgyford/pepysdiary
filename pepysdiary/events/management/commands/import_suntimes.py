@@ -1,17 +1,21 @@
 import json
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 
 from django.conf import settings
 from django.core.management.base import BaseCommand
 
-from ...models import DayEvent
+from pepysdiary.events.models import DayEvent
 
 FIXTURE_FILE_PATH = (
     settings.BASE_DIR / "pepysdiary" / "events" / "fixtures" / "suntimes-1660-1669.json"
 )
 
-FIRST_DATE = datetime.strptime("1660-01-01", "%Y-%m-%d").date()
-LAST_DATE = datetime.strptime("1669-05-31", "%Y-%m-%d").date()
+FIRST_DATE = (
+    datetime.strptime("1660-01-01", "%Y-%m-%d").replace(tzinfo=timezone.utc).date()
+)
+LAST_DATE = (
+    datetime.strptime("1669-05-31", "%Y-%m-%d").replace(tzinfo=timezone.utc).date()
+)
 
 
 class Command(BaseCommand):
@@ -24,7 +28,9 @@ class Command(BaseCommand):
             data = json.load(f)
 
         for k, v in data.items():
-            gregorian = datetime.strptime(k, "%Y-%m-%d").date()
+            gregorian = (
+                datetime.strptime(k, "%Y-%m-%d").replace(tzinfo=timezone.utc).date()
+            )
             julian = gregorian - timedelta(days=10)
 
             if julian >= FIRST_DATE and julian <= LAST_DATE:

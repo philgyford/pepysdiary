@@ -6,8 +6,9 @@ from django.db import models
 from django.urls import reverse
 from django_comments.moderation import CommentModerator, moderator
 
-from ..common.models import OldDateMixin, PepysModel
-from ..encyclopedia.models import Topic
+from pepysdiary.common.models import OldDateMixin, PepysModel
+from pepysdiary.encyclopedia.models import Topic
+
 from .managers import LetterManager
 
 
@@ -85,10 +86,10 @@ class Letter(PepysModel, OldDateMixin):
         indexes = [GinIndex(fields=["search_document"])]
 
     def __str__(self):
-        return "%s: %s" % (self.letter_date, self.title)
+        return f"{self.letter_date}: {self.title}"
 
     def save(self, *args, **kwargs):
-        super(Letter, self).save(*args, **kwargs)
+        super().save(*args, **kwargs)
         self.make_references()
 
     def get_absolute_url(self):
@@ -120,8 +121,7 @@ class Letter(PepysModel, OldDateMixin):
         self.topics.clear()
         # Get a list of all the Topic IDs mentioned in text and footnotes:
         ids = re.findall(
-            r"pepysdiary.com\/encyclopedia\/(\d+)\/",
-            "%s %s" % (self.text, self.footnotes),
+            r"pepysdiary.com\/encyclopedia\/(\d+)\/", f"{self.text} {self.footnotes}"
         )
         # Make sure list of Topic IDs is unique:
         # From http://stackoverflow.com/a/480227/250962
@@ -138,7 +138,7 @@ class Letter(PepysModel, OldDateMixin):
         """
         Shorter than self.display_date, like '27 Apr 1665'.
         """
-        return "%s %s %s" % (self.day_e, self.month_b, self.year)
+        return f"{self.day_e} {self.month_b} {self.year}"
 
     @property
     def full_title(self):
@@ -146,7 +146,7 @@ class Letter(PepysModel, OldDateMixin):
         Uniquish title including correspondents and date, like
         '27 April 1665, Samuel Pepys to John Evelyn'.
         """
-        return "%s, %s" % (self.short_date, self.title)
+        return f"{self.short_date}, {self.title}"
 
 
 class LetterModerator(CommentModerator):

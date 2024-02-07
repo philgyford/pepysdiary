@@ -198,7 +198,7 @@ urlpatterns += [
     # LETTERS.
     # From /letters/1660/01/01/slug-field.php URLs:
     re_path(
-        r"^letters/(?P<year>\d{4})/(?P<month>\d{2})/(?P<day>\d{2})/(?P<slug>[\w-]+)\.php$",  # noqa: E501
+        r"^letters/(?P<year>\d{4})/(?P<month>\d{2})/(?P<day>\d{2})/(?P<slug>[\w-]+)\.php$",
         LetterRedirectView.as_view(permanent=True),
     ),
     # ENCYCLOPEDIA.
@@ -229,7 +229,7 @@ urlpatterns += [
     # IN-DEPTH.
     # From /indepth/archive/2012/05/31/slug_field.php URLs:
     re_path(
-        r"^indepth/archive/(?P<year>\d{4})/(?P<month>\d{2})/(?P<day>\d{2})/(?P<slug>[\w_]+)\.php$",  # noqa: E501
+        r"^indepth/archive/(?P<year>\d{4})/(?P<month>\d{2})/(?P<day>\d{2})/(?P<slug>[\w_]+)\.php$",
         ArticleRedirectView.as_view(permanent=True),
     ),
     # The URL of the RSS feed that Feedburner fetches.
@@ -242,7 +242,7 @@ urlpatterns += [
     path("about/news/", RedirectView.as_view(url=reverse_lazy("news"), permanent=True)),
     # From /about/archive/2012/05/31/3456.php URLs:
     re_path(
-        r"^about/archive/(?P<year>\d{4})/(?P<month>\d{2})/(?P<day>\d{2})/(?P<pk>\d+)\.php$",  # noqa: E501
+        r"^about/archive/(?P<year>\d{4})/(?P<month>\d{2})/(?P<day>\d{2})/(?P<pk>\d+)\.php$",
         PostRedirectView.as_view(permanent=True),
     ),
     # The URL of the RSS feed that Feedburner fetches.

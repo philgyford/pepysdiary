@@ -4,9 +4,10 @@ from django.views.decorators.vary import vary_on_cookie
 from rest_framework import viewsets
 from rest_framework.views import exception_handler
 
-from ..diary.models import Entry
-from ..diary.views import date_from_string
-from ..encyclopedia.models import Category, Topic
+from pepysdiary.diary.models import Entry
+from pepysdiary.diary.views import date_from_string
+from pepysdiary.encyclopedia.models import Category, Topic
+
 from .serializers import (
     CategoryDetailSerializer,
     CategoryListSerializer,

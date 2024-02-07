@@ -84,10 +84,7 @@ def rss_feeds(*args):
     )
     kinds = []
     # What feeds are we linking to?
-    if len(args) == 0:
-        kinds = [k for k, v in feeds]
-    else:
-        kinds = args
+    kinds = [k for k, v in feeds] if len(args) == 0 else args
 
     feeds_dict = dict(feeds)
 
@@ -173,34 +170,28 @@ def summary_year_navigation(current_year):
     else:
         current_year = current_year.year
 
-    html = '<a class="list-group-item %s" href="%s">Before the diary</a>' % (
-        css_class,
-        reverse("diary_summary"),
-    )
+    href = reverse("diary_summary")
+    html = f'<a class="list-group-item {css_class}" href="{href}">Before the diary</a>'
 
     for y in Entry.objects.all_years():
         css_class = ""
         if int(y) == current_year:
             css_class = "active"
-        html += '<a class="list-group-item %s" href="%s">%s</a>' % (
-            css_class,
-            reverse("summary_year_archive", kwargs={"year": y}),
-            y,
-        )
+        href = reverse("summary_year_archive", kwargs={"year": y})
+        html += f'<a class="list-group-item {css_class}" href="{href}">{y}</a>'
 
+    href = reverse(
+        "article_detail",
+        kwargs={
+            "year": "2012",
+            "month": "05",
+            "day": "31",
+            "slug": "the-next-chapter",
+        },
+    )
     html += (
-        '<a class="list-group-item" href="%s">After the diary (In-Depth Article)</a>'
-        % (
-            reverse(
-                "article_detail",
-                kwargs={
-                    "year": "2012",
-                    "month": "05",
-                    "day": "31",
-                    "slug": "the-next-chapter",
-                },
-            )
-        )
+        f'<a class="list-group-item" href="{href}">'
+        "After the diary (In-Depth Article)</a>"
     )
     return mark_safe('<div class="list-group">%s</div>' % html)
 

@@ -6,7 +6,8 @@ from django_comments.moderation import CommentModerator, moderator
 from markdown import markdown
 from treebeard.mp_tree import MP_Node
 
-from ..common.models import PepysModel
+from pepysdiary.common.models import PepysModel
+
 from . import category_lookups, topic_lookups
 from .managers import CategoryManager, TopicManager
 
@@ -40,11 +41,7 @@ class Category(MP_Node):
         # Join all the parent categories' slugs, eg:
         # 'fooddrink/drink/alcdrinks'.
         parent_slugs = "/".join([c.slug for c in self.get_ancestors()])
-        if parent_slugs:
-            path = "%s/%s" % (parent_slugs, self.slug)
-        else:
-            # Top level category.
-            path = str(self.slug)
+        path = f"{parent_slugs}/{self.slug}" if parent_slugs else str(self.slug)
         return reverse("category_detail", kwargs={"slugs": path})
 
     def set_topic_count(self):
@@ -180,7 +177,7 @@ class Topic(PepysModel):
     def save(self, *args, **kwargs):
         self.summary_html = markdown(self.summary)
         self.wheatley_html = markdown(self.wheatley)
-        super(Topic, self).save(*args, **kwargs)
+        super().save(*args, **kwargs)
 
         if self._order_title_made is False:
             # When importing data we need to do the make_order_title() after
@@ -197,10 +194,7 @@ class Topic(PepysModel):
     @property
     def has_location(self):
         """Do we have lat/long for this topic?"""
-        if self.latitude is not None and self.longitude is not None:
-            return True
-        else:
-            return False
+        return self.latitude is not None and self.longitude is not None
 
     @property
     def has_polygon(self):
@@ -209,10 +203,7 @@ class Topic(PepysModel):
             return False
         else:
             points = self.shape.split(";")
-            if points[0] == points[-1]:
-                return True
-            else:
-                return False
+            return points[0] == points[-1]
 
     @property
     def has_path(self):
@@ -221,10 +212,7 @@ class Topic(PepysModel):
             return False
         else:
             points = self.shape.split(";")
-            if points[0] == points[-1]:
-                return False
-            else:
-                return True
+            return points[0] != points[-1]
 
     @property
     def category_map_id(self):
@@ -326,7 +314,7 @@ class Topic(PepysModel):
     @property
     def wikipedia_url(self):
         if self.wikipedia_fragment:
-            return "https://en.wikipedia.org/wiki/{}".format(self.wikipedia_fragment)
+            return f"https://en.wikipedia.org/wiki/{self.wikipedia_fragment}"
         else:
             return ""
 
@@ -340,10 +328,7 @@ class Topic(PepysModel):
         If at least one of this topic's categories is directly within People,
         then True. All people topics are direct descendants of People category.
         """
-        for c in self.categories.all():
-            if c.id == category_lookups.PEOPLE:
-                return True
-        return False
+        return any(c.id == category_lookups.PEOPLE for c in self.categories.all())
 
     @property
     def is_place(self):

@@ -3,7 +3,7 @@ import requests
 from bs4 import BeautifulSoup
 
 
-class WikipediaFetcher(object):
+class WikipediaFetcher:
     def fetch(self, page_name):
         """
         Passed a Wikipedia page's URL fragment, like
@@ -128,7 +128,6 @@ class WikipediaFetcher(object):
             "small",
             "span",
             "strong",
-            "style",
             "sub",
             "sup",
             "table",

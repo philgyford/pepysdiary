@@ -112,7 +112,7 @@ class StaticSitemap(Sitemap):
     #         a = Article.published_articles.latest('date_published')
     #         self.lastmod = a.date_published
     #     except:
-    #         self.lastmod = datetime.datetime.now(pytz.utc)
+    #         self.lastmod = datetime.datetime.now(datetime.timezone.utc)
 
     main_sitemaps = []
     for page in list(pages.keys()):
@@ -170,7 +170,7 @@ class ArchiveSitemap(Sitemap):
 
     def _news_categories_sitemaps(self):
         sitemaps = []
-        for slug, label in Post.Category.choices:
+        for slug, _ in Post.Category.choices:
             sitemap_class = AbstractSitemapClass()
             sitemap_class.url = reverse_lazy(
                 "post_category_archive", kwargs={"category_slug": slug}

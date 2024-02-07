@@ -1,14 +1,13 @@
 import json
 import time
-from datetime import datetime
+from datetime import datetime, timezone
 
 import requests
 from bs4 import BeautifulSoup
 from django.conf import settings
 from django.core.management.base import BaseCommand
-from django.utils import timezone
 
-from ...models import DayEvent
+from pepysdiary.events.models import DayEvent
 
 # The file that will be created/replaced:
 FIXTURE_FILE_PATH = (
@@ -23,8 +22,12 @@ FIXTURE_FILE_PATH = (
 BASE_URL = "https://www.british-history.ac.uk"
 
 # We discard any events that aren't between these dates, inclusive:
-FIRST_DATE = datetime.strptime("1660-01-01", "%Y-%m-%d").date()
-LAST_DATE = datetime.strptime("1669-05-31", "%Y-%m-%d").date()
+FIRST_DATE = (
+    datetime.strptime("1660-01-01", "%Y-%m-%d").replace(tzinfo=timezone.utc).date()
+)
+LAST_DATE = (
+    datetime.strptime("1669-05-31", "%Y-%m-%d").replace(tzinfo=timezone.utc).date()
+)
 
 # The URLs that we fetch links from.
 # This dict's keys are used for the DayEvent.title field.
@@ -159,7 +162,11 @@ class Command(BaseCommand):
             else:
                 # Make a date object from the date string we found:
                 try:
-                    date = datetime.strptime(date_str, "%d %B %Y").date()
+                    date = (
+                        datetime.strptime(date_str, "%d %B %Y")
+                        .replace(tzinfo=timezone.utc)
+                        .date()
+                    )
                 except ValueError:
                     self.stderr.write(
                         f"Could not create a date object from '{date_str}', skipping"

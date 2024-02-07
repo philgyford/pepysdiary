@@ -1,5 +1,6 @@
+from datetime import timezone
+
 import factory
-import pytz
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.sites.models import Site
 
@@ -33,7 +34,7 @@ class AbstractAnnotationFactory(factory.django.DjangoModelFactory):
         lambda o: o.user.url if o.user and o.user.url else ""
     )
     comment = factory.Faker("paragraph")
-    submit_date = factory.Faker("past_datetime", start_date="-30d", tzinfo=pytz.utc)
+    submit_date = factory.Faker("past_datetime", start_date="-30d", tzinfo=timezone.utc)
     is_public = True
     is_removed = False
 
@@ -47,24 +48,29 @@ class AbstractAnnotationFactory(factory.django.DjangoModelFactory):
 
 class ArticleAnnotationFactory(AbstractAnnotationFactory):
     "Pass in an Article as content_object to have the annotation on a specific Article"
+
     content_object = factory.SubFactory(PublishedArticleFactory)
 
 
 class EntryAnnotationFactory(AbstractAnnotationFactory):
     "Pass in an Entry as content_object to have the annotation on a specific Entry"
+
     content_object = factory.SubFactory(EntryFactory)
 
 
 class LetterAnnotationFactory(AbstractAnnotationFactory):
     "Pass in a Letter as content_object to have the annotation on a specific Letter"
+
     content_object = factory.SubFactory(LetterFactory)
 
 
 class PostAnnotationFactory(AbstractAnnotationFactory):
     "Pass in a Post as content_object to have the annotation on a specific Post"
+
     content_object = factory.SubFactory(PublishedPostFactory)
 
 
 class TopicAnnotationFactory(AbstractAnnotationFactory):
     "Pass in a Topic as content_object to have the annotation on a specific Topic"
+
     content_object = factory.SubFactory(TopicFactory)

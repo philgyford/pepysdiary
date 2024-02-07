@@ -46,7 +46,7 @@ class Annotation(CommentAbstractModel):
         # We don't allow HTML at all:
         self.comment = strip_tags(self.comment)
 
-        super(Annotation, self).save(*args, **kwargs)
+        super().save(*args, **kwargs)
         self.set_parent_comment_data()
         self._set_user_first_comment_date()
 
@@ -120,16 +120,18 @@ class Annotation(CommentAbstractModel):
         try:
             content_type = ContentType.objects.get(pk=self.content_type_id)
             if not content_type.model_class():
-                raise AttributeError(
-                    "Content type %(ct_id)s object has no associated model"
-                    % {"ct_id": self.content_type_id}
+                msg = (
+                    f"Content type {self.content_type_id} object "
+                    "has no associated model"
                 )
+                raise AttributeError(msg)
             obj = content_type.get_object_for_this_type(pk=self.object_pk)
-        except (ObjectDoesNotExist, ValueError):
-            raise AttributeError(
-                "Content type %(ct_id)s object %(obj_id)s doesn't exist"
-                % {"ct_id": self.content_type_id, "obj_id": self.object_pk}
+        except (ObjectDoesNotExist, ValueError) as err:
+            msg = (
+                f"Content type {self.content_type_id} object "
+                f"{self.object.pk} doesn't exist"
             )
+            raise AttributeError(msg) from err
 
         # All good. So set the count of visible comments.
         # Note: We explicitly remove any ordering because we don't need it
@@ -181,12 +183,12 @@ class Annotation(CommentAbstractModel):
             self.user is not None
             and self.is_public is True
             and self.is_removed is False
-        ):
-            # And if this annotation is earlier than the user's
-            # first_comment_date:
-            if (
+            and (
+                # And if this annotation is earlier than the user's
+                # first_comment_date:
                 self.user.first_comment_date is None
                 or self.submit_date < self.user.first_comment_date
-            ):
-                self.user.first_comment_date = self.submit_date
-                self.user.save()
+            )
+        ):
+            self.user.first_comment_date = self.submit_date
+            self.user.save()

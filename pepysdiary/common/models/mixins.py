@@ -1,9 +1,15 @@
 from django.core.exceptions import ImproperlyConfigured
 
-from ..utilities import get_day, get_day_e, get_month, get_month_b, get_year
+from pepysdiary.common.utilities import (
+    get_day,
+    get_day_e,
+    get_month,
+    get_month_b,
+    get_year,
+)
 
 
-class OldDateMixin(object):
+class OldDateMixin:
     """
     Because strftime can't cope with very old dates, we have to get
     year/month/day like this...
@@ -19,9 +25,8 @@ class OldDateMixin(object):
 
     def get_old_date(self):
         if self.old_date_field is None:
-            raise ImproperlyConfigured(
-                "Objects using OldDateMixin should define" "`old_date_field`."
-            )
+            msg = "Objects using OldDateMixin should define" "`old_date_field`."
+            raise ImproperlyConfigured(msg)
         return getattr(self, self.old_date_field)
 
     @property

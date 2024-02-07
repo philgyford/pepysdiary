@@ -11,28 +11,28 @@ from pepysdiary.encyclopedia.factories import TopicFactory
 class EntryManagerTestCase(TestCase):
     @freeze_time("2021-02-01 22:59:59", tz_offset=0)
     @override_settings(YEARS_OFFSET=353)
-    def test_most_recent_entry_date_before_11pm_GMT(self):
+    def test_most_recent_entry_date_before_11pm_gmt(self):
         "Before 11pm, should return yesterday's date, in winter"
         d = Entry.objects.most_recent_entry_date()
         self.assertEqual(d, make_date("1668-01-31"))
 
     @freeze_time("2021-02-01 23:00:00", tz_offset=0)
     @override_settings(YEARS_OFFSET=353)
-    def test_most_recent_entry_date_after_11pm_GMT(self):
+    def test_most_recent_entry_date_after_11pm_gmt(self):
         "From 11pm, should return today's date, in winter"
         d = Entry.objects.most_recent_entry_date()
         self.assertEqual(d, make_date("1668-02-01"))
 
     @freeze_time("2021-04-01 22:59:59", tz_offset=0)
     @override_settings(YEARS_OFFSET=353)
-    def test_most_recent_entry_date_before_11pm_BST(self):
+    def test_most_recent_entry_date_before_11pm_bst(self):
         "Before 11pm, should return yesterday's date, in summertime"
         d = Entry.objects.most_recent_entry_date()
         self.assertEqual(d, make_date("1668-03-31"))
 
     @freeze_time("2021-04-01 23:00:00", tz_offset=0)
     @override_settings(YEARS_OFFSET=353)
-    def test_most_recent_entry_date_after_11pm_BST(self):
+    def test_most_recent_entry_date_after_11pm_bst(self):
         "From 11pm, should return today's date, in summertime"
         d = Entry.objects.most_recent_entry_date()
         self.assertEqual(d, make_date("1668-04-01"))

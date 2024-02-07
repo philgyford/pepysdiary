@@ -1,7 +1,6 @@
 import re
-from datetime import datetime
+from datetime import datetime, timezone
 
-import pytz
 from django.conf import settings
 from django.contrib.sites.models import Site
 from django.utils.html import strip_tags
@@ -9,12 +8,12 @@ from django.utils.html import strip_tags
 
 def make_date(d):
     "For convenience."
-    return datetime.strptime(d, "%Y-%m-%d").date()
+    return datetime.strptime(d, "%Y-%m-%d").replace(tzinfo=timezone.utc).date()
 
 
 def make_datetime(dt):
     "For convenience."
-    return datetime.strptime(dt, "%Y-%m-%d %H:%M:%S").replace(tzinfo=pytz.utc)
+    return datetime.strptime(dt, "%Y-%m-%d %H:%M:%S").replace(tzinfo=timezone.utc)
 
 
 def smart_truncate(content, length=80, suffix="…"):
@@ -59,7 +58,7 @@ def hilite_words(content, words):
     # Note the optional trailing 's', because the search sometimes returns
     # matches for plurals, but we weren't hiliting them.
     find = "s?\\b)|(\\b".join(words.split())
-    regex = re.compile(r"(\b{}s?\b)".format(find), re.IGNORECASE)
+    regex = re.compile(rf"(\b{find}s?\b)", re.IGNORECASE)
 
     output = ""
     i = 0
@@ -69,16 +68,17 @@ def hilite_words(content, words):
         )
         i = m.end()
 
-    if i == 0:
-        html = content
-    else:
-        html = "".join([output, content[m.end() :]])
+    html = content if i == 0 else "".join([output, content[m.end() :]])
 
     return html
 
 
 def trim_hilites(
-    content, chars_before=20, chars_after=40, allow_empty=True, max_hilites_to_show=None
+    content,
+    chars_before=20,
+    chars_after=40,
+    allow_empty=True,  # noqa: FBT002
+    max_hilites_to_show=None,
 ):
     """
     Given some text that contains no HTML tags except <b> and </b>,
@@ -112,7 +112,7 @@ def trim_hilites(
     # throw off some of the counting.
     content = re.sub(r"\s+", " ", content).strip()
 
-    tag_re = re.compile(r"{}[^<]*?{}".format(start_tag, end_tag))
+    tag_re = re.compile(rf"{start_tag}[^<]*?{end_tag}")
     iters = tag_re.finditer(content)
     # Get list of start and end positions of all '<b>blah</b>' substrings:
     positions = [(m.start(0), m.end(0)) for m in iters]
@@ -165,7 +165,7 @@ def trim_hilites(
     excerpts = []
     for pos in positions_to_use:
         if pos[0] > chars_before:
-            fragment = "{}".format(content[pos[0] - chars_before :])
+            fragment = f"{content[pos[0] - chars_before :]}"
         else:
             fragment = content
 
@@ -187,7 +187,7 @@ def trim_hilites(
     if len(positions) == 0:
         if allow_empty is False:
             excerpt = content[: (chars_before + chars_after)]
-            text = "{}{}".format(excerpt, joiner)
+            text = f"{excerpt}{joiner}"
     else:
         if (positions[0][0] - chars_before) > 0:
             text = joiner.lstrip() + text
@@ -255,7 +255,7 @@ def is_leap_year(year):
 
 
 def expire_view_cache(
-    view_name, args=[], namespace=None, key_prefix=None, method="GET"
+    view_name, args=None, namespace=None, key_prefix=None, method="GET"
 ):
     """
     This function allows you to invalidate any view-level cache.
@@ -274,6 +274,9 @@ def expire_view_cache(
     from django.http import HttpRequest
     from django.urls import reverse
     from django.utils.cache import get_cache_key
+
+    if args is None:
+        args = []
 
     # create a fake request object
     request = HttpRequest()
@@ -429,4 +432,4 @@ def make_url_absolute(url):
 
         domain = Site.objects.get_current().domain
 
-        return "{}://{}{}".format(protocol, domain, url)
+        return f"{protocol}://{domain}{url}"

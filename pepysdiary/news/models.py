@@ -5,7 +5,8 @@ from django.utils import timezone
 from django_comments.moderation import CommentModerator, moderator
 from markdown import markdown
 
-from ..common.models import PepysModel
+from pepysdiary.common.models import PepysModel
+
 from .managers import PublishedPostManager
 
 

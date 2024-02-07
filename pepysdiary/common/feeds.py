@@ -15,12 +15,12 @@ class ExtendedRSSFeed(Rss201rev2Feed):
     """
 
     def root_attributes(self):
-        attrs = super(ExtendedRSSFeed, self).root_attributes()
+        attrs = super().root_attributes()
         attrs["xmlns:content"] = "http://purl.org/rss/1.0/modules/content/"
         return attrs
 
     def add_item_elements(self, handler, item):
-        super(ExtendedRSSFeed, self).add_item_elements(handler, item)
+        super().add_item_elements(handler, item)
         handler.addQuickElement("content:encoded", item["content_encoded"])
 
 
@@ -68,17 +68,14 @@ class BaseRSSFeed(Feed):
             if text != "":
                 parts.append(force_str(smartypants(text)))
 
+        url = add_domain(
+            Site.objects.get_current().domain,
+            url,
+            secure=settings.PEPYS_USE_HTTPS,
+        )
         parts.append(
-            '<p><strong><a href="%s#%ss">Read the %ss</a></strong></p>'
-            % (
-                add_domain(
-                    Site.objects.get_current().domain,
-                    url,
-                    secure=settings.PEPYS_USE_HTTPS,
-                ),
-                comment_name,
-                comment_name,
-            )
+            f'<p><strong><a href="{url}#{comment_name}s">'
+            f"Read the {comment_name}s</a></strong></p>"
         )
 
         html = " ".join(parts)

@@ -1,4 +1,3 @@
-# coding: utf-8
 import calendar
 
 from django import template
@@ -22,15 +21,8 @@ def _commented_objects_list(context, title, quantity, model_class):
     data for use with the common/inc/commented_objects_list.html template.
     """
     # Defaults, just in case we don't have these set in context:
-    if "date_format_mid_strftime" in context:
-        date_format = context["date_format_mid_strftime"]
-    else:
-        date_format = "%d %b %Y"
-
-    if "time_format_strftime" in context:
-        time_format = context["time_format_strftime"]
-    else:
-        time_format = "%I:%M%p"
+    date_format = context.get("date_format_mid_strftime", "%d %b %Y")
+    time_format = context.get("time_format_strftime", "%I:%M%p")
 
     queryset = model_class.objects.filter(last_comment_time__isnull=False).order_by(
         "-last_comment_time"

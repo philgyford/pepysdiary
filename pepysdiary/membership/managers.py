@@ -1,11 +1,9 @@
-import datetime
 import hashlib
 import re
+from datetime import datetime, timezone
 
-import pytz
 from django.contrib.auth.models import BaseUserManager
 from django.db import transaction
-from django.utils import timezone
 from django.utils.crypto import get_random_string
 from django.utils.encoding import smart_str
 
@@ -22,13 +20,15 @@ class PersonManager(BaseUserManager):
         """
         Creates and saves a Person with the given name, email and password.
         """
-        now = timezone.now()
+        now = datetime.now(tz=timezone.utc)
 
         if not email:
-            raise ValueError("Users must have an email address")
+            msg = "Users must have an email address"
+            raise ValueError(msg)
 
         if not name:
-            raise ValueError("Users must have a name")
+            msg = "Users must have a name"
+            raise ValueError(msg)
 
         email = PersonManager.normalize_email(email)
 
@@ -51,7 +51,7 @@ class PersonManager(BaseUserManager):
         return u
 
     def create_inactive_user(
-        self, name, email, password, site, send_email=True, **extra_fields
+        self, name, email, password, site, send_email, **extra_fields
     ):
         """
         Create a new, inactive ``User`` and email its activation key to the
@@ -61,6 +61,9 @@ class PersonManager(BaseUserManager):
         user. To disable this, pass ``send_email=False``.
         """
         from .models import Person
+
+        if send_email is None:
+            send_email = True
 
         with transaction.atomic():
             person = Person.objects.create_user(name, email, password, **extra_fields)
@@ -110,7 +113,7 @@ class PersonManager(BaseUserManager):
                 return False
             if person.activation_key_expired() is False:
                 person.is_active = True
-                person.date_activated = datetime.datetime.now(pytz.utc)
+                person.date_activated = datetime.now(timezone.utc)
                 person.activation_key = self.model.ACTIVATED
                 person.save()
                 return person

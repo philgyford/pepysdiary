@@ -1,7 +1,8 @@
 from django.contrib.sites.models import Site
 from django.db import models
 
-from ..managers import ConfigManager
+from pepysdiary.common.managers import ConfigManager
+
 from .abstract import PepysModel
 
 

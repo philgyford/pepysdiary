@@ -14,7 +14,7 @@ class AnnotationForm(CommentForm):
         """
         Custom tidying of the comment text.
         """
-        comment = super(AnnotationForm, self).clean_comment()
+        comment = super().clean_comment()
 
         # Replace three or more blank lines with two.
         comment = re.sub(r"\n\s*\n", "\n\n", comment)

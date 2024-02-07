@@ -35,16 +35,16 @@ class CategoryDetailView(DetailView):
     def get_object(self, queryset=None):
         slugs = self.kwargs.get(self.slug_url_kwarg, None)
         if slugs is None:
-            raise AttributeError(
-                "'CategoryDetailView' must be called with slugs in the URL"
-            )
+            msg = "'CategoryDetailView' must be called with slugs in the URL"
+            raise AttributeError(msg)
         else:
             slug = slugs.split("/")[-1]
 
         try:
             obj = Category.objects.get(slug=slug)
-        except Category.DoesNotExist:
-            raise Http404(_("No Categories found matching the query"))
+        except Category.DoesNotExist as err:
+            msg = _("No Categories found matching the query")
+            raise Http404(msg) from err
         return obj
 
     def get_context_data(self, **kwargs):
@@ -107,15 +107,14 @@ class CategoryMapView(FormView):
             if int(cat_id) in Category.objects.valid_map_category_ids():
                 self.category_id = int(cat_id)
             else:
-                raise Http404("Invalid category_id supplied")
+                msg = "Invalid category_id supplied"
+                raise Http404(msg)
 
         try:
             self.category = Category.objects.get(pk=self.category_id)
-        except Category.DoesNotExist:
-            raise Http404(
-                "'CategoryMa[View' has an invalid category_id: '%s'"
-                % (self.category_id)
-            )
+        except Category.DoesNotExist as err:
+            msg = f"'CategoryMa[View' has an invalid category_id: '{self.category_id}'"
+            raise Http404(msg) from err
 
         return super().get(request, *args, **kwargs)
 

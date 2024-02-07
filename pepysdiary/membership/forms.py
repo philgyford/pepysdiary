@@ -1,4 +1,3 @@
-# coding: utf-8
 from django import forms
 from django.contrib.auth import password_validation
 from django.contrib.auth.forms import (
@@ -32,9 +31,9 @@ class LoginForm(AuthenticationForm):
 
     def clean(self):
         config = Config.objects.get_site_config()
-        if config is not None:
-            if config.allow_login is False:
-                raise forms.ValidationError("Sorry, logging in is currently disabled.")
+        if config is not None and config.allow_login is False:
+            msg = "Sorry, logging in is currently disabled."
+            raise forms.ValidationError(msg)
         return super().clean()
 
 
@@ -209,15 +208,17 @@ class RegistrationForm(forms.Form):
         field.
         """
         config = Config.objects.get_site_config()
-        if config is not None:
-            if config.allow_registration is False:
-                raise forms.ValidationError(
-                    "Sorry, new registrations aren't allowed at the moment."
-                )
+        if config is not None and config.allow_registration is False:
+            msg = "Sorry, new registrations aren't allowed at the moment."
+            raise forms.ValidationError(msg)
 
-        if "password1" in self.cleaned_data and "password2" in self.cleaned_data:
-            if self.cleaned_data["password1"] != self.cleaned_data["password2"]:
-                raise forms.ValidationError(_("The two password fields didn't match."))
+        if (
+            "password1" in self.cleaned_data
+            and "password2" in self.cleaned_data
+            and self.cleaned_data["password1"] != self.cleaned_data["password2"]
+        ):
+            msg = _("The two password fields didn't match.")
+            raise forms.ValidationError(msg)
         return self.cleaned_data
 
 

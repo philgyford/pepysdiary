@@ -95,7 +95,7 @@ class AnnotationTestCase(TestCase):
             content_object=entry,
             is_public=True,
             is_removed=False,
-            submit_date=make_datetime(("2021-04-09 12:00:00")),
+            submit_date=make_datetime("2021-04-09 12:00:00"),
         )
 
         # None of these should be included:
@@ -132,13 +132,13 @@ class AnnotationTestCase(TestCase):
             content_object=entry,
             is_public=True,
             is_removed=False,
-            submit_date=make_datetime(("2021-04-09 12:00:00")),
+            submit_date=make_datetime("2021-04-09 12:00:00"),
         )
         annotation_2 = EntryAnnotationFactory(
             content_object=entry,
             is_public=True,
             is_removed=False,
-            submit_date=make_datetime(("2021-04-10 12:00:00")),
+            submit_date=make_datetime("2021-04-10 12:00:00"),
         )
         annotation_2.delete()
 
@@ -242,7 +242,7 @@ class AnnotationTestCase(TestCase):
             content_object=entry,
             is_public=True,
             is_removed=False,
-            submit_date=make_datetime(("2021-04-12 12:00:00")),
+            submit_date=make_datetime("2021-04-12 12:00:00"),
         )
 
         person.refresh_from_db()

@@ -93,7 +93,7 @@ class EventsTemplateTagsTestCase(TestCase):
 
         self.assertEqual(
             html,
-            f"{self.entries_html}{self.letters_html}{self.dayevents_html}{self.link_html}",  # noqa: E501
+            f"{self.entries_html}{self.letters_html}{self.dayevents_html}{self.link_html}",
         )
 
     def test_events_for_day_with_exclude_entries(self):
@@ -163,7 +163,7 @@ class EventsTemplateTagsTestCase(TestCase):
 
         self.assertEqual(
             html,
-            f"{self.sidebar_start_html}{self.entries_html}{self.letters_html}{self.dayevents_html}{self.link_html}{self.sidebar_end_html}",  # noqa: E501
+            f"{self.sidebar_start_html}{self.entries_html}{self.letters_html}{self.dayevents_html}{self.link_html}{self.sidebar_end_html}",
         )
 
     def test_events_for_day_in_sidebar_with_exclude_entries(self):
@@ -172,7 +172,7 @@ class EventsTemplateTagsTestCase(TestCase):
 
         self.assertEqual(
             html,
-            f"{self.sidebar_start_html}{self.letters_html}{self.dayevents_html}{self.link_html}{self.sidebar_end_html}",  # noqa: E501
+            f"{self.sidebar_start_html}{self.letters_html}{self.dayevents_html}{self.link_html}{self.sidebar_end_html}",
         )
 
     def test_events_for_day_in_sidebar_with_exclude_letters(self):
@@ -181,7 +181,7 @@ class EventsTemplateTagsTestCase(TestCase):
 
         self.assertEqual(
             html,
-            f"{self.sidebar_start_html}{self.entries_html}{self.dayevents_html}{self.link_html}{self.sidebar_end_html}",  # noqa: E501
+            f"{self.sidebar_start_html}{self.entries_html}{self.dayevents_html}{self.link_html}{self.sidebar_end_html}",
         )
 
     def test_events_for_day_in_sidebar_with_no_events(self):

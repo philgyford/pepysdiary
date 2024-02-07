@@ -1,6 +1,6 @@
 from django.db import models
 
-from ..common.models import OldDateMixin, PepysModel
+from pepysdiary.common.models import OldDateMixin, PepysModel
 
 
 class DayEvent(PepysModel, OldDateMixin):

@@ -1,4 +1,3 @@
-# coding: utf-8
 from django import template
 from django.urls import reverse
 from django.utils.html import mark_safe
@@ -21,12 +20,12 @@ def events_html(title, event_list):
     """
     if len(event_list) == 0:
         return ""
-    html = "<h2>%s</h2>\n<ul>\n" % title
+    html = f"<h2>{title}</h2>\n<ul>\n"
     for li in event_list:
         if "url" in li and li["url"] != "":
-            html += '<li><a href="%s">%s</a></li>\n' % (li["url"], li["text"])
+            html += '<li><a href="{}">{}</a></li>\n'.format(li["url"], li["text"])
         else:
-            html += "<li>%s</li>\n" % li["text"]
+            html += "<li>{}</li>\n".format(li["text"])
     html += "</ul>\n"
     return html
 
@@ -48,7 +47,7 @@ def dayevents_for_day(date):
 
     # Makes a dict like:
     # {"10": {}, "20": {}, "30": {}, "40": {}}
-    events_by_source = {key: {} for key in sources.keys()}
+    events_by_source = {key: {} for key in sources}
 
     for ev in DayEvent.objects.filter(event_date=date).order_by("source", "order"):
         # For each source, there *might* be several events with the same title
@@ -72,7 +71,7 @@ def dayevents_for_day(date):
                     #  Many events with the same title. So show numbered links.
                     event_html = "%s: " % title
                     for n, event in enumerate(events):
-                        event_html += '<a href="%s">%s</a> ' % (event.url, (n + 1))
+                        event_html += f'<a href="{event.url}">{n + 1}</a> '
                     event_list.append({"text": event_html})
 
             # Make the HTML. sources[source_key] is like 'In Parliament'.

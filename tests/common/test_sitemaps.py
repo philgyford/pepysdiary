@@ -277,7 +277,7 @@ class SitemapsTestCase(TestCase):
         response = self.client.get("/sitemap-archives.xml")
         response_content = response.content.decode()
 
-        for slug, label in Post.Category.choices:
+        for slug, _ in Post.Category.choices:
             self.assertIn(
                 f"<loc>http://example.com/news/{slug}/</loc>", response_content
             )

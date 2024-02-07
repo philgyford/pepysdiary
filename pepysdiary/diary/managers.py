@@ -1,11 +1,11 @@
-import datetime
+from datetime import date, datetime, timedelta, timezone
+from zoneinfo import ZoneInfo
 
-import pytz
 from django.conf import settings
 from django.db import models
 
-from ..common.managers import ReferredManagerMixin
-from ..common.utilities import is_leap_year
+from pepysdiary.common.managers import ReferredManagerMixin
+from pepysdiary.common.utilities import is_leap_year
 
 
 class EntryManager(models.Manager, ReferredManagerMixin):
@@ -17,11 +17,13 @@ class EntryManager(models.Manager, ReferredManagerMixin):
         Except "today's" entry is only published at 23:00 UK time. Until then
         we see "yesterday's" entry.
         """
-        tz = pytz.timezone("Europe/London")
-        time_now = datetime.datetime.now().replace(tzinfo=tz)
+        time_now = datetime.now(tz=timezone.utc).replace(
+            tzinfo=ZoneInfo("Europe/London")
+        )
         if int(time_now.strftime("%H")) < 23:
             # It's before 11pm, so we still show yesterday's entry.
-            time_now = time_now - datetime.timedelta(days=1)
+
+            time_now = time_now - timedelta(days=1)
 
         entry_year = int(time_now.strftime("%Y")) - settings.YEARS_OFFSET
         entry_month = int(time_now.strftime("%m"))
@@ -30,7 +32,7 @@ class EntryManager(models.Manager, ReferredManagerMixin):
         if time_now.strftime("%m-%d") == "02-29" and is_leap_year(entry_year) is False:
             entry_day = entry_day - 1
 
-        return datetime.date(entry_year, entry_month, entry_day)
+        return date(entry_year, entry_month, entry_day)
 
     def all_years_months(self, month_format="b"):
         """
@@ -41,7 +43,8 @@ class EntryManager(models.Manager, ReferredManagerMixin):
         """
 
         if month_format not in ["b", "m"]:
-            raise ValueError("month_format argument should be 'b' or 'm'")
+            msg = "month_format argument should be 'b' or 'm'"
+            raise ValueError(msg)
 
         years_months = (
             (
@@ -203,7 +206,7 @@ class EntryManager(models.Manager, ReferredManagerMixin):
             years_months_m = []
             for year, months in years_months:
                 months_m = []
-                for count, month in enumerate(months):
+                for count, _ in enumerate(months):
                     months_m.append("%02d" % (count + 1))
                 years_months_m.append(tuple([year, tuple(months_m)]))
             return tuple(years_months_m)

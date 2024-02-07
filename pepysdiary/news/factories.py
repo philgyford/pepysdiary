@@ -1,5 +1,6 @@
+from datetime import timezone
+
 import factory
-import pytz
 
 from pepysdiary.news.models import Post
 
@@ -20,4 +21,6 @@ class DraftPostFactory(AbstractPostFactory):
 
 class PublishedPostFactory(AbstractPostFactory):
     status = Post.Status.PUBLISHED
-    date_published = factory.Faker("past_datetime", start_date="-30d", tzinfo=pytz.utc)
+    date_published = factory.Faker(
+        "past_datetime", start_date="-30d", tzinfo=timezone.utc
+    )

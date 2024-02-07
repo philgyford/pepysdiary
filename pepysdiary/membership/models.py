@@ -1,6 +1,5 @@
-import datetime
+from datetime import datetime, timedelta, timezone
 
-import pytz
 from django.conf import settings
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.db import models
@@ -68,7 +67,7 @@ class Person(AbstractBaseUser, PermissionsMixin):
         help_text="Publically visible name, spaces allowed",
         validators=[validate_person_name],
     )
-    url = models.URLField(verbose_name="URL", max_length=255, blank=True, null=True)
+    url = models.URLField(verbose_name="URL", max_length=255, blank=True, null=True)  # noqa: DJ001
     is_staff = models.BooleanField(
         verbose_name="Is staff?",
         default=False,
@@ -158,9 +157,9 @@ class Person(AbstractBaseUser, PermissionsMixin):
            method returns ``True``.
 
         """
-        expiration_date = datetime.timedelta(days=settings.ACCOUNT_ACTIVATION_DAYS)
+        expiration_date = timedelta(days=settings.ACCOUNT_ACTIVATION_DAYS)
         return self.activation_key == self.ACTIVATED or (
-            self.date_created + expiration_date <= datetime.datetime.now(pytz.utc)
+            self.date_created + expiration_date <= datetime.now(timezone.utc)
         )
 
     # Not sure what this was ever for:

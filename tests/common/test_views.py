@@ -360,7 +360,7 @@ class SearchViewTestCase(ViewTransactionTestCase):
         "Shouldn't result in a fatal 500 error"
         self.request.GET = QueryDict("q=%00")
         response = views.SearchView.as_view()(self.request)
-        response.context_data
+        self.assertEqual(response.status_code, 200)
 
 
 class RecentViewTestCase(ViewTestCase):

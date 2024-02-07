@@ -1,8 +1,7 @@
-# coding: utf-8
 import calendar
-import datetime
+import contextlib
+from datetime import datetime, timedelta, timezone
 
-import pytz
 from django.utils.deprecation import MiddlewareMixin
 
 
@@ -52,35 +51,29 @@ class VisitTimeMiddleware(MiddlewareMixin):
 
         last_view_cookie = request.COOKIES.get("last_view", "")
         if last_view_cookie != "":
-            try:
+            with contextlib.suppress(Exception):
                 self.last_view = self.cookie_value_to_datetime(last_view_cookie)
-            except Exception:
-                pass
 
         visit_start_cookie = request.COOKIES.get("visit_start", "")
         if visit_start_cookie != "":
-            try:
+            with contextlib.suppress(Exception):
                 self.visit_start = self.cookie_value_to_datetime(visit_start_cookie)
-            except Exception:
-                pass
 
         prev_visit_end_cookie = request.COOKIES.get("prev_visit_end", "")
         if prev_visit_end_cookie != "":
-            try:
+            with contextlib.suppress(Exception):
                 self.prev_visit_end = self.cookie_value_to_datetime(
                     prev_visit_end_cookie
                 )
-            except Exception:
-                pass
         return request
 
     def _set_cookies(self, response):
         """Sets new cookie values."""
 
-        time_now = datetime.datetime.now(pytz.utc)
+        time_now = datetime.now(timezone.utc)
 
         # What time will our cookies expire?
-        cookie_expire = time_now + datetime.timedelta(self.cookie_duration)
+        cookie_expire = time_now + timedelta(self.cookie_duration)
 
         if self.last_view is None or self.visit_start is None:
             # User hasn't been here before.
@@ -119,8 +112,7 @@ class VisitTimeMiddleware(MiddlewareMixin):
         Takes a string from a cookie, a unix timestamp, and returns a
         datetime object, UTC.
         """
-        naive_dt = datetime.datetime.fromtimestamp(int(str))
-        return naive_dt.replace(tzinfo=pytz.utc)
+        return datetime.fromtimestamp(int(str), tz=timezone.utc)
 
     def datetime_to_cookie_value(self, dt):
         """Takes a datetime object and returns a UTC unix timestamp."""

@@ -1,8 +1,9 @@
+# ruff: noqa: N802, N815
 from rest_framework import serializers
 
-from ..common.utilities import make_url_absolute
-from ..diary.models import Entry
-from ..encyclopedia.models import Category, Topic
+from pepysdiary.common.utilities import make_url_absolute
+from pepysdiary.diary.models import Entry
+from pepysdiary.encyclopedia.models import Category, Topic
 
 # View names and lookup fields for various detail pages.
 # Keeping them in one place.

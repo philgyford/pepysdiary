@@ -1,3 +1,5 @@
+import contextlib
+
 import factory
 from django.db import IntegrityError
 from faker import Faker
@@ -73,7 +75,7 @@ class TopicFactory(factory.django.DjangoModelFactory):
 
 
 class PersonTopicFactory(TopicFactory):
-    title = factory.LazyAttribute(lambda p: "{} {}".format(fake.prefix(), fake.name()))
+    title = factory.LazyAttribute(lambda p: f"{fake.prefix()} {fake.name()}")
 
     @factory.post_generation
     def categories(self, create, extracted, **kwargs):
@@ -86,11 +88,9 @@ class PersonTopicFactory(TopicFactory):
             for category in extracted:
                 self.categories.add(category)
         else:
-            try:
+            with contextlib.suppress(IntegrityError):
                 # Adding the category with an ID of 2, which is People:
                 self.categories.add(CategoryFactory(id=category_lookups.PEOPLE))
-            except IntegrityError:
-                pass
 
 
 class PlaceTopicFactory(TopicFactory):
@@ -106,7 +106,5 @@ class PlaceTopicFactory(TopicFactory):
                 self.categories.add(category)
         else:
             # Adding the category with an ID of 3, which is Places:
-            try:
+            with contextlib.suppress(IntegrityError):
                 self.categories.add(CategoryFactory(id=category_lookups.PLACES))
-            except IntegrityError:
-                pass

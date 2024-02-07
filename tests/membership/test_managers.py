@@ -83,6 +83,7 @@ class PersonManagerTestCase(TestCase):
             email="bob@example.org",
             password="secret-password-here",
             site=site,
+            send_email=True,
         )
 
         person = Person.objects.first()
@@ -103,6 +104,7 @@ class PersonManagerTestCase(TestCase):
             email="bob@example.org",
             password="secret-password-here",
             site=site,
+            send_email=True,
         )
 
         person = Person.objects.first()
@@ -117,6 +119,7 @@ class PersonManagerTestCase(TestCase):
             email="bob@example.org",
             password="secret-password-here",
             site=site,
+            send_email=True,
         )
 
         self.assertEqual(len(mail.outbox), 1)

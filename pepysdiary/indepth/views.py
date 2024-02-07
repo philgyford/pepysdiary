@@ -73,7 +73,7 @@ class ArticleDetailView(DateDetailView):
     day_format = "%d"
 
     def get_context_data(self, **kwargs):
-        context = super(ArticleDetailView, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         context["categories"] = Article.Category.choices
         extra_context = self.get_next_previous()
         context.update(extra_context)

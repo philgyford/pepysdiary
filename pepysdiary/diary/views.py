@@ -1,4 +1,4 @@
-import datetime
+from datetime import datetime, timezone
 
 from django.http import Http404
 from django.utils.translation import gettext as _
@@ -24,18 +24,16 @@ def date_from_string(
     format = year_format + delim + month_format + delim + day_format
     datestr = str(year) + delim + str(month) + delim + str(day)
     try:
-        return datetime.datetime.strptime(datestr, format).date()
-    except ValueError:
-        raise Http404(
-            _("Invalid date string “%(datestr)s” given format “%(format)s”")
-            % {
-                "datestr": datestr,
-                "format": format,
-            }
-        )
+        return datetime.strptime(datestr, format).replace(tzinfo=timezone.utc).date()
+    except ValueError as err:
+        msg = _("Invalid date string “%(datestr)s” given format “%(format)s”") % {
+            "datestr": datestr,
+            "format": format,
+        }
+        raise Http404(msg) from err
 
 
-class EntryMixin(object):
+class EntryMixin:
     """
     All Entry-based views should probably inherit this.
     """
@@ -80,15 +78,15 @@ class EntryDetailView(EntryMixin, DateDetailView):
 
         try:
             obj = qs.get()
-        except qs.model.DoesNotExist:
-            raise Http404(
-                _("No %(verbose_name)s found matching the query")
-                % {"verbose_name": qs.model._meta.verbose_name}
-            )
+        except qs.model.DoesNotExist as err:
+            msg = _("No %(verbose_name)s found matching the query") % {
+                "verbose_name": qs.model._meta.verbose_name
+            }
+            raise Http404(msg) from err
         return obj
 
     def get_context_data(self, **kwargs):
-        context = super(EntryDetailView, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         context["tooltip_references"] = Entry.objects.get_brief_references(
             objects=[self.object]
         )
@@ -143,7 +141,7 @@ class EntryMonthArchiveView(EntryMixin, MonthArchiveView):
     ordering = "diary_date"
 
     def get_context_data(self, **kwargs):
-        context = super(EntryMonthArchiveView, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         context["tooltip_references"] = Entry.objects.get_brief_references(
             objects=kwargs["object_list"]
         )

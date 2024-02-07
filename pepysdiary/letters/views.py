@@ -19,7 +19,7 @@ class LetterDetailView(DateDetailView):
     day_format = "%d"
 
     def get_context_data(self, **kwargs):
-        context = super(LetterDetailView, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         context["tooltip_references"] = Letter.objects.get_brief_references(
             objects=[self.object]
         )

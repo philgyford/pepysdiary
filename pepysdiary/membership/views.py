@@ -133,7 +133,6 @@ class LoginView(auth_views.LoginView):
 
 class LogoutView(auth_views.LogoutView):
     "Takes a POST, logs out, and redirects to LogoutCompleteView"
-    pass
 
 
 class LogoutCompleteView(TemplateView):
@@ -278,6 +277,7 @@ class RegisterView(FormView):
                 email=email,
                 url=form.cleaned_data["url"],
                 site=get_current_site(self.request),
+                send_email=True,
             )
 
         return super().form_valid(form)
@@ -294,11 +294,10 @@ class RegisterView(FormView):
         bad_domains = settings.PEPYS_MEMBERSHIP_BLACKLISTED_DOMAINS
         if email.split("@")[1] in bad_domains:
             return False
-        elif re.match(r"https?:\/\/\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}", url):
+        elif re.match(r"https?:\/\/\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}", url):  # noqa: SIM103
             # It'll match technically invalid IP addresses but that's fine.
             return False
         else:
-            print("C")
             return True
 
 

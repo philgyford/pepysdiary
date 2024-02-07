@@ -33,10 +33,11 @@ class YearmonthListFilter(admin.SimpleListFilter):
 
     def __init__(self, *args, **kwargs):
         if self.filter_field is None:
-            raise NotImplementedError(
+            msg = (
                 "Child classes of YearmonthListFilter must define the "
                 "'filter_field' property."
             )
+            raise NotImplementedError(msg)
 
         return super().__init__(*args, **kwargs)
 
@@ -53,11 +54,12 @@ class YearmonthListFilter(admin.SimpleListFilter):
         choices = []
         for y, months in years_months:
             for m_count, m in enumerate(months):
+                month_num = m_count + 1
                 choices.append(
                     (
-                        # Will be like ('1660-03', 'Mar 1660'):
-                        "%s-%02d" % (y, (m_count + 1)),
-                        "%s %s" % (y, m),
+                        # Will be like ('1660-03', '1660 Mar'):
+                        f"{y}-{month_num:02}",
+                        f"{y} {m}",
                     )
                 )
 

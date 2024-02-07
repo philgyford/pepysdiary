@@ -1,8 +1,7 @@
 import calendar
-import datetime
 import re
+from datetime import datetime, timezone
 
-import pytz
 from django.conf import settings
 from django.contrib.postgres.indexes import GinIndex
 from django.contrib.postgres.search import SearchVectorField
@@ -11,8 +10,9 @@ from django.urls import reverse
 from django_comments.moderation import CommentModerator, moderator
 from markdown import markdown
 
-from ..common.models import OldDateMixin, PepysModel
-from ..encyclopedia.models import Topic
+from pepysdiary.common.models import OldDateMixin, PepysModel
+from pepysdiary.encyclopedia.models import Topic
+
 from .managers import EntryManager
 
 
@@ -48,7 +48,7 @@ class Entry(PepysModel, OldDateMixin):
         return self.title
 
     def save(self, *args, **kwargs):
-        super(Entry, self).save(*args, **kwargs)
+        super().save(*args, **kwargs)
         self._make_references()
 
     def get_absolute_url(self):
@@ -74,7 +74,7 @@ class Entry(PepysModel, OldDateMixin):
         if month == 2 and day == 29 and calendar.monthrange(year, month)[1] == 28:
             month = 3
             day = 1
-        return datetime.datetime(year, month, day, 23, 0, 0).replace(tzinfo=pytz.utc)
+        return datetime(year, month, day, 23, 0, 0, tzinfo=timezone.utc)
 
     @property
     def short_title(self):
@@ -137,8 +137,7 @@ class Entry(PepysModel, OldDateMixin):
         self.topics.clear()
         # Get a list of all the Topic IDs mentioned in text and footnotes:
         ids = re.findall(
-            r"pepysdiary.com\/encyclopedia\/(\d+)\/",
-            "%s %s" % (self.text, self.footnotes),
+            r"pepysdiary.com\/encyclopedia\/(\d+)\/", f"{self.text} {self.footnotes}"
         )
         # Make sure list of Topic IDs is unique:
         # From http://stackoverflow.com/a/480227/250962
@@ -186,4 +185,4 @@ class Summary(PepysModel, OldDateMixin):
 
     def save(self, *args, **kwargs):
         self.text_html = markdown(self.text)
-        super(Summary, self).save(*args, **kwargs)
+        super().save(*args, **kwargs)

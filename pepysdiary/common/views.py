@@ -14,7 +14,7 @@ from pepysdiary.letters.models import Letter
 from pepysdiary.news.models import Post
 
 
-class CacheMixin(object):
+class CacheMixin:
     """
     Add this mixin to a class-based view to specify caching.
     Set the cache_timeout on the view to change the timeout.
@@ -44,7 +44,12 @@ class PaginatedListView(ListView):
     paginator_tail = 1
 
     def get_paginator(
-        self, queryset, per_page, orphans=0, allow_empty_first_page=True, **kwargs
+        self,
+        queryset,
+        per_page,
+        orphans=0,
+        allow_empty_first_page=True,  # noqa: FBT002
+        **kwargs,
     ):
         """Return an instance of the paginator for this view."""
         return self.paginator_class(
@@ -66,7 +71,7 @@ class HomeView(TemplateView):
     template_name = "common/home.html"
 
     def get_context_data(self, **kwargs):
-        context = super(HomeView, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
 
         # Show the most recent "published" entries:
         # If we change the number of Entries, the template will need tweaking
@@ -191,7 +196,7 @@ class SearchView(PaginatedListView):
         elif order_string == "da":
             order = self.date_order_field
         elif order_string == "dd":
-            order = "-{}".format(self.date_order_field)
+            order = f"-{self.date_order_field}"
 
         return order
 

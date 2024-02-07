@@ -1,9 +1,8 @@
-# coding: utf-8
 import re
+from datetime import timezone
 from optparse import make_option
 
 import MySQLdb
-import pytz
 from django.conf import settings
 from django.core.management.base import BaseCommand
 
@@ -53,25 +52,27 @@ class Command(BaseCommand):
 
         # FETCH THE COMMENTS.
 
-        cur.execute(
+        sql = (
             "SELECT comment_id, comment_blog_id, comment_entry_id, "
             "comment_ip, comment_author, comment_email, comment_url, "
             "comment_text, comment_created_on, comment_modified_on "
             "FROM mt_comment WHERE comment_visible='1' "
             "AND comment_blog_id IN (%s, %s, %s, %s, %s)"
-            % (
+        )
+        cur.execute(
+            sql,
+            (
                 settings.MT_DIARY_BLOG_ID,
                 settings.MT_ENCYCLOPEDIA_BLOG_ID,
                 settings.MT_IN_DEPTH_BLOG_ID,
                 settings.MT_NEWS_BLOG_ID,
                 settings.MT_LETTERS_BLOG_ID,
-            )
+            ),
         )
         rows = cur.fetchall()
-        count = 0
-        for row in rows:
+        for count, row in enumerate(rows):
             if count % 100 == 0:
-                print(count)
+                print(count)  # noqa: T201
 
             # Fix any old-style links in the two text fields.
             if row["comment_text"] is None:
@@ -93,9 +94,9 @@ class Command(BaseCommand):
             elif row["comment_blog_id"] == settings.MT_LETTERS_BLOG_ID:
                 content_type_id = 13
             else:
-                print(
-                    "INVALID BLOG ID (%s) FOR COMMENT ID %s"
-                    % (row["comment_blog_id"], row["comment_id"])
+                print(  # noqa: T201
+                    f"INVALID BLOG ID ({row['comment_blog_id']}) "
+                    f"FOR COMMENT ID {row['comment_id']}"
                 )
 
             annotation = Annotation(
@@ -109,10 +110,9 @@ class Command(BaseCommand):
                 user_url=row["comment_url"],
                 ip_address=row["comment_ip"],
                 is_public=True,
-                submit_date=row["comment_created_on"].replace(tzinfo=pytz.utc),
+                submit_date=row["comment_created_on"].replace(tzinfo=timezone.utc),
             )
             annotation.save()
-            count += 1
 
         cur.close()
         db.close()
