@@ -422,22 +422,37 @@ PEPYS_READING_DATETIMES = [
 
 # We don't allow signing up using email addresses with these domains:
 PEPYS_MEMBERSHIP_BLACKLISTED_DOMAINS = [
+    "acemycourse.net",
+    "bookaflight.us",
     "bugfoo.com",
     "bukhariansiddur.com",
     "ctopicsbh.com",
     "densebpoqq.com",
+    "essayerudite.com",
+    "evajlaw.com",
+    "fctraining.co.uk",
+    "fieldengineer.com",
+    "gamegacordash86.com",
     "hbviralbv.com",
     "karenkey.com",
+    "kdbet.asia",
+    "kdslotrajagacor.com",
+    "kinoland.biz",
+    "korunemlak.com.tr",
     "lanceuq.com",
     "leaderssk.com",
     "nightorb.com",
     "passedil.com",
+    "propertyxpo.com",
     "rapidlyws.com",
     "spacehotline.com",
+    "srislawyer.com",
+    "theacademicpapers.co.uk",
     "triots.com",
     "ustudentli.com",
     "vsmethodu.com",
     "vtqreplaced.com",
+    "writinkservices.com",
 ]
 
 # END PEPYSDIARY SPECIFIC SETTINGS
