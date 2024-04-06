@@ -1,5 +1,9 @@
 from django import forms
-from django.contrib.admin.widgets import FilteredSelectMultiple
+from django.contrib import admin
+from django.contrib.admin.widgets import (
+    FilteredSelectMultiple,
+    RelatedFieldWidgetWrapper,
+)
 
 from .fields import CategoryMultipleChoiceField
 from .models import Category, Topic
@@ -44,5 +48,9 @@ class TopicForm(forms.ModelForm):
     categories = CategoryMultipleChoiceField(
         queryset=Category.objects.all(),
         required=False,
-        widget=FilteredSelectMultiple("categories", is_stacked=False),
+        widget=RelatedFieldWidgetWrapper(
+            FilteredSelectMultiple("categories", is_stacked=False),
+            rel=Topic._meta.get_field("categories").remote_field,
+            admin_site=admin.site,
+        ),
     )
