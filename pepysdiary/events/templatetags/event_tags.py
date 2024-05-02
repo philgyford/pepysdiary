@@ -69,7 +69,7 @@ def dayevents_for_day(date):
                     event_list.append({"url": events[0].url, "text": events[0].title})
                 else:
                     #  Many events with the same title. So show numbered links.
-                    event_html = "%s: " % title
+                    event_html = f"{title}: "
                     for n, event in enumerate(events):
                         event_html += f'<a href="{event.url}">{n + 1}</a> '
                     event_list.append({"text": event_html})
@@ -79,9 +79,8 @@ def dayevents_for_day(date):
 
     if html != "":
         html += (
-            '<p class="text-right"><small>'
-            '<a href="%s#on-this-day">About these events</a></small></p>'
-            % (reverse("about_text"))
+            f'<p class="text-right"><small><a href="{reverse("about_text")}'
+            '#on-this-day">About these events</a></small></p>'
         )
 
     return html
@@ -131,16 +130,13 @@ def events_for_day(date, exclude=None):
 def events_for_day_in_sidebar(date, exclude=None):
     html = events_for_day(date, exclude)
     if html != "":
-        html = (
-            """<aside class="aside-block">
+        html = f"""<aside class="aside-block">
     <header class="aside-header">
         <h1 class="aside-title">Also on this day</h1>
     </header>
     <div class="aside-body">
-%s
+{html}
     </div>
 </aside>
 """
-            % html
-        )
     return mark_safe(html)

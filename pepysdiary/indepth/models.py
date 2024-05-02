@@ -114,7 +114,7 @@ class Article(PepysModel):
         ordering = ["-date_published"]
 
     def __str__(self):
-        return "%s" % (self.title)
+        return self.title
 
     def save(self, *args, **kwargs):
         self.intro_html = markdown(self.intro)

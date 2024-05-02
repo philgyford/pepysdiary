@@ -32,6 +32,6 @@ class PepysModel(models.Model):
         then call this.
         """
         if self.comment_name[:1] in ["a", "e", "h", "i", "o", "u"]:
-            return "an %s" % self.comment_name
+            return f"an {self.comment_name}"
         else:
-            return "a %s" % self.comment_name
+            return f"a {self.comment_name}"

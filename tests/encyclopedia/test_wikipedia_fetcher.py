@@ -14,7 +14,7 @@ class FetchTestCase(TestCase):
     def add_response(self, body, status=200):
         responses.add(
             responses.GET,
-            "https://en.wikipedia.org/wiki/%s?action=render" % self.page_name,
+            f"https://en.wikipedia.org/wiki/{self.page_name}?action=render",
             match_querystring=True,
             status=status,
             body=body,

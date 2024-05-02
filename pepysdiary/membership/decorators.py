@@ -19,7 +19,7 @@ def allow(action):
         def inner_decorator(request, *args, **kwargs):
             config = Config.objects.get_site_config()
             # eg, 'allow_registration':
-            attr = "allow_%s" % action
+            attr = f"allow_{action}"
             if config and hasattr(config, attr) and getattr(config, attr) is True:
                 return func(request, *args, **kwargs)
             else:

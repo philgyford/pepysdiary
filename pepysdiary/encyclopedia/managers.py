@@ -217,7 +217,7 @@ class TopicManager(models.Manager):
                     # Save any title, plus a space, or just nothing:
                     title = ""
                     if matches[0] is not None:
-                        title = "%s" % (matches[0])
+                        title = f"{matches[0]}"
 
                     if matches[2] is not None:
                         # The "surname" part has something in it.
@@ -278,7 +278,7 @@ class TopicManager(models.Manager):
                                 # ('de la', 'Roche')
                                 pre_surname = ""
                                 if surname_matches[0]:
-                                    pre_surname = " %s" % surname_matches[0]
+                                    pre_surname = f" {surname_matches[0]}"
                                 if title != "":
                                     title += " "
                                 order_title = (
@@ -304,7 +304,7 @@ class TopicManager(models.Manager):
                     matches = the_match.groups()
                     if matches[1] is None:
                         # eg, ('Royal Prince', None)
-                        order_title = "%s, The" % matches[0]
+                        order_title = f"{matches[0]}, The"
                     else:
                         # eg, ('Alchemist', 'Ben Jonson')
                         order_title = f"{matches[0]}, The ({matches[1]})"

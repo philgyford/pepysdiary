@@ -89,10 +89,10 @@ class ActivateCompleteView(MessageView):
             return super().get(request, *args, **kwargs)
 
     def get_message(self):
+        url = reverse("login")
         return (
             "Your email address is confirmed and you are now registered."
-            '<br><br><a class="link-more" href="%s">You can now log in</a>'
-            % reverse("login")
+            f'<br><br><a class="link-more" href="{url}">You can now log in</a>'
         )
 
 
@@ -127,7 +127,7 @@ class LoginView(auth_views.LoginView):
     def form_valid(self, form):
         "Override so we can add a message for the user."
         user = form.get_user()
-        messages.success(self.request, "You’re now logged in as %s." % user.name)
+        messages.success(self.request, f"You’re now logged in as {user.name}.")
         return super().form_valid(form)
 
 
@@ -190,10 +190,10 @@ class PasswordResetCompleteView(auth_views.PasswordResetCompleteView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["title"] = "Password reset"
-        context["message"] = (
-            'Your password has been changed. <a href="%s">Now you can log in.</a>'
-            % reverse("login")
-        )
+        url = reverse("login")
+        context[
+            "message"
+        ] = f'Your password has been changed. <a href="{url}">Now you can log in.</a>'
         return context
 
 

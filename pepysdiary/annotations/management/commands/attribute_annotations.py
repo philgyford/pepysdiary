@@ -31,10 +31,11 @@ class Command(BaseCommand):
 
         annotations = Annotation.objects.filter(user_email=self.email, user=None)
         if annotations.count() == 0:
-            raise CommandError(
+            msg = (
                 "There are no Annotations (without a Person "
-                "already) associated with the email address %s" % self.email
+                f"already) associated with the email address {self.email}"
             )
+            raise CommandError(msg)
 
         if self.dry_run is False:
             updated = annotations.update(user=self.person)
@@ -60,7 +61,7 @@ class Command(BaseCommand):
         if updated == 1:
             output_str = "1 Annotation was"
         else:
-            output_str = "%s Annotations were" % updated
+            output_str = f"{updated} Annotations were"
 
         self.stdout.write(
             f"{output_str} associated with {self.person.name} (ID {self.person.id})."
@@ -76,10 +77,11 @@ class Command(BaseCommand):
 
         # Very loose test for email address format:
         if re.match(r"^.*?@.*?\..*?$", args[0]) is None:
-            raise CommandError(
-                "The supplied email address (%s) doesn't look "
-                "anything like an email address." % args[0]
+            msg = (
+                f"The supplied email address ({args[0]}) doesn't look "
+                "anything like an email address."
             )
+            raise CommandError(msg)
         else:
             self.email = args[0]
 

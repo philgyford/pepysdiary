@@ -193,7 +193,7 @@ def summary_year_navigation(current_year):
         f'<a class="list-group-item" href="{href}">'
         "After the diary (In-Depth Article)</a>"
     )
-    return mark_safe('<div class="list-group">%s</div>' % html)
+    return mark_safe(f'<div class="list-group">{html}</div>')
 
 
 @register.inclusion_tag("common/widgets/family_tree_link.html")
@@ -240,7 +240,7 @@ def category_map_link(category_id=None):
 @register.simple_tag
 def admin_link_change(url):
     return mark_safe(
-        """<p class="admin-links"><a class="admin" href="%s">Edit</a></p>""" % (url)
+        f"""<p class="admin-links"><a class="admin" href="{url}">Edit</a></p>"""
     )
 
 

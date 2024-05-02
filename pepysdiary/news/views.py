@@ -49,7 +49,8 @@ class PostCategoryArchiveView(PaginatedListView):
         if Post.is_valid_category_slug(slug):
             self.category = slug
         else:
-            raise Http404("Invalid category slug: '%s'." % slug)
+            msg = f"Invalid category slug: '{slug}'."
+            raise Http404(msg)
         return super().get(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):

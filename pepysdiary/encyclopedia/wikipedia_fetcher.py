@@ -34,7 +34,7 @@ class WikipediaFetcher:
         """
         error_message = ""
 
-        url = "https://en.wikipedia.org/wiki/%s" % page_name
+        url = f"https://en.wikipedia.org/wiki/{page_name}"
 
         try:
             response = requests.get(url, params={"action": "render"}, timeout=5)
@@ -49,7 +49,7 @@ class WikipediaFetcher:
             response.raise_for_status()
         except requests.exceptions.HTTPError:
             # 4xx or 5xx errors:
-            error_message = "HTTP Error: %s" % response.status_code
+            error_message = f"HTTP Error: {response.status_code}"
         except NameError:
             if error_message == "":
                 error_message = "Something unusual went wrong."

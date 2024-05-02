@@ -73,20 +73,17 @@ class Command(BaseCommand):
         verbosity = int(options["verbosity"])
 
         if verbosity > 0:
-            self.stdout.write(
-                "Successfully fetched %s topic(s)" % len(updated["success"])
-            )
+            num_topics = len(updated["success"])
+            self.stdout.write(f"Successfully fetched {num_topics} topic(s)")
             if verbosity > 1:
-                self.stdout.write(
-                    "IDs: %s" % (", ".join(str(id) for id in updated["success"]))
-                )
+                ids = ", ".join(str(id) for id in updated["success"])
+                self.stdout.write(f"IDs: {ids}")
 
             if len(updated["failure"]) > 0:
+                num_topics = len(updated["failure"])
                 self.stderr.write(
-                    "Tried and failed to fetch texts for %s topic(s)"
-                    % len(updated["failure"])
+                    f"Tried and failed to fetch texts for {num_topics} topic(s)"
                 )
                 if verbosity > 1:
-                    self.stderr.write(
-                        "IDs: %s" % (", ".join(str(id) for id in updated["failure"]))
-                    )
+                    ids = ", ".join(str(id) for id in updated["failure"])
+                    self.stderr.write(f"IDs: {ids}")
