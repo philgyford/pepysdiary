@@ -43,8 +43,8 @@
   // eg, 2570
 
   .infobox,
-    table.mbox-small // Audio on https://en.wikipedia.org/wiki/Bagpipes
- {
+  table.mbox-small // Audio on https://en.wikipedia.org/wiki/Bagpipes
+  {
     width: 100%;
 
     @media (min-width: $screen-sm-min) {
@@ -70,11 +70,12 @@
       text-align: left; // 2570
     }
 
-    .image img // 2570
- {
+    .infobox-image img // 2570
+    {
       // Center the main image in its cell.
       display: block;
       margin: 0 auto 0.3em auto;
+      width: 100%; // 5825
     }
   }
 
@@ -103,7 +104,7 @@
 
   .metadata a.image, // 13747 (bottom)
     .mbox-image img    // 4941 (bottom)
- {
+  {
     display: none;
   }
 
