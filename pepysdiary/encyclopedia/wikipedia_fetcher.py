@@ -1,5 +1,6 @@
 import bleach
 import requests
+from bleach.css_sanitizer import CSSSanitizer
 from bs4 import BeautifulSoup
 
 
@@ -146,7 +147,7 @@ class WikipediaFetcher:
             "style",
         }
 
-        # These attributes will be removed from any of the allowed tags.
+        # These attributes will not be removed from any of the allowed tags.
         allowed_attributes = {
             "*": ["class", "id"],
             "a": ["href", "title"],
@@ -156,12 +157,37 @@ class WikipediaFetcher:
             # Ugh. Don't know why this page doesn't use .tright like others
             # http://127.0.0.1:8000/encyclopedia/5040/
             "table": ["align"],
-            "td": ["colspan", "rowspan"],
+            "td": ["colspan", "rowspan", "style"],
             "th": ["colspan", "rowspan", "scope"],
         }
 
+        # These CSS properties are allowed within style attributes
+        # Added for the family tree on /encyclopedia/5825/
+        # Hopefully doesn't make anything else too hideous.
+        allowed_css_properties = [
+            "background",
+            "border",
+            "border-bottom",
+            "border-collapse",
+            "border-left",
+            "border-radius",
+            "border-right",
+            "border-spacing",
+            "border-top",
+            "height",
+            "padding",
+            "text-align",
+            "width",
+        ]
+
+        css_sanitizer = CSSSanitizer(allowed_css_properties=allowed_css_properties)
+
         a = bleach.clean(
-            html, tags=allowed_tags, attributes=allowed_attributes, strip=True
+            html,
+            tags=allowed_tags,
+            attributes=allowed_attributes,
+            css_sanitizer=css_sanitizer,
+            strip=True,
         )
 
         return a

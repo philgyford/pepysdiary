@@ -1,5 +1,5 @@
 beautifulsoup4
-bleach
+bleach[css]
 boto3
 coreapi
 dj-database-url
