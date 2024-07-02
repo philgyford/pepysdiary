@@ -27,7 +27,7 @@ class LetterDetailViewTestCase(ViewTestCase):
         "It 404s if there's no Letter"
         with self.assertRaises(Http404):
             views.LetterDetailView.as_view()(
-                self.request, year="1661", month="01", day="02", slug="my-letter"
+                self.request, year="1661", month="01", day="02", slug="nope"
             )
 
     def test_context_data_letter(self):
