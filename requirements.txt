@@ -24,13 +24,13 @@ bleach[css]==6.1.0 \
     --hash=sha256:0a31f1837963c41d46bbf1331b8778e1308ea0791db03cc4e7357b97cf42a8fe \
     --hash=sha256:3225f354cfc436b9789c66c4ee030194bee0568fbf9cbdad3bc8b5c26c5f12b6
     # via -r requirements.in
-boto3==1.34.137 \
-    --hash=sha256:0b21b84db4619b3711a6f643d465a5a25e81231ee43615c55a20ff6b89c6cc3c \
-    --hash=sha256:7cb697d67fd138ceebc6f789919ae370c092a50c6b0ccc4ef483027935502eab
+boto3==1.34.140 \
+    --hash=sha256:23ca8d8f7a30c3bbd989808056b5fc5d68ff5121c02c722c6167b6b1bb7f8726 \
+    --hash=sha256:578bbd5e356005719b6b610d03edff7ea1b0824d078afe62d3fb8bea72f83a87
     # via -r requirements.in
-botocore==1.34.137 \
-    --hash=sha256:a980fa4adec4bfa23fff70a3512622e9412c69c791898a52cafc2458b0be6040 \
-    --hash=sha256:e29c8e9bfda0b20a1997792968e85868bfce42fefad9730f633a81adcff3f2ef
+botocore==1.34.140 \
+    --hash=sha256:43940d3a67d946ba3301631ba4078476a75f1015d4fb0fb0272d0b754b2cf9de \
+    --hash=sha256:86302b2226c743b9eec7915a4c6cfaffd338ae03989cd9ee181078ef39d1ab39
     # via
     #   boto3
     #   s3transfer
