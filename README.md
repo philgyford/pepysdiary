@@ -42,11 +42,11 @@ Download, install and run Docker Desktop.
 
 In same directory as this README, build the containers:
 
-    $ docker-compose build
+    $ docker compose build
 
 Then start up the web, assets and database containers:
 
-    $ docker-compose up
+    $ docker compose up
 
 There are four containers:
 
@@ -110,11 +110,11 @@ Log in to the [Django Admin](http://www.pepysdiary.test:8000/backstage/), go to 
 
 Whenever you come back to start work you need to start the containers up again by doing this from the project directory:
 
-    $ docker-compose up
+    $ docker compose up
 
 When you want to stop the server, then this from the same directory:
 
-    $ docker-compose down
+    $ docker compose down
 
 You can check if anything's running by doing this, which will list any Docker processes:
 
@@ -149,7 +149,7 @@ To update the python dependencies in the Docker container, this should work:
 
     $ ./run pipsync
 
-But you might have to do `docker-compose build` instead?
+But you might have to do `docker compose build` instead?
 
 ### pre-commit
 
