@@ -93,10 +93,9 @@ Then scp it to your local machine:
 
 Put the file in the same directory as this README.
 
-Import the data into the database ():
+Import the data into the database:
 
-    $ gunzip pepys_dump.gz
-    $ docker exec -i pepys_db pg_restore --verbose --clean --no-acl --no-owner -U pepysdiary -d pepysdiary < pepys_dump
+    $ gunzip < pepys_dump.gz | docker exec -i pepys_db psql -U pepysdiary -d pepysdiary
 
 #### 5. Vist and set up the site
 
@@ -218,6 +217,26 @@ List any installed Node packages (used for building front end assets) that are o
 ### `./run yarn:upgrade`
 
 Update any installed Node packages that are outdated.
+
+## Removing users and annotations from the local database
+
+What I did to create a version of the database without personal information. After exporting the live database and importing into the local Docker database:
+
+    $ ./run psql
+    pepysdiary=# TRUNCATE django_comments, django_comment_flags, auth_user, annotations_annotation, membership_person;
+    pepysdiary=# UPDATE diary_entry SET comment_count=0;
+    pepysdiary=# UPDATE encyclopedia_topic SET comment_count=0;
+    pepysdiary=# UPDATE indepth_article SET comment_count=0;
+    pepysdiary=# UPDATE letters_letter SET comment_count=0;
+    pepysdiary=# UPDATE news_post SET comment_count=0;
+    pepysdiary=# \q
+    $ ./run manage createsuperuser
+
+Then logged into Django Admin and changed the Site "Domain name" to `www.pepysdiary.test:8000`.
+
+Then dumped that modified database:
+
+    $ docker exec -i pepys_db pg_dump pepysdiary -U pepysdiary -h localhost | gzip > pepys_dump.gz
 
 ## VPS set-up
 
