@@ -21,6 +21,11 @@ ul.icons {
       padding-left: 30px;
     }
   }
+  > .icon-bluesky {
+    a {
+      @include background-svg(bluesky, $link-color, "#fff");
+    }
+  }
   > .icon-mastodon {
     a {
       @include background-svg(mastodon, $link-color, "#fff");
