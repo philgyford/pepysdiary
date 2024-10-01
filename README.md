@@ -202,7 +202,10 @@ Run all the tests with coverage. The HTML report files will be at `htmlcov/index
 
 ### `./run ruff`
 
-Run `ruff check .` over the code to check Python formatting.
+Run `ruff check .` over the code to check Python formatting:
+
+    $ ./run ruff
+    $ ./run ruff --fix
 
 ### `./run psql`
 

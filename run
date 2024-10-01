@@ -55,7 +55,7 @@ function tests {
 
 function ruff {
   # Run ruff over the code
-  cmd ruff check .
+  cmd ruff check . "${@}"
 }
 
 
