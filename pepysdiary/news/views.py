@@ -45,7 +45,7 @@ class PostCategoryArchiveView(PaginatedListView):
         """
         Check we have a valid category slug before doing anything else.
         """
-        slug = kwargs.get("category_slug", None)
+        slug = kwargs.get("category_slug")
         if Post.is_valid_category_slug(slug):
             self.category = slug
         else:
