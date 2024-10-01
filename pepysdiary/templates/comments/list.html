@@ -46,7 +46,11 @@ NOTE: The listings in templatetags/list_tags.py for the Recent Activity page
 				<h3 class="media-heading">
 					<span class="comment-name">
 						{% if comment.user %}
-							<a href="{{ comment.user.get_absolute_url }}" title="See more about this person">{{ comment.get_user_name }}</a>
+							{% if comment.user.is_active %}
+							   <a href="{{ comment.user.get_absolute_url }}" title="See more about this person">{{ comment.get_user_name }}</a>
+							{% else %}
+							  {{ comment.get_user_name }}
+							{% endif %}
 						{% elif comment.get_user_url %}
 							<a href="{{ comment.get_user_url }}" title="Visit this person’s website" rel="nofollow">{{ comment.get_user_name }}</a>
 						{% else %}
