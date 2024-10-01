@@ -200,6 +200,10 @@ Run a folder, file, or class of tests, or a single test, something like this:
 
 Run all the tests with coverage. The HTML report files will be at `htmlcov/index.html`.
 
+### `./run ruff`
+
+Run `ruff check .` over the code to check Python formatting.
+
 ### `./run psql`
 
 Conects to PosgreSQL with psql. Add any required arguments on the end. Uses the `hines` database unless you specify another like:

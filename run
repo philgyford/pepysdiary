@@ -53,6 +53,12 @@ function tests {
 }
 
 
+function ruff {
+  # Run ruff over the code
+  cmd ruff check .
+}
+
+
 function coverage {
   # Run the tests and generate a coverage report in htmlcov/
   _dc ${TEST_ENV_ARGS} web coverage run --concurrency=multiprocessing manage.py test --parallel
