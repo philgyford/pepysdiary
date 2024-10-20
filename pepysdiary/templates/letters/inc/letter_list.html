@@ -4,27 +4,21 @@ A list of Letters.
 Expects:
 letter_list -- The Letters.
 show_intro -- Show the intro. Default: True
-show_years -- Show the year headers. Default. True
 {% endcomment %}
 
 {% if show_intro|default_if_none:True %}
   <p class="text-muted">Numbers in brackets indicate quantity of annotations.</p>
 {% endif %}
 
-{% with show_years=show_years|default_if_none:True %}
-  {% if show_years is False %}
-    <ul class="list-ruled list-unstyled">
-  {% endif %}
+<ul class="list-ruled list-unstyled">
 
   {% for letter in letter_list %}
     {% ifchanged letter.letter_date|date:'Y' %}
-      {% if forloop.counter != 1 and show_years %}
+      {% if forloop.counter != 1 %}
         </ul>
       {% endif %}
-      {% if show_years %}
-        <h2 id="y-{{ letter.letter_date|date:'Y' }}">{{ letter.letter_date|date:'Y' }}</h2>
-        <ul class="list-ruled list-unstyled">
-      {% endif %}
+      <h2 id="y-{{ letter.letter_date|date:'Y' }}">{{ letter.letter_date|date:'Y' }}</h2>
+      <ul class="list-ruled list-unstyled">
     {% endifchanged %}
 
     <li>
@@ -32,6 +26,5 @@ show_years -- Show the year headers. Default. True
       {{ letter.excerpt }}…
     </li>
   {% endfor %}
-{% endwith %}
 
 </ul>
