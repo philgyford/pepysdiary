@@ -1,7 +1,4 @@
-from django.conf import settings
 from django.db.models import Q
-from django.shortcuts import redirect
-from django.views.generic.base import TemplateView
 from django.views.generic.dates import DateDetailView
 from django.views.generic.detail import SingleObjectMixin
 from django.views.generic.list import ListView
@@ -76,13 +73,6 @@ class LetterPersonView(SingleObjectMixin, ListView):
     letter_kind = "both"
 
     def get(self, request, *args, **kwargs):
-        """
-        If we're linking to a page with SP's ID, then redirect to the general
-        Letters page.
-        """
-        if int(kwargs.get("pk", 0)) == settings.PEPYS_TOPIC_ID:
-            return redirect("letters")
-
         self.object = self.get_object(queryset=Topic.objects.all())
         return super().get(request, *args, **kwargs)
 
@@ -124,12 +114,3 @@ class LetterToPersonView(LetterPersonView):
 
     def get_queryset(self):
         return Letter.objects.filter(recipient=self.object)
-
-
-class LetterArchiveView(TemplateView):
-    template_name = "letters/letter_list.html"
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["letters"] = Letter.objects.all()
-        return context

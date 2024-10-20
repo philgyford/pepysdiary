@@ -1,5 +1,4 @@
 from django.http.response import Http404
-from django.test import override_settings
 
 from pepysdiary.common.utilities import make_date
 from pepysdiary.encyclopedia.factories import PersonTopicFactory, TopicFactory
@@ -127,14 +126,6 @@ class LetterPersonViewTestCase(ViewTransactionTestCase):
         person = PersonTopicFactory()
         response = views.LetterPersonView.as_view()(self.request, pk=person.pk)
         self.assertEqual(response.status_code, 200)
-
-    @override_settings(PEPYS_TOPIC_ID=123)
-    def test_redirects_for_samuel_pepys(self):
-        "Pepys' Topic is a special case - we should redirect to the front Letters page"
-        person = PersonTopicFactory(pk=123)
-        LetterFactory(sender=person)
-        response = self.client.get(f"/letters/person/{person.pk}/")
-        self.assertRedirects(response, "/letters/")
 
     def test_context_data_letters(self):
         "The letters should be in the context data"
@@ -312,23 +303,3 @@ class LetterToPersonViewTestCase(ViewTransactionTestCase):
         self.assertDictEqual(
             response.context_data["letter_counts"], {"from": 3, "to": 2, "both": 5}
         )
-
-
-class LetterArchiveViewTestCase(ViewTestCase):
-    def test_response_200(self):
-        response = views.LetterArchiveView.as_view()(self.request)
-        self.assertEqual(response.status_code, 200)
-
-    def test_template(self):
-        response = views.LetterArchiveView.as_view()(self.request)
-        self.assertEqual(response.template_name[0], "letters/letter_list.html")
-
-    def test_context_data_letters(self):
-        "The letters should be in the context data"
-        LetterFactory()
-        LetterFactory()
-
-        response = views.LetterArchiveView.as_view()(self.request)
-
-        self.assertIn("letters", response.context_data)
-        self.assertEqual(len(response.context_data["letters"]), 2)
