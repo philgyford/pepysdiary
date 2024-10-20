@@ -69,7 +69,11 @@ class LetterPersonView(SingleObjectMixin, ListView):
     """
 
     template_name = "letters/letter_person.html"
-    allow_empty = False
+    allow_empty = True
+
+    # In child classes this will be "from" or "to".
+    # Indicates the sort of list of letters to/from this person (or both)
+    letter_kind = "both"
 
     def get(self, request, *args, **kwargs):
         """
@@ -86,6 +90,15 @@ class LetterPersonView(SingleObjectMixin, ListView):
         context = super().get_context_data(**kwargs)
         context["person"] = self.object
         context["letter_list"] = context["object_list"]
+        context["letter_kind"] = self.letter_kind
+
+        context["letter_counts"] = {
+            "from": Letter.objects.filter(sender=self.object).count(),
+            "to": Letter.objects.filter(recipient=self.object).count(),
+            "both": Letter.objects.filter(
+                Q(sender=self.object) | Q(recipient=self.object)
+            ).count(),
+        }
         return context
 
     def get_queryset(self):
@@ -97,6 +110,20 @@ class LetterPersonView(SingleObjectMixin, ListView):
             Q(sender=self.object) | Q(recipient=self.object)
         )
         return queryset
+
+
+class LetterFromPersonView(LetterPersonView):
+    letter_kind = "from"
+
+    def get_queryset(self):
+        return Letter.objects.filter(sender=self.object)
+
+
+class LetterToPersonView(LetterPersonView):
+    letter_kind = "to"
+
+    def get_queryset(self):
+        return Letter.objects.filter(recipient=self.object)
 
 
 class LetterArchiveView(TemplateView):

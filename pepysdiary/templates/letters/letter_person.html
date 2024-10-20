@@ -2,12 +2,28 @@
 
 {% block letter_nav_active %}active{% endblock %}
 
-{% block title %}Letters sent by or to {{ person.title }}{% endblock %}}
-{% block header_title %}Letters sent by or to {{ person.title }}{% endblock %}}
+{% block title %}Letters {% if letter_kind == "from" %}from{% elif letter_kind == "to" %}to{% else %}from or to{% endif %} {{ person.title }}{% endblock %}}
+{% block header_title %}Letters {% if letter_kind == "from" %}from{% elif letter_kind == "to" %}to{% else %}from or to{% endif %} {{ person.title }}{% endblock %}}
 
 {% block main_content %}
 
-	{% include 'letters/inc/letter_list.html' %}
+  <ul>
+    <li>
+      {% if letter_kind != "both" %}<a href="{% url 'letter_person' pk=person.pk %}">{% endif %}Letters from or to {{ person.title }}{% if letter_kind != "both" %}</a>{% endif %} <small>({{ letter_counts.both }})</small>
+    </li>
+    <li>
+      {% if letter_kind != "from" %}<a href="{% url 'letter_from_person' pk=person.pk %}">{% endif %}Letters from {{ person.title }}{% if letter_kind != "from" %}</a>{% endif %} <small>({{ letter_counts.from }})</small>
+    </li>
+    <li>
+      {% if letter_kind != "to" %}<a href="{% url 'letter_to_person' pk=person.pk %}">{% endif %}Letters to {{ person.title }}{% if letter_kind != "to" %}</a>{% endif %} <small>({{ letter_counts.to }})</small>
+    </li>
+  </ul>
+
+  {% if letter_list %}
+    {% include 'letters/inc/letter_list.html' %}
+  {% else %}
+    <p>There are no letters sent {% if letter_kind == "from" %}from{% elif letter_kind == "to" %}to{% else %}from or to{% endif %} {{ person.title }}.</p>
+  {% endif %}
 
 {% endblock main_content %}
 

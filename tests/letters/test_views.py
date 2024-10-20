@@ -122,15 +122,15 @@ class LetterPersonViewTestCase(ViewTransactionTestCase):
         with self.assertRaises(Http404):
             views.LetterPersonView.as_view()(self.request, pk=123)
 
-    def test_response_404_no_letters(self):
-        "If there are no letters to/from a person who exists, we 404"
+    def test_response_no_letters(self):
+        "If there are no letters to/from a person who exists, we do not 404"
         person = PersonTopicFactory()
-        with self.assertRaises(Http404):
-            views.LetterPersonView.as_view()(self.request, pk=person.pk)
+        response = views.LetterPersonView.as_view()(self.request, pk=person.pk)
+        self.assertEqual(response.status_code, 200)
 
     @override_settings(PEPYS_TOPIC_ID=123)
     def test_redirects_for_samuel_pepys(self):
-        "Pepys' Topic is a special case - we should redirect to the fron Letters page"
+        "Pepys' Topic is a special case - we should redirect to the front Letters page"
         person = PersonTopicFactory(pk=123)
         LetterFactory(sender=person)
         response = self.client.get(f"/letters/person/{person.pk}/")
@@ -139,21 +139,18 @@ class LetterPersonViewTestCase(ViewTransactionTestCase):
     def test_context_data_letters(self):
         "The letters should be in the context data"
         person = PersonTopicFactory()
-        letter_1 = LetterFactory(sender=person)
-        letter_2 = LetterFactory(recipient=person)
+        letter_1 = LetterFactory(sender=person, letter_date=make_date("1670-01-01"))
+        letter_2 = LetterFactory(recipient=person, letter_date=make_date("1666-01-01"))
 
         # Shouldn't be included:
         LetterFactory(sender=PersonTopicFactory())
 
         response = views.LetterPersonView.as_view()(self.request, pk=person.pk)
 
-        data = response.context_data
-        self.assertIn("object_list", data)
-        self.assertIn("letter_list", data)
-        self.assertEqual(data["object_list"], data["letter_list"])
-        self.assertEqual(len(data["letter_list"]), 2)
-        self.assertIn(letter_1, data["letter_list"])
-        self.assertIn(letter_2, data["letter_list"])
+        self.assertIn("letter_list", response.context_data)
+        self.assertQuerySetEqual(
+            response.context_data["letter_list"], [letter_2, letter_1]
+        )
 
     def test_context_data_person(self):
         "The topic should be included in the context data"
@@ -162,8 +159,159 @@ class LetterPersonViewTestCase(ViewTransactionTestCase):
 
         response = views.LetterPersonView.as_view()(self.request, pk=person.pk)
 
-        self.assertIn("person", response.context_data)
         self.assertEqual(response.context_data["person"], person)
+
+    def test_context_data_letter_kind(self):
+        person = PersonTopicFactory()
+        response = views.LetterPersonView.as_view()(self.request, pk=person.pk)
+        self.assertEqual(response.context_data["letter_kind"], "both")
+
+    def test_context_data_letter_counts(self):
+        person = PersonTopicFactory()
+        LetterFactory.create_batch(3, sender=person)
+        LetterFactory.create_batch(2, recipient=person)
+
+        response = views.LetterPersonView.as_view()(self.request, pk=person.pk)
+
+        self.assertDictEqual(
+            response.context_data["letter_counts"], {"from": 3, "to": 2, "both": 5}
+        )
+
+
+class LetterFromPersonViewTestCase(ViewTransactionTestCase):
+    def test_response_200(self):
+        person = PersonTopicFactory()
+        LetterFactory(sender=person)
+        response = views.LetterFromPersonView.as_view()(self.request, pk=person.pk)
+        self.assertEqual(response.status_code, 200)
+
+    def test_template(self):
+        person = PersonTopicFactory()
+        LetterFactory(sender=person)
+        response = views.LetterFromPersonView.as_view()(self.request, pk=person.pk)
+        self.assertEqual(response.template_name[0], "letters/letter_person.html")
+
+    def test_response_404_no_topic(self):
+        "If the person/topic doesn't exist, we 404"
+        with self.assertRaises(Http404):
+            views.LetterFromPersonView.as_view()(self.request, pk=123)
+
+    def test_response_no_letters(self):
+        "If there are no letters from a person who exists, we do not 404"
+        person = PersonTopicFactory()
+        response = views.LetterFromPersonView.as_view()(self.request, pk=person.pk)
+        self.assertEqual(response.status_code, 200)
+
+    def test_context_data_letters(self):
+        "The letters should be in the context data"
+        person = PersonTopicFactory()
+        letter_1 = LetterFactory(sender=person, letter_date=make_date("1670-01-01"))
+        letter_2 = LetterFactory(sender=person, letter_date=make_date("1666-01-01"))
+
+        # Shouldn't be included:
+        LetterFactory(recipient=person)
+        LetterFactory(sender=PersonTopicFactory())
+
+        response = views.LetterFromPersonView.as_view()(self.request, pk=person.pk)
+
+        self.assertIn("letter_list", response.context_data)
+        self.assertQuerySetEqual(
+            response.context_data["letter_list"], [letter_2, letter_1]
+        )
+
+    def test_context_data_person(self):
+        "The topic should be included in the context data"
+        person = PersonTopicFactory()
+        LetterFactory(sender=person)
+
+        response = views.LetterFromPersonView.as_view()(self.request, pk=person.pk)
+
+        self.assertEqual(response.context_data["person"], person)
+
+    def test_context_data_letter_kind(self):
+        person = PersonTopicFactory()
+        response = views.LetterFromPersonView.as_view()(self.request, pk=person.pk)
+        self.assertEqual(response.context_data["letter_kind"], "from")
+
+    def test_context_data_letter_counts(self):
+        person = PersonTopicFactory()
+        LetterFactory.create_batch(3, sender=person)
+        LetterFactory.create_batch(2, recipient=person)
+
+        response = views.LetterFromPersonView.as_view()(self.request, pk=person.pk)
+
+        self.assertIn("person", response.context_data)
+        self.assertDictEqual(
+            response.context_data["letter_counts"], {"from": 3, "to": 2, "both": 5}
+        )
+
+
+class LetterToPersonViewTestCase(ViewTransactionTestCase):
+    def test_response_200(self):
+        person = PersonTopicFactory()
+        LetterFactory(recipient=person)
+        response = views.LetterToPersonView.as_view()(self.request, pk=person.pk)
+        self.assertEqual(response.status_code, 200)
+
+    def test_template(self):
+        person = PersonTopicFactory()
+        LetterFactory(recipient=person)
+        response = views.LetterToPersonView.as_view()(self.request, pk=person.pk)
+        self.assertEqual(response.template_name[0], "letters/letter_person.html")
+
+    def test_response_404_no_topic(self):
+        "If the person/topic doesn't exist, we 404"
+        with self.assertRaises(Http404):
+            views.LetterToPersonView.as_view()(self.request, pk=123)
+
+    def test_response_no_letters(self):
+        "If there are no letters to a person who exists, we do not 404"
+        person = PersonTopicFactory()
+        response = views.LetterToPersonView.as_view()(self.request, pk=person.pk)
+        self.assertEqual(response.status_code, 200)
+
+    def test_context_data_letters(self):
+        "The letters should be in the context data"
+        person = PersonTopicFactory()
+        letter_1 = LetterFactory(recipient=person, letter_date=make_date("1670-01-01"))
+        letter_2 = LetterFactory(recipient=person, letter_date=make_date("1666-01-01"))
+
+        # Shouldn't be included:
+        LetterFactory(sender=person)
+        LetterFactory(sender=PersonTopicFactory())
+
+        response = views.LetterToPersonView.as_view()(self.request, pk=person.pk)
+
+        self.assertIn("letter_list", response.context_data)
+        self.assertQuerySetEqual(
+            response.context_data["letter_list"], [letter_2, letter_1]
+        )
+
+    def test_context_data_person(self):
+        "The topic should be included in the context data"
+        person = PersonTopicFactory()
+        LetterFactory(recipient=person)
+
+        response = views.LetterToPersonView.as_view()(self.request, pk=person.pk)
+
+        self.assertEqual(response.context_data["person"], person)
+
+    def test_context_data_letter_kind(self):
+        person = PersonTopicFactory()
+        response = views.LetterToPersonView.as_view()(self.request, pk=person.pk)
+        self.assertEqual(response.context_data["letter_kind"], "to")
+
+    def test_context_data_letter_counts(self):
+        person = PersonTopicFactory()
+        LetterFactory.create_batch(3, sender=person)
+        LetterFactory.create_batch(2, recipient=person)
+
+        response = views.LetterToPersonView.as_view()(self.request, pk=person.pk)
+
+        self.assertIn("person", response.context_data)
+        self.assertDictEqual(
+            response.context_data["letter_counts"], {"from": 3, "to": 2, "both": 5}
+        )
 
 
 class LetterArchiveViewTestCase(ViewTestCase):
@@ -182,6 +330,5 @@ class LetterArchiveViewTestCase(ViewTestCase):
 
         response = views.LetterArchiveView.as_view()(self.request)
 
-        data = response.context_data
-        self.assertIn("letters", data)
-        self.assertEqual(len(data["letters"]), 2)
+        self.assertIn("letters", response.context_data)
+        self.assertEqual(len(response.context_data["letters"]), 2)

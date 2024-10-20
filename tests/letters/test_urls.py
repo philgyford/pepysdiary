@@ -38,6 +38,35 @@ class DiaryURLsTestCase(TestCase):
             views.LetterDetailView,
         )
 
+    def test_letter_from_person_url(self):
+        self.assertEqual(
+            reverse(
+                "letter_from_person",
+                kwargs={"pk": "123"},
+            ),
+            "/letters/person/from/123/",
+        )
+
+    def test_letter_from_person_view(self):
+        self.assertEqual(
+            resolve("/letters/person/from/123/").func.view_class,
+            views.LetterFromPersonView,
+        )
+
+    def test_letter_to_person_url(self):
+        self.assertEqual(
+            reverse(
+                "letter_to_person",
+                kwargs={"pk": "123"},
+            ),
+            "/letters/person/to/123/",
+        )
+
+    def test_letter_to_person_view(self):
+        self.assertEqual(
+            resolve("/letters/person/to/123/").func.view_class, views.LetterToPersonView
+        )
+
     def test_letter_person_url(self):
         self.assertEqual(
             reverse(
