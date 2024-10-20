@@ -7,17 +7,49 @@
 
 {% block main_content %}
 
-  <ul>
-    <li>
-      {% if letter_kind != "both" %}<a href="{% url 'letter_person' pk=person.pk %}">{% endif %}Letters from or to {{ person.title }}{% if letter_kind != "both" %}</a>{% endif %} <small>({{ letter_counts.both }})</small>
-    </li>
-    <li>
-      {% if letter_kind != "from" %}<a href="{% url 'letter_from_person' pk=person.pk %}">{% endif %}Letters from {{ person.title }}{% if letter_kind != "from" %}</a>{% endif %} <small>({{ letter_counts.from }})</small>
-    </li>
-    <li>
-      {% if letter_kind != "to" %}<a href="{% url 'letter_to_person' pk=person.pk %}">{% endif %}Letters to {{ person.title }}{% if letter_kind != "to" %}</a>{% endif %} <small>({{ letter_counts.to }})</small>
-    </li>
-  </ul>
+  <nav aria-label="Lists of letters">
+    <ul>
+      <li>
+        {% with label="Letters from or to "|add:person.title %}
+          {% if letter_counts.both == 0 %}
+            <span class="text-muted">{{ label }}</span>
+          {% elif letter_kind == "both" %}
+            <strong>{{ label }}</strong>
+            <span class="sr-only">(current page)</span>
+          {% else %}
+            <a href="{% url 'letter_person' pk=person.pk %}">{{ label }}</a>
+          {% endif %}
+        {% endwith %}
+        <small>({{ letter_counts.both }})</small>
+      </li>
+      <li>
+        {% with label="Letters from "|add:person.title %}
+          {% if letter_counts.from == 0 %}
+            <span class="text-muted">{{ label }}</span>
+          {% elif letter_kind == "from" %}
+            <strong>{{ label }}</strong>
+            <span class="sr-only">(current page)</span>
+          {% else %}
+            <a href="{% url 'letter_from_person' pk=person.pk %}">{{ label }}</a>
+          {% endif %}
+        {% endwith %}
+        <small>({{ letter_counts.from }})</small>
+      </li>
+      <li>
+        {% with label="Letters to "|add:person.title %}
+          {% if letter_counts.to == 0 %}
+            <span class="text-muted">{{ label }}</span>
+          {% elif letter_kind == "to" %}
+            <strong>{{ label }}</strong>
+            <span class="sr-only">(current page)</span>
+          {% else %}
+            <a href="{% url 'letter_to_person' pk=person.pk %}">{{ label }}</a>
+          {% endif %}
+        {% endwith %}
+        <small>({{ letter_counts.to }})</small>
+      </li>
+    </ul>
+  </nav>
 
   {% if letter_list %}
     {% include 'letters/inc/letter_list.html' %}
