@@ -78,9 +78,9 @@ Then create a superuser:
 Log into postgres and drop the current (empty) database:
 
     $ ./run psql -d postgres
-    # drop database pepysdiary with (FORCE);
-    # create database pepysdiary;
-    # grant all privileges on database pepysdiary to pepysdiary;
+    # DROP DATABASE pepys WITH (FORCE);
+    # CREATE DATABASE pepys;
+    # GRANT ALL PRIVILEGES ON DATABASE pepys TO pepys;
     # \q
 
 On the VPS, create a backup file of the live site's database:
