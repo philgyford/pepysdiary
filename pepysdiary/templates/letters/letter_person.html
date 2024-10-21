@@ -62,16 +62,36 @@
 
 {% block sidebar_content %}
 
-	{% if person.thumbnail %}
-		<aside class="aside-block">
-			<header class="aside-header">
-				<h1 class="aside-title">{{ person.title }}</h1>
-			</header>
-			<div class="aside-body">
-				<p><img class="img-responsive" src="{{ person.thumbnail.url }}" width="100" height="120" alt="Thumbnail image" /></p>
-				<p><a href="{{ person.get_absolute_url }}">In the Encyclopedia</a></p>
-			</div>
-		</aside>
-	{% endif %}
+  <aside class="aside-block">
+    <header class="aside-header">
+      <h1 class="aside-title">{{ person.title }}</h1>
+    </header>
+    <div class="aside-body">
+      {% if person.thumbnail %}
+        <p><img class="img-responsive" src="{{ person.thumbnail.url }}" width="100" height="120" alt="Thumbnail image" /></p>
+      {% endif %}
+      <p><a href="{{ person.get_absolute_url }}">In the Encyclopedia</a></p>
+    </div>
+  </aside>
+
+  <aside class="aside-block">
+    <header class="aside-header">
+      <h1 class="aside-title">All correspondents</h1>
+    </header>
+    <div class="aside-body">
+      <ul>
+        {% for topic in correspondents %}
+          <li>
+            {% if topic.pk != person.pk %}
+              <a href="{% url 'letter_person' topic.pk %}">{{ topic.title }}</a>
+            {% else %}
+              {{ topic.title }}
+            {% endif %}
+            <small>({{ topic.letter_count }}{% if forloop.counter0 == 0 %} letters{% endif %})</small>
+          </li>
+        {% endfor %}
+          </ul>
+    </div>
+  </aside>
 
 {% endblock sidebar_content %}

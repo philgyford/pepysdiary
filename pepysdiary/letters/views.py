@@ -1,4 +1,6 @@
-from django.db.models import Q
+from itertools import chain
+
+from django.db.models import Count, F, Q
 from django.views.generic.dates import DateDetailView
 from django.views.generic.detail import SingleObjectMixin
 from django.views.generic.list import ListView
@@ -81,14 +83,8 @@ class LetterPersonView(SingleObjectMixin, ListView):
         context["person"] = self.object
         context["letter_list"] = context["object_list"]
         context["letter_kind"] = self.letter_kind
-
-        context["letter_counts"] = {
-            "from": Letter.objects.filter(sender=self.object).count(),
-            "to": Letter.objects.filter(recipient=self.object).count(),
-            "both": Letter.objects.filter(
-                Q(sender=self.object) | Q(recipient=self.object)
-            ).count(),
-        }
+        context["letter_counts"] = self.get_letter_counts()
+        context["correspondents"] = self.get_correspondents()
         return context
 
     def get_queryset(self):
@@ -100,6 +96,52 @@ class LetterPersonView(SingleObjectMixin, ListView):
             Q(sender=self.object) | Q(recipient=self.object)
         )
         return queryset
+
+    def get_letter_counts(self):
+        return {
+            "from": Letter.objects.filter(sender=self.object).count(),
+            "to": Letter.objects.filter(recipient=self.object).count(),
+            "both": Letter.objects.filter(
+                Q(sender=self.object) | Q(recipient=self.object)
+            ).count(),
+        }
+
+    def get_correspondents(self):
+        """
+        Returns a list of Topics, each one a person with
+        a letter_count attribute. Ordered by letter_count descending.
+
+        I can't believe what a convoluted way I've ended up doing this.
+        There must be an easier way.
+        """
+        # Get both senders and recipients' topic_ids, with counts of how many letters:
+        senders = (
+            Letter.objects.order_by()
+            .values(topic_id=F("sender"))
+            .annotate(count=Count("pk"))
+            .distinct()
+        )
+        recipients = (
+            Letter.objects.order_by()
+            .values(topic_id=F("recipient"))
+            .annotate(count=Count("pk"))
+            .distinct()
+        )
+        senders_and_recipients = list(chain(senders, recipients))
+
+        # Combine above into topic_id: totalcount of letters:
+        topic_id_to_count = {}
+        for row in senders_and_recipients:
+            if row["topic_id"] in topic_id_to_count:
+                topic_id_to_count[row["topic_id"]] += row["count"]
+            else:
+                topic_id_to_count[row["topic_id"]] = row["count"]
+
+        topics = Topic.objects.filter(id__in=topic_id_to_count.keys())
+        for topic in topics:
+            topic.letter_count = topic_id_to_count[topic.id]
+
+        return sorted(list(topics), key=lambda t: t.letter_count, reverse=True)
 
 
 class LetterFromPersonView(LetterPersonView):

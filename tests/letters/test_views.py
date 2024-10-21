@@ -168,6 +168,27 @@ class LetterPersonViewTestCase(ViewTransactionTestCase):
             response.context_data["letter_counts"], {"from": 3, "to": 2, "both": 5}
         )
 
+    def test_context_correspondents(self):
+        person1 = PersonTopicFactory()
+        LetterFactory.create_batch(3, sender=person1)
+        LetterFactory.create_batch(2, recipient=person1)
+        person2 = PersonTopicFactory()
+        LetterFactory.create_batch(1, sender=person2)
+        LetterFactory.create_batch(5, recipient=person2)
+        person3 = PersonTopicFactory()
+        LetterFactory.create_batch(1, sender=person3)
+
+        response = views.LetterPersonView.as_view()(self.request, pk=person1.pk)
+
+        context = response.context_data
+        self.assertEqual(len(context["correspondents"]), 3)
+        self.assertEqual(context["correspondents"][0], person2)
+        self.assertEqual(context["correspondents"][1], person1)
+        self.assertEqual(context["correspondents"][2], person3)
+        self.assertEqual(context["correspondents"][0].letter_count, 6)
+        self.assertEqual(context["correspondents"][1].letter_count, 5)
+        self.assertEqual(context["correspondents"][2].letter_count, 1)
+
 
 class LetterFromPersonViewTestCase(ViewTransactionTestCase):
     def test_response_200(self):
