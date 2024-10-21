@@ -44,14 +44,14 @@ class Letter(PepysModel, OldDateMixin):
         on_delete=models.SET_NULL,
         blank=False,
         null=True,
-        related_name="leter_senders",
+        related_name="letters_sent",
     )
     recipient = models.ForeignKey(
         "encyclopedia.Topic",
         on_delete=models.SET_NULL,
         blank=False,
         null=True,
-        related_name="letter_recipients",
+        related_name="letters_received",
     )
     source = models.IntegerField(blank=True, null=True, choices=Source.choices)
     slug = models.SlugField(
