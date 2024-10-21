@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.http.response import Http404
 
 from pepysdiary.common.utilities import make_date
@@ -5,6 +6,14 @@ from pepysdiary.encyclopedia.factories import PersonTopicFactory, TopicFactory
 from pepysdiary.letters import views
 from pepysdiary.letters.factories import LetterFactory
 from tests import ViewTestCase, ViewTransactionTestCase
+
+
+class LetterArchiveViewTestCase(ViewTestCase):
+    def test_redirects(self):
+        "It should redirect to the page for Pepys' letters"
+        PersonTopicFactory(id=settings.PEPYS_TOPIC_ID)
+        response = self.client.get("/letters/")
+        self.assertRedirects(response, f"/letters/person/{settings.PEPYS_TOPIC_ID}/")
 
 
 class LetterDetailViewTestCase(ViewTestCase):

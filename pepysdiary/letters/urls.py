@@ -1,8 +1,8 @@
-from django.conf import settings
 from django.urls import path, re_path
 
 from .feeds import LatestLettersFeed
 from .views import (
+    LetterArchiveView,
     LetterDetailView,
     LetterFromPersonView,
     LetterPersonView,
@@ -33,11 +33,9 @@ urlpatterns = [
         LetterPersonView.as_view(),
         name="letter_person",
     ),
-    # Front page displays all letters from/to Pepys himself.
     path(
         "",
-        LetterPersonView.as_view(),
-        {"pk": settings.PEPYS_TOPIC_ID},
+        LetterArchiveView.as_view(),
         name="letters",
     ),
 ]

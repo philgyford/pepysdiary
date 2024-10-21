@@ -85,4 +85,4 @@ class DiaryURLsTestCase(TestCase):
         self.assertEqual(reverse("letters"), "/letters/")
 
     def test_letter_archive_view(self):
-        self.assertEqual(resolve("/letters/").func.view_class, views.LetterPersonView)
+        self.assertEqual(resolve("/letters/").func.view_class, views.LetterArchiveView)

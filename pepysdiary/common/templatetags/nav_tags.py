@@ -40,6 +40,8 @@ def get_subnav(url_name):
                 "letters",
                 "letter_detail",
                 "letter_person",
+                "letter_from_person",
+                "letter_to_person",
             ),
         ),
         (

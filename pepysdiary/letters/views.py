@@ -1,6 +1,9 @@
 from itertools import chain
 
+from django.conf import settings
 from django.db.models import Count, F, Q
+from django.urls import reverse
+from django.views.generic.base import RedirectView
 from django.views.generic.dates import DateDetailView
 from django.views.generic.detail import SingleObjectMixin
 from django.views.generic.list import ListView
@@ -156,3 +159,13 @@ class LetterToPersonView(LetterPersonView):
 
     def get_queryset(self):
         return Letter.objects.filter(recipient=self.object)
+
+
+class LetterArchiveView(RedirectView):
+    permanent = False
+    query_string = False
+    pattern_name = "letter_person"
+
+    def get_redirect_url(self, *args, **kwargs):
+        "Redirect from front /letters/ page to the page for Pepys's letters"
+        return reverse(self.pattern_name, kwargs={"pk": settings.PEPYS_TOPIC_ID})
