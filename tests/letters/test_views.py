@@ -187,6 +187,9 @@ class LetterPersonViewTestCase(ViewTransactionTestCase):
         person3 = PersonTopicFactory()
         LetterFactory.create_batch(1, sender=person3)
 
+        # Shouldn't be included:
+        PersonTopicFactory()
+
         response = views.LetterPersonView.as_view()(self.request, pk=person1.pk)
 
         context = response.context_data

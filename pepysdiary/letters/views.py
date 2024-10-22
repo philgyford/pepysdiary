@@ -1,7 +1,5 @@
-from itertools import chain
-
 from django.conf import settings
-from django.db.models import Count, F, Q
+from django.db.models import Count, Q
 from django.urls import reverse
 from django.views.generic.base import RedirectView
 from django.views.generic.dates import DateDetailView
@@ -114,32 +112,32 @@ class LetterPersonView(SingleObjectMixin, ListView):
         Returns a list of Topics, each one a person with
         a letter_count attribute. Ordered by letter_count descending.
 
-        I can't believe what a convoluted way I've ended up doing this.
-        There must be an easier way.
+        Should be able to get all this in one query, but I get an
+        error if I try to get the full Topic objects with the count annotation:
+
+            column "encyclopedia_topic.date_created" must appear in the
+            GROUP BY clause or be used in an aggregate function
+
+        So we're getting the ids and counts,
+        then getting the Topics for those ids,
+        and then adding the counts to the Topics.
         """
-        # Get both senders and recipients' topic_ids, with counts of how many letters:
-        senders = (
-            Letter.objects.order_by()
-            .values(topic_id=F("sender"))
-            .annotate(count=Count("pk"))
-            .distinct()
+        letter_counts = (
+            Topic.objects.values("id")
+            .annotate(
+                letter_count=(
+                    Count("letters_sent", distinct=True)
+                    + Count("letters_received", distinct=True)
+                )
+            )
+            .filter(letter_count__gt=0)
+            .order_by("-letter_count")
         )
-        recipients = (
-            Letter.objects.order_by()
-            .values(topic_id=F("recipient"))
-            .annotate(count=Count("pk"))
-            .distinct()
-        )
-        senders_and_recipients = list(chain(senders, recipients))
 
-        # Combine above into topic_id: totalcount of letters:
-        topic_id_to_count = {}
-        for row in senders_and_recipients:
-            if row["topic_id"] in topic_id_to_count:
-                topic_id_to_count[row["topic_id"]] += row["count"]
-            else:
-                topic_id_to_count[row["topic_id"]] = row["count"]
+        # Put into dict:
+        topic_id_to_count = {t["id"]: t["letter_count"] for t in letter_counts}
 
+        # Get all the Topics and add their letter_count to each:
         topics = Topic.objects.filter(id__in=topic_id_to_count.keys())
         for topic in topics:
             topic.letter_count = topic_id_to_count[topic.id]
