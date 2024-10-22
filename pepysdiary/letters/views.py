@@ -1,7 +1,7 @@
 from django.conf import settings
-from django.db.models import Q
-from django.shortcuts import redirect
-from django.views.generic.base import TemplateView
+from django.db.models import Count, Q
+from django.urls import reverse
+from django.views.generic.base import RedirectView
 from django.views.generic.dates import DateDetailView
 from django.views.generic.detail import SingleObjectMixin
 from django.views.generic.list import ListView
@@ -69,16 +69,13 @@ class LetterPersonView(SingleObjectMixin, ListView):
     """
 
     template_name = "letters/letter_person.html"
-    allow_empty = False
+    allow_empty = True
+
+    # In child classes this will be "from" or "to".
+    # Indicates the sort of list of letters to/from this person (or both)
+    letter_kind = "both"
 
     def get(self, request, *args, **kwargs):
-        """
-        If we're linking to a page with SP's ID, then redirect to the general
-        Letters page.
-        """
-        if int(kwargs.get("pk", 0)) == settings.PEPYS_TOPIC_ID:
-            return redirect("letters")
-
         self.object = self.get_object(queryset=Topic.objects.all())
         return super().get(request, *args, **kwargs)
 
@@ -86,6 +83,9 @@ class LetterPersonView(SingleObjectMixin, ListView):
         context = super().get_context_data(**kwargs)
         context["person"] = self.object
         context["letter_list"] = context["object_list"]
+        context["letter_kind"] = self.letter_kind
+        context["letter_counts"] = self.get_letter_counts()
+        context["correspondents"] = self.get_correspondents()
         return context
 
     def get_queryset(self):
@@ -98,11 +98,72 @@ class LetterPersonView(SingleObjectMixin, ListView):
         )
         return queryset
 
+    def get_letter_counts(self):
+        return {
+            "from": Letter.objects.filter(sender=self.object).count(),
+            "to": Letter.objects.filter(recipient=self.object).count(),
+            "both": Letter.objects.filter(
+                Q(sender=self.object) | Q(recipient=self.object)
+            ).count(),
+        }
 
-class LetterArchiveView(TemplateView):
-    template_name = "letters/letter_list.html"
+    def get_correspondents(self):
+        """
+        Returns a list of Topics, each one a person with
+        a letter_count attribute. Ordered by letter_count descending.
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["letters"] = Letter.objects.all()
-        return context
+        Should be able to get all this in one query, but I get an
+        error if I try to get the full Topic objects with the count annotation:
+
+            column "encyclopedia_topic.date_created" must appear in the
+            GROUP BY clause or be used in an aggregate function
+
+        So we're getting the ids and counts,
+        then getting the Topics for those ids,
+        and then adding the counts to the Topics.
+        """
+        letter_counts = (
+            Topic.objects.values("id")
+            .annotate(
+                letter_count=(
+                    Count("letters_sent", distinct=True)
+                    + Count("letters_received", distinct=True)
+                )
+            )
+            .filter(letter_count__gt=0)
+            .order_by("-letter_count")
+        )
+
+        # Put into dict:
+        topic_id_to_count = {t["id"]: t["letter_count"] for t in letter_counts}
+
+        # Get all the Topics and add their letter_count to each:
+        topics = Topic.objects.filter(id__in=topic_id_to_count.keys())
+        for topic in topics:
+            topic.letter_count = topic_id_to_count[topic.id]
+
+        return sorted(list(topics), key=lambda t: t.letter_count, reverse=True)
+
+
+class LetterFromPersonView(LetterPersonView):
+    letter_kind = "from"
+
+    def get_queryset(self):
+        return Letter.objects.filter(sender=self.object)
+
+
+class LetterToPersonView(LetterPersonView):
+    letter_kind = "to"
+
+    def get_queryset(self):
+        return Letter.objects.filter(recipient=self.object)
+
+
+class LetterArchiveView(RedirectView):
+    permanent = False
+    query_string = False
+    pattern_name = "letter_person"
+
+    def get_redirect_url(self, *args, **kwargs):
+        "Redirect from front /letters/ page to the page for Pepys's letters"
+        return reverse(self.pattern_name, kwargs={"pk": settings.PEPYS_TOPIC_ID})

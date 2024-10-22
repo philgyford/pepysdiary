@@ -78,24 +78,23 @@ Then create a superuser:
 Log into postgres and drop the current (empty) database:
 
     $ ./run psql -d postgres
-    # drop database pepysdiary with (FORCE);
-    # create database pepysdiary;
-    # grant all privileges on database pepysdiary to pepysdiary;
+    # DROP DATABASE pepys WITH (FORCE);
+    # CREATE DATABASE pepys;
+    # GRANT ALL PRIVILEGES ON DATABASE pepys TO pepys;
     # \q
 
 On the VPS, create a backup file of the live site's database:
 
-    $ pg_dump dbname -U username -h localhost | gzip > ~/pepys_dump.gz
+    $ pg_dump -h localhost -U username -d dbname -Fc -b -f ~/dump.sql
 
 Then scp it to your local machine:
 
-    $ scp username@your.vps.domain.com:/home/username/pepys_dump.gz .
+    $ scp username@your.vps.domain.com:/home/username/dump.sql .
 
-Put the file in the same directory as this README.
+Then copy the dump into Docker and load it into the database:
 
-Import the data into the database:
-
-    $ gunzip < pepys_dump.gz | docker exec -i pepys_db psql -U pepysdiary -d pepysdiary
+    $ docker cp dump.sql pepys_db:/tmp/
+    $ docker exec -i pepys_db pg_restore -h localhost -U pepysdiary -d pepysdiary -j 2 /tmp/dump.sql
 
 #### 5. Vist and set up the site
 
