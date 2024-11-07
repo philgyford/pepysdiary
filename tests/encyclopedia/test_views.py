@@ -5,9 +5,10 @@ from django.http.response import Http404
 from pepysdiary.common.utilities import make_date
 from pepysdiary.diary.factories import EntryFactory
 from pepysdiary.encyclopedia import views
-from pepysdiary.encyclopedia.factories import TopicFactory
+from pepysdiary.encyclopedia.factories import PersonTopicFactory, TopicFactory
 from pepysdiary.encyclopedia.models import Category
-from tests import ViewTestCase
+from pepysdiary.letters.factories import LetterFactory
+from tests import ViewTestCase, ViewTransactionTestCase
 
 DEFAULT_MAP_CATEGORY_ID = 28
 
@@ -130,7 +131,7 @@ class CategoryDetailViewTestCase(ViewTestCase):
         )
 
 
-class TopicDetailViewTestCase(ViewTestCase):
+class TopicDetailViewTestCase(ViewTransactionTestCase):
     def test_response_200(self):
         topic = TopicFactory()
         response = views.TopicDetailView.as_view()(self.request, pk=topic.pk)
@@ -166,6 +167,20 @@ class TopicDetailViewTestCase(ViewTestCase):
                 ["1662", [["Mar", [entry_3, entry_4]]]],
             ],
         )
+
+    def test_context_data_letter_count(self):
+        "letter_count should be correct in the context data"
+        topic_1 = PersonTopicFactory()
+        LetterFactory.create_batch(3, sender=topic_1)
+        LetterFactory.create_batch(2, recipient=topic_1)
+        # Shouldn't be included:
+        topic_2 = PersonTopicFactory()
+        LetterFactory.create_batch(1, sender=topic_2)
+
+        response = views.TopicDetailView.as_view()(self.request, pk=topic_1.pk)
+
+        self.assertIn("letter_count", response.context_data)
+        self.assertEqual(response.context_data["letter_count"], 5)
 
 
 class CategoryMapViewTestCase(ViewTestCase):

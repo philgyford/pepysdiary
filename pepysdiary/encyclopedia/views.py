@@ -1,5 +1,6 @@
 import string
 
+from django.db.models import Q
 from django.http import Http404, HttpResponseRedirect
 from django.urls import reverse
 from django.utils.decorators import method_decorator
@@ -9,6 +10,7 @@ from django.views.generic import FormView, TemplateView
 from django.views.generic.detail import DetailView
 
 from pepysdiary.common.views import CacheMixin
+from pepysdiary.letters.models import Letter
 
 from .forms import CategoryMapForm
 from .models import Category, Topic
@@ -80,6 +82,9 @@ class TopicDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["diary_references"] = self.object.get_annotated_diary_references()
+        context["letter_count"] = Letter.objects.filter(
+            Q(sender=self.object) | Q(recipient=self.object)
+        ).count()
         return context
 
 

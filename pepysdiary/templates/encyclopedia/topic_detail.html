@@ -213,17 +213,17 @@
 {% block sidebar_content %}
 
 	{% if topic.thumbnail %}
-		<aside class="aside-block" >
+		<aside class="aside-block">
 			<p class="aside-body clearfix">
-                <span itemprop="image" itemscope itemtype="http://schema.org/ImageObject">
-                    <img src="{{ topic.thumbnail.url }}" class="img-thumbnail pull-left" width="100" height="120" alt="Thumbnail image" itemprop="contentUrl" />
-                </span>
-                {% if topic.tooltip_text %}
-                    <span itemprop="description">
-                        {{ topic.tooltip_text|markup_tooltip }}
-                    </span>
-                {% endif %}
-            </p>
+        <span itemprop="image" itemscope itemtype="http://schema.org/ImageObject">
+          <img src="{{ topic.thumbnail.url }}" class="img-thumbnail pull-left" width="100" height="120" alt="Thumbnail image" itemprop="contentUrl" />
+        </span>
+        {% if topic.tooltip_text %}
+          <span itemprop="description">
+            {{ topic.tooltip_text|markup_tooltip }}
+          </span>
+        {% endif %}
+      </p>
 		</aside>
 	{% endif %}
 
@@ -235,5 +235,18 @@
 	{% if topic.on_pepys_family_tree or topic.is_family_tree %}
 		{% family_tree_link topic=topic %}
 	{% endif %}
+
+  {% if letter_count > 0 %}
+    <aside class="aside-block">
+      <header class="aside-header">
+        <h1 class="aside-title">
+          Letters
+        </h1>
+      </header>
+      <div class="aside-body">
+        <a href="{% url 'letter_person' topic.pk %}">Read {{ letter_count|apnumber }} letter{{ letter_count|pluralize }} from or to this&nbsp;person</a>
+      </div>
+    </aside>
+  {% endif %}
 
 {% endblock sidebar_content %}
