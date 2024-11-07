@@ -14,8 +14,13 @@ from .managers import LetterManager
 
 class Letter(PepysModel, OldDateMixin):
     class Source(models.IntegerChoices):
-        GUY_DE_LA_BEDOYERE = 10, "Guy de la Bédoyère"
-        HELEN_TRUESDELL_HEATH = 20, "Helen Truesdell Heath"
+        GUY_DE_LA_BEDOYERE = 10, "Guy de la Bédoyère - Particular Friends"
+        GUY_DE_LA_BEDOYERE_2 = 15, "Guy de la Bédoyère - The Letters of Samuel Pepys"
+        HELEN_TRUESDELL_HEATH = (
+            20,
+            "Helen Truesdell Heath - The Letters of Samuel Pepys and his Family Circle",
+        )
+        KEITH_PHELPS = 30, "Keith Phelps"
 
     title = models.CharField(
         max_length=100,

@@ -76,9 +76,14 @@
 			</header>
 			<div class="aside-body">
 				{% if letter.source == letter.Source.GUY_DE_LA_BEDOYERE %}
-				<img class="pull-right" src="{% static 'common/img/sidebar_particular_friends.jpg' %}" srcset="{% static 'common/img/sidebar_particular_friends.jpg' %} 2x" width="92" height="140" alt="Book cover" />
+          <img class="pull-right" src="{% static 'common/img/letters/sidebar_particular_friends.jpg' %}" srcset="{% static 'common/img/letters/sidebar_particular_friends.jpg' %} 2x" width="92" height="140" alt="Book cover" />
 					<p>Thanks to Guy de la Bédoyère for supplying the text and footnotes for this letter. You can purchase his book, <cite>Particular Friends: The Correspondence of Samuel Pepys and John Evelyn</cite>, at <a href="http://www.amazon.co.uk/gp/product/1843831341/ref=as_li_qf_sp_asin_il_tl?ie=UTF8&amp;tag=haddockorg-21&amp;linkCode=as2&amp;camp=1634&amp;creative=6738&amp;creativeASIN=1843831341">Amazon.co.uk</a> or <a href="http://www.amazon.com/gp/product/1843831341/ref=as_li_qf_sp_asin_il_tl?ie=UTF8&amp;tag=haddockorg-20&amp;linkCode=as2&amp;camp=1789&amp;creative=9325&amp;creativeASIN=1843831341">Amazon.com</a>.</p>
+        {% elif letter.source == letter.Source.GUY_DE_LA_BEDOYERE_2 %}
+          <img class="pull-right" src="{% static 'common/img/letters/sidebar_letters_of_samuel_pepys.jpg' %}" srcset="{% static 'common/img/letters/sidebar_letters_of_samuel_pepys.jpg' %} 2x" width="92" height="140" alt="Book cover" />
+					<p>Thanks to Guy de la Bédoyère for supplying the text and footnotes for this letter from the unpublished second edition of <cite>The Letters of Samuel Pepys</cite>. You can purchase the first edition at <a href="https://boydellandbrewer.com/9781843835141/the-letters-of-samuel-pepys/">the publisher</a>.</p>
+
 				{% elif letter.source == letter.Source.HELEN_TRUESDELL_HEATH %}
+          <img class="pull-right" src="{% static 'common/img/letters/sidebar_letters_of_samuel_pepys_truesdell' %}" srcset="{% static 'common/img/letters/sidebar_letters_of_samuel_pepys_truesdell_2x.jpg' %} 2x" width="92" height="151" alt="Book cover" />
 					<p>Excerpted from Helen Truesdell Heath's 1955 book, <cite>The Letters of Samuel Pepys and his Family Circle</cite>, available at <a href="http://www.amazon.co.uk/gp/product/B000XE6C64/ref=as_li_qf_sp_asin_il_tl?ie=UTF8&tag=haddockorg-21&linkCode=as2&camp=1634&creative=6738&creativeASIN=B000XE6C64">Amazon.co.uk</a> or <a href="http://www.amazon.com/gp/product/B000XE6C64/ref=as_li_qf_sp_asin_il_tl?ie=UTF8&tag=haddockorg-20&linkCode=as2&camp=1789&creative=9325&creativeASIN=B000XE6C64">Amazon.com</a>.</p>
 				{% endif %}
 			</div>
