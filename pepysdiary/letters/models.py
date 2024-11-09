@@ -135,8 +135,12 @@ class Letter(PepysModel, OldDateMixin):
         unique_ids = [id for id in ids if id not in seen and not seen_add(id)]
 
         for id in unique_ids:
-            topic = Topic.objects.get(pk=id)
-            topic.letter_references.add(self)
+            try:
+                topic = Topic.objects.get(pk=id)
+                topic.letter_references.add(self)
+            except Topic.DoesNotExist:
+                # Ignore invalid/broken links
+                pass
 
     @property
     def short_date(self):

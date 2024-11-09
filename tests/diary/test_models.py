@@ -63,6 +63,25 @@ class EntryTestCase(TestCase):
         self.assertEqual(len(topic_3_refs), 1)
         self.assertEqual(topic_3_refs[0], entry)
 
+    def test_makes_references_invalid_link(self):
+        "If a link looks like a reference but is invalid, should be ignored"
+        topic_1 = TopicFactory(title="Cats")
+        entry = EntryFactory(text="")
+
+        entry.text = (
+            "<p>Hello. "
+            f'<a href="http://www.pepysdiary.com/encyclopedia/{topic_1.id}/">cats'
+            "</a> and "
+            f'<a href="https://www.pepysdiary.com/encyclopedia/{topic_1.id}999999/">broken'
+            "</a>.</p>"
+        )
+        entry.save()
+
+        # The 1 valid link should have created a reference:
+        topic_1_refs = topic_1.diary_references.all()
+        self.assertEqual(len(topic_1_refs), 1)
+        self.assertEqual(topic_1_refs[0], entry)
+
     def test_get_absolute_url(self):
         "It should return the correct URL"
         entry = EntryFactory(diary_date=make_date("1660-01-01"))

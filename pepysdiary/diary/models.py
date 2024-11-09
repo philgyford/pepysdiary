@@ -146,8 +146,12 @@ class Entry(PepysModel, OldDateMixin):
         unique_ids = [id for id in ids if id not in seen and not seen_add(id)]
 
         for id in unique_ids:
-            topic = Topic.objects.get(pk=id)
-            topic.diary_references.add(self)
+            try:
+                topic = Topic.objects.get(pk=id)
+                topic.diary_references.add(self)
+            except Topic.DoesNotExist:
+                # Ignore invalid/broken links
+                pass
 
 
 class EntryModerator(CommentModerator):

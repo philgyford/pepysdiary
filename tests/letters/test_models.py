@@ -62,6 +62,25 @@ class LetterTestCase(TestCase):
         self.assertEqual(len(topic_3_refs), 1)
         self.assertEqual(topic_3_refs[0], letter)
 
+    def test_makes_references_invalid_link(self):
+        "If a link looks like a reference but is invalid, should be ignored"
+        topic_1 = TopicFactory(title="Cats")
+        letter = LetterFactory(text="")
+
+        letter.text = (
+            "<p>Hello. "
+            f'<a href="http://www.pepysdiary.com/encyclopedia/{topic_1.id}/">cats'
+            "</a> and "
+            f'<a href="https://www.pepysdiary.com/encyclopedia/{topic_1.id}999999/">broken'
+            "</a>.</p>"
+        )
+        letter.save()
+
+        # The 1 valid link should have created a reference:
+        topic_1_refs = topic_1.letter_references.all()
+        self.assertEqual(len(topic_1_refs), 1)
+        self.assertEqual(topic_1_refs[0], letter)
+
     def test_get_absolute_url(self):
         letter = LetterFactory(slug="my-letter", letter_date=make_date("1660-01-02"))
         self.assertEqual(letter.get_absolute_url(), "/letters/1660/01/02/my-letter/")
