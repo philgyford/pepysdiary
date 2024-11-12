@@ -12,7 +12,7 @@
 
 	{% for summary in summary_list reversed %}
 		<article id="m{{ summary.summary_date|date:"m" }}" class="summary">
-			<h1>{{ summary.summary_date|date:"F Y" }}</h1>
+			<h1>{{ summary.title }}</h1>
 
 			{% if perms.summary.can_edit %}
 				{% load widget_tags %}
