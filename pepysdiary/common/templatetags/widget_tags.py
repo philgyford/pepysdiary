@@ -190,8 +190,7 @@ def summary_year_navigation(current_year):
         },
     )
     html += (
-        f'<a class="list-group-item" href="{href}">'
-        "After the diary (In-Depth Article)</a>"
+        f'<a class="list-group-item" href="{href}">' "After the diary (in Articles)</a>"
     )
     return mark_safe(f'<div class="list-group">{html}</div>')
 
