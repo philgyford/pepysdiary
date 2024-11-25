@@ -18,7 +18,7 @@ class LetterFactory(factory.django.DjangoModelFactory):
     display_date = factory.Faker("text", max_nb_chars=50)
     text = factory.Faker("paragraph")
     excerpt = factory.Faker("text", max_nb_chars=200)
-    slug = factory.Sequence(lambda n: "letter%d" % n)
+    slug = factory.Sequence(lambda n: f"letter{n}")
 
     # Including the attributes below results in tests aborting with:
     #   django.db.transaction.TransactionManagementError: An error

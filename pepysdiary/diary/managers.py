@@ -207,7 +207,7 @@ class EntryManager(models.Manager, ReferredManagerMixin):
             for year, months in years_months:
                 months_m = []
                 for count, _ in enumerate(months):
-                    months_m.append("%02d" % (count + 1))
+                    months_m.append(f"{count+1:02}")
                 years_months_m.append(tuple([year, tuple(months_m)]))
             return tuple(years_months_m)
         else:
