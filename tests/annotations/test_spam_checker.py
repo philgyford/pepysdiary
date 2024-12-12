@@ -157,6 +157,13 @@ class TestCommentForSpamTestCase(TestCase):
 
         self.assertEqual(len(responses.calls), 0)
 
+    @override_settings(PEPYS_AKISMET_API_KEY="")
+    def test_handles_empty_akismet_api_key(self):
+        "If PEPYS_AKISMET_API_KEY is default value, it should successfully post comment"
+        self.post_comment()
+        annotation = Annotation.objects.first()
+        self.assertTrue(annotation.is_public)
+
     @responses.activate
     def test_standard_user_is_tested(self):
         "Ordinary users should have their comments tested by Akismet"
