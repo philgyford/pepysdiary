@@ -966,9 +966,9 @@ typing-extensions==4.12.2 \
     #   dj-database-url
     #   ipython
     #   psycopg
-unittest-parametrize==1.5.0 \
-    --hash=sha256:8047ca934b6cfc00ebc2b950b25dad3a3666a4e43312a954bc37707b8490e2bc \
-    --hash=sha256:957f4a0ef73e46687ae898d805e9736efeb98fe1900efc33b893a2c9abe27359
+unittest-parametrize==1.6.0 \
+    --hash=sha256:d9d2209a265b61b310ce81c1890f0e3a2282025deae758773f04d5a692cf1a3f \
+    --hash=sha256:fcbc0023304b08624b38a4762d25b691468d66f61fd5f11672b372ed71eee0e2
     # via -r requirements.in
 uritemplate==4.1.1 \
     --hash=sha256:4346edfc5c3b79f694bccd6d6099a322bbeb628dbf2cd86eea55a456ce5124f0 \
