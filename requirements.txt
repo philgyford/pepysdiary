@@ -795,9 +795,9 @@ requests==2.32.3 \
     #   -r requirements.in
     #   coreapi
     #   responses
-responses==0.25.3 \
-    --hash=sha256:521efcbc82081ab8daa588e08f7e8a64ce79b91c39f6e62199b19159bea7dbcb \
-    --hash=sha256:617b9247abd9ae28313d57a75880422d55ec63c29d33d629697590a034358dba
+responses==0.25.5 \
+    --hash=sha256:b3e1ae252f69301b84146ff615a869a4182fbe17e8b606f1ac54142515dad5eb \
+    --hash=sha256:e53991613f76d17ba293c1e3cce8af107c5c7a6a513edf25195aafd89a870dd3
     # via -r requirements.in
 ruff==0.8.6 \
     --hash=sha256:0509e8da430228236a18a677fcdb0c1f102dd26d5520f71f79b094963322ed25 \
