@@ -14,22 +14,22 @@ from .views import (
 urlpatterns = [
     path("rss/", LatestLettersFeed(), name="letter_rss"),
     re_path(
-        r"^(?P<year>\d{4})/(?P<month>\d{2})/(?P<day>\d{2})/(?P<slug>[\w-]+)/$",
+        r"^(?P<year>[0-9]{4})/(?P<month>[0-9]{2})/(?P<day>[0-9]{2})/(?P<slug>[\w-]+)/$",
         LetterDetailView.as_view(),
         name="letter_detail",
     ),
     re_path(
-        r"^person/from/(?P<pk>[\d]+)/$",
+        r"^person/from/(?P<pk>[0-9]+)/$",
         LetterFromPersonView.as_view(),
         name="letter_from_person",
     ),
     re_path(
-        r"^person/to/(?P<pk>[\d]+)/$",
+        r"^person/to/(?P<pk>[0-9]+)/$",
         LetterToPersonView.as_view(),
         name="letter_to_person",
     ),
     re_path(
-        r"^person/(?P<pk>[\d]+)/$",
+        r"^person/(?P<pk>[0-9]+)/$",
         LetterPersonView.as_view(),
         name="letter_person",
     ),

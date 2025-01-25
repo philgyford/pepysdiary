@@ -41,7 +41,7 @@ urlpatterns = [
     # A user viewing themselves:
     path("profile/", PrivateProfileView.as_view(), name="private_profile"),
     # A public user profile page:
-    re_path(r"^profile/(?P<pk>[\d]+)/$", ProfileView.as_view(), name="profile"),
+    re_path(r"^profile/(?P<pk>[0-9]+)/$", ProfileView.as_view(), name="profile"),
     path("password/reset/", PasswordResetView.as_view(), name="password_reset"),
     path(
         "password/reset/done/",

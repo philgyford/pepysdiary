@@ -8,7 +8,7 @@ from .views import PostArchiveView, PostCategoryArchiveView, PostDetailView
 urlpatterns = [
     path("rss/", LatestPostsFeed(), name="post_rss"),
     re_path(
-        r"^(?P<year>\d{4})/(?P<month>\d{2})/(?P<day>\d{2})/(?P<pk>\d+)/$",
+        r"^(?P<year>[0-9]{4})/(?P<month>[0-9]{2})/(?P<day>[0-9]{2})/(?P<pk>[0-9]+)/$",
         PostDetailView.as_view(),
         name="post_detail",
     ),

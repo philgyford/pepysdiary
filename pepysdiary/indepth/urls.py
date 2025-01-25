@@ -8,7 +8,7 @@ from .views import ArticleArchiveView, ArticleCategoryArchiveView, ArticleDetail
 urlpatterns = [
     path("rss/", LatestArticlesFeed(), name="article_rss"),
     re_path(
-        r"^(?P<year>\d{4})/(?P<month>\d{2})/(?P<day>\d{2})/(?P<slug>[\w-]+)/$",
+        r"^(?P<year>[0-9]{4})/(?P<month>[0-9]{2})/(?P<day>[0-9]{2})/(?P<slug>[\w-]+)/$",
         ArticleDetailView.as_view(),
         name="article_detail",
     ),

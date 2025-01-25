@@ -169,12 +169,12 @@ urlpatterns += [
     ),
     # From /archive/1660/01/ URLs:
     re_path(
-        r"^archive/(?P<year>\d{4})/(?P<month>\d{2})/$",
+        r"^archive/(?P<year>[0-9]{4})/(?P<month>[0-9]{2})/$",
         DiaryMonthRedirectView.as_view(permanent=True),
     ),
     # From /archive/1660/01/01/index.php URLs:
     re_path(
-        r"^archive/(?P<year>\d{4})/(?P<month>\d{2})/(?P<day>\d{2})/(index\.php)?$",
+        r"^archive/(?P<year>[0-9]{4})/(?P<month>[0-9]{2})/(?P<day>[0-9]{2})/(index\.php)?$",
         DiaryEntryRedirectView.as_view(permanent=True),
     ),
     # The URL of the RSS feed that Feedburner fetches.
@@ -198,7 +198,7 @@ urlpatterns += [
     # LETTERS.
     # From /letters/1660/01/01/slug-field.php URLs:
     re_path(
-        r"^letters/(?P<year>\d{4})/(?P<month>\d{2})/(?P<day>\d{2})/(?P<slug>[\w-]+)\.php$",
+        r"^letters/(?P<year>[0-9]{4})/(?P<month>[0-9]{2})/(?P<day>[0-9]{2})/(?P<slug>[\w-]+)\.php$",
         LetterRedirectView.as_view(permanent=True),
     ),
     # ENCYCLOPEDIA.
@@ -229,7 +229,7 @@ urlpatterns += [
     # IN-DEPTH.
     # From /indepth/archive/2012/05/31/slug_field.php URLs:
     re_path(
-        r"^indepth/archive/(?P<year>\d{4})/(?P<month>\d{2})/(?P<day>\d{2})/(?P<slug>[\w_]+)\.php$",
+        r"^indepth/archive/(?P<year>[0-9]{4})/(?P<month>[0-9]{2})/(?P<day>[0-9]{2})/(?P<slug>[\w_]+)\.php$",
         ArticleRedirectView.as_view(permanent=True),
     ),
     # The URL of the RSS feed that Feedburner fetches.
@@ -242,7 +242,7 @@ urlpatterns += [
     path("about/news/", RedirectView.as_view(url=reverse_lazy("news"), permanent=True)),
     # From /about/archive/2012/05/31/3456.php URLs:
     re_path(
-        r"^about/archive/(?P<year>\d{4})/(?P<month>\d{2})/(?P<day>\d{2})/(?P<pk>\d+)\.php$",
+        r"^about/archive/(?P<year>[0-9]{4})/(?P<month>[0-9]{2})/(?P<day>[0-9]{2})/(?P<pk>[0-9]+)\.php$",
         PostRedirectView.as_view(permanent=True),
     ),
     # The URL of the RSS feed that Feedburner fetches.
@@ -256,7 +256,7 @@ urlpatterns += [
         RedirectView.as_view(url=reverse_lazy("diary_summary"), permanent=True),
     ),
     re_path(
-        r"^about/history/(?P<year>\d{4})/$",
+        r"^about/history/(?P<year>[0-9]{4})/$",
         SummaryYearRedirectView.as_view(permanent=True),
     ),
     path(
