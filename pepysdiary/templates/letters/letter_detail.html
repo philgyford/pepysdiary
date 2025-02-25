@@ -28,6 +28,12 @@
 
   <h2 class="mt-0 mb-4">{{ letter.display_date }}</h2>
 
+  {% if letter.intro %}
+    <aside>
+      {{ letter.intro|smartypants|safe }}
+    </aside>
+  {% endif %}
+
   <hr>
 
 	<article class="manuscript manuscript-large">

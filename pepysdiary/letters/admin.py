@@ -51,6 +51,7 @@ class LetterAdmin(admin.ModelAdmin):
             None,
             {
                 "fields": (
+                    "intro",
                     "text",
                     "footnotes",
                     "excerpt",

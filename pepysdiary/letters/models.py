@@ -36,6 +36,7 @@ class Letter(PepysModel, OldDateMixin):
         help_text='eg "Thursday 27 April 1665". Because days of the week '
         "are calculated wrong for old dates.",
     )
+    intro = models.TextField(blank=True, null=False, help_text="Should be HTML.")
     text = models.TextField(blank=False, null=False, help_text="Should be HTML.")
     footnotes = models.TextField(blank=True, null=False, help_text="Should be HTML.")
     excerpt = models.TextField(
