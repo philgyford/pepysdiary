@@ -31,7 +31,13 @@
                     </div>
                     <div class="form-group">
                         <span class="control-label label-static col-md-4">Website</span>
-                        <span class="col-md-8 form-control-static">{% if person.url %}<a href="{{ person.url }}" rel="nofollow">{{ person.url|urlizetrunc:34 }}</a>{% else %}<span class="text-muted">None</span>{% endif %}</span>
+                        <span class="col-md-8 form-control-static">
+                            {% if person.url %}
+                                <a href="{{ person.url }}" rel="nofollow">{{ person.url|truncatechars:34 }}</a>
+                            {% else %}
+                                <span class="text-muted">None</span>
+                            {% endif %}
+                        </span>
                     </div>
                 </div>
 
@@ -39,7 +45,7 @@
                 {# Public view. #}
 
                 {% if person.url %}
-                    <p class="lead">Website: <a href="{{ person.url }}" rel="nofollow">{{ person.url|urlizetrunc:34 }}</a></p>
+                    <p class="lead">Website: <a href="{{ person.url }}" rel="nofollow">{{ person.url|truncatechars:34 }}</a></p>
                 {% endif %}
 
             {% endif %}
