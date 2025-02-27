@@ -8,6 +8,8 @@ Expects:
 
 {% endcomment %}
 
+{% load utility_filters %}
+
 {% if config and config.allow_comments %}
 	{% if object.allow_comments %}
 		{% if user.is_authenticated %}
@@ -49,7 +51,7 @@ Expects:
 										<span class="comment-name">{{ user.get_full_name }}</span>
 										<small>on {{ time_now|date:date_format_mid }}</small>
 									</h2>
-							        {{ form.comment.value|striptags|urlizetrunc:34|linebreaks }}
+							        {{ form.comment.value|striptags|custom_urlizetrunc:34|linebreaks }}
 							    </div>
 							</article>
 						</section>
