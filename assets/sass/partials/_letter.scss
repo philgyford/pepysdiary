@@ -3,6 +3,12 @@
  * Styles for things in letters.
  */
 
+.letter-text {
+  border: 1px solid $hr-border;
+  padding: ($padding-large-vertical * 2) ($padding-large-horizontal * 2);
+  margin-top: $line-height-computed;
+  margin-bottom: $line-height-computed;
+}
 .letter-to {
   font-style: italic;
   margin-bottom: 1em;
@@ -30,4 +36,13 @@
 .letter-indent-2,
 .letter-yours p.letter-indent-2 {
   margin-left: 8em;
+}
+
+/* In addition to the styles in _footnotes.scss */
+.letter-footnotes {
+  border-top: none;
+}
+.letter-footnotes > p {
+  padding-left: 0;
+  padding-right: 0;
 }

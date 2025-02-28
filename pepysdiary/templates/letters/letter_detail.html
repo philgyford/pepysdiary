@@ -41,18 +41,15 @@
     </aside>
   {% endif %}
 
-  <hr>
-
-	<article class="manuscript manuscript-large">
-
+	<article class="manuscript manuscript-large letter-text">
 		{{ letter.text|smartypants|safe }}
-
-		{% if letter.footnotes %}
-			<aside class="footnotes">
-				{{ letter.footnotes|smartypants|safe }}
-			</aside>
-		{% endif %}
 	</article>
+
+  {% if letter.footnotes %}
+    <aside class="letter-footnotes">
+      {{ letter.footnotes|smartypants|safe }}
+    </aside>
+  {% endif %}
 
 	{% include 'common/inc/next_previous.html' with next=next_letter previous=previous_letter name='letter' %}
 
