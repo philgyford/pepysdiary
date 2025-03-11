@@ -75,6 +75,8 @@ class LetterPersonView(SingleObjectMixin, ListView):
     # Indicates the sort of list of letters to/from this person (or both)
     letter_kind = "both"
 
+    ordering = "letter_date"
+
     def get(self, request, *args, **kwargs):
         self.object = self.get_object(queryset=Topic.objects.all())
         return super().get(request, *args, **kwargs)
@@ -82,6 +84,7 @@ class LetterPersonView(SingleObjectMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["person"] = self.object
+        context["ordering"] = self.ordering
         context["letter_list"] = context["object_list"]
         context["letter_kind"] = self.letter_kind
         context["letter_counts"] = self.get_letter_counts()
@@ -96,7 +99,13 @@ class LetterPersonView(SingleObjectMixin, ListView):
         queryset = Letter.objects.filter(
             Q(sender=self.object) | Q(recipient=self.object)
         )
+        queryset = queryset.order_by(self.get_ordering())
         return queryset
+
+    def get_ordering(self):
+        if self.request.GET.get("o", "") == "added":
+            self.ordering = "-date_created"
+        return super().get_ordering()
 
     def get_letter_counts(self):
         return {
@@ -149,14 +158,18 @@ class LetterFromPersonView(LetterPersonView):
     letter_kind = "from"
 
     def get_queryset(self):
-        return Letter.objects.filter(sender=self.object)
+        queryset = Letter.objects.filter(sender=self.object)
+        queryset = queryset.order_by(self.get_ordering())
+        return queryset
 
 
 class LetterToPersonView(LetterPersonView):
     letter_kind = "to"
 
     def get_queryset(self):
-        return Letter.objects.filter(recipient=self.object)
+        queryset = Letter.objects.filter(recipient=self.object)
+        queryset = queryset.order_by(self.get_ordering())
+        return queryset
 
 
 class LetterArchiveView(RedirectView):

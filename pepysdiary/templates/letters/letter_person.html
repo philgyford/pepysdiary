@@ -17,7 +17,7 @@
             <strong>{{ label }}</strong>
             <span class="sr-only">(current page)</span>
           {% else %}
-            <a href="{% url 'letter_person' pk=person.pk %}">{{ label }}</a>
+            <a href="{% url 'letter_person' pk=person.pk %}{% if ordering == "-date_created" %}?o=added{% endif %}">{{ label }}</a>
           {% endif %}
         {% endwith %}
         <small>({{ letter_counts.both }})</small>
@@ -30,7 +30,7 @@
             <strong>{{ label }}</strong>
             <span class="sr-only">(current page)</span>
           {% else %}
-            <a href="{% url 'letter_from_person' pk=person.pk %}">{{ label }}</a>
+            <a href="{% url 'letter_from_person' pk=person.pk %}{% if ordering == "-date_created" %}?o=added{% endif %}">{{ label }}</a>
           {% endif %}
         {% endwith %}
         <small>({{ letter_counts.from }})</small>
@@ -43,7 +43,7 @@
             <strong>{{ label }}</strong>
             <span class="sr-only">(current page)</span>
           {% else %}
-            <a href="{% url 'letter_to_person' pk=person.pk %}">{{ label }}</a>
+            <a href="{% url 'letter_to_person' pk=person.pk %}{% if ordering == "-date_created" %}?o=added{% endif %}">{{ label }}</a>
           {% endif %}
         {% endwith %}
         <small>({{ letter_counts.to }})</small>
@@ -51,8 +51,26 @@
     </ul>
   </nav>
 
+  {% if letter_list|length > 1 %}
+    <nav aria-label="Sort order" class="text-right">
+      <ul class="list-inline">
+        <li>Order by:</li>
+        {% if ordering == "letter_date" %}
+          <li role="presentation"><strong>Date written</strong></li>
+        {% else %}
+          <li><a href="?">Date written</a></li>
+        {% endif %}
+        {% if ordering == "-date_created" %}
+          <li role="presentation"><strong>Date added to the site</strong></li>
+        {% else %}
+          <li><a href="?o=added">Date added to the site</a></li>
+        {% endif %}
+      </ul>
+    </nav>
+  {% endif %}
+
   {% if letter_list %}
-    {% include 'letters/inc/letter_list.html' %}
+    {% include 'letters/inc/letter_list.html' with letter_list=letter_list ordering=ordering %}
   {% else %}
     <p>There are no letters sent {% if letter_kind == "from" %}from{% elif letter_kind == "to" %}to{% else %}from or to{% endif %} {{ person.title }}.</p>
   {% endif %}

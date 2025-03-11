@@ -3,18 +3,29 @@ A list of Letters.
 
 Expects:
 letter_list -- The Letters.
+ordering -- Either "letter_date" (default) or "-date_created"
 {% endcomment %}
 
 <ul class="list-ruled list-unstyled">
 
   {% for letter in letter_list %}
-    {% ifchanged letter.letter_date|date:'Y' %}
-      {% if forloop.counter != 1 %}
-        </ul>
-      {% endif %}
-      <h2 id="y-{{ letter.letter_date|date:'Y' }}">{{ letter.letter_date|date:'Y' }}</h2>
-      <ul class="list-ruled list-unstyled">
-    {% endifchanged %}
+    {% if ordering|default_if_none:"letter_date" == "-date_created" %}
+      {% ifchanged letter.date_created|date:date_format_long %}
+        {% if forloop.counter != 1 %}
+          </ul>
+        {% endif %}
+        <h2>Added {{ letter.date_created|date:date_format_long }}</h2>
+        <ul class="list-ruled list-unstyled">
+      {% endifchanged %}
+    {% else %}
+      {% ifchanged letter.letter_date|date:'Y' %}
+        {% if forloop.counter != 1 %}
+          </ul>
+        {% endif %}
+        <h2 id="y-{{ letter.letter_date|date:'Y' }}">{{ letter.letter_date|date:'Y' }}</h2>
+        <ul class="list-ruled list-unstyled">
+      {% endifchanged %}
+    {% endif %}
 
     <li>
       <a href="{{ letter.get_absolute_url }}"><strong>{{ letter.full_title }}</strong></a> <small>({{ letter.comment_count }}{% if forloop.counter0 == 0 %} annotation{{ letter.comment_count|pluralize }}{% endif %})</small><br />

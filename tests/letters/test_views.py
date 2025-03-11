@@ -201,6 +201,34 @@ class LetterPersonViewTestCase(ViewTransactionTestCase):
         self.assertEqual(context["correspondents"][1].letter_count, 5)
         self.assertEqual(context["correspondents"][2].letter_count, 1)
 
+    def test_ordering_default(self):
+        "It should order letters by letter_date ascending by default"
+        person = PersonTopicFactory()
+        letter_1 = LetterFactory(sender=person, letter_date=make_date("1670-01-01"))
+        letter_2 = LetterFactory(recipient=person, letter_date=make_date("1650-01-01"))
+        letter_3 = LetterFactory(recipient=person, letter_date=make_date("1660-01-01"))
+
+        response = views.LetterPersonView.as_view()(self.request, pk=person.pk)
+
+        self.assertIn("letter_list", response.context_data)
+        self.assertQuerySetEqual(
+            response.context_data["letter_list"], [letter_2, letter_3, letter_1]
+        )
+
+    def test_ordering_date_created(self):
+        "It should order letters by -date_created if ?o=added"
+        person = PersonTopicFactory()
+        letter_1 = LetterFactory(sender=person, letter_date=make_date("1670-01-01"))
+        letter_2 = LetterFactory(recipient=person, letter_date=make_date("1650-01-01"))
+        letter_3 = LetterFactory(recipient=person, letter_date=make_date("1660-01-01"))
+
+        response = self.client.get(f"/letters/person/{person.pk}/?o=added")
+
+        self.assertIn("letter_list", response.context_data)
+        self.assertQuerySetEqual(
+            response.context_data["letter_list"], [letter_3, letter_2, letter_1]
+        )
+
 
 class LetterFromPersonViewTestCase(ViewTransactionTestCase):
     def test_response_200(self):
