@@ -18,6 +18,7 @@ NOTE: The listings in templatetags/list_tags.py for the Recent Activity page
 	  and the preview in teamplates/inc/comment_form.html
       use similar HTML.
 {% endcomment %}
+
 {% load utility_filters %}
 
 <section id="{% if object and object.comment_name %}{{ object.comment_name }}{% else %}comment{% endif %}s" class="media-list comments">
@@ -70,7 +71,7 @@ NOTE: The listings in templatetags/list_tags.py for the Recent Activity page
 						</small>
 					</small>
 				</h3>
-		        {{ comment.comment|urlizetrunc:34|linebreaks }}
+		        {{ comment.comment|custom_urlizetrunc:34|linebreaks }}
 		    </div>
 		</article>
 	{% endfor %}
