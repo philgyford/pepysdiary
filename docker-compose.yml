@@ -15,7 +15,7 @@ services:
   db:
     container_name: pepys_db
     env_file: .env
-    image: postgres:13
+    image: postgres:14
     ports:
       - "5432:5432"
     restart: unless-stopped
