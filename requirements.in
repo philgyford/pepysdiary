@@ -28,10 +28,8 @@ uritemplate
 # Dev
 coverage[toml]
 django-debug-toolbar
-django-extensions
 factory-boy
 freezegun
-ipython
 responses
 ruff
 tblib  # For tracebacks when running tests in parallel
