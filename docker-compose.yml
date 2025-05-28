@@ -36,26 +36,6 @@ services:
     volumes:
       - "redis:/data"
 
-  web:
-    build:
-      context: .
-      dockerfile: ./docker/web/Dockerfile
-    command: >
-      sh -c "
-      python manage.py migrate &&
-      python -Wd manage.py runserver 0.0.0.0:8000
-      "
-    container_name: pepys_web
-    depends_on:
-      - db
-      - redis
-    env_file: .env
-    ports:
-      - "8000:8000"
-    restart: unless-stopped
-    volumes:
-      - .:/code
-
 volumes:
   postgres_data:
   redis:

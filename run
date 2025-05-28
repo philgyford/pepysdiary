@@ -34,49 +34,39 @@ function _build_run_down {
 
 
 # -----------------------------------------------------------------------------
-
-function cmd {
-  # Run any command you want in the web container
-  _dc web "${@}"
-}
+# Helpers for running commands in the host with uv
+# -----------------------------------------------------------------------------
 
 
 function manage {
-  # Run any manage.py commands
-  cmd python manage.py "${@}"
+  # Run any Django management command
+  uv run manage.py "${@}"
+}
+
+
+function runserver {
+  # Run the Django development webserver
+  uv run python -Wd manage.py runserver 0.0.0.0:8000
 }
 
 
 function tests {
   # Run the Django tests
-  _dc ${TEST_ENV_ARGS} web python manage.py test "${@}" --parallel
-}
-
-
-function ruff {
-  # Run ruff over the code
-  cmd ruff check . "${@}"
+  env ${TEST_ENV_ARGS} uv run manage.py test "${@}" --parallel
 }
 
 
 function coverage {
   # Run the tests and generate a coverage report in htmlcov/
-  _dc ${TEST_ENV_ARGS} web coverage run --concurrency=multiprocessing manage.py test --parallel
-  _dc ${TEST_ENV_ARGS} web coverage combine
-  _dc ${TEST_ENV_ARGS} web coverage html
+  env ${TEST_ENV_ARGS} uv run coverage run --concurrency=multiprocessing manage.py test --parallel
+  env ${TEST_ENV_ARGS} uv run coverage combine
+  env ${TEST_ENV_ARGS} uv run coverage html
 }
 
 
-function sp {
-  # Run the shell_plus command from django-extensions
-  manage shell_plus --ipython
-}
-
-
-function shell {
-  # Start a Shell session in the web container
-  cmd bash "${@}"
-}
+# -----------------------------------------------------------------------------
+# Helpers for running commands in the Docker container
+# -----------------------------------------------------------------------------
 
 
 function psql {
@@ -87,15 +77,9 @@ function psql {
 }
 
 
-# function redis-cli {
-#   # Connect to Redis with redis-cli
-#   _dc redis redis-cli "${@}"
-# }
-
-
-function pipsync {
-  # Install/uninstall/update packages
-  cmd pip-sync "${@}"
+function redis-cli {
+  # Connect to Redis with redis-cli
+  _dc redis redis-cli "${@}"
 }
 
 

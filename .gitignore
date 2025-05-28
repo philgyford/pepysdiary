@@ -6,4 +6,6 @@ htmlcov/
 pepysdiary/static_collected
 pepysdiary/media
 /venv/
+.venv
+uv.lock
 __pycache__/

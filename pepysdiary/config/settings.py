@@ -309,7 +309,7 @@ if DEBUG:
         "debug_toolbar.middleware.DebugToolbarMiddleware",
     ]
 
-    INSTALLED_APPS += ["debug_toolbar", "django_extensions"]
+    INSTALLED_APPS += ["debug_toolbar"]
 
     def show_toolbar(request):
         return True

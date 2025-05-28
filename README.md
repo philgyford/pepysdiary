@@ -10,17 +10,21 @@ Code for [www.pepysdiary.com](http://www.pepysdiary.com/).
 
 Pushing to `main` will run the commit through [this GitHub Action](https://github.com/philgyford/pepysdiary/actions/workflows/main.yml) to run tests. If it passes, it will be deployed automatically to the website.
 
-When changing the python version, it will need to be changed in:
+## Changing Python version
 
-- `.github/workflows/test.yml`
+If changing the Python version you'll need to change it in:
+
 - `.pre-commit-config.yaml`
-- `.python-version` (for pyenv)
-- `pyproject.toml` (ruff's target-version)
-- `docker/web/Dockerfile`
+- `.python-version` (for uv)
+- `pyproject.toml` (in `project`, `tool.ruff` and `tool.uv.pip`)
 
 For local development we use Docker. The live site is on an Ubuntu 22 VPS.
 
 ## Local development setup
+
+We use three Docker containers: Postgres database, optional Redis cache, and building assets.
+
+We use [uv](https://docs.astral.sh/uv/) to create a virtual environment on the host machine (i.e. not in Docker) to run Django development webserver.
 
 ### 1. Create a .env file
 
@@ -48,9 +52,8 @@ Then start up the web, assets and database containers:
 
     $ docker compose up
 
-There are four containers:
+There are three containers:
 
-- `pepysdiary_web`: the webserver
 - `pepysdiary_db`: the postgres server
 - `pepysdiary_assets`: the front-end assets builder
 - `pepysdiary_redis`: the redis server (for optional caching)
@@ -59,7 +62,7 @@ All the repository's code is mirrored in the web and assets containers in the `/
 
 ### 4. Set up the database
 
-Once that's running, showing the logs, open another terminal window/tab.
+Once Docker's running, showing the logs, open another terminal window/tab.
 
 There are two ways we can populate the database. First we'll create an empty one, and second we'll populate it with a dump of data from the live site.
 
@@ -96,6 +99,25 @@ Then copy the dump into Docker and load it into the database:
     $ docker cp dump.sql pepys_db:/tmp/
     $ docker exec -i pepys_db pg_restore -h localhost -U pepys -d pepys -j 2 /tmp/dump.sql
 
+#### 5. uv environment
+
+Create a virtual env and install Python dependencies using `uv`:
+
+    $ uv sync
+
+The webserver process is run on your local machine, not in Docker:
+
+    $ run runserver
+
+See the `./run` script for more shortcuts.
+
+##### 5a. Updating dependencies
+
+The live site currently doesn't use `uv`, so we need to keep `requirements.txt`
+updated if we change anything:
+
+    $ uv export --quiet --format requirements-txt --output-file requirements.txt
+
 #### 5. Vist and set up the site
 
 Then go to http://www.pepysdiary.test:8000 and you should see the site.
@@ -120,35 +142,6 @@ You can check if anything's running by doing this, which will list any Docker pr
 
 See details on the `./run` script below for running things inside the containers.
 
-### Python dependencies with virtualenv and pip-tools
-
-Adding and removing python depenencies is most easily done with a virtual environment on your host machine. This also means you can use that environment easily in VS Code.
-
-Set up and activate a virtual environment on your host machine using [virtualenv](https://virtualenv.pypa.io/en/latest/):
-
-    $ virtualenv --prompt . venv
-    $ source venv/bin/activate
-
-We use [pip-tools](https://pip-tools.readthedocs.io/en/latest/) to generate `requirements.txt` from `requirements.in`, and install the dependencies. Install the current dependencies into the activated virtual environment:
-
-    (venv) $ python -m pip install -r requirements.txt
-
-To add a new depenency, add it to `requirements.in` and then regenerate `requirements.txt`:
-
-    (venv) $ pip-compile --upgrade --quiet --generate-hashes
-
-And do the `pip install` step again to install.
-
-To remove a dependency, delete it from `requirements.in`, run that same `pip-compile` command, and then:
-
-    (venv) $ python -m pip uninstall <module-name>
-
-To update the python dependencies in the Docker container, this should work:
-
-    $ ./run pipsync
-
-But you might have to do `docker compose build` instead?
-
 ### pre-commit
 
 Install [pre-commit](https://pre-commit.com) to run `.pre-commit-config.yml` automatically when `git commit` is done.
@@ -162,27 +155,6 @@ Gulp is used to build the final CSS and JS file(s), and watches for changes in t
 The `./run` script makes it easier to run things that are within the Docker containers. This will list the commands available, which are outlined below:
 
     $ ./run
-
-### `./run cmd`
-
-Run any command in the web container. e.g.
-
-    $ ./run cmd ls -al
-
-### `./run sh`
-
-Starts a Shell session in the web container.
-
-### `./run manage`
-
-Run the Django `manage.py` file with any of the usual commands, within the pipenv virtual environment. e.g.
-
-    $ ./run manage makemigrations
-
-The development environment has [django-extensions](https://django-extensions.readthedocs.io/en/latest/index.html) installed so you can use its `shell_plus` and other commands. e.g.:
-
-    $ ./run manage shell_plus
-    $ ./run manage show_urls
 
 ### `./run tests`
 
@@ -199,22 +171,11 @@ Run a folder, file, or class of tests, or a single test, something like this:
 
 Run all the tests with coverage. The HTML report files will be at `htmlcov/index.html`.
 
-### `./run ruff`
-
-Run `ruff check .` over the code to check Python formatting:
-
-    $ ./run ruff
-    $ ./run ruff --fix
-
 ### `./run psql`
 
 Conects to PosgreSQL with psql. Add any required arguments on the end. Uses the `hines` database unless you specify another like:
 
     $ ./run psql -d databasename
-
-### `./run pipsync`
-
-Update the installed python depenencies depending on the contents of `requirements.txt`.
 
 ### `./run yarn:outdated`
 
