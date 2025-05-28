@@ -1,7 +1,6 @@
 from django.core import mail
 from django.test import TestCase, override_settings
 from django.urls import reverse
-from django.utils.http import urlencode
 
 from pepysdiary.annotations.factories import EntryAnnotationFactory
 from pepysdiary.membership.factories import PersonFactory
@@ -50,9 +49,7 @@ class FlagTestCase(TestCase):
     def test_login_required(self):
         "It should redirect to login if the user isn't logged in"
         response = self.client.get(self.url)
-        self.assertRedirects(
-            response, reverse("login") + "?" + urlencode({"next": self.url})
-        )
+        self.assertRedirects(response, reverse("login", query={"next": self.url}))
 
     def test_post_404(self):
         "It should 404 if the comment doesn't exist"
@@ -76,14 +73,12 @@ class FlagTestCase(TestCase):
         "If no next parameter is passed in, it redirects to comments-flag-done"
         self.log_user_in()
         response = self.client.post(self.url)
-        redirect_url = (
-            reverse("comments-flag-done") + "?" + urlencode({"c": self.annotation.pk})
-        )
+        redirect_url = reverse("comments-flag-done", query={"c": self.annotation.pk})
         self.assertRedirects(response, redirect_url)
 
     def test_post_redirects_to_next(self):
         "If a next parameter is passed in, it redirects to that URL"
         self.log_user_in()
         response = self.client.post(self.url, {"next": reverse("home")})
-        redirect_url = reverse("home") + "?" + urlencode({"c": self.annotation.pk})
+        redirect_url = reverse("home", query={"c": self.annotation.pk})
         self.assertRedirects(response, redirect_url)
