@@ -300,15 +300,6 @@ if os.getenv("SENDAMATIC_USER_ID", default=""):
     EMAIL_HOST_PASSWORD = os.getenv("SENDAMATIC_PASSWORD")
     EMAIL_PORT = 587
     EMAIL_USE_TLS = True
-
-elif os.getenv("SENDGRID_USERNAME", default=""):
-    EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-    EMAIL_HOST = "smtp.sendgrid.net"
-    EMAIL_HOST_USER = os.getenv("SENDGRID_USERNAME")
-    EMAIL_HOST_PASSWORD = os.getenv("SENDGRID_PASSWORD")
-    EMAIL_PORT = 587
-    EMAIL_USE_TLS = True
-
 elif DEBUG:
     EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
