@@ -191,9 +191,9 @@ class PasswordResetCompleteView(auth_views.PasswordResetCompleteView):
         context = super().get_context_data(**kwargs)
         context["title"] = "Password reset"
         url = reverse("login")
-        context[
-            "message"
-        ] = f'Your password has been changed. <a href="{url}">Now you can log in.</a>'
+        context["message"] = (
+            f'Your password has been changed. <a href="{url}">Now you can log in.</a>'
+        )
         return context
 
 
