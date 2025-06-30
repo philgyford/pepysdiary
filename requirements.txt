@@ -590,9 +590,9 @@ python-dateutil==2.9.0.post0 \
     # via
     #   botocore
     #   freezegun
-python-dotenv==1.1.0 \
-    --hash=sha256:41f90bc6f5f177fb41f53e87666db362025010eb28f60a01c9143bfa33a2b2d5 \
-    --hash=sha256:d7c01d9e2293916c18baf562d95698754b0dbbb5e74d457c45d4f6561fb9d55d
+python-dotenv==1.1.1 \
+    --hash=sha256:31f23644fe2602f88ff55e1f5c79ba497e01224ee7737937930c448e4d0e24dc \
+    --hash=sha256:a8a6399716257f45be6a007360200409fce5cda2661e3dec71d23dc15f6189ab
     # via pepysdiary
 pyyaml==6.0.2 \
     --hash=sha256:0833f8694549e586547b576dcfaba4a6b55b9e96098b36cdc7ebefe667dfed48 \
