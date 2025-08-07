@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django.contrib.admin",
+    "django.contrib.redirects",
     "django.contrib.sitemaps",
     "django.contrib.flatpages",
     # For fulltext searching on annotations:
@@ -78,6 +79,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     # After SessionMiddleware:
     "django.contrib.messages.middleware.MessageMiddleware",
+    "django.contrib.redirects.middleware.RedirectFallbackMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "pepysdiary.common.middleware.VisitTimeMiddleware",
     # Must be before those that modify the `Vary` header:
