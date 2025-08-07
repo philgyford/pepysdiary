@@ -37,13 +37,13 @@ dev = [
   "coverage[toml]",
   "django-debug-toolbar",
   "factory-boy",
-  "freezegun",
   "ipython",
   "pre-commit",
   "responses",
   "ruff",
   # For tracebacks when running tests in parallel:
   "tblib",
+  "time-machine>=2.17.0",
   "unittest-parametrize",
 ]
 

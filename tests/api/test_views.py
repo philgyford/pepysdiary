@@ -2,10 +2,10 @@ import json
 from collections import OrderedDict
 from decimal import Decimal
 
+import time_machine
 from django.contrib.sites.models import Site
 from django.core.cache import cache
 from django.urls import reverse
-from freezegun import freeze_time
 from rest_framework.test import APITestCase
 
 from pepysdiary.annotations.factories import (
@@ -231,7 +231,7 @@ class CategoryDetailViewTestCase(SiteAPITestCase):
         )
         self.assertEqual(response.data["status_code"], 404)
 
-    @freeze_time("2021-06-01 12:00:00", tz_offset=0)
+    @time_machine.travel("2021-06-01 12:00:00 +0000", tick=False)
     def test_response_data(self):
         "It should return the correct data"
         cat_1 = Category.add_root(title="Animals", slug="animals")
@@ -269,7 +269,7 @@ class EntryListViewTestCase(SiteAPITestCase):
         response = self.client.get(reverse("api:entry-list", kwargs={"format": "json"}))
         self.assertEqual(response.status_code, 200)
 
-    @freeze_time("2021-06-01 12:00:00", tz_offset=0)
+    @time_machine.travel("2021-06-01 12:00:00 +0000", tick=False)
     def test_response_data(self):
         "It should return the correct data"
         EntryFactory(diary_date=make_date("1660-01-02"), title="2 January 1660")
@@ -390,7 +390,7 @@ class EntryDetailViewTestCase(SiteAPITestCase):
         )
         self.assertEqual(response.data["status_code"], 404)
 
-    @freeze_time("2021-06-01 12:00:00", tz_offset=0)
+    @time_machine.travel("2021-06-01 12:00:00 +0000", tick=False)
     def test_response_data(self):
         "It should return the correct data"
 
@@ -466,7 +466,7 @@ class TopicListViewTestCase(SiteAPITestCase):
         response = self.client.get(reverse("api:topic-list", kwargs={"format": "json"}))
         self.assertEqual(response.status_code, 200)
 
-    @freeze_time("2021-06-01 12:00:00", tz_offset=0)
+    @time_machine.travel("2021-06-01 12:00:00 +0000", tick=False)
     def test_response_data(self):
         "It should return the correct data"
         cat = Category.add_root(
@@ -508,7 +508,7 @@ class TopicListViewTestCase(SiteAPITestCase):
             },
         )
 
-    @freeze_time("2021-06-01 12:00:00", tz_offset=0)
+    @time_machine.travel("2021-06-01 12:00:00 +0000", tick=False)
     def test_response_data_person(self):
         "It should correctly mark a Person as being one"
         topic = PersonTopicFactory(title="Mr Bob Ferris")
@@ -533,7 +533,7 @@ class TopicListViewTestCase(SiteAPITestCase):
             ),
         )
 
-    @freeze_time("2021-06-01 12:00:00", tz_offset=0)
+    @time_machine.travel("2021-06-01 12:00:00 +0000", tick=False)
     def test_response_data_place(self):
         "It should correctly mark a Place as being one"
         topic = PlaceTopicFactory(title="London")
@@ -598,7 +598,7 @@ class TopicDetailViewTestCase(SiteAPITestCase):
         )
         self.assertEqual(response.data["status_code"], 404)
 
-    @freeze_time("2021-06-01 12:00:00", tz_offset=0)
+    @time_machine.travel("2021-06-01 12:00:00 +0000", tick=False)
     def test_response_data(self):
         "It should return the correct data"
 

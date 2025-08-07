@@ -1,6 +1,9 @@
+import tempfile
+from pathlib import Path
+
+import time_machine
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import TestCase, override_settings
-from freezegun import freeze_time
 
 from pepysdiary.common.utilities import make_date
 from pepysdiary.diary.factories import EntryFactory
@@ -8,36 +11,39 @@ from pepysdiary.diary.models import Entry
 from pepysdiary.encyclopedia.factories import TopicFactory
 
 
+@override_settings(
+    MEDIA_ROOT=Path(tempfile.TemporaryDirectory(prefix="mediatest").name)
+)
 class EntryManagerTestCase(TestCase):
-    @freeze_time("2021-02-01 22:59:59", tz_offset=0)
+    @time_machine.travel("2021-02-01 22:59:59 +0000", tick=False)
     @override_settings(YEARS_OFFSET=353)
     def test_most_recent_entry_date_before_11pm_gmt(self):
         "Before 11pm, should return yesterday's date, in winter"
         d = Entry.objects.most_recent_entry_date()
         self.assertEqual(d, make_date("1668-01-31"))
 
-    @freeze_time("2021-02-01 23:00:00", tz_offset=0)
+    @time_machine.travel("2021-02-01 23:00:00 +0000", tick=False)
     @override_settings(YEARS_OFFSET=353)
     def test_most_recent_entry_date_after_11pm_gmt(self):
         "From 11pm, should return today's date, in winter"
         d = Entry.objects.most_recent_entry_date()
         self.assertEqual(d, make_date("1668-02-01"))
 
-    @freeze_time("2021-04-01 22:59:59", tz_offset=0)
+    @time_machine.travel("2021-04-01 22:59:59 +0000", tick=False)
     @override_settings(YEARS_OFFSET=353)
     def test_most_recent_entry_date_before_11pm_bst(self):
         "Before 11pm, should return yesterday's date, in summertime"
         d = Entry.objects.most_recent_entry_date()
         self.assertEqual(d, make_date("1668-03-31"))
 
-    @freeze_time("2021-04-01 23:00:00", tz_offset=0)
+    @time_machine.travel("2021-04-01 23:00:00 +0000", tick=False)
     @override_settings(YEARS_OFFSET=353)
     def test_most_recent_entry_date_after_11pm_bst(self):
         "From 11pm, should return today's date, in summertime"
         d = Entry.objects.most_recent_entry_date()
         self.assertEqual(d, make_date("1668-04-01"))
 
-    @freeze_time("2020-02-29 23:00:00", tz_offset=0)
+    @time_machine.travel("2020-02-29 23:00:00 +0000", tick=False)
     @override_settings(YEARS_OFFSET=353)
     def test_most_recent_entry_date_leap_year(self):
         "If now is Feb 29th but entry date isn't a leap year, should return 28th"

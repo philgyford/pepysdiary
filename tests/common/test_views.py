@@ -1,10 +1,10 @@
 import os
 import tempfile
 
+import time_machine
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.http.request import QueryDict
 from django.test import override_settings
-from freezegun import freeze_time
 
 from pepysdiary.annotations.factories import EntryAnnotationFactory
 from pepysdiary.common import views
@@ -29,7 +29,7 @@ class HomeViewTestCase(ViewTestCase):
         response = views.HomeView.as_view()(self.request)
         self.assertEqual(response.template_name[0], "common/home.html")
 
-    @freeze_time("2021-04-10 12:00:00", tz_offset=0)
+    @time_machine.travel("2021-04-10 12:00:00 +0000", tick=False)
     @override_settings(YEARS_OFFSET=353)
     def test_context_entry_list(self):
         "Context should include the 8 most recent published entries"
@@ -46,7 +46,7 @@ class HomeViewTestCase(ViewTestCase):
         self.assertEqual(response.context_data["entry_list"][0].title, "Entry 9")
         self.assertEqual(response.context_data["entry_list"][7].title, "Entry 2")
 
-    @freeze_time("2021-04-10 12:00:00", tz_offset=0)
+    @time_machine.travel("2021-04-10 12:00:00 +0000", tick=False)
     @override_settings(MEDIA_ROOT=tempfile.gettempdir(), YEARS_OFFSET=353)
     def test_context_tooltip_references(self):
         "The tooltip_references should contain the correct data"

@@ -1,9 +1,9 @@
 import re
 
+import time_machine
 from django.contrib.sites.models import Site
 from django.core import mail
 from django.test import TestCase, override_settings
-from freezegun import freeze_time
 
 from pepysdiary.common.utilities import make_datetime
 from pepysdiary.membership.factories import PersonFactory
@@ -11,7 +11,7 @@ from pepysdiary.membership.managers import PersonManager
 from pepysdiary.membership.models import Person
 
 
-@freeze_time("2021-01-01 12:00:00", tz_offset=0)
+@time_machine.travel("2021-01-01 12:00:00 +0000", tick=False)
 class PersonManagerTestCase(TestCase):
     def _get_site_object(self):
         "For tests that require the Site object to have specific settings"
@@ -143,7 +143,7 @@ class PersonManagerTestCase(TestCase):
         self.assertEqual(len(mail.outbox), 0)
 
     @override_settings(ACCOUNT_ACTIVATION_DAYS=1)
-    @freeze_time("2021-01-02 12:00:00", tz_offset=0)
+    @time_machine.travel("2021-01-02 12:00:00 +0000", tick=False)
     def test_activate_user_success(self):
         activation_key = "1234567890123456789012345678901234567890"
         person = PersonFactory(activation_key=activation_key, is_active=False)
@@ -166,7 +166,7 @@ class PersonManagerTestCase(TestCase):
         self.assertTrue(person_from_db.is_active)
 
     @override_settings(ACCOUNT_ACTIVATION_DAYS=1)
-    @freeze_time("2021-01-02 12:00:00", tz_offset=0)
+    @time_machine.travel("2021-01-02 12:00:00 +0000", tick=False)
     def test_activate_user_invalid_activation_key_format(self):
         "If the activation key is not of the right format, it should return false."
         # There's a matching user, so it should otherwise work, but we want to check
@@ -185,7 +185,7 @@ class PersonManagerTestCase(TestCase):
         self.assertFalse(person_from_db.is_active)
 
     @override_settings(ACCOUNT_ACTIVATION_DAYS=1)
-    @freeze_time("2021-01-02 12:00:00", tz_offset=0)
+    @time_machine.travel("2021-01-02 12:00:00 +0000", tick=False)
     def test_activate_user_non_matching_activation_key(self):
         "If activation key is the correct format, but there's no matching user, False"
         person = PersonFactory(
@@ -208,7 +208,7 @@ class PersonManagerTestCase(TestCase):
         self.assertFalse(person_from_db.is_active)
 
     @override_settings(ACCOUNT_ACTIVATION_DAYS=1)
-    @freeze_time("2021-01-02 12:00:00", tz_offset=0)
+    @time_machine.travel("2021-01-02 12:00:00 +0000", tick=False)
     def test_activate_user_activation_key_expired(self):
         "If everything else is fine, but the key has expired, it should return False"
         activation_key = "1234567890123456789012345678901234567890"

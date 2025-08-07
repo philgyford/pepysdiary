@@ -1,6 +1,7 @@
 # from unittest.mock import patch
 
 # from captcha.client import RecaptchaResponse
+import time_machine
 from django.contrib import auth
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.tokens import default_token_generator
@@ -11,7 +12,6 @@ from django.http.response import Http404
 from django.test import TestCase, override_settings
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode
-from freezegun import freeze_time
 
 from pepysdiary.annotations.factories import PostAnnotationFactory
 from pepysdiary.common.factories import ConfigFactory
@@ -70,7 +70,7 @@ class ActivateViewTestCase(TestCase):
             response.content.decode(),
         )
 
-    @freeze_time("2021-01-01 12:00:00", tz_offset=0)
+    @time_machine.travel("2021-01-01 12:00:00 +0000", tick=False)
     def test_registration_success(self):
         "If there's a matching user, they should be activated, and we redirect"
         key = "1234567890123456789012345678901234567890"

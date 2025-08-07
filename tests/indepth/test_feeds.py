@@ -1,5 +1,5 @@
+import time_machine
 from django.utils.feedgenerator import rfc2822_date
-from freezegun import freeze_time
 
 from pepysdiary.common.utilities import make_datetime
 from pepysdiary.indepth.factories import DraftArticleFactory, PublishedArticleFactory
@@ -51,7 +51,7 @@ class LatestArticlesFeedTestCase(FeedTestCase):
             "http://example.com/indepth/rss/",
         )
 
-    @freeze_time("2021-04-07 12:00:00", tz_offset=0)
+    @time_machine.travel("2021-04-07 12:00:00 +0000", tick=False)
     def test_items(self):
         "Test the <item>s"
 

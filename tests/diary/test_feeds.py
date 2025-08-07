@@ -1,6 +1,6 @@
+import time_machine
 from django.test import override_settings
 from django.utils.feedgenerator import rfc2822_date
-from freezegun import freeze_time
 
 from pepysdiary.common.utilities import make_date, make_datetime
 from pepysdiary.diary.factories import EntryFactory
@@ -13,7 +13,7 @@ class LatestEntriesFeedTestCase(FeedTestCase):
         feed = self.get_feed_element("/diary/rss/")
         self.assertEqual(feed.getAttribute("version"), "2.0")
 
-    @freeze_time("2021-04-07 12:00:00", tz_offset=0)
+    @time_machine.travel("2021-04-07 12:00:00 +0000", tick=False)
     @override_settings(YEARS_OFFSET=353)
     def test_channel_element(self):
         "Testing the <channel> element and its contents (but not <item> contents)"
@@ -52,7 +52,7 @@ class LatestEntriesFeedTestCase(FeedTestCase):
             "http://example.com/diary/rss/",
         )
 
-    @freeze_time("2021-04-07 12:00:00", tz_offset=0)
+    @time_machine.travel("2021-04-07 12:00:00 +0000", tick=False)
     @override_settings(YEARS_OFFSET=353)
     def test_items(self):
         "Test the <item>s"
@@ -107,7 +107,7 @@ class LatestEntriesFeedTestCase(FeedTestCase):
             },
         )
 
-    @freeze_time("2021-04-07 12:00:00", tz_offset=0)
+    @time_machine.travel("2021-04-07 12:00:00 +0000", tick=False)
     @override_settings(YEARS_OFFSET=353)
     def test_item_with_footnotes(self):
         "Test that an item with footnotes has them included."

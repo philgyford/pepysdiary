@@ -1,8 +1,8 @@
 import time
 
+import time_machine
 from django.http.cookie import SimpleCookie
 from django.test import TestCase
-from freezegun import freeze_time
 
 from pepysdiary.common.utilities import make_datetime
 
@@ -22,7 +22,7 @@ class CookiesTestCase(TestCase):
         self.client.cookies[key]["max-age"] = MAX_AGE
 
 
-@freeze_time("2021-04-10 12:00:00", tz_offset=0)
+@time_machine.travel("2021-04-10 12:00:00 +0000", tick=False)
 class InitialViewTestCase(CookiesTestCase):
     "Tests for an initial view, with no previous visits"
 
@@ -59,7 +59,7 @@ class InitialViewTestCase(CookiesTestCase):
         self.assertNotIn("prev_visit_end", self.cookies)
 
 
-@freeze_time("2021-04-10 12:00:00", tz_offset=0)
+@time_machine.travel("2021-04-10 12:00:00 +0000", tick=False)
 class SecondViewTestCase(CookiesTestCase):
     "Tests for a second view in the same visit, no previous visits"
 
@@ -119,7 +119,7 @@ class SecondViewTestCase(CookiesTestCase):
         self.assertNotIn("prev_visit_end", self.cookies)
 
 
-@freeze_time("2021-04-10 12:00:00", tz_offset=0)
+@time_machine.travel("2021-04-10 12:00:00 +0000", tick=False)
 class ReturnVisitTestCase(CookiesTestCase):
     "Tests for the first view of a new visit"
 
@@ -185,7 +185,7 @@ class ReturnVisitTestCase(CookiesTestCase):
         self.assertEqual(self.cookies["prev_visit_end"]["max-age"], MAX_AGE)
 
 
-@freeze_time("2021-04-10 12:00:00", tz_offset=0)
+@time_machine.travel("2021-04-10 12:00:00 +0000", tick=False)
 class InvalidCookiesTestCase(CookiesTestCase):
     "Testing what happens if cookies are already set but contain invalid data"
 

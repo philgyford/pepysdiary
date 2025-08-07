@@ -1,7 +1,7 @@
+import time_machine
 from django.contrib.sites.models import Site
 from django.core import mail
 from django.test import TestCase, override_settings
-from freezegun import freeze_time
 
 from pepysdiary.common.utilities import make_datetime
 from pepysdiary.encyclopedia.factories import TopicFactory
@@ -97,7 +97,7 @@ class PersonTestCase(TestCase):
         self.assertTrue(person.activation_key_expired())
 
     @override_settings(ACCOUNT_ACTIVATION_DAYS=1)
-    @freeze_time("2021-01-02 12:00:00", tz_offset=0)
+    @time_machine.travel("2021-01-02 12:00:00 +0000", tick=False)
     def test_activation_key_expired_true_by_time(self):
         "If they've run out of time, activation_key_expired should be true"
         person = PersonFactory(activation_key="123456ABCDEF")
@@ -107,7 +107,7 @@ class PersonTestCase(TestCase):
         self.assertTrue(person.activation_key_expired())
 
     @override_settings(ACCOUNT_ACTIVATION_DAYS=1)
-    @freeze_time("2021-01-02 12:00:00", tz_offset=0)
+    @time_machine.travel("2021-01-02 12:00:00 +0000", tick=False)
     def test_activation_key_expired_false(self):
         "If they haven't activated, and they're within the time limit, it's false"
         person = PersonFactory(activation_key="123456ABCDEF")

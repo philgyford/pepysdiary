@@ -1,5 +1,5 @@
+import time_machine
 from django.utils.feedgenerator import rfc2822_date
-from freezegun import freeze_time
 
 from pepysdiary.common.utilities import make_datetime
 from pepysdiary.encyclopedia.factories import TopicFactory
@@ -12,7 +12,7 @@ class LatestTopicsFeedTestCase(FeedTestCase):
         feed = self.get_feed_element("/encyclopedia/rss/")
         self.assertEqual(feed.getAttribute("version"), "2.0")
 
-    @freeze_time("2021-04-07 12:00:00", tz_offset=0)
+    @time_machine.travel("2021-04-07 12:00:00 +0000", tick=False)
     def test_channel_element(self):
         "Testing the <channel> element and its contents (but not <item> contents)"
 
@@ -50,7 +50,7 @@ class LatestTopicsFeedTestCase(FeedTestCase):
             "http://example.com/encyclopedia/rss/",
         )
 
-    @freeze_time("2021-04-07 12:00:00", tz_offset=0)
+    @time_machine.travel("2021-04-07 12:00:00 +0000", tick=False)
     def test_items(self):
         "Test the <item>s"
 
@@ -105,7 +105,7 @@ class LatestTopicsFeedTestCase(FeedTestCase):
             },
         )
 
-    @freeze_time("2021-04-07 12:00:00", tz_offset=0)
+    @time_machine.travel("2021-04-07 12:00:00 +0000", tick=False)
     def test_item_with_wheatley(self):
         "Test that an item with wheatley text uses that."
 
@@ -132,7 +132,7 @@ class LatestTopicsFeedTestCase(FeedTestCase):
             },
         )
 
-    @freeze_time("2021-04-07 12:00:00", tz_offset=0)
+    @time_machine.travel("2021-04-07 12:00:00 +0000", tick=False)
     def test_item_with_tooltip_text(self):
         "Test that an item with tooltip_text uses that."
 
@@ -159,7 +159,7 @@ class LatestTopicsFeedTestCase(FeedTestCase):
             },
         )
 
-    @freeze_time("2021-04-07 12:00:00", tz_offset=0)
+    @time_machine.travel("2021-04-07 12:00:00 +0000", tick=False)
     def test_item_with_no_texts(self):
         "Test that an item with no text fields uses an empty string."
 

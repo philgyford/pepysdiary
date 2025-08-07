@@ -1,6 +1,6 @@
+import time_machine
 from django.test import TestCase
 from django_comments.moderation import AlreadyModerated, moderator
-from freezegun import freeze_time
 
 from pepysdiary.common.utilities import make_datetime
 from pepysdiary.news.factories import DraftPostFactory, PublishedPostFactory
@@ -63,13 +63,13 @@ class PostTestCase(TestCase):
         self.assertEqual(post.intro_html, "<p><strong>Hello</strong></p>")
         self.assertEqual(post.text_html, "<p><em>Bye</em></p>")
 
-    @freeze_time("2021-04-10 12:00:00", tz_offset=0)
+    @time_machine.travel("2021-04-10 12:00:00 +0000", tick=False)
     def test_set_date_published_for_published(self):
         "An empty date_published should be set to now() on save for a published post"
         post = PublishedPostFactory(date_published=None)
         self.assertEqual(post.date_published, make_datetime("2021-04-10 12:00:00"))
 
-    @freeze_time("2021-04-10 12:00:00", tz_offset=0)
+    @time_machine.travel("2021-04-10 12:00:00 +0000", tick=False)
     def test_set_date_published_for_draft(self):
         "An empty date_published should be left alone for a draft post"
         post = DraftPostFactory(date_published=None)

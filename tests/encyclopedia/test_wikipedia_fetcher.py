@@ -74,16 +74,12 @@ class FetchTestCase(TestCase):
         self.assertEqual(result, {"success": True, "content": self.source_html})
 
     def test_it_removes_disallowed_tags(self):
-        """
-        Note: This test currently works if the BeautifulSoup parser is "lxml", which
-        will add the extra <p></p> tags. "html.parser" won't.
-        """
         in_html = "<blink>Blinking</blink> <strong>Bold</strong>"
-        out_html = "<p>Blinking <strong>Bold</strong></p>"
+        out_html = "Blinking <strong>Bold</strong>"
         self.assertEqual(WikipediaFetcher()._tidy_html(in_html), out_html)
 
     def test_it_removes_disallowed_attributes(self):
-        in_html = '<a class="my-class" href="test.html" ' 'data-bad="My data">Link</a>'
+        in_html = '<a class="my-class" href="test.html" data-bad="My data">Link</a>'
         out_html = '<a class="my-class" href="test.html">Link</a>'
         self.assertEqual(WikipediaFetcher()._tidy_html(in_html), out_html)
 

@@ -1,8 +1,8 @@
+import time_machine
 from django.conf import settings
 from django.test import RequestFactory, TestCase, override_settings
 from django.urls import path, resolve
 from django.views.generic import TemplateView
-from freezegun import freeze_time
 
 from pepysdiary.common.context_processors import (
     api_keys,
@@ -78,7 +78,7 @@ class ConfigTestCase(RequestTestCase):
 
 
 class DateFormatsTestCase(RequestTestCase):
-    @freeze_time("2021-04-10 12:00:00", tz_offset=0)
+    @time_machine.travel("2021-04-10 12:00:00 +0000", tick=False)
     def test_date_formats(self):
         "It should return the correct keys"
         context = date_formats(self.request)

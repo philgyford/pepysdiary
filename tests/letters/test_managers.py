@@ -1,5 +1,8 @@
+import tempfile
+from pathlib import Path
+
 from django.core.files.uploadedfile import SimpleUploadedFile
-from django.test import TestCase
+from django.test import TestCase, override_settings
 
 from pepysdiary.encyclopedia.factories import TopicFactory
 from pepysdiary.letters.factories import LetterFactory
@@ -7,6 +10,9 @@ from pepysdiary.letters.models import Letter
 
 
 class LetterManagerTestCase(TestCase):
+    @override_settings(
+        MEDIA_ROOT=Path(tempfile.TemporaryDirectory(prefix="mediatest").name)
+    )
     def test_get_brief_references(self):
         "It should return the correct data about topics referenced by Letter texts"
 
@@ -59,6 +65,3 @@ class LetterManagerTestCase(TestCase):
             references[str(topic_2.pk)],
             {"title": "Dogs", "text": "About dogs", "thumbnail_url": ""},
         )
-
-        # Tidy up the file
-        topic_1.thumbnail.delete()

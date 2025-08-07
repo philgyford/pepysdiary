@@ -1,5 +1,5 @@
+import time_machine
 from django.utils.feedgenerator import rfc2822_date
-from freezegun import freeze_time
 
 from pepysdiary.common.utilities import make_date, make_datetime
 from pepysdiary.letters.factories import LetterFactory
@@ -12,7 +12,7 @@ class LatestLettersFeedTestCase(FeedTestCase):
         feed = self.get_feed_element("/letters/rss/")
         self.assertEqual(feed.getAttribute("version"), "2.0")
 
-    @freeze_time("2021-04-07 12:00:00", tz_offset=0)
+    @time_machine.travel("2021-04-07 12:00:00 +0000", tick=False)
     def test_channel_element(self):
         "Testing the <channel> element and its contents (but not <item> contents)"
 
@@ -50,7 +50,7 @@ class LatestLettersFeedTestCase(FeedTestCase):
             "http://example.com/letters/rss/",
         )
 
-    @freeze_time("2021-04-07 12:00:00", tz_offset=0)
+    @time_machine.travel("2021-04-07 12:00:00 +0000", tick=False)
     def test_items(self):
         "Test the <item>s"
 
@@ -106,7 +106,7 @@ class LatestLettersFeedTestCase(FeedTestCase):
             },
         )
 
-    @freeze_time("2021-04-07 12:00:00", tz_offset=0)
+    @time_machine.travel("2021-04-07 12:00:00 +0000", tick=False)
     def test_item_with_footnotes(self):
         "Test that an item with footnotes shows that."
 
