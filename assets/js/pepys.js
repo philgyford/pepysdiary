@@ -258,7 +258,7 @@ window.pepys.tooltips = {
    */
   prepare_tooltips: function () {
     var that = this;
-    $("article.entry, article.letter")
+    $("article.entry, article.letter-text")
       .find("a")
       .each(function (idx) {
         id = that.id_from_encyclopedia_url($(this).attr("href"));
@@ -267,7 +267,7 @@ window.pepys.tooltips = {
             title: that.tooltips[id].title,
             content: that.tooltip_content(
               that.tooltips[id].text,
-              that.tooltips[id].thumbnail_url
+              that.tooltips[id].thumbnail_url,
             ),
             trigger: "hover click",
             placement: "auto left",
@@ -913,7 +913,7 @@ window.pepys.topic = {
       // And shift the whole thing to the bottom of the chart.
       .attr(
         "transform",
-        "translate(-" + x.rangeBand() / 2 + "," + inner_height + ")"
+        "translate(-" + x.rangeBand() / 2 + "," + inner_height + ")",
       )
       .call(xAxis);
 
@@ -1007,7 +1007,7 @@ window.pepys.maps = {
   init: function (map_data) {
     this.map = L.map("map-frame").setView(
       L.latLng(map_data.latitude, map_data.longitude),
-      map_data.zoom
+      map_data.zoom,
     );
 
     L.tileLayer
@@ -1061,7 +1061,7 @@ window.pepys.maps = {
           [51.51365, -0.076593],
           [51.509424, -0.075821],
         ],
-        { stroke: true, color: "#333333", opacity: 0.8 }
+        { stroke: true, color: "#333333", opacity: 0.8 },
       ),
     ]);
 
@@ -1195,7 +1195,7 @@ window.pepys.maps = {
           [51.494664, -0.12115],
           [51.494931, -0.12454],
         ],
-        { stroke: false, fill: true, fillColor: "#666666", fillOpacity: 0.4 }
+        { stroke: false, fill: true, fillColor: "#666666", fillOpacity: 0.4 },
       ),
     ]);
 
@@ -1279,7 +1279,7 @@ window.pepys.maps = {
           [51.513964, -0.109627],
           [51.514204, -0.109756],
         ],
-        { stroke: false, fill: true, fillColor: "#cc6666", fillOpacity: 0.3 }
+        { stroke: false, fill: true, fillColor: "#cc6666", fillOpacity: 0.3 },
       ),
     ]);
 
@@ -1290,7 +1290,7 @@ window.pepys.maps = {
           "City of London wall": london_wall_overlay,
           "Built-up London (approx.)": built_area_overlay,
           "Great Fire damage": great_fire_overlay,
-        }
+        },
       )
       .addTo(this.map);
   },
