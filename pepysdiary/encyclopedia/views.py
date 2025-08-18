@@ -82,6 +82,11 @@ class TopicDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["diary_references"] = self.object.get_annotated_diary_references()
+        context["letter_references"] = (
+            self.object.letter_references.defer("intro", "text", "footnotes")
+            .all()
+            .order_by("letter_date")
+        )
         context["letter_count"] = Letter.objects.filter(
             Q(sender=self.object) | Q(recipient=self.object)
         ).count()

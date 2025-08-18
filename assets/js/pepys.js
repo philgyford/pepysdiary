@@ -529,6 +529,7 @@ window.pepys.topic = {
     "wheatley",
     "discussion",
     "references",
+    "letters",
   ],
 
   init: function () {

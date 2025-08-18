@@ -111,7 +111,10 @@
 			{% endif %}
 			<li id="tab-discussion" class="{% if not topic.latitude and not topic.summary_html and not topic.wikipedia_fragment and not topic.wheatley_html %}active{% endif %}"><a href="#discussion" data-toggle="tab" role="tab">Annotations <small>({{ topic.comment_count }})</small></a></li>
 			{% if diary_references %}
-			<li id="tab-references"><a href="#references" data-toggle="tab" role="tab">References <small>({{ topic.diary_references.count|intcomma }})</small></a></li>
+			<li id="tab-references"><a href="#references" data-toggle="tab" role="tab">Diary references <small>({{ topic.diary_references.count|intcomma }})</small></a></li>
+			{% endif %}
+			{% if letter_references %}
+			<li id="tab-letters"><a href="#letters" data-toggle="tab" role="tab">Letter references <small>({{ topic.letter_references.count|intcomma }})</small></a></li>
 			{% endif %}
 		</ul>
 
@@ -183,13 +186,16 @@
 
 			{% if diary_references %}
 				<article class="tab-pane" id="references">
-					<h1 class="sr-only">References</h1>
+					<h1 class="sr-only">Diary references</h1>
 
-					<p>Chart showing the number of references in each month of the diary’s entries.</p>
-					<div id="chart-references"></div>
+					<h2>Number of references in each month of the diary’s entries</p>
+
+					<div id="chart-references" class="mb-4"></div>
+
+          <h2>Links to diary entries in which this {% if topic.is_person %}person{% elif topic.is_place %}place{% else %}topic{% endif %} is mentioned</h2>
 
 					{% for y, months in diary_references %}
-						<h2 class="h3">{{ y }}</h2>
+						<h3>{{ y }}</h2>
 						<ul class="lists-horizontal lists-horizontal-small">
 							{% for m, refs in months %}
 								<li><span>{{ m }}</span>
@@ -204,6 +210,21 @@
 					{% endfor %}
 				</article>
 			{% endif %}
+
+      {% if letter_references %}
+				<article class="tab-pane" id="letters">
+					<h1 class="sr-only">Letter references</h1>
+
+          <h2>Letter{{ letter_references|length|pluralize }} in which this {% if topic.is_person %}person{% elif topic.is_place %}place{% else %}topic{% endif %} is mentioned</h2>
+
+          {% if letter_count > 0 %}
+            <p>(<a href="{% url 'letter_person' topic.pk %}">Also read {{ letter_count|apnumber }} letter{{ letter_count|pluralize }} from or to them.</a>)</p>
+          {% endif %}
+
+          {% include 'letters/inc/letter_list.html' with letter_list=letter_references %}
+
+        </article>
+      {% endif %}
 		</div> <!-- .tab-content -->
 	</div> <!-- .tabbable -->
 

@@ -121,6 +121,41 @@ class TopicTestCase(TestCase):
         self.assertIn(letter_1, letters)
         self.assertIn(letter_2, letters)
 
+    def test_letter_references_brief(self):
+        "Topic.letter_references_brief should return the correct fields of the Entries"
+        letter_1 = LetterFactory(letter_date=make_date("1661-01-01"))
+        letter_2 = LetterFactory(letter_date=make_date("1661-01-02"))
+        topic = TopicFactory(letter_references=[letter_1, letter_2])
+
+        letters = topic.letter_references_brief.all()
+
+        self.assertEqual(len(letters), 2)
+        self.assertIn(letter_1, letters)
+        self.assertIn(letter_2, letters)
+
+        # We shouldn't have fetched these fields on the Entries:
+        self.assertEqual(
+            letters[0].get_deferred_fields(),
+            {
+                "date_created",
+                "display_date",
+                "intro",
+                "text",
+                "footnotes",
+                "excerpt",
+                "sender_id",
+                "recipient_id",
+                "source",
+                "slug",
+                "comment_count",
+                "last_comment_time",
+                "allow_comments",
+                "order",
+                "date_modified",
+                "search_document",
+            },
+        )
+
     def test_str(self):
         topic = TopicFactory(title="Cats")
         self.assertEqual(str(topic), "Cats")

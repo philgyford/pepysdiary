@@ -147,7 +147,8 @@ class TopicDetailViewTestCase(ViewTransactionTestCase):
         response = views.TopicDetailView.as_view()(self.request, pk=topic.pk)
         self.assertEqual(response.template_name[0], "encyclopedia/topic_detail.html")
 
-    def test_context_data(self):
+    def test_context_data_diary_references(self):
+        "context_data should include the correct diary_references"
         entry_1 = EntryFactory(diary_date=make_date("1661-01-01"))
         entry_2 = EntryFactory(diary_date=make_date("1661-02-01"))
         entry_3 = EntryFactory(diary_date=make_date("1662-03-04"))
@@ -166,6 +167,24 @@ class TopicDetailViewTestCase(ViewTransactionTestCase):
                 ["1661", [["Jan", [entry_1]], ["Feb", [entry_2]]]],
                 ["1662", [["Mar", [entry_3, entry_4]]]],
             ],
+        )
+
+    def test_context_data_letter_references(self):
+        "context_data should include the correct Letters in date order"
+        letter_1 = LetterFactory(letter_date=make_date("1661-01-01"))
+        letter_3 = LetterFactory(letter_date=make_date("1662-03-04"))
+        letter_4 = LetterFactory(letter_date=make_date("1662-03-05"))
+        letter_2 = LetterFactory(letter_date=make_date("1661-02-01"))
+        # Shouldn't be included:
+        LetterFactory(letter_date=make_date("1663-01-01"))
+        topic = TopicFactory(letter_references=[letter_1, letter_2, letter_3, letter_4])
+
+        response = views.TopicDetailView.as_view()(self.request, pk=topic.pk)
+
+        self.assertIn("letter_references", response.context_data)
+        self.assertQuerySetEqual(
+            response.context_data["letter_references"],
+            [letter_1, letter_2, letter_3, letter_4],
         )
 
     def test_context_data_letter_count(self):

@@ -236,6 +236,15 @@ class Topic(PepysModel):
         """
         return self.diary_references.only("id", "title", "diary_date").order_by()
 
+    @property
+    def letter_references_brief(self):
+        """
+        A more efficient way of fetching letter_references.
+        For when we don't need the bigger text fields, and don't care about the order.
+        e.g. for when getting a Topic's letter_references in the API.
+        """
+        return self.letter_references.only("id", "title", "letter_date").order_by()
+
     def make_order_title(self):
         """
         Set the order_title, depending on what type of Topic this is.
