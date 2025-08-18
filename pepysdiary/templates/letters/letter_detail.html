@@ -28,15 +28,16 @@
 
   <h2 class="mt-0 mb-4">{{ letter.display_date }}</h2>
 
+  {% if letter.source == letter.Source.GUY_DE_LA_BEDOYERE %}
+    <p><strong>From <cite>Particular Friends</cite> by Guy de la Bédoyère.</strong></p>
+  {% elif letter.source == letter.Source.GUY_DE_LA_BEDOYERE_2 %}
+    <p><strong>From <cite>The Letters of Samuel Pepys</cite> by Guy de la Bédoyère.</strong></p>
+  {% elif letter.source == letter.Source.HELEN_TRUESDELL_HEATH %}
+    <p><strong>From <cite>The Letters of Samuel Pepys and his Family Circle</cite> by Helen Truesdell Heath.</strong></p>
+  {% endif %}
+
   {% if letter.intro %}
     <aside>
-      {% if letter.source == letter.Source.GUY_DE_LA_BEDOYERE %}
-        <p><strong>From <cite>Particular Friends</cite> by Guy de la Bédoyère.</strong></p>
-      {% elif letter.source == letter.Source.GUY_DE_LA_BEDOYERE_2 %}
-        <p><strong>From <cite>The Letters of Samuel Pepys</cite> by Guy de la Bédoyère.</strong></p>
-      {% elif letter.source == letter.Source.HELEN_TRUESDELL_HEATH %}
-        <p><strong>From <cite>The Letters of Samuel Pepys and his Family Circle</cite> by Helen Truesdell Heath.</strong></p>
-      {% endif %}
       {{ letter.intro|smartypants|safe }}
     </aside>
   {% endif %}
