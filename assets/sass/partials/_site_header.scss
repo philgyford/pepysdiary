@@ -42,6 +42,12 @@
 
   a {
     color: $site-header-title-color;
+    text-decoration: none;
+
+    &:hover,
+    &:focus {
+      text-decoration: underline;
+    }
   }
 
   @media (min-width: $grid-float-breakpoint) {
