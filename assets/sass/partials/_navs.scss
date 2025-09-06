@@ -2,6 +2,9 @@
  * To make text line up with li's containing links.
  */
 .nav > li {
+  &.active > a {
+    text-decoration: none;
+  }
   &.disabled > a {
     &:hover,
     &:focus {
