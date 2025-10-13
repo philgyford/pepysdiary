@@ -20,9 +20,9 @@ boto3==1.40.30 \
     --hash=sha256:04e89abf61240857bf7dec160e22f097eec68c502509b2bb3c5010a22cb91052 \
     --hash=sha256:e95db539c938710917f4cb4fc5915f71b27f2c836d949a1a95df7895d2e9ec8b
     # via pepysdiary
-botocore==1.40.25 \
-    --hash=sha256:41fd186018a48dc517a4312a8d3085d548cb3fb1f463972134140bf7ee55a397 \
-    --hash=sha256:5603ea9955cd31974446f0b5688911a5dad71fbdfbf7457944cda8a83fcf2a9e
+botocore==1.40.50 \
+    --hash=sha256:1d3d5b5759c9cb30202cd5ad231ec8afb1abe5be0c088a1707195c2cbae0e742 \
+    --hash=sha256:53126c153fae0670dc54f03d01c89b1af144acedb1020199b133dedb309e434d
     # via
     #   boto3
     #   s3transfer
