@@ -456,5 +456,9 @@ PEPYS_MEMBERSHIP_BLACKLISTED_DOMAINS = [
     "writinkservices.com",
 ]
 
+# User-Agent used for fetching Wikipedia pages
+# See https://foundation.wikimedia.org/wiki/Policy:Wikimedia_Foundation_User-Agent_Policy
+WIKIPEDIA_FETCHER_USER_AGENT = "PepysDiaryBot/0.0 (https://www.pepysdiary.com/about/)"
+
 # END PEPYSDIARY SPECIFIC SETTINGS
 ########################################################################################

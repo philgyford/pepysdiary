@@ -2,6 +2,7 @@ import bleach
 import requests
 from bleach.css_sanitizer import CSSSanitizer
 from bs4 import BeautifulSoup
+from django.conf import settings
 
 
 class WikipediaFetcher:
@@ -37,7 +38,12 @@ class WikipediaFetcher:
         url = f"https://en.wikipedia.org/wiki/{page_name}"
 
         try:
-            response = requests.get(url, params={"action": "render"}, timeout=5)
+            response = requests.get(
+                url,
+                params={"action": "render"},
+                headers={"user-agent": settings.WIKIPEDIA_FETCHER_USER_AGENT},
+                timeout=5,
+            )
         except requests.exceptions.ConnectionError:
             error_message = "Can't connect to domain."
         except requests.exceptions.Timeout:
