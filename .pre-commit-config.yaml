@@ -16,14 +16,15 @@ repos:
       - id: check-yaml
       - id: check-added-large-files
         args: ["--maxkb=600"]
-  - repo: https://github.com/pre-commit/mirrors-prettier
-    rev: v4.0.0-alpha.8
+  # Use locally-installed npm version of Biome
+  # So we don't have to update npm AND pre-commit version when updating Biome
+  - repo: local
     hooks:
-      - id: prettier
-        types_or:
-          - css
-          - javascript
-          - json
+      - id: local-biome-check
+        name: biome check
+        entry: npx biome check --write --files-ignore-unknown=true --no-errors-on-unmatched
+        language: system
+        types: [text]
   - repo: https://github.com/astral-sh/ruff-pre-commit
     rev: v0.12.10
     hooks:
