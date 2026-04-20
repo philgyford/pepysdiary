@@ -7,7 +7,7 @@ jQuery.fn.exists = function () {
  * Checks whether a value is numeric or not. Returns true/false.
  */
 function isNumber(n) {
-  return !isNaN(parseFloat(n)) && isFinite(n);
+  return !Number.isNaN(parseFloat(n)) && Number.isFinite(n);
 }
 
 window.pepys = {};
@@ -191,6 +191,9 @@ window.pepys.utilities = {
  */
 window.pepys.search = {
   init: function () {
+    let $firstOption;
+    let newOption;
+
     if ($(".js-search-form").length === 0) {
       return;
     }
@@ -198,7 +201,7 @@ window.pepys.search = {
     // What kind of thing are we listing?
     var kind = getUrlParameter("k");
 
-    if (kind == "c") {
+    if (kind === "c") {
       // It's an Annotation/Comment.
       this.hideTitleOption();
     }
@@ -206,8 +209,8 @@ window.pepys.search = {
     // When the kind select changes, check whether the order-by-title option
     // should be present or not.
     var that = this;
-    $(".js-search-kind").on("change", function (ev) {
-      if ($(this).val() == "c") {
+    $(".js-search-kind").on("change", function (_ev) {
+      if ($(this).val() === "c") {
         // Chosen the Annotation/Comment kind, so hide order-by-title option.
         that.hideTitleOption();
       } else {
@@ -215,9 +218,9 @@ window.pepys.search = {
         // order-by-title is there.
         if ($(".js-search-order-title").length === 0) {
           // We'll insert it after this:
-          var $firstOption = $(".js-search-order option")[0];
+          $firstOption = $(".js-search-order option")[0];
 
-          var newOption =
+          newOption =
             '<option class="js-search-order-title" value="az">Title</option>';
 
           $(newOption).insertAfter($firstOption);
@@ -260,10 +263,11 @@ window.pepys.tooltips = {
     var that = this;
     $("article.entry, article.letter-text")
       .find("a")
-      .each(function (idx) {
+      .each(function (_idx) {
+        let tip_options;
         id = that.id_from_encyclopedia_url($(this).attr("href"));
         if (id in that.tooltips) {
-          var tip_options = {
+          tip_options = {
             title: that.tooltips[id].title,
             content: that.tooltip_content(
               that.tooltips[id].text,
@@ -299,7 +303,7 @@ window.pepys.tooltips = {
     if (!url) {
       return "";
     }
-    if (url.indexOf("/encyclopedia/") == -1) {
+    if (url.indexOf("/encyclopedia/") === -1) {
       return "";
     }
     // Return the ID from the URL:
@@ -375,7 +379,7 @@ window.pepys.comments = {
    */
   set_markers: function () {
     var that = this;
-    $(".newable").each(function (idx) {
+    $(".newable").each(function (_idx) {
       if (
         that.prev_visit_end === null ||
         parseInt($(this).data("time"), 10) > that.prev_visit_end
@@ -464,7 +468,7 @@ window.pepys.category = {
     this.category_id = category_id;
 
     // Work out which centre and zoom to draw.
-    var start_coords = this.start_coords["london"];
+    var start_coords = this.start_coords.london;
     if (this.category_id.toString() in this.categories_start_coords) {
       start_coords =
         this.start_coords[
@@ -472,7 +476,7 @@ window.pepys.category = {
         ];
     }
     pepys.maps.init(start_coords);
-    $.each(this.topics, function (n, topic) {
+    $.each(this.topics, function (_n, topic) {
       pepys.maps.add_place(topic, { link_to_topic: true });
     });
   },
@@ -510,7 +514,7 @@ window.pepys.category = {
    * Check that the category_id is a valid one for drawing maps with.
    */
   is_valid_map_category_id: function (category_id) {
-    if ($.inArray(category_id, this.valid_map_category_ids) == -1) {
+    if ($.inArray(category_id, this.valid_map_category_ids) === -1) {
       return false;
     } else {
       return true;
@@ -623,11 +627,11 @@ window.pepys.topic = {
     var data = [];
 
     // Read the dates and 1660s values from the <table>
-    $(".js-wealth-table tbody tr").each(function (idx) {
+    $(".js-wealth-table tbody tr").each(function (_idx) {
       var date = $("time", $(this)).attr("datetime");
       var value = $("td", $(this)).eq(1).text();
       value = value.replace(",", "");
-      value = parseInt(value);
+      value = parseInt(value, 10);
       data.push({ date: parseDate(date), value: value });
     });
 
@@ -788,9 +792,10 @@ window.pepys.topic = {
       var i = bisectDate(data, x0, 1);
       var d0 = data[i - 1];
       var d1 = data[i];
+      var translate;
       if (d0 && d1) {
         d = x0 - d0.date > d1.date - x0 ? d1 : d0;
-        var translate = "translate(" + x(d.date) + "," + y(d.value) + ")";
+        translate = "translate(" + x(d.date) + "," + y(d.value) + ")";
         focus.select("circle").attr("transform", translate);
         focus
           .select(".focus-date-b")
@@ -900,7 +905,7 @@ window.pepys.topic = {
       .tickValues([0, 12, 24, 36, 48, 60, 72, 84, 96, 108])
       .tickSize(8, 0, 0)
       .tickPadding(5)
-      .tickFormat(function (d, i) {
+      .tickFormat(function (d, _i) {
         // This doesn't feel right, but it works.
         // Returns the year from the month-year names: '1661'.
         return data[d].name.substring(4, 8);
@@ -922,7 +927,7 @@ window.pepys.topic = {
     // middle of the 12 months they refer to.
     svg
       .selectAll("text")
-      .attr("dx", function (d, i) {
+      .attr("dx", function (_d, i) {
         // Shift them all in relation to the width of the bars.
         var left_padding = x.rangeBand() * 6;
         if (i >= 9) {
@@ -965,17 +970,17 @@ window.pepys.topic = {
       .enter()
       .append("rect")
       .attr("class", "bar")
-      .attr("x", function (d, i) {
+      .attr("x", function (_d, i) {
         return x(i);
       })
       .attr("y", function (d) {
         return y(d.percent_refs);
       })
       .attr("width", x.rangeBand())
-      .attr("height", function (d, i) {
+      .attr("height", function (d, _i) {
         return inner_height - y(d.percent_refs);
       })
-      .on("mouseover", function (d, i) {
+      .on("mouseover", function (d, _i) {
         tooltip.html("<strong>" + d.num_refs + "</strong> (" + d.name + ")");
         d3.select(this).classed("highlight", true);
         tooltip.style("visibility", "visible");
@@ -1027,9 +1032,10 @@ window.pepys.maps = {
     // been drawn properly.
     // So when we switch to the map tab, re-draw the map.
     if ($("#tab-map").exists()) {
+      // biome-ignore lint: correctness/noInnerDeclarations
       var that = this;
       $('a[data-toggle="tab"]').on("shown", function (e) {
-        if ($(e.target).attr("href") == "#map") {
+        if ($(e.target).attr("href") === "#map") {
           that.map.invalidateSize(false);
         }
         return true;
@@ -1312,12 +1318,14 @@ window.pepys.maps = {
     if (!options) {
       options = {};
     }
+    var icon;
+    var icon_options;
 
     // Will be a Marker, Polygon, or Polyline.
     var place;
     var static_prefix = pepys.controller.config.static_prefix;
     if ("polygon" in place_data) {
-      place = L.polygon(this.string_to_coords(place_data["polygon"]), {
+      place = L.polygon(this.string_to_coords(place_data.polygon), {
         color: "#a02b2d",
         opacity: 0.75,
         fill: "#a02b2d",
@@ -1325,12 +1333,12 @@ window.pepys.maps = {
         weight: 2,
       });
     } else if ("path" in place_data) {
-      place = L.polyline(this.string_to_coords(place_data["path"]), {
+      place = L.polyline(this.string_to_coords(place_data.path), {
         color: "#a02b2d",
         opacity: 0.5,
       });
     } else {
-      var icon_options = {
+      icon_options = {
         iconUrl: static_prefix + "img/marker-icon.png",
         iconRetinaUrl: static_prefix + "img/marker-icon-2x.png",
         iconAnchor: [12.5, 41],
@@ -1345,7 +1353,7 @@ window.pepys.maps = {
         icon_options.iconRetinaUrl = static_prefix + "img/marker-icon-b-2x.png";
       }
 
-      var icon = L.icon(icon_options);
+      icon = L.icon(icon_options);
 
       place = L.marker(L.latLng(place_data.latitude, place_data.longitude), {
         icon: icon,
@@ -1381,7 +1389,7 @@ window.pepys.maps = {
    */
   string_to_coords: function (str) {
     var arr = [];
-    $.each(str.split(";"), function (n, pair) {
+    $.each(str.split(";"), function (_n, pair) {
       ll = pair.split(",");
       arr.push([parseFloat(ll[0]), parseFloat(ll[1])]);
     });
