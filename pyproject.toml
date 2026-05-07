@@ -87,6 +87,9 @@ select = [
   "RUF200", # invalid-pyproject-toml
 ]
 
+[tool.uv]
+exclude-newer = "1 week"
+
 [tool.uv.pip]
 generate-hashes = true
 python-version = "3.10"
