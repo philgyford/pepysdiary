@@ -316,14 +316,14 @@ wheels = [
 
 [[package]]
 name = "django-treebeard"
-version = "5.2.1"
+version = "5.2.2"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "django" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/81/86/934cc3d5b77b6cf1d3e2406d57f2ef11bc8c2a075970e2a3424a90d2f88e/django_treebeard-5.2.1.tar.gz", hash = "sha256:b2fe1e4cc7af177ac2be4fc2bbb027a7bda44bec6916f431f41f57109c1c940e", size = 311005, upload-time = "2026-06-02T11:24:19.581Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/43/0d/a7d57d9c9231f91f239ae49a256e0645da2646ed62e6f5150223fc88b427/django_treebeard-5.2.2.tar.gz", hash = "sha256:4863191d8cd63daaa985f0853293ccae8c459e3d44963c4e4eec80dae7156e98", size = 311070, upload-time = "2026-06-05T11:19:40.185Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/3a/34/198a3a04d1b0e80fe4b71cfab4f049d283fb855dc7f1dfdf11378d2c82f7/django_treebeard-5.2.1-py3-none-any.whl", hash = "sha256:42c371f65e9718d7f82965f1fe775f5bd767986eb49b86c8259dfb4e7ce7e601", size = 80897, upload-time = "2026-06-02T11:24:18.504Z" },
+    { url = "https://files.pythonhosted.org/packages/64/ee/a2b4ae5e65beabc28eeb8f125bd2dab38ee110dac6020129fc35f6c7a998/django_treebeard-5.2.2-py3-none-any.whl", hash = "sha256:1ca902609860e1e9d87a531c34397ebca7f0d5fc72c6f8dd83c808eb6838c0c5", size = 80942, upload-time = "2026-06-05T11:19:38.467Z" },
 ]
 
 [[package]]
