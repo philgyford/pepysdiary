@@ -87,6 +87,7 @@ class YearmonthListFilter(admin.SimpleListFilter):
             return queryset.filter(**kwargs)
 
 
+@admin.register(Config)
 class ConfigAdmin(admin.ModelAdmin):
     list_display = ("site", "allow_registration", "allow_login", "allow_comments")
     readonly_fields = ("date_created", "date_modified")
@@ -108,6 +109,3 @@ class ConfigAdmin(admin.ModelAdmin):
             },
         ),
     )
-
-
-admin.site.register(Config, ConfigAdmin)

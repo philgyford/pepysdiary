@@ -1,5 +1,5 @@
 import os
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
 import dj_database_url
@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django.contrib.admin",
+    "django.contrib.postgres",
     "django.contrib.redirects",
     "django.contrib.sitemaps",
     "django.contrib.flatpages",
@@ -416,9 +417,9 @@ PEPYS_TOPIC_ID = 29
 # When did each 'reading' of the diary begin?
 # Used to mark which annotations belong to which reading.
 PEPYS_READING_DATETIMES = [
-    datetime(2002, 12, 26, 0, 0, 0, tzinfo=timezone.utc),
-    datetime(2013, 1, 1, 0, 0, 0, tzinfo=timezone.utc),
-    datetime(2023, 1, 1, 0, 0, 0, tzinfo=timezone.utc),
+    datetime(2002, 12, 26, 0, 0, 0, tzinfo=UTC),
+    datetime(2013, 1, 1, 0, 0, 0, tzinfo=UTC),
+    datetime(2023, 1, 1, 0, 0, 0, tzinfo=UTC),
 ]
 
 # We don't allow signing up using email addresses with these domains:

@@ -18,18 +18,18 @@ urlpatterns = [
         LetterDetailView.as_view(),
         name="letter_detail",
     ),
-    re_path(
-        r"^person/from/(?P<pk>[0-9]+)/$",
+    path(
+        "person/from/<int:pk>/",
         LetterFromPersonView.as_view(),
         name="letter_from_person",
     ),
-    re_path(
-        r"^person/to/(?P<pk>[0-9]+)/$",
+    path(
+        "person/to/<int:pk>/",
         LetterToPersonView.as_view(),
         name="letter_to_person",
     ),
-    re_path(
-        r"^person/(?P<pk>[0-9]+)/$",
+    path(
+        "person/<int:pk>/",
         LetterPersonView.as_view(),
         name="letter_person",
     ),

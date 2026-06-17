@@ -10,6 +10,7 @@ register = template.Library()
 
 URL_PATTERN = re.compile(r"(https?://\S+|www\.\S+)")
 
+
 @register.filter
 def to_class_name(value):
     """
@@ -52,7 +53,7 @@ def custom_urlizetrunc(comment_text, chrs):
     )
     urlized_comment = urlize(escaped_comment)
     anchor_tags = re.findall(r"(<a [^>]*>)(.*?)(</a>)", urlized_comment)
-    anchor_tags = list(set(anchor_tags)) # remove duplicates
+    anchor_tags = list(set(anchor_tags))  # remove duplicates
 
     for opening_tag, inner_text, closing_tag in anchor_tags:
         cleaned_text = re.sub(r"^https?://", "", inner_text)

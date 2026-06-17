@@ -8,6 +8,7 @@ class EventDateYearmonthListFilter(YearmonthListFilter):
     filter_field = "event_date"
 
 
+@admin.register(DayEvent)
 class DayEventAdmin(admin.ModelAdmin):
     list_display = (
         "event_date",
@@ -45,6 +46,3 @@ class DayEventAdmin(admin.ModelAdmin):
             },
         ),
     )
-
-
-admin.site.register(DayEvent, DayEventAdmin)

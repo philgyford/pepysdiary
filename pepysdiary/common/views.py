@@ -176,7 +176,7 @@ class SearchView(PaginatedListView):
         q = self.request.GET.get("q", "").strip()
         # Null character causes an error when used in a database query
         # Replace with a �
-        q = q.replace("\x00", "\uFFFD")
+        q = q.replace("\x00", "\ufffd")
         return q
 
     def get_order_string(self):

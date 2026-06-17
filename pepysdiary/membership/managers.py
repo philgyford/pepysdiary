@@ -1,6 +1,6 @@
 import hashlib
 import re
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 from django.contrib.auth.models import BaseUserManager
 from django.db import transaction
@@ -20,7 +20,7 @@ class PersonManager(BaseUserManager):
         """
         Creates and saves a Person with the given name, email and password.
         """
-        now = datetime.now(tz=timezone.utc)
+        now = datetime.now(tz=UTC)
 
         if not email:
             msg = "Users must have an email address"
@@ -113,7 +113,7 @@ class PersonManager(BaseUserManager):
                 return False
             if person.activation_key_expired() is False:
                 person.is_active = True
-                person.date_activated = datetime.now(timezone.utc)
+                person.date_activated = datetime.now(UTC)
                 person.activation_key = self.model.ACTIVATED
                 person.save()
                 return person

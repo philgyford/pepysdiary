@@ -1,7 +1,7 @@
 import time
+from http.cookies import SimpleCookie
 
 import time_machine
-from django.http.cookie import SimpleCookie
 from django.test import TestCase
 
 from pepysdiary.common.utilities import make_datetime

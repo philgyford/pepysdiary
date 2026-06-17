@@ -1,4 +1,4 @@
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 from django.http import Http404
 from django.utils.translation import gettext as _
@@ -24,7 +24,7 @@ def date_from_string(
     format = year_format + delim + month_format + delim + day_format
     datestr = str(year) + delim + str(month) + delim + str(day)
     try:
-        return datetime.strptime(datestr, format).replace(tzinfo=timezone.utc).date()
+        return datetime.strptime(datestr, format).replace(tzinfo=UTC).date()
     except ValueError as err:
         msg = _("Invalid date string “%(datestr)s” given format “%(format)s”") % {
             "datestr": datestr,

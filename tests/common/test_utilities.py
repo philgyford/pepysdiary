@@ -1,4 +1,4 @@
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 from django.contrib.sites.models import Site
 from django.test import TestCase, override_settings
@@ -24,9 +24,7 @@ class MakeDateTestCase(TestCase):
     def test_make_date(self):
         self.assertEqual(
             make_date("2021-02-01"),
-            datetime.strptime("2021-02-01", "%Y-%m-%d")
-            .replace(tzinfo=timezone.utc)
-            .date(),
+            datetime.strptime("2021-02-01", "%Y-%m-%d").replace(tzinfo=UTC).date(),
         )
 
 
@@ -35,7 +33,7 @@ class MakeDateTimeTestCase(TestCase):
         self.assertEqual(
             make_datetime("2021-02-01 12:00:00"),
             datetime.strptime("2021-02-01 12:00:00", "%Y-%m-%d %H:%M:%S").replace(
-                tzinfo=timezone.utc
+                tzinfo=UTC
             ),
         )
 

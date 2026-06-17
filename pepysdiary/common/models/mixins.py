@@ -25,7 +25,7 @@ class OldDateMixin:
 
     def get_old_date(self):
         if self.old_date_field is None:
-            msg = "Objects using OldDateMixin should define" "`old_date_field`."
+            msg = "Objects using OldDateMixin should define`old_date_field`."
             raise ImproperlyConfigured(msg)
         return getattr(self, self.old_date_field)
 

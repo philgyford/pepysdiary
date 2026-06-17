@@ -1,6 +1,6 @@
 import calendar
 import re
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 from django.conf import settings
 from django.contrib.postgres.indexes import GinIndex
@@ -74,7 +74,7 @@ class Entry(PepysModel, OldDateMixin):
         if month == 2 and day == 29 and calendar.monthrange(year, month)[1] == 28:
             month = 3
             day = 1
-        return datetime(year, month, day, 23, 0, 0, tzinfo=timezone.utc)
+        return datetime(year, month, day, 23, 0, 0, tzinfo=UTC)
 
     @property
     def short_title(self):

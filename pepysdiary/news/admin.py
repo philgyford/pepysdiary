@@ -3,6 +3,7 @@ from django.contrib import admin
 from pepysdiary.news.models import Post
 
 
+@admin.register(Post)
 class PostAdmin(admin.ModelAdmin):
     list_display = (
         "title",
@@ -55,6 +56,3 @@ class PostAdmin(admin.ModelAdmin):
             },
         ),
     )
-
-
-admin.site.register(Post, PostAdmin)

@@ -1,6 +1,6 @@
 import calendar
 import contextlib
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta
 
 from django.utils.deprecation import MiddlewareMixin
 
@@ -70,7 +70,7 @@ class VisitTimeMiddleware(MiddlewareMixin):
     def _set_cookies(self, response):
         """Sets new cookie values."""
 
-        time_now = datetime.now(timezone.utc)
+        time_now = datetime.now(UTC)
 
         # What time will our cookies expire?
         cookie_expire = time_now + timedelta(self.cookie_duration)
@@ -112,7 +112,7 @@ class VisitTimeMiddleware(MiddlewareMixin):
         Takes a string from a cookie, a unix timestamp, and returns a
         datetime object, UTC.
         """
-        return datetime.fromtimestamp(int(str), tz=timezone.utc)
+        return datetime.fromtimestamp(int(str), tz=UTC)
 
     def datetime_to_cookie_value(self, dt):
         """Takes a datetime object and returns a UTC unix timestamp."""

@@ -1,4 +1,4 @@
-from datetime import timezone
+from datetime import UTC
 
 import factory
 
@@ -21,6 +21,4 @@ class DraftPostFactory(AbstractPostFactory):
 
 class PublishedPostFactory(AbstractPostFactory):
     status = Post.Status.PUBLISHED
-    date_published = factory.Faker(
-        "past_datetime", start_date="-30d", tzinfo=timezone.utc
-    )
+    date_published = factory.Faker("past_datetime", start_date="-30d", tzinfo=UTC)

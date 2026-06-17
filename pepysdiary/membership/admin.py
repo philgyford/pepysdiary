@@ -136,6 +136,7 @@ def deactivate(modeladmin, request, queryset):
 deactivate.short_description = "Deactivate selected People"
 
 
+@admin.register(Person)
 class PersonAdmin(UserAdmin):
     # The forms to add and change user instances
     form = PersonChangeForm
@@ -217,6 +218,3 @@ class PersonAdmin(UserAdmin):
 
     has_commented.boolean = True
     has_commented.short_description = "Commented?"
-
-
-admin.site.register(Person, PersonAdmin)

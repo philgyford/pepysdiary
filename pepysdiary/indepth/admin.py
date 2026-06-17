@@ -4,6 +4,7 @@ from django.utils.html import format_html
 from pepysdiary.indepth.models import Article
 
 
+@admin.register(Article)
 class ArticleAdmin(admin.ModelAdmin):
     list_display = (
         "title",
@@ -100,6 +101,3 @@ class ArticleAdmin(admin.ModelAdmin):
             return ""
 
     status_icon.short_description = "Status"
-
-
-admin.site.register(Article, ArticleAdmin)

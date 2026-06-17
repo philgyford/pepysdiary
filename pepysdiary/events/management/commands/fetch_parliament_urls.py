@@ -1,6 +1,6 @@
 import json
 import time
-from datetime import datetime, timezone
+from datetime import UTC, datetime, timezone
 
 import requests
 from bs4 import BeautifulSoup
@@ -22,12 +22,8 @@ FIXTURE_FILE_PATH = (
 BASE_URL = "https://www.british-history.ac.uk"
 
 # We discard any events that aren't between these dates, inclusive:
-FIRST_DATE = (
-    datetime.strptime("1660-01-01", "%Y-%m-%d").replace(tzinfo=timezone.utc).date()
-)
-LAST_DATE = (
-    datetime.strptime("1669-05-31", "%Y-%m-%d").replace(tzinfo=timezone.utc).date()
-)
+FIRST_DATE = datetime.strptime("1660-01-01", "%Y-%m-%d").replace(tzinfo=UTC).date()
+LAST_DATE = datetime.strptime("1669-05-31", "%Y-%m-%d").replace(tzinfo=UTC).date()
 
 # The URLs that we fetch links from.
 # This dict's keys are used for the DayEvent.title field.
@@ -164,7 +160,7 @@ class Command(BaseCommand):
                 try:
                     date = (
                         datetime.strptime(date_str, "%d %B %Y")
-                        .replace(tzinfo=timezone.utc)
+                        .replace(tzinfo=UTC)
                         .date()
                     )
                 except ValueError:

@@ -115,8 +115,8 @@ urlpatterns += [
         {"sitemaps": sitemaps, "sitemap_url_name": "sitemaps"},
         name="sitemap",
     ),
-    re_path(
-        r"^sitemap-(?P<section>.+)\.xml$",
+    path(
+        "sitemap-<path:section>.xml",
         cache_page(86400)(sitemaps_views.sitemap),
         {"sitemaps": sitemaps},
         name="sitemaps",

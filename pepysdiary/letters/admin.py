@@ -3,6 +3,7 @@ from django.contrib import admin
 from pepysdiary.letters.models import Letter
 
 
+@admin.register(Letter)
 class LetterAdmin(admin.ModelAdmin):
     list_display = (
         "letter_date",
@@ -70,6 +71,3 @@ class LetterAdmin(admin.ModelAdmin):
             },
         ),
     )
-
-
-admin.site.register(Letter, LetterAdmin)

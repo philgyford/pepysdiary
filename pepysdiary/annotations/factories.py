@@ -1,4 +1,4 @@
-from datetime import timezone
+from datetime import UTC
 
 import factory
 from django.contrib.contenttypes.models import ContentType
@@ -34,7 +34,7 @@ class AbstractAnnotationFactory(factory.django.DjangoModelFactory):
         lambda o: o.user.url if o.user and o.user.url else ""
     )
     comment = factory.Faker("paragraph")
-    submit_date = factory.Faker("past_datetime", start_date="-30d", tzinfo=timezone.utc)
+    submit_date = factory.Faker("past_datetime", start_date="-30d", tzinfo=UTC)
     is_public = True
     is_removed = False
 

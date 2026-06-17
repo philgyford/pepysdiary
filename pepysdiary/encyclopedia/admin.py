@@ -6,6 +6,7 @@ from .forms import TopicForm
 from .models import Category, Topic
 
 
+@admin.register(Topic)
 class TopicAdmin(admin.ModelAdmin):
     form = TopicForm
 
@@ -87,15 +88,10 @@ class TopicAdmin(admin.ModelAdmin):
         form.instance.save()
 
 
-admin.site.register(Topic, TopicAdmin)
-
-
+@admin.register(Category)
 class CategoryAdmin(TreeAdmin):
     form = movenodeform_factory(Category)
 
     prepopulated_fields = {
         "slug": ("title",),
     }
-
-
-admin.site.register(Category, CategoryAdmin)

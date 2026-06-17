@@ -38,9 +38,9 @@ def api_keys(request):
         ctx["MAPBOX_ACCESS_TOKEN"] = settings.MAPBOX_ACCESS_TOKEN
 
     if getattr(settings, "PEPYS_CLOUDFLARE_ANALYTICS_TOKEN", False):
-        ctx[
-            "PEPYS_CLOUDFLARE_ANALYTICS_TOKEN"
-        ] = settings.PEPYS_CLOUDFLARE_ANALYTICS_TOKEN
+        ctx["PEPYS_CLOUDFLARE_ANALYTICS_TOKEN"] = (
+            settings.PEPYS_CLOUDFLARE_ANALYTICS_TOKEN
+        )
 
     return ctx
 

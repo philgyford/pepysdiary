@@ -1,5 +1,5 @@
 import re
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 from django.conf import settings
 from django.contrib.sites.models import Site
@@ -8,12 +8,12 @@ from django.utils.html import strip_tags
 
 def make_date(d):
     "For convenience."
-    return datetime.strptime(d, "%Y-%m-%d").replace(tzinfo=timezone.utc).date()
+    return datetime.strptime(d, "%Y-%m-%d").replace(tzinfo=UTC).date()
 
 
 def make_datetime(dt):
     "For convenience."
-    return datetime.strptime(dt, "%Y-%m-%d %H:%M:%S").replace(tzinfo=timezone.utc)
+    return datetime.strptime(dt, "%Y-%m-%d %H:%M:%S").replace(tzinfo=UTC)
 
 
 def smart_truncate(content, length=80, suffix="…"):

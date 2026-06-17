@@ -32,6 +32,5 @@ def include_maps_js(*args, **kwargs):
     leaflet_url = static("common/vendor/leaflet/leaflet_1.6.0.js")
     providers_url = static("common/vendor/leaflet/leaflet-providers.js")
     return mark_safe(
-        f'<script src="{leaflet_url}"></script>'
-        f'<script src="{providers_url}"></script>'
+        f'<script src="{leaflet_url}"></script><script src="{providers_url}"></script>'
     )

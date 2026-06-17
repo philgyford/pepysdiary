@@ -9,16 +9,14 @@ from pepysdiary.membership.models import Person
 
 class Command(BaseCommand):
     args = "[options] <email> <person_id>"
-    help = (
-        "Associate Annotations by a particular email address to a " "particular Person."
-    )
+    help = "Associate Annotations by a particular email address to a particular Person."
     option_list = BaseCommand.option_list + (
         make_option(
             "--dry-run",
             action="store_true",
             dest="dry-run",
             default=False,
-            help="Output what would have happened, but don't change the " "database.",
+            help="Output what would have happened, but don't change the database.",
         ),
     )
 
@@ -50,7 +48,7 @@ class Command(BaseCommand):
 
         else:
             self.stdout.write(
-                "DRY RUN, NOTHING CHANGED IN THE DATABASE. " "WHAT WOULD HAVE HAPPENED:"
+                "DRY RUN, NOTHING CHANGED IN THE DATABASE. WHAT WOULD HAVE HAPPENED:"
             )
             updated = annotations.count()
             first_comment = Annotation.visible_objects.filter(

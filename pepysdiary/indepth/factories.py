@@ -1,4 +1,4 @@
-from datetime import timezone
+from datetime import UTC
 
 import factory
 from django.utils.text import slugify
@@ -22,6 +22,4 @@ class DraftArticleFactory(AbstractArticleFactory):
 
 class PublishedArticleFactory(AbstractArticleFactory):
     status = Article.Status.PUBLISHED
-    date_published = factory.Faker(
-        "past_datetime", start_date="-30d", tzinfo=timezone.utc
-    )
+    date_published = factory.Faker("past_datetime", start_date="-30d", tzinfo=UTC)

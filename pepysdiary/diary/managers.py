@@ -1,4 +1,4 @@
-from datetime import date, datetime, timedelta, timezone
+from datetime import UTC, date, datetime, timedelta
 from zoneinfo import ZoneInfo
 
 from django.conf import settings
@@ -17,9 +17,7 @@ class EntryManager(models.Manager, ReferredManagerMixin):
         Except "today's" entry is only published at 23:00 UK time. Until then
         we see "yesterday's" entry.
         """
-        time_now = datetime.now(tz=timezone.utc).replace(
-            tzinfo=ZoneInfo("Europe/London")
-        )
+        time_now = datetime.now(tz=UTC).replace(tzinfo=ZoneInfo("Europe/London"))
         if int(time_now.strftime("%H")) < 23:
             # It's before 11pm, so we still show yesterday's entry.
 
@@ -207,7 +205,7 @@ class EntryManager(models.Manager, ReferredManagerMixin):
             for year, months in years_months:
                 months_m = []
                 for count, _ in enumerate(months):
-                    months_m.append(f"{count+1:02}")
+                    months_m.append(f"{count + 1:02}")
                 years_months_m.append(tuple([year, tuple(months_m)]))
             return tuple(years_months_m)
         else:

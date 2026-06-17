@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta
 
 from django.conf import settings
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
@@ -159,7 +159,7 @@ class Person(AbstractBaseUser, PermissionsMixin):
         """
         expiration_date = timedelta(days=settings.ACCOUNT_ACTIVATION_DAYS)
         return self.activation_key == self.ACTIVATED or (
-            self.date_created + expiration_date <= datetime.now(timezone.utc)
+            self.date_created + expiration_date <= datetime.now(UTC)
         )
 
     # Not sure what this was ever for:

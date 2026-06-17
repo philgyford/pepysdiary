@@ -8,6 +8,7 @@ class DiaryDateYearmonthListFilter(YearmonthListFilter):
     filter_field = "diary_date"
 
 
+@admin.register(Entry)
 class EntryAdmin(admin.ModelAdmin):
     list_display = (
         "title",
@@ -52,9 +53,7 @@ class EntryAdmin(admin.ModelAdmin):
     )
 
 
-admin.site.register(Entry, EntryAdmin)
-
-
+@admin.register(Summary)
 class SummaryAdmin(admin.ModelAdmin):
     list_display = ("title",)
     search_fields = [
@@ -86,6 +85,3 @@ class SummaryAdmin(admin.ModelAdmin):
             },
         ),
     )
-
-
-admin.site.register(Summary, SummaryAdmin)

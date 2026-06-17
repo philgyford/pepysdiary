@@ -1,5 +1,5 @@
 import re
-from datetime import timezone
+from datetime import UTC
 from optparse import make_option
 
 import MySQLdb
@@ -110,7 +110,7 @@ class Command(BaseCommand):
                 user_url=row["comment_url"],
                 ip_address=row["comment_ip"],
                 is_public=True,
-                submit_date=row["comment_created_on"].replace(tzinfo=timezone.utc),
+                submit_date=row["comment_created_on"].replace(tzinfo=UTC),
             )
             annotation.save()
 
