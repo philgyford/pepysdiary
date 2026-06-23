@@ -38,7 +38,6 @@ dev = [
   "django-debug-toolbar",
   "factory-boy",
   "ipython",
-  "pre-commit",
   "responses",
   "ruff",
   # For tracebacks when running tests in parallel:

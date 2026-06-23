@@ -4,7 +4,7 @@
 [![codecov](https://codecov.io/gh/philgyford/pepysdiary/branch/main/graph/badge.svg?token=GD97K3Q26Z)](https://codecov.io/gh/philgyford/pepysdiary)
 [![Code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
-[![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
+[![prek](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/j178/prek/master/docs/assets/badge-v0.json)](https://github.com/j178/prek)
 
 Code for [www.pepysdiary.com](http://www.pepysdiary.com/).
 
@@ -14,8 +14,8 @@ Pushing to `main` will run the commit through [this GitHub Action](https://githu
 
 If changing the Python version you'll need to change it in:
 
-- `.pre-commit-config.yaml`
 - `.python-version` (for uv)
+- `prek.toml`
 - `pyproject.toml` (in `project`, `tool.ruff` and `tool.uv.pip`)
 
 For local development we use Docker. The live site is on an Ubuntu 22 VPS.
@@ -142,9 +142,12 @@ You can check if anything's running by doing this, which will list any Docker pr
 
 See details on the `./run` script below for running things inside the containers.
 
-### pre-commit
+### prek
 
-Install [pre-commit](https://pre-commit.com) to run `.pre-commit-config.yml` automatically when `git commit` is done.
+Install [prek](https://prek.j178.dev) to run `prek.toml` automatically when `git commit` is done:
+
+    $ brew install prek
+    $ prek install
 
 ## Front-end assets
 
