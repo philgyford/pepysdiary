@@ -37,7 +37,6 @@ dev = [
   "coverage[toml]",
   "django-debug-toolbar",
   "factory-boy",
-  "ipython",
   "responses",
   "ruff",
   # For tracebacks when running tests in parallel:
