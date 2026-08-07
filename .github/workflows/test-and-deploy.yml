@@ -10,7 +10,7 @@ on:
 jobs:
   # Run the test workflow first:
   use-test:
-    uses: philgyford/django-pepysdiary/.github/workflows/test.yml@main
+    uses: philgyford/pepysdiary/.github/workflows/test.yml@main
     secrets: inherit  # e.g. the repo's Slack webhook secret
     with:
       send-slack: false  # So the test workflow doesn't send Slack notification
