@@ -44,6 +44,18 @@ class Category(MP_Node):
         path = f"{parent_slugs}/{self.slug}" if parent_slugs else str(self.slug)
         return reverse("category_detail", kwargs={"slugs": path})
 
+    def get_ancestors(self):
+        "Because django-treebeard <6.0.0 had this method"
+        return Category.objects.get_ancestors(self)
+
+    def get_children(self):
+        "Because django-treebeard <6.0.0 had this method"
+        return Category.objects.get_children(self)
+
+    def get_children_count(self):
+        "Because django-treebeard <6.0.0 had this method"
+        return Category.objects.get_children_count(self)
+
     def set_topic_count(self):
         """
         Should be called when we add/delete a Topic.
@@ -346,7 +358,7 @@ class Topic(PepysModel):
         true, else false.
         """
         for c in self.categories.all():
-            if c.get_root().id == category_lookups.PLACES:
+            if Category.objects.get_root(c).id == category_lookups.PLACES:
                 return True
         return False
 

@@ -56,6 +56,39 @@ class CategoryTestCase(TestCase):
         cat_1 = CategoryFactory(title="Animals", slug="animals")
         self.assertEqual(cat_1.get_absolute_url(), "/encyclopedia/animals/")
 
+    def test_get_ancestors(self):
+        root = Category.add_root(title="root")
+
+        animals = root.add_child(title="Animals")
+        dogs = animals.add_child(title="Dogs")
+        animals.add_child(title="Cats")
+        collies = dogs.add_child(title="Collies")
+
+        self.assertQuerySetEqual(collies.get_ancestors(), [root, animals, dogs])
+
+    def test_get_children(self):
+        root = Category.add_root(title="root")
+
+        animals = root.add_child(title="Animals")
+        dogs = animals.add_child(title="Dogs")
+        cats = animals.add_child(title="Cats")
+
+        root.add_child(title="Vehicles")
+
+        self.assertQuerySetEqual(animals.get_children(), [cats, dogs])
+
+    def test_get_children_count(self):
+        root = Category.add_root(title="root")
+
+        animals = root.add_child(title="Animals")
+        dogs = animals.add_child(title="Dogs")
+        animals.add_child(title="Cats")
+
+        dogs.add_child(title="Collies")
+        root.add_child(title="Vehicles")
+
+        self.assertEqual(animals.get_children_count(), 2)
+
 
 class TopicTestCase(TestCase):
     def test_categories(self):
