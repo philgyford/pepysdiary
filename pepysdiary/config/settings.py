@@ -295,7 +295,12 @@ else:
 CACHES["default"]["TIMEOUT"] = 300
 
 
-if os.getenv("SENDAMATIC_USER_ID", default=""):
+if os.getenv("BREVO_API_KEY", default=""):
+    EMAIL_BACKEND = "anymail.backends.brevo.EmailBackend"
+    ANYMAIL = {
+        "BREVO_API_KEY": os.getenv("BREVO_API_KEY"),
+    }
+elif os.getenv("SENDAMATIC_USER_ID", default=""):
     EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
     EMAIL_HOST = "in.smtp.sendamatic.net"
     EMAIL_HOST_USER = os.getenv("SENDAMATIC_USER_ID")
@@ -390,10 +395,10 @@ MAPBOX_MAP_ID = os.getenv("MAPBOX_MAP_ID", default="")
 MAPBOX_ACCESS_TOKEN = os.getenv("MAPBOX_ACCESS_TOKEN", default="")
 
 # For messages we send to users.
-DEFAULT_FROM_EMAIL = "do-not-reply@pepysdiary.com"
+DEFAULT_FROM_EMAIL = "The Diary of Samuel Pepys <do-not-reply@pepysdiary.com>"
 
 # For error messages.
-SERVER_EMAIL = "do-not-reply@pepysdiary.com"
+SERVER_EMAIL = DEFAULT_FROM_EMAIL
 
 # Where emails about flagged comments should be sent to.
 COMMENT_FLAG_EMAIL = "phil@gyford.com"

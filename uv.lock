@@ -179,6 +179,21 @@ wheels = [
 ]
 
 [[package]]
+name = "django-anymail"
+version = "15.1"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "django" },
+    { name = "idna" },
+    { name = "requests" },
+    { name = "urllib3" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/f9/69/c4e075a39e69efc928ad63e2cad9b720c6414d9faf9b90d2342207a8feb8/django_anymail-15.1.tar.gz", hash = "sha256:299fb12a21ac4101e9706c2ade461d18deacbb6bc3750cfa6ca08aeea1fc9442", size = 107700, upload-time = "2026-07-30T22:30:27.794Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/a2/bb/3fbac63312c87620986ac00c7b27d11ef1a7c07ffb5718ca5bd5c60e2f5f/django_anymail-15.1-py3-none-any.whl", hash = "sha256:cb482b0e2b0aea665c83d49e3f13bb0673210aa0de285b1748a3b5e6277fc826", size = 147352, upload-time = "2026-07-30T22:30:26.359Z" },
+]
+
+[[package]]
 name = "django-contrib-comments"
 version = "2.2.0"
 source = { registry = "https://pypi.org/simple" }
@@ -433,6 +448,7 @@ dependencies = [
     { name = "coreapi" },
     { name = "dj-database-url" },
     { name = "django" },
+    { name = "django-anymail" },
     { name = "django-contrib-comments" },
     { name = "django-filter" },
     { name = "django-hcaptcha" },
@@ -475,6 +491,7 @@ requires-dist = [
     { name = "coreapi" },
     { name = "dj-database-url" },
     { name = "django" },
+    { name = "django-anymail", extras = ["brevo"], specifier = ">=15.1" },
     { name = "django-contrib-comments" },
     { name = "django-filter" },
     { name = "django-hcaptcha" },

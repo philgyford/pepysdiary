@@ -30,6 +30,7 @@ dependencies = [
   "setproctitle",
   "smartypants",
   "uritemplate",
+  "django-anymail[brevo]>=15.1",
 ]
 
 [dependency-groups]
