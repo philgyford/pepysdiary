@@ -300,13 +300,6 @@ if os.getenv("BREVO_API_KEY", default=""):
     ANYMAIL = {
         "BREVO_API_KEY": os.getenv("BREVO_API_KEY"),
     }
-elif os.getenv("SENDAMATIC_USER_ID", default=""):
-    EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-    EMAIL_HOST = "in.smtp.sendamatic.net"
-    EMAIL_HOST_USER = os.getenv("SENDAMATIC_USER_ID")
-    EMAIL_HOST_PASSWORD = os.getenv("SENDAMATIC_PASSWORD")
-    EMAIL_PORT = 587
-    EMAIL_USE_TLS = True
 elif DEBUG:
     EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
