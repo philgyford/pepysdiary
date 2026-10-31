@@ -1,7 +1,7 @@
 
 [project]
 name = "pepysdiary"
-requires-python = "~=3.13.0"
+requires-python = "~=3.14.0"
 version = "1.0"
 dependencies = [
   "beautifulsoup4",
@@ -57,7 +57,7 @@ omit = ["*/migrations/*.py"]
 [tool.ruff]
 extend-exclude = ["*/migrations/*"]
 line-length = 88
-target-version = "py313"
+target-version = "py314"
 
 [tool.ruff.lint]
 ignore = []
@@ -91,4 +91,4 @@ exclude-newer = "1 week"
 
 [tool.uv.pip]
 generate-hashes = true
-python-version = "3.13"
+python-version = "3.14"
