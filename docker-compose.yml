@@ -15,7 +15,7 @@ services:
   db:
     container_name: pepys_db
     env_file: .env
-    image: postgres:14
+    image: postgres:18
     ports:
       - "5432:5432"
     restart: unless-stopped
@@ -30,7 +30,7 @@ services:
           # When set to 0 these will use as much as needed:
           cpus: "0"
           memory: "0"
-    image: "redis:7-bullseye"
+    image: "redis:8-alpine"
     restart: unless-stopped
     stop_grace_period: "3s"
     volumes:
