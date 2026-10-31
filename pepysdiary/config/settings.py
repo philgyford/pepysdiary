@@ -296,12 +296,12 @@ CACHES["default"]["TIMEOUT"] = 300
 
 
 if os.getenv("BREVO_API_KEY", default=""):
-    EMAIL_BACKEND = "anymail.backends.brevo.EmailBackend"
+    MAILERS = {"default": {"BACKEND": "anymail.backends.brevo.EmailBackend"}}
     ANYMAIL = {
         "BREVO_API_KEY": os.getenv("BREVO_API_KEY"),
     }
 elif DEBUG:
-    EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+    MAILERS = {"default": {"BACKEND": "django.core.mail.backends.console.EmailBackend"}}
 
 
 if DEBUG:
