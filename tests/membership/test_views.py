@@ -751,7 +751,7 @@ class RegisterViewTestCase(LoginTestCase):
     # def test_recaptcha_enabled(self, mocked_submit):
     #     """Ensure registration works if captcha is enabled.
     #     Can't really test the ReCaptcha itself, so mocking it so it's not required.
-    #     Following an example at https://github.com/praekelt/django-recaptcha/blob/develop/captcha/tests/test_fields.py  # noqa: E501
+    #     Following an example at https://github.com/praekelt/django-recaptcha/blob/develop/captcha/tests/test_fields.py
     #     """
     #     ConfigFactory(use_registration_captcha=True)
     #     mocked_submit.return_value = RecaptchaResponse(is_valid=True)
