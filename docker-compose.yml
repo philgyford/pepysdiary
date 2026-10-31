@@ -20,7 +20,7 @@ services:
       - "5432:5432"
     restart: unless-stopped
     volumes:
-      - postgres_data:/var/lib/postgresql/data/
+      - postgres_data:/var/lib/postgresql/
 
   redis:
     container_name: pepys_redis
